@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin/main" path="src/main/java"/>
+	<classpathentry kind="src" output="bin/main" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry exported="true" kind="lib" path="../spring-core/build/libs/spring-cglib-repack-3.2.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="../spring-core/build/libs/spring-objenesis-repack-2.6.jar"/>
+	<classpathentry kind="src" path="/spring-core"/>
+	<classpathentry kind="src" path="/spring-aop"/>
+	<classpathentry kind="src" path="/spring-beans"/>
+	<classpathentry kind="src" path="/spring-context"/>
+	<classpathentry kind="src" path="/spring-expression"/>
+	<classpathentry kind="src" path="/spring-jdbc"/>
+	<classpathentry kind="src" path="/spring-tx"/>
+	<classpathentry kind="src" path="/spring-orm"/>
+	<classpathentry kind="src" path="/spring-web"/>
+	<classpathentry kind="src" path="/spring-webmvc"/>
+	<classpathentry kind="src" path="/spring-webmvc-portlet"/>
+	<classpathentry kind="src" path="/spring-websocket"/>
+	<classpathentry kind="src" path="/spring-context-support"/>
+	<classpathentry kind="src" path="/spring-oxm"/>
+	<classpathentry kind="src" path="/spring-beans-groovy"/>
+	<classpathentry kind="src" path="/spring-orm-hibernate4"/>
+	<classpathentry kind="src" path="/spring-orm-hibernate5"/>
+	<classpathentry kind="src" path="/spring-webmvc-tiles2"/>
+	<classpathentry exported="true" kind="src" path="/spring-instrument"/>
+	<classpathentry exported="true" kind="src" path="/spring-messaging"/>
+	<classpathentry kind="output" path="spring-test/bin/eclipse"/>
+</classpath>

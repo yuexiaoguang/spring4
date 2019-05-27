@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin/main" path="src/main/java"/>
+	<classpathentry kind="src" output="bin/main" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry exported="true" kind="lib" path="../spring-core/build/libs/spring-cglib-repack-3.2.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="../spring-core/build/libs/spring-objenesis-repack-2.6.jar"/>
+	<classpathentry kind="src" path="/spring-aop"/>
+	<classpathentry kind="src" path="/spring-beans"/>
+	<classpathentry kind="src" path="/spring-core"/>
+	<classpathentry kind="src" path="/spring-context"/>
+	<classpathentry kind="src" path="/spring-expression"/>
+	<classpathentry kind="src" path="/spring-oxm"/>
+	<classpathentry kind="src" path="/spring-context-support"/>
+	<classpathentry kind="src" path="/spring-beans-groovy"/>
+	<classpathentry exported="true" kind="src" path="/spring-instrument"/>
+	<classpathentry exported="true" kind="src" path="/spring-jdbc"/>
+	<classpathentry exported="true" kind="src" path="/spring-tx"/>
+	<classpathentry kind="output" path="spring-web/bin/eclipse"/>
+</classpath>
