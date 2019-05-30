@@ -20,31 +20,27 @@ import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.dialect.SQLServer2008Dialect;
 
 /**
- * {@link org.springframework.orm.jpa.JpaVendorAdapter} implementation for Hibernate
- * EntityManager. Developed and tested against Hibernate 3.6, 4.2/4.3 as well as 5.x.
- * <b>Hibernate 4.2+ is strongly recommended for use with Spring 4.0+.</b>
+ * Hibernate EntityManager的{@link org.springframework.orm.jpa.JpaVendorAdapter}实现.
+ * 针对Hibernate 3.6, 4.2/4.3以及5.x开发和测试.
+ * <b>强烈建议将Hibernate 4.2+与Spring 4.0+一起使用.</b>
  *
- * <p>Exposes Hibernate's persistence provider and EntityManager extension interface,
- * and adapts {@link AbstractJpaVendorAdapter}'s common configuration settings.
- * Also supports the detection of annotated packages (through
+ * <p>公开Hibernate的持久化提供者和EntityManager扩展接口, 并调整{@link AbstractJpaVendorAdapter}的常用配置设置.
+ * 还支持检测带注解的包 (通过
  * {@link org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo#getManagedPackages()}),
- * e.g. containing Hibernate {@link org.hibernate.annotations.FilterDef} annotations,
- * along with Spring-driven entity scanning which requires no {@code persistence.xml}
+ * e.g. 包含Hibernate {@link org.hibernate.annotations.FilterDef}注解,
+ * 以及Spring驱动的实体扫描, 不需要{@code persistence.xml}
  * ({@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean#setPackagesToScan}).
  *
- * <p>Note that the package location of Hibernate's JPA support changed from 4.2 to 4.3:
- * from {@code org.hibernate.ejb.HibernateEntityManager(Factory)} to
- * {@code org.hibernate.jpa.HibernateEntityManager(Factory)}. As of Spring 4.0,
- * we're exposing the correct, non-deprecated variant depending on the Hibernate
- * version encountered at runtime, in order to avoid deprecation log entries.
+ * <p>请注意, Hibernate的JPA支持的包位置从4.2更改为4.3:
+ * 从{@code org.hibernate.ejb.HibernateEntityManager(Factory)}到{@code org.hibernate.jpa.HibernateEntityManager(Factory)}.
+ * 从Spring 4.0开始, 将根据运行时遇到的Hibernate版本公开正确的不弃用的变体, 以避免弃用日志条目.
  *
- * <p><b>A note about {@code HibernateJpaVendorAdapter} vs native Hibernate settings:</b>
- * Some settings on this adapter may conflict with native Hibernate configuration rules
- * or custom Hibernate properties. For example, specify either {@link #setDatabase} or
- * Hibernate's "hibernate.dialect_resolvers" property, not both. Also, be careful about
- * Hibernate's connection release mode: This adapter prefers {@code ON_CLOSE} behavior,
- * aligned with {@link HibernateJpaDialect#setPrepareConnection}, at least for non-JTA
- * scenarios; you may override this through corresponding native Hibernate properties.
+ * <p><b>关于{@code HibernateJpaVendorAdapter}与原生Hibernate设置的说明:</b>
+ * 此适配器上的某些设置可能与本机Hibernate配置规则或自定义Hibernate属性冲突.
+ * 例如, 指定{@link #setDatabase}, 或Hibernate的"hibernate.dialect_resolvers"属性, 而不是两个都指定.
+ * 另外, 请注意Hibernate的连接释放模式: 此适配器更喜欢{@code ON_CLOSE}行为,
+ * 与{@link HibernateJpaDialect#setPrepareConnection}保持一致, 至少对于非JTA场景;
+ * 可以通过相应的本机Hibernate属性覆盖它.
  */
 public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 
@@ -66,13 +62,13 @@ public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 		PersistenceProvider providerToUse;
 		try {
 			try {
-				// Try Hibernate 4.3/5.0's org.hibernate.jpa package in order to avoid deprecation warnings
+				// 尝试使用 Hibernate 4.3/5.0的 org.hibernate.jpa包, 以避免弃用警告
 				emfIfcToUse = (Class<? extends EntityManagerFactory>) cl.loadClass("org.hibernate.jpa.HibernateEntityManagerFactory");
 				emIfcToUse = (Class<? extends EntityManager>) cl.loadClass("org.hibernate.jpa.HibernateEntityManager");
 				providerClass = cl.loadClass("org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider");
 			}
 			catch (ClassNotFoundException ex) {
-				// Fall back to Hibernate 3.6-4.2 org.hibernate.ejb package
+				// 回退到Hibernate 3.6-4.2 org.hibernate.ejb包
 				emfIfcToUse = (Class<? extends EntityManagerFactory>) cl.loadClass("org.hibernate.ejb.HibernateEntityManagerFactory");
 				emIfcToUse = (Class<? extends EntityManager>) cl.loadClass("org.hibernate.ejb.HibernateEntityManager");
 				providerClass = cl.loadClass("org.springframework.orm.jpa.vendor.SpringHibernateEjbPersistenceProvider");
@@ -89,27 +85,17 @@ public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 
 
 	/**
-	 * Set whether to prepare the underlying JDBC Connection of a transactional
-	 * Hibernate Session, that is, whether to apply a transaction-specific
-	 * isolation level and/or the transaction's read-only flag to the underlying
-	 * JDBC Connection.
-	 * <p>See {@link HibernateJpaDialect#setPrepareConnection(boolean)} for details.
-	 * This is just a convenience flag passed through to {@code HibernateJpaDialect}.
-	 * <p>On Hibernate 5.1/5.2, this flag remains {@code true} by default like against
-	 * previous Hibernate versions. The vendor adapter manually enforces Hibernate's
-	 * new connection handling mode {@code DELAYED_ACQUISITION_AND_HOLD} in that case
-	 * unless a user-specified connection handling mode property indicates otherwise;
-	 * switch this flag to {@code false} to avoid that interference.
-	 * <p><b>NOTE: For a persistence unit with transaction type JTA e.g. on WebLogic,
-	 * the connection release mode will never be altered from its provider default,
-	 * i.e. not be forced to {@code DELAYED_ACQUISITION_AND_HOLD} by this flag.</b>
-	 * Alternatively, set Hibernate 5.2's "hibernate.connection.handling_mode"
-	 * property to "DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION" or even
-	 * "DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT" in such a scenario.
-	 * @since 4.3.1
-	 * @see PersistenceUnitInfo#getTransactionType()
-	 * @see #getJpaPropertyMap(PersistenceUnitInfo)
-	 * @see HibernateJpaDialect#beginTransaction
+	 * 设置是否准备事务性Hibernate会话的底层JDBC连接, 即是否将特定于事务的隔离级别和/或事务的只读标志应用于底层JDBC连接.
+	 * <p>有关详细信息, 请参阅{@link HibernateJpaDialect#setPrepareConnection(boolean)}.
+	 * 这只是传递给{@code HibernateJpaDialect}的便利标志.
+	 * <p>在Hibernate 5.1/5.2上, 默认情况下此标志保持{@code true}, 就像以前的Hibernate版本一样.
+	 * 在这种情况下, 供应商适配器会手动强制Hibernate的新连接处理模式{@code DELAYED_ACQUISITION_AND_HOLD},
+	 * 除非用户指定的连接处理模式属性另有说明;
+	 * 将此标志切换为{@code false}以避免干扰.
+	 * <p><b>NOTE: 对于事务类型为JTA的持久化单元(如WebLogic), 连接释放模式永远不会从其提供者默认值更改,
+	 * i.e. 不会被此标志强制为{@code DELAYED_ACQUISITION_AND_HOLD}.</b>
+	 * 或者, 在这种情况下, 将Hibernate 5.2的"hibernate.connection.handling_mode"属性
+	 * 设置为"DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION"或甚至"DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT".
 	 */
 	public void setPrepareConnection(boolean prepareConnection) {
 		this.jpaDialect.setPrepareConnection(prepareConnection);
@@ -158,7 +144,7 @@ public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 		}
 
 		if (connectionReleaseOnClose) {
-			// Hibernate 5.1/5.2: manually enforce connection release mode ON_CLOSE (the former default)
+			// Hibernate 5.1/5.2: 手动强制连接释放模式ON_CLOSE (以前的默认值)
 			try {
 				// Try Hibernate 5.2
 				Environment.class.getField("CONNECTION_HANDLING");
@@ -171,7 +157,7 @@ public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 					jpaProperties.put("hibernate.connection.release_mode", "ON_CLOSE");
 				}
 				catch (NoSuchFieldException ex2) {
-					// on Hibernate 5.0.x or lower - no need to change the default there
+					// 在Hibernate 5.0.x或更低版本 - 无需更改默认值
 				}
 			}
 		}
@@ -180,9 +166,11 @@ public class HibernateJpaVendorAdapter extends AbstractJpaVendorAdapter {
 	}
 
 	/**
-	 * Determine the Hibernate database dialect class for the given target database.
-	 * @param database the target database
-	 * @return the Hibernate database dialect class, or {@code null} if none found
+	 * 确定给定目标数据库的Hibernate数据库方言类.
+	 * 
+	 * @param database 目标数据库
+	 * 
+	 * @return Hibernate数据库方言类, 或{@code null}
 	 */
 	@SuppressWarnings("deprecation")
 	protected Class<?> determineDatabaseDialectClass(Database database) {

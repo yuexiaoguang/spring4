@@ -5,18 +5,12 @@ import org.hibernate.HibernateException;
 import org.springframework.dao.UncategorizedDataAccessException;
 
 /**
- * Hibernate-specific subclass of UncategorizedDataAccessException,
- * for Hibernate system errors that do not match any concrete
- * {@code org.springframework.dao} exceptions.
+ * 特定于Hibernate的UncategorizedDataAccessException子类,
+ * 用于与任何具体{@code org.springframework.dao}异常不匹配的Hibernate系统错误.
  */
 @SuppressWarnings("serial")
 public class HibernateSystemException extends UncategorizedDataAccessException {
 
-	/**
-	 * Create a new HibernateSystemException,
-	 * wrapping an arbitrary HibernateException.
-	 * @param cause the HibernateException thrown
-	 */
 	public HibernateSystemException(HibernateException cause) {
 		super(cause != null ? cause.getMessage() : null, cause);
 	}

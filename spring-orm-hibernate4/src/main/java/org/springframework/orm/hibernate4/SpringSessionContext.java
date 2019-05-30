@@ -16,13 +16,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Implementation of Hibernate 3.1's CurrentSessionContext interface
- * that delegates to Spring's SessionFactoryUtils for providing a
- * Spring-managed current Session.
+ * 实现Hibernate 3.1的CurrentSessionContext接口, 该接口委托给Spring的SessionFactoryUtils以提供Spring管理的当前Session.
  *
- * <p>This CurrentSessionContext implementation can also be specified in custom
- * SessionFactory setup through the "hibernate.current_session_context_class"
- * property, with the fully qualified name of this class as value.
+ * <p>也可以通过"hibernate.current_session_context_class"属性在自定义SessionFactory设置中指定此CurrentSessionContext实现,
+ * 并将此类的完全限定名称作为值.
  */
 @SuppressWarnings("serial")
 public class SpringSessionContext implements CurrentSessionContext {
@@ -35,8 +32,7 @@ public class SpringSessionContext implements CurrentSessionContext {
 
 
 	/**
-	 * Create a new SpringSessionContext for the given Hibernate SessionFactory.
-	 * @param sessionFactory the SessionFactory to provide current Sessions for
+	 * @param sessionFactory 提供当前Session的SessionFactory
 	 */
 	public SpringSessionContext(SessionFactoryImplementor sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -56,7 +52,7 @@ public class SpringSessionContext implements CurrentSessionContext {
 
 
 	/**
-	 * Retrieve the Spring-managed Session for the current thread, if any.
+	 * 检索当前线程的Spring管理的Session.
 	 */
 	@Override
 	public Session currentSession() throws HibernateException {
@@ -72,8 +68,7 @@ public class SpringSessionContext implements CurrentSessionContext {
 				TransactionSynchronizationManager.registerSynchronization(
 						new SpringSessionSynchronization(sessionHolder, this.sessionFactory, false));
 				sessionHolder.setSynchronizedWithTransaction(true);
-				// Switch to FlushMode.AUTO, as we have to assume a thread-bound Session
-				// with FlushMode.MANUAL, which needs to allow flushing within the transaction.
+				// 切换到 FlushMode.AUTO, 因为必须假设一个线程绑定的Session与FlushMode.MANUAL, 它需要允许在事务中刷新.
 				FlushMode flushMode = session.getFlushMode();
 				if (flushMode.equals(FlushMode.MANUAL) &&
 						!TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {

@@ -6,14 +6,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
 /**
- * {@link PersistenceExceptionTranslator} capable of translating {@link HibernateException}
- * instances to Spring's {@link DataAccessException} hierarchy.
+ * {@link PersistenceExceptionTranslator},
+ * 能够将{@link HibernateException}实例转换为Spring的{@link DataAccessException}层次结构.
  *
- * <p>Extended by {@link LocalSessionFactoryBean}, so there is no need to declare this
- * translator in addition to a {@code LocalSessionFactoryBean}.
+ * <p>由{@link LocalSessionFactoryBean}扩展, 因此除了{@code LocalSessionFactoryBean}之外, 无需声明此转换器.
  *
- * <p>When configuring the container with {@code @Configuration} classes, a {@code @Bean}
- * of this type must be registered manually.
+ * <p>使用{@code @Configuration}类配置容器时, 必须手动注册此类型的{@code @Bean}.
  */
 public class HibernateExceptionTranslator implements PersistenceExceptionTranslator {
 
@@ -26,10 +24,11 @@ public class HibernateExceptionTranslator implements PersistenceExceptionTransla
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception from the
-	 * {@code org.springframework.dao} hierarchy.
-	 * @param ex HibernateException that occured
-	 * @return a corresponding DataAccessException
+	 * 将给定的HibernateException转换为{@code org.springframework.dao}层次结构中的适当异常.
+	 * 
+	 * @param ex 发生的HibernateException
+	 * 
+	 * @return 相应的 DataAccessException
 	 */
 	protected DataAccessException convertHibernateAccessException(HibernateException ex) {
 		return SessionFactoryUtils.convertHibernateAccessException(ex);

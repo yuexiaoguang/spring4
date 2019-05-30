@@ -6,8 +6,7 @@ import org.hibernate.Session;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 
 /**
- * Simple synchronization adapter that propagates a {@code flush()} call
- * to the underlying Hibernate Session. Used in combination with JTA.
+ * 简单的同步适配器, 它将{@code flush()}调用传播到底层的Hibernate会话. 与JTA结合使用.
  */
 public class SpringFlushSynchronization extends TransactionSynchronizationAdapter {
 

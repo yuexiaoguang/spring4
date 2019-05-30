@@ -13,12 +13,10 @@ import javax.sql.DataSource;
 import org.springframework.util.ClassUtils;
 
 /**
- * Spring's base implementation of the JPA
- * {@link javax.persistence.spi.PersistenceUnitInfo} interface,
- * used to bootstrap an {@code EntityManagerFactory} in a container.
+ * Spring的JPA {@link javax.persistence.spi.PersistenceUnitInfo}接口的基本实现,
+ * 用于在容器中引导{@code EntityManagerFactory}.
  *
- * <p>This implementation is largely a JavaBean, offering mutators
- * for all standard {@code PersistenceUnitInfo} properties.
+ * <p>此实现主要是JavaBean, 为所有标准{@code PersistenceUnitInfo}属性提供mutator.
  */
 public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 
@@ -134,9 +132,7 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 	}
 
 	/**
-	 * Add a managed class name to the persistence provider's metadata.
-	 * @see javax.persistence.spi.PersistenceUnitInfo#getManagedClassNames()
-	 * @see #addManagedPackage
+	 * 将管理的类名添加到持久化提供者的元数据中.
 	 */
 	public void addManagedClassName(String managedClassName) {
 		this.managedClassNames.add(managedClassName);
@@ -148,13 +144,9 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 	}
 
 	/**
-	 * Add a managed package to the persistence provider's metadata.
-	 * <p>Note: This refers to annotated {@code package-info.java} files. It does
-	 * <i>not</i> trigger entity scanning in the specified package; this is
-	 * rather the job of {@link DefaultPersistenceUnitManager#setPackagesToScan}.
-	 * @since 4.1
-	 * @see SmartPersistenceUnitInfo#getManagedPackages()
-	 * @see #addManagedClassName
+	 * 将管理的包添加到持久化提供者的元数据中.
+	 * <p>Note: 这是指带注解的{@code package-info.java}文件.
+	 * 它 <i>不</i>>触发指定包中的实体扫描; 这是{@link DefaultPersistenceUnitManager#setPackagesToScan}的工作.
 	 */
 	public void addManagedPackage(String packageName) {
 		this.managedPackages.add(packageName);
@@ -228,8 +220,7 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 
 
 	/**
-	 * This implementation returns the default ClassLoader.
-	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
+	 * 此实现返回默认 ClassLoader.
 	 */
 	@Override
 	public ClassLoader getClassLoader() {
@@ -237,7 +228,7 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 	}
 
 	/**
-	 * This implementation throws an UnsupportedOperationException.
+	 * 此实现抛出 UnsupportedOperationException.
 	 */
 	@Override
 	public void addTransformer(ClassTransformer classTransformer) {
@@ -245,7 +236,7 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 	}
 
 	/**
-	 * This implementation throws an UnsupportedOperationException.
+	 * 此实现抛出 UnsupportedOperationException.
 	 */
 	@Override
 	public ClassLoader getNewTempClassLoader() {
@@ -258,5 +249,4 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 		return "PersistenceUnitInfo: name '" + this.persistenceUnitName +
 				"', root URL [" + this.persistenceUnitRootUrl + "]";
 	}
-
 }

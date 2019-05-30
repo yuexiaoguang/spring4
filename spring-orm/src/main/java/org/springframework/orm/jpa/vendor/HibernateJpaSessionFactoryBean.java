@@ -11,20 +11,17 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Simple {@code FactoryBean} that exposes the underlying {@link SessionFactory}
- * behind a Hibernate-backed JPA {@link EntityManagerFactory}.
+ * 简单的{@code FactoryBean}, 公开了Hibernate支持的JPA {@link EntityManagerFactory}背后的{@link SessionFactory}.
  *
- * <p>Primarily available for resolving a SessionFactory by JPA persistence unit name
- * via the {@link #setPersistenceUnitName "persistenceUnitName"} bean property.
+ * <p>主要用于通过{@link #setPersistenceUnitName "persistenceUnitName"} bean属性通过JPA持久化单元名称解析SessionFactory.
  *
- * <p>Note that, for straightforward cases, you could also simply declare a factory method:
+ * <p>请注意, 对于简单的情况, 还可以简单地声明工厂方法:
  *
  * <pre class="code">
  * &lt;bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory"/&gt;
  * </pre>
  *
- * <p>And as of JPA 2.1, {@link EntityManagerFactory#unwrap} provides a nice approach as well,
- * in particular within configuration class arrangements:
+ * <p>从JPA 2.1开始, {@link EntityManagerFactory#unwrap}也提供了一个很好的方法, 特别是在配置类安排中:
  *
  * <pre class="code">
  * &#064;Bean
@@ -33,13 +30,12 @@ import org.springframework.util.ReflectionUtils;
  * }
  * </pre>
  *
- * Please note: Since Hibernate 5.2 changed its {@code SessionFactory} interface to extend JPA's
- * {@code EntityManagerFactory}, you may get conflicts when injecting by type, with both the
- * original factory and your custom {@code SessionFactory} matching {@code EntityManagerFactory}.
- * An explicit qualifier for the original factory (as indicated above) is recommended here.
+ * 请注意: 由于Hibernate 5.2更改了其{@code SessionFactory}接口以扩展JPA的{@code EntityManagerFactory},
+ * 因此在按类型注入时可能会出现冲突, 原始工厂和自定义{@code SessionFactory}都匹配{@code EntityManagerFactory}.
+ * 这里建议使用原始工厂的显式限定符(如上所示).
  *
- * @deprecated as of Spring Framework 4.3.12 against Hibernate 5.2, in favor of a custom solution
- * based on {@link EntityManagerFactory#unwrap} with explicit qualifiers and/or primary markers
+ * @deprecated 从Spring Framework 4.3.12开始, 针对Hibernate 5.2,
+ * 支持基于{@link EntityManagerFactory#unwrap}的自定义解决方案, 带有显式限定符和/或主要标记
  */
 @Deprecated
 public class HibernateJpaSessionFactoryBean extends EntityManagerFactoryAccessor implements FactoryBean<SessionFactory> {

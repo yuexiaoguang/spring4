@@ -8,10 +8,10 @@ import org.springframework.instrument.classloading.SimpleThrowawayClassLoader;
 import org.springframework.util.Assert;
 
 /**
- * Subclass of {@link MutablePersistenceUnitInfo} that adds instrumentation hooks based on
- * Spring's {@link org.springframework.instrument.classloading.LoadTimeWeaver} abstraction.
+ * {@link MutablePersistenceUnitInfo}的子类,
+ * 它基于Spring的{@link org.springframework.instrument.classloading.LoadTimeWeaver}抽象添加了检测钩子.
  *
- * <p>This class is restricted to package visibility, in contrast to its superclass.
+ * <p>与其超类相比, 此类仅限于包可见.
  */
 class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 
@@ -21,8 +21,7 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 
 
 	/**
-	 * Initialize this PersistenceUnitInfo with the LoadTimeWeaver SPI interface
-	 * used by Spring to add instrumentation to the current class loader.
+	 * 使用Spring使用的LoadTimeWeaver SPI接口初始化此PersistenceUnitInfo, 以将检测添加到当前类加载器.
 	 */
 	public void init(LoadTimeWeaver loadTimeWeaver) {
 		Assert.notNull(loadTimeWeaver, "LoadTimeWeaver must not be null");
@@ -31,8 +30,7 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	}
 
 	/**
-	 * Initialize this PersistenceUnitInfo with the current class loader
-	 * (instead of with a LoadTimeWeaver).
+	 * 使用当前的类加载器(而不是使用 LoadTimeWeaver)初始化此PersistenceUnitInfo.
 	 */
 	public void init(ClassLoader classLoader) {
 		Assert.notNull(classLoader, "ClassLoader must not be null");
@@ -41,8 +39,7 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 
 
 	/**
-	 * This implementation returns the LoadTimeWeaver's instrumentable ClassLoader,
-	 * if specified.
+	 * 如果指定, 此实现将返回LoadTimeWeaver的可检测ClassLoader.
 	 */
 	@Override
 	public ClassLoader getClassLoader() {
@@ -50,7 +47,7 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	}
 
 	/**
-	 * This implementation delegates to the LoadTimeWeaver, if specified.
+	 * 如果指定, 此实现将委托给LoadTimeWeaver.
 	 */
 	@Override
 	public void addTransformer(ClassTransformer classTransformer) {
@@ -61,7 +58,7 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	}
 
 	/**
-	 * This implementation delegates to the LoadTimeWeaver, if specified.
+	 * 如果指定, 此实现将委托给LoadTimeWeaver.
 	 */
 	@Override
 	public ClassLoader getNewTempClassLoader() {

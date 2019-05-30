@@ -23,26 +23,21 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.core.type.filter.TypeFilter;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that creates a Hibernate
- * {@link org.hibernate.SessionFactory}. This is the usual way to set up a shared
- * Hibernate SessionFactory in a Spring application context; the SessionFactory can
- * then be passed to Hibernate-based data access objects via dependency injection.
+ * {@link org.springframework.beans.factory.FactoryBean}, 创建一个Hibernate {@link org.hibernate.SessionFactory}.
+ * 这是在Spring应用程序上下文中设置共享Hibernate SessionFactory的常用方法;
+ * 然后, 可以通过依赖注入将SessionFactory传递给基于Hibernate的数据访问对象.
  *
- * <p><b>This variant of LocalSessionFactoryBean requires Hibernate 4.0 or higher.</b>
- * As of Spring 4.0, it is compatible with (the quite refactored) Hibernate 4.3 as well.
- * We recommend using the latest Hibernate 4.2.x or 4.3.x version, depending on whether
- * you need to remain JPA 2.0 compatible at runtime (Hibernate 4.2) or can upgrade to
- * JPA 2.1 (Hibernate 4.3).
+ * <p><b>LocalSessionFactoryBean的这种变体需要Hibernate 4.0或更高版本.</b>
+ * 从Spring 4.0开始, 它与(非常重构的)Hibernate 4.3兼容.
+ * 建议使用最新的Hibernate 4.2.x或4.3.x版本,
+ * 具体取决于是否需要在运行时保持JPA 2.0兼容 (Hibernate 4.2)或升级到JPA 2.1 (Hibernate 4.3).
  *
- * <p>This class is similar in role to the same-named class in the {@code orm.hibernate3}
- * package. However, in practice, it is closer to {@code AnnotationSessionFactoryBean}
- * since its core purpose is to bootstrap a {@code SessionFactory} from package scanning.
+ * <p>该类的作用与{@code orm.hibernate3}包中的同名类相似.
+ * 但是在实践中， 它更接近{@code AnnotationSessionFactoryBean}, 因为它的核心目的是从包扫描中引导{@code SessionFactory}.
  *
- * <p><b>NOTE:</b> To set up Hibernate 4 for Spring-driven JTA transactions, make
- * sure to either specify the {@link #setJtaTransactionManager "jtaTransactionManager"}
- * bean property or to set the "hibernate.transaction.factory_class" property to
- * {@link org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory}.
- * Otherwise, Hibernate's smart flushing mechanism won't work properly.
+ * <p><b>NOTE:</b> 要为Spring驱动的JTA事务设置Hibernate 4, 请确保指定{@link #setJtaTransactionManager "jtaTransactionManager"} bean属性
+ * 或将"hibernate.transaction.factory_class"属性设置为{@link org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory}.
+ * 否则, Hibernate的智能刷新机制将无法正常工作.
  */
 public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 		implements FactoryBean<SessionFactory>, ResourceLoaderAware, InitializingBean, DisposableBean {
@@ -92,113 +87,86 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 
 	/**
-	 * Set the DataSource to be used by the SessionFactory.
-	 * If set, this will override corresponding settings in Hibernate properties.
-	 * <p>If this is set, the Hibernate settings should not define
-	 * a connection provider to avoid meaningless double configuration.
+	 * 设置SessionFactory使用的DataSource.
+	 * 如果设置, 这将覆盖Hibernate属性中的相应设置.
+	 * <p>如果设置了此项, 则Hibernate设置不应定义连接提供者, 以避免无意义的双重配置.
 	 */
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
 	/**
-	 * Set the location of a single Hibernate XML config file, for example as
-	 * classpath resource "classpath:hibernate.cfg.xml".
-	 * <p>Note: Can be omitted when all necessary properties and mapping
-	 * resources are specified locally via this bean.
-	 * @see org.hibernate.cfg.Configuration#configure(java.net.URL)
+	 * 设置单个Hibernate XML配置文件的位置, 例如作为类路径资源"classpath:hibernate.cfg.xml".
+	 * <p>Note: 当通过此bean在本地指定所有必需的属性和映射资源时, 可以省略.
 	 */
 	public void setConfigLocation(Resource configLocation) {
 		this.configLocations = new Resource[] {configLocation};
 	}
 
 	/**
-	 * Set the locations of multiple Hibernate XML config files, for example as
-	 * classpath resources "classpath:hibernate.cfg.xml,classpath:extension.cfg.xml".
-	 * <p>Note: Can be omitted when all necessary properties and mapping
-	 * resources are specified locally via this bean.
-	 * @see org.hibernate.cfg.Configuration#configure(java.net.URL)
+	 * 设置多个Hibernate XML配置文件的位置,
+	 * 例如作为类路径资源"classpath:hibernate.cfg.xml,classpath:extension.cfg.xml".
+	 * <p>Note: 当通过此bean在本地指定所有必需的属性和映射资源时, 可以省略.
 	 */
 	public void setConfigLocations(Resource... configLocations) {
 		this.configLocations = configLocations;
 	}
 
 	/**
-	 * Set Hibernate mapping resources to be found in the class path,
-	 * like "example.hbm.xml" or "mypackage/example.hbm.xml".
-	 * Analogous to mapping entries in a Hibernate XML config file.
-	 * Alternative to the more generic setMappingLocations method.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
-	 * @see #setMappingLocations
-	 * @see org.hibernate.cfg.Configuration#addResource
+	 * 设置在类路径中找到的Hibernate映射资源, 如"example.hbm.xml" 或 "mypackage/example.hbm.xml".
+	 * 类似于Hibernate XML配置文件中的映射条目.
+	 * 替代更通用的setMappingLocations方法.
+	 * <p>可用于从Hibernate XML配置文件添加映射, 或在本地指定所有映射.
 	 */
 	public void setMappingResources(String... mappingResources) {
 		this.mappingResources = mappingResources;
 	}
 
 	/**
-	 * Set locations of Hibernate mapping files, for example as classpath
-	 * resource "classpath:example.hbm.xml". Supports any resource location
-	 * via Spring's resource abstraction, for example relative paths like
-	 * "WEB-INF/mappings/example.hbm.xml" when running in an application context.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
-	 * @see org.hibernate.cfg.Configuration#addInputStream
+	 * 设置Hibernate映射文件的位置, 例如作为类路径资源"classpath:example.hbm.xml".
+	 * 通过Spring的资源抽象支持任何资源位置, 例如在应用程序上下文中运行时的相对路径,
+	 * 如"WEB-INF/mappings/example.hbm.xml".
+	 * <p>可用于从Hibernate XML配置文件添加映射, 或在本地指定所有映射.
 	 */
 	public void setMappingLocations(Resource... mappingLocations) {
 		this.mappingLocations = mappingLocations;
 	}
 
 	/**
-	 * Set locations of cacheable Hibernate mapping files, for example as web app
-	 * resource "/WEB-INF/mapping/example.hbm.xml". Supports any resource location
-	 * via Spring's resource abstraction, as long as the resource can be resolved
-	 * in the file system.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
-	 * @see org.hibernate.cfg.Configuration#addCacheableFile(java.io.File)
+	 * 设置可缓存的Hibernate映射文件的位置, 例如作为Web应用程序资源"/WEB-INF/mapping/example.hbm.xml".
+	 * 只要资源可以在文件系统中解析, 就可以通过Spring的资源抽象支持任何资源位置.
+	 * <p>可用于从Hibernate XML配置文件添加映射, 或在本地指定所有映射.
 	 */
 	public void setCacheableMappingLocations(Resource... cacheableMappingLocations) {
 		this.cacheableMappingLocations = cacheableMappingLocations;
 	}
 
 	/**
-	 * Set locations of jar files that contain Hibernate mapping resources,
-	 * like "WEB-INF/lib/example.hbm.jar".
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
-	 * @see org.hibernate.cfg.Configuration#addJar(java.io.File)
+	 * 设置包含Hibernate映射资源的jar文件的位置, 例如"WEB-INF/lib/example.hbm.jar".
+	 * <p>可用于从Hibernate XML配置文件添加映射, 或在本地指定所有映射.
 	 */
 	public void setMappingJarLocations(Resource... mappingJarLocations) {
 		this.mappingJarLocations = mappingJarLocations;
 	}
 
 	/**
-	 * Set locations of directories that contain Hibernate mapping resources,
-	 * like "WEB-INF/mappings".
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
-	 * @see org.hibernate.cfg.Configuration#addDirectory(java.io.File)
+	 * 设置包含Hibernate映射资源的目录的位置, 例如"WEB-INF/mappings".
+	 * <p>可用于从Hibernate XML配置文件添加映射, 或在本地指定所有映射.
 	 */
 	public void setMappingDirectoryLocations(Resource... mappingDirectoryLocations) {
 		this.mappingDirectoryLocations = mappingDirectoryLocations;
 	}
 
 	/**
-	 * Set a Hibernate entity interceptor that allows to inspect and change
-	 * property values before writing to and reading from the database.
-	 * Will get applied to any new Session created by this factory.
-	 * @see org.hibernate.cfg.Configuration#setInterceptor
+	 * 设置一个Hibernate实体拦截器, 允许在写入和读取数据库之前检查和更改属性值.
+	 * 将应用于此工厂创建的任何新会话.
 	 */
 	public void setEntityInterceptor(Interceptor entityInterceptor) {
 		this.entityInterceptor = entityInterceptor;
 	}
 
 	/**
-	 * Set a Hibernate NamingStrategy for the SessionFactory, determining the
-	 * physical column and table names given the info in the mapping document.
-	 * @see org.hibernate.cfg.Configuration#setNamingStrategy
+	 * 为SessionFactory设置Hibernate NamingStrategy, 确定给定映射文档中信息的物理列和表名.
 	 */
 	@SuppressWarnings("deprecation")
 	public void setNamingStrategy(org.hibernate.cfg.NamingStrategy namingStrategy) {
@@ -206,76 +174,61 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set the Spring {@link org.springframework.transaction.jta.JtaTransactionManager}
-	 * or the JTA {@link javax.transaction.TransactionManager} to be used with Hibernate,
-	 * if any. Implicitly sets up {@code JtaPlatform} and {@code CMTTransactionStrategy}.
-	 * @see LocalSessionFactoryBuilder#setJtaTransactionManager
+	 * 设置Spring {@link org.springframework.transaction.jta.JtaTransactionManager}
+	 * 或JTA {@link javax.transaction.TransactionManager}与Hibernate一起使用.
+	 * 隐式设置{@code JtaPlatform}和{@code CMTTransactionStrategy}.
 	 */
 	public void setJtaTransactionManager(Object jtaTransactionManager) {
 		this.jtaTransactionManager = jtaTransactionManager;
 	}
 
 	/**
-	 * Set a Hibernate 4.1/4.2/4.3 {@code MultiTenantConnectionProvider} to be passed
-	 * on to the SessionFactory: as an instance, a Class, or a String class name.
-	 * <p>Note that the package location of the {@code MultiTenantConnectionProvider}
-	 * interface changed between Hibernate 4.2 and 4.3. This method accepts both variants.
-	 * @since 4.0
-	 * @see LocalSessionFactoryBuilder#setMultiTenantConnectionProvider
+	 * 设置传递给SessionFactory的Hibernate 4.1/4.2/4.3 {@code MultiTenantConnectionProvider}:
+	 * 作为实例, Class或String类名.
+	 * <p>请注意, {@code MultiTenantConnectionProvider}接口的包位置在Hibernate 4.2和4.3之间发生了变化.
+	 * 此方法接受两种变体.
 	 */
 	public void setMultiTenantConnectionProvider(Object multiTenantConnectionProvider) {
 		this.multiTenantConnectionProvider = multiTenantConnectionProvider;
 	}
 
 	/**
-	 * Set a Hibernate 4.1/4.2/4.3 {@code CurrentTenantIdentifierResolver} to be passed
-	 * on to the SessionFactory: as an instance, a Class, or a String class name.
-	 * @since 4.0
-	 * @see LocalSessionFactoryBuilder#setCurrentTenantIdentifierResolver
+	 * 设置传递给SessionFactory的Hibernate 4.1/4.2/4.3 {@code CurrentTenantIdentifierResolver}: 作为实例, Class或String类名.
 	 */
 	public void setCurrentTenantIdentifierResolver(Object currentTenantIdentifierResolver) {
 		this.currentTenantIdentifierResolver = currentTenantIdentifierResolver;
 	}
 
 	/**
-	 * Set the Hibernate RegionFactory to use for the SessionFactory.
-	 * Allows for using a Spring-managed RegionFactory instance.
-	 * <p>Note: If this is set, the Hibernate settings should not define a
-	 * cache provider to avoid meaningless double configuration.
-	 * @since 4.0
-	 * @see org.hibernate.cache.spi.RegionFactory
-	 * @see LocalSessionFactoryBuilder#setCacheRegionFactory
+	 * 设置用于SessionFactory的Hibernate RegionFactory.
+	 * 允许使用Spring管理的RegionFactory实例.
+	 * <p>Note: 如果设置了此项, 则Hibernate设置不应定义缓存提供者, 以避免无意义的双重配置.
 	 */
 	public void setCacheRegionFactory(RegionFactory cacheRegionFactory) {
 		this.cacheRegionFactory = cacheRegionFactory;
 	}
 
 	/**
-	 * Specify custom type filters for Spring-based scanning for entity classes.
-	 * <p>Default is to search all specified packages for classes annotated with
-	 * {@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable}
-	 * or {@code @javax.persistence.MappedSuperclass}.
-	 * @since 4.1
-	 * @see #setPackagesToScan
+	 * 为实体类指定基于Spring的扫描的自定义类型过滤器.
+	 * <p>默认是搜索所有指定的包, 查找带{@code @javax.persistence.Entity},
+	 * {@code @javax.persistence.Embeddable}或{@code @javax.persistence.MappedSuperclass}注解的类.
 	 */
 	public void setEntityTypeFilters(TypeFilter... entityTypeFilters) {
 		this.entityTypeFilters = entityTypeFilters;
 	}
 
 	/**
-	 * Set Hibernate properties, such as "hibernate.dialect".
-	 * <p>Note: Do not specify a transaction provider here when using
-	 * Spring-driven transactions. It is also advisable to omit connection
-	 * provider settings and use a Spring-set DataSource instead.
-	 * @see #setDataSource
+	 * 设置Hibernate属性, 例如"hibernate.dialect".
+	 * <p>Note: 使用Spring驱动的事务时, 请勿在此处指定事务提供者.
+	 * 建议省略连接提供者设置, 并设置Spring DataSource.
 	 */
 	public void setHibernateProperties(Properties hibernateProperties) {
 		this.hibernateProperties = hibernateProperties;
 	}
 
 	/**
-	 * Return the Hibernate properties, if any. Mainly available for
-	 * configuration through property paths that specify individual keys.
+	 * 返回Hibernate属性.
+	 * 主要用于通过指定单个键的属性路径进行配置.
 	 */
 	public Properties getHibernateProperties() {
 		if (this.hibernateProperties == null) {
@@ -285,25 +238,22 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Specify annotated entity classes to register with this Hibernate SessionFactory.
-	 * @see org.hibernate.cfg.Configuration#addAnnotatedClass(Class)
+	 * 指定带注解的实体类以向此Hibernate SessionFactory注册.
 	 */
 	public void setAnnotatedClasses(Class<?>... annotatedClasses) {
 		this.annotatedClasses = annotatedClasses;
 	}
 
 	/**
-	 * Specify the names of annotated packages, for which package-level
-	 * annotation metadata will be read.
-	 * @see org.hibernate.cfg.Configuration#addPackage(String)
+	 * 指定带注解的包的名称, 以便读取包级别的注解元数据.
 	 */
 	public void setAnnotatedPackages(String... annotatedPackages) {
 		this.annotatedPackages = annotatedPackages;
 	}
 
 	/**
-	 * Specify packages to search for autodetection of your entity classes in the
-	 * classpath. This is analogous to Spring's component-scan feature
+	 * 指定在类路径中搜索实体类的自动检测的包.
+	 * 这类似于Spring的组件扫描功能
 	 * ({@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner}).
 	 */
 	public void setPackagesToScan(String... packagesToScan) {
@@ -322,13 +272,13 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 		if (this.configLocations != null) {
 			for (Resource resource : this.configLocations) {
-				// Load Hibernate configuration from given location.
+				// 从给定位置加载Hibernate配置.
 				sfb.configure(resource.getURL());
 			}
 		}
 
 		if (this.mappingResources != null) {
-			// Register given Hibernate mapping definitions, contained in resource files.
+			// 注册给定的Hibernate映射定义, 包含在资源文件中.
 			for (String mapping : this.mappingResources) {
 				Resource mr = new ClassPathResource(mapping.trim(), this.resourcePatternResolver.getClassLoader());
 				sfb.addInputStream(mr.getInputStream());
@@ -336,28 +286,28 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 		}
 
 		if (this.mappingLocations != null) {
-			// Register given Hibernate mapping definitions, contained in resource files.
+			// 注册给定的Hibernate映射定义, 包含在资源文件中.
 			for (Resource resource : this.mappingLocations) {
 				sfb.addInputStream(resource.getInputStream());
 			}
 		}
 
 		if (this.cacheableMappingLocations != null) {
-			// Register given cacheable Hibernate mapping definitions, read from the file system.
+			// 注册给定的可缓存Hibernate映射定义, 从文件系统中读取.
 			for (Resource resource : this.cacheableMappingLocations) {
 				sfb.addCacheableFile(resource.getFile());
 			}
 		}
 
 		if (this.mappingJarLocations != null) {
-			// Register given Hibernate mapping definitions, contained in jar files.
+			// 注册给定的Hibernate映射定义, 包含在jar文件中.
 			for (Resource resource : this.mappingJarLocations) {
 				sfb.addJar(resource.getFile());
 			}
 		}
 
 		if (this.mappingDirectoryLocations != null) {
-			// Register all Hibernate mapping definitions in the given directories.
+			// 在给定目录中注册所有Hibernate映射定义.
 			for (Resource resource : this.mappingDirectoryLocations) {
 				File file = resource.getFile();
 				if (!file.isDirectory()) {
@@ -418,24 +368,24 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Subclasses can override this method to perform custom initialization
-	 * of the SessionFactory instance, creating it via the given Configuration
-	 * object that got prepared by this LocalSessionFactoryBean.
-	 * <p>The default implementation invokes LocalSessionFactoryBuilder's buildSessionFactory.
-	 * A custom implementation could prepare the instance in a specific way (e.g. applying
-	 * a custom ServiceRegistry) or use a custom SessionFactoryImpl subclass.
-	 * @param sfb LocalSessionFactoryBuilder prepared by this LocalSessionFactoryBean
-	 * @return the SessionFactory instance
-	 * @see LocalSessionFactoryBuilder#buildSessionFactory
+	 * 子类可以重写此方法以执行SessionFactory实例的自定义初始化,
+	 * 通过此LocalSessionFactoryBean准备的给定Configuration对象创建它.
+	 * <p>默认实现调用LocalSessionFactoryBuilder的buildSessionFactory.
+	 * 自定义实现可以以特定方式准备实例 (e.g. 应用自定义ServiceRegistry), 或使用自定义SessionFactoryImpl子类.
+	 * 
+	 * @param sfb 由此LocalSessionFactoryBean准备的LocalSessionFactoryBuilder
+	 * 
+	 * @return SessionFactory实例
 	 */
 	protected SessionFactory buildSessionFactory(LocalSessionFactoryBuilder sfb) {
 		return sfb.buildSessionFactory();
 	}
 
 	/**
-	 * Return the Hibernate Configuration object used to build the SessionFactory.
-	 * Allows for access to configuration metadata stored there (rarely needed).
-	 * @throws IllegalStateException if the Configuration object has not been initialized yet
+	 * 返回用于构建SessionFactory的Hibernate Configuration对象.
+	 * 允许访问存储在那里的配置元数据 (很少需要).
+	 * 
+	 * @throws IllegalStateException 如果尚未初始化Configuration对象
 	 */
 	public final Configuration getConfiguration() {
 		if (this.configuration == null) {

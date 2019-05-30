@@ -10,9 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
- * Simple adapter that implements the {@code java.lang.instrument.ClassFileTransformer}
- * interface based on a JPA {@code ClassTransformer} which a JPA PersistenceProvider
- * asks the {@code PersistenceUnitInfo} to install in the current runtime.
+ * 简单适配器, 实现{@code java.lang.instrument.ClassFileTransformer}接口,
+ * 基于JPA {@code ClassTransformer}, JPA PersistenceProvider要求{@code PersistenceUnitInfo}在当前运行时安装.
  */
 class ClassFileTransformerAdapter implements ClassFileTransformer {
 
@@ -37,8 +36,8 @@ class ClassFileTransformerAdapter implements ClassFileTransformer {
 
 		synchronized (this) {
 			if (this.currentlyTransforming) {
-				// Defensively back out when called from within the transform delegate below:
-				// in particular, for the over-eager transformer implementation in Hibernate 5.
+				// 当从下面的变换委托中调用时, 防御性地退出:
+				// 特别是对于Hibernate 5中过度实时的变换器实现.
 				return null;
 			}
 
@@ -65,7 +64,7 @@ class ClassFileTransformerAdapter implements ClassFileTransformer {
 					logger.warn("Error weaving class [" + className + "] with transformer of class [" +
 							this.classTransformer.getClass().getName() + "]", ex);
 				}
-				// The exception will be ignored by the class loader, anyway...
+				// 无论如何, 类加载器将忽略该异常...
 				throw new IllegalStateException("Could not weave class [" + className + "]", ex);
 			}
 			finally {

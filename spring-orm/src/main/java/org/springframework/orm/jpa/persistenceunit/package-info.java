@@ -1,4 +1,4 @@
 /**
- * Internal support for managing JPA persistence units.
+ * 管理JPA持久化单元的内部支持.
  */
 package org.springframework.orm.jpa.persistenceunit;

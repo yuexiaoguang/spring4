@@ -46,18 +46,17 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Helper class featuring methods for Hibernate Session handling.
- * Also provides support for exception translation.
+ * Helper类, 具有Hibernate会话处理方法.
+ * 还提供异常转换支持.
  *
- * <p>Used internally by {@link HibernateTransactionManager}.
- * Can also be used directly in application code.
+ * <p>由{@link HibernateTransactionManager}内部使用.
+ * 也可以直接在应用程序代码中使用.
  */
 public abstract class SessionFactoryUtils {
 
 	/**
-	 * Order value for TransactionSynchronization objects that clean up Hibernate Sessions.
-	 * Returns {@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100}
-	 * to execute Session cleanup before JDBC Connection cleanup, if any.
+	 * 清理Hibernate会话的TransactionSynchronization对象的顺序值.
+	 * 返回{@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100}以在JDBC连接清理之前执行会话清理.
 	 */
 	public static final int SESSION_SYNCHRONIZATION_ORDER =
 			DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100;
@@ -65,17 +64,18 @@ public abstract class SessionFactoryUtils {
 	static final Log logger = LogFactory.getLog(SessionFactoryUtils.class);
 
 	/**
-	 * Bridging between the different ConnectionProvider package location in 4.0-4.2 vs 4.3.
+	 * 在4.0-4.2与4.3中的不同ConnectionProvider包位置之间进行桥接.
 	 */
 	private static final Method getConnectionProviderMethod =
 			ClassUtils.getMethodIfAvailable(SessionFactoryImplementor.class, "getConnectionProvider");
 
 
 	/**
-	 * Determine the DataSource of the given SessionFactory.
-	 * @param sessionFactory the SessionFactory to check
-	 * @return the DataSource, or {@code null} if none found
-	 * @see org.hibernate.engine.spi.SessionFactoryImplementor#getConnectionProvider
+	 * 确定给定SessionFactory的DataSource.
+	 * 
+	 * @param sessionFactory 要检查的SessionFactory
+	 * 
+	 * @return DataSource, 或{@code null}
 	 */
 	public static DataSource getDataSource(SessionFactory sessionFactory) {
 		if (getConnectionProviderMethod != null && sessionFactory instanceof SessionFactoryImplementor) {
@@ -88,10 +88,9 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Perform actual closing of the Hibernate Session,
-	 * catching and logging any cleanup exceptions thrown.
-	 * @param session the Hibernate Session to close (may be {@code null})
-	 * @see org.hibernate.Session#close()
+	 * 执行Hibernate Session的实际关闭, 捕获并记录抛出的任何清理异常.
+	 * 
+	 * @param session 要关闭的Hibernate Session (may be {@code null})
 	 */
 	public static void closeSession(Session session) {
 		if (session != null) {
@@ -108,12 +107,11 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception
-	 * from the {@code org.springframework.dao} hierarchy.
-	 * @param ex HibernateException that occurred
-	 * @return the corresponding DataAccessException instance
-	 * @see HibernateExceptionTranslator#convertHibernateAccessException
-	 * @see HibernateTransactionManager#convertHibernateAccessException
+	 * 将给定的HibernateException转换为{@code org.springframework.dao}层次结构中的适当异常.
+	 * 
+	 * @param ex 发生的HibernateException
+	 * 
+	 * @return 相应的DataAccessException实例
 	 */
 	public static DataAccessException convertHibernateAccessException(HibernateException ex) {
 		if (ex instanceof JDBCConnectionException) {

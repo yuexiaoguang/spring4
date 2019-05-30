@@ -21,8 +21,8 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionException;
 
 /**
- * {@link org.springframework.orm.jpa.JpaDialect} implementation for Apache OpenJPA.
- * Developed and tested against OpenJPA 2.2.
+ * Apache OpenJPA的{@link org.springframework.orm.jpa.JpaDialect}实现.
+ * 针对OpenJPA 2.2开发和测试.
  */
 @SuppressWarnings("serial")
 public class OpenJpaDialect extends DefaultJpaDialect {
@@ -34,7 +34,7 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 		OpenJPAEntityManager openJpaEntityManager = getOpenJPAEntityManager(entityManager);
 
 		if (definition.getIsolationLevel() != TransactionDefinition.ISOLATION_DEFAULT) {
-			// Pass custom isolation level on to OpenJPA's JDBCFetchPlan configuration
+			// 将自定义隔离级别传递给OpenJPA的JDBCFetchPlan配置
 			FetchPlan fetchPlan = openJpaEntityManager.getFetchPlan();
 			if (fetchPlan instanceof JDBCFetchPlan) {
 				IsolationLevel isolation = IsolationLevel.fromConnectionConstant(definition.getIsolationLevel());
@@ -45,12 +45,11 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 		entityManager.getTransaction().begin();
 
 		if (!definition.isReadOnly()) {
-			// Like with EclipseLink, make sure to start the logic transaction early so that other
-			// participants using the connection (such as JdbcTemplate) run in a transaction.
+			// 与EclipseLink一样, 确保实时启动逻辑事务, 以便使用连接的其他参与者(例如JdbcTemplate)在事务中运行.
 			openJpaEntityManager.beginStore();
 		}
 
-		// Custom implementation for OpenJPA savepoint handling
+		// OpenJPA保存点处理的自定义实现
 		return new OpenJpaTransactionData(openJpaEntityManager);
 	}
 
@@ -62,9 +61,11 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 	}
 
 	/**
-	 * Return the OpenJPA-specific variant of {@code EntityManager}.
-	 * @param em the generic {@code EntityManager} instance
-	 * @return the OpenJPA-specific variant of {@code EntityManager}
+	 * 返回特定于OpenJPA的{@code EntityManager}变体.
+	 * 
+	 * @param em 通用{@code EntityManager}实例
+	 * 
+	 * @return 特定于OpenJPA的{@code EntityManager}变体
 	 */
 	protected OpenJPAEntityManager getOpenJPAEntityManager(EntityManager em) {
 		return OpenJPAPersistence.cast(em);
@@ -72,8 +73,7 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 
 
 	/**
-	 * Transaction data Object exposed from {@code beginTransaction},
-	 * implementing the {@link SavepointManager} interface.
+	 * 从{@code beginTransaction}公开的事务数据对象, 实现了{@link SavepointManager}接口.
 	 */
 	private static class OpenJpaTransactionData implements SavepointManager {
 
@@ -112,11 +112,8 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 
 
 	/**
-	 * {@link ConnectionHandle} implementation that fetches a new OpenJPA-provided
-	 * Connection for every {@code getConnection} call and closes the Connection on
-	 * {@code releaseConnection}. This is necessary because OpenJPA requires the
-	 * fetched Connection to be closed before continuing EntityManager work.
-	 * @see org.apache.openjpa.persistence.OpenJPAEntityManager#getConnection()
+	 * {@link ConnectionHandle}实现, 为每个{@code getConnection}调用获取一个新的OpenJPA提供的连接, 并关闭{@code releaseConnection}上的连接.
+	 * 这是必要的, 因为OpenJPA要求在继续EntityManager工作之前关闭提取的连接.
 	 */
 	private static class OpenJpaConnectionHandle implements ConnectionHandle {
 
@@ -136,5 +133,4 @@ public class OpenJpaDialect extends DefaultJpaDialect {
 			JdbcUtils.closeConnection(con);
 		}
 	}
-
 }

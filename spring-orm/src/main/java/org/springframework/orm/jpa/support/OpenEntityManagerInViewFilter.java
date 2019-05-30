@@ -21,28 +21,22 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * Servlet Filter that binds a JPA EntityManager to the thread for the
- * entire processing of the request. Intended for the "Open EntityManager in
- * View" pattern, i.e. to allow for lazy loading in web views despite the
- * original transactions already being completed.
+ * Servlet过滤器, 它将JPA EntityManager绑定到线程以进行整个请求处理.
+ * 用于"Open EntityManager in View"模式, i.e. 允许在Web视图中延迟加载, 尽管原始事务已经完成.
  *
- * <p>This filter makes JPA EntityManagers available via the current thread,
- * which will be autodetected by transaction managers. It is suitable for service
- * layer transactions via {@link org.springframework.orm.jpa.JpaTransactionManager}
- * or {@link org.springframework.transaction.jta.JtaTransactionManager} as well
- * as for non-transactional read-only execution.
+ * <p>此过滤器使JPA EntityManagers可通过当前线程获得, 该线程将由事务管理器自动检测.
+ * 它适用于通过{@link org.springframework.orm.jpa.JpaTransactionManager}
+ * 或{@link org.springframework.transaction.jta.JtaTransactionManager}进行的服务层事务, 以及非事务性只读执行.
  *
- * <p>Looks up the EntityManagerFactory in Spring's root web application context.
- * Supports an "entityManagerFactoryBeanName" filter init-param in {@code web.xml};
- * the default bean name is "entityManagerFactory". As an alternative, the
- * "persistenceUnitName" init-param allows for retrieval by logical unit name
- * (as specified in {@code persistence.xml}).
+ * <p>在Spring的根Web应用程序上下文中查找EntityManagerFactory.
+ * 支持{@code web.xml}中的"entityManagerFactoryBeanName"过滤器 init-param; 默认的bean名称是"entityManagerFactory".
+ * 作为替代方案, the "persistenceUnitName" init-param允许按逻辑单元名称进行检索 (如{@code persistence.xml}中所指定).
  */
 public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 
 	/**
-	 * Default EntityManagerFactory bean name: "entityManagerFactory".
-	 * Only applies when no "persistenceUnitName" param has been specified.
+	 * 默认的EntityManagerFactory bean名称: "entityManagerFactory".
+	 * 仅在未指定"persistenceUnitName"参数时适用.
 	 */
 	public static final String DEFAULT_ENTITY_MANAGER_FACTORY_BEAN_NAME = "entityManagerFactory";
 
@@ -55,37 +49,32 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set the bean name of the EntityManagerFactory to fetch from Spring's
-	 * root application context.
-	 * <p>Default is "entityManagerFactory". Note that this default only applies
-	 * when no "persistenceUnitName" param has been specified.
+	 * 设置从Spring的根应用程序上下文中获取的EntityManagerFactory的bean名称.
+	 * <p>默认"entityManagerFactory". 请注意, 此默认仅适用于未指定"persistenceUnitName"参数的情况.
 	 */
 	public void setEntityManagerFactoryBeanName(String entityManagerFactoryBeanName) {
 		this.entityManagerFactoryBeanName = entityManagerFactoryBeanName;
 	}
 
 	/**
-	 * Return the bean name of the EntityManagerFactory to fetch from Spring's
-	 * root application context.
+	 * 返回从Spring的根应用程序上下文中获取的EntityManagerFactory的bean名称.
 	 */
 	protected String getEntityManagerFactoryBeanName() {
 		return this.entityManagerFactoryBeanName;
 	}
 
 	/**
-	 * Set the name of the persistence unit to access the EntityManagerFactory for.
-	 * <p>This is an alternative to specifying the EntityManagerFactory by bean name,
-	 * resolving it by its persistence unit name instead. If no bean name and no persistence
-	 * unit name have been specified, we'll check whether a bean exists for the default
-	 * bean name "entityManagerFactory"; if not, a default EntityManagerFactory will
-	 * be retrieved through finding a single unique bean of type EntityManagerFactory.
+	 * 设置要访问的EntityManagerFactory的持久化单元的名称.
+	 * <p>这是通过bean名称指定EntityManagerFactory的替代方法, 通过其持久化单元名称来解析它.
+	 * 如果没有指定bean名称和没有持久化单元名称, 将检查是否存在默认bean名称为"entityManagerFactory"的bean;
+	 * 如果没有, 将通过查找EntityManagerFactory类型的单个唯一bean来检索默认的EntityManagerFactory.
 	 */
 	public void setPersistenceUnitName(String persistenceUnitName) {
 		this.persistenceUnitName = persistenceUnitName;
 	}
 
 	/**
-	 * Return the name of the persistence unit to access the EntityManagerFactory for, if any.
+	 * 返回要访问的EntityManagerFactory的持久化单元的名称.
 	 */
 	protected String getPersistenceUnitName() {
 		return this.persistenceUnitName;
@@ -93,9 +82,7 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Returns "false" so that the filter may re-bind the opened {@code EntityManager}
-	 * to each asynchronously dispatched thread and postpone closing it until the very
-	 * last asynchronous dispatch.
+	 * 返回"false", 以便过滤器可以将打开的{@code EntityManager}重新绑定到每个异步调度的线程, 并推迟关闭它直到最后一次异步调度.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -103,8 +90,7 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Returns "false" so that the filter may provide an {@code EntityManager}
-	 * to each error dispatches.
+	 * 返回"false", 以便过滤器可以为每个错误调度提供{@code EntityManager}.
 	 */
 	@Override
 	protected boolean shouldNotFilterErrorDispatch() {
@@ -123,7 +109,7 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 		String key = getAlreadyFilteredAttributeName();
 
 		if (TransactionSynchronizationManager.hasResource(emf)) {
-			// Do not modify the EntityManager: just set the participate flag.
+			// 不要修改EntityManager: 只需设置参与标志.
 			participate = true;
 		}
 		else {
@@ -162,12 +148,10 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Look up the EntityManagerFactory that this filter should use,
-	 * taking the current HTTP request as argument.
-	 * <p>The default implementation delegates to the {@code lookupEntityManagerFactory}
-	 * without arguments, caching the EntityManagerFactory reference once obtained.
-	 * @return the EntityManagerFactory to use
-	 * @see #lookupEntityManagerFactory()
+	 * 查找此过滤器应使用的EntityManagerFactory, 将当前HTTP请求作为参数.
+	 * <p>默认实现委托给没有参数的{@code lookupEntityManagerFactory}, 一旦获得就缓存EntityManagerFactory引用.
+	 * 
+	 * @return 要使用的EntityManagerFactory
 	 */
 	protected EntityManagerFactory lookupEntityManagerFactory(HttpServletRequest request) {
 		if (this.entityManagerFactory == null) {
@@ -177,11 +161,10 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Look up the EntityManagerFactory that this filter should use.
-	 * <p>The default implementation looks for a bean with the specified name
-	 * in Spring's root application context.
-	 * @return the EntityManagerFactory to use
-	 * @see #getEntityManagerFactoryBeanName
+	 * 查找此过滤器应使用的EntityManagerFactory.
+	 * <p>默认实现在Spring的根应用程序上下文中查找具有指定名称的bean.
+	 * 
+	 * @return 要使用的EntityManagerFactory
 	 */
 	protected EntityManagerFactory lookupEntityManagerFactory() {
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
@@ -194,16 +177,16 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 			return wac.getBean(DEFAULT_ENTITY_MANAGER_FACTORY_BEAN_NAME, EntityManagerFactory.class);
 		}
 		else {
-			// Includes fallback search for single EntityManagerFactory bean by type.
+			// 包括按类型回退搜索单个EntityManagerFactory bean.
 			return EntityManagerFactoryUtils.findEntityManagerFactory(wac, puName);
 		}
 	}
 
 	/**
-	 * Create a JPA EntityManager to be bound to a request.
-	 * <p>Can be overridden in subclasses.
-	 * @param emf the EntityManagerFactory to use
-	 * @see javax.persistence.EntityManagerFactory#createEntityManager()
+	 * 创建要绑定到请求的JPA EntityManager.
+	 * <p>可以在子类中重写.
+	 * 
+	 * @param emf 要使用的EntityManagerFactory
 	 */
 	protected EntityManager createEntityManager(EntityManagerFactory emf) {
 		return emf.createEntityManager();
@@ -216,5 +199,4 @@ public class OpenEntityManagerInViewFilter extends OncePerRequestFilter {
 		((AsyncRequestInterceptor) asyncManager.getCallableInterceptor(key)).bindSession();
 		return true;
 	}
-
 }

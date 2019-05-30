@@ -55,9 +55,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link org.springframework.orm.jpa.JpaDialect} implementation for
- * Hibernate EntityManager. Developed and tested against Hibernate 3.6,
- * 4.2/4.3 as well as 5.0/5.1/5.2.
+ * Hibernate EntityManager的{@link org.springframework.orm.jpa.JpaDialect}实现.
+ * 针对3.6, 4.2/4.3 以及 5.0/5.1/5.2开发和测试.
  */
 @SuppressWarnings("serial")
 public class HibernateJpaDialect extends DefaultJpaDialect {
@@ -69,13 +68,13 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	private static Method getFlushMode;
 
 	static {
-		// Checking for Hibernate 4.x's Optimistic/PessimisticEntityLockException
+		// 检查Hibernate 4.x的Optimistic/PessimisticEntityLockException
 		ClassLoader cl = HibernateJpaDialect.class.getClassLoader();
 		try {
 			optimisticLockExceptionClass = cl.loadClass("org.hibernate.dialect.lock.OptimisticEntityLockException");
 		}
 		catch (ClassNotFoundException ex) {
-			// OptimisticLockException is deprecated on Hibernate 4.x; we're just using it on 3.x anyway
+			// 在Hibernate 4.x上不推荐使用OptimisticLockException; 只是在3.x上使用它
 			optimisticLockExceptionClass = OptimisticLockException.class;
 		}
 		try {
@@ -91,14 +90,14 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		}
 		catch (NoSuchMethodException ex) {
 			try {
-				// Classic Hibernate getFlushMode() with FlushMode return type
+				// 经典的Hibernate getFlushMode() 与FlushMode返回类型
 				getFlushMode = Session.class.getMethod("getFlushMode");
 			}
 			catch (NoSuchMethodException ex2) {
 				throw new IllegalStateException("No compatible Hibernate getFlushMode signature found", ex2);
 			}
 		}
-		// Check that it is the Hibernate FlushMode type, not JPA's...
+		// 检查它是否是Hibernate FlushMode类型, 而不是JPA...
 		Assert.state(FlushMode.class == getFlushMode.getReturnType(), "Could not find Hibernate getFlushMode method");
 	}
 
@@ -107,28 +106,17 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 
 
 	/**
-	 * Set whether to prepare the underlying JDBC Connection of a transactional
-	 * Hibernate Session, that is, whether to apply a transaction-specific
-	 * isolation level and/or the transaction's read-only flag to the underlying
-	 * JDBC Connection.
-	 * <p>Default is "true" on Hibernate EntityManager 4.x (with its 'on-close'
-	 * connection release mode, and "false" on Hibernate EntityManager 3.6 (due to
-	 * the 'after-transaction' release mode there). <b>Note that Hibernate 4.2+ is
-	 * strongly recommended in order to make isolation levels work efficiently.</b>
-	 * <p>If you turn this flag off, JPA transaction management will not support
-	 * per-transaction isolation levels anymore. It will not call
-	 * {@code Connection.setReadOnly(true)} for read-only transactions anymore either.
-	 * If this flag is turned off, no cleanup of a JDBC Connection is required after
-	 * a transaction, since no Connection settings will get modified.
-	 * <p><b>NOTE:</b> The default behavior in terms of read-only handling changed
-	 * in Spring 4.1, propagating the read-only status to the JDBC Connection now,
-	 * analogous to other Spring transaction managers. This may have the effect
-	 * that you're running into read-only enforcement now where previously write
-	 * access has accidentally been tolerated: Please revise your transaction
-	 * declarations accordingly, removing invalid read-only markers if necessary.
-	 * @since 4.1
-	 * @see java.sql.Connection#setTransactionIsolation
-	 * @see java.sql.Connection#setReadOnly
+	 * 设置是否准备事务性Hibernate会话的底层JDBC连接, 即是否将特定于事务的隔离级别和/或事务的只读标志应用于底层JDBC连接.
+	 * <p>Hibernate EntityManager 4.x上的默认值为"true" (具有'on-close'连接释放模式),
+	 * 而Hibernate EntityManager 3.6上为"false" (由于那里的'事务之后'释放模式).
+	 * <b>请注意, 强烈建议使用Hibernate 4.2+, 以使隔离级别高效工作.</b>
+	 * <p>如果关闭此标志, JPA事务管理将不再支持每个事务的隔离级别.
+	 * 对于只读事务, 它也不会调用{@code Connection.setReadOnly(true)}.
+	 * 如果关闭此标志, 则事务后不需要清除JDBC连接, 因为不会修改任何连接设置.
+	 * <p><b>NOTE:</b> 在只读处理方面的默认行为在Spring 4.1中发生了变化,
+	 * 现在将只读状态传播到JDBC Connection, 类似于其他Spring事务管理器.
+	 * 这可能会导致强制只读, 而以前的写访问被意外容忍:
+	 * 请相应地修改事务声明, 必要时删除无效的只读标记.
 	 */
 	public void setPrepareConnection(boolean prepareConnection) {
 		this.prepareConnection = prepareConnection;
@@ -162,10 +150,10 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 			}
 		}
 
-		// Standard JPA transaction begin call for full JPA context setup...
+		// 标准JPA事务开始调用完整的JPA上下文设置...
 		entityManager.getTransaction().begin();
 
-		// Adapt flush mode and store previous isolation level, if any.
+		// 调整刷新模式, 并存储先前的隔离级别.
 		FlushMode previousFlushMode = prepareFlushMode(session, definition.isReadOnly());
 		return new SessionTransactionData(session, previousFlushMode, preparedCon, previousIsolationLevel);
 	}
@@ -182,20 +170,20 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	protected FlushMode prepareFlushMode(Session session, boolean readOnly) throws PersistenceException {
 		FlushMode flushMode = (FlushMode) ReflectionUtils.invokeMethod(getFlushMode, session);
 		if (readOnly) {
-			// We should suppress flushing for a read-only transaction.
+			// 应该禁止刷新只读事务.
 			if (!flushMode.equals(FlushMode.MANUAL)) {
 				session.setFlushMode(FlushMode.MANUAL);
 				return flushMode;
 			}
 		}
 		else {
-			// We need AUTO or COMMIT for a non-read-only transaction.
+			// 对于非只读事务, 需要AUTO或COMMIT.
 			if (flushMode.lessThan(FlushMode.COMMIT)) {
 				session.setFlushMode(FlushMode.AUTO);
 				return flushMode;
 			}
 		}
-		// No FlushMode change needed...
+		// 不需要FlushMode更改...
 		return null;
 	}
 
@@ -224,10 +212,11 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception
-	 * from the {@code org.springframework.dao} hierarchy.
-	 * @param ex HibernateException that occurred
-	 * @return the corresponding DataAccessException instance
+	 * 将给定的HibernateException转换为{@code org.springframework.dao}层次结构中的适当异常.
+	 * 
+	 * @param ex 发生的HibernateException
+	 * 
+	 * @return 相应的DataAccessException实例
 	 */
 	protected DataAccessException convertHibernateAccessException(HibernateException ex) {
 		if (ex instanceof JDBCConnectionException) {
@@ -353,7 +342,7 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 
 	private static class HibernateConnectionHandle implements ConnectionHandle {
 
-		// This will find a corresponding method on Hibernate 3.x but not on 4.x
+		// 这将在Hibernate 3.x上找到相应的方法, 但在4.x上找不到
 		private static final Method sessionConnectionMethod =
 				ClassUtils.getMethodIfAvailable(Session.class, "connection");
 
@@ -373,11 +362,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		@Override
 		public void releaseConnection(Connection con) {
 			if (sessionConnectionMethod != null) {
-				// Need to explicitly call close() with Hibernate 3.x in order to allow
-				// for eager release of the underlying physical Connection if necessary.
-				// However, do not do this on Hibernate 4.2+ since it would return the
-				// physical Connection to the pool right away, making it unusable for
-				// further operations within the current transaction!
+				// 需要使用Hibernate 3.x显式调用close(), 以便在必要时允许实时释放底层物理连接.
+				// 但是, 不要在Hibernate 4.2+上执行此操作, 因为它会立即将物理连接返回到池中, 使其无法用于当前事务中的进一步操作!
 				JdbcUtils.closeConnection(con);
 			}
 		}
@@ -385,7 +371,7 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		public static Connection doGetConnection(Session session) {
 			try {
 				if (connectionMethodToUse == null) {
-					// Reflective lookup to find SessionImpl's connection() method on Hibernate 4.x
+					// 在Hibernate 4.x上反射查找SessionImpl的connection()方法
 					connectionMethodToUse = session.getClass().getMethod("connection");
 				}
 				return (Connection) ReflectionUtils.invokeMethod(connectionMethodToUse, session);
@@ -395,5 +381,4 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 			}
 		}
 	}
-
 }

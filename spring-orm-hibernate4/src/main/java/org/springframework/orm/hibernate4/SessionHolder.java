@@ -8,11 +8,10 @@ import org.springframework.transaction.support.ResourceHolderSupport;
 import org.springframework.util.Assert;
 
 /**
- * Session holder, wrapping a Hibernate Session and a Hibernate Transaction.
- * HibernateTransactionManager binds instances of this class to the thread,
- * for a given SessionFactory.
+ * 会话持有者, 包装Hibernate会话和Hibernate事务.
+ * 对于给定的SessionFactory, HibernateTransactionManager将此类的实例绑定到线程.
  *
- * <p>Note: This is an SPI class, not intended to be used by applications.
+ * <p>Note: 这是一个SPI类, 不适合应用程序使用.
  */
 public class SessionHolder extends ResourceHolderSupport {
 

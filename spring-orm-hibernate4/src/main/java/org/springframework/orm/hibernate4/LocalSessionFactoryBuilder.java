@@ -39,22 +39,19 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * A Spring-provided extension of the standard Hibernate {@link Configuration} class,
- * adding {@link SpringSessionContext} as a default and providing convenient ways
- * to specify a DataSource and an application class loader.
+ * Spring提供的标准Hibernate {@link Configuration}类的扩展,
+ * 添加{@link SpringSessionContext}作为默认值, 并提供指定DataSource和应用程序类加载器的便捷方法.
  *
- * <p>This is designed for programmatic use, e.g. in {@code @Bean} factory methods.
- * Consider using {@link LocalSessionFactoryBean} for XML bean definition files.
+ * <p>这是专为程序化使用而设计的, e.g. 在{@code @Bean}工厂方法中.
+ * 考虑将{@link LocalSessionFactoryBean}用于XML bean定义文件.
  *
- * <p><b>Requires Hibernate 4.0 or higher.</b> As of Spring 4.0, it is compatible with
- * (the quite refactored) Hibernate 4.3 as well. We recommend using the latest
- * Hibernate 4.2.x or 4.3.x version, depending on whether you need to remain JPA 2.0
- * compatible at runtime (Hibernate 4.2) or can upgrade to JPA 2.1 (Hibernate 4.3).
+ * <p><b>需要Hibernate 4.0或更高版本.</b> 从Spring 4.0开始, 它与(非常重构的)Hibernate 4.3兼容.
+ * 建议使用最新的Hibernate 4.2.x或4.3.x版本,
+ * 具体取决于是否需要在运行时保持JPA 2.0兼容 (Hibernate 4.2) 或升级到JPA 2.1 (Hibernate 4.3).
  *
- * <p><b>NOTE:</b> To set up Hibernate 4 for Spring-driven JTA transactions, make
- * sure to either use the {@link #setJtaTransactionManager} method or to set the
- * "hibernate.transaction.factory_class" property to {@link CMTTransactionFactory}.
- * Otherwise, Hibernate's smart flushing mechanism won't work properly.
+ * <p><b>NOTE:</b> 要为Spring驱动的JTA事务设置Hibernate 4, 请确保使用{@link #setJtaTransactionManager}方法
+ * 或将"hibernate.transaction.factory_class"方法或将{@link CMTTransactionFactory}.
+ * 否则, Hibernate的智能刷新机制将无法正常工作.
  */
 @SuppressWarnings("serial")
 public class LocalSessionFactoryBuilder extends Configuration {
@@ -92,54 +89,43 @@ public class LocalSessionFactoryBuilder extends Configuration {
 
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
+	 * @param dataSource 生成的Hibernate SessionFactory应该使用的JDBC DataSource (may be {@code null})
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource) {
 		this(dataSource, new PathMatchingResourcePatternResolver());
 	}
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
-	 * @param classLoader the ClassLoader to load application classes from
+	 * @param dataSource 生成的Hibernate SessionFactory应该使用的JDBC DataSource (may be {@code null})
+	 * @param classLoader 从中加载应用程序类的ClassLoader
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource, ClassLoader classLoader) {
 		this(dataSource, new PathMatchingResourcePatternResolver(classLoader));
 	}
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
-	 * @param resourceLoader the ResourceLoader to load application classes from
+	 * @param dataSource 生成的Hibernate SessionFactory应该使用的JDBC DataSource (may be {@code null})
+	 * @param resourceLoader 从中加载应用程序类的ResourceLoader
 	 */
-	@SuppressWarnings("deprecation")  // to be able to build against Hibernate 4.3
+	@SuppressWarnings("deprecation")  // 能够针对Hibernate 4.3构建
 	public LocalSessionFactoryBuilder(DataSource dataSource, ResourceLoader resourceLoader) {
 		getProperties().put(Environment.CURRENT_SESSION_CONTEXT_CLASS, SpringSessionContext.class.getName());
 		if (dataSource != null) {
 			getProperties().put(Environment.DATASOURCE, dataSource);
 		}
-		// APP_CLASSLOADER is deprecated as of Hibernate 4.3 but we need to remain compatible with 4.0+
+		// 自Hibernate 4.3起, APP_CLASSLOADER已弃用, 但我们需要保持与4.0+兼容
 		getProperties().put(AvailableSettings.APP_CLASSLOADER, resourceLoader.getClassLoader());
 		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
 	}
 
 
 	/**
-	 * Set the Spring {@link JtaTransactionManager} or the JTA {@link TransactionManager}
-	 * to be used with Hibernate, if any. Allows for using a Spring-managed transaction
-	 * manager for Hibernate 4's session and cache synchronization, with the
-	 * "hibernate.transaction.jta.platform" automatically set to it. Also sets
-	 * "hibernate.transaction.factory_class" to {@link CMTTransactionFactory},
-	 * instructing Hibernate to interact with externally managed transactions.
-	 * <p>A passed-in Spring {@link JtaTransactionManager} needs to contain a JTA
-	 * {@link TransactionManager} reference to be usable here, except for the WebSphere
-	 * case where we'll automatically set {@code WebSphereExtendedJtaPlatform} accordingly.
-	 * <p>Note: If this is set, the Hibernate settings should not contain a JTA platform
-	 * setting to avoid meaningless double configuration.
+	 * 设置与Hibernate一起使用的Spring {@link JtaTransactionManager}或JTA {@link TransactionManager}.
+	 * 允许使用Spring管理的事务管理器用于Hibernate 4的会话和缓存同步, 并自动设置"hibernate.transaction.jta.platform".
+	 * 还将"hibernate.transaction.factory_class"设置为{@link CMTTransactionFactory}, 指示Hibernate与外部管理的事务进行交互.
+	 * <p>传入的Spring {@link JtaTransactionManager}需要包含一个可在此处使用的JTA {@link TransactionManager}引用,
+	 * 但WebSphere情况除外, 将相应地自动设置{@code WebSphereExtendedJtaPlatform}.
+	 * <p>Note: 如果设置了此项, 则Hibernate设置不应包含JTA平台设置, 以避免无意义的双重配置.
 	 */
 	public LocalSessionFactoryBuilder setJtaTransactionManager(Object jtaTransactionManager) {
 		Assert.notNull(jtaTransactionManager, "Transaction manager reference must not be null");
@@ -173,12 +159,8 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Set a Hibernate 4.1/4.2/4.3 {@code MultiTenantConnectionProvider} to be passed
-	 * on to the SessionFactory: as an instance, a Class, or a String class name.
-	 * <p>Note that the package location of the {@code MultiTenantConnectionProvider}
-	 * interface changed between Hibernate 4.2 and 4.3. This method accepts both variants.
-	 * @since 4.0
-	 * @see AvailableSettings#MULTI_TENANT_CONNECTION_PROVIDER
+	 * 将Hibernate 4.1/4.2/4.3 {@code MultiTenantConnectionProvider}设置为传递给SessionFactory: 作为实例, Class或String类名.
+	 * <p>请注意, {@code MultiTenantConnectionProvider}接口的包位置在Hibernate 4.2和4.3之间发生了变化. 此方法接受两种变体.
 	 */
 	public LocalSessionFactoryBuilder setMultiTenantConnectionProvider(Object multiTenantConnectionProvider) {
 		getProperties().put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
@@ -186,10 +168,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Set a Hibernate 4.1/4.2/4.3 {@code CurrentTenantIdentifierResolver} to be passed
-	 * on to the SessionFactory: as an instance, a Class, or a String class name.
-	 * @since 4.0
-	 * @see AvailableSettings#MULTI_TENANT_IDENTIFIER_RESOLVER
+	 * 将Hibernate 4.1/4.2/4.3 {@code CurrentTenantIdentifierResolver}设置为传递给SessionFactory: 作为实例, Class或String类名.
 	 */
 	public LocalSessionFactoryBuilder setCurrentTenantIdentifierResolver(Object currentTenantIdentifierResolver) {
 		getProperties().put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
@@ -197,12 +176,9 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Set the Hibernate RegionFactory to use for the SessionFactory.
-	 * Allows for using a Spring-managed RegionFactory instance.
-	 * <p>Note: If this is set, the Hibernate settings should not define a
-	 * cache provider to avoid meaningless double configuration.
-	 * @since 4.0
-	 * @see org.hibernate.cache.spi.RegionFactory
+	 * 设置Hibernate RegionFactory用于SessionFactory.
+	 * 允许使用Spring管理的RegionFactory实例.
+	 * <p>Note: 如果设置了此项, 则Hibernate设置不应定义缓存提供者, 以避免无意义的双重配置.
 	 */
 	public LocalSessionFactoryBuilder setCacheRegionFactory(RegionFactory cacheRegionFactory) {
 		this.cacheRegionFactory = cacheRegionFactory;
@@ -210,12 +186,9 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Specify custom type filters for Spring-based scanning for entity classes.
-	 * <p>Default is to search all specified packages for classes annotated with
-	 * {@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable}
-	 * or {@code @javax.persistence.MappedSuperclass}.
-	 * @since 4.1
-	 * @see #scanPackages
+	 * 为实体类指定基于Spring扫描的自定义类型过滤器.
+	 * <p>默认是搜索所有指定的包, 查找带有{@code @javax.persistence.Entity},
+	 * {@code @javax.persistence.Embeddable}或 {@code @javax.persistence.MappedSuperclass}注解的类.
 	 */
 	public LocalSessionFactoryBuilder setEntityTypeFilters(TypeFilter... entityTypeFilters) {
 		this.entityTypeFilters = entityTypeFilters;
@@ -223,9 +196,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Add the given annotated classes in a batch.
-	 * @see #addAnnotatedClass
-	 * @see #scanPackages
+	 * 批量添加给定的带注解的类.
 	 */
 	public LocalSessionFactoryBuilder addAnnotatedClasses(Class<?>... annotatedClasses) {
 		for (Class<?> annotatedClass : annotatedClasses) {
@@ -235,9 +206,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Add the given annotated packages in a batch.
-	 * @see #addPackage
-	 * @see #scanPackages
+	 * 批量添加给定的带注解的包.
 	 */
 	public LocalSessionFactoryBuilder addPackages(String... annotatedPackages) {
 		for (String annotatedPackage : annotatedPackages) {
@@ -247,10 +216,11 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Perform Spring-based scanning for entity classes, registering them
-	 * as annotated classes with this {@code Configuration}.
-	 * @param packagesToScan one or more Java package names
-	 * @throws HibernateException if scanning fails for any reason
+	 * 对实体类执行基于Spring的扫描, 并使用此{@code Configuration}将它们注册为带注解的类.
+	 * 
+	 * @param packagesToScan 一个或多个Java包名称
+	 * 
+	 * @throws HibernateException 如果扫描失败
 	 */
 	public LocalSessionFactoryBuilder scanPackages(String... packagesToScan) throws HibernateException {
 		Set<String> entityClassNames = new TreeSet<String>();
@@ -301,8 +271,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Check whether any of the configured entity type filters matches
-	 * the current class descriptor contained in the metadata reader.
+	 * 检查任何已配置的实体类型过滤器是否与元数据读取器中包含的当前类描述符匹配.
 	 */
 	private boolean matchesEntityTypeFilter(MetadataReader reader, MetadataReaderFactory readerFactory) throws IOException {
 		if (this.entityTypeFilters != null) {
@@ -335,7 +304,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Build the {@code SessionFactory}.
+	 * 构建{@code SessionFactory}.
 	 */
 	@Override
 	@SuppressWarnings("deprecation")
@@ -360,7 +329,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 
 
 	/**
-	 * Inner class to avoid hard dependency on JPA 2.1 / Hibernate 4.3.
+	 * 内部类, 避免硬依赖于JPA 2.1 / Hibernate 4.3.
 	 */
 	private static class ConverterRegistrationDelegate {
 
@@ -369,5 +338,4 @@ public class LocalSessionFactoryBuilder extends Configuration {
 			config.addAttributeConverter((Class<? extends AttributeConverter<?, ?>>) converterClass);
 		}
 	}
-
 }

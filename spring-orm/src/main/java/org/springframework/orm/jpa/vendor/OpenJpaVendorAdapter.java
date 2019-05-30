@@ -11,14 +11,12 @@ import org.apache.openjpa.persistence.OpenJPAEntityManagerSPI;
 import org.apache.openjpa.persistence.PersistenceProviderImpl;
 
 /**
- * {@link org.springframework.orm.jpa.JpaVendorAdapter} implementation for Apache OpenJPA.
- * Developed and tested against OpenJPA 2.2.
+ * Apache OpenJPA的{@link org.springframework.orm.jpa.JpaVendorAdapter}实现.
+ * 针对OpenJPA 2.2开发和测试.
  *
- * <p>Exposes OpenJPA's persistence provider and EntityManager extension interface,
- * and adapts {@link AbstractJpaVendorAdapter}'s common configuration settings.
- * No support for the detection of annotated packages (through
- * {@link org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo#getManagedPackages()})
- * since OpenJPA doesn't use package-level metadata.
+ * <p>公开OpenJPA的持久化提供者和EntityManager扩展接口, 并调整{@link AbstractJpaVendorAdapter}的常用配置设置.
+ * 由于OpenJPA不使用包级元数据, 因此不支持检测带注解的包 (通过
+ * {@link org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo#getManagedPackages()}).
  */
 public class OpenJpaVendorAdapter extends AbstractJpaVendorAdapter {
 
@@ -63,9 +61,11 @@ public class OpenJpaVendorAdapter extends AbstractJpaVendorAdapter {
 	}
 
 	/**
-	 * Determine the OpenJPA database dictionary name for the given database.
-	 * @param database the specified database
-	 * @return the OpenJPA database dictionary name, or {@code null} if none found
+	 * 确定给定数据库的OpenJPA数据库字典名称.
+	 * 
+	 * @param database 指定的数据库
+	 * 
+	 * @return OpenJPA数据库字典名称, 或{@code null}
 	 */
 	protected String determineDatabaseDictionary(Database database) {
 		switch (database) {

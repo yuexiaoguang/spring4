@@ -29,7 +29,7 @@ import org.springframework.util.xml.DomUtils;
 import org.springframework.util.xml.SimpleSaxErrorHandler;
 
 /**
- * Internal helper class for reading JPA-compliant {@code persistence.xml} files.
+ * 内部帮助类， 用于读取符合JPA的{@code persistence.xml}文件.
  */
 final class PersistenceUnitReader {
 
@@ -72,10 +72,8 @@ final class PersistenceUnitReader {
 
 
 	/**
-	 * Create a new PersistenceUnitReader.
-	 * @param resourcePatternResolver the ResourcePatternResolver to use for loading resources
-	 * @param dataSourceLookup the DataSourceLookup to resolve DataSource names in
-	 * {@code persistence.xml} files against
+	 * @param resourcePatternResolver 用于加载资源的ResourcePatternResolver
+	 * @param dataSourceLookup 用于解析{@code persistence.xml}文件中的DataSource名称的DataSourceLookup
 	 */
 	public PersistenceUnitReader(ResourcePatternResolver resourcePatternResolver, DataSourceLookup dataSourceLookup) {
 		Assert.notNull(resourcePatternResolver, "ResourceLoader must not be null");
@@ -86,18 +84,22 @@ final class PersistenceUnitReader {
 
 
 	/**
-	 * Parse and build all persistence unit infos defined in the specified XML file(s).
-	 * @param persistenceXmlLocation the resource location (can be a pattern)
-	 * @return the resulting PersistenceUnitInfo instances
+	 * 解析并构建在指定的XML文件中定义的所有持久化单元信息.
+	 * 
+	 * @param persistenceXmlLocation 资源位置 (可以是模式)
+	 * 
+	 * @return 生成的PersistenceUnitInfo实例
 	 */
 	public SpringPersistenceUnitInfo[] readPersistenceUnitInfos(String persistenceXmlLocation) {
 		return readPersistenceUnitInfos(new String[] {persistenceXmlLocation});
 	}
 
 	/**
-	 * Parse and build all persistence unit infos defined in the given XML files.
-	 * @param persistenceXmlLocations the resource locations (can be patterns)
-	 * @return the resulting PersistenceUnitInfo instances
+	 * 解析并构建给定XML文件中定义的所有持久化单元信息.
+	 * 
+	 * @param persistenceXmlLocations 资源位置 (可以是模式)
+	 * 
+	 * @return 生成的PersistenceUnitInfo实例
 	 */
 	public SpringPersistenceUnitInfo[] readPersistenceUnitInfos(String[] persistenceXmlLocations) {
 		ErrorHandler handler = new SimpleSaxErrorHandler(logger);
@@ -134,7 +136,7 @@ final class PersistenceUnitReader {
 
 
 	/**
-	 * Validate the given stream and return a valid DOM document for parsing.
+	 * 验证给定的流并返回有效的DOM文档以进行解析.
 	 */
 	protected Document buildDocument(ErrorHandler handler, InputStream stream)
 			throws ParserConfigurationException, SAXException, IOException {
@@ -148,7 +150,7 @@ final class PersistenceUnitReader {
 
 
 	/**
-	 * Parse the validated document and add entries to the given unit info list.
+	 * 解析经过验证的文档, 并将条目添加到给定的单元信息列表中.
 	 */
 	protected List<SpringPersistenceUnitInfo> parseDocument(
 			Resource resource, Document document, List<SpringPersistenceUnitInfo> infos) throws IOException {
@@ -166,7 +168,7 @@ final class PersistenceUnitReader {
 	}
 
 	/**
-	 * Parse the unit info DOM element.
+	 * 解析单元信息DOM元素.
 	 */
 	protected SpringPersistenceUnitInfo parsePersistenceUnitInfo(Element persistenceUnit, String version, URL rootUrl)
 			throws IOException {
@@ -233,7 +235,7 @@ final class PersistenceUnitReader {
 	}
 
 	/**
-	 * Parse the {@code property} XML elements.
+	 * 解析{@code property} XML元素.
 	 */
 	protected void parseProperties(Element persistenceUnit, SpringPersistenceUnitInfo unitInfo) {
 		Element propRoot = DomUtils.getChildElementByTagName(persistenceUnit, PROPERTIES);
@@ -249,7 +251,7 @@ final class PersistenceUnitReader {
 	}
 
 	/**
-	 * Parse the {@code class} XML elements.
+	 * 解析{@code class} XML元素.
 	 */
 	protected void parseManagedClasses(Element persistenceUnit, SpringPersistenceUnitInfo unitInfo) {
 		List<Element> classes = DomUtils.getChildElementsByTagName(persistenceUnit, MANAGED_CLASS_NAME);
@@ -261,7 +263,7 @@ final class PersistenceUnitReader {
 	}
 
 	/**
-	 * Parse the {@code mapping-file} XML elements.
+	 * 解析{@code mapping-file} XML元素.
 	 */
 	protected void parseMappingFiles(Element persistenceUnit, SpringPersistenceUnitInfo unitInfo) {
 		List<Element> files = DomUtils.getChildElementsByTagName(persistenceUnit, MAPPING_FILE_NAME);
@@ -274,7 +276,7 @@ final class PersistenceUnitReader {
 	}
 
 	/**
-	 * Parse the {@code jar-file} XML elements.
+	 * 解析{@code jar-file} XML元素.
 	 */
 	protected void parseJarFiles(Element persistenceUnit, SpringPersistenceUnitInfo unitInfo) throws IOException {
 		List<Element> jars = DomUtils.getChildElementsByTagName(persistenceUnit, JAR_FILE_URL);
@@ -290,7 +292,7 @@ final class PersistenceUnitReader {
 					}
 				}
 				if (!found) {
-					// relative to the persistence unit root, according to the JPA spec
+					// 相对于持久化单位根, 根据JPA规范
 					URL rootUrl = unitInfo.getPersistenceUnitRootUrl();
 					if (rootUrl != null) {
 						unitInfo.addJarFileUrl(new URL(rootUrl, value));
@@ -306,16 +308,17 @@ final class PersistenceUnitReader {
 
 
 	/**
-	 * Determine the persistence unit root URL based on the given resource
-	 * (which points to the {@code persistence.xml} file we're reading).
-	 * @param resource the resource to check
-	 * @return the corresponding persistence unit root URL
-	 * @throws IOException if the checking failed
+	 * 根据给定资源确定持久化单元根URL (指向正在读取的{@code persistence.xml}文件).
+	 * 
+	 * @param resource 要检查的资源
+	 * 
+	 * @return 相应的持久化单元根URL
+	 * @throws IOException 如果检查失败
 	 */
 	static URL determinePersistenceUnitRootUrl(Resource resource) throws IOException {
 		URL originalURL = resource.getURL();
 
-		// If we get an archive, simply return the jar URL (section 6.2 from the JPA spec)
+		// 如果获得存档, 只需返回jar URL (JPA规范中的第6.2节)
 		if (ResourceUtils.isJarURL(originalURL)) {
 			return ResourceUtils.extractJarFileURL(originalURL);
 		}

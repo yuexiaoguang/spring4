@@ -20,9 +20,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Implementation of Hibernate 4's JtaPlatform SPI (which has a different package
- * location in Hibernate 4.0-4.2 vs 4.3), exposing passed-in {@link TransactionManager},
- * {@link UserTransaction} and {@link TransactionSynchronizationRegistry} references.
+ * Hibernate 4的JtaPlatform SPI (在Hibernate 4.0-4.2与4.3中具有不同的包位置)的实现,
+ * 暴露了传入的{@link TransactionManager}, {@link UserTransaction} 和 {@link TransactionSynchronizationRegistry}参考.
  */
 @SuppressWarnings({"serial", "unchecked"})
 class ConfigurableJtaPlatform implements InvocationHandler {
@@ -32,13 +31,13 @@ class ConfigurableJtaPlatform implements InvocationHandler {
 	static {
 		Class<?> jpClass;
 		try {
-			// Try Hibernate 4.0-4.2 JtaPlatform variant
+			// 尝试Hibernate 4.0-4.2 JtaPlatform变体
 			jpClass = ClassUtils.forName("org.hibernate.service.jta.platform.spi.JtaPlatform",
 					ConfigurableJtaPlatform.class.getClassLoader());
 		}
 		catch (ClassNotFoundException ex) {
 			try {
-				// Try Hibernate 4.3 JtaPlatform variant
+				// 尝试Hibernate 4.3 JtaPlatform变体
 				jpClass = ClassUtils.forName("org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform",
 						ConfigurableJtaPlatform.class.getClassLoader());
 			}
@@ -63,11 +62,9 @@ class ConfigurableJtaPlatform implements InvocationHandler {
 
 
 	/**
-	 * Create a new ConfigurableJtaPlatform instance with the given
-	 * JTA TransactionManager and optionally a given UserTransaction.
-	 * @param tm the JTA TransactionManager reference (required)
-	 * @param ut the JTA UserTransaction reference (optional)
-	 * @param tsr the JTA 1.1 TransactionSynchronizationRegistry (optional)
+	 * @param tm JTA TransactionManager引用 (必须)
+	 * @param ut JTA UserTransaction引用 (可选)
+	 * @param tsr JTA 1.1 TransactionSynchronizationRegistry (可选)
 	 */
 	public ConfigurableJtaPlatform(TransactionManager tm, UserTransaction ut, TransactionSynchronizationRegistry tsr) {
 		Assert.notNull(tm, "TransactionManager reference must not be null");
@@ -131,9 +128,8 @@ class ConfigurableJtaPlatform implements InvocationHandler {
 	}
 
 	/**
-	 * Obtain a proxy that implements the current Hibernate version's JtaPlatform interface
-	 * in the right package location, delegating all invocations to the same-named methods
-	 * on this ConfigurableJtaPlatform class itself.
+	 * 获取在正确的包位置实现当前Hibernate版本的JtaPlatform接口的代理,
+	 * 将所有调用委托给此ConfigurableJtaPlatform类本身上的同名方法.
 	 */
 	public Object getJtaPlatformProxy() {
 		return Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] {jtaPlatformClass}, this);

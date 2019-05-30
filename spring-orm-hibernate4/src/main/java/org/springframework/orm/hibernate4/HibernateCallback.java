@@ -4,24 +4,23 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
- * Callback interface for Hibernate code. To be used with {@link HibernateTemplate}'s
- * execution methods, often as anonymous classes within a method implementation.
- * A typical implementation will call {@code Session.load/find/update} to perform
- * some operations on persistent objects.
+ * Hibernate代码的回调接口.
+ * 与{@link HibernateTemplate}的执行方法一起使用, 通常作为方法实现中的匿名类.
+ * 典型的实现将调用{@code Session.load/find/update}来对持久对象执行某些操作.
  */
 public interface HibernateCallback<T> {
 
 	/**
-	 * Gets called by {@code HibernateTemplate.execute} with an active
-	 * Hibernate {@code Session}. Does not need to care about activating
-	 * or closing the {@code Session}, or handling transactions.
-	 * <p>Allows for returning a result object created within the callback,
-	 * i.e. a domain object or a collection of domain objects.
-	 * A thrown custom RuntimeException is treated as an application exception:
-	 * It gets propagated to the caller of the template.
-	 * @param session active Hibernate session
-	 * @return a result object, or {@code null} if none
-	 * @throws HibernateException if thrown by the Hibernate API
+	 * 由{@code HibernateTemplate.execute}使用活动的Hibernate {@code Session}调用.
+	 * 无需关心激活或关闭{@code Session}或处理事务.
+	 * <p>允许返回在回调中创建的结果对象, i.e. 域对象或域对象的集合.
+	 * 抛出的自定义RuntimeException被视为应用程序异常:
+	 * 它会传播到模板的调用者.
+	 * 
+	 * @param session 活动的Hibernate会话
+	 * 
+	 * @return 结果对象, 或{@code null}
+	 * @throws HibernateException 如果被Hibernate API抛出
 	 */
 	T doInHibernate(Session session) throws HibernateException;
 

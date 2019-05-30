@@ -16,27 +16,19 @@ import org.springframework.web.context.request.async.WebAsyncManager;
 import org.springframework.web.context.request.async.WebAsyncUtils;
 
 /**
- * Spring web request interceptor that binds a JPA EntityManager to the
- * thread for the entire processing of the request. Intended for the "Open
- * EntityManager in View" pattern, i.e. to allow for lazy loading in
- * web views despite the original transactions already being completed.
+ * Spring Web请求拦截器, 它将JPA EntityManager绑定到线程以进行整个请求处理.
+ * 用于"Open EntityManager in View"模式, i.e. 允许在Web视图中延迟加载, 尽管原始事务已经完成.
  *
- * <p>This interceptor makes JPA EntityManagers available via the current thread,
- * which will be autodetected by transaction managers. It is suitable for service
- * layer transactions via {@link org.springframework.orm.jpa.JpaTransactionManager}
- * or {@link org.springframework.transaction.jta.JtaTransactionManager} as well
- * as for non-transactional read-only execution.
+ * <p>此拦截器通过当前线程使JPA EntityManager可用, 该线程将由事务管理器自动检测.
+ * 它适用于通过{@link org.springframework.orm.jpa.JpaTransactionManager}
+ * 或{@link org.springframework.transaction.jta.JtaTransactionManager}进行的服务层事务, 以及非事务性只读执行.
  *
- * <p>In contrast to {@link OpenEntityManagerInViewFilter}, this interceptor is set
- * up in a Spring application context and can thus take advantage of bean wiring.
+ * <p>与{@link OpenEntityManagerInViewFilter}相反, 此拦截器设置在Spring应用程序上下文中, 因此可以利用bean连接.
  */
 public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAccessor implements AsyncWebRequestInterceptor {
 
 	/**
-	 * Suffix that gets appended to the EntityManagerFactory toString
-	 * representation for the "participate in existing entity manager
-	 * handling" request attribute.
-	 * @see #getParticipateAttributeName
+	 * 附加到"参与现有实体管理器处理"请求属性的EntityManagerFactory toString表示的后缀.
 	 */
 	public static final String PARTICIPATE_SUFFIX = ".PARTICIPATE";
 
@@ -53,7 +45,7 @@ public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAcce
 		}
 
 		if (TransactionSynchronizationManager.hasResource(getEntityManagerFactory())) {
-			// Do not modify the EntityManager: just mark the request accordingly.
+			// 不要修改EntityManager: 只需相应地标记请求.
 			Integer count = (Integer) request.getAttribute(participateAttributeName, WebRequest.SCOPE_REQUEST);
 			int newCount = (count != null ? count + 1 : 1);
 			request.setAttribute(getParticipateAttributeName(), newCount, WebRequest.SCOPE_REQUEST);
@@ -95,7 +87,7 @@ public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAcce
 		if (count == null) {
 			return false;
 		}
-		// Do not modify the Session: just clear the marker.
+		// 不要编辑Session: 清空标记.
 		if (count > 1) {
 			request.setAttribute(participateAttributeName, count - 1, WebRequest.SCOPE_REQUEST);
 		}
@@ -113,10 +105,8 @@ public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAcce
 	}
 
 	/**
-	 * Return the name of the request attribute that identifies that a request is
-	 * already filtered. Default implementation takes the toString representation
-	 * of the EntityManagerFactory instance and appends ".FILTERED".
-	 * @see #PARTICIPATE_SUFFIX
+	 * 返回标识请求已过滤的请求属性的名称.
+	 * 默认实现采用EntityManagerFactory实例的toString表示, 并附加".FILTERED".
 	 */
 	protected String getParticipateAttributeName() {
 		return getEntityManagerFactory().toString() + PARTICIPATE_SUFFIX;

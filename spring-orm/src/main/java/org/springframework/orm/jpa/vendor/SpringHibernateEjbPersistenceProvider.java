@@ -10,11 +10,10 @@ import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 
 /**
- * Spring-specific subclass of the standard {@link HibernatePersistence}
- * provider from the {@code org.hibernate.ejb} package, adding support for
- * {@link SmartPersistenceUnitInfo#getManagedPackages()}.
+ * 来自{@code org.hibernate.ejb}包的标准{@link HibernatePersistence}提供者的特定于Spring的子类,
+ * 添加了对{@link SmartPersistenceUnitInfo#getManagedPackages()}的支持.
  *
- * <p>Compatible with Hibernate 3.6 as well as 4.0-4.2.
+ * <p>兼容Hibernate 3.6和4.0-4.2.
  */
 class SpringHibernateEjbPersistenceProvider extends HibernatePersistence {
 

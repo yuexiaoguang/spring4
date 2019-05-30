@@ -33,29 +33,21 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
- * Helper class that simplifies Hibernate data access code. Automatically
- * converts HibernateExceptions into DataAccessExceptions, following the
- * {@code org.springframework.dao} exception hierarchy.
+ * Helper类, 简化了Hibernate数据访问代码.
+ * 按照{@code org.springframework.dao}异常层次结构自动将HibernateException转换为DataAccessException.
  *
- * <p>The central method is {@code execute}, supporting Hibernate access code
- * implementing the {@link HibernateCallback} interface. It provides Hibernate Session
- * handling such that neither the HibernateCallback implementation nor the calling
- * code needs to explicitly care about retrieving/closing Hibernate Sessions,
- * or handling Session lifecycle exceptions. For typical single step actions,
- * there are various convenience methods (find, load, saveOrUpdate, delete).
+ * <p>中心方法是{@code execute}, 支持实现{@link HibernateCallback}接口的Hibernate访问代码.
+ * 它提供了Hibernate Session处理, 使得HibernateCallback实现和调用代码都不需要明确关心检索/关闭Hibernate Session,
+ * 或处理Session生命周期异常.
+ * 对于典型的单步操作, 有各种便捷方法 (find, load, saveOrUpdate, delete).
  *
- * <p>Can be used within a service implementation via direct instantiation
- * with a SessionFactory reference, or get prepared in an application context
- * and given to services as bean reference. Note: The SessionFactory should
- * always be configured as bean in the application context, in the first case
- * given to the service directly, in the second case to the prepared template.
+ * <p>可以通过使用SessionFactory引用直接实例化在服务实现中使用, 或者在应用程序上下文中准备并作为bean引用提供给服务.
+ * Note: SessionFactory应始终在应用程序上下文中配置为bean, 在第一种情况下直接提供给服务, 在第二种情况下配置为准备好的模板.
  *
- * <p><b>NOTE: Hibernate access code can also be coded in plain Hibernate style.
- * Hence, for newly started projects, consider adopting the standard Hibernate
- * style of coding data access objects instead, based on
- * {@link org.hibernate.SessionFactory#getCurrentSession()}.
- * This HibernateTemplate primarily exists as a migration helper for Hibernate 3
- * based data access code, to benefit from bug fixes in Hibernate 4.x.</b>
+ * <p><b>NOTE: Hibernate访问代码也可以用简单的Hibernate风格编码.
+ * 因此, 对于新启动的项目, 考虑采用标准的Hibernate风格的编码数据访问对象,
+ * 基于{@link org.hibernate.SessionFactory#getCurrentSession()}.
+ * 这个HibernateTemplate主要作为基于Hibernate 3的数据访问代码的迁移帮助程序存在, 从Hibernate 4.x中的错误修复中受益.</b>
  */
 public class HibernateTemplate implements HibernateOperations, InitializingBean {
 
@@ -78,15 +70,11 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	private int maxResults = 0;
 
 
-	/**
-	 * Create a new HibernateTemplate instance.
-	 */
 	public HibernateTemplate() {
 	}
 
 	/**
-	 * Create a new HibernateTemplate instance.
-	 * @param sessionFactory the SessionFactory to create Sessions with
+	 * @param sessionFactory 用于创建Session的SessionFactory
 	 */
 	public HibernateTemplate(SessionFactory sessionFactory) {
 		setSessionFactory(sessionFactory);
@@ -95,30 +83,23 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 
 	/**
-	 * Set the Hibernate SessionFactory that should be used to create
-	 * Hibernate Sessions.
+	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
 	 */
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create
-	 * Hibernate Sessions.
+	 * Return the Hibernate SessionFactory that should be used to create Hibernate Sessions.
 	 */
 	public SessionFactory getSessionFactory() {
 		return this.sessionFactory;
 	}
 
 	/**
-	 * Set one or more names of Hibernate filters to be activated for all
-	 * Sessions that this accessor works with.
-	 * <p>Each of those filters will be enabled at the beginning of each
-	 * operation and correspondingly disabled at the end of the operation.
-	 * This will work for newly opened Sessions as well as for existing
-	 * Sessions (for example, within a transaction).
-	 * @see #enableFilters(org.hibernate.Session)
-	 * @see org.hibernate.Session#enableFilter(String)
+	 * Set one or more names of Hibernate filters to be activated for all Sessions that this accessor works with.
+	 * <p>Each of those filters will be enabled at the beginning of each operation and correspondingly disabled at the end of the operation.
+	 * This will work for newly opened Sessions as well as for existing Sessions (for example, within a transaction).
 	 */
 	public void setFilterNames(String... filterNames) {
 		this.filterNames = filterNames;
@@ -132,46 +113,31 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set whether to expose the native Hibernate Session to
-	 * HibernateCallback code.
-	 * <p>Default is "false": a Session proxy will be returned, suppressing
-	 * {@code close} calls and automatically applying query cache
-	 * settings and transaction timeouts.
-	 * @see HibernateCallback
-	 * @see org.hibernate.Session
-	 * @see #setCacheQueries
-	 * @see #setQueryCacheRegion
-	 * @see #prepareQuery
-	 * @see #prepareCriteria
+	 * Set whether to expose the native Hibernate Session to HibernateCallback code.
+	 * <p>Default is "false": a Session proxy will be returned, suppressing {@code close} calls and automatically applying query cache settings and transaction timeouts.
 	 */
 	public void setExposeNativeSession(boolean exposeNativeSession) {
 		this.exposeNativeSession = exposeNativeSession;
 	}
 
 	/**
-	 * Return whether to expose the native Hibernate Session to
-	 * HibernateCallback code, or rather a Session proxy.
+	 * Return whether to expose the native Hibernate Session to HibernateCallback code, or rather a Session proxy.
 	 */
 	public boolean isExposeNativeSession() {
 		return this.exposeNativeSession;
 	}
 
 	/**
-	 * Set whether to check that the Hibernate Session is not in read-only mode
-	 * in case of write operations (save/update/delete).
-	 * <p>Default is "true", for fail-fast behavior when attempting write operations
-	 * within a read-only transaction. Turn this off to allow save/update/delete
-	 * on a Session with flush mode MANUAL.
-	 * @see #checkWriteOperationAllowed
-	 * @see org.springframework.transaction.TransactionDefinition#isReadOnly
+	 * Set whether to check that the Hibernate Session is not in read-only mode in case of write operations (save/update/delete).
+	 * <p>Default is "true", for fail-fast behavior when attempting write operations within a read-only transaction.
+	 * Turn this off to allow save/update/delete on a Session with flush mode MANUAL.
 	 */
 	public void setCheckWriteOperations(boolean checkWriteOperations) {
 		this.checkWriteOperations = checkWriteOperations;
 	}
 
 	/**
-	 * Return whether to check that the Hibernate Session is not in read-only
-	 * mode in case of write operations (save/update/delete).
+	 * Return whether to check that the Hibernate Session is not in read-only mode in case of write operations (save/update/delete).
 	 */
 	public boolean isCheckWriteOperations() {
 		return this.checkWriteOperations;
@@ -179,14 +145,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Set whether to cache all queries executed by this template.
-	 * <p>If this is "true", all Query and Criteria objects created by
-	 * this template will be marked as cacheable (including all
-	 * queries through find methods).
-	 * <p>To specify the query region to be used for queries cached
-	 * by this template, set the "queryCacheRegion" property.
-	 * @see #setQueryCacheRegion
-	 * @see org.hibernate.Query#setCacheable
-	 * @see org.hibernate.Criteria#setCacheable
+	 * <p>If this is "true", all Query and Criteria objects created by this template will be marked as cacheable (including all queries through find methods).
+	 * <p>To specify the query region to be used for queries cached by this template, set the "queryCacheRegion" property.
 	 */
 	public void setCacheQueries(boolean cacheQueries) {
 		this.cacheQueries = cacheQueries;
@@ -201,13 +161,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Set the name of the cache region for queries executed by this template.
-	 * <p>If this is specified, it will be applied to all Query and Criteria objects
-	 * created by this template (including all queries through find methods).
-	 * <p>The cache region will not take effect unless queries created by this
-	 * template are configured to be cached via the "cacheQueries" property.
-	 * @see #setCacheQueries
-	 * @see org.hibernate.Query#setCacheRegion
-	 * @see org.hibernate.Criteria#setCacheRegion
+	 * <p>If this is specified, it will be applied to all Query and Criteria objects created by this template (including all queries through find methods).
+	 * <p>The cache region will not take effect unless queries created by this template are configured to be cached via the "cacheQueries" property.
 	 */
 	public void setQueryCacheRegion(String queryCacheRegion) {
 		this.queryCacheRegion = queryCacheRegion;
@@ -221,10 +176,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set the fetch size for this HibernateTemplate. This is important for processing
-	 * large result sets: Setting this higher than the default value will increase
-	 * processing speed at the cost of memory consumption; setting this lower can
-	 * avoid transferring row data that will never be read by the application.
+	 * Set the fetch size for this HibernateTemplate.
+	 * This is important for processing large result sets:
+	 * Setting this higher than the default value will increase processing speed at the cost of memory consumption;
+	 * setting this lower can avoid transferring row data that will never be read by the application.
 	 * <p>Default is 0, indicating to use the JDBC driver's default.
 	 */
 	public void setFetchSize(int fetchSize) {
@@ -239,11 +194,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set the maximum number of rows for this HibernateTemplate. This is important
-	 * for processing subsets of large result sets, avoiding to read and hold
-	 * the entire result set in the database or in the JDBC driver if we're
-	 * never interested in the entire result in the first place (for example,
-	 * when performing searches that might return a large number of matches).
+	 * Set the maximum number of rows for this HibernateTemplate.
+	 * This is important for processing subsets of large result sets, avoiding to read and hold the entire result set in the database or in the JDBC driver if we're never interested in the entire result in the first place
+	 * (for example, when performing searches that might return a large number of matches).
 	 * <p>Default is 0, indicating to use the JDBC driver's default.
 	 */
 	public void setMaxResults(int maxResults) {
@@ -271,11 +224,11 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Execute the action specified by the given action object within a
-	 * native {@link org.hibernate.Session}.
-	 * <p>This execute variant overrides the template-wide
-	 * {@link #isExposeNativeSession() "exposeNativeSession"} setting.
+	 * Execute the action specified by the given action object within a native {@link org.hibernate.Session}.
+	 * <p>This execute variant overrides the template-wide {@link #isExposeNativeSession() "exposeNativeSession"} setting.
+	 * 
 	 * @param action callback object that specifies the Hibernate action
+	 * 
 	 * @return a result object returned by the action, or {@code null}
 	 * @throws org.springframework.dao.DataAccessException in case of Hibernate errors
 	 */
@@ -285,9 +238,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Execute the action specified by the given action object within a Session.
+	 * 
 	 * @param action callback object that specifies the Hibernate action
-	 * @param enforceNativeSession whether to enforce exposure of the native
-	 * Hibernate Session to callback code
+	 * @param enforceNativeSession whether to enforce exposure of the native Hibernate Session to callback code
+	 * 
 	 * @return a result object returned by the action, or {@code null}
 	 * @throws org.springframework.dao.DataAccessException in case of Hibernate errors
 	 */
@@ -334,11 +288,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	/**
 	 * Create a close-suppressing proxy for the given Hibernate Session.
 	 * The proxy also prepares returned Query and Criteria objects.
+	 * 
 	 * @param session the Hibernate Session to create a proxy for
+	 * 
 	 * @return the Session proxy
-	 * @see org.hibernate.Session#close()
-	 * @see #prepareQuery
-	 * @see #prepareCriteria
 	 */
 	protected Session createSessionProxy(Session session) {
 		return (Session) Proxy.newProxyInstance(
@@ -348,9 +301,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Enable the specified filters on the given Session.
+	 * 
 	 * @param session the current Hibernate Session
-	 * @see #setFilterNames
-	 * @see org.hibernate.Session#enableFilter(String)
 	 */
 	protected void enableFilters(Session session) {
 		String[] filterNames = getFilterNames();
@@ -363,9 +315,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Disable the specified filters on the given Session.
+	 * 
 	 * @param session the current Hibernate Session
-	 * @see #setFilterNames
-	 * @see org.hibernate.Session#disableFilter(String)
 	 */
 	protected void disableFilters(Session session) {
 		String[] filterNames = getFilterNames();
@@ -1089,13 +1040,11 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Check whether write operations are allowed on the given Session.
-	 * <p>Default implementation throws an InvalidDataAccessApiUsageException in
-	 * case of {@code FlushMode.MANUAL}. Can be overridden in subclasses.
+	 * <p>Default implementation throws an InvalidDataAccessApiUsageException in case of {@code FlushMode.MANUAL}. Can be overridden in subclasses.
+	 * 
 	 * @param session current Hibernate Session
+	 * 
 	 * @throws InvalidDataAccessApiUsageException if write operations are not allowed
-	 * @see #setCheckWriteOperations
-	 * @see org.hibernate.Session#getFlushMode()
-	 * @see org.hibernate.FlushMode#MANUAL
 	 */
 	protected void checkWriteOperationAllowed(Session session) throws InvalidDataAccessApiUsageException {
 		if (isCheckWriteOperations() && session.getFlushMode().lessThan(FlushMode.COMMIT)) {
@@ -1106,11 +1055,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Prepare the given Query object, applying cache settings and/or
-	 * a transaction timeout.
+	 * Prepare the given Query object, applying cache settings and/or a transaction timeout.
+	 * 
 	 * @param queryObject the Query object to prepare
-	 * @see #setCacheQueries
-	 * @see #setQueryCacheRegion
 	 */
 	protected void prepareQuery(Query queryObject) {
 		if (isCacheQueries()) {
@@ -1134,11 +1081,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Prepare the given Criteria object, applying cache settings and/or
-	 * a transaction timeout.
+	 * Prepare the given Criteria object, applying cache settings and/or a transaction timeout.
+	 * 
 	 * @param criteria the Criteria object to prepare
-	 * @see #setCacheQueries
-	 * @see #setQueryCacheRegion
 	 */
 	protected void prepareCriteria(Criteria criteria) {
 		if (isCacheQueries()) {
@@ -1163,9 +1108,11 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Apply the given name parameter to the given Query object.
+	 * 
 	 * @param queryObject the Query object
 	 * @param paramName the name of the parameter
 	 * @param value the value of the parameter
+	 * 
 	 * @throws HibernateException if thrown by the Query object
 	 */
 	protected void applyNamedParameterToQuery(Query queryObject, String paramName, Object value)
@@ -1186,7 +1133,6 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	/**
 	 * Invocation handler that suppresses close calls on Hibernate Sessions.
 	 * Also prepares returned Query and Criteria objects.
-	 * @see org.hibernate.Session#close
 	 */
 	private class CloseSuppressingInvocationHandler implements InvocationHandler {
 
