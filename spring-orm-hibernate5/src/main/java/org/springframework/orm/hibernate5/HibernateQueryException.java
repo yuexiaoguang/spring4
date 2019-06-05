@@ -5,8 +5,7 @@ import org.hibernate.QueryException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
- * Hibernate-specific subclass of InvalidDataAccessResourceUsageException,
- * thrown on invalid HQL query syntax.
+ * InvalidDataAccessResourceUsageException的特定于Hibernate的子类, 抛出无效的HQL查询语法.
  */
 @SuppressWarnings("serial")
 public class HibernateQueryException extends InvalidDataAccessResourceUsageException {
@@ -16,7 +15,7 @@ public class HibernateQueryException extends InvalidDataAccessResourceUsageExcep
 	}
 
 	/**
-	 * Return the HQL query string that was invalid.
+	 * 返回无效的HQL查询字符串.
 	 */
 	public String getQueryString() {
 		return ((QueryException) getCause()).getQueryString();

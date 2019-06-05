@@ -52,18 +52,17 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Helper class featuring methods for Hibernate Session handling.
- * Also provides support for exception translation.
+ * 用于Hibernate会话处理.
+ * 还提供异常转换支持.
  *
- * <p>Used internally by {@link HibernateTransactionManager}.
- * Can also be used directly in application code.
+ * <p>由{@link HibernateTransactionManager}内部使用.
+ * 也可以直接在应用程序代码中使用.
  */
 public abstract class SessionFactoryUtils {
 
 	/**
-	 * Order value for TransactionSynchronization objects that clean up Hibernate Sessions.
-	 * Returns {@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100}
-	 * to execute Session cleanup before JDBC Connection cleanup, if any.
+	 * 清理Hibernate会话的TransactionSynchronization对象的顺序值.
+	 * 返回{@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100}, 以在JDBC连接清理之前执行会话清理.
 	 */
 	public static final int SESSION_SYNCHRONIZATION_ORDER =
 			DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100;
@@ -87,29 +86,30 @@ public abstract class SessionFactoryUtils {
 				throw new IllegalStateException("No compatible Hibernate getFlushMode signature found", ex2);
 			}
 		}
-		// Check that it is the Hibernate FlushMode type, not JPA's...
+		// 检查它是否是Hibernate FlushMode类型, 而不是JPA...
 		Assert.state(FlushMode.class == getFlushMode.getReturnType(), "Could not find Hibernate getFlushMode method");
 	}
 
 
 	/**
-	 * Get the native Hibernate FlushMode, adapting between Hibernate 5.0/5.1 and 5.2+.
-	 * @param session the Hibernate Session to get the flush mode from
+	 * 获取原生的Hibernate FlushMode, 适配为Hibernate 5.0/5.1 和 5.2+.
+	 * 
+	 * @param session 从中获取刷新模式的Hibernate Session
+	 * 
 	 * @return the FlushMode (never {@code null})
-	 * @since 4.3
 	 */
 	static FlushMode getFlushMode(Session session) {
 		return (FlushMode) ReflectionUtils.invokeMethod(getFlushMode, session);
 	}
 
 	/**
-	 * Trigger a flush on the given Hibernate Session, converting regular
-	 * {@link HibernateException} instances as well as Hibernate 5.2's
-	 * {@link PersistenceException} wrappers accordingly.
-	 * @param session the Hibernate Session to flush
-	 * @param synch whether this flush is triggered by transaction synchronization
-	 * @throws DataAccessException in case of flush failures
-	 * @since 4.3.2
+	 * 在给定的Hibernate Session上触发刷新, 转换常规{@link HibernateException}实例
+	 * 以及Hibernate 5.2的{@link PersistenceException}包装器.
+	 * 
+	 * @param session 要刷新的Hibernate会话
+	 * @param synch 是否由事务同步触发此刷新
+	 * 
+	 * @throws DataAccessException 刷新失败
 	 */
 	static void flush(Session session, boolean synch) throws DataAccessException {
 		if (synch) {
@@ -134,10 +134,9 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Perform actual closing of the Hibernate Session,
-	 * catching and logging any cleanup exceptions thrown.
-	 * @param session the Hibernate Session to close (may be {@code null})
-	 * @see Session#close()
+	 * 执行Hibernate Session的实际关闭, 捕获并记录抛出的任何清理异常.
+	 * 
+	 * @param session 要关闭的Hibernate Session (may be {@code null})
 	 */
 	public static void closeSession(Session session) {
 		if (session != null) {
@@ -154,10 +153,11 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Determine the DataSource of the given SessionFactory.
-	 * @param sessionFactory the SessionFactory to check
-	 * @return the DataSource, or {@code null} if none found
-	 * @see ConnectionProvider
+	 * 确定给定SessionFactory的DataSource.
+	 * 
+	 * @param sessionFactory 要检查的SessionFactory
+	 * 
+	 * @return DataSource, 或{@code null}
 	 */
 	public static DataSource getDataSource(SessionFactory sessionFactory) {
 		Method getProperties = ClassUtils.getMethodIfAvailable(sessionFactory.getClass(), "getProperties");
@@ -186,12 +186,11 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception
-	 * from the {@code org.springframework.dao} hierarchy.
-	 * @param ex HibernateException that occurred
-	 * @return the corresponding DataAccessException instance
-	 * @see HibernateExceptionTranslator#convertHibernateAccessException
-	 * @see HibernateTransactionManager#convertHibernateAccessException
+	 * 将给定的HibernateException转换为{@code org.springframework.dao}层次结构中的适当异常.
+	 * 
+	 * @param ex 发生的HibernateException
+	 * 
+	 * @return 相应的DataAccessException 实例
 	 */
 	public static DataAccessException convertHibernateAccessException(HibernateException ex) {
 		if (ex instanceof JDBCConnectionException) {

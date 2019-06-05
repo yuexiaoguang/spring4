@@ -8,26 +8,19 @@ import org.springframework.dao.support.DaoSupport;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 /**
- * Convenient super class for Hibernate-based data access objects.
+ * 基于Hibernate的数据访问对象的便捷超类.
  *
- * <p>Requires a {@link SessionFactory} to be set, providing a
- * {@link org.springframework.orm.hibernate5.HibernateTemplate} based on it to
- * subclasses through the {@link #getHibernateTemplate()} method.
- * Can alternatively be initialized directly with a HibernateTemplate,
- * in order to reuse the latter's settings such as the SessionFactory,
- * exception translator, flush mode, etc.
+ * <p>需要设置{@link SessionFactory}, 通过{@link #getHibernateTemplate()}方法基于它将
+ * {@link org.springframework.orm.hibernate5.HibernateTemplate}提供给子类.
+ * 也可以直接用HibernateTemplate初始化, 以便重用后者的设置, 如SessionFactory, 异常转换, 刷新模式等.
  *
- * <p>This class will create its own HibernateTemplate instance if a SessionFactory
- * is passed in. The "allowCreate" flag on that HibernateTemplate will be "true"
- * by default. A custom HibernateTemplate instance can be used through overriding
- * {@link #createHibernateTemplate}.
+ * <p>如果传入SessionFactory, 该类将创建自己的HibernateTemplate实例.
+ * 默认情况下, HibernateTemplate上的"allowCreate"标志将为"true".
+ * 可以通过覆盖{@link #createHibernateTemplate}来使用自定义的HibernateTemplate实例.
  *
- * <p><b>NOTE: Hibernate access code can also be coded in plain Hibernate style.
- * Hence, for newly started projects, consider adopting the standard Hibernate
- * style of coding data access objects instead, based on
- * {@link SessionFactory#getCurrentSession()}.
- * This HibernateTemplate primarily exists as a migration helper for Hibernate 3
- * based data access code, to benefit from bug fixes in Hibernate 5.x.</b>
+ * <p><b>NOTE: Hibernate访问代码也可以用简单的Hibernate风格编码.
+ * 因此, 对于新启动的项目, 请考虑采用标准的Hibernate风格的编码数据访问对象, 基于{@link SessionFactory#getCurrentSession()}.
+ * 这个HibernateTemplate主要作为基于Hibernate 3的数据访问代码的迁移帮助类而存在, 可以从Hibernate 5.x中的错误修复中受益.</b>
  */
 public abstract class HibernateDaoSupport extends DaoSupport {
 
@@ -35,8 +28,8 @@ public abstract class HibernateDaoSupport extends DaoSupport {
 
 
 	/**
-	 * Set the Hibernate SessionFactory to be used by this DAO.
-	 * Will automatically create a HibernateTemplate for the given SessionFactory.
+	 * 设置此DAO使用的Hibernate SessionFactory.
+	 * 将自动为给定的SessionFactory创建一个HibernateTemplate.
 	 */
 	public final void setSessionFactory(SessionFactory sessionFactory) {
 		if (this.hibernateTemplate == null || sessionFactory != this.hibernateTemplate.getSessionFactory()) {
@@ -45,43 +38,37 @@ public abstract class HibernateDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Create a HibernateTemplate for the given SessionFactory.
-	 * Only invoked if populating the DAO with a SessionFactory reference!
-	 * <p>Can be overridden in subclasses to provide a HibernateTemplate instance
-	 * with different configuration, or a custom HibernateTemplate subclass.
-	 * @param sessionFactory the Hibernate SessionFactory to create a HibernateTemplate for
-	 * @return the new HibernateTemplate instance
-	 * @see #setSessionFactory
+	 * 仅在使用SessionFactory引用填充DAO时才调用!
+	 * <p>可以在子类中重写以提供具有不同配置的HibernateTemplate实例, 或者自定义HibernateTemplate子类.
+	 * 
+	 * @param sessionFactory 用于创建HibernateTemplate的Hibernate SessionFactory
+	 * 
+	 * @return 新的HibernateTemplate实例
 	 */
 	protected HibernateTemplate createHibernateTemplate(SessionFactory sessionFactory) {
 		return new HibernateTemplate(sessionFactory);
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory used by this DAO.
+	 * 返回此DAO使用的Hibernate SessionFactory.
 	 */
 	public final SessionFactory getSessionFactory() {
 		return (this.hibernateTemplate != null ? this.hibernateTemplate.getSessionFactory() : null);
 	}
 
 	/**
-	 * Set the HibernateTemplate for this DAO explicitly,
-	 * as an alternative to specifying a SessionFactory.
-	 * @see #setSessionFactory
+	 * 显式设置此DAO的HibernateTemplate, 作为指定SessionFactory的替代方法.
 	 */
 	public final void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
 
 	/**
-	 * Return the HibernateTemplate for this DAO,
-	 * pre-initialized with the SessionFactory or set explicitly.
-	 * <p><b>Note: The returned HibernateTemplate is a shared instance.</b>
-	 * You may introspect its configuration, but not modify the configuration
-	 * (other than from within an {@link #initDao} implementation).
-	 * Consider creating a custom HibernateTemplate instance via
-	 * {@code new HibernateTemplate(getSessionFactory())}, in which case
-	 * you're allowed to customize the settings on the resulting instance.
+	 * 返回此DAO的HibernateTemplate, 使用SessionFactory预先初始化或显式设置.
+	 * <p><b>Note: 返回的HibernateTemplate是一个共享实例.</b>
+	 * 可以内省其配置, 但不能修改配置 (除了{@link #initDao}实现之外).
+	 * 考虑通过{@code new HibernateTemplate(getSessionFactory())}创建自定义HibernateTemplate实例,
+	 * 在这种情况下, 可以自定义生成的实例上的设置.
 	 */
 	public final HibernateTemplate getHibernateTemplate() {
 	  return this.hibernateTemplate;
@@ -96,10 +83,10 @@ public abstract class HibernateDaoSupport extends DaoSupport {
 
 
 	/**
-	 * Conveniently obtain the current Hibernate Session.
+	 * 方便地获取当前的Hibernate Session.
+	 * 
 	 * @return the Hibernate Session
-	 * @throws DataAccessResourceFailureException if the Session couldn't be created
-	 * @see SessionFactory#getCurrentSession()
+	 * @throws DataAccessResourceFailureException 如果无法创建会话
 	 */
 	protected final Session currentSession() throws DataAccessResourceFailureException {
 		return getSessionFactory().getCurrentSession();

@@ -22,32 +22,23 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * Servlet Filter that binds a Hibernate Session to the thread for the entire
- * processing of the request. Intended for the "Open Session in View" pattern,
- * i.e. to allow for lazy loading in web views despite the original transactions
- * already being completed.
+ * Servlet过滤器, 它将Hibernate会话绑定到线程以处理整个请求.
+ * 用于"Open Session in View"模式, i.e. 允许在Web视图中延迟加载, 尽管原始事务已经完成.
  *
- * <p>This filter makes Hibernate Sessions available via the current thread, which
- * will be autodetected by transaction managers. It is suitable for service layer
- * transactions via {@link org.springframework.orm.hibernate5.HibernateTransactionManager}
- * as well as for non-transactional execution (if configured appropriately).
+ * <p>此过滤器通过当前线程使Hibernate会话可用, 该线程将由事务管理器自动检测.
+ * 它适用于通过{@link org.springframework.orm.hibernate5.HibernateTransactionManager}进行的服务层事务,
+ * 以及非事务性执行 (如果配置正确).
  *
- * <p><b>NOTE</b>: This filter will by default <i>not</i> flush the Hibernate Session,
- * with the flush mode set to {@code FlushMode.NEVER}. It assumes to be used
- * in combination with service layer transactions that care for the flushing: The
- * active transaction manager will temporarily change the flush mode to
- * {@code FlushMode.AUTO} during a read-write transaction, with the flush
- * mode reset to {@code FlushMode.NEVER} at the end of each transaction.
+ * <p><b>NOTE</b>: 默认情况下, 此过滤器<i>不</i>刷新Hibernate会话, 刷新模式设置为{@code FlushMode.NEVER}.
+ * 它假定与关注刷新的服务层事务结合使用:
+ * 在读写事务期间, 活动的事务管理器将临时将刷新模式更改为{@code FlushMode.AUTO},
+ * 并在每个事务结束时将刷新模式重置为{@code FlushMode.NEVER}.
  *
- * <p><b>WARNING:</b> Applying this filter to existing logic can cause issues that
- * have not appeared before, through the use of a single Hibernate Session for the
- * processing of an entire request. In particular, the reassociation of persistent
- * objects with a Hibernate Session has to occur at the very beginning of request
- * processing, to avoid clashes with already loaded instances of the same objects.
+ * <p><b>WARNING:</b> 将此过滤器应用于现有逻辑可能会导致之前未出现的问题, 通过使用单个Hibernate会话来处理整个请求.
+ * 特别是, 持久对象与Hibernate会话的重新关联必须在请求处理的最开始时进行, 以避免与已加载的相同对象的实例发生冲突.
  *
- * <p>Looks up the SessionFactory in Spring's root web application context.
- * Supports a "sessionFactoryBeanName" filter init-param in {@code web.xml};
- * the default bean name is "sessionFactory".
+ * <p>在Spring的根Web应用程序上下文中查找SessionFactory.
+ * 支持{@code web.xml}中的"sessionFactoryBeanName"过滤器init-param.
  */
 public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
@@ -57,16 +48,15 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set the bean name of the SessionFactory to fetch from Spring's
-	 * root application context. Default is "sessionFactory".
+	 * 设置SessionFactory的bean名称, 以从Spring的根应用程序上下文中获取.
+	 * 默认"sessionFactory".
 	 */
 	public void setSessionFactoryBeanName(String sessionFactoryBeanName) {
 		this.sessionFactoryBeanName = sessionFactoryBeanName;
 	}
 
 	/**
-	 * Return the bean name of the SessionFactory to fetch from Spring's
-	 * root application context.
+	 * 返回SessionFactory的bean名称, 以从Spring的根应用程序上下文中获取.
 	 */
 	protected String getSessionFactoryBeanName() {
 		return this.sessionFactoryBeanName;
@@ -74,9 +64,8 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Returns "false" so that the filter may re-bind the opened Hibernate
-	 * {@code Session} to each asynchronously dispatched thread and postpone
-	 * closing it until the very last asynchronous dispatch.
+	 * 返回"false", 以便过滤器可以将打开的Hibernate {@code Session}重新绑定到每个异步调度的线程,
+	 * 并推迟关闭它直到最后一次异步调度.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -84,8 +73,7 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Returns "false" so that the filter may provide a Hibernate
-	 * {@code Session} to each error dispatches.
+	 * 返回"false", 以便过滤器可以为每个错误调度提供Hibernate {@code Session}.
 	 */
 	@Override
 	protected boolean shouldNotFilterErrorDispatch() {
@@ -104,7 +92,7 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 		String key = getAlreadyFilteredAttributeName();
 
 		if (TransactionSynchronizationManager.hasResource(sessionFactory)) {
-			// Do not modify the Session: just set the participate flag.
+			// 不要修改Session: 只需设置参与标志即可.
 			participate = true;
 		}
 		else {
@@ -138,23 +126,22 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Look up the SessionFactory that this filter should use,
-	 * taking the current HTTP request as argument.
-	 * <p>The default implementation delegates to the {@link #lookupSessionFactory()}
-	 * variant without arguments.
-	 * @param request the current request
-	 * @return the SessionFactory to use
+	 * 查找此过滤器应使用的SessionFactory, 将当前HTTP请求作为参数.
+	 * <p>默认实现委托给没有参数的{@link #lookupSessionFactory()}变体.
+	 * 
+	 * @param request 当前请求
+	 * 
+	 * @return 要使用的SessionFactory
 	 */
 	protected SessionFactory lookupSessionFactory(HttpServletRequest request) {
 		return lookupSessionFactory();
 	}
 
 	/**
-	 * Look up the SessionFactory that this filter should use.
-	 * <p>The default implementation looks for a bean with the specified name
-	 * in Spring's root application context.
-	 * @return the SessionFactory to use
-	 * @see #getSessionFactoryBeanName
+	 * 查找此过滤器应使用的SessionFactory.
+	 * <p>默认实现在Spring的根应用程序上下文中查找具有指定名称的bean.
+	 * 
+	 * @return 要使用的SessionFactory
 	 */
 	protected SessionFactory lookupSessionFactory() {
 		if (logger.isDebugEnabled()) {
@@ -165,13 +152,13 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Open a Session for the SessionFactory that this filter uses.
-	 * <p>The default implementation delegates to the {@link SessionFactory#openSession}
-	 * method and sets the {@link Session}'s flush mode to "MANUAL".
-	 * @param sessionFactory the SessionFactory that this filter uses
-	 * @return the Session to use
-	 * @throws DataAccessResourceFailureException if the Session could not be created
-	 * @see FlushMode#MANUAL
+	 * 打开此过滤器使用的SessionFactory的会话.
+	 * <p>默认实现委托给{@link SessionFactory#openSession}方法, 并将{@link Session}的刷新模式设置为"MANUAL".
+	 * 
+	 * @param sessionFactory 此过滤器使用的SessionFactory
+	 * 
+	 * @return 要使用的Session
+	 * @throws DataAccessResourceFailureException 如果无法创建会话
 	 */
 	@SuppressWarnings("deprecation")
 	protected Session openSession(SessionFactory sessionFactory) throws DataAccessResourceFailureException {

@@ -14,12 +14,11 @@ import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 
 /**
- * Spring-specific subclass of the standard {@link HibernatePersistenceProvider}
- * from the {@code org.hibernate.jpa} package, adding support for
- * {@link SmartPersistenceUnitInfo#getManagedPackages()}.
+ * 来自{@code org.hibernate.jpa}包的标准{@link HibernatePersistenceProvider}的特定于Spring的子类,
+ * 添加了对{@link SmartPersistenceUnitInfo#getManagedPackages()}的支持.
  *
- * <p>Compatible with Hibernate 4.3-5.0. {@link SpringHibernateEjbPersistenceProvider}
- * is an alternative for compatibility with earlier Hibernate versions (3.6-4.2).
+ * <p>兼容Hibernate 4.3-5.0.
+ * {@link SpringHibernateEjbPersistenceProvider}是与早期Hibernate版本(3.6-4.2)兼容的替代方案.
  */
 class SpringHibernateJpaPersistenceProvider extends HibernatePersistenceProvider {
 

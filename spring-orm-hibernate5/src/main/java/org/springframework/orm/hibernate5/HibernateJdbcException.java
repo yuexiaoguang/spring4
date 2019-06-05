@@ -7,8 +7,7 @@ import org.hibernate.JDBCException;
 import org.springframework.dao.UncategorizedDataAccessException;
 
 /**
- * Hibernate-specific subclass of UncategorizedDataAccessException,
- * for JDBC exceptions that Hibernate wrapped.
+ * 特定于Hibernate的UncategorizedDataAccessException子类, 用于Hibernate包装的JDBC异常.
  */
 @SuppressWarnings("serial")
 public class HibernateJdbcException extends UncategorizedDataAccessException {
@@ -19,14 +18,14 @@ public class HibernateJdbcException extends UncategorizedDataAccessException {
 	}
 
 	/**
-	 * Return the underlying SQLException.
+	 * 返回底层SQLException.
 	 */
 	public SQLException getSQLException() {
 		return ((JDBCException) getCause()).getSQLException();
 	}
 
 	/**
-	 * Return the SQL that led to the problem.
+	 * 返回导致问题的SQL.
 	 */
 	public String getSql() {
 		return ((JDBCException) getCause()).getSQL();

@@ -47,14 +47,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * A Spring-provided extension of the standard Hibernate {@link Configuration} class,
- * adding {@link SpringSessionContext} as a default and providing convenient ways
- * to specify a DataSource and an application class loader.
+ * Spring提供的标准Hibernate {@link Configuration}类的扩展, 添加{@link SpringSessionContext}作为默认值,
+ * 并提供指定DataSource和应用程序类加载器的便捷方法.
  *
- * <p>This is designed for programmatic use, e.g. in {@code @Bean} factory methods.
- * Consider using {@link LocalSessionFactoryBean} for XML bean definition files.
+ * <p>这是专为程序化使用而设计的, e.g. 在{@code @Bean}工厂方法中.
+ * 考虑将{@link LocalSessionFactoryBean}用于XML bean定义文件.
  *
- * <p>Compatible with Hibernate 5.0/5.1 as well as 5.2, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Hibernate 5.0/5.1 和 5.2兼容.
  */
 @SuppressWarnings("serial")
 public class LocalSessionFactoryBuilder extends Configuration {
@@ -77,29 +76,23 @@ public class LocalSessionFactoryBuilder extends Configuration {
 
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
+	 * @param dataSource 生成使用的Hibernate SessionFactory的JDBC DataSource (may be {@code null})
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource) {
 		this(dataSource, new PathMatchingResourcePatternResolver());
 	}
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
-	 * @param classLoader the ClassLoader to load application classes from
+	 * @param dataSource 生成使用的Hibernate SessionFactory的JDBC DataSource (may be {@code null})
+	 * @param classLoader 从中加载应用程序类的ClassLoader
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource, ClassLoader classLoader) {
 		this(dataSource, new PathMatchingResourcePatternResolver(classLoader));
 	}
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
-	 * @param resourceLoader the ResourceLoader to load application classes from
+	 * @param dataSource 生成使用的Hibernate SessionFactory的JDBC DataSource (may be {@code null})
+	 * @param resourceLoader 从中加载应用程序类的ResourceLoader
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource, ResourceLoader resourceLoader) {
 		this(dataSource, resourceLoader, new MetadataSources(
@@ -107,12 +100,9 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Create a new LocalSessionFactoryBuilder for the given DataSource.
-	 * @param dataSource the JDBC DataSource that the resulting Hibernate SessionFactory should be using
-	 * (may be {@code null})
-	 * @param resourceLoader the ResourceLoader to load application classes from
-	 * @param metadataSources the Hibernate MetadataSources service to use (e.g. reusing an existing one)
-	 * @since 4.3
+	 * @param dataSource 生成使用的Hibernate SessionFactory的JDBC DataSource (may be {@code null})
+	 * @param resourceLoader 从中加载应用程序类的ResourceLoader
+	 * @param metadataSources 要使用的Hibernate MetadataSources服务 (e.g. 重用现有服务)
 	 */
 	public LocalSessionFactoryBuilder(DataSource dataSource, ResourceLoader resourceLoader, MetadataSources metadataSources) {
 		super(metadataSources);
@@ -122,7 +112,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 			getProperties().put(AvailableSettings.DATASOURCE, dataSource);
 		}
 
-		// Hibernate 5.1/5.2: manually enforce connection release mode ON_CLOSE (the former default)
+		// Hibernate 5.1/5.2: 手动强制执行连接释放模式 ON_CLOSE (以前的默认值)
 		try {
 			// Try Hibernate 5.2
 			AvailableSettings.class.getField("CONNECTION_HANDLING");
@@ -145,15 +135,11 @@ public class LocalSessionFactoryBuilder extends Configuration {
 
 
 	/**
-	 * Set the Spring {@link JtaTransactionManager} or the JTA {@link TransactionManager}
-	 * to be used with Hibernate, if any. Allows for using a Spring-managed transaction
-	 * manager for Hibernate 5's session and cache synchronization, with the
-	 * "hibernate.transaction.jta.platform" automatically set to it.
-	 * <p>A passed-in Spring {@link JtaTransactionManager} needs to contain a JTA
-	 * {@link TransactionManager} reference to be usable here, except for the WebSphere
-	 * case where we'll automatically set {@code WebSphereExtendedJtaPlatform} accordingly.
-	 * <p>Note: If this is set, the Hibernate settings should not contain a JTA platform
-	 * setting to avoid meaningless double configuration.
+	 * 设置Hibernate使用的Spring {@link JtaTransactionManager} 或JTA {@link TransactionManager}.
+	 * 允许使用Spring管理的事务管理器进行Hibernate 5的会话和缓存同步, 并自动设置"hibernate.transaction.jta.platform".
+	 * <p>传入的Spring {@link JtaTransactionManager}需要包含一个可在此处使用的JTA {@link TransactionManager}引用,
+	 * 但WebSphere情况除外, 将相应地自动设置{@code WebSphereExtendedJtaPlatform}.
+	 * <p>Note: 如果设置了此项, 则Hibernate设置不应包含JTA平台设置, 以避免无意义的双重配置.
 	 */
 	public LocalSessionFactoryBuilder setJtaTransactionManager(Object jtaTransactionManager) {
 		Assert.notNull(jtaTransactionManager, "Transaction manager reference must not be null");
@@ -184,7 +170,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 					"Unknown transaction manager type: " + jtaTransactionManager.getClass().getName());
 		}
 
-		// Hibernate 5.1/5.2: manually enforce connection release mode AFTER_STATEMENT (the JTA default)
+		// Hibernate 5.1/5.2: 手动强制执行连接释放模式AFTER_STATEMENT (JTA默认值)
 		try {
 			// Try Hibernate 5.2
 			AvailableSettings.class.getField("CONNECTION_HANDLING");
@@ -205,9 +191,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Set a {@link MultiTenantConnectionProvider} to be passed on to the SessionFactory.
-	 * @since 4.3
-	 * @see AvailableSettings#MULTI_TENANT_CONNECTION_PROVIDER
+	 * 设置传递给SessionFactory的{@link MultiTenantConnectionProvider}.
 	 */
 	public LocalSessionFactoryBuilder setMultiTenantConnectionProvider(MultiTenantConnectionProvider multiTenantConnectionProvider) {
 		getProperties().put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
@@ -215,9 +199,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Overridden to reliably pass a {@link CurrentTenantIdentifierResolver} to the SessionFactory.
-	 * @since 4.3.2
-	 * @see AvailableSettings#MULTI_TENANT_IDENTIFIER_RESOLVER
+	 * 重写以可靠地将{@link CurrentTenantIdentifierResolver}传递给SessionFactory.
 	 */
 	@Override
 	public void setCurrentTenantIdentifierResolver(CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
@@ -226,11 +208,9 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Specify custom type filters for Spring-based scanning for entity classes.
-	 * <p>Default is to search all specified packages for classes annotated with
-	 * {@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable}
-	 * or {@code @javax.persistence.MappedSuperclass}.
-	 * @see #scanPackages
+	 * 为实体类指定基于Spring的扫描的自定义类型过滤器.
+	 * <p>默认是搜索所有指定的包, 查找带{@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable}
+	 * 或{@code @javax.persistence.MappedSuperclass}注解的类.
 	 */
 	public LocalSessionFactoryBuilder setEntityTypeFilters(TypeFilter... entityTypeFilters) {
 		this.entityTypeFilters = entityTypeFilters;
@@ -238,9 +218,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Add the given annotated classes in a batch.
-	 * @see #addAnnotatedClass
-	 * @see #scanPackages
+	 * 批量添加给定的带注解的类.
 	 */
 	public LocalSessionFactoryBuilder addAnnotatedClasses(Class<?>... annotatedClasses) {
 		for (Class<?> annotatedClass : annotatedClasses) {
@@ -250,9 +228,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Add the given annotated packages in a batch.
-	 * @see #addPackage
-	 * @see #scanPackages
+	 * 批量添加给定的带注解的包.
 	 */
 	public LocalSessionFactoryBuilder addPackages(String... annotatedPackages) {
 		for (String annotatedPackage : annotatedPackages) {
@@ -262,10 +238,11 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Perform Spring-based scanning for entity classes, registering them
-	 * as annotated classes with this {@code Configuration}.
-	 * @param packagesToScan one or more Java package names
-	 * @throws HibernateException if scanning fails for any reason
+	 * 对实体类执行基于Spring的扫描, 并使用此{@code Configuration}将它们注册为带注解的类.
+	 * 
+	 * @param packagesToScan 一个或多个Java包名称
+	 * 
+	 * @throws HibernateException 如果扫描失败
 	 */
 	@SuppressWarnings("unchecked")
 	public LocalSessionFactoryBuilder scanPackages(String... packagesToScan) throws HibernateException {
@@ -317,8 +294,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Check whether any of the configured entity type filters matches
-	 * the current class descriptor contained in the metadata reader.
+	 * 检查任何已配置的实体类型过滤器是否与元数据读取器中包含的当前类描述符匹配.
 	 */
 	private boolean matchesEntityTypeFilter(MetadataReader reader, MetadataReaderFactory readerFactory) throws IOException {
 		if (this.entityTypeFilters != null) {
@@ -332,18 +308,12 @@ public class LocalSessionFactoryBuilder extends Configuration {
 	}
 
 	/**
-	 * Build the Hibernate {@code SessionFactory} through background bootstrapping,
-	 * using the given executor for a parallel initialization phase
+	 * 通过后台引导构建Hibernate {@code SessionFactory}, 使用给定的执行器, 用于并行初始化阶段
 	 * (e.g. a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}).
-	 * <p>{@code SessionFactory} initialization will then switch into background
-	 * bootstrap mode, with a {@code SessionFactory} proxy immediately returned for
-	 * injection purposes instead of waiting for Hibernate's bootstrapping to complete.
-	 * However, note that the first actual call to a {@code SessionFactory} method will
-	 * then block until Hibernate's bootstrapping completed, if not ready by then.
-	 * For maximum benefit, make sure to avoid early {@code SessionFactory} calls
-	 * in init methods of related beans, even for metadata introspection purposes.
-	 * @since 4.3
-	 * @see #buildSessionFactory()
+	 * <p>{@code SessionFactory}初始化将切换到后台引导模式, 并立即返回{@code SessionFactory}代理以进行注入,
+	 * 而不是等待Hibernate的引导完成.
+	 * 但是, 请注意, 对{@code SessionFactory}方法的第一次实际调用将阻塞, 直到Hibernate的引导完成, 如果还没有准备就绪.
+	 * 为了获得最大收益, 确保避免在相关bean的init方法中进行实时{@code SessionFactory}调用, 即使是用于元数据内省目的.
 	 */
 	public SessionFactory buildSessionFactory(AsyncTaskExecutor bootstrapExecutor) {
 		Assert.notNull(bootstrapExecutor, "AsyncTaskExecutor must not be null");
@@ -354,9 +324,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 
 
 	/**
-	 * Proxy invocation handler for background bootstrapping, only enforcing
-	 * a fully initialized target {@code SessionFactory} when actually needed.
-	 * @since 4.3
+	 * 用于后台引导的代理调用处理器, 仅在实际需要时强制完全初始化目标{@code SessionFactory}.
 	 */
 	private class BootstrapSessionFactoryInvocationHandler implements InvocationHandler {
 
@@ -375,22 +343,21 @@ public class LocalSessionFactoryBuilder extends Configuration {
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			try {
 				if (method.getName().equals("equals")) {
-					// Only consider equal when proxies are identical.
+					// 只有当代理相同时才考虑相等.
 					return (proxy == args[0]);
 				}
 				else if (method.getName().equals("hashCode")) {
-					// Use hashCode of EntityManagerFactory proxy.
+					// 使用EntityManagerFactory代理的hashCode.
 					return System.identityHashCode(proxy);
 				}
 				else if (method.getName().equals("getProperties")) {
 					return getProperties();
 				}
 				else if (method.getName().equals("getWrappedObject")) {
-					// Call coming in through InfrastructureProxy interface...
+					// 通过InfrastructureProxy接口调用...
 					return getSessionFactory();
 				}
-				// Regular delegation to the target SessionFactory,
-				// enforcing its full initialization...
+				// 委托到目标SessionFactory, 强制执行其完全初始化...
 				return method.invoke(getSessionFactory(), args);
 			}
 			catch (InvocationTargetException ex) {
@@ -409,7 +376,7 @@ public class LocalSessionFactoryBuilder extends Configuration {
 			catch (ExecutionException ex) {
 				Throwable cause = ex.getCause();
 				if (cause instanceof HibernateException) {
-					// Rethrow a provider configuration exception (possibly with a nested cause) directly
+					// 直接重新抛出提供者配置异常 (可能具有嵌套原因)
 					throw (HibernateException) cause;
 				}
 				throw new IllegalStateException("Failed to asynchronously initialize Hibernate SessionFactory: " +
@@ -417,5 +384,4 @@ public class LocalSessionFactoryBuilder extends Configuration {
 			}
 		}
 	}
-
 }

@@ -15,12 +15,11 @@ import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.context.request.async.DeferredResultProcessingInterceptor;
 
 /**
- * An interceptor with asynchronous web requests used in OpenSessionInViewFilter and
- * OpenSessionInViewInterceptor.
+ * 在OpenSessionInViewFilter和OpenSessionInViewInterceptor中使用的异步Web请求的拦截器.
  *
- * Ensures the following:
- * 1) The session is bound/unbound when "callable processing" is started
- * 2) The session is closed if an async request times out
+ * 确保以下内容:
+ * 1) 当"可调用处理"开始时, 会话被绑定/解除绑定
+ * 2) 如果异步请求超时, 会话将关闭
  */
 class AsyncRequestInterceptor extends CallableProcessingInterceptorAdapter implements DeferredResultProcessingInterceptor {
 
@@ -57,7 +56,7 @@ class AsyncRequestInterceptor extends CallableProcessingInterceptorAdapter imple
 	@Override
 	public <T> Object handleTimeout(NativeWebRequest request, Callable<T> task) {
 		this.timeoutInProgress = true;
-		return RESULT_NONE;  // give other interceptors a chance to handle the timeout
+		return RESULT_NONE;  // 让其他拦截器有机会处理超时
 	}
 
 	@Override
@@ -90,7 +89,7 @@ class AsyncRequestInterceptor extends CallableProcessingInterceptorAdapter imple
 	@Override
 	public <T> boolean handleTimeout(NativeWebRequest request, DeferredResult<T> deferredResult) {
 		this.timeoutInProgress = true;
-		return true;  // give other interceptors a chance to handle the timeout
+		return true;  // 让其他拦截器有机会处理超时
 	}
 
 	@Override

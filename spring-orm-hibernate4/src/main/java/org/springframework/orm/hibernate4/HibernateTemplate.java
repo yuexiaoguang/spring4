@@ -83,128 +83,128 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 
 	/**
-	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * 设置应该用于创建Hibernate会话的Hibernate SessionFactory.
 	 */
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * 返回应该用于创建Hibernate会话的Hibernate SessionFactory.
 	 */
 	public SessionFactory getSessionFactory() {
 		return this.sessionFactory;
 	}
 
 	/**
-	 * Set one or more names of Hibernate filters to be activated for all Sessions that this accessor works with.
-	 * <p>Each of those filters will be enabled at the beginning of each operation and correspondingly disabled at the end of the operation.
-	 * This will work for newly opened Sessions as well as for existing Sessions (for example, within a transaction).
+	 * 设置一个或多个Hibernate过滤器名称, 以便为此访问者使用的所有会话激活.
+	 * <p>这些过滤器中的每一个都将在每个操作开始时启用, 并在操作结束时相应地禁用.
+	 * 这适用于新打开的会话以及现有会话 (例如, 在事务中).
 	 */
 	public void setFilterNames(String... filterNames) {
 		this.filterNames = filterNames;
 	}
 
 	/**
-	 * Return the names of Hibernate filters to be activated, if any.
+	 * 返回要激活的Hibernate过滤器的名称.
 	 */
 	public String[] getFilterNames() {
 		return this.filterNames;
 	}
 
 	/**
-	 * Set whether to expose the native Hibernate Session to HibernateCallback code.
-	 * <p>Default is "false": a Session proxy will be returned, suppressing {@code close} calls and automatically applying query cache settings and transaction timeouts.
+	 * 设置是否将本机Hibernate Session暴露给HibernateCallback代码.
+	 * <p>默认 "false": 将返回Session代理, 禁止{@code close}调用, 并自动应用查询缓存设置和事务超时.
 	 */
 	public void setExposeNativeSession(boolean exposeNativeSession) {
 		this.exposeNativeSession = exposeNativeSession;
 	}
 
 	/**
-	 * Return whether to expose the native Hibernate Session to HibernateCallback code, or rather a Session proxy.
+	 * 返回是否将本机Hibernate Session暴露给HibernateCallback代码, 或者Session代理.
 	 */
 	public boolean isExposeNativeSession() {
 		return this.exposeNativeSession;
 	}
 
 	/**
-	 * Set whether to check that the Hibernate Session is not in read-only mode in case of write operations (save/update/delete).
-	 * <p>Default is "true", for fail-fast behavior when attempting write operations within a read-only transaction.
-	 * Turn this off to allow save/update/delete on a Session with flush mode MANUAL.
+	 * 设置是否在写入操作 (save/update/delete)时检查Hibernate会话是否处于只读模式.
+	 * <p>默认"true", 在只读事务中尝试写入操作时的快速失败行为.
+	 * 关闭它以允许在具有刷新模式MANUAL的Session上save/update/delete.
 	 */
 	public void setCheckWriteOperations(boolean checkWriteOperations) {
 		this.checkWriteOperations = checkWriteOperations;
 	}
 
 	/**
-	 * Return whether to check that the Hibernate Session is not in read-only mode in case of write operations (save/update/delete).
+	 * 返回是否在写入操作 (save/update/delete)时检查Hibernate会话是否处于只读模式.
 	 */
 	public boolean isCheckWriteOperations() {
 		return this.checkWriteOperations;
 	}
 
 	/**
-	 * Set whether to cache all queries executed by this template.
-	 * <p>If this is "true", all Query and Criteria objects created by this template will be marked as cacheable (including all queries through find methods).
-	 * <p>To specify the query region to be used for queries cached by this template, set the "queryCacheRegion" property.
+	 * 设置是否缓存此模板执行的所有查询.
+	 * <p>如果这是"true", 则此模板创建的所有Query和Criteria对象将被标记为可缓存 (包括通过find方法的所有查询).
+	 * <p>要指定用于此模板缓存的查询的查询区域, 设置"queryCacheRegion"属性.
 	 */
 	public void setCacheQueries(boolean cacheQueries) {
 		this.cacheQueries = cacheQueries;
 	}
 
 	/**
-	 * Return whether to cache all queries executed by this template.
+	 * 返回是否缓存此模板执行的所有查询.
 	 */
 	public boolean isCacheQueries() {
 		return this.cacheQueries;
 	}
 
 	/**
-	 * Set the name of the cache region for queries executed by this template.
-	 * <p>If this is specified, it will be applied to all Query and Criteria objects created by this template (including all queries through find methods).
-	 * <p>The cache region will not take effect unless queries created by this template are configured to be cached via the "cacheQueries" property.
+	 * 设置此模板执行的查询的缓存区域的名称.
+	 * <p>如果指定了此项，则它将应用于此模板创建的所有Query和Criteria对象 (包括通过find方法的所有查询).
+	 * <p>除非将此模板创建的查询配置为通过"cacheQueries"属性进行缓存, 否则缓存区域不会生效.
 	 */
 	public void setQueryCacheRegion(String queryCacheRegion) {
 		this.queryCacheRegion = queryCacheRegion;
 	}
 
 	/**
-	 * Return the name of the cache region for queries executed by this template.
+	 * 返回此模板执行的查询的缓存区域的名称.
 	 */
 	public String getQueryCacheRegion() {
 		return this.queryCacheRegion;
 	}
 
 	/**
-	 * Set the fetch size for this HibernateTemplate.
-	 * This is important for processing large result sets:
-	 * Setting this higher than the default value will increase processing speed at the cost of memory consumption;
-	 * setting this lower can avoid transferring row data that will never be read by the application.
-	 * <p>Default is 0, indicating to use the JDBC driver's default.
+	 * 设置此HibernateTemplate的获取大小.
+	 * 这对于处理大型结果集很重要:
+	 * 将其设置为高于默认值将以内存消耗为代价提高处理速度;
+	 * 将此值设置得较低可以避免传输应用程序永远不会读取的行数据.
+	 * <p>默认值为0, 表示使用JDBC驱动程序的默认值.
 	 */
 	public void setFetchSize(int fetchSize) {
 		this.fetchSize = fetchSize;
 	}
 
 	/**
-	 * Return the fetch size specified for this HibernateTemplate.
+	 * 返回为此HibernateTemplate指定的获取大小.
 	 */
 	public int getFetchSize() {
 		return this.fetchSize;
 	}
 
 	/**
-	 * Set the maximum number of rows for this HibernateTemplate.
-	 * This is important for processing subsets of large result sets, avoiding to read and hold the entire result set in the database or in the JDBC driver if we're never interested in the entire result in the first place
-	 * (for example, when performing searches that might return a large number of matches).
-	 * <p>Default is 0, indicating to use the JDBC driver's default.
+	 * 设置此HibernateTemplate的最大行数.
+	 * 这对于处理大型结果集的子集非常重要, 如果不对整个结果感兴趣, 则避免在数据库或JDBC驱动程序中读取和保存整个结果集
+	 * (例如, 执行可能返回大量匹配的搜索时).
+	 * <p>默认值为0, 表示使用JDBC驱动程序的默认值.
 	 */
 	public void setMaxResults(int maxResults) {
 		this.maxResults = maxResults;
 	}
 
 	/**
-	 * Return the maximum number of rows specified for this HibernateTemplate.
+	 * 返回为此HibernateTemplate指定的最大行数.
 	 */
 	public int getMaxResults() {
 		return this.maxResults;
@@ -224,26 +224,26 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Execute the action specified by the given action object within a native {@link org.hibernate.Session}.
-	 * <p>This execute variant overrides the template-wide {@link #isExposeNativeSession() "exposeNativeSession"} setting.
+	 * 在本机{@link org.hibernate.Session}中执行给定操作对象指定的操作.
+	 * <p>此执行变体覆盖模板范围的{@link #isExposeNativeSession() "exposeNativeSession"}设置.
 	 * 
-	 * @param action callback object that specifies the Hibernate action
+	 * @param action 指定Hibernate操作的回调对象
 	 * 
-	 * @return a result object returned by the action, or {@code null}
-	 * @throws org.springframework.dao.DataAccessException in case of Hibernate errors
+	 * @return 操作返回的结果对象, 或{@code null}
+	 * @throws org.springframework.dao.DataAccessException 如果Hibernate错误
 	 */
 	public <T> T executeWithNativeSession(HibernateCallback<T> action) {
 		return doExecute(action, true);
 	}
 
 	/**
-	 * Execute the action specified by the given action object within a Session.
+	 * 在会话中执行给定操作对象指定的操作.
 	 * 
-	 * @param action callback object that specifies the Hibernate action
-	 * @param enforceNativeSession whether to enforce exposure of the native Hibernate Session to callback code
+	 * @param action 指定Hibernate操作的回调对象
+	 * @param enforceNativeSession 是否强制将本机Hibernate Session暴露给回调代码
 	 * 
-	 * @return a result object returned by the action, or {@code null}
-	 * @throws org.springframework.dao.DataAccessException in case of Hibernate errors
+	 * @return 操作返回的结果对象, 或{@code null}
+	 * @throws org.springframework.dao.DataAccessException 如果Hibernate错误
 	 */
 	protected <T> T doExecute(HibernateCallback<T> action, boolean enforceNativeSession) throws DataAccessException {
 		Assert.notNull(action, "Callback object must not be null");
@@ -272,7 +272,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 			throw SessionFactoryUtils.convertHibernateAccessException(ex);
 		}
 		catch (RuntimeException ex) {
-			// Callback code threw application exception...
+			// 回调代码引发了应用程序异常...
 			throw ex;
 		}
 		finally {
@@ -286,12 +286,12 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Create a close-suppressing proxy for the given Hibernate Session.
-	 * The proxy also prepares returned Query and Criteria objects.
+	 * 为给定的Hibernate会话创建一个禁止关闭的代理.
+	 * 代理还准备返回的Query和Criteria对象.
 	 * 
-	 * @param session the Hibernate Session to create a proxy for
+	 * @param session 要为其创建代理的 Hibernate Session
 	 * 
-	 * @return the Session proxy
+	 * @return Session代理
 	 */
 	protected Session createSessionProxy(Session session) {
 		return (Session) Proxy.newProxyInstance(
@@ -300,9 +300,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Enable the specified filters on the given Session.
+	 * 在给定的Session上启用指定的过滤器.
 	 * 
-	 * @param session the current Hibernate Session
+	 * @param session 当前Hibernate Session
 	 */
 	protected void enableFilters(Session session) {
 		String[] filterNames = getFilterNames();
@@ -314,9 +314,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Disable the specified filters on the given Session.
+	 * 禁用给定Session上的指定过滤器.
 	 * 
-	 * @param session the current Hibernate Session
+	 * @param session 当前Hibernate Session
 	 */
 	protected void disableFilters(Session session) {
 		String[] filterNames = getFilterNames();
@@ -1039,12 +1039,12 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	//-------------------------------------------------------------------------
 
 	/**
-	 * Check whether write operations are allowed on the given Session.
-	 * <p>Default implementation throws an InvalidDataAccessApiUsageException in case of {@code FlushMode.MANUAL}. Can be overridden in subclasses.
+	 * 检查给定Session是否允许写操作.
+	 * <p>对于{@code FlushMode.MANUAL}, 默认实现会抛出InvalidDataAccessApiUsageException. 可以在子类中重写.
 	 * 
-	 * @param session current Hibernate Session
+	 * @param session 当前Hibernate Session
 	 * 
-	 * @throws InvalidDataAccessApiUsageException if write operations are not allowed
+	 * @throws InvalidDataAccessApiUsageException 如果不允许写操作
 	 */
 	protected void checkWriteOperationAllowed(Session session) throws InvalidDataAccessApiUsageException {
 		if (isCheckWriteOperations() && session.getFlushMode().lessThan(FlushMode.COMMIT)) {
@@ -1055,9 +1055,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Prepare the given Query object, applying cache settings and/or a transaction timeout.
+	 * 准备给定的Query对象, 应用缓存设置和/或事务超时.
 	 * 
-	 * @param queryObject the Query object to prepare
+	 * @param queryObject 要准备的Query对象
 	 */
 	protected void prepareQuery(Query queryObject) {
 		if (isCacheQueries()) {
@@ -1081,9 +1081,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Prepare the given Criteria object, applying cache settings and/or a transaction timeout.
+	 * 准备给定的Criteria对象, 应用缓存设置和/或事务超时.
 	 * 
-	 * @param criteria the Criteria object to prepare
+	 * @param criteria 要准备的Criteria对象
 	 */
 	protected void prepareCriteria(Criteria criteria) {
 		if (isCacheQueries()) {
@@ -1107,13 +1107,13 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Apply the given name parameter to the given Query object.
+	 * 将给定的name参数应用于给定的Query对象.
 	 * 
-	 * @param queryObject the Query object
-	 * @param paramName the name of the parameter
-	 * @param value the value of the parameter
+	 * @param queryObject Query对象
+	 * @param paramName 参数名
+	 * @param value 参数值
 	 * 
-	 * @throws HibernateException if thrown by the Query object
+	 * @throws HibernateException 如果由Query对象抛出
 	 */
 	protected void applyNamedParameterToQuery(Query queryObject, String paramName, Object value)
 			throws HibernateException {
@@ -1131,8 +1131,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 
 	/**
-	 * Invocation handler that suppresses close calls on Hibernate Sessions.
-	 * Also prepares returned Query and Criteria objects.
+	 * Hibernate Session上禁止close调用的调用处理器.
+	 * 还准备返回的Query和Criteria对象.
 	 */
 	private class CloseSuppressingInvocationHandler implements InvocationHandler {
 
@@ -1144,27 +1144,27 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			// Invocation on Session interface coming in...
+			// 在传入的Session上调用...
 
 			if (method.getName().equals("equals")) {
-				// Only consider equal when proxies are identical.
+				// 只有当代理相同时才考虑相等.
 				return (proxy == args[0]);
 			}
 			else if (method.getName().equals("hashCode")) {
-				// Use hashCode of Session proxy.
+				// 使用Session代理的hashCode.
 				return System.identityHashCode(proxy);
 			}
 			else if (method.getName().equals("close")) {
-				// Handle close method: suppress, not valid.
+				// 处理close方法: 禁止, 无效.
 				return null;
 			}
 
-			// Invoke method on target Session.
+			// 在目标Session上调用方法.
 			try {
 				Object retVal = method.invoke(this.target, args);
 
-				// If return value is a Query or Criteria, apply transaction timeout.
-				// Applies to createQuery, getNamedQuery, createCriteria.
+				// 如果返回值是Query或Criteria, 则应用事务超时.
+				// 适用于createQuery, getNamedQuery, createCriteria.
 				if (retVal instanceof Query) {
 					prepareQuery(((Query) retVal));
 				}
@@ -1179,5 +1179,4 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 			}
 		}
 	}
-
 }

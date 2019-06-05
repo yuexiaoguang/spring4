@@ -10,8 +10,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Callback for resource cleanup at the end of a Spring-managed transaction
- * for a pre-bound Hibernate Session.
+ * 在预先绑定的Hibernate会话的Spring管理的事务结束时, 资源清理的回调.
  */
 public class SpringSessionSynchronization implements TransactionSynchronization, Ordered {
 
@@ -49,7 +48,7 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 	public void suspend() {
 		if (this.holderActive) {
 			TransactionSynchronizationManager.unbindResource(this.sessionFactory);
-			// Eagerly disconnect the Session here, to make release mode "on_close" work on JBoss.
+			// 在这里实时断开会话, 使释放模式"on_close"在JBoss上运行.
 			getCurrentSession().disconnect();
 		}
 	}
@@ -70,8 +69,8 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 	public void beforeCommit(boolean readOnly) throws DataAccessException {
 		if (!readOnly) {
 			Session session = getCurrentSession();
-			// Read-write transaction -> flush the Hibernate Session.
-			// Further check: only flush when not FlushMode.MANUAL.
+			// 读写事务 -> 刷新Hibernate会话.
+			// 进一步检查: 只有FlushMode.MANUAL时才刷新.
 			if (!FlushMode.MANUAL.equals(SessionFactoryUtils.getFlushMode(session))) {
 				SessionFactoryUtils.flush(getCurrentSession(), true);
 			}
@@ -84,14 +83,14 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 		try {
 			Session session = this.sessionHolder.getSession();
 			if (this.sessionHolder.getPreviousFlushMode() != null) {
-				// In case of pre-bound Session, restore previous flush mode.
+				// 如果是预绑定会话, 请恢复以前的刷新模式.
 				session.setFlushMode(this.sessionHolder.getPreviousFlushMode());
 			}
-			// Eagerly disconnect the Session here, to make release mode "on_close" work nicely.
+			// 实时地断开会话, 使释放模式"on_close"很好地工作.
 			session.disconnect();
 		}
 		finally {
-			// Unbind at this point if it's a new Session...
+			// 如果它是一个新的会话, 此时取消绑定...
 			if (this.newSession) {
 				TransactionSynchronizationManager.unbindResource(this.sessionFactory);
 				this.holderActive = false;
@@ -107,18 +106,17 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 	public void afterCompletion(int status) {
 		try {
 			if (status != STATUS_COMMITTED) {
-				// Clear all pending inserts/updates/deletes in the Session.
-				// Necessary for pre-bound Sessions, to avoid inconsistent state.
+				// 清除会话中所有挂起的插入/更新/删除.
+				// 必要的预绑定会话, 以避免不一致的状态.
 				this.sessionHolder.getSession().clear();
 			}
 		}
 		finally {
 			this.sessionHolder.setSynchronizedWithTransaction(false);
-			// Call close() at this point if it's a new Session...
+			// 如果是新会话, 则此时调用close()...
 			if (this.newSession) {
 				SessionFactoryUtils.closeSession(this.sessionHolder.getSession());
 			}
 		}
 	}
-
 }

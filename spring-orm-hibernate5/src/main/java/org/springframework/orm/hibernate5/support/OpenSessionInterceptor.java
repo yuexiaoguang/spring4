@@ -14,13 +14,12 @@ import org.springframework.orm.hibernate5.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Simple AOP Alliance {@link MethodInterceptor} implementation that binds a new
- * Hibernate {@link Session} for each method invocation, if none bound before.
+ * 简单的AOP联盟{@link MethodInterceptor}实现,
+ * 为每个方法调用绑定一个新的Hibernate {@link Session}, 如果之前没有绑定.
  *
- * <p>This is a simple Hibernate Session scoping interceptor along the lines of
- * {@link OpenSessionInViewInterceptor}, just for use with AOP setup instead of
- * MVC setup. It opens a new {@link Session} with flush mode "MANUAL" since the
- * Session is only meant for reading, except when participating in a transaction.
+ * <p>这是一个简单的Hibernate Session范围拦截器,
+ * 沿着{@link OpenSessionInViewInterceptor}, 只是用于AOP设置而不是MVC设置.
+ * 它打开一个新的{@link Session}, 刷新模式为"MANUAL", 因为Session仅用于读取, 除非参与事务.
  */
 public class OpenSessionInterceptor implements MethodInterceptor, InitializingBean {
 
@@ -28,14 +27,14 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 
 
 	/**
-	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * 设置应该用于创建Hibernate会话的Hibernate SessionFactory.
 	 */
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * 返回应该用于创建Hibernate Session的Hibernate SessionFactory.
 	 */
 	public SessionFactory getSessionFactory() {
 		return this.sessionFactory;
@@ -53,7 +52,7 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		SessionFactory sf = getSessionFactory();
 		if (!TransactionSynchronizationManager.hasResource(sf)) {
-			// New Session to be bound for the current method's scope...
+			// 绑定到当前方法的范围的新会话...
 			Session session = openSession();
 			try {
 				TransactionSynchronizationManager.bindResource(sf, new SessionHolder(session));
@@ -65,18 +64,17 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 			}
 		}
 		else {
-			// Pre-bound Session found -> simply proceed.
+			// 找到预绑定的会话 -> 简单地继续.
 			return invocation.proceed();
 		}
 	}
 
 	/**
-	 * Open a Session for the SessionFactory that this interceptor uses.
-	 * <p>The default implementation delegates to the {@link SessionFactory#openSession}
-	 * method and sets the {@link Session}'s flush mode to "MANUAL".
-	 * @return the Session to use
-	 * @throws DataAccessResourceFailureException if the Session could not be created
-	 * @see FlushMode#MANUAL
+	 * 打开此拦截器使用的SessionFactory的Session.
+	 * <p>默认实现委托给{@link SessionFactory#openSession}方法, 并将{@link Session}的刷新模式设置为"MANUAL".
+	 * 
+	 * @return 要使用的Session
+	 * @throws DataAccessResourceFailureException 如果无法创建会话
 	 */
 	@SuppressWarnings("deprecation")
 	protected Session openSession() throws DataAccessResourceFailureException {

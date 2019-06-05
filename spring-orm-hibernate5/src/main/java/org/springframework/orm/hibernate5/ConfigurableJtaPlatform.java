@@ -15,8 +15,8 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of Hibernate 5's JtaPlatform SPI, exposing passed-in {@link TransactionManager},
- * {@link UserTransaction} and {@link TransactionSynchronizationRegistry} references.
+ * Hibernate 5的JtaPlatform SPI的实现, 公开传入的{@link TransactionManager}, {@link UserTransaction}
+ * 和{@link TransactionSynchronizationRegistry}引用.
  */
 @SuppressWarnings("serial")
 class ConfigurableJtaPlatform implements JtaPlatform {
@@ -29,11 +29,9 @@ class ConfigurableJtaPlatform implements JtaPlatform {
 
 
 	/**
-	 * Create a new ConfigurableJtaPlatform instance with the given
-	 * JTA TransactionManager and optionally a given UserTransaction.
-	 * @param tm the JTA TransactionManager reference (required)
-	 * @param ut the JTA UserTransaction reference (optional)
-	 * @param tsr the JTA 1.1 TransactionSynchronizationRegistry (optional)
+	 * @param tm JTA TransactionManager引用 (必须)
+	 * @param ut JTA UserTransaction引用 (可选)
+	 * @param tsr JTA 1.1 TransactionSynchronizationRegistry (可选)
 	 */
 	public ConfigurableJtaPlatform(TransactionManager tm, UserTransaction ut, TransactionSynchronizationRegistry tsr) {
 		Assert.notNull(tm, "TransactionManager reference must not be null");
