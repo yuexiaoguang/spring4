@@ -43,9 +43,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.xml.StaxUtils;
 
 /**
- * Abstract implementation of the {@code Marshaller} and {@code Unmarshaller} interface.
- * This implementation inspects the given {@code Source} or {@code Result}, and
- * delegates further handling to overridable template methods.
+ * {@code Marshaller}和{@code Unmarshaller}接口的抽象实现.
+ * 此实现检查给定的{@code Source}或{@code Result}, 并将进一步处理委托给可覆盖的模板方法.
  */
 public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 
@@ -62,29 +61,27 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 
 
 	/**
-	 * Indicates whether DTD parsing should be supported.
-	 * <p>Default is {@code false} meaning that DTD is disabled.
+	 * 指示是否应支持DTD解析.
+	 * <p>默认值为{@code false}, 表示DTD已禁用.
 	 */
 	public void setSupportDtd(boolean supportDtd) {
 		this.supportDtd = supportDtd;
 	}
 
 	/**
-	 * Whether DTD parsing is supported.
+	 * 是否支持DTD解析.
 	 */
 	public boolean isSupportDtd() {
 		return this.supportDtd;
 	}
 
 	/**
-	 * Indicates whether external XML entities are processed when unmarshalling.
-	 * <p>Default is {@code false}, meaning that external entities are not resolved.
-	 * Note that processing of external entities will only be enabled/disabled when the
-	 * {@code Source} passed to {@link #unmarshal(Source)} is a {@link SAXSource} or
-	 * {@link StreamSource}. It has no effect for {@link DOMSource} or {@link StAXSource}
-	 * instances.
-	 * <p><strong>Note:</strong> setting this option to {@code true} also
-	 * automatically sets {@link #setSupportDtd} to {@code true}.
+	 * 指示解组时是否处理外部XML实体.
+	 * <p>默认{@code false}, 表示未解析外部实体.
+	 * 请注意, 只有在传递给{@link #unmarshal(Source)}的{@code Source}为{@link SAXSource}或{@link StreamSource}时,
+	 * 才会启用/禁用外部实体的处理.
+	 * 它对{@link DOMSource}或{@link StAXSource}实例没有影响.
+	 * <p><strong>Note:</strong> 将此选项设置为{@code true}也会自动将{@link #setSupportDtd}设置为{@code true}.
 	 */
 	public void setProcessExternalEntities(boolean processExternalEntities) {
 		this.processExternalEntities = processExternalEntities;
@@ -94,8 +91,7 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Returns the configured value for whether XML external entities are allowed.
-	 * @see #createXmlReader()
+	 * 返回是否允许XML外部实体的配置值.
 	 */
 	public boolean isProcessExternalEntities() {
 		return this.processExternalEntities;
@@ -103,10 +99,7 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 
 
 	/**
-	 * Build a new {@link Document} from this marshaller's {@link DocumentBuilderFactory},
-	 * as a placeholder for a DOM node.
-	 * @see #createDocumentBuilderFactory()
-	 * @see #createDocumentBuilder(DocumentBuilderFactory)
+	 * 从此编组器的{@link DocumentBuilderFactory}构建一个新的{@link Document}, 作为DOM节点的占位符.
 	 */
 	protected Document buildDocument() {
 		try {
@@ -125,12 +118,11 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Create a {@code DocumentBuilder} that this marshaller will use for creating
-	 * DOM documents when passed an empty {@code DOMSource}.
-	 * <p>The resulting {@code DocumentBuilderFactory} is cached, so this method
-	 * will only be called once.
+	 * 创建一个{@code DocumentBuilder}, 这个编组器在传递空的{@code DOMSource}时, 将用于创建DOM文档.
+	 * <p>生成的{@code DocumentBuilderFactory}被缓存, 因此此方法只会被调用一次.
+	 * 
 	 * @return the DocumentBuilderFactory
-	 * @throws ParserConfigurationException if thrown by JAXP methods
+	 * @throws ParserConfigurationException 如果由JAXP方法抛出
 	 */
 	protected DocumentBuilderFactory createDocumentBuilderFactory() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -142,12 +134,13 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Create a {@code DocumentBuilder} that this marshaller will use for creating
-	 * DOM documents when passed an empty {@code DOMSource}.
-	 * <p>Can be overridden in subclasses, adding further initialization of the builder.
-	 * @param factory the {@code DocumentBuilderFactory} that the DocumentBuilder should be created with
+	 * 创建一个{@code DocumentBuilder}, 这个编组器在传递空的{@code DOMSource}时, 将用于创建DOM文档.
+	 * <p>可以在子类中重写, 添加构建器的进一步初始化.
+	 * 
+	 * @param factory 创建DocumentBuilder的{@code DocumentBuilderFactory}
+	 * 
 	 * @return the {@code DocumentBuilder}
-	 * @throws ParserConfigurationException if thrown by JAXP methods
+	 * @throws ParserConfigurationException 如果由JAXP方法抛出
 	 */
 	protected DocumentBuilder createDocumentBuilder(DocumentBuilderFactory factory)
 			throws ParserConfigurationException {
@@ -160,9 +153,10 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Create an {@code XMLReader} that this marshaller will when passed an empty {@code SAXSource}.
+	 * 创建一个{@code XMLReader}, 当这个编组器传递一个空的{@code SAXSource}时.
+	 * 
 	 * @return the XMLReader
-	 * @throws SAXException if thrown by JAXP methods
+	 * @throws SAXException 如果由JAXP方法抛出
 	 */
 	protected XMLReader createXmlReader() throws SAXException {
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
@@ -175,9 +169,8 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Determine the default encoding to use for marshalling or unmarshalling from
-	 * a byte stream, or {@code null} if none.
-	 * <p>The default implementation returns {@code null}.
+	 * 确定用于从字节流进行编组或解组的默认编码, 或{@code null}.
+	 * <p>默认实现返回{@code null}.
 	 */
 	protected String getDefaultEncoding() {
 		return null;
@@ -187,18 +180,15 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	// Marshalling
 
 	/**
-	 * Marshals the object graph with the given root into the provided {@code javax.xml.transform.Result}.
-	 * <p>This implementation inspects the given result, and calls {@code marshalDomResult},
-	 * {@code marshalSaxResult}, or {@code marshalStreamResult}.
-	 * @param graph the root of the object graph to marshal
-	 * @param result the result to marshal to
-	 * @throws IOException if an I/O exception occurs
-	 * @throws XmlMappingException if the given object cannot be marshalled to the result
-	 * @throws IllegalArgumentException if {@code result} if neither a {@code DOMResult},
-	 * a {@code SAXResult}, nor a {@code StreamResult}
-	 * @see #marshalDomResult(Object, javax.xml.transform.dom.DOMResult)
-	 * @see #marshalSaxResult(Object, javax.xml.transform.sax.SAXResult)
-	 * @see #marshalStreamResult(Object, javax.xml.transform.stream.StreamResult)
+	 * 将给定根的对象图编组到提供的{@code javax.xml.transform.Result}中.
+	 * <p>此实现检查给定的结果, 并调用{@code marshalDomResult}, {@code marshalSaxResult}, 或{@code marshalStreamResult}.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param result 要编组到的结果
+	 * 
+	 * @throws IOException 如果发生I/O异常
+	 * @throws XmlMappingException 如果给定的对象无法编组到结果中
+	 * @throws IllegalArgumentException 如果{@code result}既不是{@code DOMResult}, 也不是{@code SAXResult}, 也不是{@code StreamResult}
 	 */
 	@Override
 	public final void marshal(Object graph, Result result) throws IOException, XmlMappingException {
@@ -220,13 +210,14 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code DOMResult}s.
-	 * <p>This implementation delegates to {@code marshalDomNode}.
-	 * @param graph the root of the object graph to marshal
+	 * 处理{@code DOMResult}的模板方法.
+	 * <p>此实现委托给{@code marshalDomNode}.
+	 * 
+	 * @param graph 要编组的对象图的根
 	 * @param domResult the {@code DOMResult}
-	 * @throws XmlMappingException if the given object cannot be marshalled to the result
-	 * @throws IllegalArgumentException if the {@code domResult} is empty
-	 * @see #marshalDomNode(Object, org.w3c.dom.Node)
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到结果中
+	 * @throws IllegalArgumentException 如果{@code domResult}为空
 	 */
 	protected void marshalDomResult(Object graph, DOMResult domResult) throws XmlMappingException {
 		if (domResult.getNode() == null) {
@@ -236,15 +227,14 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code StaxResult}s.
-	 * <p>This implementation delegates to {@code marshalXMLSteamWriter} or
-	 * {@code marshalXMLEventConsumer}, depending on what is contained in the
-	 * {@code StaxResult}.
-	 * @param graph the root of the object graph to marshal
+	 * 处理{@code StaxResult}的模板方法.
+	 * <p>此实现委托给{@code marshalXMLSteamWriter}或{@code marshalXMLEventConsumer}, 具体取决于{@code StaxResult}中包含的内容.
+	 * 
+	 * @param graph 要编组的对象图的根
 	 * @param staxResult a JAXP 1.4 {@link StAXSource}
-	 * @throws XmlMappingException if the given object cannot be marshalled to the result
-	 * @throws IllegalArgumentException if the {@code domResult} is empty
-	 * @see #marshalDomNode(Object, org.w3c.dom.Node)
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到结果中
+	 * @throws IllegalArgumentException 如果{@code domResult}为空
 	 */
 	protected void marshalStaxResult(Object graph, Result staxResult) throws XmlMappingException {
 		XMLStreamWriter streamWriter = StaxUtils.getXMLStreamWriter(staxResult);
@@ -263,12 +253,13 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code SAXResult}s.
-	 * <p>This implementation delegates to {@code marshalSaxHandlers}.
-	 * @param graph the root of the object graph to marshal
+	 * 处理{@code SAXResult}的模板方法.
+	 * <p>此实现委托给{@code marshalSaxHandlers}.
+	 * 
+	 * @param graph 要编组的对象图的根
 	 * @param saxResult the {@code SAXResult}
-	 * @throws XmlMappingException if the given object cannot be marshalled to the result
-	 * @see #marshalSaxHandlers(Object, org.xml.sax.ContentHandler, org.xml.sax.ext.LexicalHandler)
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到结果中
 	 */
 	protected void marshalSaxResult(Object graph, SAXResult saxResult) throws XmlMappingException {
 		ContentHandler contentHandler = saxResult.getHandler();
@@ -278,15 +269,15 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code StreamResult}s.
-	 * <p>This implementation delegates to {@code marshalOutputStream} or {@code marshalWriter},
-	 * depending on what is contained in the {@code StreamResult}
-	 * @param graph the root of the object graph to marshal
+	 * 处理{@code StreamResult}的模板方法.
+	 * <p>此实现委托给{@code marshalOutputStream}或{@code marshalWriter}, 具体取决于{@code StreamResult}中包含的内容
+	 * 
+	 * @param graph 要编组的对象图的根
 	 * @param streamResult the {@code StreamResult}
-	 * @throws IOException if an I/O Exception occurs
-	 * @throws XmlMappingException if the given object cannot be marshalled to the result
-	 * @throws IllegalArgumentException if {@code streamResult} does neither
-	 * contain an {@code OutputStream} nor a {@code Writer}
+	 * 
+	 * @throws IOException 如果发生I/O异常
+	 * @throws XmlMappingException 如果给定的对象无法编组到结果中
+	 * @throws IllegalArgumentException 如果{@code streamResult}既不包含{@code OutputStream}也不包含{@code Writer}
 	 */
 	protected void marshalStreamResult(Object graph, StreamResult streamResult)
 			throws XmlMappingException, IOException {
@@ -306,18 +297,15 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	// Unmarshalling
 
 	/**
-	 * Unmarshals the given provided {@code javax.xml.transform.Source} into an object graph.
-	 * <p>This implementation inspects the given result, and calls {@code unmarshalDomSource},
-	 * {@code unmarshalSaxSource}, or {@code unmarshalStreamSource}.
-	 * @param source the source to marshal from
-	 * @return the object graph
-	 * @throws IOException if an I/O Exception occurs
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
-	 * @throws IllegalArgumentException if {@code source} is neither a {@code DOMSource},
-	 * a {@code SAXSource}, nor a {@code StreamSource}
-	 * @see #unmarshalDomSource(javax.xml.transform.dom.DOMSource)
-	 * @see #unmarshalSaxSource(javax.xml.transform.sax.SAXSource)
-	 * @see #unmarshalStreamSource(javax.xml.transform.stream.StreamSource)
+	 * 将给定的{@code javax.xml.transform.Source}解组到对象图中.
+	 * <p>此实现检查给定的结果, 并调用 {@code unmarshalDomSource}, {@code unmarshalSaxSource}, 或{@code unmarshalStreamSource}.
+	 * 
+	 * @param source 要解组的源
+	 * 
+	 * @return 对象图
+	 * @throws IOException 如果发生I/O异常
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
+	 * @throws IllegalArgumentException 如果{@code source}既不是{@code DOMSource}, 也不是{@code SAXSource}, 也不是{@code StreamSource}
 	 */
 	@Override
 	public final Object unmarshal(Source source) throws IOException, XmlMappingException {
@@ -339,15 +327,15 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code DOMSource}s.
-	 * <p>This implementation delegates to {@code unmarshalDomNode}.
-	 * If the given source is empty, an empty source {@code Document}
-	 * will be created as a placeholder.
+	 * 处理{@code DOMSource}的模板方法.
+	 * <p>此实现委托给{@code unmarshalDomNode}.
+	 * 如果给定的源为空, 则将创建空源{@code Document}作为占位符.
+	 * 
 	 * @param domSource the {@code DOMSource}
-	 * @return the object graph
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
-	 * @throws IllegalArgumentException if the {@code domSource} is empty
-	 * @see #unmarshalDomNode(org.w3c.dom.Node)
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
+	 * @throws IllegalArgumentException 如果{@code domSource}为空
 	 */
 	protected Object unmarshalDomSource(DOMSource domSource) throws XmlMappingException {
 		if (domSource.getNode() == null) {
@@ -367,12 +355,13 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code StaxSource}s.
-	 * <p>This implementation delegates to {@code unmarshalXmlStreamReader} or
-	 * {@code unmarshalXmlEventReader}.
+	 * 处理{@code StaxSource}的模板方法.
+	 * <p>此实现委托给@code unmarshalXmlStreamReader} 或 {@code unmarshalXmlEventReader}.
+	 * 
 	 * @param staxSource the {@code StaxSource}
-	 * @return the object graph
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
 	 */
 	protected Object unmarshalStaxSource(Source staxSource) throws XmlMappingException {
 		XMLStreamReader streamReader = StaxUtils.getXMLStreamReader(staxSource);
@@ -391,13 +380,14 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code SAXSource}s.
-	 * <p>This implementation delegates to {@code unmarshalSaxReader}.
+	 * 处理{@code SAXSource}的模板方法.
+	 * <p>此实现委托给{@code unmarshalSaxReader}.
+	 * 
 	 * @param saxSource the {@code SAXSource}
-	 * @return the object graph
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
-	 * @throws IOException if an I/O Exception occurs
-	 * @see #unmarshalSaxReader(org.xml.sax.XMLReader, org.xml.sax.InputSource)
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected Object unmarshalSaxSource(SAXSource saxSource) throws XmlMappingException, IOException {
 		if (saxSource.getXMLReader() == null) {
@@ -425,12 +415,14 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	}
 
 	/**
-	 * Template method for handling {@code StreamSource}s.
-	 * <p>This implementation delegates to {@code unmarshalInputStream} or {@code unmarshalReader}.
+	 * 处理{@code StreamSource}的模板方法.
+	 * <p>此实现委托给{@code unmarshalInputStream}或{@code unmarshalReader}.
+	 * 
 	 * @param streamSource the {@code StreamSource}
-	 * @return the object graph
-	 * @throws IOException if an I/O exception occurs
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
+	 * 
+	 * @return 对象图
+	 * @throws IOException 如果发生I/O异常
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
 	 */
 	protected Object unmarshalStreamSource(StreamSource streamSource) throws XmlMappingException, IOException {
 		if (streamSource.getInputStream() != null) {
@@ -460,122 +452,142 @@ public abstract class AbstractMarshaller implements Marshaller, Unmarshaller {
 	// Abstract template methods
 
 	/**
-	 * Abstract template method for marshalling the given object graph to a DOM {@code Node}.
-	 * <p>In practice, node is be a {@code Document} node, a {@code DocumentFragment} node,
-	 * or a {@code Element} node. In other words, a node that accepts children.
-	 * @param graph the root of the object graph to marshal
-	 * @param node the DOM node that will contain the result tree
-	 * @throws XmlMappingException if the given object cannot be marshalled to the DOM node
-	 * @see org.w3c.dom.Document
-	 * @see org.w3c.dom.DocumentFragment
-	 * @see org.w3c.dom.Element
+	 * 用于将给定对象图编组到DOM {@code Node}的抽象模板方法.
+	 * <p>实际上, 节点是{@code Document}节点, {@code DocumentFragment}节点或{@code Element}节点.
+	 * 换句话说, 一个接受子节点的节点.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param node 包含结果树的DOM节点
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到DOM节点
 	 */
 	protected abstract void marshalDomNode(Object graph, Node node)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for marshalling the given object to a StAX {@code XMLEventWriter}.
-	 * @param graph the root of the object graph to marshal
-	 * @param eventWriter the {@code XMLEventWriter} to write to
-	 * @throws XmlMappingException if the given object cannot be marshalled to the DOM node
+	 * 用于将给定对象编组到StAX {@code XMLEventWriter}的抽象模板方法.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param eventWriter 要写入的{@code XMLEventWriter}
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到DOM节点
 	 */
 	protected abstract void marshalXmlEventWriter(Object graph, XMLEventWriter eventWriter)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for marshalling the given object to a StAX {@code XMLStreamWriter}.
-	 * @param graph the root of the object graph to marshal
-	 * @param streamWriter the {@code XMLStreamWriter} to write to
-	 * @throws XmlMappingException if the given object cannot be marshalled to the DOM node
+	 * 用于将给定对象编组到StAX {@code XMLStreamWriter}的抽象模板方法.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param streamWriter 要写入的{@code XMLStreamWriter}
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到DOM节点
 	 */
 	protected abstract void marshalXmlStreamWriter(Object graph, XMLStreamWriter streamWriter)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for marshalling the given object graph to a SAX {@code ContentHandler}.
-	 * @param graph the root of the object graph to marshal
+	 * 用于将给定对象图编组到SAX {@code ContentHandler}的抽象模板方法.
+	 * 
+	 * @param graph 要编组的对象图的根
 	 * @param contentHandler the SAX {@code ContentHandler}
 	 * @param lexicalHandler the SAX2 {@code LexicalHandler}. Can be {@code null}.
-	 * @throws XmlMappingException if the given object cannot be marshalled to the handlers
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到处理器
 	 */
 	protected abstract void marshalSaxHandlers(
 			Object graph, ContentHandler contentHandler, LexicalHandler lexicalHandler)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for marshalling the given object graph to a {@code OutputStream}.
-	 * @param graph the root of the object graph to marshal
-	 * @param outputStream the {@code OutputStream} to write to
-	 * @throws XmlMappingException if the given object cannot be marshalled to the writer
-	 * @throws IOException if an I/O exception occurs
+	 * 用于将给定对象图编组到{@code OutputStream}的抽象模板方法.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param outputStream 要写入的{@code OutputStream}
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到写入器
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected abstract void marshalOutputStream(Object graph, OutputStream outputStream)
 			throws XmlMappingException, IOException;
 
 	/**
-	 * Abstract template method for marshalling the given object graph to a {@code Writer}.
-	 * @param graph the root of the object graph to marshal
-	 * @param writer the {@code Writer} to write to
-	 * @throws XmlMappingException if the given object cannot be marshalled to the writer
-	 * @throws IOException if an I/O exception occurs
+	 * 用于将给定对象图编组到{@code Writer}的抽象模板方法.
+	 * 
+	 * @param graph 要编组的对象图的根
+	 * @param writer 要写入的{@code Writer}
+	 * 
+	 * @throws XmlMappingException 如果给定的对象无法编组到写入器
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected abstract void marshalWriter(Object graph, Writer writer)
 			throws XmlMappingException, IOException;
 
 	/**
-	 * Abstract template method for unmarshalling from a given DOM {@code Node}.
-	 * @param node the DOM node that contains the objects to be unmarshalled
-	 * @return the object graph
-	 * @throws XmlMappingException if the given DOM node cannot be mapped to an object
+	 * 从给定DOM {@code Node}解组的抽象模板方法.
+	 * 
+	 * @param node 包含要解组的对象的DOM节点
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的DOM节点无法映射到对象
 	 */
 	protected abstract Object unmarshalDomNode(Node node) throws XmlMappingException;
 
 	/**
-	 * Abstract template method for unmarshalling from a given Stax {@code XMLEventReader}.
-	 * @param eventReader the {@code XMLEventReader} to read from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given event reader cannot be converted to an object
+	 * 从给定Stax {@code XMLEventReader}解组的抽象模板方法.
+	 * 
+	 * @param eventReader 要读取的{@code XMLEventReader}
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的事件读取器无法转换为对象
 	 */
 	protected abstract Object unmarshalXmlEventReader(XMLEventReader eventReader)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for unmarshalling from a given Stax {@code XMLStreamReader}.
-	 * @param streamReader the {@code XMLStreamReader} to read from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given stream reader cannot be converted to an object
+	 * 从给定的Stax {@code XMLStreamReader}解组的抽象模板方法.
+	 * 
+	 * @param streamReader 要读取的{@code XMLStreamReader}
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的流读取器无法转换为对象
 	 */
 	protected abstract Object unmarshalXmlStreamReader(XMLStreamReader streamReader)
 			throws XmlMappingException;
 
 	/**
-	 * Abstract template method for unmarshalling using a given SAX {@code XMLReader}
-	 * and {@code InputSource}.
-	 * @param xmlReader the SAX {@code XMLReader} to parse with
-	 * @param inputSource the input source to parse from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given reader and input source cannot be converted to an object
-	 * @throws IOException if an I/O exception occurs
+	 * 使用给定SAX {@code XMLReader}和{@code InputSource}进行解组的抽象模板方法.
+	 * 
+	 * @param xmlReader 要解析的SAX {@code XMLReader}
+	 * @param inputSource 要解析的输入源
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的读取器和输入源无法转换为对象
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected abstract Object unmarshalSaxReader(XMLReader xmlReader, InputSource inputSource)
 			throws XmlMappingException, IOException;
 
 	/**
-	 * Abstract template method for unmarshalling from a given {@code InputStream}.
-	 * @param inputStream the {@code InputStreamStream} to read from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given stream cannot be converted to an object
-	 * @throws IOException if an I/O exception occurs
+	 * 从给定{@code InputStream}解组的抽象模板方法.
+	 * 
+	 * @param inputStream 要读取的{@code InputStreamStream}
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的流不能转换为对象
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected abstract Object unmarshalInputStream(InputStream inputStream)
 			throws XmlMappingException, IOException;
 
 	/**
-	 * Abstract template method for unmarshalling from a given {@code Reader}.
-	 * @param reader the {@code Reader} to read from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given reader cannot be converted to an object
-	 * @throws IOException if an I/O exception occurs
+	 * 从给定{@code Reader}解组的抽象模板方法.
+	 * 
+	 * @param reader 要读取的{@code Reader}
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的读取器无法转换为对象
+	 * @throws IOException 如果发生I/O异常
 	 */
 	protected abstract Object unmarshalReader(Reader reader)
 			throws XmlMappingException, IOException;

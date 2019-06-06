@@ -42,17 +42,15 @@ import org.springframework.oxm.support.AbstractMarshaller;
 import org.springframework.util.xml.StaxUtils;
 
 /**
- * Implementation of the {@link Marshaller} interface for Apache XMLBeans.
+ * Apache XMLBeans的{@link Marshaller}接口的实现.
  *
- * <p>Options can be set by setting the {@code xmlOptions} property.
- * The {@link XmlOptionsFactoryBean} is provided to easily set up an {@link XmlOptions} instance.
+ * <p>可以通过设置{@code xmlOptions}属性来设置选项.
+ * 提供{@link XmlOptionsFactoryBean}以轻松设置{@link XmlOptions}实例.
  *
- * <p>Unmarshalled objects can be validated by setting the {@code validating} property,
- * or by calling the {@link #validate(XmlObject)} method directly. Invalid objects will
- * result in an {@link ValidationFailureException}.
+ * <p>可以通过设置{@code validating}属性或直接调用{@link #validate(XmlObject)}方法来验证未编组的对象.
+ * 无效的对象将导致{@link ValidationFailureException}.
  *
- * <p><b>NOTE:</b> Due to the nature of XMLBeans, this marshaller requires
- * all passed objects to be of type {@link XmlObject}.
+ * <p><b>NOTE:</b> 由于XMLBeans的性质, 此编组器要求所有传递的对象都是{@link XmlObject}类型.
  *
  * @deprecated as of Spring 4.2, following the XMLBeans retirement at Apache
  */
@@ -79,7 +77,7 @@ public class XmlBeansMarshaller extends AbstractMarshaller {
 	}
 
 	/**
-	 * Set whether this marshaller should validate in- and outgoing documents.
+	 * 设置此编组器是否应验证输入和输出文档.
 	 * Default is {@code false}.
 	 */
 	public void setValidating(boolean validating) {
@@ -87,7 +85,7 @@ public class XmlBeansMarshaller extends AbstractMarshaller {
 	}
 
 	/**
-	 * Return whether this marshaller should validate in- and outgoing documents.
+	 * 返回此编组器是否应验证输入和输出文档.
 	 */
 	public boolean isValidating() {
 		return this.validating;
@@ -95,7 +93,7 @@ public class XmlBeansMarshaller extends AbstractMarshaller {
 
 
 	/**
-	 * This implementation returns true if the given class is an implementation of {@link XmlObject}.
+	 * 如果给定的类是{@link XmlObject}的实现, 则此实现返回true.
 	 */
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -251,15 +249,17 @@ public class XmlBeansMarshaller extends AbstractMarshaller {
 
 
 	/**
-	 * Validate the given {@code XmlObject}.
-	 * @param object the xml object to validate
-	 * @throws ValidationFailureException if the given object is not valid
+	 * 验证给定的{@code XmlObject}.
+	 * 
+	 * @param object 要验证的xml对象
+	 * 
+	 * @throws ValidationFailureException 如果给定的对象无效
 	 */
 	protected void validate(XmlObject object) throws ValidationFailureException {
 		if (isValidating() && object != null) {
 			XmlOptions validateOptions = getXmlOptions();
 			if (validateOptions == null) {
-				// Create temporary XmlOptions just for validation
+				// 创建临时XmlOptions仅用于验证
 				validateOptions = new XmlOptions();
 			}
 			List<XmlError> errorsList = new ArrayList<XmlError>();
@@ -283,14 +283,13 @@ public class XmlBeansMarshaller extends AbstractMarshaller {
 	}
 
 	/**
-	 * Convert the given XMLBeans exception to an appropriate exception from the
-	 * {@code org.springframework.oxm} hierarchy.
-	 * <p>A boolean flag is used to indicate whether this exception occurs during marshalling or
-	 * unmarshalling, since XMLBeans itself does not make this distinction in its exception hierarchy.
-	 * @param ex XMLBeans Exception that occured
-	 * @param marshalling indicates whether the exception occurs during marshalling ({@code true}),
-	 * or unmarshalling ({@code false})
-	 * @return the corresponding {@code XmlMappingException}
+	 * 将给定的XMLBeans异常转换为{@code org.springframework.oxm}层次结构中的适当异常.
+	 * <p>布尔标志用于指示在编组或解组期间是否发生此异常, 因为XMLBeans本身不会在其异常层次结构中进行此区分.
+	 * 
+	 * @param ex 发生XMLBeans异常
+	 * @param marshalling 指示在编组({@code true}), 或解组 ({@code false})期间是否发生异常
+	 * 
+	 * @return 相应的{@code XmlMappingException}
 	 */
 	protected XmlMappingException convertXmlBeansException(Exception ex, boolean marshalling) {
 		if (ex instanceof XMLStreamValidationException) {

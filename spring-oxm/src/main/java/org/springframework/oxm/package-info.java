@@ -1,6 +1,5 @@
 /**
- * Root package for Spring's O/X Mapping integration classes.
- * Contains generic Marshaller and Unmarshaller interfaces,
- * and XmlMappingExceptions related to O/X Mapping
+ * Spring的O/X Mapping集成类的Root包.
+ * 包含通用的Marshaller和Unmarshaller接口, 以及与O/X Mapping相关的XmlMappingException
  */
 package org.springframework.oxm;

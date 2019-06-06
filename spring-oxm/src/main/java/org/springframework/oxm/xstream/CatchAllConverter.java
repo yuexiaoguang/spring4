@@ -7,24 +7,22 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 /**
- * XStream {@link Converter} that supports all classes, but throws exceptions for
- * (un)marshalling.
+ * 支持所有类的XStream {@link Converter}, 但抛出编组/解组的异常.
  *
- * <p>The main purpose of this class is to
+ * <p>这个类的主要目的是
  * {@linkplain com.thoughtworks.xstream.XStream#registerConverter(com.thoughtworks.xstream.converters.Converter, int) register}
- * this converter as a catch-all last converter with a
- * {@linkplain com.thoughtworks.xstream.XStream#PRIORITY_NORMAL normal}
- * or higher priority, in addition to converters that explicitly handle the domain
- * classes that should be supported. As a result, default XStream converters with
- * lower priorities and possible security vulnerabilities do not get invoked.
+ * 此转换器为具有
+ * {@linkplain com.thoughtworks.xstream.XStream#PRIORITY_NORMAL 普通} 或更高优先级的全能最后转换器,
+ * 以及显式处理应支持的域类的转换器.
+ * 因此, 不会调用具有较低优先级和可能的安全漏洞的默认XStream转换器.
  *
- * <p>For instance:
+ * <p>例如:
  * <pre class="code">
  * XStreamMarshaller unmarshaller = new XStreamMarshaller();
  * unmarshaller.getXStream().registerConverter(new MyDomainClassConverter(), XStream.PRIORITY_VERY_HIGH);
  * unmarshaller.getXStream().registerConverter(new CatchAllConverter(), XStream.PRIORITY_NORMAL);
  * MyDomainClass myObject = unmarshaller.unmarshal(source);
- * </pre
+ * </pre>
  */
 public class CatchAllConverter implements Converter {
 

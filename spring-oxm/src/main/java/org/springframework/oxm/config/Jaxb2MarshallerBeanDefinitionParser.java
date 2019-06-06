@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * Parser for the {@code <oxm:jaxb2-marshaller/>} element.
+ * {@code <oxm:jaxb2-marshaller/>}元素的解析器.
  */
 class Jaxb2MarshallerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -25,7 +25,7 @@ class Jaxb2MarshallerBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder beanDefinitionBuilder) {
 		String contextPath = element.getAttribute("context-path");
 		if (!StringUtils.hasText(contextPath)) {
-			// Backwards compatibility with 3.x version of the xsd
+			// 向后兼容xsd的3.x版本
 			contextPath = element.getAttribute("contextPath");
 		}
 		if (StringUtils.hasText(contextPath)) {

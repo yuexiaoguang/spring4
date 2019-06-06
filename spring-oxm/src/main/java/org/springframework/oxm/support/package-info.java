@@ -1,7 +1,6 @@
 /**
- * Provides generic support classes for using Spring's O/X Mapping integration
- * within various scenario's. Includes the MarshallingSource for compatibility
- * with TrAX, MarshallingView for use within Spring Web MVC, and the
- * MarshallingMessageConverter for use within Spring's JMS support.
+ * 提供通用支持类, 以便在各种场景中使用Spring的O/X Mapping集成.
+ * 包括与TrAX兼容的MarshallingSource, 在Spring Web MVC中使用的MarshallingView,
+ * 以及在Spring的JMS支持中使用的MarshallingMessageConverter.
  */
 package org.springframework.oxm.support;

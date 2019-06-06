@@ -7,19 +7,20 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
 /**
- * Subinterface of {@link org.springframework.oxm.Unmarshaller} that can use MIME attachments
- * to optimize storage of binary data. Attachments can be added as MTOM, XOP, or SwA.
+ * {@link org.springframework.oxm.Unmarshaller}的子接口, 可以使用MIME附件优化二进制数据的存储.
+ * 附件可以添加为 MTOM, XOP, 或 SwA.
  */
 public interface MimeUnmarshaller extends Unmarshaller {
 
 	/**
-	 * Unmarshals the given provided {@link Source} into an object graph,
-	 * reading binary attachments from a {@link MimeContainer}.
-	 * @param source the source to marshal from
-	 * @param mimeContainer the MIME container to read extracted binary content from
-	 * @return the object graph
-	 * @throws XmlMappingException if the given source cannot be mapped to an object
-	 * @throws IOException if an I/O Exception occurs
+	 * 将给定的{@link Source}解组到对象图中, 从{@link MimeContainer}读取二进制附件.
+	 * 
+	 * @param source 要解组的源
+	 * @param mimeContainer 用于从中读取提取的二进制内容的MIME容器
+	 * 
+	 * @return 对象图
+	 * @throws XmlMappingException 如果给定的源无法映射到对象
+	 * @throws IOException 如果发生I/O异常
 	 */
 	Object unmarshal(Source source, MimeContainer mimeContainer) throws XmlMappingException, IOException;
 

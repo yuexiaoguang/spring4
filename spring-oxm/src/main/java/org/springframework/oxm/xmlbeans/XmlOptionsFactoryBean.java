@@ -7,11 +7,9 @@ import org.apache.xmlbeans.XmlOptions;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * {@link FactoryBean} that configures an XMLBeans {@code XmlOptions} object
- * and provides it as a bean reference.
+ * {@link FactoryBean}, 用于配置XMLBeans {@code XmlOptions}对象并将其作为bean引用提供.
  *
- * <p>Typical usage will be to set XMLBeans options on this bean, and refer to it
- * in the {@link XmlBeansMarshaller}.
+ * <p>典型的用法是在这个bean上设置XMLBeans选项, 并在{@link XmlBeansMarshaller}中引用它.
  */
 public class XmlOptionsFactoryBean implements FactoryBean<XmlOptions> {
 
@@ -19,9 +17,8 @@ public class XmlOptionsFactoryBean implements FactoryBean<XmlOptions> {
 
 
 	/**
-	 * Set options on the underlying {@code XmlOptions} object.
-	 * <p>The keys of the supplied map should be one of the String constants
-	 * defined in {@code XmlOptions}, the values vary per option.
+	 * 在底层{@code XmlOptions}对象上设置选项.
+	 * <p>提供的映射的键应该是{@code XmlOptions}中定义的字符串常量之一, 每个选项的值不同.
 	 */
 	public void setOptions(Map<String, ?> optionsMap) {
 		this.xmlOptions = new XmlOptions();

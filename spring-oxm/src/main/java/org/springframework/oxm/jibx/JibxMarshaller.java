@@ -55,10 +55,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.StaxUtils;
 
 /**
- * Implementation of the {@code Marshaller} and {@code Unmarshaller} interfaces for JiBX.
+ * JiBX的{@code Marshaller}和{@code Unmarshaller}接口的实现.
  *
- * <p>The typical usage will be to set the {@code targetClass} and optionally the
- * {@code bindingName} property on this bean.
+ * <p>典型的用法是在此bean上设置{@code targetClass}和可选的{@code bindingName}属性.
  */
 public class JibxMarshaller extends AbstractMarshaller implements InitializingBean {
 
@@ -91,39 +90,39 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 
 
 	/**
-	 * Set the target class for this instance. Setting either this property or the
-	 * {@link #setTargetPackage(String) targetPackage} property is required.
-	 * <p>If this property is set, {@link #setTargetPackage(String) targetPackage} is ignored.
+	 * 设置此实例的目标类.
+	 * 设置此属性或{@link #setTargetPackage(String) targetPackage}属性是必需的.
+	 * <p>如果设置了此属性, 则忽略{@link #setTargetPackage(String) targetPackage}.
 	 */
 	public void setTargetClass(Class<?> targetClass) {
 		this.targetClass = targetClass;
 	}
 
 	/**
-	 * Set the target package for this instance. Setting either this property or the
-	 * {@link #setTargetClass(Class) targetClass} property is required.
-	 * <p>If {@link #setTargetClass(Class) targetClass} is set, this property is ignored.
+	 * 设置此实例的目标包.
+	 * 设置此属性或{@link #setTargetClass(Class) targetClass}属性是必需的.
+	 * <p>如果设置了此属性, 则忽略{@link #setTargetClass(Class) targetClass}.
 	 */
 	public void setTargetPackage(String targetPackage) {
 		this.targetPackage = targetPackage;
 	}
 
 	/**
-	 * Set the optional binding name for this instance.
+	 * 设置此实例可选的绑定名称.
 	 */
 	public void setBindingName(String bindingName) {
 		this.bindingName = bindingName;
 	}
 
 	/**
-	 * Set the number of nesting indent spaces. Default is {@code -1}, i.e. no indentation.
+	 * 设置嵌套缩进空格的数量. 默认{@code -1}, i.e. 没有缩进.
 	 */
 	public void setIndent(int indent) {
 		this.indent = indent;
 	}
 
 	/**
-	 * Set the document encoding using for marshalling. Default is UTF-8.
+	 * 设置用于编组的文档编码. 默认UTF-8.
 	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
@@ -135,47 +134,42 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 	}
 
 	/**
-	 * Set the document standalone flag for marshalling. By default, this flag is not present.
+	 * 设置编组的文档独立标志. 默认情况下, 此标志不存在.
 	 */
 	public void setStandalone(Boolean standalone) {
 		this.standalone = standalone;
 	}
 
 	/**
-	 * Set the root element name for the DTD declaration written when marshalling.
-	 * By default, this is {@code null} (i.e. no DTD declaration is written).
-	 * <p>If set to a value, the system ID or public ID also need to be set.
-	 * @see #setDocTypeSystemId(String)
-	 * @see #setDocTypePublicId(String)
+	 * 设置编组时写入的DTD声明的根元素名称.
+	 * 默认{@code null} (i.e. 没有写入DTD声明).
+	 * <p>如果设置值, 则还需要设置系统ID或公共ID.
 	 */
 	public void setDocTypeRootElementName(String docTypeRootElementName) {
 		this.docTypeRootElementName = docTypeRootElementName;
 	}
 
 	/**
-	 * Set the system id for the DTD declaration written when marshalling.
-	 * By default, this is {@code null}. Only used when the root element also has been set.
-	 * <p>Set either this property or {@code docTypePublicId}, not both.
-	 * @see #setDocTypeRootElementName(String)
+	 * 设置编组时写入的DTD声明的系统ID.
+	 * 默认{@code null}. 仅在已设置根元素时使用.
+	 * <p>设置此属性或{@code docTypePublicId}, 而不是两者都设置.
 	 */
 	public void setDocTypeSystemId(String docTypeSystemId) {
 		this.docTypeSystemId = docTypeSystemId;
 	}
 
 	/**
-	 * Set the public id for the DTD declaration written when marshalling.
-	 * By default, this is {@code null}. Only used when the root element also has been set.
-	 * <p>Set either this property or {@code docTypeSystemId}, not both.
-	 * @see #setDocTypeRootElementName(String)
+	 * 设置编组时写入的DTD声明的公共ID.
+	 * 默认{@code null}. 仅在已设置根元素时使用.
+	 * <p>设置此属性或 {@code docTypeSystemId}, 而不是两者都设置.
 	 */
 	public void setDocTypePublicId(String docTypePublicId) {
 		this.docTypePublicId = docTypePublicId;
 	}
 
 	/**
-	 * Set the internal subset Id for the DTD declaration written when marshalling.
-	 * By default, this is {@code null}. Only used when the root element also has been set.
-	 * @see #setDocTypeRootElementName(String)
+	 * 设置编组时写入的DTD声明的内部子集Id.
+	 * 默认{@code null}. 仅在已设置根元素时使用.
 	 */
 	public void setDocTypeInternalSubset(String docTypeInternalSubset) {
 		this.docTypeInternalSubset = docTypeInternalSubset;
@@ -274,7 +268,7 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 	@Override
 	protected void marshalDomNode(Object graph, Node node) throws XmlMappingException {
 		try {
-			// JiBX does not support DOM natively, so we write to a buffer first, and transform that to the Node
+			// JiBX 本身不支持DOM, 因此首先写入缓冲区, 然后将其转换为Node
 			Result result = new DOMResult(node);
 			transformAndMarshal(graph, result);
 		}
@@ -306,7 +300,7 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 	protected void marshalSaxHandlers(Object graph, ContentHandler contentHandler, LexicalHandler lexicalHandler)
 			throws XmlMappingException {
 		try {
-			// JiBX does not support SAX natively, so we write to a buffer first, and transform that to the handlers
+			// JiBX本身不支持SAX, 因此首先写入缓冲区, 然后将其转换为处理器
 			SAXResult saxResult = new SAXResult(contentHandler);
 			saxResult.setLexicalHandler(lexicalHandler);
 			transformAndMarshal(graph, saxResult);
@@ -419,9 +413,10 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 
 
 	/**
-	 * Create a new {@code IMarshallingContext}, configured with the correct indentation.
-	 * @return the created marshalling context
-	 * @throws JiBXException in case of errors
+	 * 创建一个新的{@code IMarshallingContext}, 配置正确的缩进.
+	 * 
+	 * @return 创建的编组上下文
+	 * @throws JiBXException 发生错误
 	 */
 	protected IMarshallingContext createMarshallingContext() throws JiBXException {
 		IMarshallingContext marshallingContext = this.bindingFactory.createMarshallingContext();
@@ -430,23 +425,23 @@ public class JibxMarshaller extends AbstractMarshaller implements InitializingBe
 	}
 
 	/**
-	 * Create a new {@code IUnmarshallingContext}.
-	 * @return the created unmarshalling context
-	 * @throws JiBXException in case of errors
+	 * 创建新的{@code IUnmarshallingContext}.
+	 * 
+	 * @return 创建的解组上下文
+	 * @throws JiBXException 发生错误
 	 */
 	protected IUnmarshallingContext createUnmarshallingContext() throws JiBXException {
 		return this.bindingFactory.createUnmarshallingContext();
 	}
 
 	/**
-	 * Convert the given {@code JiBXException} to an appropriate exception from the
-	 * {@code org.springframework.oxm} hierarchy.
-	 * <p>A boolean flag is used to indicate whether this exception occurs during marshalling or
-	 * unmarshalling, since JiBX itself does not make this distinction in its exception hierarchy.
-	 * @param ex {@code JiBXException} that occurred
-	 * @param marshalling indicates whether the exception occurs during marshalling ({@code true}),
-	 * or unmarshalling ({@code false})
-	 * @return the corresponding {@code XmlMappingException}
+	 * 将给定的{@code JiBXException}转换为{@code org.springframework.oxm}层次结构中的适当异常.
+	 * <p>布尔标志用于指示在编组或解组期间是否发生此异常, 因为JiBX本身不会在其异常层次结构中进行此区分.
+	 * 
+	 * @param ex 发生的{@code JiBXException}
+	 * @param marshalling 指示在编组({@code true}), 或解组({@code false})期间是否发生异常
+	 * 
+	 * @return 相应的{@code XmlMappingException}
 	 */
 	public XmlMappingException convertJibxException(JiBXException ex, boolean marshalling) {
 		if (ex instanceof ValidationException) {

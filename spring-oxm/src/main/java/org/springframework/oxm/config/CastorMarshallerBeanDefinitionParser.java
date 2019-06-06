@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 
 /**
- * Parser for the {@code <oxm:castor-marshaller/>} element.
+ * {@code <oxm:castor-marshaller/>}元素的解析器.
  *
  * @deprecated as of Spring Framework 4.3.13, due to the lack of activity on the Castor project
  */

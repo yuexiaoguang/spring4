@@ -8,7 +8,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 
 /**
- * Parser for the {@code <oxm:xmlbeans-marshaller/>} element.
+ * {@code <oxm:xmlbeans-marshaller/>}元素的解析器.
  *
  * @deprecated as of Spring 4.2, following the XMLBeans retirement at Apache
  */
