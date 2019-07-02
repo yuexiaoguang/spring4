@@ -3,7 +3,7 @@ package org.springframework.mock.web;
 import javax.servlet.SessionCookieConfig;
 
 /**
- * Mock implementation of the {@link javax.servlet.SessionCookieConfig} interface.
+ * {@link javax.servlet.SessionCookieConfig}接口的模拟实现.
  */
 public class MockSessionCookieConfig implements SessionCookieConfig {
 

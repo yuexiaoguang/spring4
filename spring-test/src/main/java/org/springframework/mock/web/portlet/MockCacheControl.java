@@ -3,7 +3,7 @@ package org.springframework.mock.web.portlet;
 import javax.portlet.CacheControl;
 
 /**
- * Mock implementation of the {@link javax.portlet.CacheControl} interface.
+ * {@link javax.portlet.CacheControl}接口的模拟实现.
  */
 public class MockCacheControl implements CacheControl {
 

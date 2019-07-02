@@ -12,10 +12,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 /**
- * Factory for assertions on the response content using XPath expressions.
+ * 使用XPath表达式对响应内容进行断言的工厂.
  *
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#xpath}.
+ * <p>通常通过{@link MockMvcResultMatchers#xpath}访问此类的实例.
  */
 public class XpathResultMatchers {
 
@@ -23,13 +22,12 @@ public class XpathResultMatchers {
 
 
 	/**
-	 * Protected constructor, not for direct instantiation. Use
-	 * {@link MockMvcResultMatchers#xpath(String, Object...)} or
-	 * {@link MockMvcResultMatchers#xpath(String, Map, Object...)}.
-	 * @param expression the XPath expression
-	 * @param namespaces XML namespaces referenced in the XPath expression, or {@code null}
-	 * @param args arguments to parameterize the XPath expression with using the
-	 * formatting specifiers defined in {@link String#format(String, Object...)}
+	 * 使用{@link MockMvcResultMatchers#xpath(String, Object...)}
+	 * 或{@link MockMvcResultMatchers#xpath(String, Map, Object...)}.
+	 * 
+	 * @param expression XPath表达式
+	 * @param namespaces XPath表达式中引用的XML名称空间, 或{@code null}
+	 * @param args 用于{@link String#format(String, Object...)}中定义的格式说明符参数化XPath表达式的参数
 	 */
 	protected XpathResultMatchers(String expression, Map<String, String> namespaces, Object ... args)
 			throws XPathExpressionException {
@@ -39,8 +37,7 @@ public class XpathResultMatchers {
 
 
 	/**
-	 * Evaluate the XPath and assert the {@link Node} content found with the
-	 * given Hamcrest {@link Matcher}.
+	 * 评估XPath并断言使用给定的Hamcrest {@link Matcher}找到的{@link Node}内容.
 	 */
 	public ResultMatcher node(final Matcher<? super Node> matcher) {
 		return new ResultMatcher() {
@@ -53,14 +50,14 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Get the response encoding if explicitly defined in the response, {code null} otherwise.
+	 * 如果在响应中明确定义, 则获取响应编码, 否则为{code null}.
 	 */
 	private String getDefinedEncoding(MockHttpServletResponse response) {
 		return response.isCharset() ? response.getCharacterEncoding() : null;
 	}
 
 	/**
-	 * Evaluate the XPath and assert that content exists.
+	 * 评估XPath并断言内容存在.
 	 */
 	public ResultMatcher exists() {
 		return new ResultMatcher() {
@@ -73,7 +70,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert that content doesn't exist.
+	 * 评估XPath并断言内容不存在.
 	 */
 	public ResultMatcher doesNotExist() {
 		return new ResultMatcher() {
@@ -86,8 +83,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert the number of nodes found with the given
-	 * Hamcrest {@link Matcher}.
+	 * 评估XPath并断言使用给定Hamcrest {@link Matcher}找到的节点数.
 	 */
 	public ResultMatcher nodeCount(final Matcher<Integer> matcher) {
 		return new ResultMatcher() {
@@ -100,7 +96,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert the number of nodes found.
+	 * 评估XPath并断言找到的节点数.
 	 */
 	public ResultMatcher nodeCount(final int expectedCount) {
 		return new ResultMatcher() {
@@ -113,8 +109,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the {@link String} value found with the given
-	 * Hamcrest {@link Matcher}.
+	 * 应用XPath并断言使用给定的Hamcrest {@link Matcher}找到的{@link String}值.
 	 */
 	public ResultMatcher string(final Matcher<? super String> matcher) {
 		return new ResultMatcher() {
@@ -127,7 +122,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the {@link String} value found.
+	 * 应用XPath并断言找到的{@link String}值.
 	 */
 	public ResultMatcher string(final String expectedValue) {
 		return new ResultMatcher() {
@@ -140,8 +135,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert the {@link Double} value found with the
-	 * given Hamcrest {@link Matcher}.
+	 * 评估XPath并断言使用给定的Hamcrest {@link Matcher}找到的{@link Double}值.
 	 */
 	public ResultMatcher number(final Matcher<? super Double> matcher) {
 		return new ResultMatcher() {
@@ -154,7 +148,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert the {@link Double} value found.
+	 * 评估XPath并断言找到的{@link Double}值.
 	 */
 	public ResultMatcher number(final Double expectedValue) {
 		return new ResultMatcher() {
@@ -167,7 +161,7 @@ public class XpathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the XPath and assert the {@link Boolean} value found.
+	 * 评估XPath并断言找到的{@link Boolean}值.
 	 */
 	public ResultMatcher booleanValue(final Boolean value) {
 		return new ResultMatcher() {

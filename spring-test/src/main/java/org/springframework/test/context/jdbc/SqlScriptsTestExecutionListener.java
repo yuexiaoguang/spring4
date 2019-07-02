@@ -35,34 +35,26 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code TestExecutionListener} that provides support for executing SQL
- * {@link Sql#scripts scripts} and inlined {@link Sql#statements statements}
- * configured via the {@link Sql @Sql} annotation.
+ * {@code TestExecutionListener}, 它为执行通过{@link Sql @Sql}注解配置的
+ * SQL {@link Sql#scripts scripts}和内联{@link Sql#statements statements}提供支持.
  *
- * <p>Scripts and inlined statements will be executed {@linkplain #beforeTestMethod(TestContext) before}
- * or {@linkplain #afterTestMethod(TestContext) after} execution of the corresponding
- * {@linkplain java.lang.reflect.Method test method}, depending on the configured
- * value of the {@link Sql#executionPhase executionPhase} flag.
+ * <p>脚本和内联语句将在相应的{@linkplain java.lang.reflect.Method 测试方法}
+ * {@linkplain #beforeTestMethod(TestContext) 之前} 或{@linkplain #afterTestMethod(TestContext) 之后}执行,
+ * 取决于{@link Sql#executionPhase executionPhase}标志的配置值.
  *
- * <p>Scripts and inlined statements will be executed without a transaction,
- * within an existing Spring-managed transaction, or within an isolated transaction,
- * depending on the configured value of {@link SqlConfig#transactionMode} and the
- * presence of a transaction manager.
+ * <p>脚本和内联语句将在没有事务的情况下, 在现有的Spring管理的事务中或在隔离的事务中执行,
+ * 具体取决于{@link SqlConfig#transactionMode}的配置值以及事务管理器是否存在.
  *
- * <h3>Script Resources</h3>
- * <p>For details on default script detection and how script resource locations
- * are interpreted, see {@link Sql#scripts}.
+ * <h3>脚本资源</h3>
+ * <p>有关默认脚本检测以及如何解释脚本资源位置的详细信息, 请参阅{@link Sql#scripts}.
  *
- * <h3>Required Spring Beans</h3>
- * <p>A {@link PlatformTransactionManager} <em>and</em> a {@link DataSource},
- * just a {@link PlatformTransactionManager}, or just a {@link DataSource}
- * must be defined as beans in the Spring {@link ApplicationContext} for the
- * corresponding test. Consult the javadocs for {@link SqlConfig#transactionMode},
+ * <h3>需要的Spring Bean</h3>
+ * <p>{@link PlatformTransactionManager} <em>和</em> {@link DataSource}, {@link PlatformTransactionManager},
+ * 或者{@link DataSource}必须在Spring {@link ApplicationContext}中定义为bean, 用于相应的测试.
+ * 有关允许的配置以及用于定位这些bean的算法的详细信息, 请参阅{@link SqlConfig#transactionMode},
  * {@link SqlConfig#transactionManager}, {@link SqlConfig#dataSource},
- * {@link TestContextTransactionUtils#retrieveDataSource}, and
- * {@link TestContextTransactionUtils#retrieveTransactionManager} for details
- * on permissible configuration constellations and on the algorithms used to
- * locate these beans.
+ * {@link TestContextTransactionUtils#retrieveDataSource}, 和
+ * {@link TestContextTransactionUtils#retrieveTransactionManager}的javadoc.
  */
 public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListener {
 
@@ -70,7 +62,7 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 
 
 	/**
-	 * Returns {@code 5000}.
+	 * 返回{@code 5000}.
 	 */
 	@Override
 	public final int getOrder() {
@@ -78,8 +70,7 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 	}
 
 	/**
-	 * Execute SQL scripts configured via {@link Sql @Sql} for the supplied
-	 * {@link TestContext} <em>before</em> the current test method.
+	 * 在当前测试方法<em>之前</em>, 执行通过{@link Sql @Sql}为所提供的{@link TestContext}配置的SQL脚本.
 	 */
 	@Override
 	public void beforeTestMethod(TestContext testContext) throws Exception {
@@ -87,8 +78,7 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 	}
 
 	/**
-	 * Execute SQL scripts configured via {@link Sql @Sql} for the supplied
-	 * {@link TestContext} <em>after</em> the current test method.
+	 * 在当前测试方法<em>之后</em>, 执行通过{@link Sql @Sql}为所提供的{@link TestContext}配置的SQL脚本.
 	 */
 	@Override
 	public void afterTestMethod(TestContext testContext) throws Exception {
@@ -96,8 +86,7 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 	}
 
 	/**
-	 * Execute SQL scripts configured via {@link Sql @Sql} for the supplied
-	 * {@link TestContext} and {@link ExecutionPhase}.
+	 * 执行通过{@link Sql @Sql}为提供的{@link TestContext}和{@link ExecutionPhase}配置的SQL脚本.
 	 */
 	private void executeSqlScripts(TestContext testContext, ExecutionPhase executionPhase) throws Exception {
 		boolean classLevel = false;
@@ -118,14 +107,13 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 	}
 
 	/**
-	 * Execute the SQL scripts configured via the supplied {@link Sql @Sql}
-	 * annotation for the given {@link ExecutionPhase} and {@link TestContext}.
-	 * <p>Special care must be taken in order to properly support the configured
-	 * {@link SqlConfig#transactionMode}.
-	 * @param sql the {@code @Sql} annotation to parse
-	 * @param executionPhase the current execution phase
-	 * @param testContext the current {@code TestContext}
-	 * @param classLevel {@code true} if {@link Sql @Sql} was declared at the class level
+	 * 执行通过提供的{@link Sql @Sql}注解为给定的{@link ExecutionPhase}和{@link TestContext}配置的SQL脚本.
+	 * <p>必须特别小心才能正确支持配置的{@link SqlConfig#transactionMode}.
+	 * 
+	 * @param sql 要解析的{@code @Sql}注解
+	 * @param executionPhase 当前的执行阶段
+	 * @param testContext 当前{@code TestContext}
+	 * @param classLevel {@code true} 如果在类级别声明{@link Sql @Sql}
 	 */
 	private void executeSqlScripts(Sql sql, ExecutionPhase executionPhase, TestContext testContext, boolean classLevel)
 			throws Exception {
@@ -180,12 +168,12 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 				throw new IllegalStateException(String.format("Failed to execute SQL scripts for test context %s: " +
 						"supply at least a DataSource or PlatformTransactionManager.", testContext));
 			}
-			// Execute scripts directly against the DataSource
+			// 直接针对DataSource执行脚本
 			populator.execute(dataSource);
 		}
 		else {
 			DataSource dataSourceFromTxMgr = getDataSourceFromTransactionManager(txMgr);
-			// Ensure user configured an appropriate DataSource/TransactionManager pair.
+			// 确保用户配置了适当的 DataSource/TransactionManager 对.
 			if (dataSource != null && dataSourceFromTxMgr != null && !dataSource.equals(dataSourceFromTxMgr)) {
 				throw new IllegalStateException(String.format("Failed to execute SQL scripts for test context %s: " +
 						"the configured DataSource [%s] (named '%s') is not the one associated with " +
@@ -237,8 +225,7 @@ public class SqlScriptsTestExecutionListener extends AbstractTestExecutionListen
 	}
 
 	/**
-	 * Detect a default SQL script by implementing the algorithm defined in
-	 * {@link Sql#scripts}.
+	 * 通过实现{@link Sql#scripts}中定义的算法来检测默认SQL脚本.
 	 */
 	private String detectDefaultScript(TestContext testContext, boolean classLevel) {
 		Class<?> clazz = testContext.getTestClass();

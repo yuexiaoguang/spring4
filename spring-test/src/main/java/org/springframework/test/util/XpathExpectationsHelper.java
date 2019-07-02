@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * A helper class for applying assertions via XPath expressions.
+ * 用于通过XPath表达式应用断言的辅助类.
  */
 public class XpathExpectationsHelper {
 
@@ -38,12 +38,11 @@ public class XpathExpectationsHelper {
 
 
 	/**
-	 * XpathExpectationsHelper constructor.
-	 * @param expression the XPath expression
-	 * @param namespaces XML namespaces referenced in the XPath expression, or {@code null}
-	 * @param args arguments to parameterize the XPath expression with using the
-	 * formatting specifiers defined in {@link String#format(String, Object...)}
-	 * @throws XPathExpressionException if expression compilation failed
+	 * @param expression XPath表达式
+	 * @param namespaces XPath表达式中引用的XML名称空间, 或{@code null}
+	 * @param args 使用{@link String#format(String, Object...)}中定义的格式说明符参数化XPath表达式的参数
+	 * 
+	 * @throws XPathExpressionException 如果表达式编译失败
 	 */
 	public XpathExpectationsHelper(String expression, Map<String, String> namespaces, Object... args)
 			throws XPathExpressionException {
@@ -65,15 +64,14 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Return the compiled XPath expression.
+	 * 返回已编译的XPath表达式.
 	 */
 	protected XPathExpression getXpathExpression() {
 		return this.xpathExpression;
 	}
 
 	/**
-	 * Parse the content, evaluate the XPath expression as a {@link Node},
-	 * and assert it with the given {@code Matcher<Node>}.
+	 * 解析内容, 将XPath表达式计算为{@link Node}, 并使用给定的{@code Matcher<Node>}断言它.
 	 */
 	public void assertNode(byte[] content, String encoding, final Matcher<? super Node> matcher) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -82,10 +80,12 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Parse the given XML content to a {@link Document}.
-	 * @param xml the content to parse
-	 * @param encoding optional content encoding, if provided as metadata (e.g. in HTTP headers)
-	 * @return the parsed document
+	 * 将给定的XML内容解析为{@link Document}.
+	 * 
+	 * @param xml 要解析的内容
+	 * @param encoding 可选内容编码, 如果作为元数据提供 (e.g. 在HTTP header中)
+	 * 
+	 * @return 解析的文件
 	 */
 	protected Document parseXmlByteArray(byte[] xml, String encoding) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -99,8 +99,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression to given document.
-	 * @throws XPathExpressionException if expression evaluation failed
+	 * 将XPath表达式应用于给定文档.
+	 * 
+	 * @throws XPathExpressionException 如果表达式评估失败
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> T evaluateXpath(Document document, QName evaluationType, Class<T> expectedClass)
@@ -110,8 +111,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content exists.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并断言结果内容存在.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void exists(byte[] content, String encoding) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -120,8 +122,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content does not exist.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并断言结果内容不存在.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void doesNotExist(byte[] content, String encoding) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -130,9 +133,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content with the
-	 * given Hamcrest matcher.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式, 并使用给定的Hamcrest匹配器断言生成的内容.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertNodeCount(byte[] content, String encoding, Matcher<Integer> matcher) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -141,8 +144,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content as an integer.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并将结果内容断言为整数.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertNodeCount(byte[] content, String encoding, int expectedCount) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -151,9 +155,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content with the
-	 * given Hamcrest matcher.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并使用给定的Hamcrest匹配器断言生成的内容.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertString(byte[] content, String encoding, Matcher<? super String> matcher) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -162,8 +166,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content as a String.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并将结果内容断言为String.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertString(byte[] content, String encoding, String expectedValue) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -172,9 +177,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content with the
-	 * given Hamcrest matcher.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式, 并使用给定的Hamcrest匹配器断言生成的内容.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertNumber(byte[] content, String encoding, Matcher<? super Double> matcher) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -183,8 +188,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content as a Double.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式并将结果内容断言为Double.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertNumber(byte[] content, String encoding, Double expectedValue) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
@@ -193,8 +199,9 @@ public class XpathExpectationsHelper {
 	}
 
 	/**
-	 * Apply the XPath expression and assert the resulting content as a Boolean.
-	 * @throws Exception if content parsing or expression evaluation fails
+	 * 应用XPath表达式, 并将结果内容断言为布尔值.
+	 * 
+	 * @throws Exception 如果内容解析或表达式评估失败
 	 */
 	public void assertBoolean(byte[] content, String encoding, boolean expectedValue) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);

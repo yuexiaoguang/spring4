@@ -14,12 +14,9 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@code RequestExpectationManager} implementations responsible
- * for storing expectations and actual requests, and checking for unsatisfied
- * expectations at the end.
+ * {@code RequestExpectationManager}实现的基类, 负责存储期望和实际请求, 并在最后检查未满足的期望.
  *
- * <p>Subclasses are responsible for validating each request by matching it to
- * to expectations following the order of declaration or not.
+ * <p>子类负责通过将每个请求与遵循声明顺序的期望匹配, 来验证每个请求.
  */
 public abstract class AbstractRequestExpectationManager implements RequestExpectationManager {
 
@@ -62,15 +59,13 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 	}
 
 	/**
-	 * Invoked at the time of the first actual request, which effectively means
-	 * the expectations declaration phase is over.
+	 * 在第一次实际请求时调用, 这实际上意味着期望声明阶段结束.
 	 */
 	protected void afterExpectationsDeclared() {
 	}
 
 	/**
-	 * Subclasses must implement the actual validation of the request
-	 * matching to declared expectations.
+	 * 子类必须实现与声明的期望匹配的请求的实际验证.
 	 */
 	protected abstract ClientHttpResponse validateRequestInternal(ClientHttpRequest request)
 			throws IOException;
@@ -93,7 +88,7 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 	}
 
 	/**
-	 * Return details of executed requests.
+	 * 返回执行请求的详细信息.
 	 */
 	protected String getRequestDetails() {
 		StringBuilder sb = new StringBuilder();
@@ -111,8 +106,7 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 	}
 
 	/**
-	 * Return an {@code AssertionError} that a sub-class can raise for an
-	 * unexpected request.
+	 * 返回一个子类可以为意外请求引发的{@code AssertionError}.
 	 */
 	protected AssertionError createUnexpectedRequestError(ClientHttpRequest request) {
 		HttpMethod method = request.getMethod();
@@ -129,7 +123,7 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 
 
 	/**
-	 * Helper class to manage a group of remaining expectations.
+	 * 管理一组剩余的期望的助手类.
 	 */
 	protected static class RequestExpectationGroup {
 
@@ -140,7 +134,7 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 		}
 
 		/**
-		 * Return a matching expectation, or {@code null} if none match.
+		 * 返回匹配的期望, 如果没有匹配则返回{@code null}.
 		 */
 		public RequestExpectation findExpectation(ClientHttpRequest request) throws IOException {
 			for (RequestExpectation expectation : getExpectations()) {
@@ -149,16 +143,15 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 					return expectation;
 				}
 				catch (AssertionError error) {
-					// We're looking to find a match or return null..
+					// 正在寻找匹配或返回null..
 				}
 			}
 			return null;
 		}
 
 		/**
-		 * Invoke this for an expectation that has been matched.
-		 * <p>The given expectation will either be stored if it has a remaining
-		 * count or it will be removed otherwise.
+		 * 调用此项以获得匹配的期望.
+		 * <p>如果给定的期望具有剩余计数, 则将被存储, 否则将被删除.
 		 */
 		public void update(RequestExpectation expectation) {
 			if (expectation.hasRemainingCount()) {
@@ -170,8 +163,7 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 		}
 
 		/**
-		 * Collection variant of {@link #update(RequestExpectation)} that can
-		 * be used to insert expectations.
+		 * {@link #update(RequestExpectation)}的集合变体, 可用于插入期望.
 		 */
 		public void updateAll(Collection<RequestExpectation> expectations) {
 			for (RequestExpectation expectation : expectations) {
@@ -180,11 +172,10 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 		}
 
 		/**
-		 * Reset all expectations for this group.
+		 * 重置该组的所有期望.
 		 */
 		public void reset() {
 			getExpectations().clear();
 		}
 	}
-
 }

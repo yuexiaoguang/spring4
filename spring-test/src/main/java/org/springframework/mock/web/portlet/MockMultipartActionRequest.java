@@ -12,12 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.portlet.multipart.MultipartActionRequest;
 
 /**
- * Mock implementation of the
- * {@link org.springframework.web.portlet.multipart.MultipartActionRequest} interface.
+ * {@link org.springframework.web.portlet.multipart.MultipartActionRequest}接口的模拟实现.
  *
- * <p>Useful for testing application controllers that access multipart uploads.
- * The {@link org.springframework.mock.web.MockMultipartFile} can be used to
- * populate these mock requests with files.
+ * <p>用于测试访问multipart上传的应用程序控制器.
+ * {@link org.springframework.mock.web.MockMultipartFile}可用于使用文件填充这些模拟请求.
  */
 public class MockMultipartActionRequest extends MockActionRequest implements MultipartActionRequest {
 
@@ -26,9 +24,10 @@ public class MockMultipartActionRequest extends MockActionRequest implements Mul
 
 
 	/**
-	 * Add a file to this request. The parameter name from the multipart
-	 * form is taken from the {@link org.springframework.web.multipart.MultipartFile#getName()}.
-	 * @param file multipart file to be added
+	 * 将文件添加到此请求.
+	 * multipart表单中的参数名称取自{@link org.springframework.web.multipart.MultipartFile#getName()}.
+	 * 
+	 * @param file 要添加的multipart文件
 	 */
 	public void addFile(MultipartFile file) {
 		Assert.notNull(file, "MultipartFile must not be null");

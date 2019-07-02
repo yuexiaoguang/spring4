@@ -37,43 +37,34 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Mock implementation of the {@link javax.servlet.ServletContext} interface.
+ * {@link javax.servlet.ServletContext}接口的模拟实现.
  *
- * <p>As of Spring 4.0, this set of mocks is designed on a Servlet 3.0 baseline.
+ * <p>从Spring 4.0开始, 这组模拟是在Servlet 3.0基线上设计的.
  *
- * <p>Compatible with Servlet 3.0 but can be configured to expose a specific version
- * through {@link #setMajorVersion}/{@link #setMinorVersion}; default is 3.0.
- * Note that Servlet 3.0 support is limited: servlet, filter and listener
- * registration methods are not supported; neither is JSP configuration.
- * We generally do not recommend to unit test your ServletContainerInitializers and
- * WebApplicationInitializers which is where those registration methods would be used.
+ * <p>与Servlet 3.0兼容, 但可以配置为通过{@link #setMajorVersion}/{@link #setMinorVersion}公开特定版本; 默认 3.0.
+ * 请注意, Servlet 3.0支持是有限的: 不支持servlet, 过滤器和监听器注册方法; 都不是JSP配置.
+ * 通常不建议对ServletContainerInitializers和WebApplicationInitializers进行单元测试, 这些是使用这些注册方法的地方.
  *
- * <p>Used for testing the Spring web framework; only rarely necessary for testing
- * application controllers. As long as application components don't explicitly
- * access the {@code ServletContext}, {@code ClassPathXmlApplicationContext} or
- * {@code FileSystemXmlApplicationContext} can be used to load the context files
- * for testing, even for {@code DispatcherServlet} context definitions.
+ * <p>用于测试Spring Web框架; 只是很少需要测试应用程序控制器.
+ * 只要应用程序组件不显式访问{@code ServletContext},
+ * 就可以使用{@code ClassPathXmlApplicationContext}或{@code FileSystemXmlApplicationContext}
+ * 来加载上下文文件以进行测试, 即使对于{@code DispatcherServlet}上下文定义也是如此.
  *
- * <p>For setting up a full {@code WebApplicationContext} in a test environment,
- * you can use {@code AnnotationConfigWebApplicationContext},
- * {@code XmlWebApplicationContext}, or {@code GenericWebApplicationContext},
- * passing in an appropriate {@code MockServletContext} instance. You might want
- * to configure your {@code MockServletContext} with a {@code FileSystemResourceLoader}
- * in that case to ensure that resource paths are interpreted as relative filesystem
- * locations.
+ * <p>要在测试环境中设置完整的{@code WebApplicationContext},
+ * 可以使用{@code AnnotationConfigWebApplicationContext}, {@code XmlWebApplicationContext},
+ * 或{@code GenericWebApplicationContext}, 传入适当的{@code MockServletContext}实例.
+ * 在这种情况下, 您可能希望使用{@code FileSystemResourceLoader}配置{@code MockServletContext},
+ * 以确保将资源路径转换为相对文件系统位置.
  *
- * <p>A common setup is to point your JVM working directory to the root of your
- * web application directory, in combination with filesystem-based resource loading.
- * This allows to load the context files as used in the web application, with
- * relative paths getting interpreted correctly. Such a setup will work with both
- * {@code FileSystemXmlApplicationContext} (which will load straight from the
- * filesystem) and {@code XmlWebApplicationContext} with an underlying
- * {@code MockServletContext} (as long as the {@code MockServletContext} has been
- * configured with a {@code FileSystemResourceLoader}).
+ * <p>常见的设置是将JVM工作目录指向Web应用程序目录的根目录, 并结合基于文件系统的资源加载.
+ * 这允许加载Web应用程序中使用的上下文文件, 并正确转换相对路径.
+ * 这样的设置将适用于{@code FileSystemXmlApplicationContext} (将直接从文件系统加载)
+ * 和底层{@code MockServletContext}上的{@code XmlWebApplicationContext}
+ * (只要{@code MockServletContext}配置了一个{@code FileSystemResourceLoader}).
  */
 public class MockServletContext implements ServletContext {
 
-	/** Default Servlet name used by Tomcat, Jetty, JBoss, and GlassFish: {@value}. */
+	/** Tomcat, Jetty, JBoss和GlassFish使用的默认Servlet名称: {@value}. */
 	private static final String COMMON_DEFAULT_SERVLET_NAME = "default";
 
 	private static final String TEMP_DIR_SYSTEM_PROPERTY = "java.io.tmpdir";
@@ -124,46 +115,39 @@ public class MockServletContext implements ServletContext {
 
 
 	/**
-	 * Create a new {@code MockServletContext}, using no base path and a
-	 * {@link DefaultResourceLoader} (i.e. the classpath root as WAR root).
-	 * @see org.springframework.core.io.DefaultResourceLoader
+	 * 不使用基础路径, 并使用{@link DefaultResourceLoader} (i.e. 类路径根作为WAR根目录).
 	 */
 	public MockServletContext() {
 		this("", null);
 	}
 
 	/**
-	 * Create a new {@code MockServletContext}, using a {@link DefaultResourceLoader}.
-	 * @param resourceBasePath the root directory of the WAR (should not end with a slash)
-	 * @see org.springframework.core.io.DefaultResourceLoader
+	 * @param resourceBasePath WAR的根目录 (不应以斜杠结尾)
 	 */
 	public MockServletContext(String resourceBasePath) {
 		this(resourceBasePath, null);
 	}
 
 	/**
-	 * Create a new {@code MockServletContext}, using the specified {@link ResourceLoader}
-	 * and no base path.
-	 * @param resourceLoader the ResourceLoader to use (or null for the default)
+	 * 不使用基础路径.
+	 * 
+	 * @param resourceLoader 要使用的ResourceLoader (或 null使用默认值)
 	 */
 	public MockServletContext(ResourceLoader resourceLoader) {
 		this("", resourceLoader);
 	}
 
 	/**
-	 * Create a new {@code MockServletContext} using the supplied resource base
-	 * path and resource loader.
-	 * <p>Registers a {@link MockRequestDispatcher} for the Servlet named
-	 * {@literal 'default'}.
-	 * @param resourceBasePath the root directory of the WAR (should not end with a slash)
-	 * @param resourceLoader the ResourceLoader to use (or null for the default)
-	 * @see #registerNamedDispatcher
+	 * <p>为名为{@literal 'default'}的Servlet注册{@link MockRequestDispatcher}.
+	 * 
+	 * @param resourceBasePath WAR的根目录 (不应以斜杠结尾)
+	 * @param resourceLoader 要使用的ResourceLoader (或 null使用默认值)
 	 */
 	public MockServletContext(String resourceBasePath, ResourceLoader resourceLoader) {
 		this.resourceLoader = (resourceLoader != null ? resourceLoader : new DefaultResourceLoader());
 		this.resourceBasePath = (resourceBasePath != null ? resourceBasePath : "");
 
-		// Use JVM temp dir as ServletContext temp dir.
+		// 使用JVM 临时目录作为ServletContext 临时目录.
 		String tempDir = System.getProperty(TEMP_DIR_SYSTEM_PROPERTY);
 		if (tempDir != null) {
 			this.attributes.put(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE, new File(tempDir));
@@ -173,10 +157,11 @@ public class MockServletContext implements ServletContext {
 	}
 
 	/**
-	 * Build a full resource location for the given path, prepending the resource
-	 * base path of this {@code MockServletContext}.
-	 * @param path the path as specified
-	 * @return the full resource path
+	 * 为给定路径构建完整资源位置, 在前面添加此{@code MockServletContext}的资源基础路径.
+	 * 
+	 * @param path 指定的路径
+	 * 
+	 * @return 完整资源路径
 	 */
 	protected String getResourceLocation(String path) {
 		if (!path.startsWith("/")) {
@@ -243,19 +228,14 @@ public class MockServletContext implements ServletContext {
 	}
 
 	/**
-	 * This method uses the default
-	 * {@link javax.activation.FileTypeMap#getDefaultFileTypeMap() FileTypeMap}
-	 * from the Java Activation Framework to resolve MIME types.
-	 * <p>The Java Activation Framework returns {@code "application/octet-stream"}
-	 * if the MIME type is unknown (i.e., it never returns {@code null}). Thus, in
-	 * order to honor the {@link ServletContext#getMimeType(String)} contract,
-	 * this method returns {@code null} if the MIME type is
-	 * {@code "application/octet-stream"}.
-	 * <p>{@code MockServletContext} does not provide a direct mechanism for
-	 * setting a custom MIME type; however, if the default {@code FileTypeMap}
-	 * is an instance of {@code javax.activation.MimetypesFileTypeMap}, a custom
-	 * MIME type named {@code text/enigma} can be registered for a custom
-	 * {@code .puzzle} file extension in the following manner:
+	 * 此方法使用Java Activation Framework中的
+	 * 默认{@link javax.activation.FileTypeMap#getDefaultFileTypeMap() FileTypeMap}来解析MIME类型.
+	 * <p>如果MIME类型未知(i.e., 它永远不会返回{@code null}), Java Activation Framework将返回{@code "application/octet-stream"}.
+	 * 因此, 为了遵守{@link ServletContext#getMimeType(String)}约定,
+	 * 如果MIME类型为{@code "application/octet-stream"}, 则此方法返回{@code null}.
+	 * <p>{@code MockServletContext}不提供设置自定义MIME类型的直接机制;
+	 * 但是, 如果默认{@code FileTypeMap}是{@code javax.activation.MimetypesFileTypeMap}的实例,
+	 * 则可以为自定义{@code .puzzle}文件扩展名注册名为{@code text/enigma}的自定义MIME类型:
 	 * <pre style="code">
 	 * MimetypesFileTypeMap mimetypesFileTypeMap = (MimetypesFileTypeMap) FileTypeMap.getDefaultFileTypeMap();
 	 * mimetypesFileTypeMap.addMimeTypes("text/enigma    puzzle");
@@ -340,12 +320,10 @@ public class MockServletContext implements ServletContext {
 	}
 
 	/**
-	 * Register a {@link RequestDispatcher} (typically a {@link MockRequestDispatcher})
-	 * that acts as a wrapper for the named Servlet.
-	 * @param name the name of the wrapped Servlet
-	 * @param requestDispatcher the dispatcher that wraps the named Servlet
-	 * @see #getNamedDispatcher
-	 * @see #unregisterNamedDispatcher
+	 * 注册一个{@link RequestDispatcher} (通常是一个{@link MockRequestDispatcher}), 它充当指定Servlet的包装器.
+	 * 
+	 * @param name 包装的Servlet的名称
+	 * @param requestDispatcher 包装指定Servlet的调度器
 	 */
 	public void registerNamedDispatcher(String name, RequestDispatcher requestDispatcher) {
 		Assert.notNull(name, "RequestDispatcher name must not be null");
@@ -354,10 +332,9 @@ public class MockServletContext implements ServletContext {
 	}
 
 	/**
-	 * Unregister the {@link RequestDispatcher} with the given name.
-	 * @param name the name of the dispatcher to unregister
-	 * @see #getNamedDispatcher
-	 * @see #registerNamedDispatcher
+	 * 注销给定名称的{@link RequestDispatcher}.
+	 * 
+	 * @param name 要注销的调度器的名称
 	 */
 	public void unregisterNamedDispatcher(String name) {
 		Assert.notNull(name, "RequestDispatcher name must not be null");
@@ -365,23 +342,19 @@ public class MockServletContext implements ServletContext {
 	}
 
 	/**
-	 * Get the name of the <em>default</em> {@code Servlet}.
-	 * <p>Defaults to {@literal 'default'}.
-	 * @see #setDefaultServletName
+	 * 获取<em>默认</em> {@code Servlet}的名称.
+	 * <p>默认{@literal 'default'}.
 	 */
 	public String getDefaultServletName() {
 		return this.defaultServletName;
 	}
 
 	/**
-	 * Set the name of the <em>default</em> {@code Servlet}.
-	 * <p>Also {@link #unregisterNamedDispatcher unregisters} the current default
-	 * {@link RequestDispatcher} and {@link #registerNamedDispatcher replaces}
-	 * it with a {@link MockRequestDispatcher} for the provided
-	 * {@code defaultServletName}.
-	 * @param defaultServletName the name of the <em>default</em> {@code Servlet};
-	 * never {@code null} or empty
-	 * @see #getDefaultServletName
+	 * 设置<em>默认</em> {@code Servlet}的名称.
+	 * <p>另外, {@link #unregisterNamedDispatcher 注销}当前的默认{@link RequestDispatcher},
+	 * 并使用{@link MockRequestDispatcher}{@link #registerNamedDispatcher 替换}它, 用于提供的{@code defaultServletName}.
+	 * 
+	 * @param defaultServletName <em>默认</em> {@code Servlet}的名称; never {@code null} or empty
 	 */
 	public void setDefaultServletName(String defaultServletName) {
 		Assert.hasText(defaultServletName, "defaultServletName must not be null or empty");
@@ -576,7 +549,6 @@ public class MockServletContext implements ServletContext {
 
 	/**
 	 * This method always returns {@code null}.
-	 * @see javax.servlet.ServletContext#getServletRegistration(java.lang.String)
 	 */
 	@Override
 	public ServletRegistration getServletRegistration(String servletName) {
@@ -585,7 +557,6 @@ public class MockServletContext implements ServletContext {
 
 	/**
 	 * This method always returns an {@linkplain Collections#emptyMap empty map}.
-	 * @see javax.servlet.ServletContext#getServletRegistrations()
 	 */
 	@Override
 	public Map<String, ? extends ServletRegistration> getServletRegistrations() {
@@ -614,7 +585,6 @@ public class MockServletContext implements ServletContext {
 
 	/**
 	 * This method always returns {@code null}.
-	 * @see javax.servlet.ServletContext#getFilterRegistration(java.lang.String)
 	 */
 	@Override
 	public FilterRegistration getFilterRegistration(String filterName) {
@@ -623,7 +593,6 @@ public class MockServletContext implements ServletContext {
 
 	/**
 	 * This method always returns an {@linkplain Collections#emptyMap empty map}.
-	 * @see javax.servlet.ServletContext#getFilterRegistrations()
 	 */
 	@Override
 	public Map<String, ? extends FilterRegistration> getFilterRegistrations() {

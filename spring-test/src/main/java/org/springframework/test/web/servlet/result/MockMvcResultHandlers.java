@@ -13,11 +13,10 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Static factory methods for {@link ResultHandler}-based result actions.
+ * 基于{@link ResultHandler}的结果操作的静态工厂方法.
  *
  * <h3>Eclipse Users</h3>
- * <p>Consider adding this class as a Java editor favorite. To navigate to
- * this setting, open the Preferences and type "favorites".
+ * <p>Consider adding this class as a Java editor favorite. To navigate to this setting, open the Preferences and type "favorites".
  */
 public abstract class MockMvcResultHandlers {
 
@@ -25,30 +24,29 @@ public abstract class MockMvcResultHandlers {
 
 
 	/**
-	 * Log {@link MvcResult} details as a {@code DEBUG} log message via
-	 * Apache Commons Logging using the log category
-	 * {@code org.springframework.test.web.servlet.result}.
+	 * 使用日志类别{@code org.springframework.test.web.servlet.result}
+	 * 通过Apache Commons Logging将{@link MvcResult}详细信息记录为{@code DEBUG}日志消息.
 	 */
 	public static ResultHandler log() {
 		return new LoggingResultHandler();
 	}
 
 	/**
-	 * Print {@link MvcResult} details to the "standard" output stream.
+	 * 将{@link MvcResult}详细信息打印到“标准”输出流.
 	 */
 	public static ResultHandler print() {
 		return print(System.out);
 	}
 
 	/**
-	 * Print {@link MvcResult} details to the supplied {@link OutputStream}.
+	 * 打印{@link MvcResult}详细信息到提供的{@link OutputStream}.
 	 */
 	public static ResultHandler print(OutputStream stream) {
 		return new PrintWriterPrintingResultHandler(new PrintWriter(stream, true));
 	}
 
 	/**
-	 * Print {@link MvcResult} details to the supplied {@link Writer}.
+	 * 打印{@link MvcResult}详细信息到提供的{@link Writer}.
 	 */
 	public static ResultHandler print(Writer writer) {
 		return new PrintWriterPrintingResultHandler(new PrintWriter(writer, true));
@@ -56,7 +54,7 @@ public abstract class MockMvcResultHandlers {
 
 
 	/**
-	 * A {@link PrintingResultHandler} that writes to a {@link PrintWriter}.
+	 * 写入{@link PrintWriter}的{@link PrintingResultHandler}.
 	 */
 	private static class PrintWriterPrintingResultHandler extends PrintingResultHandler {
 
@@ -80,13 +78,9 @@ public abstract class MockMvcResultHandlers {
 
 
 	/**
-	 * A {@link ResultHandler} that logs {@link MvcResult} details at
-	 * {@code DEBUG} level via Apache Commons Logging.
+	 * 一个{@link ResultHandler}, 通过Apache Commons Logging在{@code DEBUG}级别记录{@link MvcResult}详细信息.
 	 *
-	 * <p>Delegates to a {@link PrintWriterPrintingResultHandler} for
-	 * building the log message.
-	 *
-	 * @since 4.2
+	 * <p>委托{@link PrintWriterPrintingResultHandler}来构建日志消息.
 	 */
 	private static class LoggingResultHandler implements ResultHandler {
 
@@ -101,5 +95,4 @@ public abstract class MockMvcResultHandlers {
 			}
 		}
 	}
-
 }

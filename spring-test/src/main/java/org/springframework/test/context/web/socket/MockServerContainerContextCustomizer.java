@@ -6,9 +6,8 @@ import org.springframework.test.context.MergedContextConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * {@link ContextCustomizer} that instantiates a new {@link MockServerContainer}
- * and stores it in the {@code ServletContext} under the attribute named
- * {@code "javax.websocket.server.ServerContainer"}.
+ * {@link ContextCustomizer}, 实例化一个新的{@link MockServerContainer},
+ * 并将其存储在名为{@code "javax.websocket.server.ServerContainer"}的属性下的{@code ServletContext}中.
  */
 class MockServerContainerContextCustomizer implements ContextCustomizer {
 

@@ -9,8 +9,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@code RequestExpectation} that simply delegates
- * to the request matchers and the response creator it contains.
+ * {@code RequestExpectation}的默认实现, 它只是委托给请求匹配器及其包含的响应创建者.
  */
 public class DefaultRequestExpectation implements RequestExpectation {
 
@@ -22,9 +21,7 @@ public class DefaultRequestExpectation implements RequestExpectation {
 
 
 	/**
-	 * Create a new request expectation that should be called a number of times
-	 * as indicated by {@code RequestCount}.
-	 * @param expectedCount the expected request expectedCount
+	 * @param expectedCount 预期请求expectedCount次数
 	 */
 	public DefaultRequestExpectation(ExpectedCount expectedCount, RequestMatcher requestMatcher) {
 		Assert.notNull(expectedCount, "ExpectedCount is required");
@@ -88,7 +85,7 @@ public class DefaultRequestExpectation implements RequestExpectation {
 
 
 	/**
-	 * Helper class that keeps track of actual vs expected request count.
+	 * Helper类, 用于跟踪实际与预期的请求计数.
 	 */
 	protected static class RequestCount {
 
@@ -120,7 +117,7 @@ public class DefaultRequestExpectation implements RequestExpectation {
 		}
 
 		public boolean isSatisfied() {
-			// Only validate min count since max count is checked on every request...
+			// 仅验证最小计数, 因为每次请求都会检查最大计数...
 			return (getMatchedRequestCount() >= getExpectedCount().getMinCount());
 		}
 	}

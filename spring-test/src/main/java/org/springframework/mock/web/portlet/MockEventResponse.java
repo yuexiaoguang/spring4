@@ -4,7 +4,7 @@ import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 
 /**
- * Mock implementation of the {@link javax.portlet.EventResponse} interface.
+ * {@link javax.portlet.EventResponse}接口的模拟实现.
  */
 public class MockEventResponse extends MockStateAwareResponse implements EventResponse {
 

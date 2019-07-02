@@ -7,22 +7,20 @@ import org.springframework.test.context.TestContextBootstrapper;
 import org.springframework.test.context.support.DefaultTestContextBootstrapper;
 
 /**
- * Web-specific implementation of the {@link TestContextBootstrapper} SPI.
+ * 特定于Web的{@link TestContextBootstrapper} SPI实现.
  *
  * <ul>
- * <li>Uses {@link WebDelegatingSmartContextLoader} as the default {@link ContextLoader}
- * if the test class is annotated with {@link WebAppConfiguration @WebAppConfiguration}
- * and otherwise delegates to the superclass.
- * <li>Builds a {@link WebMergedContextConfiguration} if the test class is annotated
- * with {@link WebAppConfiguration @WebAppConfiguration}.
+ * <li>如果测试类使用{@link WebAppConfiguration @WebAppConfiguration}注解,
+ * 则使用{@link WebDelegatingSmartContextLoader}作为默认的{@link ContextLoader}, 否则委托给超类.
+ * <li>如果测试类使用{@link WebAppConfiguration @WebAppConfiguration}注解,
+ * 则构建{@link WebMergedContextConfiguration}.
  * </ul>
  */
 public class WebTestContextBootstrapper extends DefaultTestContextBootstrapper {
 
 	/**
-	 * Returns {@link WebDelegatingSmartContextLoader} if the supplied class is
-	 * annotated with {@link WebAppConfiguration @WebAppConfiguration} and
-	 * otherwise delegates to the superclass.
+	 * 如果提供的类使用{@link WebAppConfiguration @WebAppConfiguration}注解,
+	 * 则返回{@link WebDelegatingSmartContextLoader}, 否则委托给超类.
 	 */
 	@Override
 	protected Class<? extends ContextLoader> getDefaultContextLoaderClass(Class<?> testClass) {
@@ -35,10 +33,8 @@ public class WebTestContextBootstrapper extends DefaultTestContextBootstrapper {
 	}
 
 	/**
-	 * Returns a {@link WebMergedContextConfiguration} if the test class in the
-	 * supplied {@code MergedContextConfiguration} is annotated with
-	 * {@link WebAppConfiguration @WebAppConfiguration} and otherwise returns
-	 * the supplied instance unmodified.
+	 * 如果提供的{@code MergedContextConfiguration}中的测试类使用{@link WebAppConfiguration @WebAppConfiguration}注解,
+	 * 则返回{@link WebMergedContextConfiguration}, 否则返回未修改的提供的实例.
 	 */
 	@Override
 	protected MergedContextConfiguration processMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
@@ -51,5 +47,4 @@ public class WebTestContextBootstrapper extends DefaultTestContextBootstrapper {
 			return mergedConfig;
 		}
 	}
-
 }

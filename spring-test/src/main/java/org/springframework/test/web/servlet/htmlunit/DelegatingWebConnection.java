@@ -11,11 +11,9 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link WebConnection} that allows delegating to various
- * {@code WebConnection} implementations.
+ * {@link WebConnection}的实现, 允许委托各种{@code WebConnection}实现.
  *
- * <p>For example, if you host your JavaScript on the domain {@code code.jquery.com},
- * you might want to use the following.
+ * <p>例如, 如果在域{@code code.jquery.com}上托管JavaScript, 则可能需要使用以下内容.
  *
  * <pre class="code">
  * WebClient webClient = new WebClient();

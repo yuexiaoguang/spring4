@@ -9,7 +9,7 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of {@link HttpInputMessage}.
+ * {@link HttpInputMessage}的模拟实现.
  */
 public class MockHttpInputMessage implements HttpInputMessage {
 

@@ -9,12 +9,9 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.util.Assert;
 
 /**
- * {@code WebConnectionHtmlUnitDriver} enables configuration of the
- * {@link WebConnection} for an {@link HtmlUnitDriver} instance.
+ * {@code WebConnectionHtmlUnitDriver}可以为{@link HtmlUnitDriver}实例配置{@link WebConnection}.
  *
- * <p>This is useful because it allows a
- * {@link org.springframework.test.web.servlet.htmlunit.MockMvcWebConnection
- * MockMvcWebConnection} to be injected.
+ * <p>这很有用, 因为它允许注入{@link org.springframework.test.web.servlet.htmlunit.MockMvcWebConnection MockMvcWebConnection}.
  */
 public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 
@@ -38,14 +35,13 @@ public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 
 
 	/**
-	 * Modify the supplied {@link WebClient} and retain a reference to it so that its
-	 * {@link WebConnection} is {@linkplain #getWebConnection accessible} for later use.
-	 * <p>Delegates to {@link HtmlUnitDriver#modifyWebClient} for default behavior
-	 * and to {@link #modifyWebClientInternal} for further customization.
-	 * @param webClient the client to modify
-	 * @return the modified client
-	 * @see HtmlUnitDriver#modifyWebClient(WebClient)
-	 * @see #modifyWebClientInternal(WebClient)
+	 * 修改提供的{@link WebClient}并保留对它的引用,
+	 * 以使其{@link WebConnection}的{@linkplain #getWebConnection 可到达}, 供以后使用.
+	 * <p>委托给{@link HtmlUnitDriver#modifyWebClient}获取默认行为, 以及{@link #modifyWebClientInternal}进行进一步自定义.
+	 * 
+	 * @param webClient 要修改的客户端
+	 * 
+	 * @return 已修改的客户端
 	 */
 	@Override
 	protected final WebClient modifyWebClient(WebClient webClient) {
@@ -55,20 +51,20 @@ public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 	}
 
 	/**
-	 * Modify the supplied {@link WebClient}.
-	 * <p>The default implementation simply returns the supplied client unmodified.
-	 * <p>Subclasses can override this method to customize the {@code WebClient}
-	 * that the {@link HtmlUnitDriver} uses.
-	 * @param webClient the client to modify
-	 * @return the modified client
+	 * 修改提供的{@link WebClient}.
+	 * <p>默认实现只是返回提供的未修改的客户端.
+	 * <p>子类可以覆盖此方法以自定义{@link HtmlUnitDriver}使用的{@code WebClient}.
+	 * 
+	 * @param webClient 要修改的客户端
+	 * 
+	 * @return 已修改的客户端
 	 */
 	protected WebClient modifyWebClientInternal(WebClient webClient) {
 		return webClient;
 	}
 
 	/**
-	 * Return the current {@link WebClient}.
-	 * @since 4.3
+	 * 返回当前{@link WebClient}.
 	 */
 	@Override
 	public WebClient getWebClient() {
@@ -76,8 +72,9 @@ public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 	}
 
 	/**
-	 * Set the {@link WebConnection} to be used with the {@link WebClient}.
-	 * @param webConnection the {@code WebConnection} to use
+	 * 设置要与{@link WebClient}一起使用的{@link WebConnection}.
+	 * 
+	 * @param webConnection 要使用的{@code WebConnection}
 	 */
 	public void setWebConnection(WebConnection webConnection) {
 		Assert.notNull(webConnection, "WebConnection must not be null");
@@ -85,8 +82,9 @@ public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 	}
 
 	/**
-	 * Access the current {@link WebConnection} for the {@link WebClient}.
-	 * @return the current {@code WebConnection}
+	 * 访问{@link WebClient}的当前{@link WebConnection}.
+	 * 
+	 * @return 当前{@code WebConnection}
 	 */
 	public WebConnection getWebConnection() {
 		return this.webClient.getWebConnection();

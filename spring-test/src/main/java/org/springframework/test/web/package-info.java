@@ -1,4 +1,4 @@
 /**
- * Helper classes for unit tests based on Spring's web support.
+ * 基于Spring的Web支持进行单元测试的助手类.
  */
 package org.springframework.test.web;

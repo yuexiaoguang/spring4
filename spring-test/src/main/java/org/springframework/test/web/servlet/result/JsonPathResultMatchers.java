@@ -13,12 +13,10 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.StringUtils;
 
 /**
- * Factory for assertions on the response content using
- * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expressions.
+ * 使用<a href="https://github.com/jayway/JsonPath">JsonPath</a>表达式对响应内容进行断言的工厂.
  *
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#jsonPath(String, Matcher)} or
- * {@link MockMvcResultMatchers#jsonPath(String, Object...)}.
+ * <p>通常通过{@link MockMvcResultMatchers#jsonPath(String, Matcher)}
+ * 或{@link MockMvcResultMatchers#jsonPath(String, Object...)}访问此类的实例.
  */
 public class JsonPathResultMatchers {
 
@@ -28,24 +26,21 @@ public class JsonPathResultMatchers {
 
 
 	/**
-	 * Protected constructor.
-	 * <p>Use {@link MockMvcResultMatchers#jsonPath(String, Object...)} or
-	 * {@link MockMvcResultMatchers#jsonPath(String, Matcher)}.
-	 * @param expression the {@link JsonPath} expression; never {@code null} or empty
-	 * @param args arguments to parameterize the {@code JsonPath} expression with,
-	 * using formatting specifiers defined in {@link String#format(String, Object...)}
+	 * <p>使用{@link MockMvcResultMatchers#jsonPath(String, Object...)}
+	 * 或{@link MockMvcResultMatchers#jsonPath(String, Matcher)}.
+	 * 
+	 * @param expression {@link JsonPath}表达式; 不能是{@code null}或空
+	 * @param args 参数化{@code JsonPath}表达式的参数, 使用{@link String#format(String, Object...)}中定义的格式说明符
 	 */
 	protected JsonPathResultMatchers(String expression, Object... args) {
 		this.jsonPathHelper = new JsonPathExpectationsHelper(expression, args);
 	}
 
 	/**
-	 * Configures the current {@code JsonPathResultMatchers} instance
-	 * to verify that the JSON payload is prepended with the given prefix.
-	 * <p>Use this method if the JSON payloads are prefixed to avoid
-	 * Cross Site Script Inclusion (XSSI) attacks.
-	 * @param prefix the string prefix prepended to the actual JSON payload
-	 * @since 4.3
+	 * 配置当前{@code JsonPathResultMatchers}实例以验证JSON有效内容是否带有给定前缀.
+	 * <p>如果JSON有效内容带有前缀以避免跨站点脚本包含 (XSSI)攻击, 请使用此方法.
+	 * 
+	 * @param prefix 实际JSON有效负载的字符串前缀
 	 */
 	public JsonPathResultMatchers prefix(String prefix) {
 		this.prefix = prefix;
@@ -54,10 +49,7 @@ public class JsonPathResultMatchers {
 
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert the resulting value with the given Hamcrest {@link Matcher}.
-	 * @see #value(Matcher, Class)
-	 * @see #value(Object)
+	 * 根据响应内容评估JSON路径表达式, 并使用给定的Hamcrest {@link Matcher}声明结果值.
 	 */
 	public <T> ResultMatcher value(final Matcher<T> matcher) {
 		return new ResultMatcher() {
@@ -70,14 +62,8 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * An overloaded variant of {@link #value(Matcher)} that also accepts a
-	 * target type for the resulting value that the matcher can work reliably
-	 * against.
-	 * <p>This can be useful for matching numbers reliably &mdash; for example,
-	 * to coerce an integer into a double.
-	 * @since 4.3.15
-	 * @see #value(Matcher)
-	 * @see #value(Object)
+	 * {@link #value(Matcher)}的重载变体, 它还接受匹配器可以可靠地工作的结果值的目标类型.
+	 * <p>这对于可靠地匹配数字非常有用 &mdash; 例如, 将整数强制转换为 double.
 	 */
 	public <T> ResultMatcher value(final Matcher<T> matcher, final Class<T> targetType) {
 		return new ResultMatcher() {
@@ -90,10 +76,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is equal to the supplied value.
-	 * @see #value(Matcher)
-	 * @see #value(Matcher, Class)
+	 * 根据响应内容评估JSON路径表达式, 并断言结果等于提供的值.
 	 */
 	public ResultMatcher value(final Object expectedValue) {
 		return new ResultMatcher() {
@@ -105,11 +88,8 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that a non-null value exists at the given path.
-	 * <p>If the JSON path expression is not {@linkplain JsonPath#isDefinite
-	 * definite}, this method asserts that the value at the given path is not
-	 * <em>empty</em>.
+	 * 根据响应内容评估JSON路径表达式, 并断言给定路径上存在非空值.
+	 * <p>如果JSON路径表达式不{@linkplain JsonPath#isDefinite 确定}, 则此方法断言给定路径上的值不<em>为空</em>.
 	 */
 	public ResultMatcher exists() {
 		return new ResultMatcher() {
@@ -122,11 +102,8 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that a value does not exist at the given path.
-	 * <p>If the JSON path expression is not {@linkplain JsonPath#isDefinite
-	 * definite}, this method asserts that the value at the given path is
-	 * <em>empty</em>.
+	 * 根据响应内容评估JSON路径表达式, 并声明给定路径中不存在值.
+	 * <p>如果JSON路径表达式不{@linkplain JsonPath#isDefinite 确定}, 则此方法断言给定路径上的值<em>为空</em>.
 	 */
 	public ResultMatcher doesNotExist() {
 		return new ResultMatcher() {
@@ -139,14 +116,8 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that an empty value exists at the given path.
-	 * <p>For the semantics of <em>empty</em>, consult the Javadoc for
-	 * {@link org.springframework.util.ObjectUtils#isEmpty(Object)}.
-	 * @since 4.2.1
-	 * @see #isNotEmpty()
-	 * @see #exists()
-	 * @see #doesNotExist()
+	 * 根据响应内容评估JSON路径表达式, 并断言给定路径中存在空值.
+	 * <p>有关<em>empty</em>的语义, 请参阅{@link org.springframework.util.ObjectUtils#isEmpty(Object)}的Javadoc.
 	 */
 	public ResultMatcher isEmpty() {
 		return new ResultMatcher() {
@@ -159,14 +130,8 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that a non-empty value exists at the given path.
-	 * <p>For the semantics of <em>empty</em>, consult the Javadoc for
-	 * {@link org.springframework.util.ObjectUtils#isEmpty(Object)}.
-	 * @since 4.2.1
-	 * @see #isEmpty()
-	 * @see #exists()
-	 * @see #doesNotExist()
+	 * 根据响应内容评估JSON路径表达式, 并断言给定路径中存在非空值.
+	 * <p>有关<em>empty</em>的语义, 请参阅{@link org.springframework.util.ObjectUtils#isEmpty(Object)}的Javadoc.
 	 */
 	public ResultMatcher isNotEmpty() {
 		return new ResultMatcher() {
@@ -179,9 +144,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is a {@link String}.
-	 * @since 4.2.1
+	 * 根据响应内容评估JSON路径表达式, 并断言结果为{@link String}.
 	 */
 	public ResultMatcher isString() {
 		return new ResultMatcher() {
@@ -194,9 +157,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is a {@link Boolean}.
-	 * @since 4.2.1
+	 * 根据响应内容评估JSON路径表达式, 并断言结果为{@link Boolean}.
 	 */
 	public ResultMatcher isBoolean() {
 		return new ResultMatcher() {
@@ -209,9 +170,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is a {@link Number}.
-	 * @since 4.2.1
+	 * 根据响应内容评估JSON路径表达式, 并断言结果为{@link Number}.
 	 */
 	public ResultMatcher isNumber() {
 		return new ResultMatcher() {
@@ -224,8 +183,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is an array.
+	 * 根据响应内容评估JSON路径表达式, 并断言结果为数组.
 	 */
 	public ResultMatcher isArray() {
 		return new ResultMatcher() {
@@ -238,9 +196,7 @@ public class JsonPathResultMatchers {
 	}
 
 	/**
-	 * Evaluate the JSON path expression against the response content and
-	 * assert that the result is a {@link java.util.Map}.
-	 * @since 4.2.1
+	 * 根据响应内容评估JSON路径表达式, 并断言结果为{@link java.util.Map}.
 	 */
 	public ResultMatcher isMap() {
 		return new ResultMatcher() {
@@ -269,5 +225,4 @@ public class JsonPathResultMatchers {
 			return content;
 		}
 	}
-
 }

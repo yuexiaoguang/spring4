@@ -1,4 +1,4 @@
 /**
- * Support classes for annotation-driven tests.
+ * 注解驱动的测试的支持类.
  */
 package org.springframework.test.annotation;

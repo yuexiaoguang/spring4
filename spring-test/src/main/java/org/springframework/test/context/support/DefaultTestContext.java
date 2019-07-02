@@ -13,7 +13,7 @@ import org.springframework.test.context.TestContext;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of the {@link TestContext} interface.
+ * {@link TestContext}接口的默认实现.
  */
 public class DefaultTestContext extends AttributeAccessorSupport implements TestContext {
 
@@ -33,12 +33,9 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 
 
 	/**
-	 * Construct a new {@code DefaultTestContext} from the supplied arguments.
-	 * @param testClass the test class for this test context; never {@code null}
-	 * @param mergedContextConfiguration the merged application context
-	 * configuration for this test context; never {@code null}
-	 * @param cacheAwareContextLoaderDelegate the delegate to use for loading
-	 * and closing the application context for this test context; never {@code null}
+	 * @param testClass 此测试上下文的测试类; never {@code null}
+	 * @param mergedContextConfiguration 此测试上下文的合并应用程序上下文配置; never {@code null}
+	 * @param cacheAwareContextLoaderDelegate 用于加载和关闭此测试上下文的应用程序上下文的委托; never {@code null}
 	 */
 	public DefaultTestContext(Class<?> testClass, MergedContextConfiguration mergedContextConfiguration,
 			CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate) {
@@ -51,13 +48,10 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 	}
 
 	/**
-	 * Get the {@linkplain ApplicationContext application context} for this
-	 * test context.
-	 * <p>The default implementation delegates to the {@link CacheAwareContextLoaderDelegate}
-	 * that was supplied when this {@code TestContext} was constructed.
-	 * @see CacheAwareContextLoaderDelegate#loadContext
-	 * @throws IllegalStateException if the context returned by the context
-	 * loader delegate is not <em>active</em> (i.e., has been closed).
+	 * 获取此测试上下文的{@linkplain ApplicationContext 应用程序上下文}.
+	 * <p>默认实现委托给构造{@code TestContext}时提供的{@link CacheAwareContextLoaderDelegate}.
+	 * 
+	 * @throws IllegalStateException 如果上下文加载器委托返回的上下文不是<em>活动的</em> (i.e., 已关闭).
 	 */
 	public ApplicationContext getApplicationContext() {
 		ApplicationContext context = this.cacheAwareContextLoaderDelegate.loadContext(this.mergedContextConfiguration);
@@ -71,12 +65,8 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 	}
 
 	/**
-	 * Mark the {@linkplain ApplicationContext application context} associated
-	 * with this test context as <em>dirty</em> (i.e., by removing it from the
-	 * context cache and closing it).
-	 * <p>The default implementation delegates to the {@link CacheAwareContextLoaderDelegate}
-	 * that was supplied when this {@code TestContext} was constructed.
-	 * @see CacheAwareContextLoaderDelegate#closeContext
+	 * 将与此测试上下文关联的{@linkplain ApplicationContext 应用程序上下文}标记为<em>dirty</em> (i.e., 将其从上下文缓存中删除并关闭它).
+	 * <p>默认实现委托给构造{@code TestContext}时提供的{@link CacheAwareContextLoaderDelegate}.
 	 */
 	public void markApplicationContextDirty(HierarchyMode hierarchyMode) {
 		this.cacheAwareContextLoaderDelegate.closeContext(this.mergedContextConfiguration, hierarchyMode);
@@ -105,9 +95,6 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 	}
 
 
-	/**
-	 * Provide a String representation of this test context's state.
-	 */
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)

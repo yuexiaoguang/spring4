@@ -8,86 +8,90 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.ResponseCreator;
 
 /**
- * Static factory methods for obtaining a {@link ResponseCreator} instance.
+ * 用于获取{@link ResponseCreator}实例的静态工厂方法.
  *
- * <p><strong>Eclipse users:</strong> consider adding this class as a Java editor
- * favorite. To navigate, open the Preferences and type "favorites".
+ * <p><strong>Eclipse users:</strong> 考虑将此类添加为Java编辑器的最爱. 要导航，请打开“首选项”并键入"favorites".
  */
 public abstract class MockRestResponseCreators {
 
 	/**
-	 * {@code ResponseCreator} for a 200 response (OK).
+	 * 获得200响应 (OK)的{@code ResponseCreator}.
 	 */
 	public static DefaultResponseCreator withSuccess() {
 		return new DefaultResponseCreator(HttpStatus.OK);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 200 response (OK) with String body.
-	 * @param body the response body, a "UTF-8" string
-	 * @param mediaType the type of the content, may be {@code null}
+	 * 使用String 主体的200响应 (OK)的{@code ResponseCreator}.
+	 * 
+	 * @param body 响应主体, "UTF-8"字符串
+	 * @param mediaType 内容的类型, 可能是{@code null}
 	 */
 	public static DefaultResponseCreator withSuccess(String body, MediaType mediaType) {
 		return new DefaultResponseCreator(HttpStatus.OK).body(body).contentType(mediaType);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 200 response (OK) with byte[] body.
-	 * @param body the response body
-	 * @param contentType the type of the content, may be {@code null}
+	 * 使用byte[] 主体的200响应 (OK)的{@code ResponseCreator}.
+	 * 
+	 * @param body 响应主体
+	 * @param contentType 内容的类型, 可能是{@code null}
 	 */
 	public static DefaultResponseCreator withSuccess(byte[] body, MediaType contentType) {
 		return new DefaultResponseCreator(HttpStatus.OK).body(body).contentType(contentType);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 200 response (OK) content with {@link Resource}-based body.
-	 * @param body the response body
-	 * @param contentType the type of the content, may be {@code null}
+	 * 基于{@link Resource}的正文的内容的200响应 (OK).
+	 * 
+	 * @param body 响应主体
+	 * @param contentType 内容的类型, 可能是{@code null}
 	 */
 	public static DefaultResponseCreator withSuccess(Resource body, MediaType contentType) {
 		return new DefaultResponseCreator(HttpStatus.OK).body(body).contentType(contentType);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 201 response (CREATED) with a 'Location' header.
-	 * @param location the value for the {@code Location} header
+	 * 带有'Location' header的201响应(CREATED).
+	 * 
+	 * @param location {@code Location} header的值
 	 */
 	public static DefaultResponseCreator withCreatedEntity(URI location) {
 		return new DefaultResponseCreator(HttpStatus.CREATED).location(location);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 204 response (NO_CONTENT).
+	 * 204响应 (NO_CONTENT).
 	 */
 	public static DefaultResponseCreator withNoContent() {
 		return new DefaultResponseCreator(HttpStatus.NO_CONTENT);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 400 response (BAD_REQUEST).
+	 * 400响应 (BAD_REQUEST).
 	 */
 	public static DefaultResponseCreator withBadRequest() {
 		return new DefaultResponseCreator(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 401 response (UNAUTHORIZED).
+	 * 401响应 (UNAUTHORIZED).
 	 */
 	public static DefaultResponseCreator withUnauthorizedRequest() {
 		return new DefaultResponseCreator(HttpStatus.UNAUTHORIZED);
 	}
 
 	/**
-	 * {@code ResponseCreator} for a 500 response (SERVER_ERROR).
+	 * 500响应 (SERVER_ERROR).
 	 */
 	public static DefaultResponseCreator withServerError() {
 		return new DefaultResponseCreator(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
-	 * {@code ResponseCreator} with a specific HTTP status.
-	 * @param status the response status
+	 * 具有指定HTTP状态的{@code ResponseCreator}.
+	 * 
+	 * @param status 响应状态
 	 */
 	public static DefaultResponseCreator withStatus(HttpStatus status) {
 		return new DefaultResponseCreator(status);

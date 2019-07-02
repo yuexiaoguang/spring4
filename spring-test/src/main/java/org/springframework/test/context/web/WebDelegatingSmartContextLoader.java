@@ -6,10 +6,9 @@ import org.springframework.test.context.support.AbstractDelegatingSmartContextLo
 import org.springframework.util.ClassUtils;
 
 /**
- * {@code WebDelegatingSmartContextLoader} is a concrete implementation of
- * {@link AbstractDelegatingSmartContextLoader} that delegates to a
- * {@link GenericXmlWebContextLoader} (or a {@link GenericGroovyXmlWebContextLoader} if
- * Groovy is present on the classpath) and an {@link AnnotationConfigWebContextLoader}.
+ * {@code WebDelegatingSmartContextLoader}是{@link AbstractDelegatingSmartContextLoader}的具体实现,
+ * 它委托给{@link GenericXmlWebContextLoader} (如果类路径中存在Groovy, 则为{@link GenericGroovyXmlWebContextLoader})
+ * 和{@link AnnotationConfigWebContextLoader}.
  */
 public class WebDelegatingSmartContextLoader extends AbstractDelegatingSmartContextLoader {
 

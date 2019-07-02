@@ -5,11 +5,9 @@ import java.util.regex.Pattern;
 import com.gargoylesoftware.htmlunit.WebRequest;
 
 /**
- * A {@link WebRequestMatcher} that allows matching on
- * {@code WebRequest#getUrl().toExternalForm()} using a regular expression.
+ * {@link WebRequestMatcher}, 允许使用正则表达式在{@code WebRequest#getUrl().toExternalForm()}上进行匹配.
  *
- * <p>For example, if you would like to match on the domain {@code code.jquery.com},
- * you might want to use the following.
+ * <p>例如, 如果想在域{@code code.jquery.com}上匹配, 可能想要使用以下内容.
  *
  * <pre class="code">
  * WebRequestMatcher cdnMatcher = new UrlRegexRequestMatcher(".*?//code.jquery.com/.*");

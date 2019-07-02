@@ -44,11 +44,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Internal class used to transform a {@link WebRequest} into a
- * {@link MockHttpServletRequest} using Spring MVC Test's {@link RequestBuilder}.
+ * 用于使用Spring MVC Test的 {@link RequestBuilder}将{@link WebRequest}转换为{@link MockHttpServletRequest}的内部类.
  *
- * <p>By default the first path segment of the URL is used as the context path.
- * To override this default see {@link #setContextPath(String)}.
+ * <p>默认情况下, URL的第一个路径段用作上下文路径.
+ * 要覆盖此默认值, 请参阅{@link #setContextPath(String)}.
  */
 final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 
@@ -75,12 +74,9 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 
 
 	/**
-	 * Construct a new {@code HtmlUnitRequestBuilder}.
-	 * @param sessions a {@link Map} from session {@linkplain HttpSession#getId() IDs}
-	 * to currently managed {@link HttpSession} objects; never {@code null}
-	 * @param webClient the WebClient for retrieving cookies
-	 * @param webRequest the {@link WebRequest} to transform into a
-	 * {@link MockHttpServletRequest}; never {@code null}
+	 * @param sessions 从会话{@linkplain HttpSession#getId() IDs}到当前管理的{@link HttpSession}对象的{@link Map}; never {@code null}
+	 * @param webClient 用于检索cookie的WebClient
+	 * @param webRequest 要转换为{@link MockHttpServletRequest}的{@link WebRequest}; never {@code null}
 	 */
 	public HtmlUnitRequestBuilder(Map<String, MockHttpSession> sessions, WebClient webClient, WebRequest webRequest) {
 		Assert.notNull(sessions, "Sessions Map must not be null");
@@ -100,7 +96,7 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 		MockHttpServletRequest request = new HtmlUnitMockHttpServletRequest(
 				servletContext, httpMethod, uriComponents.getPath());
 		parent(request, this.parentBuilder);
-		request.setServerName(uriComponents.getHost());  // needs to be first for additional headers
+		request.setServerName(uriComponents.getHost());  // 需要首先获得额外的header
 		authType(request);
 		request.setCharacterEncoding(charset.name());
 		content(request, charset);
@@ -197,14 +193,14 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 	}
 
 	/**
-	 * Set the contextPath to be used.
-	 * <p>The value may be null in which case the first path segment of the
-	 * URL is turned into the contextPath. Otherwise it must conform to
-	 * {@link HttpServletRequest#getContextPath()} which states it can be
-	 * an empty string, or it must start with a "/" and not end with a "/".
-	 * @param contextPath a valid contextPath
-	 * @throws IllegalArgumentException if the contextPath is not a valid
-	 * {@link HttpServletRequest#getContextPath()}
+	 * 设置要使用的contextPath.
+	 * <p>该值可以为null, 在这种情况下, URL的第一个路径段将转换为contextPath.
+	 * 否则它必须符合{@link HttpServletRequest#getContextPath()},
+	 * 它声明它可以是一个空字符串, 或者它必须以 "/" 开头而不是以 "/"结尾.
+	 * 
+	 * @param contextPath 有效的contextPath
+	 * 
+	 * @throws IllegalArgumentException 如果contextPath不是有效的{@link HttpServletRequest#getContextPath()}
 	 */
 	public void setContextPath(String contextPath) {
 		MockMvcWebConnection.validateContextPath(contextPath);
@@ -460,8 +456,7 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 
 
 	/**
-	 * An extension to {@link MockHttpServletRequest} that ensures that when a
-	 * new {@link HttpSession} is created, it is added to the managed sessions.
+	 * {@link MockHttpServletRequest}的扩展, 确保在创建新的{@link HttpSession}时, 将其添加到管理的会话.
 	 */
 	private final class HtmlUnitMockHttpServletRequest extends MockHttpServletRequest {
 
@@ -489,9 +484,7 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 
 
 	/**
-	 * An extension to {@link MockHttpSession} that ensures when
-	 * {@link #invalidate()} is called that the {@link HttpSession}
-	 * is removed from the managed sessions.
+	 * {@link MockHttpSession}的扩展, 确保在调用{@link #invalidate()}时, 从管理的会话中删除{@link HttpSession}.
 	 */
 	private final class HtmlUnitMockHttpSession extends MockHttpSession {
 
@@ -516,5 +509,4 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 			removeSessionCookie(request, getId());
 		}
 	}
-
 }

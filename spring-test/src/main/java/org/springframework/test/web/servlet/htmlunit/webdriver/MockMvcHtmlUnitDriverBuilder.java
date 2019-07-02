@@ -12,13 +12,11 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * {@code MockMvcHtmlUnitDriverBuilder} simplifies the building of an
- * {@link HtmlUnitDriver} that delegates to {@link MockMvc} and optionally
- * delegates to an actual connection for specific requests.
+ * {@code MockMvcHtmlUnitDriverBuilder}简化了{@link HtmlUnitDriver}的构建,
+ * 委托给{@link MockMvc}, 并可选择委托给特定请求的实际连接.
  *
- * <p>By default, the driver will delegate to {@code MockMvc} to handle
- * requests to {@code localhost} and to a {@link WebClient} to handle any
- * other URL (i.e. to perform an actual HTTP request).
+ * <p>默认情况下, 驱动程序将委托给{@code MockMvc}处理对{@code localhost}和{@link WebClient}的请求,
+ * 以处理任何其他URL (i.e. 执行实际的HTTP请求).
  */
 public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSupport<MockMvcHtmlUnitDriverBuilder> {
 
@@ -41,10 +39,11 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 
 
 	/**
-	 * Create a new {@code MockMvcHtmlUnitDriverBuilder} based on the supplied
-	 * {@link MockMvc} instance.
-	 * @param mockMvc the {@code MockMvc} instance to use (never {@code null})
-	 * @return the MockMvcHtmlUnitDriverBuilder to customize
+	 * 根据提供的{@link MockMvc}实例创建一个新的{@code MockMvcHtmlUnitDriverBuilder}.
+	 * 
+	 * @param mockMvc 要使用的{@code MockMvc}实例 (never {@code null})
+	 * 
+	 * @return 要自定义的MockMvcHtmlUnitDriverBuilder
 	 */
 	public static MockMvcHtmlUnitDriverBuilder mockMvcSetup(MockMvc mockMvc) {
 		Assert.notNull(mockMvc, "MockMvc must not be null");
@@ -52,11 +51,11 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 	}
 
 	/**
-	 * Create a new {@code MockMvcHtmlUnitDriverBuilder} based on the supplied
-	 * {@link WebApplicationContext}.
-	 * @param context the {@code WebApplicationContext} to create a {@link MockMvc}
-	 * instance from (never {@code null})
-	 * @return the MockMvcHtmlUnitDriverBuilder to customize
+	 * 根据提供的{@link WebApplicationContext}创建一个新的{@code MockMvcHtmlUnitDriverBuilder}.
+	 * 
+	 * @param context 从中创建{@link MockMvc}实例的{@code WebApplicationContext} (never {@code null})
+	 * 
+	 * @return 要自定义的MockMvcHtmlUnitDriverBuilder
 	 */
 	public static MockMvcHtmlUnitDriverBuilder webAppContextSetup(WebApplicationContext context) {
 		Assert.notNull(context, "WebApplicationContext must not be null");
@@ -64,12 +63,12 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 	}
 
 	/**
-	 * Create a new {@code MockMvcHtmlUnitDriverBuilder} based on the supplied
-	 * {@link WebApplicationContext} and {@link MockMvcConfigurer}.
-	 * @param context the {@code WebApplicationContext} to create a {@link MockMvc}
-	 * instance from (never {@code null})
-	 * @param configurer the {@code MockMvcConfigurer} to apply (never {@code null})
-	 * @return the MockMvcHtmlUnitDriverBuilder to customize
+	 * 根据提供的{@link WebApplicationContext}和{@link MockMvcConfigurer}创建一个新的{@code MockMvcHtmlUnitDriverBuilder}.
+	 * 
+	 * @param context 从中创建{@link MockMvc}实例的{@code WebApplicationContext} (never {@code null})
+	 * @param configurer 要应用的{@code MockMvcConfigurer} (never {@code null})
+	 * 
+	 * @return 要自定义的MockMvcHtmlUnitDriverBuilder
 	 */
 	public static MockMvcHtmlUnitDriverBuilder webAppContextSetup(WebApplicationContext context,
 			MockMvcConfigurer configurer) {
@@ -80,11 +79,12 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 	}
 
 	/**
-	 * Specify whether JavaScript should be enabled.
-	 * <p>Default is {@code true}.
-	 * @param javascriptEnabled {@code true} if JavaScript should be enabled
-	 * @return this builder for further customizations
-	 * @see #build()
+	 * 指定是否应启用JavaScript.
+	 * <p>默认{@code true}.
+	 * 
+	 * @param javascriptEnabled {@code true} 如果应启用JavaScript
+	 * 
+	 * @return 用于进一步自定义的构建器
 	 */
 	public MockMvcHtmlUnitDriverBuilder javascriptEnabled(boolean javascriptEnabled) {
 		this.javascriptEnabled = javascriptEnabled;
@@ -92,13 +92,12 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 	}
 
 	/**
-	 * Supply the {@code WebConnectionHtmlUnitDriver} that the driver
-	 * {@linkplain #build built} by this builder should delegate to when
-	 * processing non-{@linkplain WebRequestMatcher matching} requests.
-	 * @param driver the {@code WebConnectionHtmlUnitDriver} to delegate to
-	 * for requests that do not match (never {@code null})
-	 * @return this builder for further customizations
-	 * @see #build()
+	 * 提供此编译器在处理非{@linkplain WebRequestMatcher 匹配}请求时,
+	 * 应委托的驱动程序通过此构建器{@linkplain #build 构建}的{@code WebConnectionHtmlUnitDriver}.
+	 * 
+	 * @param driver 用于不匹配的请求的{@code WebConnectionHtmlUnitDriver} (never {@code null})
+	 * 
+	 * @return 用于进一步自定义的构建器
 	 */
 	public MockMvcHtmlUnitDriverBuilder withDelegate(WebConnectionHtmlUnitDriver driver) {
 		Assert.notNull(driver, "HtmlUnitDriver must not be null");
@@ -109,16 +108,13 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 	}
 
 	/**
-	 * Build the {@link HtmlUnitDriver} configured via this builder.
-	 * <p>The returned driver will use the configured {@link MockMvc} instance
-	 * for processing any {@linkplain WebRequestMatcher matching} requests
-	 * and a delegate {@code HtmlUnitDriver} for all other requests.
-	 * <p>If a {@linkplain #withDelegate delegate} has been explicitly configured,
-	 * it will be used; otherwise, a default {@code WebConnectionHtmlUnitDriver}
-	 * with the {@link BrowserVersion} set to {@link BrowserVersion#CHROME CHROME}
-	 * will be configured as the delegate.
-	 * @return the {@code HtmlUnitDriver} to use
-	 * @see #withDelegate(WebConnectionHtmlUnitDriver)
+	 * 构建通过此构建器配置的{@link HtmlUnitDriver}.
+	 * <p>返回的驱动程序将使用配置的{@link MockMvc}实例处理{@linkplain WebRequestMatcher 匹配}请求,
+	 * 并使用委托{@code HtmlUnitDriver}处理所有其他请求.
+	 * <p>如果已明确配置{@linkplain #withDelegate 委托}, 则将使用它;
+	 * 否则, 将{@link BrowserVersion}设置为{@link BrowserVersion#CHROME CHROME}的默认{@code WebConnectionHtmlUnitDriver}将被配置为委托.
+	 * 
+	 * @return 要使用的{@code HtmlUnitDriver}
 	 */
 	public HtmlUnitDriver build() {
 		return (this.driver != null ? this.driver :

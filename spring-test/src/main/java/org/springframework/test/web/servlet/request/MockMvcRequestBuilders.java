@@ -10,189 +10,191 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 
 /**
- * Static factory methods for {@link RequestBuilder RequestBuilders}.
+ * {@link RequestBuilder RequestBuilders}的静态工厂方法.
  *
- * <h3>Integration with the Spring TestContext Framework</h3>
- * <p>Methods in this class will reuse a
- * {@link org.springframework.mock.web.MockServletContext MockServletContext}
- * that was created by the Spring TestContext Framework.
+ * <h3>与Spring TestContext Framework集成</h3>
+ * <p>此类中的方法将重用由Spring TestContext Framework创建的
+ * {@link org.springframework.mock.web.MockServletContext MockServletContext}.
  *
  * <h3>Eclipse Users</h3>
- * <p>Consider adding this class as a Java editor favorite. To navigate to
- * this setting, open the Preferences and type "favorites".
+ * <p>Consider adding this class as a Java editor favorite. To navigate to this setting, open the Preferences and type "favorites".
  */
 public abstract class MockMvcRequestBuilders {
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a GET request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于GET请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder get(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.GET, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a GET request.
+	 * 用于GET请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder get(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.GET, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a POST request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于POST请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder post(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.POST, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a POST request.
+	 * 用于POST请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder post(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.POST, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a PUT request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于PUT请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder put(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.PUT, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a PUT request.
+	 * 用于PUT请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder put(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.PUT, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a PATCH request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于PATCH请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder patch(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.PATCH, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a PATCH request.
+	 * 用于PATCH请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder patch(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.PATCH, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a DELETE request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于DELETE请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder delete(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.DELETE, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a DELETE request.
+	 * 用于DELETE请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder delete(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.DELETE, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for an OPTIONS request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 用于OPTIONS请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder options(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.OPTIONS, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for an OPTIONS request.
+	 * 用于OPTIONS请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder options(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.OPTIONS, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a HEAD request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
-	 * @since 4.1
+	 * 用于HEAD请求.
+	 * 
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder head(String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(HttpMethod.HEAD, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a HEAD request.
+	 * 用于HEAD请求.
+	 * 
 	 * @param uri the URL
-	 * @since 4.1
 	 */
 	public static MockHttpServletRequestBuilder head(URI uri) {
 		return new MockHttpServletRequestBuilder(HttpMethod.HEAD, uri);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a request with the given HTTP method.
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * 使用指定的HTTP方法.
+	 * 
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockHttpServletRequestBuilder request(HttpMethod method, String urlTemplate, Object... uriVars) {
 		return new MockHttpServletRequestBuilder(method, urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockHttpServletRequestBuilder} for a request with the given HTTP method.
-	 * @param httpMethod the HTTP method (GET, POST, etc)
+	 * 使用指定的HTTP方法.
+	 * 
+	 * @param httpMethod HTTP方法 (GET, POST, etc)
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockHttpServletRequestBuilder request(HttpMethod httpMethod, URI uri) {
 		return new MockHttpServletRequestBuilder(httpMethod, uri);
 	}
 
 	/**
-	 * Alternative factory method that allows for custom HTTP verbs (e.g. WebDAV).
-	 * @param httpMethod the HTTP method
+	 * 允许自定义HTTP谓词的替代工厂方法 (e.g. WebDAV).
+	 * 
+	 * @param httpMethod HTTP方法
 	 * @param uri the URL
-	 * @since 4.3
 	 */
 	public static MockHttpServletRequestBuilder request(String httpMethod, URI uri) {
 		return new MockHttpServletRequestBuilder(httpMethod, uri);
 	}
 
 	/**
-	 * Create a {@link MockMultipartHttpServletRequestBuilder} for a multipart request.
-	 * @param urlTemplate a URL template; the resulting URL will be encoded
-	 * @param uriVars zero or more URI variables
+	 * @param urlTemplate URL模板; 生成的URL将被编码
+	 * @param uriVars 零个或多个URI变量
 	 */
 	public static MockMultipartHttpServletRequestBuilder fileUpload(String urlTemplate, Object... uriVars) {
 		return new MockMultipartHttpServletRequestBuilder(urlTemplate, uriVars);
 	}
 
 	/**
-	 * Create a {@link MockMultipartHttpServletRequestBuilder} for a multipart request.
 	 * @param uri the URL
-	 * @since 4.0.3
 	 */
 	public static MockMultipartHttpServletRequestBuilder fileUpload(URI uri) {
 		return new MockMultipartHttpServletRequestBuilder(uri);
@@ -200,26 +202,26 @@ public abstract class MockMvcRequestBuilders {
 
 
 	/**
-	 * Create a {@link RequestBuilder} for an async dispatch from the
-	 * {@link MvcResult} of the request that started async processing.
-	 * <p>Usage involves performing a request that starts async processing first:
+	 * 从启动异步处理的请求的{@link MvcResult}创建用于异步调度的{@link RequestBuilder}.
+	 * <p>用法涉及执行首先启动异步处理的请求:
 	 * <pre class="code">
 	 * MvcResult mvcResult = this.mockMvc.perform(get("/1"))
 	 *	.andExpect(request().asyncStarted())
 	 *	.andReturn();
 	 *  </pre>
-	 * <p>And then performing the async dispatch re-using the {@code MvcResult}:
+	 * <p>然后使用{@code MvcResult}重新执行异步调度:
 	 * <pre class="code">
 	 * this.mockMvc.perform(asyncDispatch(mvcResult))
 	 * 	.andExpect(status().isOk())
 	 * 	.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 	 * 	.andExpect(content().string("{\"name\":\"Joe\",\"someDouble\":0.0,\"someBoolean\":false}"));
 	 * </pre>
-	 * @param mvcResult the result from the request that started async processing
+	 * 
+	 * @param mvcResult 来自启动异步处理的请求的结果
 	 */
 	public static RequestBuilder asyncDispatch(final MvcResult mvcResult) {
 
-		// There must be an async result before dispatching
+		// 在分派之前必须有异步结果
 		mvcResult.getAsyncResult();
 
 		return new RequestBuilder() {
@@ -232,5 +234,4 @@ public abstract class MockMvcRequestBuilders {
 			}
 		};
 	}
-
 }

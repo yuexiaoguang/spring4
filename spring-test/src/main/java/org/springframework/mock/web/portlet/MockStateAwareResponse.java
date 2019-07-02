@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.StateAwareResponse} interface.
+ * {@link javax.portlet.StateAwareResponse}接口的模拟实现.
  */
 public class MockStateAwareResponse extends MockPortletResponse implements StateAwareResponse {
 
@@ -32,16 +32,14 @@ public class MockStateAwareResponse extends MockPortletResponse implements State
 
 
 	/**
-	 * Create a new MockActionResponse with a default {@link MockPortalContext}.
+	 * 使用默认的{@link MockPortalContext}.
 	 */
 	public MockStateAwareResponse() {
 		super();
 	}
 
 	/**
-	 * Create a new MockActionResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
 	 */
 	public MockStateAwareResponse(PortalContext portalContext) {
 		super(portalContext);

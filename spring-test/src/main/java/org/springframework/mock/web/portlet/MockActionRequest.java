@@ -6,22 +6,21 @@ import javax.portlet.PortletContext;
 import javax.portlet.PortletMode;
 
 /**
- * Mock implementation of the {@link javax.portlet.ActionRequest} interface.
+ * {@link javax.portlet.ActionRequest}接口的模拟实现.
  */
 public class MockActionRequest extends MockClientDataRequest implements ActionRequest {
 
 	/**
-	 * Create a new MockActionRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
 	 */
 	public MockActionRequest() {
 		super();
 	}
 
 	/**
-	 * Create a new MockActionRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param actionName the name of the action to trigger
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param actionName 要触发的操作的名称
 	 */
 	public MockActionRequest(String actionName) {
 		super();
@@ -29,9 +28,9 @@ public class MockActionRequest extends MockClientDataRequest implements ActionRe
 	}
 
 	/**
-	 * Create a new MockActionRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param portletMode the mode that the portlet runs in
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param portletMode portlet运行的模式
 	 */
 	public MockActionRequest(PortletMode portletMode) {
 		super();
@@ -39,17 +38,17 @@ public class MockActionRequest extends MockClientDataRequest implements ActionRe
 	}
 
 	/**
-	 * Create a new MockActionRequest with a default {@link MockPortalContext}.
-	 * @param portletContext the PortletContext that the request runs in
+	 * 使用默认的{@link MockPortalContext}.
+	 * 
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockActionRequest(PortletContext portletContext) {
 		super(portletContext);
 	}
 
 	/**
-	 * Create a new MockActionRequest.
-	 * @param portalContext the PortalContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param portalContext 运行请求的PortalContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockActionRequest(PortalContext portalContext, PortletContext portletContext) {
 		super(portalContext, portletContext);

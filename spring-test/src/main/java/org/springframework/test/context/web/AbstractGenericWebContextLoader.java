@@ -20,21 +20,16 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Abstract, generic extension of {@link AbstractContextLoader} that loads a
- * {@link GenericWebApplicationContext}.
+ * 加载{@link GenericWebApplicationContext}的{@link AbstractContextLoader}的抽象通用扩展.
  *
- * <p>If instances of concrete subclasses are invoked via the
- * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader}
- * SPI, the context will be loaded from the {@link MergedContextConfiguration}
- * provided to {@link #loadContext(MergedContextConfiguration)}. In such cases, a
- * {@code SmartContextLoader} will decide whether to load the context from
- * <em>locations</em> or <em>annotated classes</em>. Note that {@code
- * AbstractGenericWebContextLoader} does not support the {@code
- * loadContext(String... locations)} method from the legacy
- * {@link org.springframework.test.context.ContextLoader ContextLoader} SPI.
+ * <p>如果通过{@link org.springframework.test.context.SmartContextLoader SmartContextLoader} SPI
+ * 调用具体子类的实例, 则将从提供给{@link #loadContext(MergedContextConfiguration)}的{@link MergedContextConfiguration}加载上下文.
+ * 在这种情况下, {@code SmartContextLoader}将决定是否从<em>locations</em>或<em>带注解的类</em>加载上下文.
+ * 请注意, {@code AbstractGenericWebContextLoader}不支持传统
+ * {@link org.springframework.test.context.ContextLoader ContextLoader} SPI中的
+ * {@code loadContext(String... locations)}方法.
  *
- * <p>Concrete subclasses must provide an appropriate implementation of
- * {@link #loadBeanDefinitions}.
+ * <p>具体的子类必须提供{@link #loadBeanDefinitions}的适当实现.
  */
 public abstract class AbstractGenericWebContextLoader extends AbstractContextLoader {
 
@@ -44,38 +39,27 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 	// SmartContextLoader
 
 	/**
-	 * Load a Spring {@link WebApplicationContext} from the supplied
-	 * {@link MergedContextConfiguration}.
-	 * <p>Implementation details:
+	 * 从提供的{@link MergedContextConfiguration}加载Spring {@link WebApplicationContext}.
+	 * <p>实现详情:
 	 * <ul>
-	 * <li>Calls {@link #validateMergedContextConfiguration(WebMergedContextConfiguration)}
-	 * to allow subclasses to validate the supplied configuration before proceeding.</li>
-	 * <li>Creates a {@link GenericWebApplicationContext} instance.</li>
-	 * <li>If the supplied {@code MergedContextConfiguration} references a
-	 * {@linkplain MergedContextConfiguration#getParent() parent configuration},
-	 * the corresponding {@link MergedContextConfiguration#getParentApplicationContext()
-	 * ApplicationContext} will be retrieved and
-	 * {@linkplain GenericWebApplicationContext#setParent(ApplicationContext) set as the parent}
-	 * for the context created by this method.</li>
-	 * <li>Delegates to {@link #configureWebResources} to create the
-	 * {@link MockServletContext} and set it in the {@code WebApplicationContext}.</li>
-	 * <li>Calls {@link #prepareContext} to allow for customizing the context
-	 * before bean definitions are loaded.</li>
-	 * <li>Calls {@link #customizeBeanFactory} to allow for customizing the
-	 * context's {@code DefaultListableBeanFactory}.</li>
-	 * <li>Delegates to {@link #loadBeanDefinitions} to populate the context
-	 * from the locations or classes in the supplied {@code MergedContextConfiguration}.</li>
-	 * <li>Delegates to {@link AnnotationConfigUtils} for
-	 * {@linkplain AnnotationConfigUtils#registerAnnotationConfigProcessors registering}
-	 * annotation configuration processors.</li>
-	 * <li>Calls {@link #customizeContext} to allow for customizing the context
-	 * before it is refreshed.</li>
-	 * <li>{@link ConfigurableApplicationContext#refresh Refreshes} the
-	 * context and registers a JVM shutdown hook for it.</li>
+	 * <li>调用{@link #validateMergedContextConfiguration(WebMergedContextConfiguration)}
+	 * 以允许子类在继续之前验证提供的配置.</li>
+	 * <li>创建{@link GenericWebApplicationContext}实例.</li>
+	 * <li>如果提供的{@code MergedContextConfiguration}引用了
+	 * {@linkplain MergedContextConfiguration#getParent() 父级配置},
+	 * 则将检索相应的{@link MergedContextConfiguration#getParentApplicationContext() ApplicationContext},
+	 * 并为此方法创建的上下文{@linkplain GenericWebApplicationContext#setParent(ApplicationContext) 设置父级}.</li>
+	 * <li>委托给{@link #configureWebResources} 创建{@link MockServletContext}并将其设置在{@code WebApplicationContext}中.</li>
+	 * <li>调用{@link #prepareContext}以允许在加载bean定义之前自定义上下文.</li>
+	 * <li>调用{@link #customizeBeanFactory}以允许自定义上下文的{@code DefaultListableBeanFactory}.</li>
+	 * <li>委托给{@link #loadBeanDefinitions}从提供的{@code MergedContextConfiguration}中的位置或类填充上下文.</li>
+	 * <li>委托给{@link AnnotationConfigUtils}以
+	 * {@linkplain AnnotationConfigUtils#registerAnnotationConfigProcessors 注册}注解配置处理器.</li>
+	 * <li>调用{@link #customizeContext}以允许在刷新上下文之前自定义上下文.</li>
+	 * <li>{@link ConfigurableApplicationContext#refresh 刷新}上下文并为其注册JVM关闭挂钩.</li>
 	 * </ul>
-	 * @return a new web application context
-	 * @see org.springframework.test.context.SmartContextLoader#loadContext(MergedContextConfiguration)
-	 * @see GenericWebApplicationContext
+	 * 
+	 * @return 新的Web应用程序上下文
 	 */
 	@Override
 	public final ConfigurableApplicationContext loadContext(MergedContextConfiguration mergedConfig) throws Exception {
@@ -111,54 +95,43 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 	}
 
 	/**
-	 * Validate the supplied {@link WebMergedContextConfiguration} with respect to
-	 * what this context loader supports.
-	 * <p>The default implementation is a <em>no-op</em> but can be overridden by
-	 * subclasses as appropriate.
-	 * @param mergedConfig the merged configuration to validate
-	 * @throws IllegalStateException if the supplied configuration is not valid
-	 * for this context loader
-	 * @since 4.0.4
+	 * 根据此上下文加载器支持的内容验证提供的{@link WebMergedContextConfiguration}.
+	 * <p>默认实现是<em>no-op</em>, 但可以根据需要由子类覆盖.
+	 * 
+	 * @param mergedConfig 要验证的合并配置
+	 * 
+	 * @throws IllegalStateException 如果提供的配置对此上下文加载器无效
 	 */
 	protected void validateMergedContextConfiguration(WebMergedContextConfiguration mergedConfig) {
 		/* no-op */
 	}
 
 	/**
-	 * Configures web resources for the supplied web application context (WAC).
-	 * <h4>Implementation Details</h4>
-	 * <p>If the supplied WAC has no parent or its parent is not a WAC, the
-	 * supplied WAC will be configured as the Root WAC (see "<em>Root WAC
-	 * Configuration</em>" below).
-	 * <p>Otherwise the context hierarchy of the supplied WAC will be traversed
-	 * to find the top-most WAC (i.e., the root); and the {@link ServletContext}
-	 * of the Root WAC will be set as the {@code ServletContext} for the supplied
-	 * WAC.
-	 * <h4>Root WAC Configuration</h4>
+	 * 为所提供的Web应用程序上下文 (WAC)配置Web资源.
+	 * <h4>实现详情</h4>
+	 * <p>如果提供的WAC没有父级或其父级不是WAC, 则提供的WAC将配置为根WAC (请参阅下面的"<em>Root WAC Configuration</em>").
+	 * <p>否则, 将遍历所提供的WAC的上下文层次结构以找到最顶层的WAC (i.e., 根);
+	 * 并且根WAC的{@link ServletContext}将被设置为所提供的WAC的{@code ServletContext}.
+	 * <h4>根WAC配置</h4>
 	 * <ul>
-	 * <li>The resource base path is retrieved from the supplied
-	 * {@code WebMergedContextConfiguration}.</li>
-	 * <li>A {@link ResourceLoader} is instantiated for the {@link MockServletContext}:
-	 * if the resource base path is prefixed with "{@code classpath:}", a
-	 * {@link DefaultResourceLoader} will be used; otherwise, a
-	 * {@link FileSystemResourceLoader} will be used.</li>
-	 * <li>A {@code MockServletContext} will be created using the resource base
-	 * path and resource loader.</li>
-	 * <li>The supplied {@link GenericWebApplicationContext} is then stored in
-	 * the {@code MockServletContext} under the
-	 * {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE} key.</li>
-	 * <li>Finally, the {@code MockServletContext} is set in the
-	 * {@code WebApplicationContext}.</li>
-	 * @param context the web application context for which to configure the web resources
-	 * @param webMergedConfig the merged context configuration to use to load the web application context
+	 * <li>从提供的{@code WebMergedContextConfiguration}中检索资源基本路径.</li>
+	 * <li>为{@link MockServletContext}实例化{@link ResourceLoader}:
+	 * 如果资源基路径以"{@code classpath:}"为前缀, 则将使用{@link DefaultResourceLoader};
+	 * 否则, 将使用{@link FileSystemResourceLoader}.</li>
+	 * <li>将使用资源基础路径和资源加载器创建{@code MockServletContext}.</li>
+	 * <li>然后将提供的{@link GenericWebApplicationContext}存储在以
+	 * {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE}为键的{@code MockServletContext}中.</li>
+	 * <li>最后, 在{@code WebApplicationContext}中设置{@code MockServletContext}.</li>
+	 * 
+	 * @param context 要为其配置Web资源的Web应用程序上下文
+	 * @param webMergedConfig 用于加载Web应用程序上下文的合并上下文配置
 	 */
 	protected void configureWebResources(GenericWebApplicationContext context,
 			WebMergedContextConfiguration webMergedConfig) {
 
 		ApplicationContext parent = context.getParent();
 
-		// If the WebApplicationContext has no parent or the parent is not a WebApplicationContext,
-		// set the current context as the root WebApplicationContext:
+		// 如果WebApplicationContext没有父项或父项不是WebApplicationContext, 请将当前上下文设置为根WebApplicationContext:
 		if (parent == null || (!(parent instanceof WebApplicationContext))) {
 			String resourceBasePath = webMergedConfig.getResourceBasePath();
 			ResourceLoader resourceLoader = (resourceBasePath.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX) ?
@@ -169,7 +142,7 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 		}
 		else {
 			ServletContext servletContext = null;
-			// Find the root WebApplicationContext
+			// 查找根 WebApplicationContext
 			while (parent != null) {
 				if (parent instanceof WebApplicationContext && !(parent.getParent() instanceof WebApplicationContext)) {
 					servletContext = ((WebApplicationContext) parent).getServletContext();
@@ -183,46 +156,35 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 	}
 
 	/**
-	 * Customize the internal bean factory of the {@code WebApplicationContext}
-	 * created by this context loader.
-	 * <p>The default implementation is empty but can be overridden in subclasses
-	 * to customize {@code DefaultListableBeanFactory}'s standard settings.
-	 * @param beanFactory the bean factory created by this context loader
-	 * @param webMergedConfig the merged context configuration to use to load the
-	 * web application context
-	 * @see #loadContext(MergedContextConfiguration)
-	 * @see DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
-	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
-	 * @see DefaultListableBeanFactory#setAllowCircularReferences
-	 * @see DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
+	 * 自定义此上下文加载器创建的{@code WebApplicationContext}的内部bean工厂.
+	 * <p>默认实现为空, 但可以在子类中重写以自定义{@code DefaultListableBeanFactory}的标准设置.
+	 * 
+	 * @param beanFactory 由此上下文加载器创建的bean工厂
+	 * @param webMergedConfig 用于加载Web应用程序上下文的合并上下文配置
 	 */
 	protected void customizeBeanFactory(
 			DefaultListableBeanFactory beanFactory, WebMergedContextConfiguration webMergedConfig) {
 	}
 
 	/**
-	 * Load bean definitions into the supplied {@link GenericWebApplicationContext context}
-	 * from the locations or classes in the supplied {@code WebMergedContextConfiguration}.
-	 * <p>Concrete subclasses must provide an appropriate implementation.
-	 * @param context the context into which the bean definitions should be loaded
-	 * @param webMergedConfig the merged context configuration to use to load the
-	 * web application context
-	 * @see #loadContext(MergedContextConfiguration)
+	 * 从提供的{@code WebMergedContextConfiguration}中的位置或类将bean定义
+	 * 加载到提供的{@link GenericWebApplicationContext context}中.
+	 * <p>具体的子类必须提供适当的实现.
+	 * 
+	 * @param context 应该加载bean定义的上下文
+	 * @param webMergedConfig 用于加载Web应用程序上下文的合并上下文配置
 	 */
 	protected abstract void loadBeanDefinitions(
 			GenericWebApplicationContext context, WebMergedContextConfiguration webMergedConfig);
 
 	/**
-	 * Customize the {@link GenericWebApplicationContext} created by this context
-	 * loader <i>after</i> bean definitions have been loaded into the context but
-	 * <i>before</i> the context is refreshed.
-	 * <p>The default implementation simply delegates to
+	 * 在将bean定义加载到上下文<i>之后</i>, 但在刷新上下文<i>之前</i>,
+	 * 自定义由此上下文加载器创建的{@link GenericWebApplicationContext}.
+	 * <p>此实现委托给
 	 * {@link AbstractContextLoader#customizeContext(ConfigurableApplicationContext, MergedContextConfiguration)}.
-	 * @param context the newly created web application context
-	 * @param webMergedConfig the merged context configuration to use to load the
-	 * web application context
-	 * @see #loadContext(MergedContextConfiguration)
-	 * @see #customizeContext(ConfigurableApplicationContext, MergedContextConfiguration)
+	 * 
+	 * @param context 新创建的Web应用程序上下文
+	 * @param webMergedConfig 用于加载Web应用程序上下文的合并上下文配置
 	 */
 	protected void customizeContext(
 			GenericWebApplicationContext context, WebMergedContextConfiguration webMergedConfig) {
@@ -234,12 +196,12 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 	// ContextLoader
 
 	/**
-	 * {@code AbstractGenericWebContextLoader} should be used as a
+	 * {@code AbstractGenericWebContextLoader}应该用作
 	 * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader},
-	 * not as a legacy {@link org.springframework.test.context.ContextLoader ContextLoader}.
-	 * Consequently, this method is not supported.
-	 * @see org.springframework.test.context.ContextLoader#loadContext(java.lang.String[])
-	 * @throws UnsupportedOperationException in this implementation
+	 * 而不是传统的{@link org.springframework.test.context.ContextLoader ContextLoader}.
+	 * 因此, 不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	public final ApplicationContext loadContext(String... locations) throws Exception {

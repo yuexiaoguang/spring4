@@ -10,10 +10,9 @@ import javax.servlet.ServletContext;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.servlet.FilterConfig} interface.
+ * {@link javax.servlet.FilterConfig}接口的模拟实现.
  *
- * <p>Used for testing the web framework; also useful for testing
- * custom {@link javax.servlet.Filter} implementations.
+ * <p>用于测试Web框架; 对于测试自定义{@link javax.servlet.Filter}实现也很有用.
  */
 public class MockFilterConfig implements FilterConfig {
 
@@ -25,32 +24,31 @@ public class MockFilterConfig implements FilterConfig {
 
 
 	/**
-	 * Create a new MockFilterConfig with a default {@link MockServletContext}.
+	 * 使用默认的{@link MockServletContext}.
 	 */
 	public MockFilterConfig() {
 		this(null, "");
 	}
 
 	/**
-	 * Create a new MockFilterConfig with a default {@link MockServletContext}.
-	 * @param filterName the name of the filter
+	 * 使用默认的{@link MockServletContext}.
+	 * 
+	 * @param filterName 过滤器的名称
 	 */
 	public MockFilterConfig(String filterName) {
 		this(null, filterName);
 	}
 
 	/**
-	 * Create a new MockFilterConfig.
-	 * @param servletContext the ServletContext that the servlet runs in
+	 * @param servletContext 运行servlet的ServletContext
 	 */
 	public MockFilterConfig(ServletContext servletContext) {
 		this(servletContext, "");
 	}
 
 	/**
-	 * Create a new MockFilterConfig.
-	 * @param servletContext the ServletContext that the servlet runs in
-	 * @param filterName the name of the filter
+	 * @param servletContext 运行servlet的ServletContext
+	 * @param filterName 过滤器的名称
 	 */
 	public MockFilterConfig(ServletContext servletContext, String filterName) {
 		this.servletContext = (servletContext != null ? servletContext : new MockServletContext());

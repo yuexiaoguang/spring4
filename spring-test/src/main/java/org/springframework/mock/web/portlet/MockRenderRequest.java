@@ -7,22 +7,21 @@ import javax.portlet.RenderRequest;
 import javax.portlet.WindowState;
 
 /**
- * Mock implementation of the {@link javax.portlet.RenderRequest} interface.
+ * {@link javax.portlet.RenderRequest}接口的模拟实现.
  */
 public class MockRenderRequest extends MockPortletRequest implements RenderRequest {
 
 	/**
-	 * Create a new MockRenderRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
 	 */
 	public MockRenderRequest() {
 		super();
 	}
 
 	/**
-	 * Create a new MockRenderRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param portletMode the mode that the portlet runs in
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param portletMode portlet运行的模式
 	 */
 	public MockRenderRequest(PortletMode portletMode) {
 		super();
@@ -30,10 +29,10 @@ public class MockRenderRequest extends MockPortletRequest implements RenderReque
 	}
 
 	/**
-	 * Create a new MockRenderRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param portletMode the mode that the portlet runs in
-	 * @param windowState the window state to run the portlet in
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param portletMode portlet运行的模式
+	 * @param windowState 运行portlet的窗口状态
 	 */
 	public MockRenderRequest(PortletMode portletMode, WindowState windowState) {
 		super();
@@ -42,17 +41,17 @@ public class MockRenderRequest extends MockPortletRequest implements RenderReque
 	}
 
 	/**
-	 * Create a new MockRenderRequest with a default {@link MockPortalContext}.
-	 * @param portletContext the PortletContext that the request runs in
+	 * 使用默认的{@link MockPortalContext}.
+	 * 
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockRenderRequest(PortletContext portletContext) {
 		super(portletContext);
 	}
 
 	/**
-	 * Create a new MockRenderRequest.
-	 * @param portalContext the PortletContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param portalContext 运行请求的PortletContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockRenderRequest(PortalContext portalContext, PortletContext portletContext) {
 		super(portalContext, portletContext);

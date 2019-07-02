@@ -16,9 +16,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * <strong>Main entry point for server-side Spring MVC test support.</strong>
+ * <strong>服务器端Spring MVC测试支持的主要入口点.</strong>
  *
- * <h3>Example</h3>
+ * <h3>示例</h3>
  *
  * <pre class="code">
  * import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -54,10 +54,6 @@ public final class MockMvc {
 	private List<ResultHandler> defaultResultHandlers = new ArrayList<ResultHandler>();
 
 
-	/**
-	 * Private constructor, not for direct instantiation.
-	 * @see org.springframework.test.web.servlet.setup.MockMvcBuilders
-	 */
 	MockMvc(TestDispatcherServlet servlet, Filter[] filters, ServletContext servletContext) {
 		Assert.notNull(servlet, "DispatcherServlet is required");
 		Assert.notNull(filters, "Filters cannot be null");
@@ -71,16 +67,14 @@ public final class MockMvc {
 
 
 	/**
-	 * A default request builder merged into every performed request.
-	 * @see org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder#defaultRequest(RequestBuilder)
+	 * 合并到每个执行的请求中的默认请求构建器.
 	 */
 	void setDefaultRequest(RequestBuilder requestBuilder) {
 		this.defaultRequestBuilder = requestBuilder;
 	}
 
 	/**
-	 * Expectations to assert after every performed request.
-	 * @see org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysExpect(ResultMatcher)
+	 * 期望在每次执行请求后断言.
 	 */
 	void setGlobalResultMatchers(List<ResultMatcher> resultMatchers) {
 		Assert.notNull(resultMatchers, "ResultMatcher List is required");
@@ -88,8 +82,7 @@ public final class MockMvc {
 	}
 
 	/**
-	 * General actions to apply after every performed request.
-	 * @see org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysDo(ResultHandler)
+	 * 每次执行请求后应用的一般操作.
 	 */
 	void setGlobalResultHandlers(List<ResultHandler> resultHandlers) {
 		Assert.notNull(resultHandlers, "ResultHandler List is required");
@@ -97,14 +90,12 @@ public final class MockMvc {
 	}
 
 	/**
-	 * Perform a request and return a type that allows chaining further
-	 * actions, such as asserting expectations, on the result.
-	 * @param requestBuilder used to prepare the request to execute;
-	 * see static factory methods in
-	 * {@link org.springframework.test.web.servlet.request.MockMvcRequestBuilders}
-	 * @return an instance of {@link ResultActions} (never {@code null})
-	 * @see org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-	 * @see org.springframework.test.web.servlet.result.MockMvcResultMatchers
+	 * 执行请求并返回一种类型, 该类型允许在结果上链接进一步的操作, 例如断言期望.
+	 * 
+	 * @param requestBuilder 用于准备执行的请求; 请参阅
+	 * {@link org.springframework.test.web.servlet.request.MockMvcRequestBuilders}中的静态工厂方法
+	 * 
+	 * @return {@link ResultActions}的实例 (never {@code null})
 	 */
 	public ResultActions perform(RequestBuilder requestBuilder) throws Exception {
 		if (this.defaultRequestBuilder != null) {
@@ -163,5 +154,4 @@ public final class MockMvc {
 			handler.handle(mvcResult);
 		}
 	}
-
 }

@@ -9,15 +9,10 @@ import org.springframework.test.context.MergedContextConfiguration;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Concrete implementation of {@link AbstractGenericContextLoader} that reads
- * bean definitions from Java {@link Properties} resources.
+ * {@link AbstractGenericContextLoader}的具体实现, 它从Java {@link Properties}资源中读取bean定义.
  */
 public class GenericPropertiesContextLoader extends AbstractGenericContextLoader {
 
-	/**
-	 * Creates a new {@link PropertiesBeanDefinitionReader}.
-	 * @return a new PropertiesBeanDefinitionReader
-	 */
 	@Override
 	protected BeanDefinitionReader createBeanDefinitionReader(final GenericApplicationContext context) {
 		return new PropertiesBeanDefinitionReader(context);
@@ -32,10 +27,7 @@ public class GenericPropertiesContextLoader extends AbstractGenericContextLoader
 	}
 
 	/**
-	 * Ensure that the supplied {@link MergedContextConfiguration} does not
-	 * contain {@link MergedContextConfiguration#getClasses() classes}.
-	 * @since 4.0.4
-	 * @see AbstractGenericContextLoader#validateMergedContextConfiguration
+	 * 确保提供的{@link MergedContextConfiguration}不包含{@link MergedContextConfiguration#getClasses() classes}.
 	 */
 	@Override
 	protected void validateMergedContextConfiguration(MergedContextConfiguration mergedConfig) {

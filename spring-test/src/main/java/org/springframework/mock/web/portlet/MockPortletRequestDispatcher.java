@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletRequestDispatcher} interface.
+ * {@link javax.portlet.PortletRequestDispatcher}接口的模拟实现.
  */
 public class MockPortletRequestDispatcher implements PortletRequestDispatcher {
 
@@ -23,10 +23,6 @@ public class MockPortletRequestDispatcher implements PortletRequestDispatcher {
 	private final String url;
 
 
-	/**
-	 * Create a new MockPortletRequestDispatcher for the given URL.
-	 * @param url the URL to dispatch to.
-	 */
 	public MockPortletRequestDispatcher(String url) {
 		Assert.notNull(url, "URL must not be null");
 		this.url = url;

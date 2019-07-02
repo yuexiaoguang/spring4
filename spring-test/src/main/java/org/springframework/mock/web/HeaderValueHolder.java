@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Internal helper class that serves as value holder for request headers.
+ * 内部帮助类, 用作请求header的值保存器.
  */
 class HeaderValueHolder {
 
@@ -62,11 +62,12 @@ class HeaderValueHolder {
 
 
 	/**
-	 * Find a HeaderValueHolder by name, ignoring casing.
-	 * @param headers the Map of header names to HeaderValueHolders
-	 * @param name the name of the desired header
-	 * @return the corresponding HeaderValueHolder,
-	 * or {@code null} if none found
+	 * 按名称查找HeaderValueHolder, 忽略大小写.
+	 * 
+	 * @param headers header名称到HeaderValueHolder的Map
+	 * @param name 所需header的名称
+	 * 
+	 * @return 相应的HeaderValueHolder, 或{@code null}
 	 */
 	public static HeaderValueHolder getByName(Map<String, HeaderValueHolder> headers, String name) {
 		Assert.notNull(name, "Header name must not be null");
@@ -77,5 +78,4 @@ class HeaderValueHolder {
 		}
 		return null;
 	}
-
 }

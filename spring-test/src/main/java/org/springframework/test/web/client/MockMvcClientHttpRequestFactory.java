@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
- * A {@link ClientHttpRequestFactory} for requests executed via {@link MockMvc}.
+ * {@link ClientHttpRequestFactory}用于通过{@link MockMvc}执行的请求.
  */
 public class MockMvcClientHttpRequestFactory implements ClientHttpRequestFactory {
 

@@ -13,8 +13,7 @@ import javax.servlet.ServletContext;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletContext} interface,
- * wrapping an underlying {@link javax.servlet.ServletContext}.
+ * {@link javax.portlet.PortletContext}接口的模拟实现, 包装底层{@link javax.servlet.ServletContext}.
  */
 public class ServletWrappingPortletContext implements PortletContext {
 
@@ -22,8 +21,7 @@ public class ServletWrappingPortletContext implements PortletContext {
 
 
 	/**
-	 * Create a new PortletContext wrapping the given ServletContext.
-	 * @param servletContext the ServletContext to wrap
+	 * @param servletContext 要包装的ServletContext
 	 */
 	public ServletWrappingPortletContext(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext must not be null");
@@ -31,7 +29,7 @@ public class ServletWrappingPortletContext implements PortletContext {
 	}
 
 	/**
-	 * Return the underlying ServletContext that this PortletContext wraps.
+	 * 返回此PortletContext包装的底层ServletContext.
 	 */
 	public final ServletContext getServletContext() {
 		return this.servletContext;

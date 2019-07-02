@@ -26,27 +26,20 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 /**
- * Abstract base test class which integrates the <em>Spring TestContext Framework</em>
- * with explicit {@link ApplicationContext} testing support in a <strong>TestNG</strong>
- * environment.
+ * 抽象基础测试类, 它将<em>Spring TestContext Framework</em>
+ * 与<strong>TestNG</strong>环境中的显式{@link ApplicationContext}测试支持集成在一起.
  *
- * <p>Concrete subclasses:
+ * <p>具体的子类:
  * <ul>
- * <li>Typically declare a class-level {@link ContextConfiguration
- * &#064;ContextConfiguration} annotation to configure the {@link ApplicationContext
- * application context} {@link ContextConfiguration#locations() resource locations}
- * or {@link ContextConfiguration#classes() annotated classes}. <em>If your test
- * does not need to load an application context, you may choose to omit the
- * {@link ContextConfiguration &#064;ContextConfiguration} declaration and to
- * configure the appropriate
- * {@link org.springframework.test.context.TestExecutionListener TestExecutionListeners}
- * manually.</em></li>
- * <li>Must have constructors which either implicitly or explicitly delegate to
- * {@code super();}.</li>
+ * <li>通常声明一个类级{@link ContextConfiguration &#064;ContextConfiguration}注解,
+ * 来配置{@link ApplicationContext 应用程序上下文} {@link ContextConfiguration#locations() 资源位置}
+ * 或{@link ContextConfiguration#classes() 带注解的类}.
+ * <em>如果测试不需要加载应用程序上下文, 可以选择省略{@link ContextConfiguration &#064;ContextConfiguration}声明,
+ * 手动配置相应的 {@link org.springframework.test.context.TestExecutionListener TestExecutionListeners}.</em></li>
+ * <li>必须具有隐式或显式委托给{@code super();}的构造函数.</li>
  * </ul>
  *
- * <p>The following {@link org.springframework.test.context.TestExecutionListener
- * TestExecutionListeners} are configured by default:
+ * <p>默认情况下配置以下{@link org.springframework.test.context.TestExecutionListener TestExecutionListeners}:
  *
  * <ul>
  * <li>{@link org.springframework.test.context.web.ServletTestExecutionListener}
@@ -63,8 +56,7 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/**
-	 * The {@link ApplicationContext} that was injected into this test instance
-	 * via {@link #setApplicationContext(ApplicationContext)}.
+	 * 通过{@link #setApplicationContext(ApplicationContext)}注入到此测试实例的{@link ApplicationContext}.
 	 */
 	protected ApplicationContext applicationContext;
 
@@ -74,18 +66,16 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 
 
 	/**
-	 * Construct a new AbstractTestNGSpringContextTests instance and initialize
-	 * the internal {@link TestContextManager} for the current test.
+	 * 为当前测试初始化​​内部{@link TestContextManager}.
 	 */
 	public AbstractTestNGSpringContextTests() {
 		this.testContextManager = new TestContextManager(getClass());
 	}
 
 	/**
-	 * Set the {@link ApplicationContext} to be used by this test instance,
-	 * provided via {@link ApplicationContextAware} semantics.
+	 * 设置此测试实例使用的{@link ApplicationContext}, 通过{@link ApplicationContextAware}语义提供.
 	 *
-	 * @param applicationContext the ApplicationContext that this test runs in
+	 * @param applicationContext 此测试运行的ApplicationContext
 	 */
 	@Override
 	public final void setApplicationContext(ApplicationContext applicationContext) {
@@ -93,12 +83,9 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the configured {@link TestContextManager} to call
-	 * {@link TestContextManager#beforeTestClass() 'before test class'}
-	 * callbacks.
+	 * 委托给配置的{@link TestContextManager}调用{@link TestContextManager#beforeTestClass() '在测试类之前'}回调.
 	 *
-	 * @throws Exception if a registered TestExecutionListener throws an
-	 * exception
+	 * @throws Exception 如果注册的TestExecutionListener抛出异常
 	 */
 	@BeforeClass(alwaysRun = true)
 	protected void springTestContextBeforeTestClass() throws Exception {
@@ -106,13 +93,10 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the configured {@link TestContextManager} to
-	 * {@link TestContextManager#prepareTestInstance(Object) prepare} this test
-	 * instance prior to execution of any individual tests, for example for
-	 * injecting dependencies, etc.
+	 * 在执行任何单个测试之前, 委托给配置的{@link TestContextManager}
+	 * {@link TestContextManager#prepareTestInstance(Object) 准备}此测试实例, 例如注入依赖项等.
 	 *
-	 * @throws Exception if a registered TestExecutionListener throws an
-	 * exception
+	 * @throws Exception 如果注册的TestExecutionListener抛出异常
 	 */
 	@BeforeClass(alwaysRun = true, dependsOnMethods = "springTestContextBeforeTestClass")
 	protected void springTestContextPrepareTestInstance() throws Exception {
@@ -120,12 +104,12 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the configured {@link TestContextManager} to
-	 * {@link TestContextManager#beforeTestMethod(Object,Method) pre-process}
-	 * the test method before the actual test is executed.
+	 * 在执行实际测试之前, 委托给配置的{@link TestContextManager}
+	 * {@link TestContextManager#beforeTestMethod(Object,Method) 预处理}测试方法.
 	 *
-	 * @param testMethod the test method which is about to be executed.
-	 * @throws Exception allows all exceptions to propagate.
+	 * @param testMethod 即将执行的测试方法.
+	 * 
+	 * @throws Exception 允许所有异常传播.
 	 */
 	@BeforeMethod(alwaysRun = true)
 	protected void springTestContextBeforeTestMethod(Method testMethod) throws Exception {
@@ -133,12 +117,8 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the {@link IHookCallBack#runTestMethod(ITestResult) test
-	 * method} in the supplied {@code callback} to execute the actual test
-	 * and then tracks the exception thrown during test execution, if any.
-	 *
-	 * @see org.testng.IHookable#run(org.testng.IHookCallBack,
-	 * org.testng.ITestResult)
+	 * 委托给提供的{@code callback}中的{@link IHookCallBack#runTestMethod(ITestResult) 测试方法}来执行实际测试,
+	 * 然后跟踪测试执行期间抛出的异常.
 	 */
 	@Override
 	public void run(IHookCallBack callBack, ITestResult testResult) {
@@ -152,13 +132,12 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the configured {@link TestContextManager} to
-	 * {@link TestContextManager#afterTestMethod(Object, Method, Throwable)
-	 * post-process} the test method after the actual test has executed.
+	 * 在实际测试执行后, 委托给配置的{@link TestContextManager}
+	 * {@link TestContextManager#afterTestMethod(Object, Method, Throwable) 后处理}测试方法.
 	 *
-	 * @param testMethod the test method which has just been executed on the
-	 * test instance
-	 * @throws Exception allows all exceptions to propagate
+	 * @param testMethod 刚刚在测试实例上执行的测试方法
+	 * 
+	 * @throws Exception 允许所有异常传播
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void springTestContextAfterTestMethod(Method testMethod) throws Exception {
@@ -171,15 +150,12 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
 	}
 
 	/**
-	 * Delegates to the configured {@link TestContextManager} to call
-	 * {@link TestContextManager#afterTestClass() 'after test class'} callbacks.
+	 * 委托给配置的{@link TestContextManager}调用{@link TestContextManager#afterTestClass() '在测试类之后'}回调.
 	 *
-	 * @throws Exception if a registered TestExecutionListener throws an
-	 * exception
+	 * @throws Exception 如果已注册的TestExecutionListener抛出异常
 	 */
 	@AfterClass(alwaysRun = true)
 	protected void springTestContextAfterTestClass() throws Exception {
 		this.testContextManager.afterTestClass();
 	}
-
 }

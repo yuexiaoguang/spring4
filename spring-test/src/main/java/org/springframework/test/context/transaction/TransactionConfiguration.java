@@ -8,15 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@code TransactionConfiguration} defines class-level metadata for configuring
- * transactional tests.
+ * {@code TransactionConfiguration}定义用于配置事务测试的类级元数据.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  *
- * @deprecated As of Spring Framework 4.2, use {@code @Rollback} or
- * {@code @Commit} at the class level and the {@code transactionManager}
- * qualifier in {@code @Transactional}.
+ * @deprecated 从Spring Framework 4.2开始, 在类级别使用{@code @Rollback}或{@code @Commit},
+ * 在{@code @Transactional}中使用{@code transactionManager}限定符.
  */
 @Deprecated
 @Documented
@@ -26,36 +23,29 @@ import java.lang.annotation.Target;
 public @interface TransactionConfiguration {
 
 	/**
-	 * The bean name of the {@link org.springframework.transaction.PlatformTransactionManager
-	 * PlatformTransactionManager} that should be used to drive <em>test-managed transactions</em>.
+	 * 应用于驱动<em>测试管理的事务</em>的
+	 * {@link org.springframework.transaction.PlatformTransactionManager PlatformTransactionManager}的bean名称.
 	 *
-	 * <p>The name is only used if there is more than one bean of type
-	 * {@code PlatformTransactionManager} in the test's {@code ApplicationContext}.
-	 * If there is only one such bean, it is not necessary to specify a bean name.
+	 * <p>只有在测试{@code ApplicationContext}中有多个{@code PlatformTransactionManager}类型的bean时才使用该名称.
+	 * 如果只有一个这样的bean, 则不必指定bean名称.
 	 *
-	 * <p>Defaults to an empty string, requiring that one of the following is
-	 * true:
+	 * <p>默认为空字符串, 要求满足以下条件之一:
 	 * <ol>
-	 * <li>There is only one bean of type {@code PlatformTransactionManager} in
-	 * the test's {@code ApplicationContext}.</li>
-	 * <li>{@link org.springframework.transaction.annotation.TransactionManagementConfigurer
-	 * TransactionManagementConfigurer} has been implemented to specify which
-	 * {@code PlatformTransactionManager} bean should be used for annotation-driven
-	 * transaction management.</li>
-	 * <li>The {@code PlatformTransactionManager} to use is named
-	 * {@code "transactionManager"}.</li>
+	 * <li>测试的{@code ApplicationContext}中只有一个{@code PlatformTransactionManager}类型的bean.</li>
+	 * <li>已经实现了
+	 * {@link org.springframework.transaction.annotation.TransactionManagementConfigurer TransactionManagementConfigurer}
+	 * 来指定哪个{@code PlatformTransactionManager} bean应该用于注解驱动的事务管理.</li>
+	 * <li>要使用的{@code PlatformTransactionManager}名为{@code "transactionManager"}.</li>
 	 * </ol>
 	 *
-	 * <p><b>NOTE:</b> The XML {@code <tx:annotation-driven>} element also refers
-	 * to a bean named {@code "transactionManager"} by default. If you are using both
-	 * features in combination, make sure to point to the same transaction manager
-	 * bean &mdash; here in {@code @TransactionConfiguration} and also in
-	 * {@code <tx:annotation-driven transaction-manager="...">}.
+	 * <p><b>NOTE:</b> XML {@code <tx:annotation-driven>}元素也默认引用名为{@code "transactionManager"}的bean.
+	 * 如果要组合使用这两个功能, 请确保指向相同的事务管理器bean &mdash;
+	 * 在{@code @TransactionConfiguration}以及{@code <tx:annotation-driven transaction-manager="...">}中.
 	 */
 	String transactionManager() default "";
 
 	/**
-	 * Whether <em>test-managed transactions</em> should be rolled back by default.
+	 * 是否应默认回滚<em>测试管理的事务</em>.
 	 */
 	boolean defaultRollback() default true;
 

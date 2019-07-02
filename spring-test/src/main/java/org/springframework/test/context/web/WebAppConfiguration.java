@@ -8,22 +8,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@code @WebAppConfiguration} is a class-level annotation that is used to
- * declare that the {@code ApplicationContext} loaded for an integration test
- * should be a {@link org.springframework.web.context.WebApplicationContext
- * WebApplicationContext}.
+ * {@code @WebAppConfiguration}是一个类级注解, 用于声明为集成测试加载的{@code ApplicationContext}
+ * 应该是 {@link org.springframework.web.context.WebApplicationContext WebApplicationContext}.
  *
- * <p>The presence of {@code @WebAppConfiguration} on a test class indicates that
- * a {@code WebApplicationContext} should be loaded for the test using a default
- * for the path to the root of the web application. To override the default,
- * specify an explicit resource path via the {@link #value} attribute.
+ * <p>测试类上存在{@code @WebAppConfiguration}表示应使用Web应用程序根路径的默认值为测试加载{@code WebApplicationContext}.
+ * 要覆盖默认值, 通过 {@link #value}属性指定显式资源路径.
  *
- * <p>Note that {@code @WebAppConfiguration} must be used in conjunction with
- * {@link org.springframework.test.context.ContextConfiguration @ContextConfiguration},
- * either within a single test class or within a test class hierarchy.
+ * <p>请注意, {@code @WebAppConfiguration}必须与
+ * {@link org.springframework.test.context.ContextConfiguration @ContextConfiguration}一起使用,
+ * 可以在单个测试类中, 也可以在测试类层次结构中使用.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,13 +27,11 @@ import java.lang.annotation.Target;
 public @interface WebAppConfiguration {
 
 	/**
-	 * The resource path to the root directory of the web application.
-	 * <p>A path that does not include a Spring resource prefix (e.g., {@code classpath:},
-	 * {@code file:}, etc.) will be interpreted as a file system resource, and a
-	 * path should not end with a slash.
-	 * <p>Defaults to {@code "src/main/webapp"} as a file system resource. Note
-	 * that this is the standard directory for the root of a web application in
-	 * a project that follows the standard Maven project layout for a WAR.
+	 * Web应用程序根目录的资源路径.
+	 * <p>不包含Spring资源前缀的路径 (e.g., {@code classpath:}, {@code file:}, etc.)
+	 * 将被解释为文件系统资源, 并且路径不应以斜杠结尾.
+	 * <p>默认{@code "src/main/webapp"}作为文件系统资源.
+	 * 请注意, 这是项目中Web应用程序根目录的标准目录, 该目录遵循WAR的标准Maven项目布局.
 	 */
 	String value() default "src/main/webapp";
 

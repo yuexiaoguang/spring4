@@ -15,15 +15,13 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * Factory for assertions on the request.
+ * 在请求时断言的工厂.
  *
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#request}.
+ * <p>通常通过{@link MockMvcResultMatchers#request}访问此类的实例.
  */
 public class RequestResultMatchers {
 
 	/**
-	 * Protected constructor.
 	 * <p>Use {@link MockMvcResultMatchers#request()}.
 	 */
 	protected RequestResultMatchers() {
@@ -31,13 +29,9 @@ public class RequestResultMatchers {
 
 
 	/**
-	 * Assert whether asynchronous processing started, usually as a result of a
-	 * controller method returning {@link Callable} or {@link DeferredResult}.
-	 * <p>The test will await the completion of a {@code Callable} so that
-	 * {@link #asyncResult(Matcher)} can be used to assert the resulting value.
-	 * Neither a {@code Callable} nor a {@code DeferredResult} will complete
-	 * processing all the way since a {@link MockHttpServletRequest} does not
-	 * perform asynchronous dispatches.
+	 * 断言异步处理是否开始, 通常是由于控制器方法返回{@link Callable}或{@link DeferredResult}.
+	 * <p>测试将等待{@code Callable}的完成, 以便{@link #asyncResult(Matcher)}可用于断言结果值.
+	 * {@code Callable}和 {@code DeferredResult}都不会完全处理, 因为{@link MockHttpServletRequest}不执行异步调度.
 	 */
 	public ResultMatcher asyncStarted() {
 		return new ResultMatcher() {
@@ -50,8 +44,7 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert that asynchronous processing was not started.
-	 * @see #asyncStarted()
+	 * 断言异步处理未启动.
 	 */
 	public ResultMatcher asyncNotStarted() {
 		return new ResultMatcher() {
@@ -64,9 +57,8 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert the result from asynchronous processing with the given matcher.
-	 * <p>This method can be used when a controller method returns {@link Callable}
-	 * or {@link WebAsyncTask}.
+	 * 使用给定匹配器的异步处理断言结果.
+	 * <p>当控制器方法返回{@link Callable}或{@link WebAsyncTask}时, 可以使用此方法.
 	 */
 	public <T> ResultMatcher asyncResult(final Matcher<T> matcher) {
 		return new ResultMatcher() {
@@ -81,10 +73,9 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert the result from asynchronous processing.
-	 * <p>This method can be used when a controller method returns {@link Callable}
-	 * or {@link WebAsyncTask}. The value matched is the value returned from the
-	 * {@code Callable} or the exception raised.
+	 * 断言异步处理的结果.
+	 * <p>当控制器方法返回{@link Callable}或{@link WebAsyncTask}时, 可以使用此方法.
+	 * 匹配的值是从{@code Callable}返回的值或引发的异常.
 	 */
 	public <T> ResultMatcher asyncResult(final Object expectedResult) {
 		return new ResultMatcher() {
@@ -98,7 +89,7 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert a request attribute value with the given Hamcrest {@link Matcher}.
+	 * 使用给定的Hamcrest {@link Matcher}断言请求属性值.
 	 */
 	public <T> ResultMatcher attribute(final String name, final Matcher<T> matcher) {
 		return new ResultMatcher() {
@@ -112,7 +103,7 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert a request attribute value.
+	 * 断言请求属性值.
 	 */
 	public <T> ResultMatcher attribute(final String name, final Object expectedValue) {
 		return new ResultMatcher() {
@@ -124,7 +115,7 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert a session attribute value with the given Hamcrest {@link Matcher}.
+	 * 使用给定的Hamcrest {@link Matcher}断言会话属性值.
 	 */
 	public <T> ResultMatcher sessionAttribute(final String name, final Matcher<T> matcher) {
 		return new ResultMatcher() {
@@ -138,7 +129,7 @@ public class RequestResultMatchers {
 	}
 
 	/**
-	 * Assert a session attribute value.
+	 * 断言会话属性值.
 	 */
 	public <T> ResultMatcher sessionAttribute(final String name, final Object value) {
 		return new ResultMatcher() {

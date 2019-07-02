@@ -31,15 +31,15 @@ import org.springframework.util.StringUtils;
 import static org.springframework.test.util.MetaAnnotationUtils.*;
 
 /**
- * Utility methods for working with {@link TestPropertySource @TestPropertySource}
- * and adding test {@link PropertySource PropertySources} to the {@code Environment}.
+ * 使用{@link TestPropertySource @TestPropertySource}
+ * 并将测试 {@link PropertySource PropertySources}添加到{@code Environment}的实用方法.
  *
- * <p>Primarily intended for use within the framework.
+ * <p>主要用于框架内.
  */
 public abstract class TestPropertySourceUtils {
 
 	/**
-	 * The name of the {@link MapPropertySource} created from <em>inlined properties</em>.
+	 * 从<em>内联属性</em>创建的{@link MapPropertySource}的名称.
 	 */
 	public static final String INLINED_PROPERTIES_PROPERTY_SOURCE_NAME = "Inlined Test Properties";
 
@@ -119,19 +119,14 @@ public abstract class TestPropertySourceUtils {
 	}
 
 	/**
-	 * Add the {@link Properties} files from the given resource {@code locations}
-	 * to the {@link Environment} of the supplied {@code context}.
-	 * <p>This method simply delegates to
+	 * 将给定资源{@code locations}中的{@link Properties}文件添加到提供的{@code context}的{@link Environment}中.
+	 * <p>此方法委托给
 	 * {@link #addPropertiesFilesToEnvironment(ConfigurableEnvironment, ResourceLoader, String...)}.
-	 * @param context the application context whose environment should be updated;
-	 * never {@code null}
-	 * @param locations the resource locations of {@code Properties} files to add
-	 * to the environment; potentially empty but never {@code null}
-	 * @since 4.1.5
-	 * @see ResourcePropertySource
-	 * @see TestPropertySource#locations
-	 * @see #addPropertiesFilesToEnvironment(ConfigurableEnvironment, ResourceLoader, String...)
-	 * @throws IllegalStateException if an error occurs while processing a properties file
+	 * 
+	 * @param context 应该更新其环境的应用程序上下文; never {@code null}
+	 * @param locations 要添加到环境中的{@code Properties}文件的资源位置; 可能是空但不能是{@code null}
+	 * 
+	 * @throws IllegalStateException 如果处理属性文件时发生错误
 	 */
 	public static void addPropertiesFilesToEnvironment(ConfigurableApplicationContext context, String... locations) {
 		Assert.notNull(context, "'context' must not be null");
@@ -140,24 +135,16 @@ public abstract class TestPropertySourceUtils {
 	}
 
 	/**
-	 * Add the {@link Properties} files from the given resource {@code locations}
-	 * to the supplied {@link ConfigurableEnvironment environment}.
-	 * <p>Property placeholders in resource locations (i.e., <code>${...}</code>)
-	 * will be {@linkplain Environment#resolveRequiredPlaceholders(String) resolved}
-	 * against the {@code Environment}.
-	 * <p>Each properties file will be converted to a {@link ResourcePropertySource}
-	 * that will be added to the {@link PropertySources} of the environment with
-	 * highest precedence.
-	 * @param environment the environment to update; never {@code null}
-	 * @param resourceLoader the {@code ResourceLoader} to use to load each resource;
-	 * never {@code null}
-	 * @param locations the resource locations of {@code Properties} files to add
-	 * to the environment; potentially empty but never {@code null}
-	 * @since 4.3
-	 * @see ResourcePropertySource
-	 * @see TestPropertySource#locations
-	 * @see #addPropertiesFilesToEnvironment(ConfigurableApplicationContext, String...)
-	 * @throws IllegalStateException if an error occurs while processing a properties file
+	 * 将给定资源{@code locations}中的{@link Properties}文件添加到提供的{@link ConfigurableEnvironment 环境}.
+	 * <p>资源位置中的属性占位符 (i.e., <code>${...}</code>)将针对{@code Environment}
+	 * {@linkplain Environment#resolveRequiredPlaceholders(String) 解析}.
+	 * <p>每个属性文件将转换为{@link ResourcePropertySource}, 将添加到具有最高优先级的环境的{@link PropertySources}.
+	 * 
+	 * @param environment 要更新的环境; never {@code null}
+	 * @param resourceLoader 用于加载每个资源的{@code ResourceLoader}; never {@code null}
+	 * @param locations 要添加到环境中的{@code Properties}文件的资源位置; 可能为空但不能是{@code null}
+	 * 
+	 * @throws IllegalStateException 如果处理属性文件时发生错误
 	 */
 	public static void addPropertiesFilesToEnvironment(ConfigurableEnvironment environment,
 			ResourceLoader resourceLoader, String... locations) {
@@ -178,17 +165,12 @@ public abstract class TestPropertySourceUtils {
 	}
 
 	/**
-	 * Add the given <em>inlined properties</em> to the {@link Environment} of the
-	 * supplied {@code context}.
-	 * <p>This method simply delegates to
+	 * 将给定的<em>内联属性</em>添加到提供的{@code context}的{@link Environment}中.
+	 * <p>此方法委托给
 	 * {@link #addInlinedPropertiesToEnvironment(ConfigurableEnvironment, String[])}.
-	 * @param context the application context whose environment should be updated;
-	 * never {@code null}
-	 * @param inlinedProperties the inlined properties to add to the environment;
-	 * potentially empty but never {@code null}
-	 * @since 4.1.5
-	 * @see TestPropertySource#properties
-	 * @see #addInlinedPropertiesToEnvironment(ConfigurableEnvironment, String[])
+	 * 
+	 * @param context 应该更新其环境的应用程序上下文; never {@code null}
+	 * @param inlinedProperties 要添加到环境中的内联属性; 可能为空但不能是{@code null}
 	 */
 	public static void addInlinedPropertiesToEnvironment(ConfigurableApplicationContext context, String... inlinedProperties) {
 		Assert.notNull(context, "'context' must not be null");
@@ -197,20 +179,12 @@ public abstract class TestPropertySourceUtils {
 	}
 
 	/**
-	 * Add the given <em>inlined properties</em> (in the form of <em>key-value</em>
-	 * pairs) to the supplied {@link ConfigurableEnvironment environment}.
-	 * <p>All key-value pairs will be added to the {@code Environment} as a
-	 * single {@link MapPropertySource} with the highest precedence.
-	 * <p>For details on the parsing of <em>inlined properties</em>, consult the
-	 * Javadoc for {@link #convertInlinedPropertiesToMap}.
-	 * @param environment the environment to update; never {@code null}
-	 * @param inlinedProperties the inlined properties to add to the environment;
-	 * potentially empty but never {@code null}
-	 * @since 4.1.5
-	 * @see MapPropertySource
-	 * @see #INLINED_PROPERTIES_PROPERTY_SOURCE_NAME
-	 * @see TestPropertySource#properties
-	 * @see #convertInlinedPropertiesToMap
+	 * 将给定的<em>内联属性</em> (以<em>键值</em>对的形式) 添加到提供的{@link ConfigurableEnvironment 环境}.
+	 * <p>所有键值对将作为具有最高优先级的单个{@link MapPropertySource}添加到{@code Environment}.
+	 * <p>有关解析<em>内联属性</em>的详细信息, 请参阅{@link #convertInlinedPropertiesToMap}的Javadoc.
+	 * 
+	 * @param environment 要更新的环境; never {@code null}
+	 * @param inlinedProperties 要添加到环境中的内联属性; 可能为空但不能是{@code null}
 	 */
 	public static void addInlinedPropertiesToEnvironment(ConfigurableEnvironment environment, String... inlinedProperties) {
 		Assert.notNull(environment, "'environment' must not be null");
@@ -232,21 +206,15 @@ public abstract class TestPropertySourceUtils {
 	}
 
 	/**
-	 * Convert the supplied <em>inlined properties</em> (in the form of <em>key-value</em>
-	 * pairs) into a map keyed by property name, preserving the ordering of property names
-	 * in the returned map.
-	 * <p>Parsing of the key-value pairs is achieved by converting all pairs
-	 * into <em>virtual</em> properties files in memory and delegating to
-	 * {@link Properties#load(java.io.Reader)} to parse each virtual file.
-	 * <p>For a full discussion of <em>inlined properties</em>, consult the Javadoc
-	 * for {@link TestPropertySource#properties}.
-	 * @param inlinedProperties the inlined properties to convert; potentially empty
-	 * but never {@code null}
-	 * @return a new, ordered map containing the converted properties
-	 * @since 4.1.5
-	 * @throws IllegalStateException if a given key-value pair cannot be parsed, or if
-	 * a given inlined property contains multiple key-value pairs
-	 * @see #addInlinedPropertiesToEnvironment(ConfigurableEnvironment, String[])
+	 * 将提供的<em>内联属性</em> (以<em>键值</em>对的形式)转换为以属性名称作为键的Map, 保留返回的Map中属性名称的顺序.
+	 * <p>解析键值对是通过将所有对转换为内存中的<em>虚拟</em>属性文件,
+	 * 并委托给{@link Properties#load(java.io.Reader)}来解析每个虚拟文件来实现的.
+	 * <p>有关<em>内联属性</em>的完整讨论, 请参阅{@link TestPropertySource#properties}的Javadoc.
+	 * 
+	 * @param inlinedProperties 要转换的内联属性; 可能为空但不能是{@code null}
+	 * 
+	 * @return 包含已转换属性的新的有序的Map
+	 * @throws IllegalStateException 如果无法解析给定的键值对, 或者给定的内联属性包含多个键值对
 	 */
 	public static Map<String, Object> convertInlinedPropertiesToMap(String... inlinedProperties) {
 		Assert.notNull(inlinedProperties, "'inlinedProperties' must not be null");

@@ -10,15 +10,12 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * {@code TestExecutionListeners} defines class-level metadata for configuring
- * which {@link TestExecutionListener TestExecutionListeners} should be
- * registered with a {@link TestContextManager}.
+ * {@code TestExecutionListeners}定义了类级元数据,
+ * 用于配置{@link TestExecutionListener TestExecutionListeners}应该使用{@link TestContextManager}进行注册.
  *
- * <p>Typically, {@code @TestExecutionListeners} will be used in conjunction
- * with {@link ContextConfiguration @ContextConfiguration}.
+ * <p>通常, {@code @TestExecutionListeners}将与{@link ContextConfiguration @ContextConfiguration}一起使用.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -27,42 +24,30 @@ import org.springframework.core.annotation.AliasFor;
 public @interface TestExecutionListeners {
 
 	/**
-	 * Alias for {@link #listeners}.
-	 * <p>This attribute may <strong>not</strong> be used in conjunction with
-	 * {@link #listeners}, but it may be used instead of {@link #listeners}.
+	 * {@link #listeners}的别名.
+	 * <p>此属性<strong>不</strong>可以与{@link #listeners}一起使用, 但可以使用它来代替{@link #listeners}.
 	 */
 	@AliasFor("listeners")
 	Class<? extends TestExecutionListener>[] value() default {};
 
 	/**
-	 * The {@link TestExecutionListener TestExecutionListeners} to register with
-	 * the {@link TestContextManager}.
-	 * <p>This attribute may <strong>not</strong> be used in conjunction with
-	 * {@link #value}, but it may be used instead of {@link #value}.
-	 * @see org.springframework.test.context.web.ServletTestExecutionListener
-	 * @see org.springframework.test.context.support.DependencyInjectionTestExecutionListener
-	 * @see org.springframework.test.context.support.DirtiesContextTestExecutionListener
-	 * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener
-	 * @see org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener
+	 * 使用{@link TestContextManager}注册的{@link TestExecutionListener TestExecutionListeners}.
+	 * <p>此属性<strong>不</strong>可以与{@link #value}一起使用, 但可以使用它来代替{@link #value}.
 	 */
 	@AliasFor("value")
 	Class<? extends TestExecutionListener>[] listeners() default {};
 
 	/**
-	 * Whether or not {@link #listeners TestExecutionListeners} from superclasses
-	 * should be <em>inherited</em>.
-	 * <p>The default value is {@code true}, which means that an annotated
-	 * class will <em>inherit</em> the listeners defined by an annotated
-	 * superclass. Specifically, the listeners for an annotated class will be
-	 * appended to the list of listeners defined by an annotated superclass.
-	 * Thus, subclasses have the option of <em>extending</em> the list of
-	 * listeners. In the following example, {@code AbstractBaseTest} will
-	 * be configured with {@code DependencyInjectionTestExecutionListener}
-	 * and {@code DirtiesContextTestExecutionListener}; whereas,
-	 * {@code TransactionalTest} will be configured with
+	 * 是否应继承父类的{@link #listeners TestExecutionListeners}.
+	 * <p>默认{@code true}, 这意味着带注解的类将<em>继承</em>由带注解的超类定义的监听器.
+	 * 具体而言, 带注解的类的监听器将附加到由带注解的超类定义的监听器列表中.
+	 * 因此, 子类可以选择<em>扩展</em>监听器列表.
+	 * 在以下示例中, {@code AbstractBaseTest}将使用{@code DependencyInjectionTestExecutionListener}
+	 * 和{@code DirtiesContextTestExecutionListener}进行配置;
+	 * 然而, {@code TransactionalTest}将按顺序配置
 	 * {@code DependencyInjectionTestExecutionListener},
-	 * {@code DirtiesContextTestExecutionListener}, <strong>and</strong>
-	 * {@code TransactionalTestExecutionListener}, in that order.
+	 * {@code DirtiesContextTestExecutionListener}, <strong>和</strong>
+	 * {@code TransactionalTestExecutionListener}.
 	 * <pre class="code">
 	 * &#064;TestExecutionListeners({
 	 *     DependencyInjectionTestExecutionListener.class,
@@ -76,56 +61,40 @@ public @interface TestExecutionListeners {
 	 * public class TransactionalTest extends AbstractBaseTest {
 	 * 	 // ...
 	 * }</pre>
-	 * <p>If {@code inheritListeners} is set to {@code false}, the listeners for
-	 * the annotated class will <em>shadow</em> and effectively replace any
-	 * listeners defined by a superclass.
+	 * <p>如果{@code inheritListeners}设置为{@code false}, 则带注解的类的监听器将 <em>shadow</em>,
+	 * 并有效地替换由超类定义的任何监听器.
 	 */
 	boolean inheritListeners() default true;
 
 	/**
-	 * The <em>merge mode</em> to use when {@code @TestExecutionListeners} is
-	 * declared on a class that does <strong>not</strong> inherit listeners
-	 * from a superclass.
-	 * <p>Can be set to {@link MergeMode#MERGE_WITH_DEFAULTS MERGE_WITH_DEFAULTS}
-	 * to have locally declared listeners <em>merged</em> with the default
-	 * listeners.
-	 * <p>The mode is ignored if listeners are inherited from a superclass.
-	 * <p>Defaults to {@link MergeMode#REPLACE_DEFAULTS REPLACE_DEFAULTS}
-	 * for backwards compatibility.
-	 * @see MergeMode
-	 * @since 4.1
+	 * 在不从超类继承监听器的类上声明{@code @TestExecutionListeners}时使用的<em>合并模式</em>.
+	 * <p>可以设置为{@link MergeMode#MERGE_WITH_DEFAULTS MERGE_WITH_DEFAULTS}以使本地声明的监听器与默认监听器<em>合并</em>.
+	 * <p>如果监听器是从超类继承的, 则忽略该模式.
+	 * <p>默认为{@link MergeMode#REPLACE_DEFAULTS REPLACE_DEFAULTS}以实现向后兼容.
 	 */
 	MergeMode mergeMode() default MergeMode.REPLACE_DEFAULTS;
 
 
 	/**
-	 * Enumeration of <em>modes</em> that dictate whether or not explicitly
-	 * declared listeners are merged with the default listeners when
-	 * {@code @TestExecutionListeners} is declared on a class that does
-	 * <strong>not</strong> inherit listeners from a superclass.
-	 * @since 4.1
+	 * <em>模式</em>的枚举, 指示在未从超类继承监听器的类上声明{@code @TestExecutionListeners}时,
+	 * 是否将显式声明的监听器与默认监听器合并.
 	 */
 	enum MergeMode {
 
 		/**
-		 * Indicates that locally declared listeners should replace the default
-		 * listeners.
+		 * 指示本地声明的监听器应替换默认监听器.
 		 */
 		REPLACE_DEFAULTS,
 
 		/**
-		 * Indicates that locally declared listeners should be merged with the
-		 * default listeners.
-		 * <p>The merging algorithm ensures that duplicates are removed from
-		 * the list and that the resulting set of merged listeners is sorted
-		 * according to the semantics of
-		 * {@link org.springframework.core.annotation.AnnotationAwareOrderComparator
-		 * AnnotationAwareOrderComparator}. If a listener implements
-		 * {@link org.springframework.core.Ordered Ordered} or is annotated
-		 * with {@link org.springframework.core.annotation.Order @Order} it can
-		 * influence the position in which it is merged with the defaults; otherwise,
-		 * locally declared listeners will simply be appended to the list of default
-		 * listeners when merged.
+		 * 指示本地声明的监听器应与默认监听器合并.
+		 * <p>合并算法确保从列表中删除重复项, 并根据
+		 * {@link org.springframework.core.annotation.AnnotationAwareOrderComparator AnnotationAwareOrderComparator}
+		 * 的语义对生成的合并监听器集合进行排序.
+		 * 如果监听器实现{@link org.springframework.core.Ordered Ordered}
+		 * 或使用{@link org.springframework.core.annotation.Order @Order}注解,
+		 * 它可以影响它与默认值合并的位置;
+		 * 否则, 本地声明的监听器将在合并时简单地附加到默认监听器列表中.
 		 */
 		MERGE_WITH_DEFAULTS
 	}

@@ -4,9 +4,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.Assert;
 
 /**
- * {@code MergedTestPropertySources} encapsulates the <em>merged</em>
- * property sources declared on a test class and all of its superclasses
- * via {@link TestPropertySource @TestPropertySource}.
+ * {@code MergedTestPropertySources}通过{@link TestPropertySource @TestPropertySource}
+ * 封装在测试类及其所有超类上声明的<em>合并</em>属性源.
  */
 class MergedTestPropertySources {
 
@@ -17,20 +16,13 @@ class MergedTestPropertySources {
 	private final String[] properties;
 
 
-	/**
-	 * Create an <em>empty</em> {@code MergedTestPropertySources} instance.
-	 */
 	MergedTestPropertySources() {
 		this(EMPTY_STRING_ARRAY, EMPTY_STRING_ARRAY);
 	}
 
 	/**
-	 * Create a {@code MergedTestPropertySources} instance with the supplied
-	 * {@code locations} and {@code properties}.
-	 * @param locations the resource locations of properties files; may be
-	 * empty but never {@code null}
-	 * @param properties the properties in the form of {@code key=value} pairs;
-	 * may be empty but never {@code null}
+	 * @param locations 属性文件的资源位置; 可能为空, 但不能是{@code null}
+	 * @param properties {@code key=value}对形式的属性; 可能为空, 但不能是{@code null}
 	 */
 	MergedTestPropertySources(String[] locations, String[] properties) {
 		Assert.notNull(locations, "The locations array must not be null");
@@ -40,16 +32,14 @@ class MergedTestPropertySources {
 	}
 
 	/**
-	 * Get the resource locations of properties files.
-	 * @see TestPropertySource#locations()
+	 * 获取属性文件的资源位置.
 	 */
 	String[] getLocations() {
 		return this.locations;
 	}
 
 	/**
-	 * Get the properties in the form of <em>key-value</em> pairs.
-	 * @see TestPropertySource#properties()
+	 * 获取<em>key-value</em>对的形式的属性.
 	 */
 	String[] getProperties() {
 		return this.properties;

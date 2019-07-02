@@ -10,15 +10,13 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * Factory for assertions on the selected view.
+ * 在选定视图上进行断言的工厂.
  *
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#view}.
+ * <p>通常通过{@link MockMvcResultMatchers#view}访问此类的实例.
  */
 public class ViewResultMatchers {
 
 	/**
-	 * Protected constructor.
 	 * Use {@link MockMvcResultMatchers#view()}.
 	 */
 	protected ViewResultMatchers() {
@@ -26,7 +24,7 @@ public class ViewResultMatchers {
 
 
 	/**
-	 * Assert the selected view name with the given Hamcrest {@link Matcher}.
+	 * 使用给定的Hamcrest {@link Matcher}断言所选视图名称.
 	 */
 	public ResultMatcher name(final Matcher<? super String> matcher) {
 		return new ResultMatcher() {
@@ -40,7 +38,7 @@ public class ViewResultMatchers {
 	}
 
 	/**
-	 * Assert the selected view name.
+	 * 断言选定的视图名称.
 	 */
 	public ResultMatcher name(final String expectedViewName) {
 		return new ResultMatcher() {
@@ -52,5 +50,4 @@ public class ViewResultMatchers {
 			}
 		};
 	}
-
 }

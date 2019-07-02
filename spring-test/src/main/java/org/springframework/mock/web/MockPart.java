@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of {@code javax.servlet.http.Part}.
+ * {@code javax.servlet.http.Part}的模拟实现.
  */
 public class MockPart implements Part {
 
@@ -25,16 +25,10 @@ public class MockPart implements Part {
 	private final HttpHeaders headers = new HttpHeaders();
 
 
-	/**
-	 * Constructor for a part with byte[] content only.
-	 */
 	public MockPart(String name, byte[] content) {
 		this(name, null, content);
 	}
 
-	/**
-	 * Constructor for a part with a filename and byte[] content.
-	 */
 	public MockPart(String name, String filename, byte[] content) {
 		Assert.hasLength(name, "Name must not be null");
 		this.name = name;
@@ -97,8 +91,7 @@ public class MockPart implements Part {
 	}
 
 	/**
-	 * Return the {@link HttpHeaders} backing header related accessor methods,
-	 * allowing for populating selected header entries.
+	 * 返回{@link HttpHeaders}支持header相关的访问器方法, 允许填充选定的header条目.
 	 */
 	public final HttpHeaders getHeaders() {
 		return this.headers;

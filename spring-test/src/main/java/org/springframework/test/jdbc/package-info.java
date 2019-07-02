@@ -1,4 +1,4 @@
 /**
- * Support classes for tests based on JDBC.
+ * 支持基于JDBC的测试类.
  */
 package org.springframework.test.jdbc;

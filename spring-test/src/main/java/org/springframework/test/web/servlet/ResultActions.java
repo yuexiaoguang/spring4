@@ -1,19 +1,18 @@
 package org.springframework.test.web.servlet;
 
 /**
- * Allows applying actions, such as expectations, on the result of an executed
- * request.
+ * 允许对执行的请求的结果应用操作, 例如期望.
  *
- * <p>See static factory methods in
- * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers} and
- * {@link org.springframework.test.web.servlet.result.MockMvcResultHandlers}.
+ * <p>请参阅
+ * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers}
+ * 和{@link org.springframework.test.web.servlet.result.MockMvcResultHandlers}中的静态工厂方法.
  */
 public interface ResultActions {
 
 	/**
-	 * Perform an expectation.
+	 * 执行预期.
 	 *
-	 * <h4>Example</h4>
+	 * <h4>示例</h4>
 	 * <pre class="code">
 	 * static imports: MockMvcRequestBuilders.*, MockMvcResultMatchers.*
 	 *
@@ -34,9 +33,9 @@ public interface ResultActions {
 	ResultActions andExpect(ResultMatcher matcher) throws Exception;
 
 	/**
-	 * Perform a general action.
+	 * 执行一般操作.
 	 *
-	 * <h4>Example</h4>
+	 * <h4>示例</h4>
 	 * <pre class="code">
 	 * static imports: MockMvcRequestBuilders.*, MockMvcResultMatchers.*
 	 *
@@ -46,9 +45,9 @@ public interface ResultActions {
 	ResultActions andDo(ResultHandler handler) throws Exception;
 
 	/**
-	 * Return the result of the executed request for direct access to the results.
+	 * 返回执行请求的结果, 以直接访问结果.
 	 *
-	 * @return the result of the request
+	 * @return 请求的结果
 	 */
 	MvcResult andReturn();
 

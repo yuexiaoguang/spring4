@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletResponse} interface.
+ * {@link javax.portlet.PortletResponse}接口的模拟实现.
  */
 public class MockPortletResponse implements PortletResponse {
 
@@ -36,25 +36,21 @@ public class MockPortletResponse implements PortletResponse {
 
 
 	/**
-	 * Create a new MockPortletResponse with a default {@link MockPortalContext}.
-	 * @see MockPortalContext
+	 * 使用默认的{@link MockPortalContext}.
 	 */
 	public MockPortletResponse() {
 		this(null);
 	}
 
 	/**
-	 * Create a new MockPortletResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
+	 * @param portalContext 定义支持的PortletMode和WindowState的 PortalContext
 	 */
 	public MockPortletResponse(PortalContext portalContext) {
 		this.portalContext = (portalContext != null ? portalContext : new MockPortalContext());
 	}
 
 	/**
-	 * Return the PortalContext that this MockPortletResponse runs in,
-	 * defining the supported PortletModes and WindowStates.
+	 * 返回运行此MockPortletResponse的PortalContext, 定义支持的PortletMode和WindowState.
 	 */
 	public PortalContext getPortalContext() {
 		return this.portalContext;

@@ -1,10 +1,7 @@
 /**
- * A comprehensive set of Portlet API 2.0 mock objects,
- * targeted at usage with Spring's Web MVC framework.
- * Useful for testing web contexts and controllers.
+ * 一组全面的Portlet API 2.0模拟对象, 旨在与Spring的Web MVC框架一起使用.
+ * 用于测试Web上下文和控制器.
  *
- * <p>More convenient to use than dynamic mock objects
- * (<a href="http://www.easymock.org">EasyMock</a>) or
- * existing Portlet API mock objects.
+ * <p>比动态模拟对象 (<a href="http://www.easymock.org">EasyMock</a>)或现有的Portlet API模拟对象更方便使用.
  */
 package org.springframework.mock.web.portlet;

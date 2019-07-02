@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletContext} interface.
+ * {@link javax.portlet.PortletContext}接口的模拟实现.
  */
 public class MockPortletContext implements PortletContext {
 
@@ -49,36 +49,33 @@ public class MockPortletContext implements PortletContext {
 
 
 	/**
-	 * Create a new MockPortletContext with no base path and a
-	 * DefaultResourceLoader (i.e. the classpath root as WAR root).
-	 * @see org.springframework.core.io.DefaultResourceLoader
+	 * 没有基础路径, 并使用DefaultResourceLoader (i.e. classpath根目录为WAR根目录).
 	 */
 	public MockPortletContext() {
 		this("", null);
 	}
 
 	/**
-	 * Create a new MockPortletContext using a DefaultResourceLoader.
-	 * @param resourceBasePath the WAR root directory (should not end with a slash)
-	 * @see org.springframework.core.io.DefaultResourceLoader
+	 * 使用DefaultResourceLoader.
+	 * 
+	 * @param resourceBasePath WAR根目录 (不应以斜杠结尾)
 	 */
 	public MockPortletContext(String resourceBasePath) {
 		this(resourceBasePath, null);
 	}
 
 	/**
-	 * Create a new MockPortletContext, using the specified ResourceLoader
-	 * and no base path.
-	 * @param resourceLoader the ResourceLoader to use (or null for the default)
+	 * 没有基础路径, 并使用指定的ResourceLoader.
+	 * 
+	 * @param resourceLoader 要使用的ResourceLoader (或null使用默认值)
 	 */
 	public MockPortletContext(ResourceLoader resourceLoader) {
 		this("", resourceLoader);
 	}
 
 	/**
-	 * Create a new MockPortletContext.
-	 * @param resourceBasePath the WAR root directory (should not end with a slash)
-	 * @param resourceLoader the ResourceLoader to use (or null for the default)
+	 * @param resourceBasePath WAR根目录 (不应以斜杠结尾)
+	 * @param resourceLoader 要使用的ResourceLoader (或null使用默认值)
 	 */
 	public MockPortletContext(String resourceBasePath, ResourceLoader resourceLoader) {
 		this.resourceBasePath = (resourceBasePath != null ? resourceBasePath : "");
@@ -92,10 +89,11 @@ public class MockPortletContext implements PortletContext {
 	}
 
 	/**
-	 * Build a full resource location for the given path,
-	 * prepending the resource base path of this MockPortletContext.
-	 * @param path the path as specified
-	 * @return the full resource path
+	 * 为给定路径构建完整资源路径, 在前面追加此MockPortletContext的资源基础路径.
+	 * 
+	 * @param path 指定的路径
+	 * 
+	 * @return 完整资源路径
 	 */
 	protected String getResourceLocation(String path) {
 		if (!path.startsWith("/")) {
@@ -265,8 +263,7 @@ public class MockPortletContext implements PortletContext {
 
 
 	/**
-	 * Inner factory class used to just introduce a Java Activation Framework
-	 * dependency when actually asked to resolve a MIME type.
+	 * 内部工厂类, 用于在实际要求解析MIME类型时引入Java Activation Framework依赖项.
 	 */
 	private static class MimeTypeResolver {
 

@@ -28,16 +28,12 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 
 /**
- * Abstract application context loader that provides a basis for all concrete
- * implementations of the {@link ContextLoader} SPI. Provides a
- * <em>Template Method</em> based approach for {@link #processLocations processing}
- * resource locations.
+ * 抽象应用程序上下文加载器, 为{@link ContextLoader} SPI的所有具体实现提供基础.
+ * 为{@link #processLocations 处理}资源位置提供基于<em>模板方法</em>的方法.
  *
- * <p>As of Spring 3.1, {@code AbstractContextLoader} also provides a basis
- * for all concrete implementations of the {@link SmartContextLoader} SPI. For
- * backwards compatibility with the {@code ContextLoader} SPI,
- * {@link #processContextConfiguration(ContextConfigurationAttributes)} delegates
- * to {@link #processLocations(Class, String...)}.
+ * <p>从Spring 3.1开始, {@code AbstractContextLoader}也为{@link SmartContextLoader} SPI的所有具体实现提供了基础.
+ * 为了向后兼容{@code ContextLoader} SPI,
+ * {@link #processContextConfiguration(ContextConfigurationAttributes)}委托给{@link #processLocations(Class, String...)}.
  */
 public abstract class AbstractContextLoader implements SmartContextLoader {
 
@@ -49,17 +45,12 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	// SmartContextLoader
 
 	/**
-	 * For backwards compatibility with the {@link ContextLoader} SPI, the
-	 * default implementation simply delegates to {@link #processLocations(Class, String...)},
-	 * passing it the {@link ContextConfigurationAttributes#getDeclaringClass()
-	 * declaring class} and {@link ContextConfigurationAttributes#getLocations()
-	 * resource locations} retrieved from the supplied
-	 * {@link ContextConfigurationAttributes configuration attributes}. The
-	 * processed locations are then
-	 * {@link ContextConfigurationAttributes#setLocations(String[]) set} in
-	 * the supplied configuration attributes.
-	 * <p>Can be overridden in subclasses &mdash; for example, to process
-	 * annotated classes instead of resource locations.
+	 * 为了向后兼容{@link ContextLoader} SPI, 默认实现只是委托给{@link #processLocations(Class, String...)},
+	 * 并从提供的{@link ContextConfigurationAttributes 配置属性}中检索
+	 * {@link ContextConfigurationAttributes#getDeclaringClass() 声明类}
+	 * 和{@link ContextConfigurationAttributes#getLocations() 资源位置}.
+	 * 然后在提供的配置属性中{@link ContextConfigurationAttributes#setLocations(String[]) 设置}处理的位置.
+	 * <p>可以在子类中重写 &mdash; 例如, 处理带注解的类而不是资源位置.
 	 */
 	@Override
 	public void processContextConfiguration(ContextConfigurationAttributes configAttributes) {
@@ -69,39 +60,28 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	}
 
 	/**
-	 * Prepare the {@link ConfigurableApplicationContext} created by this
-	 * {@code SmartContextLoader} <i>before</i> bean definitions are read.
-	 * <p>The default implementation:
+	 * 在读取bean定义之前, 准备由此{@code SmartContextLoader}创建的{@link ConfigurableApplicationContext}.
+	 * <p>默认实现:
 	 * <ul>
-	 * <li>Sets the <em>active bean definition profiles</em> from the supplied
-	 * {@code MergedContextConfiguration} in the
-	 * {@link org.springframework.core.env.Environment Environment} of the
-	 * context.</li>
-	 * <li>Adds {@link PropertySource PropertySources} for all
-	 * {@linkplain MergedContextConfiguration#getPropertySourceLocations()
-	 * resource locations} and
-	 * {@linkplain MergedContextConfiguration#getPropertySourceProperties()
-	 * inlined properties} from the supplied {@code MergedContextConfiguration}
-	 * to the {@code Environment} of the context.</li>
-	 * <li>Determines what (if any) context initializer classes have been supplied
-	 * via the {@code MergedContextConfiguration} and instantiates and
-	 * {@linkplain ApplicationContextInitializer#initialize invokes} each with the
-	 * given application context.
+	 * <li>在上下文 {@link org.springframework.core.env.Environment Environment}中
+	 * 从提供的{@code MergedContextConfiguration}设置<em>活动的bean定义配置文件</em>.</li>
+	 * <li>为所有
+	 * {@linkplain MergedContextConfiguration#getPropertySourceLocations() 资源位置}
+	 * 和{@linkplain MergedContextConfiguration#getPropertySourceProperties() 内联属性}
+	 * 添加{@link PropertySource PropertySources},
+	 * 从提供的{@code MergedContextConfiguration}添加到上下文的{@code Environment}.</li>
+	 * <li>确定通过{@code MergedContextConfiguration} 提供的上下文初始化器类,
+	 * 并使用给定的应用程序上下文实例化和 {@linkplain ApplicationContextInitializer#initialize 调用}每个类.
 	 * <ul>
-	 * <li>Any {@code ApplicationContextInitializers} implementing
-	 * {@link org.springframework.core.Ordered Ordered} or annotated with {@link
-	 * org.springframework.core.annotation.Order @Order} will be sorted appropriately.</li>
+	 * <li>实现{@link org.springframework.core.Ordered Ordered}
+	 * 或使用{@link org.springframework.core.annotation.Order @Order}注解的
+	 * 任何{@code ApplicationContextInitializers}将被适当地排序.</li>
 	 * </ul>
 	 * </li>
 	 * </ul>
-	 * @param context the newly created application context
-	 * @param mergedConfig the merged context configuration
-	 * @since 3.2
-	 * @see TestPropertySourceUtils#addPropertiesFilesToEnvironment
-	 * @see TestPropertySourceUtils#addInlinedPropertiesToEnvironment
-	 * @see ApplicationContextInitializer#initialize(ConfigurableApplicationContext)
-	 * @see #loadContext(MergedContextConfiguration)
-	 * @see ConfigurableApplicationContext#setId
+	 * 
+	 * @param context 新创建的应用程序上下文
+	 * @param mergedConfig 合并的上下文配置
 	 */
 	protected void prepareContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig) {
 		context.getEnvironment().setActiveProfiles(mergedConfig.getActiveProfiles());
@@ -117,7 +97,7 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 		Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> initializerClasses =
 				mergedConfig.getContextInitializerClasses();
 		if (initializerClasses.isEmpty()) {
-			// no ApplicationContextInitializers have been declared -> nothing to do
+			// 没有声明ApplicationContextInitializers -> nothing to do
 			return;
 		}
 
@@ -144,15 +124,13 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	}
 
 	/**
-	 * Customize the {@link ConfigurableApplicationContext} created by this
-	 * {@code ContextLoader} <em>after</em> bean definitions have been loaded
-	 * into the context but <em>before</em> the context has been refreshed.
-	 * <p>The default implementation delegates to all
-	 * {@link MergedContextConfiguration#getContextCustomizers context customizers}
-	 * that have been registered with the supplied {@code mergedConfig}.
-	 * @param context the newly created application context
-	 * @param mergedConfig the merged context configuration
-	 * @since 4.3
+	 * 在将bean定义加载到上下文之后, 但在上下文刷新之前,
+	 * 自定义由此{@code ContextLoader}创建的{@link ConfigurableApplicationContext}.
+	 * <p>默认实现委托给已使用提供的{@code mergedConfig}注册的
+	 * 所有{@link MergedContextConfiguration#getContextCustomizers 上下文定制器}.
+	 * 
+	 * @param context 新创建的应用程序上下文
+	 * @param mergedConfig 合并的上下文配置
 	 */
 	protected void customizeContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig) {
 		for (ContextCustomizer contextCustomizer : mergedConfig.getContextCustomizers()) {
@@ -164,24 +142,15 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	// ContextLoader
 
 	/**
-	 * If the supplied {@code locations} are {@code null} or <em>empty</em>
-	 * and {@link #isGenerateDefaultLocations()} returns {@code true},
-	 * default locations will be {@link #generateDefaultLocations(Class)
-	 * generated} (i.e., detected) for the specified {@link Class class}
-	 * and the configured {@linkplain #getResourceSuffixes() resource suffixes};
-	 * otherwise, the supplied {@code locations} will be
-	 * {@linkplain #modifyLocations modified} if necessary and returned.
-	 * @param clazz the class with which the locations are associated: to be
-	 * used when generating default locations
-	 * @param locations the unmodified locations to use for loading the
-	 * application context (can be {@code null} or empty)
-	 * @return a processed array of application context resource locations
-	 * @since 2.5
-	 * @see #isGenerateDefaultLocations()
-	 * @see #generateDefaultLocations(Class)
-	 * @see #modifyLocations(Class, String...)
-	 * @see org.springframework.test.context.ContextLoader#processLocations(Class, String...)
-	 * @see #processContextConfiguration(ContextConfigurationAttributes)
+	 * 如果提供的{@code locations}为{@code null}或<em>空</em>, 并且{@link #isGenerateDefaultLocations()}返回{@code true},
+	 * 将{@link #generateDefaultLocations(Class) 生成} (i.e., 检测到)默认位置,
+	 * 使用指定的{@link Class class}和配置的{@linkplain #getResourceSuffixes() 资源后缀};
+	 * 否则, 提供的{@code locations}将被{@linkplain #modifyLocations 编辑}并返回.
+	 * 
+	 * @param clazz 与位置关联的类: 在生成默认位置时使用
+	 * @param locations 用于加载应用程序上下文的未修改位置 (可以是{@code null}或为空)
+	 * 
+	 * @return 处理的应用程序上下文资源位置数组
 	 */
 	@Override
 	public final String[] processLocations(Class<?> clazz, String... locations) {
@@ -190,25 +159,19 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	}
 
 	/**
-	 * Generate the default classpath resource locations array based on the
-	 * supplied class.
-	 * <p>For example, if the supplied class is {@code com.example.MyTest},
-	 * the generated locations will contain a single string with a value of
-	 * {@code "classpath:com/example/MyTest<suffix>"}, where {@code <suffix>}
-	 * is the value of the first configured
-	 * {@linkplain #getResourceSuffixes() resource suffix} for which the
-	 * generated location actually exists in the classpath.
-	 * <p>As of Spring 3.1, the implementation of this method adheres to the
-	 * contract defined in the {@link SmartContextLoader} SPI. Specifically,
-	 * this method will <em>preemptively</em> verify that the generated default
-	 * location actually exists. If it does not exist, this method will log a
-	 * warning and return an empty array.
-	 * <p>Subclasses can override this method to implement a different
-	 * <em>default location generation</em> strategy.
-	 * @param clazz the class for which the default locations are to be generated
-	 * @return an array of default application context resource locations
-	 * @since 2.5
-	 * @see #getResourceSuffixes()
+	 * 根据提供的类生成默认的类路径资源位置数组.
+	 * <p>例如, 如果提供的类是{@code com.example.MyTest},
+	 * 则生成的位置将包含一个值为{@code "classpath:com/example/MyTest<suffix>"}的字符串,
+	 * 其中{@code <suffix>}是第一个配置的{@linkplain #getResourceSuffixes() 资源后缀}的值,
+	 * 其中生成的位置实际存在于类路径中.
+	 * <p>从Spring 3.1开始, 此方法的实现遵循{@link SmartContextLoader} SPI中定义的契约.
+	 * 具体来说, 此方法将<em>抢先</em>验证生成的默认位置是否确实存在.
+	 * 如果它不存在, 此方法将记录警告并返回一个空数组.
+	 * <p>子类可以覆盖此方法以实现不同的<em>默认位置生成</em>策略.
+	 * 
+	 * @param clazz 要为其生成默认位置的类
+	 * 
+	 * @return 一组默认的应用程序上下文资源位置
 	 */
 	protected String[] generateDefaultLocations(Class<?> clazz) {
 		Assert.notNull(clazz, "Class must not be null");
@@ -241,65 +204,52 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
 	}
 
 	/**
-	 * Generate a modified version of the supplied locations array and return it.
-	 * <p>The default implementation simply delegates to
+	 * 生成提供的位置数组的修改版本并将其返回.
+	 * <p>默认实现委托给
 	 * {@link TestContextResourceUtils#convertToClasspathResourcePaths}.
-	 * <p>Subclasses can override this method to implement a different
-	 * <em>location modification</em> strategy.
-	 * @param clazz the class with which the locations are associated
-	 * @param locations the resource locations to be modified
-	 * @return an array of modified application context resource locations
-	 * @since 2.5
+	 * <p>子类可以覆盖此方法以实现不同的<em>位置修改</em>策略.
+	 * 
+	 * @param clazz 与位置关联的类
+	 * @param locations 要修改的资源位置
+	 * 
+	 * @return 一组修改过的应用程序上下文资源位置
 	 */
 	protected String[] modifyLocations(Class<?> clazz, String... locations) {
 		return TestContextResourceUtils.convertToClasspathResourcePaths(clazz, locations);
 	}
 
 	/**
-	 * Determine whether or not <em>default</em> resource locations should be
-	 * generated if the {@code locations} provided to
-	 * {@link #processLocations(Class, String...)} are {@code null} or empty.
-	 * <p>As of Spring 3.1, the semantics of this method have been overloaded
-	 * to include detection of either default resource locations or default
-	 * configuration classes. Consequently, this method can also be used to
-	 * determine whether or not <em>default</em> configuration classes should be
-	 * detected if the {@code classes} present in the
-	 * {@link ContextConfigurationAttributes configuration attributes} supplied
-	 * to {@link #processContextConfiguration(ContextConfigurationAttributes)}
-	 * are {@code null} or empty.
-	 * <p>Can be overridden by subclasses to change the default behavior.
-	 * @return always {@code true} by default
-	 * @since 2.5
+	 * 如果提供给{@link #processLocations(Class, String...)}的{@code locations}为{@code null}或为空,
+	 * 则确定是否应生成<em>默认</em>资源位置.
+	 * <p>从Spring 3.1开始, 此方法的语义已经重载, 包括检测默认资源位置或默认配置类.
+	 * 因此，如果提供给{@link #processContextConfiguration(ContextConfigurationAttributes)}
+	 * 的{@link ContextConfigurationAttributes 配置属性}中的{@code classes}为{@code null}或为空,
+	 * 则此方法还可用于确定是否应检测默认配置类.
+	 * <p>可以由子类重写以更改默认行为.
+	 * 
+	 * @return 默认总是{@code true}
 	 */
 	protected boolean isGenerateDefaultLocations() {
 		return true;
 	}
 
 	/**
-	 * Get the suffixes to append to {@link ApplicationContext} resource locations
-	 * when detecting default locations.
-	 * <p>The default implementation simply wraps the value returned by
-	 * {@link #getResourceSuffix()} in a single-element array, but this
-	 * can be overridden by subclasses in order to support multiple suffixes.
-	 * @return the resource suffixes; never {@code null} or empty
-	 * @since 4.1
-	 * @see #generateDefaultLocations(Class)
+	 * 检测默认位置时, 获取附加到{@link ApplicationContext}资源位置的后缀.
+	 * <p>默认实现只是将{@link #getResourceSuffix()}返回的值包装在单个元素数组中,
+	 * 但是这可以被子类覆盖以支持多个后缀.
+	 * 
+	 * @return 资源后缀; never {@code null} or empty
 	 */
 	protected String[] getResourceSuffixes() {
 		return new String[] {getResourceSuffix()};
 	}
 
 	/**
-	 * Get the suffix to append to {@link ApplicationContext} resource locations
-	 * when detecting default locations.
-	 * <p>Subclasses must provide an implementation of this method that returns
-	 * a single suffix. Alternatively subclasses may provide a  <em>no-op</em>
-	 * implementation of this method and override {@link #getResourceSuffixes()}
-	 * in order to provide multiple custom suffixes.
-	 * @return the resource suffix; never {@code null} or empty
-	 * @since 2.5
-	 * @see #generateDefaultLocations(Class)
-	 * @see #getResourceSuffixes()
+	 * 检测默认位置时, 获取附加到{@link ApplicationContext}资源位置的后缀.
+	 * <p>子类必须提供此方法的实现, 该实现返回单个后缀.
+	 * 或者, 子类可以提供此方法的<em>no-op</em>实现, 并覆盖{@link #getResourceSuffixes()}以提供多个自定义后缀.
+	 * 
+	 * @return 资源后缀; never {@code null} or empty
 	 */
 	protected abstract String getResourceSuffix();
 

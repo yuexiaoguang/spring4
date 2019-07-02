@@ -12,9 +12,8 @@ import org.springframework.test.annotation.ProfileValueUtils;
 import org.springframework.util.Assert;
 
 /**
- * {@code ProfileValueChecker} is a custom JUnit {@link Statement} that checks
- * whether a test class or test method is enabled in the current environment
- * via Spring's {@link IfProfileValue @IfProfileValue} annotation.
+ * {@code ProfileValueChecker}是一个自定义的{@link Statement},
+ * 它通过Spring的{@link IfProfileValue @IfProfileValue}注解检查当前环境中是否启用了测试类或测试方法.
  */
 public class ProfileValueChecker extends Statement {
 
@@ -26,12 +25,9 @@ public class ProfileValueChecker extends Statement {
 
 
 	/**
-	 * Construct a new {@code ProfileValueChecker} statement.
-	 * @param next the next {@code Statement} in the execution chain;
-	 * never {@code null}
-	 * @param testClass the test class to check; never {@code null}
-	 * @param testMethod the test method to check; may be {@code null} if
-	 * this {@code ProfileValueChecker} is being applied at the class level
+	 * @param next 执行链中的下一个{@code Statement}; never {@code null}
+	 * @param testClass 要检查的测试类; never {@code null}
+	 * @param testMethod 要检查的测试方法; 可能是{@code null}, 如果在类级别应用此{@code ProfileValueChecker}
 	 */
 	public ProfileValueChecker(Statement next, Class<?> testClass, Method testMethod) {
 		Assert.notNull(next, "The next statement must not be null");
@@ -43,19 +39,14 @@ public class ProfileValueChecker extends Statement {
 
 
 	/**
-	 * Determine if the test specified by arguments to the
-	 * {@linkplain #ProfileValueChecker constructor} is <em>enabled</em> in
-	 * the current environment, as configured via the {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation.
-	 * <p>If the test is not annotated with {@code @IfProfileValue} it is
-	 * considered enabled.
-	 * <p>If a test is not enabled, this method will abort further evaluation
-	 * of the execution chain with a failed assumption; otherwise, this method
-	 * will simply evaluate the next {@link Statement} in the execution chain.
-	 * @see ProfileValueUtils#isTestEnabledInThisEnvironment(Class)
-	 * @see ProfileValueUtils#isTestEnabledInThisEnvironment(Method, Class)
-	 * @throws AssumptionViolatedException if the test is disabled
-	 * @throws Throwable if evaluation of the next statement fails
+	 * 通过{@link IfProfileValue @IfProfileValue}注解配置,
+	 * 确定当前环境中{@linkplain #ProfileValueChecker 构造函数}的参数指定的测试是否<em>已启用</em>.
+	 * <p>如果测试未使用{@code @IfProfileValue}进行注解, 则会将其视为已启用.
+	 * <p>如果未启用测试, 则此方法将以失败的假设中止执行链的进一步评估;
+	 * 否则, 此方法将简单地评估执行链中的下一个{@link Statement}.
+	 * 
+	 * @throws AssumptionViolatedException 如果测试被禁用
+	 * @throws Throwable 如果对下一个语句的评估失败
 	 */
 	@Override
 	public void evaluate() throws Throwable {

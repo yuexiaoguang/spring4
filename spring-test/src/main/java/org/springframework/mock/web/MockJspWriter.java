@@ -7,10 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 
 /**
- * Mock implementation of the {@link javax.servlet.jsp.JspWriter} class.
+ * {@link javax.servlet.jsp.JspWriter}类的模拟实现.
  *
- * <p>Used for testing the web framework; only necessary for testing
- * applications when testing custom JSP tags.
+ * <p>用于测试Web框架; 仅在测试自定义JSP标记时测试应用程序所必需的.
  */
 public class MockJspWriter extends JspWriter {
 
@@ -20,26 +19,22 @@ public class MockJspWriter extends JspWriter {
 
 
 	/**
-	 * Create a MockJspWriter for the given response,
-	 * using the response's default Writer.
-	 * @param response the servlet response to wrap
+	 * @param response 要包装的servlet响应
 	 */
 	public MockJspWriter(HttpServletResponse response) {
 		this(response, null);
 	}
 
 	/**
-	 * Create a MockJspWriter for the given plain Writer.
-	 * @param targetWriter the target Writer to wrap
+	 * @param targetWriter 要包装的目标Writer
 	 */
 	public MockJspWriter(Writer targetWriter) {
 		this(null, targetWriter);
 	}
 
 	/**
-	 * Create a MockJspWriter for the given response.
-	 * @param response the servlet response to wrap
-	 * @param targetWriter the target Writer to wrap
+	 * @param response 要包装的servlet响应
+	 * @param targetWriter 要包装的目标Writer
 	 */
 	public MockJspWriter(HttpServletResponse response, Writer targetWriter) {
 		super(DEFAULT_BUFFER, true);
@@ -53,7 +48,7 @@ public class MockJspWriter extends JspWriter {
 	}
 
 	/**
-	 * Lazily initialize the target Writer.
+	 * 延迟初始化目标Writer.
 	 */
 	protected PrintWriter getTargetWriter() throws IOException {
 		if (this.targetWriter == null) {

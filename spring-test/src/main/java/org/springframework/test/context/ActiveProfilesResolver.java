@@ -1,25 +1,22 @@
 package org.springframework.test.context;
 
 /**
- * Strategy interface for programmatically resolving which <em>active bean
- * definition profiles</em> should be used when loading an
- * {@link org.springframework.context.ApplicationContext ApplicationContext}
- * for a test class.
+ * 用于以编程方式解析在为测试类加载
+ * {@link org.springframework.context.ApplicationContext ApplicationContext}时,
+ * 应使用哪些<em>活动的Bean定义配置文件</em>的策略接口.
  *
- * <p>A custom {@code ActiveProfilesResolver} can be registered via the
- * {@link ActiveProfiles#resolver resolver} attribute of {@code @ActiveProfiles}.
+ * <p>可以通过{@code @ActiveProfiles}的{@link ActiveProfiles#resolver resolver}属性注册自定义{@code ActiveProfilesResolver}.
  *
- * <p>Concrete implementations must provide a {@code public} no-args constructor.
+ * <p>具体实现必须提供{@code public}无参构造函数.
  */
 public interface ActiveProfilesResolver {
 
 	/**
-	 * Resolve the <em>bean definition profiles</em> to use when loading an
-	 * {@code ApplicationContext} for the given {@linkplain Class test class}.
-	 * @param testClass the test class for which the profiles should be resolved;
-	 * never {@code null}
-	 * @return the list of bean definition profiles to use when loading the
-	 * {@code ApplicationContext}; never {@code null}
+	 * 解析在为给定的{@linkplain Class 测试类}加载{@code ApplicationContext}时使用的<em>bean定义配置文件</em>.
+	 * 
+	 * @param testClass 应该为其解析配置文件的测试类; never {@code null}
+	 * 
+	 * @return 加载{@code ApplicationContext}时要使用的bean定义配置文件列表; never {@code null}
 	 */
 	String[] resolve(Class<?> testClass);
 

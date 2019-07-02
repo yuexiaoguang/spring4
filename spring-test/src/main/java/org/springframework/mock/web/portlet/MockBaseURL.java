@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.BaseURL} interface.
+ * {@link javax.portlet.BaseURL}接口的模拟实现.
  */
 public abstract class MockBaseURL implements BaseURL {
 

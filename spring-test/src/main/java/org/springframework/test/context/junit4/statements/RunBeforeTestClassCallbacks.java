@@ -5,10 +5,9 @@ import org.junit.runners.model.Statement;
 import org.springframework.test.context.TestContextManager;
 
 /**
- * {@code RunBeforeTestClassCallbacks} is a custom JUnit {@link Statement} which allows
- * the <em>Spring TestContext Framework</em> to be plugged into the JUnit execution chain
- * by calling {@link TestContextManager#beforeTestClass() beforeTestClass()} on the
- * supplied {@link TestContextManager}.
+ * {@code RunBeforeTestClassCallbacks}是一个自定义的JUnit {@link Statement},
+ * 它允许通过在提供的{@link TestContextManager}上调用{@link TestContextManager#beforeTestClass() beforeTestClass()},
+ * 将<em>Spring TestContext Framework</em>插入到JUnit执行链中.
  */
 public class RunBeforeTestClassCallbacks extends Statement {
 
@@ -18,10 +17,8 @@ public class RunBeforeTestClassCallbacks extends Statement {
 
 
 	/**
-	 * Construct a new {@code RunBeforeTestClassCallbacks} statement.
-	 * @param next the next {@code Statement} in the execution chain
-	 * @param testContextManager the TestContextManager upon which to call
-	 * {@code beforeTestClass()}
+	 * @param next 执行链中的下一个{@code Statement}
+	 * @param testContextManager 要调用{@code beforeTestClass()}的TestContextManager
 	 */
 	public RunBeforeTestClassCallbacks(Statement next, TestContextManager testContextManager) {
 		this.next = next;
@@ -30,9 +27,8 @@ public class RunBeforeTestClassCallbacks extends Statement {
 
 
 	/**
-	 * Invoke {@link TestContextManager#beforeTestClass()} and then evaluate
-	 * the next {@link Statement} in the execution chain (typically an instance
-	 * of {@link org.junit.internal.runners.statements.RunBefores RunBefores}).
+	 * 调用{@link TestContextManager#beforeTestClass()}, 然后评估执行链中的下一个{@link Statement}
+	 * (通常是{@link org.junit.internal.runners.statements.RunBefores RunBefores}实例).
 	 */
 	@Override
 	public void evaluate() throws Throwable {

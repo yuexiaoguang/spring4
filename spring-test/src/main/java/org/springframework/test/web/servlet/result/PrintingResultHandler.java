@@ -24,13 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Result handler that prints {@link MvcResult} details to a given output
- * stream &mdash; for example: {@code System.out}, {@code System.err}, a
- * custom {@code java.io.PrintWriter}, etc.
+ * 将{@link MvcResult}详细信息打印到给定的输出流的结果处理器 &mdash;
+ * 例如: {@code System.out}, {@code System.err}, 自定义{@code java.io.PrintWriter}, etc.
  *
- * <p>An instance of this class is typically accessed via one of the
- * {@link MockMvcResultHandlers#print print} or {@link MockMvcResultHandlers#log log}
- * methods in {@link MockMvcResultHandlers}.
+ * <p>通常通过{@link MockMvcResultHandlers}中的{@link MockMvcResultHandlers#print print}
+ * 或{@link MockMvcResultHandlers#log log}方法访问此类的实例.
  */
 public class PrintingResultHandler implements ResultHandler {
 
@@ -38,22 +36,21 @@ public class PrintingResultHandler implements ResultHandler {
 
 
 	/**
-	 * Protected constructor.
-	 * @param printer a {@link ResultValuePrinter} to do the actual writing
+	 * @param printer 实际写入使用的{@link ResultValuePrinter}
 	 */
 	protected PrintingResultHandler(ResultValuePrinter printer) {
 		this.printer = printer;
 	}
 
 	/**
-	 * @return the result value printer
+	 * @return 结果值打印器
 	 */
 	protected ResultValuePrinter getPrinter() {
 		return this.printer;
 	}
 
 	/**
-	 * Print {@link MvcResult} details.
+	 * 打印{@link MvcResult}详细信息.
 	 */
 	@Override
 	public final void handle(MvcResult result) throws Exception {
@@ -80,7 +77,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print the request.
+	 * 打印请求.
 	 */
 	protected void printRequest(MockHttpServletRequest request) throws Exception {
 		this.printer.printValue("HTTP Method", request.getMethod());
@@ -129,7 +126,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print the handler.
+	 * 打印处理器.
 	 */
 	protected void printHandler(Object handler, HandlerInterceptor[] interceptors) throws Exception {
 		if (handler == null) {
@@ -148,7 +145,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print exceptions resolved through a HandlerExceptionResolver.
+	 * 打印通过HandlerExceptionResolver解析的异常.
 	 */
 	protected void printResolvedException(Exception resolvedException) throws Exception {
 		if (resolvedException == null) {
@@ -160,7 +157,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print the ModelAndView.
+	 * 打印 ModelAndView.
 	 */
 	protected void printModelAndView(ModelAndView mav) throws Exception {
 		this.printer.printValue("View name", (mav != null) ? mav.getViewName() : null);
@@ -184,7 +181,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print "output" flash attributes.
+	 * 打印"output" flash属性.
 	 */
 	protected void printFlashMap(FlashMap flashMap) throws Exception {
 		if (ObjectUtils.isEmpty(flashMap)) {
@@ -199,7 +196,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print the response.
+	 * 打印响应.
 	 */
 	protected void printResponse(MockHttpServletResponse response) throws Exception {
 		this.printer.printValue("Status", response.getStatus());
@@ -213,9 +210,7 @@ public class PrintingResultHandler implements ResultHandler {
 	}
 
 	/**
-	 * Print the supplied cookies in a human-readable form, assuming the
-	 * {@link Cookie} implementation does not provide its own {@code toString()}.
-	 * @since 4.2
+	 * 假设{@link Cookie}实现没有提供自己的{@code toString()}, 以人类可读的形式打印提供的cookie.
 	 */
 	private void printCookies(Cookie[] cookies) {
 		String[] cookieStrings = new String[cookies.length];
@@ -246,7 +241,7 @@ public class PrintingResultHandler implements ResultHandler {
 
 
 	/**
-	 * A contract for how to actually write result information.
+	 * 如何实际写入结果信息的约定.
 	 */
 	protected interface ResultValuePrinter {
 
@@ -254,5 +249,4 @@ public class PrintingResultHandler implements ResultHandler {
 
 		void printValue(String label, Object value);
 	}
-
 }

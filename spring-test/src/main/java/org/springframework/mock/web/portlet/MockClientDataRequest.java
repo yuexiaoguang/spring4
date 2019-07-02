@@ -12,7 +12,7 @@ import javax.portlet.PortalContext;
 import javax.portlet.PortletContext;
 
 /**
- * Mock implementation of the {@link javax.portlet.ClientDataRequest} interface.
+ * {@link javax.portlet.ClientDataRequest}接口的模拟实现.
  */
 public class MockClientDataRequest extends MockPortletRequest implements ClientDataRequest {
 
@@ -26,25 +26,24 @@ public class MockClientDataRequest extends MockPortletRequest implements ClientD
 
 
 	/**
-	 * Create a new MockClientDataRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
 	 */
 	public MockClientDataRequest() {
 		super();
 	}
 
 	/**
-	 * Create a new MockClientDataRequest with a default {@link MockPortalContext}.
-	 * @param portletContext the PortletContext that the request runs in
+	 * 使用默认的{@link MockPortalContext}.
+	 * 
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockClientDataRequest(PortletContext portletContext) {
 		super(portletContext);
 	}
 
 	/**
-	 * Create a new MockClientDataRequest.
-	 * @param portalContext the PortalContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param portalContext 运行请求的PortalContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockClientDataRequest(PortalContext portalContext, PortletContext portletContext) {
 		super(portalContext, portletContext);

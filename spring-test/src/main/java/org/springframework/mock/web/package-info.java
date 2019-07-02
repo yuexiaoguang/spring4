@@ -1,12 +1,9 @@
 /**
- * A comprehensive set of Servlet API 3.0 mock objects,
- * targeted at usage with Spring's Web MVC framework.
+ * 一组全面的Servlet API 3.0模拟对象, 旨在与Spring的Web MVC框架一起使用.
  *
- * <p>Useful for testing web contexts and controllers.
+ * <p>用于测试Web上下文和控制器.
  *
- * <p>More convenient to use than dynamic mock objects
- * (<a href="http://www.easymock.org">EasyMock</a>) or
- * existing Servlet API mock objects
- * (<a href="http://www.mockobjects.com">MockObjects</a>).
+ * <p>比动态模拟对象(<a href="http://www.easymock.org">EasyMock</a>)
+ * 或现有的Servlet API模拟对象(<a href="http://www.mockobjects.com">MockObjects</a>)更方便使用.
  */
 package org.springframework.mock.web;

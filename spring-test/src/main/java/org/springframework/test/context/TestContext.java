@@ -8,76 +8,66 @@ import org.springframework.core.AttributeAccessor;
 import org.springframework.test.annotation.DirtiesContext.HierarchyMode;
 
 /**
- * {@code TestContext} encapsulates the context in which a test is executed,
- * agnostic of the actual testing framework in use.
+ * {@code TestContext}封装了执行测试的上下文, 与使用中的实际测试框架无关.
  */
 public interface TestContext extends AttributeAccessor, Serializable {
 
 	/**
-	 * Get the {@linkplain ApplicationContext application context} for this
-	 * test context, possibly cached.
-	 * <p>Implementations of this method are responsible for loading the
-	 * application context if the corresponding context has not already been
-	 * loaded, potentially caching the context as well.
-	 * @return the application context
-	 * @throws IllegalStateException if an error occurs while retrieving the
-	 * application context
+	 * 获取此测试上下文的{@linkplain ApplicationContext 应用程序上下文}, 可能已缓存.
+	 * <p>如果尚未加载相应的上下文, 则此方法的实现负责加载应用程序上下文, 也可能缓存上下文.
+	 * 
+	 * @return 应用程序上下文
+	 * @throws IllegalStateException 如果在检索应用程序上下文时发生错误
 	 */
 	ApplicationContext getApplicationContext();
 
 	/**
-	 * Get the {@linkplain Class test class} for this test context.
-	 * @return the test class (never {@code null})
+	 * 获取此测试上下文的{@linkplain Class 测试类}.
+	 * 
+	 * @return 测试类 (never {@code null})
 	 */
 	Class<?> getTestClass();
 
 	/**
-	 * Get the current {@linkplain Object test instance} for this test context.
-	 * <p>Note: this is a mutable property.
-	 * @return the current test instance (may be {@code null})
-	 * @see #updateState(Object, Method, Throwable)
+	 * 获取此测试上下文的当前{@linkplain Object 测试实例}.
+	 * <p>Note: 这是一个可变的属性.
+	 * 
+	 * @return 当前的测试实例 (may be {@code null})
 	 */
 	Object getTestInstance();
 
 	/**
-	 * Get the current {@linkplain Method test method} for this test context.
-	 * <p>Note: this is a mutable property.
-	 * @return the current test method (may be {@code null})
-	 * @see #updateState(Object, Method, Throwable)
+	 * 获取此测试上下文的当前{@linkplain Method 测试方法}.
+	 * <p>Note: 这是一个可变的属性.
+	 * 
+	 * @return 当前的测试方法 (may be {@code null})
 	 */
 	Method getTestMethod();
 
 	/**
-	 * Get the {@linkplain Throwable exception} that was thrown during execution
-	 * of the {@linkplain #getTestMethod() test method}.
-	 * <p>Note: this is a mutable property.
-	 * @return the exception that was thrown, or {@code null} if no
-	 * exception was thrown
-	 * @see #updateState(Object, Method, Throwable)
+	 * 获取在执行{@linkplain #getTestMethod() 测试方法}期间抛出的{@linkplain Throwable exception}.
+	 * <p>Note: 这是一个可变的属性.
+	 * 
+	 * @return 抛出的异常, 或{@code null}如果没有抛出异常
 	 */
 	Throwable getTestException();
 
 	/**
-	 * Call this method to signal that the {@linkplain ApplicationContext application
-	 * context} associated with this test context is <em>dirty</em> and should be
-	 * removed from the context cache.
-	 * <p>Do this if a test has modified the context &mdash; for example, by
-	 * modifying the state of a singleton bean, modifying the state of an embedded
-	 * database, etc.
-	 * @param hierarchyMode the context cache clearing mode to be applied if the
-	 * context is part of a hierarchy (may be {@code null})
+	 * 调用此方法以表示与此测试上下文关联的 {@linkplain ApplicationContext 应用程序上下文}是<em>dirty</em>,
+	 * 并应从上下文缓存中删除.
+	 * <p>如果测试修改了上下文, 请执行此操作&mdash; 例如, 通过修改单例bean的状态, 修改嵌入式数据库的状态等.
+	 * 
+	 * @param hierarchyMode 如果上下文是层次结构的一部分, 则应用上下文缓存清除模式 (may be {@code null})
 	 */
 	void markApplicationContextDirty(HierarchyMode hierarchyMode);
 
 	/**
-	 * Update this test context to reflect the state of the currently executing
-	 * test.
-	 * <p>Caution: concurrent invocations of this method might not be thread-safe,
-	 * depending on the underlying implementation.
-	 * @param testInstance the current test instance (may be {@code null})
-	 * @param testMethod the current test method (may be {@code null})
-	 * @param testException the exception that was thrown in the test method, or
-	 * {@code null} if no exception was thrown
+	 * 更新此测试上下文以反映当前正在执行的测试的状态.
+	 * <p>Caution: 此方法的并发调用可能不是线程安全的, 具体取决于底层实现.
+	 * 
+	 * @param testInstance 当前的测试实例 (may be {@code null})
+	 * @param testMethod 当前的测试方法 (may be {@code null})
+	 * @param testException 测试方法中抛出的异常, 或{@code null}如果没有抛出异常
 	 */
 	void updateState(Object testInstance, Method testMethod, Throwable testException);
 

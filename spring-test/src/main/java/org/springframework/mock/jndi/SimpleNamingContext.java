@@ -20,14 +20,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 /**
- * Simple implementation of a JNDI naming context.
- * Only supports binding plain Objects to String names.
- * Mainly for test environments, but also usable for standalone applications.
+ * JNDI命名上下文的简单实现.
+ * 仅支持将普通对象绑定到字符串名称.
+ * 主要用于测试环境, 但也可用于独立应用程序.
  *
- * <p>This class is not intended for direct usage by applications, although it
- * can be used for example to override JndiTemplate's {@code createInitialContext}
- * method in unit tests. Typically, SimpleNamingContextBuilder will be used to
- * set up a JVM-level JNDI environment.
+ * <p>此类不适合应用程序直接使用, 但它可用于例如在单元测试中覆盖 JndiTemplate的 {@code createInitialContext}方法.
+ * 通常, SimpleNamingContextBuilder将用于设置JVM级JNDI环境.
  */
 public class SimpleNamingContext implements Context {
 
@@ -40,25 +38,15 @@ public class SimpleNamingContext implements Context {
 	private final Hashtable<String, Object> environment = new Hashtable<String, Object>();
 
 
-	/**
-	 * Create a new naming context.
-	 */
 	public SimpleNamingContext() {
 		this("");
 	}
 
-	/**
-	 * Create a new naming context with the given naming root.
-	 */
 	public SimpleNamingContext(String root) {
 		this.root = root;
 		this.boundObjects = new Hashtable<String, Object>();
 	}
 
-	/**
-	 * Create a new naming context with the given naming root,
-	 * the given name/object map, and the JNDI environment entries.
-	 */
 	public SimpleNamingContext(String root, Hashtable<String, Object> boundObjects, Hashtable<String, Object> env) {
 		this.root = root;
 		this.boundObjects = boundObjects;
@@ -87,10 +75,11 @@ public class SimpleNamingContext implements Context {
 	}
 
 	/**
-	 * Look up the object with the given name.
-	 * <p>Note: Not intended for direct use by applications.
-	 * Will be used by any standard InitialContext JNDI lookups.
-	 * @throws javax.naming.NameNotFoundException if the object could not be found
+	 * 使用给定名称查找对象.
+	 * <p>Note: 不适合应用程序直接使用.
+	 * 将由任何标准的InitialContext JNDI查找使用.
+	 * 
+	 * @throws javax.naming.NameNotFoundException 如果无法找到该对象
 	 */
 	@Override
 	public Object lookup(String lookupName) throws NameNotFoundException {
@@ -124,11 +113,9 @@ public class SimpleNamingContext implements Context {
 	}
 
 	/**
-	 * Bind the given object to the given name.
-	 * Note: Not intended for direct use by applications
-	 * if setting up a JVM-level JNDI environment.
-	 * Use SimpleNamingContextBuilder to set up JNDI bindings then.
-	 * @see org.springframework.mock.jndi.SimpleNamingContextBuilder#bind
+	 * 将给定对象绑定到给定名称.
+	 * Note: 如果设置JVM级JNDI环境, 则不应由应用程序直接使用.
+	 * 然后使用SimpleNamingContextBuilder设置JNDI绑定.
 	 */
 	@Override
 	public void bind(String name, Object obj) {

@@ -7,19 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>Test annotation which indicates that the annotated {@code void} method
- * should be executed <em>before</em> a transaction is started for a test method
- * configured to run within a transaction via Spring's {@code @Transactional}
- * annotation.
+ * <p>测试注解, 指示在启动事务<em>之前</em>, 应该执行带注解的{@code void}方法,
+ * 用于配置的测试方法通过 Spring的 {@code @Transactional}注解在事务中运行.
  *
- * <p>{@code @BeforeTransaction} methods declared in superclasses or as interface
- * default methods will be executed before those of the current test class.
+ * <p>在超类中声明的{@code @BeforeTransaction}方法或作为接口默认方法的方法将在当前测试类的方法之前执行.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  *
- * <p>As of Spring Framework 4.3, {@code @BeforeTransaction} may also be
- * declared on Java 8 based interface default methods.
+ * <p>从Spring Framework 4.3开始, {@code @BeforeTransaction}也可以在基于Java 8的接口默认方法上声明.
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -16,7 +16,7 @@ import org.springframework.test.web.client.ResponseCreator;
 import org.springframework.util.Assert;
 
 /**
- * A {@code ResponseCreator} with builder-style methods for adding response details.
+ * 带有构建器样式方法的{@code ResponseCreator}, 用于添加响应详细信息.
  */
 public class DefaultResponseCreator implements ResponseCreator {
 
@@ -33,8 +33,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 
 
 	/**
-	 * Protected constructor.
-	 * Use static factory methods in {@link MockRestResponseCreators}.
+	 * 在{@link MockRestResponseCreators}中使用静态工厂方法.
 	 */
 	protected DefaultResponseCreator(HttpStatus statusCode) {
 		Assert.notNull(statusCode, "HttpStatus must not be null");
@@ -43,7 +42,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 
 
 	/**
-	 * Set the body as a UTF-8 String.
+	 * 将主体设置为UTF-8字符串.
 	 */
 	public DefaultResponseCreator body(String content) {
 		this.content = content.getBytes(UTF8_CHARSET);
@@ -51,7 +50,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 	}
 
 	/**
-	 * Set the body as a byte array.
+	 * 将主体设置为字节数组.
 	 */
 	public DefaultResponseCreator body(byte[] content) {
 		this.content = content;
@@ -59,7 +58,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 	}
 
 	/**
-	 * Set the body as a {@link Resource}.
+	 * 将正文设置为{@link Resource}.
 	 */
 	public DefaultResponseCreator body(Resource resource) {
 		this.contentResource = resource;
@@ -67,7 +66,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 	}
 
 	/**
-	 * Set the {@code Content-Type} header.
+	 * 设置{@code Content-Type} header.
 	 */
 	public DefaultResponseCreator contentType(MediaType mediaType) {
 		if (mediaType != null) {
@@ -77,7 +76,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 	}
 
 	/**
-	 * Set the {@code Location} header.
+	 * 设置{@code Location} header.
 	 */
 	public DefaultResponseCreator location(URI location) {
 		this.headers.setLocation(location);
@@ -85,7 +84,7 @@ public class DefaultResponseCreator implements ResponseCreator {
 	}
 
 	/**
-	 * Copy all given headers.
+	 * 复制所有header.
 	 */
 	public DefaultResponseCreator headers(HttpHeaders headers) {
 		for (String headerName : headers.keySet()) {

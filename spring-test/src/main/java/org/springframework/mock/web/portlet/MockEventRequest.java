@@ -6,7 +6,7 @@ import javax.portlet.PortalContext;
 import javax.portlet.PortletContext;
 
 /**
- * Mock implementation of the {@link javax.portlet.EventRequest} interface.
+ * {@link javax.portlet.EventRequest}接口的模拟实现.
  */
 public class MockEventRequest extends MockPortletRequest implements EventRequest {
 
@@ -16,9 +16,9 @@ public class MockEventRequest extends MockPortletRequest implements EventRequest
 
 
 	/**
-	 * Create a new MockEventRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param event the event that this request wraps
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param event 此请求包含的事件
 	 */
 	public MockEventRequest(Event event) {
 		super();
@@ -26,9 +26,10 @@ public class MockEventRequest extends MockPortletRequest implements EventRequest
 	}
 
 	/**
-	 * Create a new MockEventRequest with a default {@link MockPortalContext}.
-	 * @param event the event that this request wraps
-	 * @param portletContext the PortletContext that the request runs in
+	 * 使用默认的{@link MockPortalContext}.
+	 * 
+	 * @param event 此请求包含的事件
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockEventRequest(Event event, PortletContext portletContext) {
 		super(portletContext);
@@ -36,10 +37,9 @@ public class MockEventRequest extends MockPortletRequest implements EventRequest
 	}
 
 	/**
-	 * Create a new MockEventRequest.
-	 * @param event the event that this request wraps
-	 * @param portalContext the PortletContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param event 此请求包含的事件
+	 * @param portalContext 运行请求的PortletContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockEventRequest(Event event, PortalContext portalContext, PortletContext portletContext) {
 		super(portalContext, portletContext);

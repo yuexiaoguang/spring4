@@ -7,18 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Test-specific annotation to indicate that a test method has to finish
- * execution in a {@linkplain #millis() specified time period}.
+ * 特定于测试的注解, 指示测试方法必须在{@linkplain #millis() 指定的时间段内}完成执行.
  *
- * <p>If the text execution takes longer than the specified time period, then
- * the test is considered to have failed.
+ * <p>如果文本执行时间超过指定的时间段, 则认为测试失败.
  *
- * <p>Note that the time period includes execution of the test method itself,
- * any {@linkplain Repeat repetitions} of the test, and any <em>set up</em> or
- * <em>tear down</em> of the test fixture.
+ * <p>请注意, 时间段包括测试方法本身的执行, 测试的任何{@linkplain Repeat 重复},
+ * 以及测试环境的任何<em>设置</em>或<em>拆卸</em>.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,8 +22,7 @@ import java.lang.annotation.Target;
 public @interface Timed {
 
 	/**
-	 * The maximum amount of time (in milliseconds) that a test execution can
-	 * take without being marked as failed due to taking too long.
+	 * 测试执行可以花费的最长时间 (以毫秒为单位), 不会由于耗时太长而被标记为失败.
 	 */
 	long millis();
 

@@ -12,12 +12,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
- * Base class for MockMvc builder implementations, providing the capability to
- * create a {@link MockMvc} instance.
+ * MockMvc构建器实现的基类, 提供创建{@link MockMvc}实例的功能.
  *
  * <p>{@link org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder},
- * which derives from this class, provides a concrete {@code build} method,
- * and delegates to abstract methods to obtain a {@link WebApplicationContext}.
+ * 派生自此类, 提供了一个具体的{@code build}方法, 并委托抽象方法来获取{@link WebApplicationContext}.
  */
 public abstract class MockMvcBuilderSupport {
 

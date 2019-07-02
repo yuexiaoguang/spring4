@@ -23,8 +23,8 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * Factory for request content {@code RequestMatcher}'s. An instance of this
- * class is typically accessed via {@link MockRestRequestMatchers#content()}.
+ * 请求内容{@code RequestMatcher}的工厂.
+ * 通常通过{@link MockRestRequestMatchers#content()}访问此类的实例.
  */
 public class ContentRequestMatchers {
 
@@ -32,8 +32,8 @@ public class ContentRequestMatchers {
 
 
 	/**
-	 * Class constructor, not for direct instantiation.
-	 * Use {@link MockRestRequestMatchers#content()}.
+	 * 类构造函数, 不用于直接实例化.
+	 * 使用{@link MockRestRequestMatchers#content()}.
 	 */
 	protected ContentRequestMatchers() {
 		this.xmlHelper = new XmlExpectationsHelper();
@@ -41,14 +41,14 @@ public class ContentRequestMatchers {
 
 
 	/**
-	 * Assert the request content type as a String.
+	 * 断言请求内容类型为String.
 	 */
 	public RequestMatcher contentType(String expectedContentType) {
 		return contentType(MediaType.parseMediaType(expectedContentType));
 	}
 
 	/**
-	 * Assert the request content type as a {@link MediaType}.
+	 * 断言请求内容类型为{@link MediaType}.
 	 */
 	public RequestMatcher contentType(final MediaType expectedContentType) {
 		return new RequestMatcher() {
@@ -62,16 +62,14 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Assert the request content type is compatible with the given
-	 * content type as defined by {@link MediaType#isCompatibleWith(MediaType)}.
+	 * 断言请求内容类型与{@link MediaType#isCompatibleWith(MediaType)}定义的给定内容类型兼容.
 	 */
 	public RequestMatcher contentTypeCompatibleWith(String contentType) {
 		return contentTypeCompatibleWith(MediaType.parseMediaType(contentType));
 	}
 
 	/**
-	 * Assert the request content type is compatible with the given
-	 * content type as defined by {@link MediaType#isCompatibleWith(MediaType)}.
+	 * 断言请求内容类型与{@link MediaType#isCompatibleWith(MediaType)}定义的给定内容类型兼容.
 	 */
 	public RequestMatcher contentTypeCompatibleWith(final MediaType contentType) {
 		return new RequestMatcher() {
@@ -86,7 +84,7 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Get the body of the request as a UTF-8 string and appply the given {@link Matcher}.
+	 * 获取请求的正文, 作为UTF-8字符串, 并使用给定的{@link Matcher}.
 	 */
 	public RequestMatcher string(final Matcher<? super String> matcher) {
 		return new RequestMatcher() {
@@ -99,7 +97,7 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Get the body of the request as a UTF-8 string and compare it to the given String.
+	 * 获取请求的正文, 作为UTF-8字符串, 并将其与给定的String进行比较.
 	 */
 	public RequestMatcher string(final String expectedContent) {
 		return new RequestMatcher() {
@@ -112,7 +110,7 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Compare the body of the request to the given byte array.
+	 * 将请求的主体与给定的字节数组进行比较.
 	 */
 	public RequestMatcher bytes(final byte[] expectedContent) {
 		return new RequestMatcher() {
@@ -125,8 +123,7 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Parse the body as form data and compare to the given {@code MultiValueMap}.
-	 * @since 4.3
+	 * 将主体解析为表单数据并与给定的{@code MultiValueMap}进行比较.
 	 */
 	public RequestMatcher formData(final MultiValueMap<String, String> expectedContent) {
 		return new RequestMatcher() {
@@ -150,12 +147,10 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Parse the request body and the given String as XML and assert that the
-	 * two are "similar" - i.e. they contain the same elements and attributes
-	 * regardless of order.
-	 * <p>Use of this matcher assumes the
-	 * <a href="http://xmlunit.sourceforge.net/">XMLUnit<a/> library is available.
-	 * @param expectedXmlContent the expected XML content
+	 * 将请求主体和给定的String解析为XML, 并断言两者是"相似的" - i.e. 它们包含相同的元素和属性, 而不管顺序如何.
+	 * <p>使用此匹配器假定<a href="http://xmlunit.sourceforge.net/">XMLUnit<a/>库可用.
+	 * 
+	 * @param expectedXmlContent 预期的XML内容
 	 */
 	public RequestMatcher xml(final String expectedXmlContent) {
 		return new AbstractXmlRequestMatcher() {
@@ -167,7 +162,7 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Parse the request content as {@link Node} and apply the given {@link Matcher}.
+	 * 将请求内容解析为{@link Node}, 并应用给定的{@link Matcher}.
 	 */
 	public RequestMatcher node(final Matcher<? super Node> matcher) {
 		return new AbstractXmlRequestMatcher() {
@@ -179,7 +174,8 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Parse the request content as {@link DOMSource} and apply the given {@link Matcher}.
+	 * 将请求内容解析为{@link DOMSource}, 并应用给定的{@link Matcher}.
+	 * 
 	 * @see <a href="http://code.google.com/p/xml-matchers/">http://code.google.com/p/xml-matchers/</a>
 	 */
 	public RequestMatcher source(final Matcher<? super Source> matcher) {
@@ -193,7 +189,7 @@ public class ContentRequestMatchers {
 
 
 	/**
-	 * Abstract base class for XML {@link RequestMatcher}'s.
+	 * XML {@link RequestMatcher}的抽象基类.
 	 */
 	private abstract static class AbstractXmlRequestMatcher implements RequestMatcher {
 

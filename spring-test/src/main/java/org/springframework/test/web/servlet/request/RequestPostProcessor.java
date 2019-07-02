@@ -3,22 +3,21 @@ package org.springframework.test.web.servlet.request;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
- * Extension point for applications or 3rd party libraries that wish to further
- * initialize a {@link MockHttpServletRequest} instance after it has been built
- * by {@link MockHttpServletRequestBuilder} or its subclass
- * {@link MockMultipartHttpServletRequestBuilder}.
+ * 应用程序或第三方库的扩展点, 希望在{@link MockHttpServletRequestBuilder}
+ * 或其子类{@link MockMultipartHttpServletRequestBuilder}构建之后,
+ * 进一步初始化{@link MockHttpServletRequest}实例.
  *
- * <p>Implementations of this interface can be provided to
- * {@link MockHttpServletRequestBuilder#with(RequestPostProcessor)} at the time
- * when a request is about to be constructed.
+ * <p>在即将构建请求时, 可以向{@link MockHttpServletRequestBuilder#with(RequestPostProcessor)}提供此接口的实现.
  */
 public interface RequestPostProcessor {
 
 	/**
-	 * Post-process the given {@code MockHttpServletRequest} after its creation
-	 * and initialization through a {@code MockHttpServletRequestBuilder}.
-	 * @param request the request to initialize
-	 * @return the request to use, either the one passed in or a wrapped one
+	 * 在通过{@code MockHttpServletRequestBuilder}创建和初始化之后,
+	 * 对给定的{@code MockHttpServletRequest}进行后处理.
+	 * 
+	 * @param request 要初始化的请求
+	 * 
+	 * @return 使用的请求, 传入的请求或包装的请求
 	 */
 	MockHttpServletRequest postProcessRequest(MockHttpServletRequest request);
 

@@ -17,12 +17,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Mock implementation of the {@link javax.servlet.http.HttpSession} interface.
+ * {@link javax.servlet.http.HttpSession}接口的模拟实现.
  *
- * <p>As of Spring 4.0, this set of mocks is designed on a Servlet 3.0 baseline.
+ * <p>从Spring 4.0开始, 这组模拟是在Servlet 3.0基线上设计的.
  *
- * <p>Used for testing the web framework; also useful for testing application
- * controllers.
+ * <p>用于测试Web框架; 也适用于测试应用程序控制器.
  */
 @SuppressWarnings("deprecation")
 public class MockHttpSession implements HttpSession {
@@ -50,25 +49,22 @@ public class MockHttpSession implements HttpSession {
 
 
 	/**
-	 * Create a new MockHttpSession with a default {@link MockServletContext}.
-	 * @see MockServletContext
+	 * 使用默认的{@link MockServletContext}.
 	 */
 	public MockHttpSession() {
 		this(null);
 	}
 
 	/**
-	 * Create a new MockHttpSession.
-	 * @param servletContext the ServletContext that the session runs in
+	 * @param servletContext 运行会话的ServletContext
 	 */
 	public MockHttpSession(ServletContext servletContext) {
 		this(servletContext, null);
 	}
 
 	/**
-	 * Create a new MockHttpSession.
-	 * @param servletContext the ServletContext that the session runs in
-	 * @param id a unique identifier for this session
+	 * @param servletContext 运行会话的ServletContext
+	 * @param id 此会话的唯一标识符
 	 */
 	public MockHttpSession(ServletContext servletContext, String id) {
 		this.servletContext = (servletContext != null ? servletContext : new MockServletContext());
@@ -88,9 +84,9 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * As of Servlet 3.1, the id of a session can be changed.
-	 * @return the new session id
-	 * @since 4.0.3
+	 * 从Servlet 3.1开始, 可以更改会话的ID.
+	 * 
+	 * @return 新会话id
 	 */
 	public String changeSessionId() {
 		this.id = Integer.toString(nextId++);
@@ -188,7 +184,7 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * Clear all of this session's attributes.
+	 * 清除此会话的所有属性.
 	 */
 	public void clearAttributes() {
 		for (Iterator<Map.Entry<String, Object>> it = this.attributes.entrySet().iterator(); it.hasNext();) {
@@ -203,8 +199,9 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * Invalidates this session then unbinds any objects bound to it.
-	 * @throws IllegalStateException if this method is called on an already invalidated session
+	 * 使此会话无效, 然后解绑绑定到它的任何对象.
+	 * 
+	 * @throws IllegalStateException 如果在已经失效的会话上调用此方法
 	 */
 	@Override
 	public void invalidate() {
@@ -218,9 +215,9 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * Convenience method for asserting that this session has not been
-	 * {@linkplain #invalidate() invalidated}.
-	 * @throws IllegalStateException if this session has been invalidated
+	 * 断言此会话未被{@linkplain #invalidate() 失效}的便捷方法.
+	 * 
+	 * @throws IllegalStateException 如果此会话已失效
 	 */
 	private void assertIsValid() {
 		Assert.state(!isInvalid(), "The session has already been invalidated");
@@ -237,9 +234,9 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * Serialize the attributes of this session into an object that can be
-	 * turned into a byte array with standard Java serialization.
-	 * @return a representation of this session's serialized state
+	 * 将此会话的属性序列化为一个对象, 该对象可以转换为具有标准Java序列化的字节数组.
+	 * 
+	 * @return 表示此会话的序列化状态
 	 */
 	public Serializable serializeState() {
 		HashMap<String, Serializable> state = new HashMap<String, Serializable>();
@@ -252,8 +249,7 @@ public class MockHttpSession implements HttpSession {
 				state.put(name, (Serializable) value);
 			}
 			else {
-				// Not serializable... Servlet containers usually automatically
-				// unbind the attribute in this case.
+				// 不可序列化... 在这种情况下, Servlet容器通常会自动解绑属性.
 				if (value instanceof HttpSessionBindingListener) {
 					((HttpSessionBindingListener) value).valueUnbound(new HttpSessionBindingEvent(this, name, value));
 				}
@@ -263,14 +259,13 @@ public class MockHttpSession implements HttpSession {
 	}
 
 	/**
-	 * Deserialize the attributes of this session from a state object created by
-	 * {@link #serializeState()}.
-	 * @param state a representation of this session's serialized state
+	 * 从{@link #serializeState()}创建的状态对象反序列化此会话的属性.
+	 * 
+	 * @param state 表示此会话的序列化状态
 	 */
 	@SuppressWarnings("unchecked")
 	public void deserializeState(Serializable state) {
 		Assert.isTrue(state instanceof Map, "Serialized state needs to be of type [java.util.Map]");
 		this.attributes.putAll((Map<String, Object>) state);
 	}
-
 }

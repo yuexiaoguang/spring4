@@ -1,5 +1,4 @@
 /**
- * JDBC support classes for the <em>Spring TestContext Framework</em>,
- * including support for declarative SQL script execution via {@code @Sql}.
+ * <em>Spring TestContext Framework</em>的JDBC支持类, 包括通过{@code @Sql}支持声明性SQL脚本执行.
  */
 package org.springframework.test.context.jdbc;

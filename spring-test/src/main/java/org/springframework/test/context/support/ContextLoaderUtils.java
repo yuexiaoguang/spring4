@@ -22,10 +22,9 @@ import static org.springframework.core.annotation.AnnotationUtils.*;
 import static org.springframework.test.util.MetaAnnotationUtils.*;
 
 /**
- * Utility methods for resolving {@link ContextConfigurationAttributes} from the
- * {@link ContextConfiguration @ContextConfiguration} and
- * {@link ContextHierarchy @ContextHierarchy} annotations for use with
- * {@link SmartContextLoader SmartContextLoaders}.
+ * 用于从{@link ContextConfiguration @ContextConfiguration}
+ * 和{@link ContextHierarchy @ContextHierarchy} 注解中解析{@link ContextConfigurationAttributes},
+ * 以与{@link SmartContextLoader SmartContextLoaders}一起使用的实用方法.
  */
 abstract class ContextLoaderUtils {
 
@@ -35,38 +34,25 @@ abstract class ContextLoaderUtils {
 
 
 	/**
-	 * Resolve the list of lists of {@linkplain ContextConfigurationAttributes context
-	 * configuration attributes} for the supplied {@linkplain Class test class} and its
-	 * superclasses, taking into account context hierarchies declared via
-	 * {@link ContextHierarchy @ContextHierarchy} and
-	 * {@link ContextConfiguration @ContextConfiguration}.
-	 * <p>The outer list represents a top-down ordering of context configuration
-	 * attributes, where each element in the list represents the context configuration
-	 * declared on a given test class in the class hierarchy. Each nested list
-	 * contains the context configuration attributes declared either via a single
-	 * instance of {@code @ContextConfiguration} on the particular class or via
-	 * multiple instances of {@code @ContextConfiguration} declared within a
-	 * single {@code @ContextHierarchy} instance on the particular class.
-	 * Furthermore, each nested list maintains the order in which
-	 * {@code @ContextConfiguration} instances are declared.
-	 * <p>Note that the {@link ContextConfiguration#inheritLocations inheritLocations} and
-	 * {@link ContextConfiguration#inheritInitializers() inheritInitializers} flags of
-	 * {@link ContextConfiguration @ContextConfiguration} will <strong>not</strong>
-	 * be taken into consideration. If these flags need to be honored, that must be
-	 * handled manually when traversing the nested lists returned by this method.
-	 * @param testClass the class for which to resolve the context hierarchy attributes
-	 * (must not be {@code null})
-	 * @return the list of lists of configuration attributes for the specified class;
-	 * never {@code null}
-	 * @throws IllegalArgumentException if the supplied class is {@code null}; or if
-	 * neither {@code @ContextConfiguration} nor {@code @ContextHierarchy} is
-	 * <em>present</em> on the supplied class
-	 * @throws IllegalStateException if a test class or composed annotation
-	 * in the class hierarchy declares both {@code @ContextConfiguration} and
-	 * {@code @ContextHierarchy} as top-level annotations.
-	 * @since 3.2.2
-	 * @see #buildContextHierarchyMap(Class)
-	 * @see #resolveContextConfigurationAttributes(Class)
+	 * 解析所提供的{@linkplain Class 测试类}及其超类的
+	 * {@linkplain ContextConfigurationAttributes 上下文配置属性}的列表的列表,
+	 * 同时考虑通过 {@link ContextHierarchy @ContextHierarchy}
+	 * 和{@link ContextConfiguration @ContextConfiguration}声明的上下文层次结构.
+	 * <p>外部列表表示上下文配置属性的自上而下排序, 其中列表中的每个元素表示在类层次结构中的给定测试类上声明的上下文配置.
+	 * 每个嵌套列表都包含通过特定类上的{@code @ContextConfiguration}的单个实例,
+	 * 或通过特定类上的{@code @ContextHierarchy}实例上声明的{@code @ContextConfiguration}的多个实例声明的上下文配置属性.
+	 * 此外, 每个嵌套列表都维护声明{@code @ContextConfiguration}实例的顺序.
+	 * <p>请注意, {@link ContextConfiguration @ContextConfiguration}的
+	 * {@link ContextConfiguration#inheritLocations inheritLocations}和
+	 * {@link ContextConfiguration#inheritInitializers() inheritInitializers} 标志将<strong>不</strong>考虑在内.
+	 * 如果需要遵守这些标志, 则必须在遍历此方法返回的嵌套列表时手动处理.
+	 * 
+	 * @param testClass 要为其解析上下文层次结构属性的类 (must not be {@code null})
+	 * 
+	 * @return 指定类的配置属性的列表的列表; never {@code null}
+	 * @throws IllegalArgumentException 如果提供的类是{@code null};
+	 * 或者, 如果提供的类上没有{@code @ContextConfiguration}和{@code @ContextHierarchy}
+	 * @throws IllegalStateException 如果类层次结构中的测试类或组合注解将{@code @ContextConfiguration}和{@code @ContextHierarchy}声明为顶级注解.
 	 */
 	@SuppressWarnings("unchecked")
 	static List<List<ContextConfigurationAttributes>> resolveContextHierarchyAttributes(Class<?> testClass) {
@@ -131,28 +117,18 @@ abstract class ContextLoaderUtils {
 	}
 
 	/**
-	 * Build a <em>context hierarchy map</em> for the supplied {@linkplain Class
-	 * test class} and its superclasses, taking into account context hierarchies
-	 * declared via {@link ContextHierarchy @ContextHierarchy} and
-	 * {@link ContextConfiguration @ContextConfiguration}.
-	 * <p>Each value in the map represents the consolidated list of {@linkplain
-	 * ContextConfigurationAttributes context configuration attributes} for a
-	 * given level in the context hierarchy (potentially across the test class
-	 * hierarchy), keyed by the {@link ContextConfiguration#name() name} of the
-	 * context hierarchy level.
-	 * <p>If a given level in the context hierarchy does not have an explicit
-	 * name (i.e., configured via {@link ContextConfiguration#name}), a name will
-	 * be generated for that hierarchy level by appending the numerical level to
-	 * the {@link #GENERATED_CONTEXT_HIERARCHY_LEVEL_PREFIX}.
-	 * @param testClass the class for which to resolve the context hierarchy map
-	 * (must not be {@code null})
-	 * @return a map of context configuration attributes for the context hierarchy,
-	 * keyed by context hierarchy level name; never {@code null}
-	 * @throws IllegalArgumentException if the lists of context configuration
-	 * attributes for each level in the {@code @ContextHierarchy} do not define
-	 * unique context configuration within the overall hierarchy.
-	 * @since 3.2.2
-	 * @see #resolveContextHierarchyAttributes(Class)
+	 * 为提供的{@linkplain Class 测试类} 及其超类构建<em>上下文层次结构映射</em>, 同时考虑通过
+	 * {@link ContextHierarchy @ContextHierarchy} 和 {@link ContextConfiguration @ContextConfiguration}声明的上下文层次结构.
+	 * <p>Map中的每个值表示上下文层次结构中给定级别(可能跨测试类层次结构)的
+	 * {@linkplain ContextConfigurationAttributes 上下文配置属性}的合并列表,
+	 * 由上下文层次结构级别的{@link ContextConfiguration#name() 名称}作为键.
+	 * <p>如果上下文层次结构中的给定级别没有显式名称 (i.e., 通过{@link ContextConfiguration#name}配置),
+	 * 则会通过将数字级别附加到{@link #GENERATED_CONTEXT_HIERARCHY_LEVEL_PREFIX}来为该层次结构级别生成名称.
+	 * 
+	 * @param testClass 要为其解析上下文层次结构Map的类 (must not be {@code null})
+	 * 
+	 * @return 上下文层次结构的上下文配置属性Map, 由上下文层次结构级别名称作为键; never {@code null}
+	 * @throws IllegalArgumentException 如果{@code @ContextHierarchy}中每个级别的上下文配置属性列表未在整个层次结构中定义唯一上下文配置.
 	 */
 	static Map<String, List<ContextConfigurationAttributes>> buildContextHierarchyMap(Class<?> testClass) {
 		final Map<String, List<ContextConfigurationAttributes>> map = new LinkedHashMap<String, List<ContextConfigurationAttributes>>();
@@ -167,7 +143,7 @@ abstract class ContextLoaderUtils {
 					name = GENERATED_CONTEXT_HIERARCHY_LEVEL_PREFIX + hierarchyLevel;
 				}
 
-				// Encountered a new context hierarchy level?
+				// 遇到新的上下文层次结构级别?
 				if (!map.containsKey(name)) {
 					hierarchyLevel++;
 					map.put(name, new ArrayList<ContextConfigurationAttributes>());
@@ -177,7 +153,7 @@ abstract class ContextLoaderUtils {
 			}
 		}
 
-		// Check for uniqueness
+		// 检查唯一性
 		Set<List<ContextConfigurationAttributes>> set = new HashSet<List<ContextConfigurationAttributes>>(map.values());
 		if (set.size() != map.size()) {
 			String msg = String.format("The @ContextConfiguration elements configured via @ContextHierarchy in " +
@@ -191,21 +167,16 @@ abstract class ContextLoaderUtils {
 	}
 
 	/**
-	 * Resolve the list of {@linkplain ContextConfigurationAttributes context
-	 * configuration attributes} for the supplied {@linkplain Class test class} and its
-	 * superclasses.
-	 * <p>Note that the {@link ContextConfiguration#inheritLocations inheritLocations} and
-	 * {@link ContextConfiguration#inheritInitializers() inheritInitializers} flags of
-	 * {@link ContextConfiguration @ContextConfiguration} will <strong>not</strong>
-	 * be taken into consideration. If these flags need to be honored, that must be
-	 * handled manually when traversing the list returned by this method.
-	 * @param testClass the class for which to resolve the configuration attributes
-	 * (must not be {@code null})
-	 * @return the list of configuration attributes for the specified class, ordered
-	 * <em>bottom-up</em> (i.e., as if we were traversing up the class hierarchy);
-	 * never {@code null}
-	 * @throws IllegalArgumentException if the supplied class is {@code null} or if
-	 * {@code @ContextConfiguration} is not <em>present</em> on the supplied class
+	 * 解析所提供的{@linkplain Class 测试类}及其超类的{@linkplain ContextConfigurationAttributes 上下文配置属性}列表.
+	 * <p>请注意, {@link ContextConfiguration @ContextConfiguration}的
+	 * {@link ContextConfiguration#inheritLocations inheritLocations}和
+	 * {@link ContextConfiguration#inheritInitializers() inheritInitializers}标志将<strong>不</strong>考虑在内.
+	 * 如果需要遵守这些标志, 则必须在遍历此方法返回的列表时手动处理.
+	 * 
+	 * @param testClass 要为其解析配置属性的类 (must not be {@code null})
+	 * 
+	 * @return 指定类的配置属性列表, 排序<em>自下而上</em> (i.e., 好像我们正在遍历类层次结构); never {@code null}
+	 * @throws IllegalArgumentException 如果提供的类是{@code null}或者提供的类上没有{@code @ContextConfiguration}
 	 */
 	static List<ContextConfigurationAttributes> resolveContextConfigurationAttributes(Class<?> testClass) {
 		Assert.notNull(testClass, "Class must not be null");
@@ -230,9 +201,8 @@ abstract class ContextLoaderUtils {
 	}
 
 	/**
-	 * Convenience method for creating a {@link ContextConfigurationAttributes}
-	 * instance from the supplied {@link ContextConfiguration} annotation and
-	 * declaring class and then adding the attributes to the supplied list.
+	 * 从提供的{@link ContextConfiguration}注释创建{@link ContextConfigurationAttributes}实例,
+	 * 并声明类, 然后将属性添加到提供的列表的便捷方法.
 	 */
 	private static void convertContextConfigToConfigAttributesAndAddToList(ContextConfiguration contextConfiguration,
 			Class<?> declaringClass, final List<ContextConfigurationAttributes> attributesList) {

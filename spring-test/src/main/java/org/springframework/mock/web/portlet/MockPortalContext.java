@@ -11,7 +11,7 @@ import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortalContext} interface.
+ * {@link javax.portlet.PortalContext}接口的模拟实现.
  */
 public class MockPortalContext implements PortalContext {
 
@@ -23,9 +23,7 @@ public class MockPortalContext implements PortalContext {
 
 
 	/**
-	 * Create a new MockPortalContext
-	 * with default PortletModes (VIEW, EDIT, HELP)
-	 * and default WindowStates (NORMAL, MAXIMIZED, MINIMIZED).
+	 * 使用默认的PortletMode (VIEW, EDIT, HELP)和默认的WindowState (NORMAL, MAXIMIZED, MINIMIZED).
 	 */
 	public MockPortalContext() {
 		this.portletModes = new ArrayList<PortletMode>(3);
@@ -40,11 +38,8 @@ public class MockPortalContext implements PortalContext {
 	}
 
 	/**
-	 * Create a new MockPortalContext with the given PortletModes and WindowStates.
-	 * @param supportedPortletModes the List of supported PortletMode instances
-	 * @param supportedWindowStates the List of supported WindowState instances
-	 * @see javax.portlet.PortletMode
-	 * @see javax.portlet.WindowState
+	 * @param supportedPortletModes 支持的PortletMode实例
+	 * @param supportedWindowStates 支持的WindowState实例
 	 */
 	public MockPortalContext(List<PortletMode> supportedPortletModes, List<WindowState> supportedWindowStates) {
 		this.portletModes = new ArrayList<PortletMode>(supportedPortletModes);

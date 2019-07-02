@@ -8,30 +8,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@code @Rollback} is a test annotation that is used to indicate whether
- * a <em>test-managed transaction</em> should be <em>rolled back</em> after
- * the test method has completed.
+ * {@code @Rollback}是一个测试注解, 用于指示在测试方法完成后<em>测试管理的事务</em>是否应<em>回滚</em>.
  *
- * <p>Consult the class-level Javadoc for
- * {@link org.springframework.test.context.transaction.TransactionalTestExecutionListener}
- * for an explanation of <em>test-managed transactions</em>.
+ * <p>有关<em>测试管理的事务</em>的说明, 请参阅
+ * {@link org.springframework.test.context.transaction.TransactionalTestExecutionListener}的类级Javadoc.
  *
- * <p>When declared as a class-level annotation, {@code @Rollback} defines
- * the default rollback semantics for all test methods within the test class
- * hierarchy. When declared as a method-level annotation, {@code @Rollback}
- * defines rollback semantics for the specific test method, potentially
- * overriding class-level default commit or rollback semantics.
+ * <p>声明为类级注解时, {@code @Rollback}定义测试类层次结构中所有测试方法的默认回滚语义.
+ * 声明为方法级注解时, {@code @Rollback}定义特定测试方法的回滚语义, 可能会覆盖类级别的默认提交或回滚语义.
  *
- * <p>As of Spring Framework 4.2, {@code @Commit} can be used as direct
- * replacement for {@code @Rollback(false)}.
+ * <p>从Spring Framework 4.2开始, {@code @Commit}可以直接替代{@code @Rollback(false)}.
  *
- * <p><strong>Warning</strong>: Declaring {@code @Commit} and {@code @Rollback}
- * on the same test method or on the same test class is unsupported and may
- * lead to unpredictable results.
+ * <p><strong>Warning</strong>: 在同一测试方法或同一测试类上声明{@code @Commit}和{@code @Rollback}不受支持,
+ * 可能导致不可预测的结果.
  *
- * <p>This annotation may be used as a <em>meta-annotation</em> to create
- * custom <em>composed annotations</em>. Consult the source code for
- * {@link Commit @Commit} for a concrete example.
+ * <p>此注解可用作<em>元注解</em>以创建自定义<em>组合注解</ em>.
+ * 有关具体示例, 请参阅{@link Commit @Commit}的源代码.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,11 +31,9 @@ import java.lang.annotation.Target;
 public @interface Rollback {
 
 	/**
-	 * Whether the <em>test-managed transaction</em> should be rolled back
-	 * after the test method has completed.
-	 * <p>If {@code true}, the transaction will be rolled back; otherwise,
-	 * the transaction will be committed.
-	 * <p>Defaults to {@code true}.
+	 * 是否应在测试方法完成后回滚<em>测试管理的事务</em>.
+	 * <p>如果{@code true}, 事务将被回滚; 否则, 事务将被提交.
+	 * <p>默认{@code true}.
 	 */
 	boolean value() default true;
 

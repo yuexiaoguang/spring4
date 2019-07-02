@@ -18,10 +18,9 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * Factory for response content assertions.
+ * 响应内容断言的工厂.
  *
- * <p>An instance of this class is typically accessed via
- * {@link MockMvcResultMatchers#content}.
+ * <p>通常通过{@link MockMvcResultMatchers#content}访问此类的实例.
  */
 public class ContentResultMatchers {
 
@@ -31,7 +30,6 @@ public class ContentResultMatchers {
 
 
 	/**
-	 * Protected constructor.
 	 * Use {@link MockMvcResultMatchers#content()}.
 	 */
 	protected ContentResultMatchers() {
@@ -41,19 +39,18 @@ public class ContentResultMatchers {
 
 
 	/**
-	 * Assert the ServletResponse content type. The given content type must
-	 * fully match including type, sub-type, and parameters. For checking
-	 * only the type and sub-type see {@link #contentTypeCompatibleWith(String)}.
+	 * 断言ServletResponse内容类型.
+	 * 给定的内容类型必须完全匹配, 包括类型, 子类型和参数.
+	 * 仅检查类型和子类型, 请参阅{@link #contentTypeCompatibleWith(String)}.
 	 */
 	public ResultMatcher contentType(String contentType) {
 		return contentType(MediaType.parseMediaType(contentType));
 	}
 
 	/**
-	 * Assert the ServletResponse content type after parsing it as a MediaType.
-	 * The given content type must fully match including type, sub-type, and
-	 * parameters. For checking only the type and sub-type see
-	 * {@link #contentTypeCompatibleWith(MediaType)}.
+	 * 将ServletResponse内容类型解析为MediaType后, 断言.
+	 * 给定的内容类型必须完全匹配, 包括类型, 子类型和参数.
+	 * 仅检查类型和子类型, 请参阅{@link #contentTypeCompatibleWith(MediaType)}.
 	 */
 	public ResultMatcher contentType(final MediaType contentType) {
 		return new ResultMatcher() {
@@ -67,16 +64,14 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Assert the ServletResponse content type is compatible with the given
-	 * content type as defined by {@link MediaType#isCompatibleWith(MediaType)}.
+	 * 断言ServletResponse内容类型与{@link MediaType#isCompatibleWith(MediaType)}定义的给定内容类型兼容.
 	 */
 	public ResultMatcher contentTypeCompatibleWith(String contentType) {
 		return contentTypeCompatibleWith(MediaType.parseMediaType(contentType));
 	}
 
 	/**
-	 * Assert the ServletResponse content type is compatible with the given
-	 * content type as defined by {@link MediaType#isCompatibleWith(MediaType)}.
+	 * 断言ServletResponse内容类型与{@link MediaType#isCompatibleWith(MediaType)}定义的给定内容类型兼容.
 	 */
 	public ResultMatcher contentTypeCompatibleWith(final MediaType contentType) {
 		return new ResultMatcher() {
@@ -92,8 +87,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Assert the character encoding in the ServletResponse.
-	 * @see HttpServletResponse#getCharacterEncoding()
+	 * 在ServletResponse中断言字符编码.
 	 */
 	public ResultMatcher encoding(final String characterEncoding) {
 		return new ResultMatcher() {
@@ -106,7 +100,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Assert the response body content with a Hamcrest {@link Matcher}.
+	 * 使用Hamcrest {@link Matcher}断言响应正文内容.
 	 * <pre class="code">
 	 * mockMvc.perform(get("/path"))
 	 *   .andExpect(content().string(containsString("text")));
@@ -122,7 +116,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Assert the response body content as a String.
+	 * 断言响应正文内容为字符串.
 	 */
 	public ResultMatcher string(final String expectedContent) {
 		return new ResultMatcher() {
@@ -134,7 +128,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Assert the response body content as a byte array.
+	 * 断言响应正文内容为字节数组.
 	 */
 	public ResultMatcher bytes(final byte[] expectedContent) {
 		return new ResultMatcher() {
@@ -146,14 +140,10 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Parse the response content and the given string as XML and assert the two
-	 * are "similar" - i.e. they contain the same elements and attributes
-	 * regardless of order.
-	 * <p>Use of this matcher requires the <a
-	 * href="http://xmlunit.sourceforge.net/">XMLUnit<a/> library.
-	 * @param xmlContent the expected XML content
-	 * @see MockMvcResultMatchers#xpath(String, Object...)
-	 * @see MockMvcResultMatchers#xpath(String, Map, Object...)
+	 * 将响应内容和给定字符串解析为XML, 并断言两者是"相似的" - i.e. 它们包含相同的元素和属性, 而不管顺序如何.
+	 * <p>使用此匹配器需要<a href="http://xmlunit.sourceforge.net/">XMLUnit<a/>库.
+	 * 
+	 * @param xmlContent 预期的XML内容
 	 */
 	public ResultMatcher xml(final String xmlContent) {
 		return new ResultMatcher() {
@@ -166,8 +156,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Parse the response content as {@link Node} and apply the given Hamcrest
-	 * {@link Matcher}.
+	 * 将响应内容解析为{@link Node}, 并应用给定的Hamcrest {@link Matcher}.
 	 */
 	public ResultMatcher node(final Matcher<? super Node> matcher) {
 		return new ResultMatcher() {
@@ -180,9 +169,7 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Parse the response content as {@link DOMSource} and apply the given
-	 * Hamcrest {@link Matcher}.
-	 * @see <a href="http://code.google.com/p/xml-matchers/">xml-matchers</a>
+	 * 将响应内容解析为{@link DOMSource}并应用给定的Hamcrest {@link Matcher}.
 	 */
 	public ResultMatcher source(final Matcher<? super Source> matcher) {
 		return new ResultMatcher() {
@@ -195,30 +182,26 @@ public class ContentResultMatchers {
 	}
 
 	/**
-	 * Parse the expected and actual strings as JSON and assert the two
-	 * are "similar" - i.e. they contain the same attribute-value pairs
-	 * regardless of formatting with a lenient checking (extensible, and non-strict array
-	 * ordering).
-	 * @param jsonContent the expected JSON content
-	 * @since 4.1
+	 * 将预期字符串和实际字符串解析为JSON, 并断言两者是"相似的" 
+	 * - i.e. 它们包含相同的属性-值对, 而不管格式的宽松检查 (可扩展和非严格的数组排序).
+	 * 
+	 * @param jsonContent 预期的JSON内容
 	 */
 	public ResultMatcher json(final String jsonContent) {
 		return json(jsonContent, false);
 	}
 
 	/**
-	 * Parse the response content and the given string as JSON and assert the two are "similar" -
-	 * i.e. they contain the same attribute-value pairs regardless of formatting.
-	 * <p>Can compare in two modes, depending on {@code strict} parameter value:
+	 * 将响应内容和给定字符串解析为JSON, 并断言两者是 "相似的" - i.e. 它们包含相同的属性-值对, 而不管格式如何.
+	 * <p>可以在两种模式下进行比较, 具体取决于{@code strict}参数值:
 	 * <ul>
-	 * <li>{@code true}: strict checking. Not extensible, and strict array ordering.</li>
-	 * <li>{@code false}: lenient checking. Extensible, and non-strict array ordering.</li>
+	 * <li>{@code true}: 严格检查. 不可扩展, 严格的数组排序.</li>
+	 * <li>{@code false}: 宽松的检查. 可扩展和非严格的数组排序.</li>
 	 * </ul>
-	 * <p>Use of this matcher requires the <a
-	 * href="http://jsonassert.skyscreamer.org/">JSONassert<a/> library.
-	 * @param jsonContent the expected JSON content
-	 * @param strict enables strict checking
-	 * @since 4.2
+	 * <p>使用此匹配器需要<a href="http://jsonassert.skyscreamer.org/">JSONassert<a/>库.
+	 * 
+	 * @param jsonContent 预期的JSON内容
+	 * @param strict 是否严格检查
 	 */
 	public ResultMatcher json(final String jsonContent, final boolean strict) {
 		return new ResultMatcher() {

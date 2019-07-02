@@ -9,7 +9,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.mock.http.MockHttpOutputMessage;
 
 /**
- * Mock implementation of {@link ClientHttpRequest}.
+ * {@link ClientHttpRequest}的模拟实现.
  */
 public class MockClientHttpRequest extends MockHttpOutputMessage implements ClientHttpRequest {
 
@@ -22,15 +22,9 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
 	private boolean executed = false;
 
 
-	/**
-	 * Default constructor.
-	 */
 	public MockClientHttpRequest() {
 	}
 
-	/**
-	 * Create an instance with the given HttpMethod and URI.
-	 */
 	public MockClientHttpRequest(HttpMethod httpMethod, URI uri) {
 		this.httpMethod = httpMethod;
 		this.uri = uri;
@@ -64,9 +58,8 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
 	}
 
 	/**
-	 * Set the {@link #isExecuted() executed} flag to {@code true} and return the
-	 * configured {@link #setResponse(ClientHttpResponse) response}.
-	 * @see #executeInternal()
+	 * 
+	 * 将{@link #isExecuted() executed}标志设置为{@code true}, 并返回已配置的{@link #setResponse(ClientHttpResponse) 响应}.
 	 */
 	@Override
 	public final ClientHttpResponse execute() throws IOException {
@@ -75,10 +68,8 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
 	}
 
 	/**
-	 * The default implementation returns the configured
-	 * {@link #setResponse(ClientHttpResponse) response}.
-	 * <p>Override this method to execute the request and provide a response,
-	 * potentially different than the configured response.
+	 * 默认实现返回已配置的{@link #setResponse(ClientHttpResponse) 响应}.
+	 * <p>重写此方法以执行请求, 并提供可能与配置的响应不同的响应.
 	 */
 	protected ClientHttpResponse executeInternal() throws IOException {
 		return this.clientHttpResponse;

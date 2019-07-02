@@ -9,7 +9,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
 /**
- * Mock implementation of the {@link javax.portlet.ResourceRequest} interface.
+ * {@link javax.portlet.ResourceRequest}接口的模拟实现.
  */
 public class MockResourceRequest extends MockClientDataRequest implements ResourceRequest {
 
@@ -21,16 +21,15 @@ public class MockResourceRequest extends MockClientDataRequest implements Resour
 
 
 	/**
-	 * Create a new MockResourceRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
 	 */
 	public MockResourceRequest() {
 		super();
 	}
 
 	/**
-	 * Create a new MockResourceRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
 	 * @param resourceID the resource id for this request
 	 */
 	public MockResourceRequest(String resourceID) {
@@ -39,9 +38,9 @@ public class MockResourceRequest extends MockClientDataRequest implements Resour
 	}
 
 	/**
-	 * Create a new MockResourceRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 * @param url the resource URL for this request
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
+	 * 
+	 * @param url 此请求的资源URL
 	 */
 	public MockResourceRequest(MockResourceURL url) {
 		super();
@@ -50,17 +49,17 @@ public class MockResourceRequest extends MockClientDataRequest implements Resour
 	}
 
 	/**
-	 * Create a new MockResourceRequest with a default {@link MockPortalContext}.
-	 * @param portletContext the PortletContext that the request runs in
+	 * 使用默认的{@link MockPortalContext}.
+	 * 
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockResourceRequest(PortletContext portletContext) {
 		super(portletContext);
 	}
 
 	/**
-	 * Create a new MockResourceRequest.
-	 * @param portalContext the PortalContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param portalContext 运行请求的PortalContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockResourceRequest(PortalContext portalContext, PortletContext portletContext) {
 		super(portalContext, portletContext);

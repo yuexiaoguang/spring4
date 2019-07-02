@@ -5,15 +5,13 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 
 /**
- * Abstract implementation of the {@link TestExecutionListener} interface which
- * provides empty method stubs. Subclasses can extend this class and override
- * only those methods suitable for the task at hand.
+ * {@link TestExecutionListener}接口的抽象实现, 它提供空方法存根.
+ * 子类可以扩展此类, 并仅覆盖适用于手头任务的那些方法.
  */
 public abstract class AbstractTestExecutionListener implements TestExecutionListener, Ordered {
 
 	/**
-	 * The default implementation is <em>empty</em>. Can be overridden by
-	 * subclasses as necessary.
+	 * 默认实现是<em>为空</em>. 必要时可以由子类重写.
 	 */
 	@Override
 	public void beforeTestClass(TestContext testContext) throws Exception {
@@ -21,8 +19,7 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
 	}
 
 	/**
-	 * The default implementation is <em>empty</em>. Can be overridden by
-	 * subclasses as necessary.
+	 * 默认实现是<em>为空</em>. 必要时可以由子类重写.
 	 */
 	@Override
 	public void prepareTestInstance(TestContext testContext) throws Exception {
@@ -30,8 +27,7 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
 	}
 
 	/**
-	 * The default implementation is <em>empty</em>. Can be overridden by
-	 * subclasses as necessary.
+	 * 默认实现是<em>为空</em>. 必要时可以由子类重写.
 	 */
 	@Override
 	public void beforeTestMethod(TestContext testContext) throws Exception {
@@ -39,8 +35,7 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
 	}
 
 	/**
-	 * The default implementation is <em>empty</em>. Can be overridden by
-	 * subclasses as necessary.
+	 * 默认实现是<em>为空</em>. 必要时可以由子类重写.
 	 */
 	@Override
 	public void afterTestMethod(TestContext testContext) throws Exception {
@@ -48,8 +43,7 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
 	}
 
 	/**
-	 * The default implementation is <em>empty</em>. Can be overridden by
-	 * subclasses as necessary.
+	 * 默认实现是<em>为空</em>. 必要时可以由子类重写.
 	 */
 	@Override
 	public void afterTestClass(TestContext testContext) throws Exception {
@@ -57,11 +51,8 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
 	}
 
 	/**
-	 * The default implementation returns {@link Ordered#LOWEST_PRECEDENCE},
-	 * thereby ensuring that custom listeners are ordered after default
-	 * listeners supplied by the framework. Can be overridden by subclasses
-	 * as necessary.
-	 * @since 4.1
+	 * 默认实现返回{@link Ordered#LOWEST_PRECEDENCE}, 从而确保在框架提供的默认监听器之后对自定义监听器进行排序.
+	 * 必要时可以由子类重写.
 	 */
 	@Override
 	public int getOrder() {

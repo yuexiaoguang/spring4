@@ -14,32 +14,24 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code ReflectionTestUtils} is a collection of reflection-based utility
- * methods for use in unit and integration testing scenarios.
+ * {@code ReflectionTestUtils}是一组基于反射的工具方法, 用于单元和集成测试场景.
  *
- * <p>There are often times when it would be beneficial to be able to set a
- * non-{@code public} field, invoke a non-{@code public} setter method, or
- * invoke a non-{@code public} <em>configuration</em> or <em>lifecycle</em>
- * callback method when testing code involving, for example:
+ * <p>有时候能够设置非{@code public}字段, 调用非{@code public} setter方法,
+ * 或调用非{@code public} <em>配置是</em>或<em>生命周期</em>回调方法是有用的, 在测试涉及的代码时, 例如:
  *
  * <ul>
- * <li>ORM frameworks such as JPA and Hibernate which condone the usage of
- * {@code private} or {@code protected} field access as opposed to
- * {@code public} setter methods for properties in a domain entity.</li>
- * <li>Spring's support for annotations such as
+ * <li>ORA框架, 如JPA和Hibernate, 允许使用{@code private}或{@code protected}字段访问,
+ * 而不是域实体中属性的{@code public} setter方法.</li>
+ * <li>Spring支持
  * {@link org.springframework.beans.factory.annotation.Autowired @Autowired},
- * {@link javax.inject.Inject @Inject}, and
- * {@link javax.annotation.Resource @Resource} which provides dependency
- * injection for {@code private} or {@code protected} fields, setter methods,
- * and configuration methods.</li>
- * <li>Use of annotations such as {@link javax.annotation.PostConstruct @PostConstruct}
- * and {@link javax.annotation.PreDestroy @PreDestroy} for lifecycle callback
- * methods.</li>
+ * {@link javax.inject.Inject @Inject}, 和{@link javax.annotation.Resource @Resource}等注解,
+ * 为{@code private}或{@code protected}字段, setter方法, 和配置方法提供依赖注入.</li>
+ * <li>使用注解, 例如{@link javax.annotation.PostConstruct @PostConstruct}
+ * 和{@link javax.annotation.PreDestroy @PreDestroy}进行生命周期回调方法.</li>
  * </ul>
  *
- * <p>In addition, several methods in this class provide support for {@code static}
- * fields &mdash; for example, {@link #setField(Class, String, Object)},
- * {@link #getField(Class, String)}, etc.
+ * <p>此外, 此类中的几个方法为{@code static}字段提供支持 &mdash;
+ * 例如, {@link #setField(Class, String, Object)}, {@link #getField(Class, String)}, 等.
  */
 public abstract class ReflectionTestUtils {
 
@@ -54,93 +46,70 @@ public abstract class ReflectionTestUtils {
 
 
 	/**
-	 * Set the {@linkplain Field field} with the given {@code name} on the
-	 * provided {@code targetObject} to the supplied {@code value}.
-	 * <p>This method delegates to {@link #setField(Object, String, Object, Class)},
-	 * supplying {@code null} for the {@code type} argument.
-	 * @param targetObject the target object on which to set the field; never {@code null}
-	 * @param name the name of the field to set; never {@code null}
-	 * @param value the value to set
+	 * 将提供的{@code targetObject}上给定{@code name}的{@linkplain Field field}设置为提供的{@code value}.
+	 * <p>此方法委托给{@link #setField(Object, String, Object, Class)}, 为{@code type}参数提供{@code null}.
+	 * 
+	 * @param targetObject 要在其上设置字段的目标对象; never {@code null}
+	 * @param name 要设置的字段的名称; never {@code null}
+	 * @param value 要设置的值
 	 */
 	public static void setField(Object targetObject, String name, Object value) {
 		setField(targetObject, name, value, null);
 	}
 
 	/**
-	 * Set the {@linkplain Field field} with the given {@code name}/{@code type}
-	 * on the provided {@code targetObject} to the supplied {@code value}.
-	 * <p>This method delegates to {@link #setField(Object, Class, String, Object, Class)},
-	 * supplying {@code null} for the {@code targetClass} argument.
-	 * @param targetObject the target object on which to set the field; never {@code null}
-	 * @param name the name of the field to set; may be {@code null} if
-	 * {@code type} is specified
-	 * @param value the value to set
-	 * @param type the type of the field to set; may be {@code null} if
-	 * {@code name} is specified
+	 * 使用提供的{@code targetObject}上的给定{@code name}/{@code type}将{@linkplain Field field}设置为提供的{@code value}.
+	 * <p>此方法委托给 {@link #setField(Object, Class, String, Object, Class)}, 为{@code targetClass}参数提供{@code null}.
+	 * 
+	 * @param targetObject 要在其上设置字段的目标对象; never {@code null}
+	 * @param name 要设置的字段的名称; 如果指定了{@code type}, 则可能是{@code null}
+	 * @param value 要设置的值
+	 * @param type 要设置的字段的类型; 如果指定了{@code name}, 则可能是{@code null}
 	 */
 	public static void setField(Object targetObject, String name, Object value, Class<?> type) {
 		setField(targetObject, null, name, value, type);
 	}
 
 	/**
-	 * Set the static {@linkplain Field field} with the given {@code name} on
-	 * the provided {@code targetClass} to the supplied {@code value}.
-	 * <p>This method delegates to {@link #setField(Object, Class, String, Object, Class)},
-	 * supplying {@code null} for the {@code targetObject} and {@code type} arguments.
-	 * @param targetClass the target class on which to set the static field;
-	 * never {@code null}
-	 * @param name the name of the field to set; never {@code null}
-	 * @param value the value to set
-	 * @since 4.2
+	 * 将提供的{@code targetClass}上给定{@code name}的静态{@linkplain Field field}设置为提供的{@code value}.
+	 * <p>此方法委托给{@link #setField(Object, Class, String, Object, Class)},
+	 * 为{@code targetObject}和{@code type}参数提供{@code null}.
+	 * 
+	 * @param targetClass 要在其上设置静态字段的目标类; never {@code null}
+	 * @param name 要设置的字段的名称; never {@code null}
+	 * @param value 要设置的值
 	 */
 	public static void setField(Class<?> targetClass, String name, Object value) {
 		setField(null, targetClass, name, value, null);
 	}
 
 	/**
-	 * Set the static {@linkplain Field field} with the given
-	 * {@code name}/{@code type} on the provided {@code targetClass} to
-	 * the supplied {@code value}.
-	 * <p>This method delegates to {@link #setField(Object, Class, String, Object, Class)},
-	 * supplying {@code null} for the {@code targetObject} argument.
-	 * @param targetClass the target class on which to set the static field;
-	 * never {@code null}
-	 * @param name the name of the field to set; may be {@code null} if
-	 * {@code type} is specified
-	 * @param value the value to set
-	 * @param type the type of the field to set; may be {@code null} if
-	 * {@code name} is specified
-	 * @since 4.2
+	 * 将提供的{@code targetClass}上给定{@code name}/{@code type}的静态{@linkplain Field field}设置为提供的{@code value}.
+	 * <p>此方法委托给{@link #setField(Object, Class, String, Object, Class)}, 为{@code targetObject}参数提供{@code null}.
+	 * 
+	 * @param targetClass 要在其上设置静态字段的目标类; never {@code null}
+	 * @param name 要设置的字段的名称; 如果指定了{@code type}, 则可能是{@code null}
+	 * @param value 要设置的值
+	 * @param type 要设置的字段的类型; 如果指定了{@code name}, 则可能是{@code null}
 	 */
 	public static void setField(Class<?> targetClass, String name, Object value, Class<?> type) {
 		setField(null, targetClass, name, value, type);
 	}
 
 	/**
-	 * Set the {@linkplain Field field} with the given {@code name}/{@code type}
-	 * on the provided {@code targetObject}/{@code targetClass} to the supplied
-	 * {@code value}.
-	 * <p>If the supplied {@code targetObject} is a <em>proxy</em>, it will
-	 * be {@linkplain AopTestUtils#getUltimateTargetObject unwrapped} allowing
-	 * the field to be set on the ultimate target of the proxy.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * field. In addition, an attempt will be made to make non-{@code public}
-	 * fields <em>accessible</em>, thus allowing one to set {@code protected},
-	 * {@code private}, and <em>package-private</em> fields.
-	 * @param targetObject the target object on which to set the field; may be
-	 * {@code null} if the field is static
-	 * @param targetClass the target class on which to set the field; may
-	 * be {@code null} if the field is an instance field
-	 * @param name the name of the field to set; may be {@code null} if
-	 * {@code type} is specified
-	 * @param value the value to set
-	 * @param type the type of the field to set; may be {@code null} if
-	 * {@code name} is specified
-	 * @since 4.2
-	 * @see ReflectionUtils#findField(Class, String, Class)
-	 * @see ReflectionUtils#makeAccessible(Field)
-	 * @see ReflectionUtils#setField(Field, Object, Object)
-	 * @see AopTestUtils#getUltimateTargetObject(Object)
+	 * 使用提供的{@code targetObject}/{@code targetClass}上的
+	 * 给定{@code name}/{@code type}将{@linkplain Field field}设置为提供的{@code value}.
+	 * <p>如果提供的{@code targetObject}是<em>代理</em>, 
+	 * 则{@linkplain AopTestUtils#getUltimateTargetObject unwrapped}允许在代理的最终目标上设置字段.
+	 * <p>此方法遍历类层次结构以搜索所需字段.
+	 * 此外, 还会尝试让非{@code public}字段<em>可访问</em>, 从而允许设置{@code protected},
+	 * {@code private}, 和<em>包级私有</em>字段.
+	 * 
+	 * @param targetObject 要在其上设置字段的目标对象; 如果字段是静态的, 则可以是{@code null}
+	 * @param targetClass 要在其上设置字段的目标类; 如果该字段是实例字段, 则可以是{@code null}
+	 * @param name 要设置的字段的名称; 如果指定了{@code type}, 则可能是{@code null}
+	 * @param value 要设置的值
+	 * @param type 要设置的字段的类型; 如果指定了{@code name}, 则可能是{@code null}
 	 */
 	public static void setField(Object targetObject, Class<?> targetClass, String name, Object value, Class<?> type) {
 		Assert.isTrue(targetObject != null || targetClass != null,
@@ -170,59 +139,44 @@ public abstract class ReflectionTestUtils {
 	}
 
 	/**
-	 * Get the value of the {@linkplain Field field} with the given {@code name}
-	 * from the provided {@code targetObject}.
-	 * <p>This method delegates to {@link #getField(Object, Class, String)},
-	 * supplying {@code null} for the {@code targetClass} argument.
-	 * @param targetObject the target object from which to get the field;
-	 * never {@code null}
-	 * @param name the name of the field to get; never {@code null}
-	 * @return the field's current value
-	 * @see #getField(Class, String)
+	 * 从提供的{@code targetObject}获取具有给定{@code name}的{@linkplain Field field}的值.
+	 * <p>此方法委托给{@link #getField(Object, Class, String)}, 为{@code targetClass}参数提供{@code null}.
+	 * 
+	 * @param targetObject 获取该字段的目标对象; never {@code null}
+	 * @param name 要获得的字段的名称; never {@code null}
+	 * 
+	 * @return 该字段的当前值
 	 */
 	public static Object getField(Object targetObject, String name) {
 		return getField(targetObject, null, name);
 	}
 
 	/**
-	 * Get the value of the static {@linkplain Field field} with the given
-	 * {@code name} from the provided {@code targetClass}.
-	 * <p>This method delegates to {@link #getField(Object, Class, String)},
-	 * supplying {@code null} for the {@code targetObject} argument.
-	 * @param targetClass the target class from which to get the static field;
-	 * never {@code null}
-	 * @param name the name of the field to get; never {@code null}
-	 * @return the field's current value
-	 * @since 4.2
-	 * @see #getField(Object, String)
+	 * 从提供的{@code targetClass}获取带有给定{@code name}的静态{@linkplain Field field}的值.
+	 * <p>此方法委托给{@link #getField(Object, Class, String)}, 为{@code targetObject}参数提供{@code null}.
+	 * 
+	 * @param targetClass 获取静态字段的目标类; never {@code null}
+	 * @param name 要获取的字段的名称; never {@code null}
+	 * 
+	 * @return 该字段的当前值
 	 */
 	public static Object getField(Class<?> targetClass, String name) {
 		return getField(null, targetClass, name);
 	}
 
 	/**
-	 * Get the value of the {@linkplain Field field} with the given {@code name}
-	 * from the provided {@code targetObject}/{@code targetClass}.
-	 * <p>If the supplied {@code targetObject} is a <em>proxy</em>, it will
-	 * be {@linkplain AopTestUtils#getUltimateTargetObject unwrapped} allowing
-	 * the field to be retrieved from the ultimate target of the proxy.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * field. In addition, an attempt will be made to make non-{@code public}
-	 * fields <em>accessible</em>, thus allowing one to get {@code protected},
-	 * {@code private}, and <em>package-private</em> fields.
-	 * @param targetObject the target object from which to get the field; may be
-	 * {@code null} if the field is static
-	 * @param targetClass the target class from which to get the field; may
-	 * be {@code null} if the field is an instance field
-	 * @param name the name of the field to get; never {@code null}
-	 * @return the field's current value
-	 * @since 4.2
-	 * @see #getField(Object, String)
-	 * @see #getField(Class, String)
-	 * @see ReflectionUtils#findField(Class, String, Class)
-	 * @see ReflectionUtils#makeAccessible(Field)
-	 * @see ReflectionUtils#getField(Field, Object)
-	 * @see AopTestUtils#getUltimateTargetObject(Object)
+	 * 从提供的{@code targetObject}/{@code targetClass}获取具有给定{@code name}的{@linkplain Field field}的值.
+	 * <p>如果提供的{@code targetObject}是<em>代理</em>,
+	 * 则{@linkplain AopTestUtils#getUltimateTargetObject unwrapped}允许从代理的最终目标中检索字段.
+	 * <p>此方法遍历类层次结构以搜索所需字段.
+	 * 此外, 还会尝试使非{@code public}字段<em>可访问</em>, 从而允许其获得{@code protected},
+	 * {@code private}, 和<em>包级私有</em>字段.
+	 * 
+	 * @param targetObject 获取该字段的目标对象; 如果字段是静态的, 则可以是{@code null}
+	 * @param targetClass 该字段所在的目标类; 如果该字段是实例字段, 则可以是{@code null}
+	 * @param name 要获得的字段的名称; never {@code null}
+	 * 
+	 * @return 该字段的当前值
 	 */
 	public static Object getField(Object targetObject, Class<?> targetClass, String name) {
 		Assert.isTrue(targetObject != null || targetClass != null,
@@ -250,49 +204,33 @@ public abstract class ReflectionTestUtils {
 	}
 
 	/**
-	 * Invoke the setter method with the given {@code name} on the supplied
-	 * target object with the supplied {@code value}.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * method. In addition, an attempt will be made to make non-{@code public}
-	 * methods <em>accessible</em>, thus allowing one to invoke {@code protected},
-	 * {@code private}, and <em>package-private</em> setter methods.
-	 * <p>In addition, this method supports JavaBean-style <em>property</em>
-	 * names. For example, if you wish to set the {@code name} property on the
-	 * target object, you may pass either &quot;name&quot; or
-	 * &quot;setName&quot; as the method name.
-	 * @param target the target object on which to invoke the specified setter
-	 * method
-	 * @param name the name of the setter method to invoke or the corresponding
-	 * property name
-	 * @param value the value to provide to the setter method
-	 * @see ReflectionUtils#findMethod(Class, String, Class[])
-	 * @see ReflectionUtils#makeAccessible(Method)
-	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
+	 * 使用提供的{@code value}在提供的目标对象上使用给定的{@code name}调用setter方法.
+	 * <p>此方法遍历类层次结构以搜索所需方法.
+	 * 此外, 还将尝试让非{@code public}方法<em>可访问</em>, 从而允许调用{@code protected},
+	 * {@code private}, 和<em>包级私有的</em> setter方法.
+	 * <p>此外, 此方法支持JavaBean样式的<em>属性</em>名称.
+	 * 例如, 如果在目标对象上设置{@code name}属性, 则可以传递 &quot;name&quot; 和 &quot;setName&quot; 作为方法名称.
+	 * 
+	 * @param target 要调用指定setter方法的目标对象
+	 * @param name 要调用的setter方法的名称或相应的属性名称
+	 * @param value 提供给setter方法的值
 	 */
 	public static void invokeSetterMethod(Object target, String name, Object value) {
 		invokeSetterMethod(target, name, value, null);
 	}
 
 	/**
-	 * Invoke the setter method with the given {@code name} on the supplied
-	 * target object with the supplied {@code value}.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * method. In addition, an attempt will be made to make non-{@code public}
-	 * methods <em>accessible</em>, thus allowing one to invoke {@code protected},
-	 * {@code private}, and <em>package-private</em> setter methods.
-	 * <p>In addition, this method supports JavaBean-style <em>property</em>
-	 * names. For example, if you wish to set the {@code name} property on the
-	 * target object, you may pass either &quot;name&quot; or
-	 * &quot;setName&quot; as the method name.
-	 * @param target the target object on which to invoke the specified setter
-	 * method
-	 * @param name the name of the setter method to invoke or the corresponding
-	 * property name
-	 * @param value the value to provide to the setter method
-	 * @param type the formal parameter type declared by the setter method
-	 * @see ReflectionUtils#findMethod(Class, String, Class[])
-	 * @see ReflectionUtils#makeAccessible(Method)
-	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
+	 * 使用提供的{@code value}在提供的目标对象上使用给定的{@code name}调用setter方法.
+	 * <p>此方法遍历类层次结构以搜索所需方法.
+	 * 此外, 还将尝试让非{@code public}方法<em>可访问</em>, 从而允许调用{@code protected},
+	 * {@code private}, 和<em>包级私有的</em> setter方法.
+	 * <p>此外, 此方法支持JavaBean样式的<em>属性</em>名称.
+	 * 例如, 如果在目标对象上设置{@code name}属性, 则可以传递 &quot;name&quot; 和 &quot;setName&quot; 作为方法名称.
+	 * 
+	 * @param target 要调用指定setter方法的目标对象
+	 * @param name 要调用的setter方法的名称或相应的属性名称
+	 * @param value 提供给setter方法的值
+	 * @param type setter方法声明的形式参数类型
 	 */
 	public static void invokeSetterMethod(Object target, String name, Object value, Class<?> type) {
 		Assert.notNull(target, "Target object must not be null");
@@ -325,24 +263,17 @@ public abstract class ReflectionTestUtils {
 	}
 
 	/**
-	 * Invoke the getter method with the given {@code name} on the supplied
-	 * target object with the supplied {@code value}.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * method. In addition, an attempt will be made to make non-{@code public}
-	 * methods <em>accessible</em>, thus allowing one to invoke {@code protected},
-	 * {@code private}, and <em>package-private</em> getter methods.
-	 * <p>In addition, this method supports JavaBean-style <em>property</em>
-	 * names. For example, if you wish to get the {@code name} property on the
-	 * target object, you may pass either &quot;name&quot; or
-	 * &quot;getName&quot; as the method name.
-	 * @param target the target object on which to invoke the specified getter
-	 * method
-	 * @param name the name of the getter method to invoke or the corresponding
-	 * property name
-	 * @return the value returned from the invocation
-	 * @see ReflectionUtils#findMethod(Class, String, Class[])
-	 * @see ReflectionUtils#makeAccessible(Method)
-	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
+	 * 使用提供的{@code value}在提供的目标对象上使用给定的{@code name}调用getter方法.
+	 * <p>此方法遍历类层次结构以搜索所需方法.
+	 * 此外, 还将尝试让非{@code public}方法<em>可访问</em>, 从而允许调用{@code protected},
+	 * {@code private}, 和<em>包级私有的</em> getter方法.
+	 * <p>此外, 此方法支持JavaBean样式的<em>属性</em>名称.
+	 * 例如, 如果在目标对象上获取{@code name}属性, 则可以传递&quot;name&quot; 和 &quot;getName&quot; 作为方法名称.
+	 * 
+	 * @param target 要在其上调用指定的getter方法的目标对象
+	 * @param name 要调用的getter方法的名称或相应的属性名称
+	 * 
+	 * @return 调用返回的值
 	 */
 	public static Object invokeGetterMethod(Object target, String name) {
 		Assert.notNull(target, "Target object must not be null");
@@ -370,20 +301,16 @@ public abstract class ReflectionTestUtils {
 	}
 
 	/**
-	 * Invoke the method with the given {@code name} on the supplied target
-	 * object with the supplied arguments.
-	 * <p>This method traverses the class hierarchy in search of the desired
-	 * method. In addition, an attempt will be made to make non-{@code public}
-	 * methods <em>accessible</em>, thus allowing one to invoke {@code protected},
-	 * {@code private}, and <em>package-private</em> methods.
-	 * @param target the target object on which to invoke the specified method
-	 * @param name the name of the method to invoke
-	 * @param args the arguments to provide to the method
-	 * @return the invocation result, if any
-	 * @see MethodInvoker
-	 * @see ReflectionUtils#makeAccessible(Method)
-	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
-	 * @see ReflectionUtils#handleReflectionException(Exception)
+	 * 使用提供的参数在提供的目标对象上调用具有给定{@code name}的方法.
+	 * <p>此方法遍历类层次结构以搜索所需方法.
+	 * 此外, 还将尝试让非{@code public}方法<em>可访问</em>, 从而允许调用{@code protected},
+	 * {@code private}, 和<em>包级私有的</em>方法.
+	 * 
+	 * @param target 要调用指定方法的目标对象
+	 * @param name 要调用的方法的名称
+	 * @param args 提供给方法的参数
+	 * 
+	 * @return 调用结果
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T invokeMethod(Object target, String name, Object... args) {
@@ -419,5 +346,4 @@ public abstract class ReflectionTestUtils {
 				(target != null ? target.getClass().getName() : "unknown"), ex);
 		}
 	}
-
 }

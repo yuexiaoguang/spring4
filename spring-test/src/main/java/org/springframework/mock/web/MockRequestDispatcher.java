@@ -11,10 +11,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.servlet.RequestDispatcher} interface.
+ * {@link javax.servlet.RequestDispatcher}接口的模拟实现.
  *
- * <p>Used for testing the web framework; typically not necessary for
- * testing application controllers.
+ * <p>用于测试Web框架; 通常不需要测试应用程序控制器.
  */
 public class MockRequestDispatcher implements RequestDispatcher {
 
@@ -24,9 +23,7 @@ public class MockRequestDispatcher implements RequestDispatcher {
 
 
 	/**
-	 * Create a new MockRequestDispatcher for the given resource.
-	 * @param resource the server resource to dispatch to, located at a
-	 * particular path or given by a particular name
+	 * @param resource 要分派到的服务器资源, 位于特定路径或由特定名称指定
 	 */
 	public MockRequestDispatcher(String resource) {
 		Assert.notNull(resource, "resource must not be null");
@@ -58,8 +55,7 @@ public class MockRequestDispatcher implements RequestDispatcher {
 	}
 
 	/**
-	 * Obtain the underlying {@link MockHttpServletResponse}, unwrapping
-	 * {@link HttpServletResponseWrapper} decorators if necessary.
+	 * 获取底层{@link MockHttpServletResponse}, 必要时展开{@link HttpServletResponseWrapper}装饰器.
 	 */
 	protected MockHttpServletResponse getMockHttpServletResponse(ServletResponse response) {
 		if (response instanceof MockHttpServletResponse) {

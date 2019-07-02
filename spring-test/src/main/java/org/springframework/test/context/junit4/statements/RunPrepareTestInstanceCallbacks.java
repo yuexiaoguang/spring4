@@ -5,10 +5,9 @@ import org.junit.runners.model.Statement;
 import org.springframework.test.context.TestContextManager;
 
 /**
- * {@code RunPrepareTestInstanceCallbacks} is a custom JUnit {@link Statement} which
- * allows the <em>Spring TestContext Framework</em> to be plugged into the JUnit
- * execution chain by calling {@link TestContextManager#prepareTestInstance(Object)
- * prepareTestInstance()} on the supplied {@link TestContextManager}.
+ * {@code RunPrepareTestInstanceCallbacks}是一个自定义的JUnit {@link Statement},
+ * 它允许通过在提供的{@link TestContextManager}上调用{@link TestContextManager#prepareTestInstance(Object) prepareTestInstance()},
+ * 将<em>Spring TestContext Framework</em>插入到JUnit执行链中.
  */
 public class RunPrepareTestInstanceCallbacks extends Statement {
 
@@ -20,11 +19,9 @@ public class RunPrepareTestInstanceCallbacks extends Statement {
 
 
 	/**
-	 * Construct a new {@code RunPrepareTestInstanceCallbacks} statement.
-	 * @param next the next {@code Statement} in the execution chain; never {@code null}
-	 * @param testInstance the current test instance; never {@code null}
-	 * @param testContextManager the {@code TestContextManager} upon which to call
-	 * {@code prepareTestInstance()}; never {@code null}
+	 * @param next 执行链中的下一个{@code Statement}; never {@code null}
+	 * @param testInstance 当前的测试实例; never {@code null}
+	 * @param testContextManager 要调用{{@code prepareTestInstance()}的{@code TestContextManager}; never {@code null}
 	 */
 	public RunPrepareTestInstanceCallbacks(Statement next, Object testInstance, TestContextManager testContextManager) {
 		this.next = next;
@@ -34,9 +31,8 @@ public class RunPrepareTestInstanceCallbacks extends Statement {
 
 
 	/**
-	 * Invoke {@link TestContextManager#prepareTestInstance(Object)} and
-	 * then evaluate the next {@link Statement} in the execution chain
-	 * (typically an instance of {@link RunAfterTestMethodCallbacks}).
+	 * 调用{@link TestContextManager#prepareTestInstance(Object)}, 然后评估执行链中的下一个{@link Statement}
+	 * (通常是{@link RunAfterTestMethodCallbacks}实例).
 	 */
 	@Override
 	public void evaluate() throws Throwable {

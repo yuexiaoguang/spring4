@@ -7,26 +7,19 @@ import org.springframework.test.context.MergedContextConfiguration;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Concrete implementation of {@link AbstractGenericContextLoader} that reads
- * bean definitions from XML resources.
+ * {@link AbstractGenericContextLoader}的具体实现, 它从XML资源中读取bean定义.
  *
- * <p>Default resource locations are detected using the suffix
- * {@code "-context.xml"}.
+ * <p>使用后缀{@code "-context.xml"}检测默认资源位置.
  */
 public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 
-	/**
-	 * Create a new {@link XmlBeanDefinitionReader}.
-	 * @return a new {@code XmlBeanDefinitionReader}
-	 */
 	@Override
 	protected BeanDefinitionReader createBeanDefinitionReader(GenericApplicationContext context) {
 		return new XmlBeanDefinitionReader(context);
 	}
 
 	/**
-	 * Returns {@code "-context.xml"} in order to support detection of a
-	 * default XML config file.
+	 * 返回{@code "-context.xml"}以支持检测默认的XML配置文件.
 	 */
 	@Override
 	protected String getResourceSuffix() {
@@ -34,10 +27,7 @@ public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 	}
 
 	/**
-	 * Ensure that the supplied {@link MergedContextConfiguration} does not
-	 * contain {@link MergedContextConfiguration#getClasses() classes}.
-	 * @since 4.0.4
-	 * @see AbstractGenericContextLoader#validateMergedContextConfiguration
+	 * 确保提供的{@link MergedContextConfiguration}不包含{@link MergedContextConfiguration#getClasses() classes}.
 	 */
 	@Override
 	protected void validateMergedContextConfiguration(MergedContextConfiguration mergedConfig) {

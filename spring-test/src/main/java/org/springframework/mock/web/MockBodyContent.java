@@ -9,10 +9,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 
 /**
- * Mock implementation of the {@link javax.servlet.jsp.tagext.BodyContent} class.
+ * {@link javax.servlet.jsp.tagext.BodyContent}类的模拟实现.
  *
- * <p>Used for testing the web framework; only necessary for testing
- * applications when testing custom JSP tags.
+ * <p>用于测试Web框架; 仅在测试自定义JSP标记时测试应用程序所必需的.
  */
 public class MockBodyContent extends BodyContent {
 
@@ -20,28 +19,25 @@ public class MockBodyContent extends BodyContent {
 
 
 	/**
-	 * Create a MockBodyContent for the given response.
-	 * @param content the body content to expose
-	 * @param response the servlet response to wrap
+	 * @param content 要公开的主体内容
+	 * @param response 要包装的servlet响应
 	 */
 	public MockBodyContent(String content, HttpServletResponse response) {
 		this(content, response, null);
 	}
 
 	/**
-	 * Create a MockBodyContent for the given response.
-	 * @param content the body content to expose
-	 * @param targetWriter the target Writer to wrap
+	 * @param content 要公开的主体内容
+	 * @param targetWriter 要包装的目标Writer
 	 */
 	public MockBodyContent(String content, Writer targetWriter) {
 		this(content, null, targetWriter);
 	}
 
 	/**
-	 * Create a MockBodyContent for the given response.
-	 * @param content the body content to expose
-	 * @param response the servlet response to wrap
-	 * @param targetWriter the target Writer to wrap
+	 * @param content 要公开的主体内容
+	 * @param response 要包装的servlet响应
+	 * @param targetWriter 要包装的目标Writer
 	 */
 	public MockBodyContent(String content, HttpServletResponse response, Writer targetWriter) {
 		super(adaptJspWriter(targetWriter, response));

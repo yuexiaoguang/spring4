@@ -10,10 +10,9 @@ import javax.servlet.ServletContext;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.servlet.ServletConfig} interface.
+ * {@link javax.servlet.ServletConfig}接口的模拟实现.
  *
- * <p>Used for testing the web framework; typically not necessary for
- * testing application controllers.
+ * <p>用于测试Web框架; 通常不需要测试应用程序控制器.
  */
 public class MockServletConfig implements ServletConfig {
 
@@ -25,32 +24,30 @@ public class MockServletConfig implements ServletConfig {
 
 
 	/**
-	 * Create a new MockServletConfig with a default {@link MockServletContext}.
+	 * 使用默认的{@link MockServletContext}.
 	 */
 	public MockServletConfig() {
 		this(null, "");
 	}
 
 	/**
-	 * Create a new MockServletConfig with a default {@link MockServletContext}.
-	 * @param servletName the name of the servlet
+	 * 使用默认的{@link MockServletContext}.
+	 * @param servletName servlet的名称
 	 */
 	public MockServletConfig(String servletName) {
 		this(null, servletName);
 	}
 
 	/**
-	 * Create a new MockServletConfig.
-	 * @param servletContext the ServletContext that the servlet runs in
+	 * @param servletContext 运行servlet的ServletContext
 	 */
 	public MockServletConfig(ServletContext servletContext) {
 		this(servletContext, "");
 	}
 
 	/**
-	 * Create a new MockServletConfig.
-	 * @param servletContext the ServletContext that the servlet runs in
-	 * @param servletName the name of the servlet
+	 * @param servletContext 运行servlet的ServletContext
+	 * @param servletName servlet的名称
 	 */
 	public MockServletConfig(ServletContext servletContext, String servletName) {
 		this.servletContext = (servletContext != null ? servletContext : new MockServletContext());

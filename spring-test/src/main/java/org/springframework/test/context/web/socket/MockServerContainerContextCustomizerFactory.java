@@ -10,9 +10,8 @@ import org.springframework.test.context.ContextCustomizerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link ContextCustomizerFactory} which creates a {@link MockServerContainerContextCustomizer}
- * if WebSocket support is present in the classpath and the test class is annotated
- * with {@code @WebAppConfiguration}.
+ * {@link ContextCustomizerFactory}, 如果类路径中存在WebSocket支持,
+ * 并且测试类带有{@code @WebAppConfiguration}注解, 则创建{@link MockServerContainerContextCustomizer}.
  */
 class MockServerContainerContextCustomizerFactory implements ContextCustomizerFactory {
 

@@ -12,12 +12,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 
 /**
- * {@code TestPropertySourceAttributes} encapsulates the attributes declared
- * via {@link TestPropertySource @TestPropertySource}.
+ * {@code TestPropertySourceAttributes}封装了通过{@link TestPropertySource @TestPropertySource}声明的属性.
  *
- * <p>In addition to encapsulating declared attributes,
- * {@code TestPropertySourceAttributes} also enforces configuration rules
- * and detects default properties files.
+ * <p>除了封装声明的属性外, {@code TestPropertySourceAttributes}还强制执行配置规则并检测默认属性文件.
  */
 class TestPropertySourceAttributes {
 
@@ -35,14 +32,10 @@ class TestPropertySourceAttributes {
 
 
 	/**
-	 * Create a new {@code TestPropertySourceAttributes} instance for the
-	 * supplied {@link TestPropertySource @TestPropertySource} annotation and
-	 * the {@linkplain Class test class} that declared it, enforcing
-	 * configuration rules and detecting a default properties file if
-	 * necessary.
-	 * @param declaringClass the class that declared {@code @TestPropertySource}
-	 * @param testPropertySource the annotation from which to retrieve the attributes
-	 * @since 4.2
+	 * 必要时强制执行配置规则并检测默认属性文件.
+	 * 
+	 * @param declaringClass 声明{@code @TestPropertySource}的类
+	 * @param testPropertySource 从中检索属性的注解
 	 */
 	TestPropertySourceAttributes(Class<?> declaringClass, TestPropertySource testPropertySource) {
 		this(declaringClass, testPropertySource.locations(), testPropertySource.inheritLocations(),
@@ -65,63 +58,52 @@ class TestPropertySourceAttributes {
 	}
 
 	/**
-	 * Get the {@linkplain Class class} that declared {@code @TestPropertySource}.
+	 * 获取声明{@code @TestPropertySource}的{@linkplain Class class}.
 	 *
-	 * @return the declaring class; never {@code null}
+	 * @return 声明类; never {@code null}
 	 */
 	Class<?> getDeclaringClass() {
 		return declaringClass;
 	}
 
 	/**
-	 * Get the resource locations that were declared via {@code @TestPropertySource}.
+	 * 获取通过{@code @TestPropertySource}声明的资源位置.
 	 *
-	 * <p>Note: The returned value may represent a <em>detected default</em>
-	 * that does not match the original value declared via {@code @TestPropertySource}.
+	 * <p>Note: 返回的值可能表示<em>检测到的默认值</em>, 与通过{@code @TestPropertySource}声明的原始值不匹配.
 	 *
-	 * @return the resource locations; potentially {@code null} or <em>empty</em>
-	 * @see TestPropertySource#value
-	 * @see TestPropertySource#locations
-	 * @see #setLocations(String[])
+	 * @return 资源位置; 可能为{@code null} 或<em>empty</em>
 	 */
 	String[] getLocations() {
 		return locations;
 	}
 
 	/**
-	 * Get the {@code inheritLocations} flag that was declared via {@code @TestPropertySource}.
+	 * 获取通过{@code @TestPropertySource}声明的{@code inheritLocations}标志.
 	 *
 	 * @return the {@code inheritLocations} flag
-	 * @see TestPropertySource#inheritLocations
 	 */
 	boolean isInheritLocations() {
 		return inheritLocations;
 	}
 
 	/**
-	 * Get the inlined properties that were declared via {@code @TestPropertySource}.
+	 * 获取通过{@code @TestPropertySource}声明的内联属性.
 	 *
-	 * @return the inlined properties; potentially {@code null} or <em>empty</em>
-	 * @see TestPropertySource#properties
+	 * @return 内联属性; 可能为{@code null}或<em>空</em>
 	 */
 	String[] getProperties() {
 		return this.properties;
 	}
 
 	/**
-	 * Get the {@code inheritProperties} flag that was declared via {@code @TestPropertySource}.
+	 * 获取通过{@code @TestPropertySource}声明的{@code inheritProperties}标志.
 	 *
 	 * @return the {@code inheritProperties} flag
-	 * @see TestPropertySource#inheritProperties
 	 */
 	boolean isInheritProperties() {
 		return this.inheritProperties;
 	}
 
-	/**
-	 * Provide a String representation of the {@code @TestPropertySource}
-	 * attributes and declaring class.
-	 */
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)//
@@ -134,8 +116,7 @@ class TestPropertySourceAttributes {
 	}
 
 	/**
-	 * Detect a default properties file for the supplied class, as specified
-	 * in the class-level Javadoc for {@link TestPropertySource}.
+	 * 检测所提供类的默认属性文件, 如{@link TestPropertySource}的类级别Javadoc中所指定.
 	 */
 	private static String detectDefaultPropertiesFile(Class<?> testClass) {
 		String resourcePath = ClassUtils.convertClassNameToResourcePath(testClass.getName()) + ".properties";

@@ -30,76 +30,58 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code TestExecutionListener} that provides support for executing tests
- * within <em>test-managed transactions</em> by honoring Spring's
- * {@link org.springframework.transaction.annotation.Transactional @Transactional}
- * annotation.
+ * {@code TestExecutionListener},
+ * 通过遵守Spring的{@link org.springframework.transaction.annotation.Transactional @Transactional}注解,
+ * 为<em>测试管理的事务</em>中的测试提供支持.
  *
- * <h3>Test-managed Transactions</h3>
- * <p><em>Test-managed transactions</em> are transactions that are managed
- * declaratively via this listener or programmatically via
- * {@link TestTransaction}. Such transactions should not be confused with
- * <em>Spring-managed transactions</em> (i.e., those managed directly
- * by Spring within the {@code ApplicationContext} loaded for tests) or
- * <em>application-managed transactions</em> (i.e., those managed
- * programmatically within application code that is invoked via tests).
- * Spring-managed and application-managed transactions will typically
- * participate in test-managed transactions; however, caution should be
- * taken if Spring-managed or application-managed transactions are
- * configured with any propagation type other than
+ * <h3>测试管理的事务</h3>
+ * <p><em>测试管理的事务</em>是通过此监听器以声明方式管理的事务, 或通过{@link TestTransaction}以编程方式管理的事务.
+ * 此类事务不应与<em>Spring管理的事务</em> (i.e., 在为测试加载的{@code ApplicationContext}中由Spring直接管理的事务)
+ * 或<em>应用程序管理的事务</em> (i.e., 通过测试调用的应用程序代码中以编程方式管理的事务)混淆.
+ * Spring管理和应用程序管理的事务通常会参与测试管理的事务;
+ * 但是, 如果Spring管理的事务或应用程序管理的事务配置了除
  * {@link org.springframework.transaction.annotation.Propagation#REQUIRED REQUIRED}
- * or {@link org.springframework.transaction.annotation.Propagation#SUPPORTS SUPPORTS}.
+ * 或{@link org.springframework.transaction.annotation.Propagation#SUPPORTS SUPPORTS}
+ * 之外的传播类型, 则应该小心.
  *
- * <h3>Enabling and Disabling Transactions</h3>
- * <p>Annotating a test method with {@code @Transactional} causes the test
- * to be run within a transaction that will, by default, be automatically
- * <em>rolled back</em> after completion of the test. If a test class is
- * annotated with {@code @Transactional}, each test method within that class
- * hierarchy will be run within a transaction. Test methods that are
- * <em>not</em> annotated with {@code @Transactional} (at the class or method
- * level) will not be run within a transaction. Furthermore, tests that
- * <em>are</em> annotated with {@code @Transactional} but have the
+ * <h3>启用和禁用事务</h3>
+ * <p>使用{@code @Transactional}注解的测试方法会导致测试在一个事务中运行,
+ * 默认情况下, 在完成测试后将自动<em>回滚</em>.
+ * 如果测试类使用{@code @Transactional}注解, 则该类层次结构中的每个测试方法都将在事务中运行.
+ * <em>未</em>使用{@code @Transactional} (在类或方法级别)注解的测试方法将不会在事务中运行.
+ * 此外, 使用{@code @Transactional}注解, 但将
  * {@link org.springframework.transaction.annotation.Transactional#propagation propagation}
- * type set to
+ * 类型设置为
  * {@link org.springframework.transaction.annotation.Propagation#NOT_SUPPORTED NOT_SUPPORTED}
- * will not be run within a transaction.
+ * 的测试将不会在事务中运行.
  *
- * <h3>Declarative Rollback and Commit Behavior</h3>
- * <p>By default, test transactions will be automatically <em>rolled back</em>
- * after completion of the test; however, transactional commit and rollback
- * behavior can be configured declaratively via the {@link Commit @Commit}
- * and {@link Rollback @Rollback} annotations at the class level and at the
- * method level.
+ * <h3>声明性回滚和提交行为</h3>
+ * <p>默认情况下, 测试完成后, 测试事务将自动<em>回滚</em>;
+ * 但是, 可以通过类级别和方法级别的{@link Commit @Commit} 和 {@link Rollback @Rollback}注解,
+ * 以声明方式配置事务提交和回滚行为.
  *
- * <h3>Programmatic Transaction Management</h3>
- * <p>As of Spring Framework 4.1, it is possible to interact with test-managed
- * transactions programmatically via the static methods in {@link TestTransaction}.
- * {@code TestTransaction} may be used within <em>test</em> methods,
- * <em>before</em> methods, and <em>after</em> methods.
+ * <h3>程序化事务管理</h3>
+ * <p>从Spring Framework 4.1开始, 可以通过{@link TestTransaction}中的静态方法以编程方式与测试管理的事务进行交互.
+ * {@code TestTransaction}可以在<em>test</em>方法, <em>before</em>方法, 和<em>after</em>方法之中使用.
  *
- * <h3>Executing Code outside of a Transaction</h3>
- * <p>When executing transactional tests, it is sometimes useful to be able to
- * execute certain <em>set up</em> or <em>tear down</em> code outside of a
- * transaction. {@code TransactionalTestExecutionListener} provides such
- * support for methods annotated with {@link BeforeTransaction @BeforeTransaction}
- * or {@link AfterTransaction @AfterTransaction}. As of Spring Framework 4.3,
- * {@code @BeforeTransaction} and {@code @AfterTransaction} may also be declared
- * on Java 8 based interface default methods.
+ * <h3>在事务之外执行代码</h3>
+ * <p>执行事务测试时, 有时可以在事务外执行某些<em>设置</em>或<em>销毁</em>代码.
+ * {@code TransactionalTestExecutionListener}为使用{@link BeforeTransaction @BeforeTransaction}
+ * 或{@link AfterTransaction @AfterTransaction}注解的方法提供此类支持.
+ * 从Spring Framework 4.3开始, {@code @BeforeTransaction}和{@code @AfterTransaction}
+ * 也可能在基于Java 8的接口默认方法上声明.
  *
- * <h3>Configuring a Transaction Manager</h3>
- * <p>{@code TransactionalTestExecutionListener} expects a
- * {@link PlatformTransactionManager} bean to be defined in the Spring
- * {@code ApplicationContext} for the test. In case there are multiple
- * instances of {@code PlatformTransactionManager} within the test's
- * {@code ApplicationContext}, a <em>qualifier</em> may be declared via
+ * <h3>配置事务管理器</h3>
+ * <p>{@code TransactionalTestExecutionListener}期望在Spring {@code ApplicationContext}中
+ * 定义{@link PlatformTransactionManager} bean以进行测试.
+ * 如果测试的{@code ApplicationContext}中有多个{@code PlatformTransactionManager}实例,
+ * 则可以通过
  * {@link org.springframework.transaction.annotation.Transactional @Transactional}
- * (e.g., {@code @Transactional("myTxMgr")} or {@code @Transactional(transactionManger = "myTxMgr")},
- * or {@link org.springframework.transaction.annotation.TransactionManagementConfigurer
- * TransactionManagementConfigurer} can be implemented by an
- * {@link org.springframework.context.annotation.Configuration @Configuration}
- * class. See {@link TestContextTransactionUtils#retrieveTransactionManager}
- * for details on the algorithm used to look up a transaction manager in
- * the test's {@code ApplicationContext}.
+ * (e.g., {@code @Transactional("myTxMgr")} 或 {@code @Transactional(transactionManger = "myTxMgr")})
+ * 声明<em>限定符</em>, 或者可以通过{@link org.springframework.context.annotation.Configuration @Configuration}类实现
+ * {@link org.springframework.transaction.annotation.TransactionManagementConfigurer TransactionManagementConfigurer}.
+ * 有关用于在测试{@code ApplicationContext}中查找事务管理器的算法的详细信息,
+ * 请参阅{@link TestContextTransactionUtils#retrieveTransactionManager}.
  */
 public class TransactionalTestExecutionListener extends AbstractTestExecutionListener {
 
@@ -108,7 +90,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	@SuppressWarnings("deprecation")
 	private static final TransactionConfigurationAttributes defaultTxConfigAttributes = new TransactionConfigurationAttributes();
 
-	// Do not require @Transactional test methods to be public.
+	// 不要求@Transactional 测试方法是 public.
 	protected final TransactionAttributeSource attributeSource = new AnnotationTransactionAttributeSource(false);
 
 	@SuppressWarnings("deprecation")
@@ -124,15 +106,10 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * If the test method of the supplied {@linkplain TestContext test context}
-	 * is configured to run within a transaction, this method will run
-	 * {@link BeforeTransaction @BeforeTransaction} methods and start a new
-	 * transaction.
-	 * <p>Note that if a {@code @BeforeTransaction} method fails, any remaining
-	 * {@code @BeforeTransaction} methods will not be invoked, and a transaction
-	 * will not be started.
-	 * @see org.springframework.transaction.annotation.Transactional
-	 * @see #getTransactionManager(TestContext, String)
+	 * 如果提供的{@linkplain TestContext 测试上下文} 的测试方法配置为在事务中运行,
+	 * 则此方法将运行{@link BeforeTransaction @BeforeTransaction}方法并启动新事务.
+	 * <p>请注意, 如果{@code @BeforeTransaction}方法失败, 则不会调用任何剩余的{@code @BeforeTransaction}方法,
+	 * 并且不会启动事务.
 	 */
 	@Override
 	public void beforeTestMethod(final TestContext testContext) throws Exception {
@@ -176,11 +153,9 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * If a transaction is currently active for the supplied
-	 * {@linkplain TestContext test context}, this method will end the transaction
-	 * and run {@link AfterTransaction @AfterTransaction} methods.
-	 * <p>{@code @AfterTransaction} methods are guaranteed to be invoked even if
-	 * an error occurs while ending the transaction.
+	 * 如果提供的{@linkplain TestContext 测试上下文}的事务当前处于活动状态,
+	 * 则此方法将结束事务并运行{{@link AfterTransaction @AfterTransaction}方法.
+	 * <p>即使在结束事务时发生错误, 也可以保证调用{@code @AfterTransaction}方法.
 	 */
 	@Override
 	public void afterTestMethod(TestContext testContext) throws Exception {
@@ -188,11 +163,11 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 		Assert.notNull(testMethod, "The test method of the supplied TestContext must not be null");
 
 		TransactionContext txContext = TransactionContextHolder.removeCurrentTransactionContext();
-		// If there was (or perhaps still is) a transaction...
+		// 如果有 (或可能仍然是)事务...
 		if (txContext != null) {
 			TransactionStatus transactionStatus = txContext.getTransactionStatus();
 			try {
-				// If the transaction is still active...
+				// 如果事务仍处于活动状态...
 				if (transactionStatus != null && !transactionStatus.isCompleted()) {
 					txContext.endTransaction();
 				}
@@ -204,12 +179,11 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Run all {@link BeforeTransaction @BeforeTransaction} methods for the
-	 * specified {@linkplain TestContext test context}. If one of the methods
-	 * fails, however, the caught exception will be rethrown in a wrapped
-	 * {@link RuntimeException}, and the remaining methods will <strong>not</strong>
-	 * be given a chance to execute.
-	 * @param testContext the current test context
+	 * 为指定的{@linkplain TestContext 测试上下文}运行所有{@link BeforeTransaction @BeforeTransaction}方法.
+	 * 但是, 如果其中一个方法失败, 捕获的异常将包装在{@link RuntimeException}中重新抛出,
+	 * 其余的方法将<strong>没有</strong>机会执行.
+	 * 
+	 * @param testContext 当前的测试上下文
 	 */
 	protected void runBeforeTransactionMethods(TestContext testContext) throws Exception {
 		try {
@@ -233,12 +207,11 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Run all {@link AfterTransaction @AfterTransaction} methods for the
-	 * specified {@linkplain TestContext test context}. If one of the methods
-	 * fails, the caught exception will be logged as an error, and the remaining
-	 * methods will be given a chance to execute. After all methods have
-	 * executed, the first caught exception, if any, will be rethrown.
-	 * @param testContext the current test context
+	 * 为指定的{@linkplain TestContext 测试上下文}运行所有的{@link AfterTransaction @AfterTransaction}方法.
+	 * 如果其中一个方法失败, 捕获的异常将被记录为错误, 其余方法仍有机会执行.
+	 * 执行完所有方法后, 将重新引发第一个捕获的异常.
+	 * 
+	 * @param testContext 当前的测试上下文
 	 */
 	protected void runAfterTransactionMethods(TestContext testContext) throws Exception {
 		Throwable afterTransactionException = null;
@@ -275,24 +248,21 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Get the {@linkplain PlatformTransactionManager transaction manager} to use
-	 * for the supplied {@linkplain TestContext test context} and {@code qualifier}.
-	 * <p>Delegates to {@link #getTransactionManager(TestContext)} if the
-	 * supplied {@code qualifier} is {@code null} or empty.
-	 * @param testContext the test context for which the transaction manager
-	 * should be retrieved
-	 * @param qualifier the qualifier for selecting between multiple bean matches;
-	 * may be {@code null} or empty
-	 * @return the transaction manager to use, or {@code null} if not found
-	 * @throws BeansException if an error occurs while retrieving the transaction manager
-	 * @see #getTransactionManager(TestContext)
+	 * 获取{@linkplain PlatformTransactionManager 事务管理器}以用于提供的{@linkplain TestContext 测试上下文}和{@code qualifier}.
+	 * <p>如果提供的{@code qualifier}为{@code null}或为空, 则委托给{@link #getTransactionManager(TestContext)}.
+	 * 
+	 * @param testContext 应检索事务管理器的测试上下文
+	 * @param qualifier 在多个bean匹配之间进行选择的限定符; 可能是{@code null}或为空
+	 * 
+	 * @return 要使用的事务管理器, 或{@code null}
+	 * @throws BeansException 如果在检索事务管理器时发生错误
 	 */
 	protected PlatformTransactionManager getTransactionManager(TestContext testContext, String qualifier) {
-		// Look up by type and qualifier from @Transactional
+		// 从@Transactional按类型和限定符查找
 		if (StringUtils.hasText(qualifier)) {
 			try {
-				// Use autowire-capable factory in order to support extended qualifier matching
-				// (only exposed on the internal BeanFactory, not on the ApplicationContext).
+				// 使用支持autowire的工厂以支持扩展的限定符匹配
+				// (仅暴露在内部BeanFactory上, 而不是在ApplicationContext上).
 				BeanFactory bf = testContext.getApplicationContext().getAutowireCapableBeanFactory();
 
 				return BeanFactoryAnnotationUtils.qualifiedBeanOfType(bf, PlatformTransactionManager.class, qualifier);
@@ -312,18 +282,14 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Get the {@linkplain PlatformTransactionManager transaction manager}
-	 * to use for the supplied {@linkplain TestContext test context}.
-	 * <p>The default implementation simply delegates to
-	 * {@link TestContextTransactionUtils#retrieveTransactionManager}.
-	 * @param testContext the test context for which the transaction manager
-	 * should be retrieved
-	 * @return the transaction manager to use, or {@code null} if not found
-	 * @throws BeansException if an error occurs while retrieving an explicitly
-	 * named transaction manager
-	 * @throws IllegalStateException if more than one TransactionManagementConfigurer
-	 * exists in the ApplicationContext
-	 * @see #getTransactionManager(TestContext, String)
+	 * 获取{@linkplain PlatformTransactionManager 事务管理器}以用于提供的{@linkplain TestContext 测试上下文}.
+	 * <p>默认实现委托给{@link TestContextTransactionUtils#retrieveTransactionManager}.
+	 * 
+	 * @param testContext 应检索事务管理器的测试上下文
+	 * 
+	 * @return 要使用的事务管理器, 或{@code null}
+	 * @throws BeansException 如果在检索显式命名的事务管理器时发生错误
+	 * @throws IllegalStateException 如果ApplicationContext中存在多个TransactionManagementConfigurer
 	 */
 	protected PlatformTransactionManager getTransactionManager(TestContext testContext) {
 		@SuppressWarnings("deprecation")
@@ -332,15 +298,14 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Determine whether or not to rollback transactions by default for the
-	 * supplied {@linkplain TestContext test context}.
-	 * <p>Supports {@link Rollback @Rollback}, {@link Commit @Commit}, or
-	 * {@link TransactionConfiguration @TransactionConfiguration} at the
-	 * class-level.
-	 * @param testContext the test context for which the default rollback flag
-	 * should be retrieved
-	 * @return the <em>default rollback</em> flag for the supplied test context
-	 * @throws Exception if an error occurs while determining the default rollback flag
+	 * 确定是否为提供的{@linkplain TestContext 测试上下文}默认回滚事务.
+	 * <p>在类级别支持{@link Rollback @Rollback}, {@link Commit @Commit},
+	 * {@link TransactionConfiguration @TransactionConfiguration}.
+	 * 
+	 * @param testContext 应检索默认回滚标志的测试上下文
+	 * 
+	 * @return 提供的测试上下文的<em>默认回滚</em>标志
+	 * @throws Exception 如果在确定默认回滚标志时发生错误
 	 */
 	@SuppressWarnings("deprecation")
 	protected final boolean isDefaultRollback(TestContext testContext) throws Exception {
@@ -368,15 +333,14 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Determine whether or not to rollback transactions for the supplied
-	 * {@linkplain TestContext test context} by taking into consideration the
-	 * {@linkplain #isDefaultRollback(TestContext) default rollback} flag and a
-	 * possible method-level override via the {@link Rollback @Rollback}
-	 * annotation.
-	 * @param testContext the test context for which the rollback flag
-	 * should be retrieved
-	 * @return the <em>rollback</em> flag for the supplied test context
-	 * @throws Exception if an error occurs while determining the rollback flag
+	 * 确定提供的{@linkplain TestContext 测试上下文}是否回滚事务,
+	 * 通过考虑{@linkplain #isDefaultRollback(TestContext) 默认回滚}标志,
+	 * 以及可能通过{@link Rollback @Rollback}注解覆盖方法级.
+	 * 
+	 * @param testContext 应检索回滚标志的测试上下文
+	 * 
+	 * @return 提供的测试上下文的<em>rollback</em>标志
+	 * @throws Exception 如果在确定回滚标志时发生错误
 	 */
 	protected final boolean isRollback(TestContext testContext) throws Exception {
 		boolean rollback = isDefaultRollback(testContext);
@@ -402,14 +366,14 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Get all methods in the supplied {@link Class class} and its superclasses
-	 * which are annotated with the supplied {@code annotationType} but
-	 * which are not <em>shadowed</em> by methods overridden in subclasses.
-	 * <p>Default methods on interfaces are also detected.
-	 * @param clazz the class for which to retrieve the annotated methods
-	 * @param annotationType the annotation type for which to search
-	 * @return all annotated methods in the supplied class and its superclasses
-	 * as well as annotated interface default methods
+	 * 获取所提供的{@link Class class}及其超类中的所有方法, 这些方法使用提供的{@code annotationType}注解,
+	 * 但不是通过在子类中重写方法以<em>shadowed</em>.
+	 * <p>还检测接口上的默认方法.
+	 * 
+	 * @param clazz 要检索带注解的方法的类
+	 * @param annotationType 要搜索的注解类型
+	 * 
+	 * @return 提供的类及其超类中的所有带注解的方法, 以及带注解的接口默认方法
 	 */
 	private List<Method> getAnnotatedMethods(Class<?> clazz, Class<? extends Annotation> annotationType) {
 		List<Method> methods = new ArrayList<Method>(4);
@@ -422,18 +386,14 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	}
 
 	/**
-	 * Retrieve the {@link TransactionConfigurationAttributes} for the
-	 * supplied {@link TestContext} whose {@linkplain Class test class}
-	 * may optionally declare or inherit
-	 * {@link TransactionConfiguration @TransactionConfiguration}.
-	 * <p>If {@code @TransactionConfiguration} is not present for the
-	 * supplied {@code TestContext}, a default instance of
-	 * {@code TransactionConfigurationAttributes} will be used instead.
-	 * @param testContext the test context for which the configuration
-	 * attributes should be retrieved
-	 * @return the TransactionConfigurationAttributes instance for this listener,
-	 * potentially cached
-	 * @see TransactionConfigurationAttributes#TransactionConfigurationAttributes()
+	 * 检索所提供的{@link TestContext}的{@link TransactionConfigurationAttributes},
+	 * 其{@linkplain Class 测试类}可以选择声明或继承{@link TransactionConfiguration @TransactionConfiguration}.
+	 * <p>如果提供的{@code TestContext}没有{@code @TransactionConfiguration},
+	 * 则将使用 {@code TransactionConfigurationAttributes}的默认实例.
+	 * 
+	 * @param testContext 应检索配置属性的测试上下文
+	 * 
+	 * @return 此监听器的TransactionConfigurationAttributes实例, 可能已缓存
 	 */
 	@SuppressWarnings("deprecation")
 	TransactionConfigurationAttributes retrieveConfigurationAttributes(TestContext testContext) {

@@ -3,7 +3,7 @@ package org.springframework.test.context.transaction;
 import org.springframework.core.NamedInheritableThreadLocal;
 
 /**
- * {@link InheritableThreadLocal}-based holder for the current {@link TransactionContext}.
+ * 基于{@link InheritableThreadLocal}的保存器, 用于当前{@link TransactionContext}.
  */
 class TransactionContextHolder {
 

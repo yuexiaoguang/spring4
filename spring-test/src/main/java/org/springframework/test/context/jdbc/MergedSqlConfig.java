@@ -10,10 +10,10 @@ import org.springframework.test.context.jdbc.SqlConfig.TransactionMode;
 import org.springframework.util.Assert;
 
 /**
- * {@code MergedSqlConfig} encapsulates the <em>merged</em> {@link SqlConfig @SqlConfig}
- * attributes declared locally via {@link Sql#config} and globally as a class-level annotation.
+ * {@code MergedSqlConfig}封装了通过{@link Sql#config}在本地声明的<em>合并</em> {@link SqlConfig @SqlConfig}属性,
+ * 并在全局范围内作为类级注解.
  *
- * <p>Explicit local configuration attributes override global configuration attributes.
+ * <p>显式本地配置属性覆盖全局配置属性.
  */
 class MergedSqlConfig {
 
@@ -37,27 +37,25 @@ class MergedSqlConfig {
 
 
 	/**
-	 * Construct a {@code MergedSqlConfig} instance by merging the configuration
-	 * from the supplied local (potentially method-level) {@code @SqlConfig} annotation
-	 * with class-level configuration discovered on the supplied {@code testClass}.
-	 * <p>Local configuration overrides class-level configuration.
-	 * <p>If the test class is not annotated with {@code @SqlConfig}, no merging
-	 * takes place and the local configuration is used "as is".
+	 * 通过将提供的本地(可能是方法级别) {@code @SqlConfig}注解中的配置
+	 * 与在提供的{@code testClass}上发现的类级配置合并来构造{@code MergedSqlConfig}实例.
+	 * <p>本地配置会覆盖类级配置.
+	 * <p>如果测试类未使用{@code @SqlConfig}注解, 则不会发生合并, 并且"按原样"使用本地配置.
 	 */
 	MergedSqlConfig(SqlConfig localSqlConfig, Class<?> testClass) {
 		Assert.notNull(localSqlConfig, "Local @SqlConfig must not be null");
 		Assert.notNull(testClass, "testClass must not be null");
 
-		// Get global attributes, if any.
+		// 获取全局属性.
 		AnnotationAttributes attributes = AnnotatedElementUtils.findMergedAnnotationAttributes(
 				testClass, SqlConfig.class.getName(), false, false);
 
-		// Override global attributes with local attributes.
+		// 使用本地属性覆盖全局属性.
 		if (attributes != null) {
 			for (String key : attributes.keySet()) {
 				Object value = AnnotationUtils.getValue(localSqlConfig, key);
 				if (value != null) {
-					// Is the value explicit (i.e., not a 'default')?
+					// 值是否显式指定 (i.e., 不是'default')?
 					if (!value.equals("") && value != TransactionMode.DEFAULT && value != ErrorMode.DEFAULT) {
 						attributes.put(key, value);
 					}
@@ -65,7 +63,7 @@ class MergedSqlConfig {
 			}
 		}
 		else {
-			// Otherwise, use local attributes only.
+			// 否则, 仅使用本地属性.
 			attributes = AnnotationUtils.getAnnotationAttributes(localSqlConfig, false, false);
 		}
 
@@ -146,7 +144,7 @@ class MergedSqlConfig {
 	}
 
 	/**
-	 * Provide a String representation of the merged SQL script configuration.
+	 * 合并的SQL脚本配置的字符串表示.
 	 */
 	@Override
 	public String toString() {

@@ -10,13 +10,11 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * {@code ActiveProfiles} is a class-level annotation that is used to declare
- * which <em>active bean definition profiles</em> should be used when loading
- * an {@link org.springframework.context.ApplicationContext ApplicationContext}
- * for test classes.
+ * {@code ActiveProfiles}是一个类级注解, 用于声明在为测试类加载
+ * {@link org.springframework.context.ApplicationContext ApplicationContext}时,
+ * 应使用哪些<em>活动的bean定义配置文件</em>.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,47 +23,35 @@ import org.springframework.core.annotation.AliasFor;
 public @interface ActiveProfiles {
 
 	/**
-	 * Alias for {@link #profiles}.
-	 * <p>This attribute may <strong>not</strong> be used in conjunction with
-	 * {@link #profiles}, but it may be used <em>instead</em> of {@link #profiles}.
+	 * {@link #profiles}的别名.
+	 * <p>此属性<strong>不</strong>可以与{@link #profiles}一起使用, 但可以<em>代替</em>{@link #profiles}.
 	 */
 	@AliasFor("profiles")
 	String[] value() default {};
 
 	/**
-	 * The bean definition profiles to activate.
-	 * <p>This attribute may <strong>not</strong> be used in conjunction with
-	 * {@link #value}, but it may be used <em>instead</em> of {@link #value}.
+	 * 要激活的bean定义配置文件.
+	 * <p>此属性<strong>不</strong>可以与{@link #value}一起使用, 但可以<em>代替</em> {@link #value}.
 	 */
 	@AliasFor("value")
 	String[] profiles() default {};
 
 	/**
-	 * The type of {@link ActiveProfilesResolver} to use for resolving the active
-	 * bean definition profiles programmatically.
-	 * @since 4.0
-	 * @see ActiveProfilesResolver
+	 * 用于以编程方式解析活动Bean定义配置文件的{@link ActiveProfilesResolver}的类型.
 	 */
 	Class<? extends ActiveProfilesResolver> resolver() default ActiveProfilesResolver.class;
 
 	/**
-	 * Whether or not bean definition profiles from superclasses should be
-	 * <em>inherited</em>.
-	 * <p>The default value is {@code true}, which means that a test
-	 * class will <em>inherit</em> bean definition profiles defined by a
-	 * test superclass. Specifically, the bean definition profiles for a test
-	 * class will be appended to the list of bean definition profiles
-	 * defined by a test superclass. Thus, subclasses have the option of
-	 * <em>extending</em> the list of bean definition profiles.
-	 * <p>If {@code inheritProfiles} is set to {@code false}, the bean
-	 * definition profiles for the test class will <em>shadow</em> and
-	 * effectively replace any bean definition profiles defined by a superclass.
-	 * <p>In the following example, the {@code ApplicationContext} for
-	 * {@code BaseTest} will be loaded using only the &quot;base&quot;
-	 * bean definition profile; beans defined in the &quot;extended&quot; profile
-	 * will therefore not be loaded. In contrast, the {@code ApplicationContext}
-	 * for {@code ExtendedTest} will be loaded using the &quot;base&quot;
-	 * <strong>and</strong> &quot;extended&quot; bean definition profiles.
+	 * 是否<em>继承</em>超类的bean定义配置文件.
+	 * <p>默认{@code true}, 这意味着测试类将<em>>继承</em>由测试超类定义的 bean定义配置文件.
+	 * 具体来说, 测试类的bean定义配置文件将附加到测试超类定义的bean定义配置文件列表中.
+	 * 因此, 子类可以选择<em>扩展</em> bean定义配置文件列表.
+	 * <p>如果{@code inheritProfiles}设置为{@code false}, 则测试类的bean定义配置文件将<em>shadow</em>,
+	 * 并有效替换由超类定义的任何bean定义配置文件.
+	 * <p>在以下示例中, {@code BaseTest}的{@code ApplicationContext}将仅使用 &quot;base&quot; bean定义配置文件加载;
+	 * 在&quot;extended&quot;配置文件中定义的bean不会加载.
+	 * 相反, {@code ExtendedTest}的{@code ApplicationContext}将使用&quot;base&quot; 
+	 * <strong>和</strong> &quot;extended&quot; bean定义配置文件.
 	 * <pre class="code">
 	 * &#064;ActiveProfiles(&quot;base&quot;)
 	 * &#064;ContextConfiguration
@@ -79,12 +65,7 @@ public @interface ActiveProfiles {
 	 *     // ...
 	 * }
 	 * </pre>
-	 * <p>Note: {@code @ActiveProfiles} can be used when loading an
-	 * {@code ApplicationContext} from path-based resource locations or
-	 * annotated classes.
-	 * @see ContextConfiguration#locations
-	 * @see ContextConfiguration#classes
-	 * @see ContextConfiguration#inheritLocations
+	 * <p>Note: 从基于路径的资源位置或带注释的类加载{@code ApplicationContext}时, 可以使用{@code @ActiveProfiles}.
 	 */
 	boolean inheritProfiles() default true;
 

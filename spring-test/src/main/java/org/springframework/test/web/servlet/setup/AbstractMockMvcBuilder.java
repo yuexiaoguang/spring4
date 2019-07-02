@@ -20,12 +20,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
- * An abstract implementation of {@link org.springframework.test.web.servlet.MockMvcBuilder}
- * with common methods for configuring filters, default request properties, global
- * expectations and global result actions.
+ * {@link org.springframework.test.web.servlet.MockMvcBuilder}的抽象实现,
+ * 包含用于配置过滤器, 默认请求属性, 全局期望和全局结果操作的常用方法.
  * <p>
- * Sub-classes can use different strategies to prepare a WebApplicationContext to
- * pass to the DispatcherServlet.
+ * 子类可以使用不同的策略来准备WebApplicationContext以传递给DispatcherServlet.
  */
 public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>>
 		extends MockMvcBuilderSupport implements ConfigurableMockMvcBuilder<B> {
@@ -110,7 +108,7 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 
 
 	/**
-	 * Build a {@link org.springframework.test.web.servlet.MockMvc} instance.
+	 * 构建一个{@link org.springframework.test.web.servlet.MockMvc}实例.
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
@@ -140,9 +138,8 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 	}
 
 	/**
-	 * A method to obtain the WebApplicationContext to be passed to the DispatcherServlet.
-	 * Invoked from {@link #build()} before the
-	 * {@link org.springframework.test.web.servlet.MockMvc} instance is created.
+	 * 获取要传递给DispatcherServlet的WebApplicationContext的方法.
+	 * 在创建{@link org.springframework.test.web.servlet.MockMvc}实例之前从{@link #build()}调用.
 	 */
 	protected abstract WebApplicationContext initWebAppContext();
 

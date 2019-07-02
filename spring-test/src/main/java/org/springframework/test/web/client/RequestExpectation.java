@@ -1,22 +1,19 @@
 package org.springframework.test.web.client;
 
 /**
- * An extension of {@code ResponseActions} that also implements
- * {@code RequestMatcher} and {@code ResponseCreator}
+ * {@code ResponseActions}的扩展, 它还实现了{@code RequestMatcher}和{@code ResponseCreator}
  *
- * <p>While {@code ResponseActions} is the API for defining expectations this
- * sub-interface is the internal SPI for matching these expectations to actual
- * requests and for creating responses.
+ * <p>虽然{@code ResponseActions}是用于定义期望的API, 但此子接口是内部SPI, 用于将这些期望与实际请求相匹配并创建响应.
  */
 public interface RequestExpectation extends ResponseActions, RequestMatcher, ResponseCreator {
 
 	/**
-	 * Whether there is a remaining count of invocations for this expectation.
+	 * 是否存在针对此期望的剩余调用次数.
 	 */
 	boolean hasRemainingCount();
 
 	/**
-	 * Whether the requirements for this request expectation have been met.
+	 * 是否满足此请求期望的要求.
 	 */
 	boolean isSatisfied();
 

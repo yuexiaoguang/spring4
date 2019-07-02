@@ -9,12 +9,11 @@ import org.junit.runners.model.Statement;
 import org.springframework.test.context.TestContextManager;
 
 /**
- * {@code RunAfterTestClassCallbacks} is a custom JUnit {@link Statement} which allows
- * the <em>Spring TestContext Framework</em> to be plugged into the JUnit execution chain
- * by calling {@link TestContextManager#afterTestClass afterTestClass()} on the supplied
- * {@link TestContextManager}.
+ * {@code RunAfterTestClassCallbacks}是一个自定义的JUnit {@link Statement},
+ * 它允许通过在提供的{@link TestContextManager}上调用{@link TestContextManager#afterTestClass afterTestClass()}
+ * 将<em>Spring TestContext Framework</em>插入到JUnit执行链中.
  *
- * <p><strong>NOTE:</strong> This class requires JUnit 4.9 or higher.
+ * <p><strong>NOTE:</strong> 此类需要JUnit 4.9或更高版本.
  */
 public class RunAfterTestClassCallbacks extends Statement {
 
@@ -24,10 +23,8 @@ public class RunAfterTestClassCallbacks extends Statement {
 
 
 	/**
-	 * Construct a new {@code RunAfterTestClassCallbacks} statement.
-	 * @param next the next {@code Statement} in the execution chain
-	 * @param testContextManager the TestContextManager upon which to call
-	 * {@code afterTestClass()}
+	 * @param next 执行链中的下一个{@code Statement}
+	 * @param testContextManager 要调用{@code afterTestClass()}的TestContextManager
 	 */
 	public RunAfterTestClassCallbacks(Statement next, TestContextManager testContextManager) {
 		this.next = next;
@@ -36,11 +33,10 @@ public class RunAfterTestClassCallbacks extends Statement {
 
 
 	/**
-	 * Evaluate the next {@link Statement} in the execution chain (typically an instance of
-	 * {@link org.junit.internal.runners.statements.RunAfters RunAfters}), catching any
-	 * exceptions thrown, and then invoke {@link TestContextManager#afterTestClass()}.
-	 * <p>If the invocation of {@code afterTestClass()} throws an exception, it will also
-	 * be tracked. Multiple exceptions will be combined into a {@link MultipleFailureException}.
+	 * 评估执行链中的下一个{@link Statement}(通常是
+	 * {@link org.junit.internal.runners.statements.RunAfters RunAfters}的一个实例),
+	 * 捕获抛出的任何异常, 然后调用{@link TestContextManager#afterTestClass()}.
+	 * <p>如果{@code afterTestClass()}的调用抛出异常, 它也将被跟踪. 多个异常将合并到{@link MultipleFailureException}.
 	 */
 	@Override
 	public void evaluate() throws Throwable {

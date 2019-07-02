@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletURL} interface.
+ * {@link javax.portlet.PortletURL}接口的模拟实现.
  */
 public class MockPortletURL extends MockBaseURL implements PortletURL {
 
@@ -31,10 +31,10 @@ public class MockPortletURL extends MockBaseURL implements PortletURL {
 
 
 	/**
-	 * Create a new MockPortletURL for the given URL type.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
-	 * @param urlType the URL type, for example "render" or "action"
+	 * 为给定的URL类型创建一个新的MockPortletURL.
+	 * 
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
+	 * @param urlType URL类型, 例如"render" 或 "action"
 	 */
 	public MockPortletURL(PortalContext portalContext, String urlType) {
 		Assert.notNull(portalContext, "PortalContext is required");

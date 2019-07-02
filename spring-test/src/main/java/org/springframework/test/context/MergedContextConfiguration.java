@@ -15,28 +15,21 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code MergedContextConfiguration} encapsulates the <em>merged</em>
- * context configuration declared on a test class and all of its superclasses
- * via {@link ContextConfiguration @ContextConfiguration},
- * {@link ActiveProfiles @ActiveProfiles}, and
- * {@link TestPropertySource @TestPropertySource}.
+ * {@code MergedContextConfiguration}封装在测试类及其所有超类上声明的<em>合并</em>上下文配置,
+ * 通过{@link ContextConfiguration @ContextConfiguration},
+ * {@link ActiveProfiles @ActiveProfiles}, 和{@link TestPropertySource @TestPropertySource}.
  *
- * <p>Merged context resource locations, annotated classes, active profiles,
- * property resource locations, and in-lined properties represent all declared
- * values in the test class hierarchy taking into consideration the semantics
- * of the {@link ContextConfiguration#inheritLocations},
- * {@link ActiveProfiles#inheritProfiles},
- * {@link TestPropertySource#inheritLocations}, and
- * {@link TestPropertySource#inheritProperties} flags.
+ * <p>合并的上下文资源位置, 带注解的类, 活动的配置文件, 属性资源位置, 和内联属性,
+ * 表示测试类层次结构中的所有声明值, 同时考虑了
+ * {@link ContextConfiguration#inheritLocations}, {@link ActiveProfiles#inheritProfiles},
+ * {@link TestPropertySource#inheritLocations}, 和{@link TestPropertySource#inheritProperties}标志的语义.
  *
- * <p>A {@link SmartContextLoader} uses {@code MergedContextConfiguration}
- * to load an {@link org.springframework.context.ApplicationContext ApplicationContext}.
+ * <p>{@link SmartContextLoader}使用{@code MergedContextConfiguration}加载
+ * {@link org.springframework.context.ApplicationContext ApplicationContext}.
  *
- * <p>{@code MergedContextConfiguration} is also used by the
- * {@link org.springframework.test.context.cache.ContextCache ContextCache}
- * as the key for caching an
- * {@link org.springframework.context.ApplicationContext ApplicationContext}
- * that was loaded using properties of this {@code MergedContextConfiguration}.
+ * <p>{@link org.springframework.test.context.cache.ContextCache ContextCache}还使用
+ * {@code MergedContextConfiguration}作为缓存使用此{@code MergedContextConfiguration}属性加载的
+ * {@link org.springframework.context.ApplicationContext ApplicationContext}的键.
  */
 public class MergedContextConfiguration implements Serializable {
 
@@ -100,15 +93,13 @@ public class MergedContextConfiguration implements Serializable {
 			return EMPTY_STRING_ARRAY;
 		}
 
-		// Active profiles must be unique
+		// 活动的配置文件必须是唯一的
 		Set<String> profilesSet = new LinkedHashSet<String>(Arrays.asList(activeProfiles));
 		return StringUtils.toStringArray(profilesSet);
 	}
 
 	/**
-	 * Generate a null-safe {@link String} representation of the supplied
-	 * {@link ContextLoader} based solely on the fully qualified name of the
-	 * loader or &quot;null&quot; if the supplied loaded is {@code null}.
+	 * 仅基于加载器的完全限定名称或&quot;null&quot;生成所提供的{@link ContextLoader}的null-安全{@link String}表示.
 	 */
 	protected static String nullSafeToString(ContextLoader contextLoader) {
 		return (contextLoader != null ? contextLoader.getClass().getName() : "null");
@@ -116,15 +107,11 @@ public class MergedContextConfiguration implements Serializable {
 
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance for the
-	 * supplied parameters.
-	 * <p>Delegates to
-	 * {@link #MergedContextConfiguration(Class, String[], Class[], Set, String[], String[], String[], ContextLoader, CacheAwareContextLoaderDelegate, MergedContextConfiguration)}.
-	 * @param testClass the test class for which the configuration was merged
-	 * @param locations the merged context resource locations
-	 * @param classes the merged annotated classes
-	 * @param activeProfiles the merged active bean definition profiles
-	 * @param contextLoader the resolved {@code ContextLoader}
+	 * @param testClass 合并配置的测试类
+	 * @param locations 合并的上下文资源位置
+	 * @param classes 合并的注解类
+	 * @param activeProfiles 合并的活动bean定义配置文件
+	 * @param contextLoader 已解析的{@code ContextLoader}
 	 */
 	public MergedContextConfiguration(Class<?> testClass, String[] locations, Class<?>[] classes,
 			String[] activeProfiles, ContextLoader contextLoader) {
@@ -133,17 +120,12 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance for the
-	 * supplied parameters.
-	 * <p>Delegates to
-	 * {@link #MergedContextConfiguration(Class, String[], Class[], Set, String[], String[], String[], ContextLoader, CacheAwareContextLoaderDelegate, MergedContextConfiguration)}.
-	 * @param testClass the test class for which the configuration was merged
-	 * @param locations the merged context resource locations
-	 * @param classes the merged annotated classes
-	 * @param contextInitializerClasses the merged context initializer classes
-	 * @param activeProfiles the merged active bean definition profiles
-	 * @param contextLoader the resolved {@code ContextLoader}
-	 * @see #MergedContextConfiguration(Class, String[], Class[], Set, String[], ContextLoader, CacheAwareContextLoaderDelegate, MergedContextConfiguration)
+	 * @param testClass 合并配置的测试类
+	 * @param locations 合并的上下文资源位置
+	 * @param classes 合并的带注解的类
+	 * @param contextInitializerClasses 合并的上下文初始化器类
+	 * @param activeProfiles 合并的活动bean定义配置文件
+	 * @param contextLoader 已解析的{@code ContextLoader}
 	 */
 	public MergedContextConfiguration(Class<?> testClass, String[] locations, Class<?>[] classes,
 			Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> contextInitializerClasses,
@@ -153,20 +135,14 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance for the
-	 * supplied parameters.
-	 * <p>Delegates to
-	 * {@link #MergedContextConfiguration(Class, String[], Class[], Set, String[], String[], String[], ContextLoader, CacheAwareContextLoaderDelegate, MergedContextConfiguration)}.
-	 * @param testClass the test class for which the configuration was merged
-	 * @param locations the merged context resource locations
-	 * @param classes the merged annotated classes
-	 * @param contextInitializerClasses the merged context initializer classes
-	 * @param activeProfiles the merged active bean definition profiles
-	 * @param contextLoader the resolved {@code ContextLoader}
-	 * @param cacheAwareContextLoaderDelegate a cache-aware context loader
-	 * delegate with which to retrieve the parent context
-	 * @param parent the parent configuration or {@code null} if there is no parent
-	 * @since 3.2.2
+	 * @param testClass 合并配置的测试类
+	 * @param locations 合并的上下文资源位置
+	 * @param classes 合并的带注解的类
+	 * @param contextInitializerClasses 合并的上下文初始化器类
+	 * @param activeProfiles 合并的活动bean定义配置文件
+	 * @param contextLoader 已解析的{@code ContextLoader}
+	 * @param cacheAwareContextLoaderDelegate 用于检索父上下文的缓存感知上下文加载器委托
+	 * @param parent 父配置或{@code null}如果没有父配置
 	 */
 	public MergedContextConfiguration(Class<?> testClass, String[] locations, Class<?>[] classes,
 			Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> contextInitializerClasses,
@@ -178,9 +154,7 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance by copying
-	 * all fields from the supplied {@code MergedContextConfiguration}.
-	 * @since 4.1
+	 * 复制提供的{@code MergedContextConfiguration}中的所有字段.
 	 */
 	public MergedContextConfiguration(MergedContextConfiguration mergedConfig) {
 		this(mergedConfig.testClass, mergedConfig.locations, mergedConfig.classes,
@@ -190,27 +164,21 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance for the
-	 * supplied parameters.
-	 * <p>If a {@code null} value is supplied for {@code locations},
-	 * {@code classes}, {@code activeProfiles}, {@code propertySourceLocations},
-	 * or {@code propertySourceProperties} an empty array will be stored instead.
-	 * If a {@code null} value is supplied for the
-	 * {@code contextInitializerClasses} an empty set will be stored instead.
-	 * Furthermore, active profiles will be sorted, and duplicate profiles
-	 * will be removed.
-	 * @param testClass the test class for which the configuration was merged
-	 * @param locations the merged context resource locations
-	 * @param classes the merged annotated classes
-	 * @param contextInitializerClasses the merged context initializer classes
-	 * @param activeProfiles the merged active bean definition profiles
-	 * @param propertySourceLocations the merged {@code PropertySource} locations
-	 * @param propertySourceProperties the merged {@code PropertySource} properties
-	 * @param contextLoader the resolved {@code ContextLoader}
-	 * @param cacheAwareContextLoaderDelegate a cache-aware context loader
-	 * delegate with which to retrieve the parent context
-	 * @param parent the parent configuration or {@code null} if there is no parent
-	 * @since 4.1
+	 * <p>如果为{@code locations}, {@code classes}, {@code activeProfiles},
+	 * {@code propertySourceLocations}, 或{@code propertySourceProperties}提供{@code null}值, 则会存储一个空数组.
+	 * 如果为{@code contextInitializerClasses}提供了{@code null}值, 则将存储一个空集.
+	 * 此外, 将对活动配置文件进行排序, 并删除重复的配置文件.
+	 * 
+	 * @param testClass 合并配置的测试类
+	 * @param locations 合并的上下文资源位置
+	 * @param classes 合并的带注解的类
+	 * @param contextInitializerClasses 合并的上下文初始化器类
+	 * @param activeProfiles 合并的活动bean定义配置文件
+	 * @param propertySourceLocations 合并的{@code PropertySource}位置
+	 * @param propertySourceProperties 合并的{@code PropertySource}属性
+	 * @param contextLoader 已解析的{@code ContextLoader}
+	 * @param cacheAwareContextLoaderDelegate 用于检索父上下文的缓存感知上下文加载器委托
+	 * @param parent 父配置或{@code null}如果没有父配置
 	 */
 	public MergedContextConfiguration(Class<?> testClass, String[] locations, Class<?>[] classes,
 			Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> contextInitializerClasses,
@@ -224,28 +192,22 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Create a new {@code MergedContextConfiguration} instance for the
-	 * supplied parameters.
-	 * <p>If a {@code null} value is supplied for {@code locations},
-	 * {@code classes}, {@code activeProfiles}, {@code propertySourceLocations},
-	 * or {@code propertySourceProperties} an empty array will be stored instead.
-	 * If a {@code null} value is supplied for {@code contextInitializerClasses}
-	 * or {@code contextCustomizers}, an empty set will be stored instead.
-	 * Furthermore, active profiles will be sorted, and duplicate profiles
-	 * will be removed.
-	 * @param testClass the test class for which the configuration was merged
-	 * @param locations the merged context resource locations
-	 * @param classes the merged annotated classes
-	 * @param contextInitializerClasses the merged context initializer classes
-	 * @param activeProfiles the merged active bean definition profiles
-	 * @param propertySourceLocations the merged {@code PropertySource} locations
-	 * @param propertySourceProperties the merged {@code PropertySource} properties
-	 * @param contextCustomizers the context customizers
-	 * @param contextLoader the resolved {@code ContextLoader}
-	 * @param cacheAwareContextLoaderDelegate a cache-aware context loader
-	 * delegate with which to retrieve the parent context
-	 * @param parent the parent configuration or {@code null} if there is no parent
-	 * @since 4.3
+	 * <p>如果为{@code locations}, {@code classes}, {@code activeProfiles},
+	 * {@code propertySourceLocations}, 或{@code propertySourceProperties}提供了{@code null}值, 则会存储一个空数组.
+	 * 如果为{@code contextInitializerClasses}或{@code contextCustomizers}提供了{@code null}值, 则会存储一个空集合.
+	 * 此外, 将对活动配置文件进行排序, 并删除重复的配置文件.
+	 * 
+	 * @param testClass 合并配置的测试类
+	 * @param locations 合并的上下文资源位置
+	 * @param classes 合并的带注解的类
+	 * @param contextInitializerClasses 合并的上下文初始化器类
+	 * @param activeProfiles 合并的活动bean定义配置文件
+	 * @param propertySourceLocations 合并的{@code PropertySource}位置
+	 * @param propertySourceProperties 合并的{@code PropertySource}属性
+	 * @param contextCustomizers 上下文定制器
+	 * @param contextLoader 已解析的{@code ContextLoader}
+	 * @param cacheAwareContextLoaderDelegate 用于检索父上下文的缓存感知上下文加载器委托
+	 * @param parent 父配置或{@code null}如果没有父配置
 	 */
 	public MergedContextConfiguration(Class<?> testClass, String[] locations, Class<?>[] classes,
 			Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> contextInitializerClasses,
@@ -268,140 +230,111 @@ public class MergedContextConfiguration implements Serializable {
 
 
 	/**
-	 * Get the {@linkplain Class test class} associated with this
-	 * {@code MergedContextConfiguration}.
+	 * 获取与此{@code MergedContextConfiguration}相关联的{@linkplain Class 测试类}.
 	 */
 	public Class<?> getTestClass() {
 		return this.testClass;
 	}
 
 	/**
-	 * Get the merged resource locations for {@code ApplicationContext}
-	 * configuration files for the {@linkplain #getTestClass() test class}.
-	 * <p>Context resource locations typically represent XML configuration
-	 * files or Groovy scripts.
+	 * 获取{@linkplain #getTestClass() 测试类}的 {@code ApplicationContext}配置文件的合并资源位置.
+	 * <p>上下文资源位置通常表示XML配置文件或Groovy脚本.
 	 */
 	public String[] getLocations() {
 		return this.locations;
 	}
 
 	/**
-	 * Get the merged annotated classes for the {@linkplain #getTestClass() test class}.
+	 * 获取{@linkplain #getTestClass() 测试类}的合并注解类.
 	 */
 	public Class<?>[] getClasses() {
 		return this.classes;
 	}
 
 	/**
-	 * Determine if this {@code MergedContextConfiguration} instance has
-	 * path-based context resource locations.
-	 * @return {@code true} if the {@link #getLocations() locations} array is not empty
-	 * @since 4.0.4
-	 * @see #hasResources()
-	 * @see #hasClasses()
+	 * 确定此{@code MergedContextConfiguration}实例是否具有基于路径的上下文资源位置.
+	 * 
+	 * @return {@code true} 如果{@link #getLocations() locations}数组不为空
 	 */
 	public boolean hasLocations() {
 		return !ObjectUtils.isEmpty(getLocations());
 	}
 
 	/**
-	 * Determine if this {@code MergedContextConfiguration} instance has
-	 * class-based resources.
-	 * @return {@code true} if the {@link #getClasses() classes} array is not empty
-	 * @since 4.0.4
-	 * @see #hasResources()
-	 * @see #hasLocations()
+	 * 确定此{@code MergedContextConfiguration}实例是否具有基于类的资源.
+	 * 
+	 * @return {@code true} 如果{@link #getClasses() classes}数组不为空
 	 */
 	public boolean hasClasses() {
 		return !ObjectUtils.isEmpty(getClasses());
 	}
 
 	/**
-	 * Determine if this {@code MergedContextConfiguration} instance has
-	 * either path-based context resource locations or class-based resources.
-	 * @return {@code true} if either the {@link #getLocations() locations}
-	 * or the {@link #getClasses() classes} array is not empty
-	 * @since 4.0.4
-	 * @see #hasLocations()
-	 * @see #hasClasses()
+	 * 确定此{@code MergedContextConfiguration}实例是否具有基于路径的上下文资源位置或基于类的资源.
+	 * 
+	 * @return {@code true} 如果{@link #getLocations() locations}或{@link #getClasses() classes}数组不为空
 	 */
 	public boolean hasResources() {
 		return (hasLocations() || hasClasses());
 	}
 
 	/**
-	 * Get the merged {@code ApplicationContextInitializer} classes for the
-	 * {@linkplain #getTestClass() test class}.
+	 * 获取{@linkplain #getTestClass() 测试类}的合并{@code ApplicationContextInitializer}类.
 	 */
 	public Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> getContextInitializerClasses() {
 		return this.contextInitializerClasses;
 	}
 
 	/**
-	 * Get the merged active bean definition profiles for the
-	 * {@linkplain #getTestClass() test class}.
-	 * @see ActiveProfiles
+	 * 获取{@linkplain #getTestClass() 测试类}的合并活动bean定义配置文件.
 	 */
 	public String[] getActiveProfiles() {
 		return this.activeProfiles;
 	}
 
 	/**
-	 * Get the merged resource locations for test {@code PropertySources}
-	 * for the {@linkplain #getTestClass() test class}.
-	 * @see TestPropertySource#locations
-	 * @see java.util.Properties
+	 * 为{@linkplain #getTestClass() 测试类}获取测试{@code PropertySources}的合并资源位置.
 	 */
 	public String[] getPropertySourceLocations() {
 		return this.propertySourceLocations;
 	}
 
 	/**
-	 * Get the merged test {@code PropertySource} properties for the
-	 * {@linkplain #getTestClass() test class}.
-	 * <p>Properties will be loaded into the {@code Environment}'s set of
-	 * {@code PropertySources}.
-	 * @see TestPropertySource#properties
-	 * @see java.util.Properties
+	 * 获取{@linkplain #getTestClass() 测试类}的合并测试{@code PropertySource}属性.
+	 * <p>属性将被加载到{@code Environment}的{@code PropertySources}集合中.
 	 */
 	public String[] getPropertySourceProperties() {
 		return this.propertySourceProperties;
 	}
 
 	/**
-	 * Get the merged {@link ContextCustomizer ContextCustomizers} that will be applied
-	 * when the application context is loaded.
+	 * 获取将在加载应用程序上下文时应用的合并的{@link ContextCustomizer ContextCustomizers}.
 	 */
 	public Set<ContextCustomizer> getContextCustomizers() {
 		return this.contextCustomizers;
 	}
 
 	/**
-	 * Get the resolved {@link ContextLoader} for the {@linkplain #getTestClass() test class}.
+	 * 获取{@linkplain #getTestClass() 测试类}已解析的{@link ContextLoader}.
 	 */
 	public ContextLoader getContextLoader() {
 		return this.contextLoader;
 	}
 
 	/**
-	 * Get the {@link MergedContextConfiguration} for the parent application context
-	 * in a context hierarchy.
-	 * @return the parent configuration or {@code null} if there is no parent
-	 * @see #getParentApplicationContext()
-	 * @since 3.2.2
+	 * 在上下文层次结构中获取父应用程序上下文的{@link MergedContextConfiguration}.
+	 * 
+	 * @return 父配置或{@code null}如果没有父配置
 	 */
 	public MergedContextConfiguration getParent() {
 		return this.parent;
 	}
 
 	/**
-	 * Get the parent {@link ApplicationContext} for the context defined by this
-	 * {@code MergedContextConfiguration} from the context cache.
-	 * <p>If the parent context has not yet been loaded, it will be loaded, stored
-	 * in the cache, and then returned.
-	 * @return the parent {@code ApplicationContext} or {@code null} if there is no parent
-	 * @see #getParent()
-	 * @since 3.2.2
+	 * 从上下文缓存中获取此{@code MergedContextConfiguration}定义的上下文的父{@link ApplicationContext}.
+	 * <p>如果尚未加载父上下文, 则将加载它, 将其存储在缓存中, 然后返回.
+	 * 
+	 * @return 父级{@code ApplicationContext}或{@code null}如果没有父级
 	 */
 	public ApplicationContext getParentApplicationContext() {
 		if (this.parent == null) {
@@ -414,15 +347,16 @@ public class MergedContextConfiguration implements Serializable {
 
 
 	/**
-	 * Determine if the supplied object is equal to this {@code MergedContextConfiguration}
-	 * instance by comparing both object's {@linkplain #getLocations() locations},
+	 * 通过比较对象的
+	 * {@linkplain #getLocations() locations},
 	 * {@linkplain #getClasses() annotated classes},
 	 * {@linkplain #getContextInitializerClasses() context initializer classes},
 	 * {@linkplain #getActiveProfiles() active profiles},
 	 * {@linkplain #getPropertySourceLocations() property source locations},
 	 * {@linkplain #getPropertySourceProperties() property source properties},
-	 * {@linkplain #getParent() parents}, and the fully qualified names of their
-	 * {@link #getContextLoader() ContextLoaders}.
+	 * {@linkplain #getParent() parents},
+	 * 和它们的{@link #getContextLoader() ContextLoaders}的完全限定名称,
+	 * 确定提供的对象是否等于此{@code MergedContextConfiguration}实例.
 	 */
 	@Override
 	public boolean equals(Object other) {
@@ -473,9 +407,7 @@ public class MergedContextConfiguration implements Serializable {
 	}
 
 	/**
-	 * Generate a unique hash code for all properties of this
-	 * {@code MergedContextConfiguration} excluding the
-	 * {@linkplain #getTestClass() test class}.
+	 * 为{@code MergedContextConfiguration}的所有属性生成唯一的哈希码, 不包括{@linkplain #getTestClass() 测试类}.
 	 */
 	@Override
 	public int hashCode() {

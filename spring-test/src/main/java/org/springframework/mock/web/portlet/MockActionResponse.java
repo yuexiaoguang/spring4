@@ -12,7 +12,7 @@ import javax.portlet.WindowStateException;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.ActionResponse} interface.
+ * {@link javax.portlet.ActionResponse}接口的模拟实现.
  */
 public class MockActionResponse extends MockStateAwareResponse implements ActionResponse {
 
@@ -22,16 +22,14 @@ public class MockActionResponse extends MockStateAwareResponse implements Action
 
 
 	/**
-	 * Create a new MockActionResponse with a default {@link MockPortalContext}.
+	 * 使用默认的{@link MockPortalContext}.
 	 */
 	public MockActionResponse() {
 		super();
 	}
 
 	/**
-	 * Create a new MockActionResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
 	 */
 	public MockActionResponse(PortalContext portalContext) {
 		super(portalContext);

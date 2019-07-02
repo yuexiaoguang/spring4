@@ -10,9 +10,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SettableListenableFuture;
 
 /**
- * An extension of {@link MockClientHttpRequest} that also implements
- * {@link AsyncClientHttpRequest} by wrapping the response in a
- * {@link SettableListenableFuture}.
+ * {@link MockClientHttpRequest}的扩展,
+ * 它通过将响应包装在{@link SettableListenableFuture}中来实现{@link AsyncClientHttpRequest}.
  */
 public class MockAsyncClientHttpRequest extends MockClientHttpRequest implements AsyncClientHttpRequest {
 

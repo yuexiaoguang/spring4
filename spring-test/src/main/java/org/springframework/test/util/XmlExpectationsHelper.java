@@ -17,12 +17,12 @@ import org.xml.sax.InputSource;
 import static org.hamcrest.MatcherAssert.*;
 
 /**
- * A helper class for assertions on XML content.
+ * 用于XML内容断言的辅助类.
  */
 public class XmlExpectationsHelper {
 
 	/**
-	 * Parse the content as {@link Node} and apply a {@link Matcher}.
+	 * 将内容解析为{@link Node}并应用{@link Matcher}.
 	 */
 	public void assertNode(String content, Matcher<? super Node> matcher) throws Exception {
 		Document document = parseXmlString(content);
@@ -38,7 +38,7 @@ public class XmlExpectationsHelper {
 	}
 
 	/**
-	 * Parse the content as {@link DOMSource} and apply a {@link Matcher}.
+	 * 将内容解析为{@link DOMSource}并应用{@link Matcher}.
 	 */
 	public void assertSource(String content, Matcher<? super Source> matcher) throws Exception {
 		Document document = parseXmlString(content);
@@ -46,15 +46,12 @@ public class XmlExpectationsHelper {
 	}
 
 	/**
-	 * Parse the expected and actual content strings as XML and assert that the
-	 * two are "similar" -- i.e. they contain the same elements and attributes
-	 * regardless of order.
-	 * <p>Use of this method assumes the
-	 * <a href="http://xmlunit.sourceforge.net/">XMLUnit<a/> library is available.
-	 * @param expected the expected XML content
-	 * @param actual the actual XML content
-	 * @see org.springframework.test.web.servlet.result.MockMvcResultMatchers#xpath(String, Object...)
-	 * @see org.springframework.test.web.servlet.result.MockMvcResultMatchers#xpath(String, Map, Object...)
+	 * 将预期和实际内容字符串解析为XML, 并断言两者是"相似的" -- i.e. 它们包含相同的元素和属性, 而不管顺序如何.
+	 * <p>使用此方法假定
+	 * <a href="http://xmlunit.sourceforge.net/">XMLUnit<a/>库可用.
+	 * 
+	 * @param expected 预期的XML内容
+	 * @param actual 实际的XML内容
 	 */
 	public void assertXmlEqual(String expected, String actual) throws Exception {
 		XMLUnit.setIgnoreWhitespace(true);

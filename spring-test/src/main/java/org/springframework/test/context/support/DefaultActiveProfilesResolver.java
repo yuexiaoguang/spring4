@@ -15,10 +15,9 @@ import org.springframework.util.StringUtils;
 import static org.springframework.test.util.MetaAnnotationUtils.*;
 
 /**
- * Default implementation of the {@link ActiveProfilesResolver} strategy that
- * resolves <em>active bean definition profiles</em> based solely on profiles
- * configured declaratively via {@link ActiveProfiles#profiles} or
- * {@link ActiveProfiles#value}.
+ * {@link ActiveProfilesResolver}策略的默认实现,
+ * 该策略仅基于通过{@link ActiveProfiles#profiles}或{@link ActiveProfiles#value}声明性配置的配置文件,
+ * 解析<em>活动Bean定义配置文件</em>.
  */
 public class DefaultActiveProfilesResolver implements ActiveProfilesResolver {
 
@@ -26,13 +25,12 @@ public class DefaultActiveProfilesResolver implements ActiveProfilesResolver {
 
 
 	/**
-	 * Resolve the <em>bean definition profiles</em> for the given {@linkplain
-	 * Class test class} based on profiles configured declaratively via
-	 * {@link ActiveProfiles#profiles} or {@link ActiveProfiles#value}.
-	 * @param testClass the test class for which the profiles should be resolved;
-	 * never {@code null}
-	 * @return the list of bean definition profiles to use when loading the
-	 * {@code ApplicationContext}; never {@code null}
+	 * 基于通过{@link ActiveProfiles#profiles} 或 {@link ActiveProfiles#value} 以声明方式配置的配置文件,
+	 * 解析给定{@linkplain Class 测试类}的<em>bean定义配置文件</em>.
+	 * 
+	 * @param testClass 应该为其解析配置文件的测试类; never {@code null}
+	 * 
+	 * @return 加载{@code ApplicationContext}时要使用的bean定义配置文件列表; never {@code null}
 	 */
 	@Override
 	public String[] resolve(Class<?> testClass) {

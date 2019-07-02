@@ -1,6 +1,4 @@
 /**
- * Server-side support for testing Spring MVC applications with {@code MockMvc}
- * and HtmlUnit.
- * @see org.springframework.test.web.servlet.MockMvc
+ * 使用{@code MockMvc}和HtmlUnit测试Spring MVC应用程序的服务器端支持.
  */
 package org.springframework.test.web.servlet.htmlunit;

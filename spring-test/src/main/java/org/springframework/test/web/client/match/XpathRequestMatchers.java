@@ -13,9 +13,8 @@ import org.springframework.test.util.XpathExpectationsHelper;
 import org.springframework.test.web.client.RequestMatcher;
 
 /**
- * Factory methods for request content {@code RequestMatcher}'s using an XPath
- * expression. An instance of this class is typically accessed via
- * {@code RequestMatchers.xpath(..)}.
+ * 请求内容{@code RequestMatcher}的工厂方法, 使用XPath表达式.
+ * 通常通过{@code RequestMatchers.xpath(..)}访问此类的实例.
  */
 public class XpathRequestMatchers {
 
@@ -25,14 +24,15 @@ public class XpathRequestMatchers {
 
 
 	/**
-	 * Class constructor, not for direct instantiation. Use
-	 * {@link MockRestRequestMatchers#xpath(String, Object...)} or
-	 * {@link MockRestRequestMatchers#xpath(String, Map, Object...)}.
-	 * @param expression the XPath expression
-	 * @param namespaces XML namespaces referenced in the XPath expression, or {@code null}
-	 * @param args arguments to parameterize the XPath expression with using the
-	 * formatting specifiers defined in {@link String#format(String, Object...)}
-	 * @throws XPathExpressionException if expression compilation failed
+	 * 类构造函数, 不用于直接实例化.
+	 * 使用{@link MockRestRequestMatchers#xpath(String, Object...)}
+	 * 或{@link MockRestRequestMatchers#xpath(String, Map, Object...)}.
+	 * 
+	 * @param expression XPath表达式
+	 * @param namespaces XPath表达式中引用的XML名称空间, 或{@code null}
+	 * @param args 使用{@link String#format(String, Object...)}中定义的格式说明符参数化XPath表达式的参数
+	 * 
+	 * @throws XPathExpressionException 如果表达式编译失败
 	 */
 	protected XpathRequestMatchers(String expression, Map<String, String> namespaces, Object ... args)
 			throws XPathExpressionException {
@@ -42,7 +42,7 @@ public class XpathRequestMatchers {
 
 
 	/**
-	 * Apply the XPath and assert it with the given {@code Matcher<Node>}.
+	 * 应用XPath并使用给定的{@code Matcher<Node>}断言它.
 	 */
 	public <T> RequestMatcher node(final Matcher<? super Node> matcher) {
 		return new AbstractXpathRequestMatcher() {
@@ -54,7 +54,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Assert that content exists at the given XPath.
+	 * 断言内容存在于给定的XPath中.
 	 */
 	public <T> RequestMatcher exists() {
 		return new AbstractXpathRequestMatcher() {
@@ -66,7 +66,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Assert that content does not exist at the given XPath.
+	 * 断言在给定的XPath中不存在该内容.
 	 */
 	public <T> RequestMatcher doesNotExist() {
 		return new AbstractXpathRequestMatcher() {
@@ -78,8 +78,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the number of nodes found with the given
-	 * {@code Matcher<Integer>}.
+	 * 应用XPath并断言使用给定{@code Matcher<Integer>}找到的节点数.
 	 */
 	public <T> RequestMatcher nodeCount(final Matcher<Integer> matcher) {
 		return new AbstractXpathRequestMatcher() {
@@ -91,7 +90,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the number of nodes found.
+	 * 应用XPath并断言找到的节点数.
 	 */
 	public <T> RequestMatcher nodeCount(final int expectedCount) {
 		return new AbstractXpathRequestMatcher() {
@@ -103,7 +102,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the String content found with the given matcher.
+	 * 应用XPath并断言使用给定匹配器找到的String内容.
 	 */
 	public <T> RequestMatcher string(final Matcher<? super String> matcher) {
 		return new AbstractXpathRequestMatcher() {
@@ -115,7 +114,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the String content found.
+	 * 应用XPath并断言找到的String内容.
 	 */
 	public RequestMatcher string(final String value) {
 		return new AbstractXpathRequestMatcher() {
@@ -127,7 +126,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the number found with the given matcher.
+	 * 应用XPath并断言使用给定匹配器找到的数字.
 	 */
 	public <T> RequestMatcher number(final Matcher<? super Double> matcher) {
 		return new AbstractXpathRequestMatcher() {
@@ -139,7 +138,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the number of nodes found.
+	 * 应用XPath并断言找到的节点数.
 	 */
 	public RequestMatcher number(final Double value) {
 		return new AbstractXpathRequestMatcher() {
@@ -151,7 +150,7 @@ public class XpathRequestMatchers {
 	}
 
 	/**
-	 * Apply the XPath and assert the boolean value found.
+	 * 应用XPath并断言找到的布尔值.
 	 */
 	public <T> RequestMatcher booleanValue(final Boolean value) {
 		return new AbstractXpathRequestMatcher() {
@@ -164,7 +163,7 @@ public class XpathRequestMatchers {
 
 
 	/**
-	 * Abstract base class for XPath {@link RequestMatcher}'s.
+	 * XPath {@link RequestMatcher}的抽象基类.
 	 */
 	private abstract static class AbstractXpathRequestMatcher implements RequestMatcher {
 

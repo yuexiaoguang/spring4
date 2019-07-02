@@ -21,7 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.MimeResponse} interface.
+ * {@link javax.portlet.MimeResponse}接口的模拟实现.
  */
 public class MockMimeResponse extends MockPortletResponse implements MimeResponse {
 
@@ -49,28 +49,22 @@ public class MockMimeResponse extends MockPortletResponse implements MimeRespons
 
 
 	/**
-	 * Create a new MockMimeResponse with a default {@link MockPortalContext}.
-	 * @see org.springframework.mock.web.portlet.MockPortalContext
+	 * 使用默认的{@link MockPortalContext}.
 	 */
 	public MockMimeResponse() {
 		super();
 	}
 
 	/**
-	 * Create a new MockMimeResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
 	 */
 	public MockMimeResponse(PortalContext portalContext) {
 		super(portalContext);
 	}
 
 	/**
-	 * Create a new MockMimeResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
-	 * @param request the corresponding render/resource request that this response
-	 * is being generated for
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
+	 * @param request 正在为其生成此响应的相应呈现/资源请求
 	 */
 	public MockMimeResponse(PortalContext portalContext, PortletRequest request) {
 		super(portalContext);

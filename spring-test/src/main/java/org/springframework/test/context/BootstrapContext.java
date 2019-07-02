@@ -1,21 +1,21 @@
 package org.springframework.test.context;
 
 /**
- * {@code BootstrapContext} encapsulates the context in which the <em>Spring
- * TestContext Framework</em> is bootstrapped.
+ * {@code BootstrapContext}封装了<em>Spring TestContext Framework</em>引导的上下文.
  */
 public interface BootstrapContext {
 
 	/**
-	 * Get the {@linkplain Class test class} for this bootstrap context.
-	 * @return the test class (never {@code null})
+	 * 获取此引导上下文的{@linkplain Class 测试类}.
+	 * 
+	 * @return 测试类 (never {@code null})
 	 */
 	Class<?> getTestClass();
 
 	/**
-	 * Get the {@link CacheAwareContextLoaderDelegate} to use for transparent
-	 * interaction with the {@code ContextCache}.
-	 * @return the context loader delegate (never {@code null})
+	 * 获取用于与{@code ContextCache}的透明交互的{@link CacheAwareContextLoaderDelegate}.
+	 * 
+	 * @return 上下文加载器委托 (never {@code null})
 	 */
 	CacheAwareContextLoaderDelegate getCacheAwareContextLoaderDelegate();
 

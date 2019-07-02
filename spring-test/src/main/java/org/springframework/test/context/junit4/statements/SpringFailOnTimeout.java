@@ -9,15 +9,13 @@ import org.springframework.test.annotation.TestAnnotationUtils;
 import org.springframework.util.Assert;
 
 /**
- * {@code SpringFailOnTimeout} is a custom JUnit {@link Statement} which adds
- * support for Spring's {@link org.springframework.test.annotation.Timed @Timed}
- * annotation by throwing an exception if the next statement in the execution
- * chain takes more than the specified number of milliseconds.
+ * {@code SpringFailOnTimeout}是一个自定义的JUnit {@link Statement},
+ * 如果执行链中的下一个语句超过指定的毫秒数,
+ * 则通过抛出异常来添加对Spring的{@link org.springframework.test.annotation.Timed @Timed}注解的支持.
  *
- * <p>In contrast to JUnit's
- * {@link org.junit.internal.runners.statements.FailOnTimeout FailOnTimeout},
- * the next {@code statement} will be executed in the same thread as the
- * caller and will therefore not be aborted preemptively.
+ * <p>与JUnit的
+ * {@link org.junit.internal.runners.statements.FailOnTimeout FailOnTimeout}相反,
+ * 下一个{@code statement}将在与调用者相同的线程中执行, 因此不会被抢先中止.
  */
 public class SpringFailOnTimeout extends Statement {
 
@@ -27,24 +25,21 @@ public class SpringFailOnTimeout extends Statement {
 
 
 	/**
-	 * Construct a new {@code SpringFailOnTimeout} statement for the supplied
-	 * {@code testMethod}, retrieving the configured timeout from the
-	 * {@code @Timed} annotation on the supplied method.
-	 * @param next the next {@code Statement} in the execution chain
-	 * @param testMethod the current test method
+	 * 为提供的{@code testMethod}构造一个新的{@code SpringFailOnTimeout}语句,
+	 * 从提供的方法上的{@code @Timed}注解中检索配置的超时.
+	 * 
+	 * @param next 执行链中的下一个{@code Statement}
+	 * @param testMethod 目前的测试方法
 	 */
 	public SpringFailOnTimeout(Statement next, Method testMethod) {
 		this(next, TestAnnotationUtils.getTimeout(testMethod));
 	}
 
 	/**
-	 * Construct a new {@code SpringFailOnTimeout} statement for the supplied
-	 * {@code timeout}.
-	 * <p>If the supplied {@code timeout} is {@code 0}, the execution of the
-	 * {@code next} statement will not be timed.
-	 * @param next the next {@code Statement} in the execution chain; never {@code null}
-	 * @param timeout the configured {@code timeout} for the current test, in milliseconds;
-	 * never negative
+	 * <p>如果提供的{@code timeout}是{@code 0}, 那么{@code next}语句的执行将不会被定时.
+	 * 
+	 * @param next 执行链中的下一个{@code Statement}; never {@code null}
+	 * @param timeout 当前测试的已配置{@code timeout}, 以毫秒为单位; 不能为负数
 	 */
 	public SpringFailOnTimeout(Statement next, long timeout) {
 		Assert.notNull(next, "next statement must not be null");
@@ -55,10 +50,8 @@ public class SpringFailOnTimeout extends Statement {
 
 
 	/**
-	 * Evaluate the next {@link Statement statement} in the execution chain
-	 * (typically an instance of {@link SpringRepeat}) and throw a
-	 * {@link TimeoutException} if the next {@code statement} executes longer
-	 * than the specified {@code timeout}.
+	 * 评估执行链中的下一个{@link Statement statement}(通常是{@link SpringRepeat}的实例),
+	 * 如果下一个{@code statement}执行的时间超过指定的{@code timeout}, 则抛出{@link TimeoutException}.
 	 */
 	@Override
 	public void evaluate() throws Throwable {

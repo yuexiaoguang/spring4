@@ -8,19 +8,17 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.Assert;
 
 /**
- * Simple {@code RequestExpectationManager} that matches requests to expectations
- * sequentially, i.e. in the order of declaration of expectations.
+ * 简单的{@code RequestExpectationManager}, 按顺序匹配期望的请求, i.e. 按照预期的声明顺序.
  *
- * <p>When request expectations have an expected count greater than one,
- * only the first execution is expected to match the order of declaration.
- * Subsequent request executions may be inserted anywhere thereafter.
+ * <p>当请求期望具有大于1的预期计数时, 仅预期第一次执行与声明的顺序匹配.
+ * 此后可以在任何地方插入后续请求执行.
  */
 public class SimpleRequestExpectationManager extends AbstractRequestExpectationManager {
 
-	/** Expectations in the order of declaration (count may be > 1) */
+	/** 预期的声明顺序 (计数可能 > 1) */
 	private Iterator<RequestExpectation> expectationIterator;
 
-	/** Track expectations that have a remaining count */
+	/** 剩余计数的跟踪预期 */
 	private final RequestExpectationGroup repeatExpectations = new RequestExpectationGroup();
 
 

@@ -7,10 +7,9 @@ import javax.servlet.ServletInputStream;
 import org.springframework.util.Assert;
 
 /**
- * Delegating implementation of {@link javax.servlet.ServletInputStream}.
+ * {@link javax.servlet.ServletInputStream}的委托实现.
  *
- * <p>Used by {@link MockHttpServletRequest}; typically not directly
- * used for testing application controllers.
+ * <p>由{@link MockHttpServletRequest}使用; 通常不直接用于测试应用程序控制器.
  */
 public class DelegatingServletInputStream extends ServletInputStream {
 
@@ -18,8 +17,7 @@ public class DelegatingServletInputStream extends ServletInputStream {
 
 
 	/**
-	 * Create a DelegatingServletInputStream for the given source stream.
-	 * @param sourceStream the source stream (never {@code null})
+	 * @param sourceStream 源流 (never {@code null})
 	 */
 	public DelegatingServletInputStream(InputStream sourceStream) {
 		Assert.notNull(sourceStream, "Source InputStream must not be null");
@@ -27,7 +25,7 @@ public class DelegatingServletInputStream extends ServletInputStream {
 	}
 
 	/**
-	 * Return the underlying source stream (never {@code null}).
+	 * 返回底层源流 (never {@code null}).
 	 */
 	public final InputStream getSourceStream() {
 		return this.sourceStream;

@@ -7,14 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Test annotation to indicate that a test method should be invoked repeatedly.
+ * 测试注解, 以指示应该重复调用测试方法.
  *
- * <p>Note that the scope of execution to be repeated includes execution of the
- * test method itself as well as any <em>set up</em> or <em>tear down</em> of
- * the test fixture.
+ * <p>请注意, 要重复执行的范围包括测试方法本身的执行, 以及测试环境的任何<em>设置</em>或<em>拆卸</em>.
  *
- * <p>As of Spring Framework 4.0, this annotation may be used as a
- * <em>meta-annotation</em> to create custom <em>composed annotations</em>.
+ * <p>从Spring Framework 4.0开始, 此注解可用作<em>元注解</em>来创建自定义<em>组合注解</em>.
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,7 +19,7 @@ import java.lang.annotation.Target;
 public @interface Repeat {
 
 	/**
-	 * The number of times that the annotated test method should be repeated.
+	 * 带注解的测试方法应重复的次数.
 	 */
 	int value() default 1;
 

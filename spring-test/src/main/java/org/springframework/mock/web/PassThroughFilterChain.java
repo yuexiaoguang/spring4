@@ -11,10 +11,8 @@ import javax.servlet.ServletResponse;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of the {@link javax.servlet.FilterConfig} interface which
- * simply passes the call through to a given Filter/FilterChain combination
- * (indicating the next Filter in the chain along with the FilterChain that it is
- * supposed to work on) or to a given Servlet (indicating the end of the chain).
+ * {@link javax.servlet.FilterConfig}接口的实现, 它简单地将调用传递给给定的Filter/FilterChain组合
+ * (指示链中的下一个Filter以及它应该处理的FilterChain)或给定的Servlet (表示链的末尾).
  */
 public class PassThroughFilterChain implements FilterChain {
 
@@ -26,10 +24,8 @@ public class PassThroughFilterChain implements FilterChain {
 
 
 	/**
-	 * Create a new PassThroughFilterChain that delegates to the given Filter,
-	 * calling it with the given FilterChain.
-	 * @param filter the Filter to delegate to
-	 * @param nextFilterChain the FilterChain to use for that next Filter
+	 * @param filter 要委托给的Filter
+	 * @param nextFilterChain 用于下一个Filter的FilterChain
 	 */
 	public PassThroughFilterChain(Filter filter, FilterChain nextFilterChain) {
 		Assert.notNull(filter, "Filter must not be null");
@@ -39,8 +35,7 @@ public class PassThroughFilterChain implements FilterChain {
 	}
 
 	/**
-	 * Create a new PassThroughFilterChain that delegates to the given Servlet.
-	 * @param servlet the Servlet to delegate to
+	 * @param servlet 要委托给的Servlet
 	 */
 	public PassThroughFilterChain(Servlet servlet) {
 		Assert.notNull(servlet, "Servlet must not be null");
@@ -49,7 +44,7 @@ public class PassThroughFilterChain implements FilterChain {
 
 
 	/**
-	 * Pass the call on to the Filter/Servlet.
+	 * 将调用传递给Filter/Servlet.
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response) throws ServletException, IOException {

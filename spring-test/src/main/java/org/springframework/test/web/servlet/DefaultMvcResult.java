@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * A simple implementation of {@link MvcResult} with setters.
+ * 使用setter的{@link MvcResult}的简单实现.
  */
 class DefaultMvcResult implements MvcResult {
 
@@ -37,9 +37,6 @@ class DefaultMvcResult implements MvcResult {
 	private CountDownLatch asyncDispatchLatch;
 
 
-	/**
-	 * Create a new instance with the given request and response.
-	 */
 	public DefaultMvcResult(MockHttpServletRequest request, MockHttpServletResponse response) {
 		this.mockRequest = request;
 		this.mockResponse = response;
@@ -123,7 +120,7 @@ class DefaultMvcResult implements MvcResult {
 	}
 
 	/**
-	 * True if the latch count reached 0 within the specified timeout.
+	 * 如果锁存计数在指定的超时内达到0, 则为true.
 	 */
 	private boolean awaitAsyncDispatch(long timeout) {
 		Assert.state(this.asyncDispatchLatch != null,

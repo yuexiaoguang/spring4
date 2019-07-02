@@ -4,20 +4,18 @@ import org.springframework.beans.factory.groovy.GroovyBeanDefinitionReader;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Concrete implementation of {@link AbstractGenericWebContextLoader} that loads
- * bean definitions from Groovy scripts <em>and</em> XML configuration files.
+ * {@link AbstractGenericWebContextLoader}的具体实现, 它从Groovy脚本<em>和</em> XML配置文件加载bean定义.
  *
- * <p>Default resource locations are detected using the suffixes
- * {@code "-context.xml"} and {@code "Context.groovy"}.
+ * <p>使用后缀{@code "-context.xml"}和{@code "Context.groovy"}检测默认资源位置.
  */
 public class GenericGroovyXmlWebContextLoader extends GenericXmlWebContextLoader {
 
 	/**
-	 * Load bean definitions into the supplied {@link GenericWebApplicationContext context}
-	 * from the locations in the supplied {@code WebMergedContextConfiguration} using a
-	 * {@link GroovyBeanDefinitionReader}.
-	 * @param context the context into which the bean definitions should be loaded
-	 * @param webMergedConfig the merged context configuration
+	 * 使用{@link GroovyBeanDefinitionReader}从提供的{@code WebMergedContextConfiguration}中的位置
+	 * 将bean定义加载到提供的{@link GenericWebApplicationContext context}中.
+	 * 
+	 * @param context 应该加载bean定义的上下文
+	 * @param webMergedConfig 合并的上下文配置
 	 */
 	@Override
 	protected void loadBeanDefinitions(GenericWebApplicationContext context,
@@ -26,8 +24,7 @@ public class GenericGroovyXmlWebContextLoader extends GenericXmlWebContextLoader
 	}
 
 	/**
-	 * Returns {@code "-context.xml" and "Context.groovy"} in order to
-	 * support detection of a default XML config file or Groovy script.
+	 * 返回{@code "-context.xml" 和 "Context.groovy"}以支持检测默认XML配置文件或Groovy脚本.
 	 */
 	@Override
 	protected String[] getResourceSuffixes() {
@@ -35,11 +32,10 @@ public class GenericGroovyXmlWebContextLoader extends GenericXmlWebContextLoader
 	}
 
 	/**
-	 * {@code GenericGroovyXmlWebContextLoader} supports both Groovy and XML
-	 * resource types for detection of defaults. Consequently, this method
-	 * is not supported.
-	 * @see #getResourceSuffixes()
-	 * @throws UnsupportedOperationException in this implementation
+	 * {@code GenericGroovyXmlWebContextLoader}支持Groovy和XML资源类型以检测默认值.
+	 * 因此, 不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	protected String getResourceSuffix() {

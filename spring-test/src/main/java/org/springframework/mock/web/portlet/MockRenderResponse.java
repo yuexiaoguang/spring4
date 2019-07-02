@@ -7,7 +7,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 /**
- * Mock implementation of the {@link javax.portlet.RenderResponse} interface.
+ * {@link javax.portlet.RenderResponse}接口的模拟实现.
  */
 public class MockRenderResponse extends MockMimeResponse implements RenderResponse {
 
@@ -17,28 +17,22 @@ public class MockRenderResponse extends MockMimeResponse implements RenderRespon
 
 
 	/**
-	 * Create a new MockRenderResponse with a default {@link MockPortalContext}.
-	 * @see MockPortalContext
+	 * 使用默认的{@link MockPortalContext}.
 	 */
 	public MockRenderResponse() {
 		super();
 	}
 
 	/**
-	 * Create a new MockRenderResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
 	 */
 	public MockRenderResponse(PortalContext portalContext) {
 		super(portalContext);
 	}
 
 	/**
-	 * Create a new MockRenderResponse.
-	 * @param portalContext the PortalContext defining the supported
-	 * PortletModes and WindowStates
-	 * @param request the corresponding render request that this response
-	 * is generated for
+	 * @param portalContext 定义支持的PortletMode和WindowState的PortalContext
+	 * @param request 生成此响应的相应请求
 	 */
 	public MockRenderResponse(PortalContext portalContext, RenderRequest request) {
 		super(portalContext, request);

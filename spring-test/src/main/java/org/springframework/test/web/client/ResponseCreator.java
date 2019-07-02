@@ -7,14 +7,15 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
 
 /**
- * A contract for creating a {@link ClientHttpResponse}.
- * Implementations can be obtained via {@link MockRestResponseCreators}.
+ * 创建{@link ClientHttpResponse}的约定.
+ * 可以通过{@link MockRestResponseCreators}获得实现.
  */
 public interface ResponseCreator {
 
 	/**
-	 * Create a response for the given request.
-	 * @param request the request
+	 * 为给定的请求创建响应.
+	 * 
+	 * @param request 请求
 	 */
 	ClientHttpResponse createResponse(ClientHttpRequest request) throws IOException;
 

@@ -6,7 +6,7 @@ import org.springframework.test.context.CacheAwareContextLoaderDelegate;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of the {@link BootstrapContext} interface.
+ * {@link BootstrapContext}接口的默认实现.
  */
 public class DefaultBootstrapContext implements BootstrapContext {
 
@@ -15,10 +15,8 @@ public class DefaultBootstrapContext implements BootstrapContext {
 
 
 	/**
-	 * Construct a new {@code DefaultBootstrapContext} from the supplied arguments.
-	 * @param testClass the test class for this bootstrap context; never {@code null}
-	 * @param cacheAwareContextLoaderDelegate the context loader delegate to use for
-	 * transparent interaction with the {@code ContextCache}; never {@code null}
+	 * @param testClass 此引导上下文的测试类; never {@code null}
+	 * @param cacheAwareContextLoaderDelegate 用于与{@code ContextCache}进行透明交互的上下文加载器委托; never {@code null}
 	 */
 	public DefaultBootstrapContext(Class<?> testClass, CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate) {
 		Assert.notNull(testClass, "Test class must not be null");
@@ -43,9 +41,6 @@ public class DefaultBootstrapContext implements BootstrapContext {
 		return this.cacheAwareContextLoaderDelegate;
 	}
 
-	/**
-	 * Provide a String representation of this bootstrap context's state.
-	 */
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)//

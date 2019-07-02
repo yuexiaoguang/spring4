@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletConfig} interface.
+ * {@link javax.portlet.PortletConfig}接口的模拟实现.
  */
 public class MockPortletConfig implements PortletConfig {
 
@@ -43,32 +43,31 @@ public class MockPortletConfig implements PortletConfig {
 
 
 	/**
-	 * Create a new MockPortletConfig with a default {@link MockPortletContext}.
+	 * 使用默认的{@link MockPortletContext}.
 	 */
 	public MockPortletConfig() {
 		this(null, "");
 	}
 
 	/**
-	 * Create a new MockPortletConfig with a default {@link MockPortletContext}.
-	 * @param portletName the name of the portlet
+	 * 使用默认的{@link MockPortletContext}.
+	 * 
+	 * @param portletName portlet的名称
 	 */
 	public MockPortletConfig(String portletName) {
 		this(null, portletName);
 	}
 
 	/**
-	 * Create a new MockPortletConfig.
-	 * @param portletContext the PortletContext that the portlet runs in
+	 * @param portletContext 运行portlet的PortletContext
 	 */
 	public MockPortletConfig(PortletContext portletContext) {
 		this(portletContext, "");
 	}
 
 	/**
-	 * Create a new MockPortletConfig.
-	 * @param portletContext the PortletContext that the portlet runs in
-	 * @param portletName the name of the portlet
+	 * @param portletContext 运行portlet的PortletContext
+	 * @param portletName portlet的名称
 	 */
 	public MockPortletConfig(PortletContext portletContext, String portletName) {
 		this.portletContext = (portletContext != null ? portletContext : new MockPortletContext());

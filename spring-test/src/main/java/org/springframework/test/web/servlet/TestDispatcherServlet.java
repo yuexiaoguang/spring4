@@ -24,9 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A sub-class of {@code DispatcherServlet} that saves the result in an
- * {@link MvcResult}. The {@code MvcResult} instance is expected to be available
- * as the request attribute {@link MockMvc#MVC_RESULT_ATTRIBUTE}.
+ * {@code DispatcherServlet}的子类, 将结果保存在{@link MvcResult}中.
+ * {@code MvcResult}实例应该可用作请求属性{@link MockMvc#MVC_RESULT_ATTRIBUTE}.
  */
 @SuppressWarnings("serial")
 final class TestDispatcherServlet extends DispatcherServlet {
@@ -35,7 +34,7 @@ final class TestDispatcherServlet extends DispatcherServlet {
 
 
 	/**
-	 * Create a new instance with the given web application context.
+	 * 使用给定的Web应用程序上下文创建新实例.
 	 */
 	public TestDispatcherServlet(WebApplicationContext webApplicationContext) {
 		super(webApplicationContext);
@@ -113,12 +112,11 @@ final class TestDispatcherServlet extends DispatcherServlet {
 
 		ModelAndView mav = super.processHandlerException(request, response, handler, ex);
 
-		// We got this far, exception was processed..
+		// 到目前为止, 处理了异常..
 		DefaultMvcResult mvcResult = getMvcResult(request);
 		mvcResult.setResolvedException(ex);
 		mvcResult.setModelAndView(mav);
 
 		return mav;
 	}
-
 }

@@ -1,15 +1,15 @@
 package org.springframework.test.web.servlet;
 
 /**
- * Builds a {@link MockMvc} instance.
+ * 构建一个{@link MockMvc}实例.
  *
- * <p>See static factory methods in
- * {@link org.springframework.test.web.servlet.setup.MockMvcBuilders MockMvcBuilders}.
+ * <p>请参阅
+ * {@link org.springframework.test.web.servlet.setup.MockMvcBuilders MockMvcBuilders}中的静态工厂方法.
  */
 public interface MockMvcBuilder {
 
 	/**
-	 * Build a {@link MockMvc} instance.
+	 * 构建一个{@link MockMvc}实例.
 	 */
 	MockMvc build();
 

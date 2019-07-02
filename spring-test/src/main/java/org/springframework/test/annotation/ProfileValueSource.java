@@ -2,15 +2,13 @@ package org.springframework.test.annotation;
 
 /**
  * <p>
- * Strategy interface for retrieving <em>profile values</em> for a given
- * testing environment.
+ * 用于检索给定测试环境的<em>配置文件值</em>的策略接口.
  * </p>
  * <p>
- * Concrete implementations must provide a {@code public} no-args
- * constructor.
+ * 具体实现必须提供{@code public} 无参构造函数.
  * </p>
  * <p>
- * Spring provides the following out-of-the-box implementations:
+ * Spring提供了以下开箱即用的实现:
  * </p>
  * <ul>
  * <li>{@link SystemProfileValueSource}</li>
@@ -19,10 +17,11 @@ package org.springframework.test.annotation;
 public interface ProfileValueSource {
 
 	/**
-	 * Get the <em>profile value</em> indicated by the specified key.
-	 * @param key the name of the <em>profile value</em>
-	 * @return the String value of the <em>profile value</em>, or {@code null}
-	 * if there is no <em>profile value</em> with that key
+	 * 获取指定键指示的<em>配置文件值</em>.
+	 * 
+	 * @param key <em>配置文件值</em>的名称
+	 * 
+	 * @return <em>配置文件值</em>的字符串值, 如果没有带有该键的<em>配置文件值</em>, 则为{@code null}
 	 */
 	String get(String key);
 

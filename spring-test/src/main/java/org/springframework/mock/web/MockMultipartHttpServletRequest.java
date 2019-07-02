@@ -16,14 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
- * Mock implementation of the
- * {@link org.springframework.web.multipart.MultipartHttpServletRequest} interface.
+ * {@link org.springframework.web.multipart.MultipartHttpServletRequest}接口的模拟实现.
  *
- * <p>As of Spring 4.0, this set of mocks is designed on a Servlet 3.0 baseline.
+ * <p>从Spring 4.0开始, 这组模拟是在Servlet 3.0基线上设计的.
  *
- * <p>Useful for testing application controllers that access multipart uploads.
- * The {@link MockMultipartFile} can be used to populate these mock requests
- * with files.
+ * <p>用于测试访问multipart上传的应用程序控制器.
+ * {@link MockMultipartFile}可用于使用文件填充这些模拟请求.
  */
 public class MockMultipartHttpServletRequest extends MockHttpServletRequest implements MultipartHttpServletRequest {
 
@@ -32,17 +30,14 @@ public class MockMultipartHttpServletRequest extends MockHttpServletRequest impl
 
 
 	/**
-	 * Create a new {@code MockMultipartHttpServletRequest} with a default
-	 * {@link MockServletContext}.
+	 * 使用默认的{@link MockServletContext}.
 	 */
 	public MockMultipartHttpServletRequest() {
 		this(null);
 	}
 
 	/**
-	 * Create a new {@code MockMultipartHttpServletRequest} with the supplied {@link ServletContext}.
-	 * @param servletContext the ServletContext that the request runs in
-	 * (may be {@code null} to use a default {@link MockServletContext})
+	 * @param servletContext 运行请求的ServletContext (可能是{@code null}以使用默认的{@link MockServletContext})
 	 */
 	public MockMultipartHttpServletRequest(ServletContext servletContext) {
 		super(servletContext);
@@ -52,9 +47,10 @@ public class MockMultipartHttpServletRequest extends MockHttpServletRequest impl
 
 
 	/**
-	 * Add a file to this request. The parameter name from the multipart
-	 * form is taken from the {@link MultipartFile#getName()}.
-	 * @param file multipart file to be added
+	 * 将文件添加到此请求.
+	 * multipart表单中的参数名称取自{@link MultipartFile#getName()}.
+	 * 
+	 * @param file 要添加的multipart文件
 	 */
 	public void addFile(MultipartFile file) {
 		Assert.notNull(file, "MultipartFile must not be null");

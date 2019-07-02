@@ -10,11 +10,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Mock implementation of the {@link org.springframework.web.multipart.MultipartFile}
- * interface.
+ * {@link org.springframework.web.multipart.MultipartFile}接口的模拟实现.
  *
- * <p>Useful in conjunction with a {@link MockMultipartHttpServletRequest}
- * for testing application controllers that access multipart uploads.
+ * <p>与{@link MockMultipartHttpServletRequest}结合使用, 用于测试访问multipart上传的应用程序控制器.
  */
 public class MockMultipartFile implements MultipartFile {
 
@@ -28,30 +26,28 @@ public class MockMultipartFile implements MultipartFile {
 
 
 	/**
-	 * Create a new MockMultipartFile with the given content.
-	 * @param name the name of the file
-	 * @param content the content of the file
+	 * @param name 文件名
+	 * @param content 文件的内容
 	 */
 	public MockMultipartFile(String name, byte[] content) {
 		this(name, "", null, content);
 	}
 
 	/**
-	 * Create a new MockMultipartFile with the given content.
-	 * @param name the name of the file
-	 * @param contentStream the content of the file as stream
-	 * @throws IOException if reading from the stream failed
+	 * @param name 文件名
+	 * @param contentStream 文件的内容
+	 * 
+	 * @throws IOException 如果从流中读取失败
 	 */
 	public MockMultipartFile(String name, InputStream contentStream) throws IOException {
 		this(name, "", null, FileCopyUtils.copyToByteArray(contentStream));
 	}
 
 	/**
-	 * Create a new MockMultipartFile with the given content.
-	 * @param name the name of the file
-	 * @param originalFilename the original filename (as on the client's machine)
-	 * @param contentType the content type (if known)
-	 * @param content the content of the file
+	 * @param name 文件名
+	 * @param originalFilename 原始文件名 (如在客户端的机器上)
+	 * @param contentType 内容类型 (如果已知)
+	 * @param content 文件的内容
 	 */
 	public MockMultipartFile(String name, String originalFilename, String contentType, byte[] content) {
 		Assert.hasLength(name, "Name must not be null");
@@ -62,12 +58,12 @@ public class MockMultipartFile implements MultipartFile {
 	}
 
 	/**
-	 * Create a new MockMultipartFile with the given content.
-	 * @param name the name of the file
-	 * @param originalFilename the original filename (as on the client's machine)
-	 * @param contentType the content type (if known)
-	 * @param contentStream the content of the file as stream
-	 * @throws IOException if reading from the stream failed
+	 * @param name 文件名
+	 * @param originalFilename 原始文件名 (如在客户端的机器上)
+	 * @param contentType 内容类型 (如果已知)
+	 * @param contentStream 文件的内容
+	 * 
+	 * @throws IOException 如果从流中读取失败
 	 */
 	public MockMultipartFile(String name, String originalFilename, String contentType, InputStream contentStream)
 			throws IOException {

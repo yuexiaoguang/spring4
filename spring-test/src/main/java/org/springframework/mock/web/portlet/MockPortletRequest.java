@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletRequest} interface.
+ * {@link javax.portlet.PortletRequest}接口的模拟实现.
  */
 public class MockPortletRequest implements PortletRequest {
 
@@ -80,31 +80,24 @@ public class MockPortletRequest implements PortletRequest {
 
 
 	/**
-	 * Create a new MockPortletRequest with a default {@link MockPortalContext}
-	 * and a default {@link MockPortletContext}.
-	 *
-	 * @see MockPortalContext
-	 * @see MockPortletContext
+	 * 使用默认的{@link MockPortalContext}和默认的{@link MockPortletContext}.
 	 */
 	public MockPortletRequest() {
 		this(null, null);
 	}
 
 	/**
-	 * Create a new MockPortletRequest with a default {@link MockPortalContext}.
+	 * 使用默认的{@link MockPortalContext}.
 	 *
-	 * @param portletContext the PortletContext that the request runs in
-	 * @see MockPortalContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockPortletRequest(PortletContext portletContext) {
 		this(null, portletContext);
 	}
 
 	/**
-	 * Create a new MockPortletRequest.
-	 *
-	 * @param portalContext the PortalContext that the request runs in
-	 * @param portletContext the PortletContext that the request runs in
+	 * @param portalContext 运行请求的PortalContext
+	 * @param portletContext 运行请求的PortletContext
 	 */
 	public MockPortletRequest(PortalContext portalContext, PortletContext portletContext) {
 		this.portalContext = (portalContext != null ? portalContext : new MockPortalContext());
@@ -119,29 +112,28 @@ public class MockPortletRequest implements PortletRequest {
 	// ---------------------------------------------------------------------
 
 	/**
-	 * Return the Portlet 2.0 lifecycle id for the current phase.
+	 * 返回当前阶段的Portlet 2.0生命周期ID.
 	 */
 	protected String getLifecyclePhase() {
 		return null;
 	}
 
 	/**
-	 * Return whether this request is still active (that is, not completed yet).
+	 * 返回此请求是否仍处于活动状态 (即尚未完成).
 	 */
 	public boolean isActive() {
 		return this.active;
 	}
 
 	/**
-	 * Mark this request as completed.
+	 * 将此请求标记为已完成.
 	 */
 	public void close() {
 		this.active = false;
 	}
 
 	/**
-	 * Check whether this request is still active (that is, not completed yet),
-	 * throwing an IllegalStateException if not active anymore.
+	 * 检查此请求是否仍处于活动状态 (即尚未完成), 如果不再处于活动状态, 则抛出IllegalStateException.
 	 */
 	protected void checkActive() throws IllegalStateException {
 		if (!this.active) {
@@ -209,7 +201,7 @@ public class MockPortletRequest implements PortletRequest {
 	@Override
 	public PortletSession getPortletSession(boolean create) {
 		checkActive();
-		// Reset session if invalidated.
+		// 如果无效, 则重置会话.
 		if (this.session instanceof MockPortletSession && ((MockPortletSession) this.session).isInvalid()) {
 			this.session = null;
 		}
@@ -221,10 +213,9 @@ public class MockPortletRequest implements PortletRequest {
 	}
 
 	/**
-	 * Set a single value for the specified property.
+	 * 设置指定属性的值.
 	 * <p>
-	 * If there are already one or more values registered for the given property
-	 * key, they will be replaced.
+	 * 如果已经为给定的属性键注册了一个或多个值, 则将替换它们.
 	 */
 	public void setProperty(String key, String value) {
 		Assert.notNull(key, "Property key must not be null");
@@ -234,10 +225,9 @@ public class MockPortletRequest implements PortletRequest {
 	}
 
 	/**
-	 * Add a single value for the specified property.
+	 * 设置指定属性的值.
 	 * <p>
-	 * If there are already one or more values registered for the given property
-	 * key, the given value will be added to the end of the list.
+	 * 如果已经为给定的属性键注册了一个或多个值, 则给定的值将添加到列表的末尾.
 	 */
 	public void addProperty(String key, String value) {
 		Assert.notNull(key, "Property key must not be null");

@@ -17,24 +17,20 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Abstract {@linkplain Transactional transactional} extension of
- * {@link AbstractJUnit4SpringContextTests} which adds convenience functionality
- * for JDBC access. Expects a {@link DataSource} bean and a
- * {@link PlatformTransactionManager} bean to be defined in the Spring
- * {@linkplain ApplicationContext application context}.
+ * {@link AbstractJUnit4SpringContextTests}的抽象{@linkplain Transactional 事务}扩展, 为JDBC访问增加了便利功能.
+ * 预计将在Spring {@linkplain ApplicationContext 应用程序上下文}中
+ * 定义{@link DataSource} bean和{@link PlatformTransactionManager} bean.
  *
- * <p>This class exposes a {@link JdbcTemplate} and provides an easy way to
- * {@linkplain #countRowsInTable count the number of rows in a table}
- * (potentially {@linkplain #countRowsInTableWhere with a WHERE clause}),
- * {@linkplain #deleteFromTables delete from tables},
- * {@linkplain #dropTables drop tables}, and
- * {@linkplain #executeSqlScript execute SQL scripts} within a transaction.
+ * <p>这个类公开了一个{@link JdbcTemplate}并提供了一种简单的方法在事务中
+ * {@linkplain #countRowsInTable 计算表中的行数}
+ * (潜在的{@linkplain #countRowsInTableWhere 使用WHERE子句}),
+ * {@linkplain #deleteFromTables 从表中删除},
+ * {@linkplain #dropTables 删除表}, 和
+ * {@linkplain #executeSqlScript 执行SQL脚本}.
  *
- * <p>Concrete subclasses must fulfill the same requirements outlined in
- * {@link AbstractJUnit4SpringContextTests}.
+ * <p>具体的子类必须满足{@link AbstractJUnit4SpringContextTests}中列出的相同要求.
  *
- * <p>The following {@link org.springframework.test.context.TestExecutionListener
- * TestExecutionListeners} are configured by default:
+ * <p>默认情况下配置以下{@link org.springframework.test.context.TestExecutionListener TestExecutionListeners}:
  *
  * <ul>
  * <li>{@link org.springframework.test.context.web.ServletTestExecutionListener}
@@ -44,28 +40,25 @@ import org.springframework.transaction.annotation.Transactional;
  * <li>{@link org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener}
  * </ul>
  *
- * <p>This class serves only as a convenience for extension.
+ * <p>此类仅用于扩展的便利.
  * <ul>
- * <li>If you do not wish for your test classes to be tied to a Spring-specific
- * class hierarchy, you may configure your own custom test classes by using
+ * <li>如果不希望将测试类绑定到特定于Spring的类层次结构, 则可以使用
  * {@link SpringRunner}, {@link ContextConfiguration @ContextConfiguration},
- * {@link TestExecutionListeners @TestExecutionListeners}, etc.</li>
- * <li>If you wish to extend this class and use a runner other than the
- * {@link SpringRunner}, as of Spring Framework 4.2 you can use
- * {@link org.springframework.test.context.junit4.rules.SpringClassRule SpringClassRule} and
- * {@link org.springframework.test.context.junit4.rules.SpringMethodRule SpringMethodRule}
- * and specify your runner of choice via {@link org.junit.runner.RunWith @RunWith(...)}.</li>
+ * {@link TestExecutionListeners @TestExecutionListeners}等配置自己的自定义测试类.</li>
+ * <li>如果希望扩展此类并使用{@link SpringRunner}之外的运行器, 从Spring Framework 4.2开始, 可以使用
+ * {@link org.springframework.test.context.junit4.rules.SpringClassRule SpringClassRule}
+ * 和{@link org.springframework.test.context.junit4.rules.SpringMethodRule SpringMethodRule},
+ * 并通过{@link org.junit.runner.RunWith @RunWith(...)}指定选择的运行器.</li>
  * </ul>
  *
- * <p><strong>NOTE:</strong> As of Spring Framework 4.3, this class requires JUnit 4.12 or higher.
+ * <p><strong>NOTE:</strong> 从Spring Framework 4.3开始, 此类需要JUnit 4.12或更高版本.
  */
 @TestExecutionListeners({TransactionalTestExecutionListener.class, SqlScriptsTestExecutionListener.class})
 @Transactional
 public abstract class AbstractTransactionalJUnit4SpringContextTests extends AbstractJUnit4SpringContextTests {
 
 	/**
-	 * The {@code JdbcTemplate} that this base class manages, available to subclasses.
-	 * @since 3.2
+	 * 此基类管理的{@code JdbcTemplate}, 可用于子类.
 	 */
 	protected JdbcTemplate jdbcTemplate;
 
@@ -73,8 +66,8 @@ public abstract class AbstractTransactionalJUnit4SpringContextTests extends Abst
 
 
 	/**
-	 * Set the {@code DataSource}, typically provided via Dependency Injection.
-	 * <p>This method also instantiates the {@link #jdbcTemplate} instance variable.
+	 * 设置{@code DataSource}, 通常通过依赖注入提供.
+	 * <p>此方法还实例化{@link #jdbcTemplate}实例变量.
 	 */
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -82,91 +75,86 @@ public abstract class AbstractTransactionalJUnit4SpringContextTests extends Abst
 	}
 
 	/**
-	 * Specify the encoding for SQL scripts, if different from the platform encoding.
-	 * @see #executeSqlScript
+	 * 如果与平台编码不同, 指定SQL脚本的编码.
 	 */
 	public void setSqlScriptEncoding(String sqlScriptEncoding) {
 		this.sqlScriptEncoding = sqlScriptEncoding;
 	}
 
 	/**
-	 * Convenience method for counting the rows in the given table.
-	 * @param tableName table name to count rows in
-	 * @return the number of rows in the table
-	 * @see JdbcTestUtils#countRowsInTable
+	 * 用于计算给定表中的行的便捷方法.
+	 * 
+	 * @param tableName 用于计算行数的表名
+	 * 
+	 * @return 表中的行数
 	 */
 	protected int countRowsInTable(String tableName) {
 		return JdbcTestUtils.countRowsInTable(this.jdbcTemplate, tableName);
 	}
 
 	/**
-	 * Convenience method for counting the rows in the given table, using the
-	 * provided {@code WHERE} clause.
-	 * <p>See the Javadoc for {@link JdbcTestUtils#countRowsInTableWhere} for details.
-	 * @param tableName the name of the table to count rows in
-	 * @param whereClause the {@code WHERE} clause to append to the query
-	 * @return the number of rows in the table that match the provided
-	 * {@code WHERE} clause
-	 * @since 3.2
-	 * @see JdbcTestUtils#countRowsInTableWhere
+	 * 使用提供的{@code WHERE}子句计算给定表中行的便捷方法.
+	 * <p>有关详细信息, 请参阅{@link JdbcTestUtils#countRowsInTableWhere}的Javadoc.
+	 * 
+	 * @param tableName 要计算行数的表的名称
+	 * @param whereClause 要附加到查询的{@code WHERE}子句
+	 * 
+	 * @return 表中与提供的{@code WHERE}子句匹配的行数
 	 */
 	protected int countRowsInTableWhere(String tableName, String whereClause) {
 		return JdbcTestUtils.countRowsInTableWhere(this.jdbcTemplate, tableName, whereClause);
 	}
 
 	/**
-	 * Convenience method for deleting all rows from the specified tables.
-	 * <p>Use with caution outside of a transaction!
-	 * @param names the names of the tables from which to delete
-	 * @return the total number of rows deleted from all specified tables
-	 * @see JdbcTestUtils#deleteFromTables
+	 * 从指定表中删除所有行的便捷方法.
+	 * <p>在事务之外谨慎使用!
+	 * 
+	 * @param names 要删除的表的名称
+	 * 
+	 * @return 从所有指定表中删除的总行数
 	 */
 	protected int deleteFromTables(String... names) {
 		return JdbcTestUtils.deleteFromTables(this.jdbcTemplate, names);
 	}
 
 	/**
-	 * Convenience method for deleting all rows from the given table, using the
-	 * provided {@code WHERE} clause.
-	 * <p>Use with caution outside of a transaction!
-	 * <p>See the Javadoc for {@link JdbcTestUtils#deleteFromTableWhere} for details.
-	 * @param tableName the name of the table to delete rows from
-	 * @param whereClause the {@code WHERE} clause to append to the query
-	 * @param args arguments to bind to the query (leaving it to the {@code
-	 * PreparedStatement} to guess the corresponding SQL type); may also contain
-	 * {@link org.springframework.jdbc.core.SqlParameterValue SqlParameterValue}
-	 * objects which indicate not only the argument value but also the SQL type
-	 * and optionally the scale.
-	 * @return the number of rows deleted from the table
-	 * @since 4.0
-	 * @see JdbcTestUtils#deleteFromTableWhere
+	 * 使用提供的{@code WHERE}子句删除给定表中所有行的便捷方法.
+	 * <p>在事务之外谨慎使用!
+	 * <p>有关详细信息, 请参阅{@link JdbcTestUtils#deleteFromTableWhere}的Javadoc.
+	 * 
+	 * @param tableName 要从中删除行的表的名称
+	 * @param whereClause 要附加到查询的{@code WHERE}子句
+	 * @param args 要绑定到查询的参数 (将其留给{@code PreparedStatement}来猜测相应的SQL类型);
+	 * 也可能包含
+	 * {@link org.springframework.jdbc.core.SqlParameterValue SqlParameterValue}对象,
+	 * 这些对象不仅指示参数值, 还指示SQL类型和可选的比例.
+	 * 
+	 * @return 从表中删除的行数
 	 */
 	protected int deleteFromTableWhere(String tableName, String whereClause, Object... args) {
 		return JdbcTestUtils.deleteFromTableWhere(jdbcTemplate, tableName, whereClause, args);
 	}
 
 	/**
-	 * Convenience method for dropping all of the specified tables.
-	 * <p>Use with caution outside of a transaction!
-	 * @param names the names of the tables to drop
-	 * @since 3.2
-	 * @see JdbcTestUtils#dropTables
+	 * 删除所有指定表的便捷方法.
+	 * <p>在事务之外谨慎使用!
+	 * 
+	 * @param names 要删除的表的名称
 	 */
 	protected void dropTables(String... names) {
 		JdbcTestUtils.dropTables(this.jdbcTemplate, names);
 	}
 
 	/**
-	 * Execute the given SQL script.
-	 * <p>Use with caution outside of a transaction!
-	 * <p>The script will normally be loaded by classpath.
-	 * <p><b>Do not use this method to execute DDL if you expect rollback.</b>
-	 * @param sqlResourcePath the Spring resource path for the SQL script
-	 * @param continueOnError whether or not to continue without throwing an
-	 * exception in the event of an error
-	 * @throws DataAccessException if there is an error executing a statement
-	 * @see ResourceDatabasePopulator
-	 * @see #setSqlScriptEncoding
+	 * 执行给定的SQL脚本.
+	 * <p>在事务之外谨慎使用!
+	 * <p>该脚本通常由classpath加载.
+	 * <p><b>如果需要回滚, 不要使用此方法执行DDL.</b>
+	 * 
+	 * @param sqlResourcePath SQL脚本的Spring资源路径
+	 * @param continueOnError 是否在发生错误时继续而不抛出异常
+	 * 
+	 * @throws DataAccessException 如果执行语句时出错
 	 */
 	protected void executeSqlScript(String sqlResourcePath, boolean continueOnError) throws DataAccessException {
 		Resource resource = this.applicationContext.getResource(sqlResourcePath);

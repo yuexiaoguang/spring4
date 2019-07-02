@@ -18,12 +18,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Utility methods for working with {@link ActiveProfiles @ActiveProfiles} and
- * {@link ActiveProfilesResolver ActiveProfilesResolvers}.
+ * 使用{@link ActiveProfiles @ActiveProfiles} 和 {@link ActiveProfilesResolver ActiveProfilesResolvers}的实用方法.
  *
- * <p>Although {@code ActiveProfilesUtils} was first introduced in Spring Framework
- * 4.1, the initial implementations of methods in this class were based on the
- * existing code base in {@code ContextLoaderUtils}.
+ * <p>尽管{@code ActiveProfilesUtils}是在Spring Framework 4.1中首次引入的,
+ * 但此类中方法的初始实现基于{@code ContextLoaderUtils}中的现有代码.
  */
 abstract class ActiveProfilesUtils {
 
@@ -31,15 +29,13 @@ abstract class ActiveProfilesUtils {
 
 
 	/**
-	 * Resolve <em>active bean definition profiles</em> for the supplied {@link Class}.
-	 * <p>Note that the {@link ActiveProfiles#inheritProfiles inheritProfiles} flag of
-	 * {@link ActiveProfiles @ActiveProfiles} will be taken into consideration.
-	 * Specifically, if the {@code inheritProfiles} flag is set to {@code true}, profiles
-	 * defined in the test class will be merged with those defined in superclasses.
-	 * @param testClass the class for which to resolve the active profiles (must not be
-	 * {@code null})
-	 * @return the set of active profiles for the specified class, including active
-	 * profiles from superclasses if appropriate (never {@code null})
+	 * 为提供的{@link Class}解析<em>活动bean定义配置文件</em>.
+	 * <p>请注意, {@link ActiveProfiles @ActiveProfiles}的{@link ActiveProfiles#inheritProfiles inheritProfiles}标志将被考虑在内.
+	 * 具体来说, 如果{@code inheritProfiles}标志设置为{@code true}, 则测试类中定义的配置文件将与超类中定义的配置文件合并.
+	 * 
+	 * @param testClass 要为其解析活动配置文件的类 (must not be {@code null})
+	 * 
+	 * @return 指定类的活动配置文件集合, 包括合适的超类中的活动配置文件 (never {@code null})
 	 */
 	static String[] resolveActiveProfiles(Class<?> testClass) {
 		Assert.notNull(testClass, "Class must not be null");
@@ -96,7 +92,7 @@ abstract class ActiveProfilesUtils {
 					rootDeclaringClass.getSuperclass(), annotationType) : null);
 		}
 
-		// Reverse the list so that we can traverse "down" the hierarchy.
+		// 反转列表, 以便可以向下遍历层次结构.
 		Collections.reverse(profileArrays);
 
 		final Set<String> activeProfiles = new LinkedHashSet<String>();

@@ -8,25 +8,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@code @Commit} is a test annotation that is used to indicate that a
- * <em>test-managed transaction</em> should be <em>committed</em> after
- * the test method has completed.
+ * {@code @Commit}是一个测试注解, 用于指示在测试方法完成后<em>测试管理的事务</em>应<em>提交</em>.
  *
- * <p>Consult the class-level Javadoc for
- * {@link org.springframework.test.context.transaction.TransactionalTestExecutionListener}
- * for an explanation of <em>test-managed transactions</em>.
+ * <p>有关<em>测试管理的事务</em>的说明, 请参阅
+ * {@link org.springframework.test.context.transaction.TransactionalTestExecutionListener}的类级Javadoc.
  *
- * <p>When declared as a class-level annotation, {@code @Commit} defines
- * the default commit semantics for all test methods within the test class
- * hierarchy. When declared as a method-level annotation, {@code @Commit}
- * defines commit semantics for the specific test method, potentially
- * overriding class-level default commit or rollback semantics.
+ * <p>当声明为类级注解时, {@code @Commit}定义测试类层次结构中所有测试方法的默认提交语义.
+ * 声明为方法级注释时, {@code @Commit}定义特定测试方法的提交语义, 可能会覆盖类级别的默认提交或回滚语义.
  *
- * <p><strong>Warning</strong>: {@code @Commit} can be used as direct
- * replacement for {@code @Rollback(false)}; however, it should
- * <strong>not</strong> be declared alongside {@code @Rollback}. Declaring
- * {@code @Commit} and {@code @Rollback} on the same test method or on the
- * same test class is unsupported and may lead to unpredictable results.
+ * <p><strong>Warning</strong>: {@code @Commit}可以直接替代{@code @Rollback(false)};
+ * 但是, 它<strong>不</strong>应该与{@code @Rollback}一起声明.
+ * 在同一测试方法或同一测试类上声明{@code @Commit}和{@code @Rollback}不受支持, 可能导致不可预测的结果.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

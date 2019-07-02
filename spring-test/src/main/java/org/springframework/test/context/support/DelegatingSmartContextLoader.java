@@ -5,10 +5,9 @@ import org.springframework.test.context.SmartContextLoader;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@code DelegatingSmartContextLoader} is a concrete implementation of
- * {@link AbstractDelegatingSmartContextLoader} that delegates to a
- * {@link GenericXmlContextLoader} (or a {@link GenericGroovyXmlContextLoader} if Groovy
- * is present in the classpath) and an {@link AnnotationConfigContextLoader}.
+ * {@code DelegatingSmartContextLoader}是{@link AbstractDelegatingSmartContextLoader}的具体实现,
+ * 它委托给{@link GenericXmlContextLoader} (或{@link GenericGroovyXmlContextLoader}, 如果类路径中存在Groovy)
+ * 和{@link AnnotationConfigContextLoader}.
  */
 public class DelegatingSmartContextLoader extends AbstractDelegatingSmartContextLoader {
 

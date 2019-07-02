@@ -5,10 +5,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.util.Assert;
 
 /**
- * Configuration attributes for configuring transactional tests.
+ * 用于配置事务测试的配置属性.
  *
- * @deprecated As of Spring Framework 4.2, this class is officially deprecated
- * and will be removed when {@code @TransactionConfiguration} is removed.
+ * @deprecated 从Spring Framework 4.2开始, 该类已被正式弃用,
+ * 并且在删除{@code @TransactionConfiguration}时将被删除.
  */
 @Deprecated
 public class TransactionConfigurationAttributes {
@@ -18,24 +18,13 @@ public class TransactionConfigurationAttributes {
 	private final boolean defaultRollback;
 
 
-	/**
-	 * Construct a new {@code TransactionConfigurationAttributes} instance
-	 * using an empty string for the bean name of the
-	 * {@link PlatformTransactionManager} and {@code true} for the default
-	 * rollback flag.
-	 */
 	public TransactionConfigurationAttributes() {
 		this("", true);
 	}
 
 	/**
-	 * Construct a new {@code TransactionConfigurationAttributes} instance
-	 * from the supplied arguments.
-	 * @param transactionManagerName the bean name of the
-	 * {@link PlatformTransactionManager} that is to be used to drive
-	 * <em>test-managed transactions</em>
-	 * @param defaultRollback whether or not <em>test-managed transactions</em>
-	 * should be rolled back by default
+	 * @param transactionManagerName 用于驱动<em>测试管理的事务</em>的{@link PlatformTransactionManager}的bean名称
+	 * @param defaultRollback 是否应默认回滚<em>测试管理的事务</em>
 	 */
 	public TransactionConfigurationAttributes(String transactionManagerName, boolean defaultRollback) {
 		Assert.notNull(transactionManagerName, "transactionManagerName must not be null");
@@ -45,16 +34,16 @@ public class TransactionConfigurationAttributes {
 
 
 	/**
-	 * Get the bean name of the {@link PlatformTransactionManager} that is to
-	 * be used to drive <em>test-managed transactions</em>.
+	 * 获取用于驱动<em>测试管理的事务</em>的{@link PlatformTransactionManager}的bean名称.
 	 */
 	public final String getTransactionManagerName() {
 		return this.transactionManagerName;
 	}
 
 	/**
-	 * Whether <em>test-managed transactions</em> should be rolled back by default.
-	 * @return the <em>default rollback</em> flag
+	 * 是否应默认回滚<em>测试管理的事务</em>.
+	 * 
+	 * @return <em>默认回滚</em>标志
 	 */
 	public final boolean isDefaultRollback() {
 		return this.defaultRollback;

@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpOutputMessage;
 
 /**
- * Mock implementation of {@link HttpOutputMessage}.
+ * {@link HttpOutputMessage}的模拟实现.
  */
 public class MockHttpOutputMessage implements HttpOutputMessage {
 
@@ -21,39 +21,31 @@ public class MockHttpOutputMessage implements HttpOutputMessage {
 	private final ByteArrayOutputStream body = new ByteArrayOutputStream(1024);
 
 
-	/**
-	 * Return the headers.
-	 */
 	@Override
 	public HttpHeaders getHeaders() {
 		return this.headers;
 	}
 
-	/**
-	 * Return the body content.
-	 */
 	@Override
 	public OutputStream getBody() throws IOException {
 		return this.body;
 	}
 
-	/**
-	 * Return body content as a byte array.
-	 */
 	public byte[] getBodyAsBytes() {
 		return this.body.toByteArray();
 	}
 
 	/**
-	 * Return the body content interpreted as a UTF-8 string.
+	 * 返回转换为UTF-8字符串的正文内容.
 	 */
 	public String getBodyAsString() {
 		return getBodyAsString(DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Return the body content as a string.
-	 * @param charset the charset to use to turn the body content to a String
+	 * 返回正文内容.
+	 * 
+	 * @param charset 用于将body内容转换为String的字符集
 	 */
 	public String getBodyAsString(Charset charset) {
 		byte[] bytes = getBodyAsBytes();

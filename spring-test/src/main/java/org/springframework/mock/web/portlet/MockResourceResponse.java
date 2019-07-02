@@ -3,7 +3,7 @@ package org.springframework.mock.web.portlet;
 import javax.portlet.ResourceResponse;
 
 /**
- * Mock implementation of the {@link javax.portlet.ResourceResponse} interface.
+ * {@link javax.portlet.ResourceResponse}接口的模拟实现.
  */
 public class MockResourceResponse extends MockMimeResponse implements ResourceResponse {
 

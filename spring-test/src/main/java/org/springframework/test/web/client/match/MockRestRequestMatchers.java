@@ -22,17 +22,16 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 /**
- * Static factory methods for {@link RequestMatcher} classes. Typically used to
- * provide input for {@link MockRestServiceServer#expect(RequestMatcher)}.
+ * {@link RequestMatcher}类的静态工厂方法.
+ * 通常用于为 {@link MockRestServiceServer#expect(RequestMatcher)}提供输入.
  *
  * <h3>Eclipse Users</h3>
- * <p>Consider adding this class as a Java editor favorite. To navigate to
- * this setting, open the Preferences and type "favorites".
+ * <p>考虑将此类添加为Java编辑器的最爱. 要导航到此设置, 请打开“首选项”并键入“favorites”.
  */
 public abstract class MockRestRequestMatchers {
 
 	/**
-	 * Match to any request.
+	 * 匹配任何请求.
 	 */
 	public static RequestMatcher anything() {
 		return new RequestMatcher() {
@@ -43,9 +42,11 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert the {@link HttpMethod} of the request.
-	 * @param method the HTTP method
-	 * @return the request matcher
+	 * 断言请求的{@link HttpMethod}.
+	 * 
+	 * @param method HTTP方法
+	 * 
+	 * @return 请求匹配器
 	 */
 	public static RequestMatcher method(final HttpMethod method) {
 		Assert.notNull(method, "'method' must not be null");
@@ -58,9 +59,11 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert the request URI string with the given matcher.
-	 * @param matcher String matcher for the expected URI
-	 * @return the request matcher
+	 * 使用给定的匹配器断言请求URI字符串.
+	 * 
+	 * @param matcher 预期URI的字符串匹配器
+	 * 
+	 * @return 请求匹配器
 	 */
 	public static RequestMatcher requestTo(final Matcher<String> matcher) {
 		Assert.notNull(matcher, "'matcher' must not be null");
@@ -73,9 +76,11 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert the request URI string.
-	 * @param expectedUri the expected URI
-	 * @return the request matcher
+	 * 断言请求URI字符串.
+	 * 
+	 * @param expectedUri 预期URI
+	 * 
+	 * @return 请求匹配器
 	 */
 	public static RequestMatcher requestTo(final String expectedUri) {
 		Assert.notNull(expectedUri, "'uri' must not be null");
@@ -88,9 +93,11 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Expect a request to the given URI.
-	 * @param uri the expected URI
-	 * @return the request matcher
+	 * 期望对给定URI的请求.
+	 * 
+	 * @param uri 预期URI
+	 * 
+	 * @return 请求匹配器
 	 */
 	public static RequestMatcher requestTo(final URI uri) {
 		Assert.notNull(uri, "'uri' must not be null");
@@ -103,7 +110,7 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert request query parameter values with the given Hamcrest matcher.
+	 * 使用给定的Hamcrest匹配器断言请求查询参数值.
 	 */
 	@SafeVarargs
 	public static RequestMatcher queryParam(final String name, final Matcher<? super String>... matchers) {
@@ -120,7 +127,7 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert request query parameter values.
+	 * 断言请求查询参数值.
 	 */
 	public static RequestMatcher queryParam(final String name, final String... expectedValues) {
 		return new RequestMatcher() {
@@ -152,7 +159,7 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert request header values with the given Hamcrest matcher.
+	 * 使用给定的Hamcrest匹配器断言请求header值.
 	 */
 	@SafeVarargs
 	public static RequestMatcher header(final String name, final Matcher<? super String>... matchers) {
@@ -168,7 +175,7 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Assert request header values.
+	 * 断言请求header值.
 	 */
 	public static RequestMatcher header(final String name, final String... expectedValues) {
 		return new RequestMatcher() {
@@ -184,57 +191,52 @@ public abstract class MockRestRequestMatchers {
 	}
 
 	/**
-	 * Access to request body matchers.
+	 * 访问请求正文匹配器.
 	 */
 	public static ContentRequestMatchers content() {
 		return new ContentRequestMatchers();
 	}
 
 	/**
-	 * Access to request body matchers using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression to
-	 * inspect a specific subset of the body. The JSON path expression can be a
-	 * parameterized string using formatting specifiers as defined in
-	 * {@link String#format(String, Object...)}.
-	 * @param expression the JSON path optionally parameterized with arguments
-	 * @param args arguments to parameterize the JSON path expression with
+	 * 使用<a href="https://github.com/jayway/JsonPath">JsonPath</a>表达式访问请求正文匹配器, 以检查正文的特定子集.
+	 * JSON路径表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression 可选地使用参数进行参数化的JSON路径
+	 * @param args 参数化JSON路径表达式的参数
 	 */
 	public static JsonPathRequestMatchers jsonPath(String expression, Object... args) {
 		return new JsonPathRequestMatchers(expression, args);
 	}
 
 	/**
-	 * Access to request body matchers using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression to
-	 * inspect a specific subset of the body and a Hamcrest match for asserting
-	 * the value found at the JSON path.
-	 * @param expression the JSON path expression
-	 * @param matcher a matcher for the value expected at the JSON path
+	 * 使用<a href="https://github.com/jayway/JsonPath">JsonPath</a>表达式
+	 * 访问请求正文匹配器以检查正文的特定子集, 并使用Hamcrest匹配来断言在JSON路径中找到的值.
+	 * 
+	 * @param expression JSON路径表达式
+	 * @param matcher JSON路径上预期值的匹配器
 	 */
 	public static <T> RequestMatcher jsonPath(String expression, Matcher<T> matcher) {
 		return new JsonPathRequestMatchers(expression).value(matcher);
 	}
 
 	/**
-	 * Access to request body matchers using an XPath to inspect a specific
-	 * subset of the body. The XPath expression can be a parameterized string
-	 * using formatting specifiers as defined in
-	 * {@link String#format(String, Object...)}.
-	 * @param expression the XPath optionally parameterized with arguments
-	 * @param args arguments to parameterize the XPath expression with
+	 * 使用XPath访问请求正文匹配器以检查正文的特定子集.
+	 * XPath表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression 可选的参数化参数的XPath
+	 * @param args 用于参数化XPath表达式的参数
 	 */
 	public static XpathRequestMatchers xpath(String expression, Object... args) throws XPathExpressionException {
 		return new XpathRequestMatchers(expression, null, args);
 	}
 
 	/**
-	 * Access to response body matchers using an XPath to inspect a specific
-	 * subset of the body. The XPath expression can be a parameterized string
-	 * using formatting specifiers as defined in
-	 * {@link String#format(String, Object...)}.
-	 * @param expression the XPath optionally parameterized with arguments
-	 * @param namespaces namespaces referenced in the XPath expression
-	 * @param args arguments to parameterize the XPath expression with
+	 * 使用XPath访问响应正文匹配器以检查正文的特定子集.
+	 * XPath表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression 可选的参数化参数的XPath
+	 * @param namespaces XPath表达式中引用的命名空间
+	 * @param args 用于参数化XPath表达式的参数
 	 */
 	public static XpathRequestMatchers xpath(String expression, Map<String, String> namespaces, Object... args)
 			throws XPathExpressionException {

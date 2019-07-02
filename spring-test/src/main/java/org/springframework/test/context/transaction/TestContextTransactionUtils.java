@@ -20,21 +20,19 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Utility methods for working with transactions and data access related beans
- * within the <em>Spring TestContext Framework</em>.
+ * 用于处理<em>Spring TestContext Framework</em>中的事务和数据访问相关bean的实用方法.
  *
- * <p>Mainly for internal use within the framework.
+ * <p>主要供框架内部使用.
  */
 public abstract class TestContextTransactionUtils {
 
 	/**
-	 * Default bean name for a {@link DataSource}: {@code "dataSource"}.
+	 * {@link DataSource}的默认bean名称: {@code "dataSource"}.
 	 */
 	public static final String DEFAULT_DATA_SOURCE_NAME = "dataSource";
 
 	/**
-	 * Default bean name for a {@link PlatformTransactionManager}:
-	 * {@code "transactionManager"}.
+	 * {@link PlatformTransactionManager}的默认bean名称: {@code "transactionManager"}.
 	 */
 	public static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
 
@@ -43,33 +41,28 @@ public abstract class TestContextTransactionUtils {
 
 
 	/**
-	 * Retrieve the {@link DataSource} to use for the supplied {@linkplain TestContext
-	 * test context}.
-	 * <p>The following algorithm is used to retrieve the {@code DataSource} from
-	 * the {@link org.springframework.context.ApplicationContext ApplicationContext}
-	 * of the supplied test context:
+	 * 检索{@link DataSource}以用于提供的{@linkplain TestContext 测试上下文}.
+	 * <p>以下算法用于从提供的测试上下文的
+	 * {@link org.springframework.context.ApplicationContext ApplicationContext}中检索{@code DataSource}:
 	 * <ol>
-	 * <li>Look up the {@code DataSource} by type and name, if the supplied
-	 * {@code name} is non-empty, throwing a {@link BeansException} if the named
-	 * {@code DataSource} does not exist.
-	 * <li>Attempt to look up the single {@code DataSource} by type.
-	 * <li>Attempt to look up the <em>primary</em> {@code DataSource} by type.
-	 * <li>Attempt to look up the {@code DataSource} by type and the
-	 * {@linkplain #DEFAULT_DATA_SOURCE_NAME default data source name}.
-	 * @param testContext the test context for which the {@code DataSource}
-	 * should be retrieved; never {@code null}
-	 * @param name the name of the {@code DataSource} to retrieve
-	 * (may be {@code null} or <em>empty</em>)
-	 * @return the {@code DataSource} to use, or {@code null} if not found
-	 * @throws BeansException if an error occurs while retrieving an explicitly
-	 * named {@code DataSource}
+	 * <li>按类型和名称查找{@code DataSource}, 如果提供的{@code name}非空,
+	 * 但命名的{@code DataSource}不存在则抛出{@link BeansException}.
+	 * <li>尝试按类型查找单个{@code DataSource}.
+	 * <li>尝试按类型查找<em>主</em> {@code DataSource}.
+	 * <li>尝试按类型和{@linkplain #DEFAULT_DATA_SOURCE_NAME 默认数据源名称}查找{@code DataSource}.
+	 * 
+	 * @param testContext 应检索{@code DataSource}的测试上下文; never {@code null}
+	 * @param name 要检索的{@code DataSource}的名称 (可能是{@code null}或<em>为空</em>)
+	 * 
+	 * @return 要使用的{@code DataSource}, 或{@code null}
+	 * @throws BeansException 如果在检索显式命名的{@code DataSource}时发生错误
 	 */
 	public static DataSource retrieveDataSource(TestContext testContext, String name) {
 		Assert.notNull(testContext, "TestContext must not be null");
 		BeanFactory bf = testContext.getApplicationContext().getAutowireCapableBeanFactory();
 
 		try {
-			// Look up by type and explicit name
+			// 按类型和显式名称查找
 			if (StringUtils.hasText(name)) {
 				return bf.getBean(name, DataSource.class);
 			}
@@ -84,7 +77,7 @@ public abstract class TestContextTransactionUtils {
 			if (bf instanceof ListableBeanFactory) {
 				ListableBeanFactory lbf = (ListableBeanFactory) bf;
 
-				// Look up single bean by type
+				// 按类型查找单个bean
 				Map<String, DataSource> dataSources =
 						BeanFactoryUtils.beansOfTypeIncludingAncestors(lbf, DataSource.class);
 				if (dataSources.size() == 1) {
@@ -92,7 +85,7 @@ public abstract class TestContextTransactionUtils {
 				}
 
 				try {
-					// look up single bean by type, with support for 'primary' beans
+					// 按类型查找单个bean, 支持'primary' beans
 					return bf.getBean(DataSource.class);
 				}
 				catch (BeansException ex) {
@@ -100,7 +93,7 @@ public abstract class TestContextTransactionUtils {
 				}
 			}
 
-			// look up by type and default name
+			// 按类型和默认名称查找
 			return bf.getBean(DEFAULT_DATA_SOURCE_NAME, DataSource.class);
 		}
 		catch (BeansException ex) {
@@ -110,38 +103,30 @@ public abstract class TestContextTransactionUtils {
 	}
 
 	/**
-	 * Retrieve the {@linkplain PlatformTransactionManager transaction manager}
-	 * to use for the supplied {@linkplain TestContext test context}.
-	 * <p>The following algorithm is used to retrieve the transaction manager
-	 * from the {@link org.springframework.context.ApplicationContext ApplicationContext}
-	 * of the supplied test context:
+	 * 检索{@linkplain PlatformTransactionManager 事务管理器}以用于提供的{@linkplain TestContext 测试上下文}.
+	 * <p>以下算法用于从提供的测试上下文的
+	 * {@link org.springframework.context.ApplicationContext ApplicationContext}检索事务管理器:
 	 * <ol>
-	 * <li>Look up the transaction manager by type and explicit name, if the supplied
-	 * {@code name} is non-empty, throwing a {@link BeansException} if the named
-	 * transaction manager does not exist.
-	 * <li>Attempt to look up the single transaction manager by type.
-	 * <li>Attempt to look up the <em>primary</em> transaction manager by type.
-	 * <li>Attempt to look up the transaction manager via a
-	 * {@link TransactionManagementConfigurer}, if present.
-	 * <li>Attempt to look up the transaction manager by type and the
-	 * {@linkplain #DEFAULT_TRANSACTION_MANAGER_NAME default transaction manager
-	 * name}.
-	 * @param testContext the test context for which the transaction manager
-	 * should be retrieved; never {@code null}
-	 * @param name the name of the transaction manager to retrieve
-	 * (may be {@code null} or <em>empty</em>)
-	 * @return the transaction manager to use, or {@code null} if not found
-	 * @throws BeansException if an error occurs while retrieving an explicitly
-	 * named transaction manager
-	 * @throws IllegalStateException if more than one TransactionManagementConfigurer
-	 * exists in the ApplicationContext
+	 * <li>如果提供的{@code name}非空, 则按类型和显式名称查找事务管理器,
+	 * 如果指定的事务管理器不存在, 则抛出{@link BeansException}.
+	 * <li>尝试按类型查找单个事务管理器.
+	 * <li>尝试按类型查找<em>主</em>事务管理器.
+	 * <li>尝试通过{@link TransactionManagementConfigurer}查找事务管理器.
+	 * <li>尝试按类型和{@linkplain #DEFAULT_TRANSACTION_MANAGER_NAME 默认事务管理器名称}查找事务管理器.
+	 * 
+	 * @param testContext 应检索事务管理器的测试上下文; never {@code null}
+	 * @param name 要检索的事务管理器的名称 (可能是{@code null}或<em>为空</em>)
+	 * 
+	 * @return 要使用的事务管理器, 或{@code null}
+	 * @throws BeansException 如果在检索显式命名的事务管理器时发生错误
+	 * @throws IllegalStateException 如果ApplicationContext中存在多个TransactionManagementConfigurer
 	 */
 	public static PlatformTransactionManager retrieveTransactionManager(TestContext testContext, String name) {
 		Assert.notNull(testContext, "TestContext must not be null");
 		BeanFactory bf = testContext.getApplicationContext().getAutowireCapableBeanFactory();
 
 		try {
-			// Look up by type and explicit name
+			// 按类型和显式名称查找
 			if (StringUtils.hasText(name)) {
 				return bf.getBean(name, PlatformTransactionManager.class);
 			}
@@ -156,7 +141,7 @@ public abstract class TestContextTransactionUtils {
 			if (bf instanceof ListableBeanFactory) {
 				ListableBeanFactory lbf = (ListableBeanFactory) bf;
 
-				// Look up single bean by type
+				// 按类型查找单个bean
 				Map<String, PlatformTransactionManager> txMgrs =
 						BeanFactoryUtils.beansOfTypeIncludingAncestors(lbf, PlatformTransactionManager.class);
 				if (txMgrs.size() == 1) {
@@ -164,14 +149,14 @@ public abstract class TestContextTransactionUtils {
 				}
 
 				try {
-					// Look up single bean by type, with support for 'primary' beans
+					// 按类型查找单个bean, 支持'primary' beans
 					return bf.getBean(PlatformTransactionManager.class);
 				}
 				catch (BeansException ex) {
 					logBeansException(testContext, ex, PlatformTransactionManager.class);
 				}
 
-				// Look up single TransactionManagementConfigurer
+				// 查找 TransactionManagementConfigurer
 				Map<String, TransactionManagementConfigurer> configurers =
 						BeanFactoryUtils.beansOfTypeIncludingAncestors(lbf, TransactionManagementConfigurer.class);
 				Assert.state(configurers.size() <= 1,
@@ -181,7 +166,7 @@ public abstract class TestContextTransactionUtils {
 				}
 			}
 
-			// look up by type and default name
+			// 按类型和默认名称查找
 			return bf.getBean(DEFAULT_TRANSACTION_MANAGER_NAME, PlatformTransactionManager.class);
 		}
 		catch (BeansException ex) {
@@ -198,12 +183,13 @@ public abstract class TestContextTransactionUtils {
 	}
 
 	/**
-	 * Create a delegating {@link TransactionAttribute} for the supplied target
-	 * {@link TransactionAttribute} and {@link TestContext}, using the names of
-	 * the test class and test method to build the name of the transaction.
-	 * @param testContext the {@code TestContext} upon which to base the name
-	 * @param targetAttribute the {@code TransactionAttribute} to delegate to
-	 * @return the delegating {@code TransactionAttribute}
+	 * 为提供的目标{@link TransactionAttribute}和{@link TestContext}创建委托{@link TransactionAttribute},
+	 * 使用测试类和测试方法的名称来构建事务的名称.
+	 * 
+	 * @param testContext 基于名称的{@code TestContext}
+	 * @param targetAttribute 要委托的{@code TransactionAttribute}
+	 * 
+	 * @return 委托{@code TransactionAttribute}
 	 */
 	public static TransactionAttribute createDelegatingTransactionAttribute(
 			TestContext testContext, TransactionAttribute targetAttribute) {
@@ -229,5 +215,4 @@ public abstract class TestContextTransactionUtils {
 			return this.name;
 		}
 	}
-
 }

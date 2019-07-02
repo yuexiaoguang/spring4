@@ -5,7 +5,7 @@ import javax.portlet.Event;
 import javax.xml.namespace.QName;
 
 /**
- * Mock implementation of the {@link javax.portlet.Event} interface.
+ * {@link javax.portlet.Event}接口的模拟实现.
  */
 public class MockEvent implements Event {
 
@@ -15,8 +15,7 @@ public class MockEvent implements Event {
 
 
 	/**
-	 * Create a new MockEvent with the given name.
-	 * @param name the name of the event
+	 * @param name 事件的名称
 	 */
 	public MockEvent(QName name) {
 		this.name = name;
@@ -24,9 +23,8 @@ public class MockEvent implements Event {
 	}
 
 	/**
-	 * Create a new MockEvent with the given name and value.
-	 * @param name the name of the event
-	 * @param value the associated payload of the event
+	 * @param name 事件的名称
+	 * @param value 事件的相关有效负载
 	 */
 	public MockEvent(QName name, Serializable value) {
 		this.name = name;
@@ -34,8 +32,7 @@ public class MockEvent implements Event {
 	}
 
 	/**
-	 * Create a new MockEvent with the given name.
-	 * @param name the name of the event
+	 * @param name 事件的名称
 	 */
 	public MockEvent(String name) {
 		this.name = new QName(name);
@@ -43,9 +40,8 @@ public class MockEvent implements Event {
 	}
 
 	/**
-	 * Create a new MockEvent with the given name and value.
-	 * @param name the name of the event
-	 * @param value the associated payload of the event
+	 * @param name 事件的名称
+	 * @param value 事件的相关有效负载
 	 */
 	public MockEvent(String name, Serializable value) {
 		this.name = new QName(name);

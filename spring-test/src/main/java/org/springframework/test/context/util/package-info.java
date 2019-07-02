@@ -1,4 +1,4 @@
 /**
- * Common utilities used within the <em>Spring TestContext Framework</em>.
+ * <em>Spring TestContext Framework</em>中常用工具类.
  */
 package org.springframework.test.context.util;

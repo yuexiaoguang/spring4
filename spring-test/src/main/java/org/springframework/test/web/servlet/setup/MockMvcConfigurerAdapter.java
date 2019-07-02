@@ -4,7 +4,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * An empty method implementation of {@link MockMvcConfigurer}.
+ * {@link MockMvcConfigurer}的空实现.
  */
 public abstract class MockMvcConfigurerAdapter implements MockMvcConfigurer {
 

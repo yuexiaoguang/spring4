@@ -11,24 +11,20 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Concrete implementation of {@link AbstractGenericWebContextLoader} that loads
- * bean definitions from annotated classes.
+ * {@link AbstractGenericWebContextLoader}的具体实现, 它从带注解的类加载bean定义.
  *
- * <p>See the Javadoc for
- * {@link org.springframework.test.context.ContextConfiguration @ContextConfiguration}
- * for a definition of <em>annotated class</em>.
+ * <p>有关<em>带注解的类</em>的定义, 请参阅
+ * {@link org.springframework.test.context.ContextConfiguration @ContextConfiguration}的Javadoc.
  *
- * <p>Note: {@code AnnotationConfigWebContextLoader} supports <em>annotated classes</em>
- * rather than the String-based resource locations defined by the legacy
- * {@link org.springframework.test.context.ContextLoader ContextLoader} API. Thus,
- * although {@code AnnotationConfigWebContextLoader} extends
- * {@code AbstractGenericWebContextLoader}, {@code AnnotationConfigWebContextLoader}
- * does <em>not</em> support any String-based methods defined by
- * {@link org.springframework.test.context.support.AbstractContextLoader
- * AbstractContextLoader} or {@code AbstractGenericWebContextLoader}.
- * Consequently, {@code AnnotationConfigWebContextLoader} should chiefly be
- * considered a {@link org.springframework.test.context.SmartContextLoader SmartContextLoader}
- * rather than a {@link org.springframework.test.context.ContextLoader ContextLoader}.
+ * <p>Note: {@code AnnotationConfigWebContextLoader}支持<em>带注解的类</em>,
+ * 而不是旧版{@link org.springframework.test.context.ContextLoader ContextLoader} API定义的基于字符串的资源位置.
+ * 因此, 虽然{@code AnnotationConfigWebContextLoader}扩展了{@code AbstractGenericWebContextLoader},
+ * 但{@code AnnotationConfigWebContextLoader} <em>不</em>支持
+ * {@link org.springframework.test.context.support.AbstractContextLoader AbstractContextLoader}
+ * 或{@code AbstractGenericWebContextLoader}定义的任何基于String的方法.
+ * 因此, {@code AnnotationConfigWebContextLoader}应该主要被视为
+ * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader},
+ * 而非{@link org.springframework.test.context.ContextLoader ContextLoader}.
  */
 public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextLoader {
 
@@ -38,19 +34,13 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	// SmartContextLoader
 
 	/**
-	 * Process <em>annotated classes</em> in the supplied {@link ContextConfigurationAttributes}.
-	 * <p>If the <em>annotated classes</em> are {@code null} or empty and
-	 * {@link #isGenerateDefaultLocations()} returns {@code true}, this
-	 * {@code SmartContextLoader} will attempt to {@linkplain
-	 * #detectDefaultConfigurationClasses detect default configuration classes}.
-	 * If defaults are detected they will be
-	 * {@linkplain ContextConfigurationAttributes#setClasses(Class[]) set} in the
-	 * supplied configuration attributes. Otherwise, properties in the supplied
-	 * configuration attributes will not be modified.
-	 * @param configAttributes the context configuration attributes to process
-	 * @see org.springframework.test.context.SmartContextLoader#processContextConfiguration(ContextConfigurationAttributes)
-	 * @see #isGenerateDefaultLocations()
-	 * @see #detectDefaultConfigurationClasses(Class)
+	 * 在提供的{@link ContextConfigurationAttributes}中处理<em>带注解的类</em>.
+	 * <p>如果<em>带注解的类</em>是{@code null}或为空, 且{@link #isGenerateDefaultLocations()}返回{@code true},
+	 * 则此{@code SmartContextLoader}将尝试{@linkplain #detectDefaultConfigurationClasses 检测默认配置类}.
+	 * 如果检测到默认值, 它们将在提供的配置属性中{@linkplain ContextConfigurationAttributes#setClasses(Class[]) 设置}.
+	 * 否则, 将不会修改提供的配置属性中的属性.
+	 * 
+	 * @param configAttributes 要处理的上下文配置属性
 	 */
 	@Override
 	public void processContextConfiguration(ContextConfigurationAttributes configAttributes) {
@@ -60,12 +50,13 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	}
 
 	/**
-	 * Detect the default configuration classes for the supplied test class.
-	 * <p>The default implementation simply delegates to
+	 * 检测提供的测试类的默认配置类.
+	 * <p>默认实现委托给
 	 * {@link AnnotationConfigContextLoaderUtils#detectDefaultConfigurationClasses(Class)}.
-	 * @param declaringClass the test class that declared {@code @ContextConfiguration}
-	 * @return an array of default configuration classes, potentially empty but never {@code null}
-	 * @see AnnotationConfigContextLoaderUtils
+	 * 
+	 * @param declaringClass 声明{@code @ContextConfiguration}的测试类
+	 * 
+	 * @return 一组默认配置类, 可能为空但不能是{@code null}
 	 */
 	protected Class<?>[] detectDefaultConfigurationClasses(Class<?> declaringClass) {
 		return AnnotationConfigContextLoaderUtils.detectDefaultConfigurationClasses(declaringClass);
@@ -75,12 +66,12 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	// AbstractContextLoader
 
 	/**
-	 * {@code AnnotationConfigWebContextLoader} should be used as a
+	 * {@code AnnotationConfigWebContextLoader}应该用作
 	 * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader},
-	 * not as a legacy {@link org.springframework.test.context.ContextLoader ContextLoader}.
-	 * Consequently, this method is not supported.
-	 * @throws UnsupportedOperationException in this implementation
-	 * @see org.springframework.test.context.support.AbstractContextLoader#modifyLocations
+	 * 而不是传统的{@link org.springframework.test.context.ContextLoader ContextLoader}.
+	 * 因此, 不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	protected String[] modifyLocations(Class<?> clazz, String... locations) {
@@ -89,12 +80,12 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	}
 
 	/**
-	 * {@code AnnotationConfigWebContextLoader} should be used as a
+	 * {@code AnnotationConfigWebContextLoader}应该用作
 	 * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader},
-	 * not as a legacy {@link org.springframework.test.context.ContextLoader ContextLoader}.
-	 * Consequently, this method is not supported.
-	 * @throws UnsupportedOperationException in this implementation
-	 * @see org.springframework.test.context.support.AbstractContextLoader#generateDefaultLocations
+	 * 而不是传统的{@link org.springframework.test.context.ContextLoader ContextLoader}.
+	 * 因此, 不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	protected String[] generateDefaultLocations(Class<?> clazz) {
@@ -103,12 +94,12 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	}
 
 	/**
-	 * {@code AnnotationConfigWebContextLoader} should be used as a
+	 * {@code AnnotationConfigWebContextLoader}应该用作
 	 * {@link org.springframework.test.context.SmartContextLoader SmartContextLoader},
-	 * not as a legacy {@link org.springframework.test.context.ContextLoader ContextLoader}.
-	 * Consequently, this method is not supported.
-	 * @throws UnsupportedOperationException in this implementation
-	 * @see org.springframework.test.context.support.AbstractContextLoader#getResourceSuffix
+	 * 而不是传统的{@link org.springframework.test.context.ContextLoader ContextLoader}.
+	 * 因此, 不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	protected String getResourceSuffix() {
@@ -120,14 +111,12 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	// AbstractGenericWebContextLoader
 
 	/**
-	 * Register classes in the supplied {@linkplain GenericWebApplicationContext context}
-	 * from the classes in the supplied {@link WebMergedContextConfiguration}.
-	 * <p>Each class must represent an <em>annotated class</em>. An
-	 * {@link AnnotatedBeanDefinitionReader} is used to register the appropriate
-	 * bean definitions.
-	 * @param context the context in which the annotated classes should be registered
-	 * @param webMergedConfig the merged configuration from which the classes should be retrieved
-	 * @see AbstractGenericWebContextLoader#loadBeanDefinitions
+	 * 将提供的{@link WebMergedContextConfiguration}中的类注册到提供的{@linkplain GenericWebApplicationContext context}.
+	 * <p>每个类必须表示<em>带注解的类</em>.
+	 * {@link AnnotatedBeanDefinitionReader}用于注册适当的bean定义.
+	 * 
+	 * @param context 应该注册带注解的类的上下文
+	 * @param webMergedConfig 应从中检索类的合并配置
 	 */
 	@Override
 	protected void loadBeanDefinitions(
@@ -141,10 +130,7 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 	}
 
 	/**
-	 * Ensure that the supplied {@link WebMergedContextConfiguration} does not
-	 * contain {@link MergedContextConfiguration#getLocations() locations}.
-	 * @since 4.0.4
-	 * @see AbstractGenericWebContextLoader#validateMergedContextConfiguration
+	 * 确保提供的{@link WebMergedContextConfiguration}不包含{@link MergedContextConfiguration#getLocations() locations}.
 	 */
 	@Override
 	protected void validateMergedContextConfiguration(WebMergedContextConfiguration webMergedConfig) {
@@ -157,5 +143,4 @@ public class AnnotationConfigWebContextLoader extends AbstractGenericWebContextL
 			throw new IllegalStateException(msg);
 		}
 	}
-
 }

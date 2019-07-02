@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSessionBindingListener;
 import org.springframework.mock.web.MockHttpSession;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletSession} interface.
+ * {@link javax.portlet.PortletSession}接口的模拟实现.
  */
 public class MockPortletSession implements PortletSession {
 
@@ -41,16 +41,14 @@ public class MockPortletSession implements PortletSession {
 
 
 	/**
-	 * Create a new MockPortletSession with a default {@link MockPortletContext}.
-	 * @see MockPortletContext
+	 * 使用默认的{@link MockPortletContext}.
 	 */
 	public MockPortletSession() {
 		this(null);
 	}
 
 	/**
-	 * Create a new MockPortletSession.
-	 * @param portletContext the PortletContext that the session runs in
+	 * @param portletContext 运行会话的PortletContext
 	 */
 	public MockPortletSession(PortletContext portletContext) {
 		this.portletContext = (portletContext != null ? portletContext : new MockPortletContext());
@@ -115,7 +113,7 @@ public class MockPortletSession implements PortletSession {
 	}
 
 	/**
-	 * Clear all of this session's attributes.
+	 * 清除此会话的所有属性.
 	 */
 	public void clearAttributes() {
 		doClearAttributes(this.portletAttributes);

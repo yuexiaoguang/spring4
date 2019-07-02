@@ -47,13 +47,12 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Mock implementation of the {@link javax.servlet.http.HttpServletRequest} interface.
+ * {@link javax.servlet.http.HttpServletRequest}接口的模拟实现.
  *
- * <p>The default, preferred {@link Locale} for the <em>server</em> mocked by this request
- * is {@link Locale#ENGLISH}. This value can be changed via {@link #addPreferredLocale}
- * or {@link #setPreferredLocales}.
+ * <p>此请求模拟的<em>服务器</em>的默认首选{@link Locale}是{@link Locale#ENGLISH}.
+ * 可以通过{@link #addPreferredLocale}或{@link #setPreferredLocales}更改此值.
  *
- * <p>As of Spring Framework 4.0, this set of mocks is designed on a Servlet 3.0 baseline.
+ * <p>从Spring Framework 4.0开始, 这组模拟是在Servlet 3.0基线上设计的.
  */
 public class MockHttpServletRequest implements HttpServletRequest {
 
@@ -76,7 +75,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 			new BufferedReader(new StringReader(""));
 
 	/**
-	 * Date formats as specified in the HTTP RFC
+	 * HTTP RFC中指定的日期格式
 	 * @see <a href="https://tools.ietf.org/html/rfc7231#section-7.1.1.1">Section 7.1.1.1 of RFC 7231</a>
 	 */
 	private static final String[] DATE_FORMATS = new String[] {
@@ -91,39 +90,37 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	// ---------------------------------------------------------------------
 
 	/**
-	 * The default protocol: 'HTTP/1.1'.
-	 * @since 4.3.7
+	 * 默认协议: 'HTTP/1.1'.
 	 */
 	public static final String DEFAULT_PROTOCOL = "HTTP/1.1";
 
 	/**
-	 * The default scheme: 'http'.
-	 * @since 4.3.7
+	 * 默认模式: 'http'.
 	 */
 	public static final String DEFAULT_SCHEME = HTTP;
 
 	/**
-	 * The default server address: '127.0.0.1'.
+	 * 默认服务器地址: '127.0.0.1'.
 	 */
 	public static final String DEFAULT_SERVER_ADDR = "127.0.0.1";
 
 	/**
-	 * The default server name: 'localhost'.
+	 * 默认服务器名称: 'localhost'.
 	 */
 	public static final String DEFAULT_SERVER_NAME = "localhost";
 
 	/**
-	 * The default server port: '80'.
+	 * 默认服务器端口: '80'.
 	 */
 	public static final int DEFAULT_SERVER_PORT = 80;
 
 	/**
-	 * The default remote address: '127.0.0.1'.
+	 * 默认远程地址: '127.0.0.1'.
 	 */
 	public static final String DEFAULT_REMOTE_ADDR = "127.0.0.1";
 
 	/**
-	 * The default remote host: 'localhost'.
+	 * 默认远程主机: 'localhost'.
 	 */
 	public static final String DEFAULT_REMOTE_HOST = "localhost";
 
@@ -163,7 +160,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	private String remoteHost = DEFAULT_REMOTE_HOST;
 
-	/** List of locales in descending order */
+	/** 按降序排列的区域设置列表 */
 	private final List<Locale> locales = new LinkedList<Locale>();
 
 	private boolean secure = false;
@@ -230,50 +227,31 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	// Constructors
 	// ---------------------------------------------------------------------
 
-	/**
-	 * Create a new {@code MockHttpServletRequest} with a default
-	 * {@link MockServletContext}.
-	 * @see #MockHttpServletRequest(ServletContext, String, String)
-	 */
 	public MockHttpServletRequest() {
 		this(null, "", "");
 	}
 
 	/**
-	 * Create a new {@code MockHttpServletRequest} with a default
-	 * {@link MockServletContext}.
-	 * @param method the request method (may be {@code null})
-	 * @param requestURI the request URI (may be {@code null})
-	 * @see #setMethod
-	 * @see #setRequestURI
-	 * @see #MockHttpServletRequest(ServletContext, String, String)
+	 * @param method 请求方法 (may be {@code null})
+	 * @param requestURI 请求URI (may be {@code null})
 	 */
 	public MockHttpServletRequest(String method, String requestURI) {
 		this(null, method, requestURI);
 	}
 
 	/**
-	 * Create a new {@code MockHttpServletRequest} with the supplied {@link ServletContext}.
-	 * @param servletContext the ServletContext that the request runs in
-	 * (may be {@code null} to use a default {@link MockServletContext})
-	 * @see #MockHttpServletRequest(ServletContext, String, String)
+	 * @param servletContext 运行请求的ServletContext (可能是{@code null}以使用默认的{@link MockServletContext})
 	 */
 	public MockHttpServletRequest(ServletContext servletContext) {
 		this(servletContext, "", "");
 	}
 
 	/**
-	 * Create a new {@code MockHttpServletRequest} with the supplied {@link ServletContext},
-	 * {@code method}, and {@code requestURI}.
-	 * <p>The preferred locale will be set to {@link Locale#ENGLISH}.
-	 * @param servletContext the ServletContext that the request runs in (may be
-	 * {@code null} to use a default {@link MockServletContext})
-	 * @param method the request method (may be {@code null})
-	 * @param requestURI the request URI (may be {@code null})
-	 * @see #setMethod
-	 * @see #setRequestURI
-	 * @see #setPreferredLocales
-	 * @see MockServletContext
+	 * <p>首选区域设置将设置为{@link Locale#ENGLISH}.
+	 * 
+	 * @param servletContext 运行请求的ServletContext (可能是{@code null}以使用默认的{@link MockServletContext})
+	 * @param method 请求方法 (may be {@code null})
+	 * @param requestURI 请求URI (may be {@code null})
 	 */
 	public MockHttpServletRequest(ServletContext servletContext, String method, String requestURI) {
 		this.servletContext = (servletContext != null ? servletContext : new MockServletContext());
@@ -288,8 +266,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	// ---------------------------------------------------------------------
 
 	/**
-	 * Return the ServletContext that this request is associated with. (Not
-	 * available in the standard HttpServletRequest interface for some reason.)
+	 * 返回与此请求关联的ServletContext.
+	 * (由于某种原因, 在标准HttpServletRequest接口中不可用.)
 	 */
 	@Override
 	public ServletContext getServletContext() {
@@ -297,21 +275,21 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Return whether this request is still active (that is, not completed yet).
+	 * 返回此请求是否仍处于活动状态 (即尚未完成).
 	 */
 	public boolean isActive() {
 		return this.active;
 	}
 
 	/**
-	 * Mark this request as completed, keeping its state.
+	 * 将此请求标记为已完成, 并保持其状态.
 	 */
 	public void close() {
 		this.active = false;
 	}
 
 	/**
-	 * Invalidate this request, clearing its state.
+	 * 使此请求无效, 清除其状态.
 	 */
 	public void invalidate() {
 		close();
@@ -319,8 +297,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Check whether this request is still active (that is, not completed yet),
-	 * throwing an IllegalStateException if not active anymore.
+	 * 检查此请求是否仍处于活动状态 (即尚未完成), 如果不再处于活动状态, 则抛出IllegalStateException.
 	 */
 	protected void checkActive() throws IllegalStateException {
 		if (!this.active) {
@@ -390,7 +367,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 				}
 			}
 			catch (Exception ex) {
-				// Try to get charset value anyway
+				// 尽量获得charset值
 				int charsetIndex = contentType.toLowerCase().indexOf(CHARSET_PREFIX);
 				if (charsetIndex != -1) {
 					this.characterEncoding = contentType.substring(charsetIndex + CHARSET_PREFIX.length());
@@ -416,18 +393,16 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Set a single value for the specified HTTP parameter.
-	 * <p>If there are already one or more values registered for the given
-	 * parameter name, they will be replaced.
+	 * 为指定的HTTP参数设置单个值.
+	 * <p>如果已经为给定的参数名称注册了一个或多个值, 则将替换它们.
 	 */
 	public void setParameter(String name, String value) {
 		setParameter(name, new String[] {value});
 	}
 
 	/**
-	 * Set an array of values for the specified HTTP parameter.
-	 * <p>If there are already one or more values registered for the given
-	 * parameter name, they will be replaced.
+	 * 为指定的HTTP参数设置值数组.
+	 * <p>如果已经为给定的参数名称注册了一个或多个值, 则将替换它们.
 	 */
 	public void setParameter(String name, String... values) {
 		Assert.notNull(name, "Parameter name must not be null");
@@ -435,9 +410,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Set all provided parameters <strong>replacing</strong> any existing
-	 * values for the provided parameter names. To add without replacing
-	 * existing values, use {@link #addParameters(java.util.Map)}.
+	 * 设置所有提供的参数, <strong>替换</strong>所提供参数名称的任何现有值.
+	 * 要在不替换现有值的情况下添加, 使用{@link #addParameters(java.util.Map)}.
 	 */
 	public void setParameters(Map<String, ?> params) {
 		Assert.notNull(params, "Parameter map must not be null");
@@ -457,18 +431,16 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Add a single value for the specified HTTP parameter.
-	 * <p>If there are already one or more values registered for the given
-	 * parameter name, the given value will be added to the end of the list.
+	 * 为指定的HTTP参数添加单个值.
+	 * <p>如果已经为给定的参数名称注册了一个或多个值, 则给定的值将添加到列表的末尾.
 	 */
 	public void addParameter(String name, String value) {
 		addParameter(name, new String[] {value});
 	}
 
 	/**
-	 * Add an array of values for the specified HTTP parameter.
-	 * <p>If there are already one or more values registered for the given
-	 * parameter name, the given values will be added to the end of the list.
+	 * 为指定的HTTP参数添加值数组.
+	 * <p>如果已经为给定的参数名称注册了一个或多个值, 则给定的值将添加到列表的末尾.
 	 */
 	public void addParameter(String name, String... values) {
 		Assert.notNull(name, "Parameter name must not be null");
@@ -485,9 +457,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Adds all provided parameters <strong>without</strong> replacing any
-	 * existing values. To replace existing values, use
-	 * {@link #setParameters(java.util.Map)}.
+	 * 添加所有提供的参数, <strong>不</strong>替换任何现有值.
+	 * 要替换现有值, 使用{@link #setParameters(java.util.Map)}.
 	 */
 	public void addParameters(Map<String, ?> params) {
 		Assert.notNull(params, "Parameter map must not be null");
@@ -507,7 +478,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Remove already registered values for the specified HTTP parameter, if any.
+	 * 删除已注册的指定HTTP参数值.
 	 */
 	public void removeParameter(String name) {
 		Assert.notNull(name, "Parameter name must not be null");
@@ -515,7 +486,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Removes all existing parameters.
+	 * 删除所有现有参数.
 	 */
 	public void removeAllParameters() {
 		this.parameters.clear();
@@ -659,15 +630,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Clear all of this request's attributes.
+	 * 清除所有此请求的属性.
 	 */
 	public void clearAttributes() {
 		this.attributes.clear();
 	}
 
 	/**
-	 * Add a new preferred locale, before any existing locales.
-	 * @see #setPreferredLocales
+	 * 在任何现有区域设置之前, 添加新的首选区域设置.
 	 */
 	public void addPreferredLocale(Locale locale) {
 		Assert.notNull(locale, "Locale must not be null");
@@ -675,10 +645,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Set the list of preferred locales, in descending order, effectively replacing
-	 * any existing locales.
-	 * @see #addPreferredLocale
-	 * @since 3.2
+	 * 按降序设置首选区域设置列表, 有效替换任何现有区域设置.
 	 */
 	public void setPreferredLocales(List<Locale> locales) {
 		Assert.notEmpty(locales, "Locale list must not be empty");
@@ -687,17 +654,9 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Return the first preferred {@linkplain Locale locale} configured
-	 * in this mock request.
-	 * <p>If no locales have been explicitly configured, the default,
-	 * preferred {@link Locale} for the <em>server</em> mocked by this
-	 * request is {@link Locale#ENGLISH}.
-	 * <p>In contrast to the Servlet specification, this mock implementation
-	 * does <strong>not</strong> take into consideration any locales
-	 * specified via the {@code Accept-Language} header.
-	 * @see javax.servlet.ServletRequest#getLocale()
-	 * @see #addPreferredLocale(Locale)
-	 * @see #setPreferredLocales(List)
+	 * 返回在此模拟请求中配置的第一个首选{@linkplain Locale locale}.
+	 * <p>如果未显式配置区域设置, 则此请求模拟的<em>服务器</em>的默认首选{@link Locale}为{@link Locale#ENGLISH}.
+	 * <p>与Servlet规范相反, 此模拟实现<strong>不</strong>考虑通过{@code Accept-Language} header指定的任何区域设置.
 	 */
 	@Override
 	public Locale getLocale() {
@@ -705,17 +664,9 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Return an {@linkplain Enumeration enumeration} of the preferred
-	 * {@linkplain Locale locales} configured in this mock request.
-	 * <p>If no locales have been explicitly configured, the default,
-	 * preferred {@link Locale} for the <em>server</em> mocked by this
-	 * request is {@link Locale#ENGLISH}.
-	 * <p>In contrast to the Servlet specification, this mock implementation
-	 * does <strong>not</strong> take into consideration any locales
-	 * specified via the {@code Accept-Language} header.
-	 * @see javax.servlet.ServletRequest#getLocales()
-	 * @see #addPreferredLocale(Locale)
-	 * @see #setPreferredLocales(List)
+	 * 返回此模拟请求中配置的首选{@linkplain Locale locales}的{@linkplain Enumeration枚举}.
+	 * <p>如果未显式配置区域设置, 则此请求模拟的<em>服务器</em>的默认首选{@link Locale}为{@link Locale#ENGLISH}.
+	 * <p>与Servlet规范相反, 此模拟实现<strong>不</strong>考虑通过{@code Accept-Language} header指定的任何区域设置.
 	 */
 	@Override
 	public Enumeration<Locale> getLocales() {
@@ -723,20 +674,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Set the boolean {@code secure} flag indicating whether the mock request
-	 * was made using a secure channel, such as HTTPS.
-	 * @see #isSecure()
-	 * @see #getScheme()
-	 * @see #setScheme(String)
+	 * 设置boolean {@code secure}标志, 指示模拟请求是否是使用安全通道, 例如HTTPS.
 	 */
 	public void setSecure(boolean secure) {
 		this.secure = secure;
 	}
 
 	/**
-	 * Return {@code true} if the {@link #setSecure secure} flag has been set
-	 * to {@code true} or if the {@link #getScheme scheme} is {@code https}.
-	 * @see javax.servlet.ServletRequest#isSecure()
+	 * 如果{@link #setSecure secure}标志已设置为{@code true}或者{@link #getScheme scheme}为{@code https}, 则返回{@code true}.
 	 */
 	@Override
 	public boolean isSecure() {
@@ -865,19 +810,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Add a header entry for the given name.
-	 * <p>While this method can take any {@code Object} as a parameter, it
-	 * is recommended to use the following types:
+	 * 为给定名称添加header条目.
+	 * <p>虽然此方法可以将任何{@code Object}作为参数, 但建议使用以下类型:
 	 * <ul>
-	 * <li>String or any Object to be converted using {@code toString()}; see {@link #getHeader}.</li>
-	 * <li>String, Number, or Date for date headers; see {@link #getDateHeader}.</li>
-	 * <li>String or Number for integer headers; see {@link #getIntHeader}.</li>
-	 * <li>{@code String[]} or {@code Collection<String>} for multiple values; see {@link #getHeaders}.</li>
+	 * <li>使用{@code toString()}转换的String或任何Object; see {@link #getHeader}.</li>
+	 * <li>日期header的String, Number, 或Date; see {@link #getDateHeader}.</li>
+	 * <li>整型header的String 或 Number; see {@link #getIntHeader}.</li>
+	 * <li>multiple值的{@code String[]} 或{@code Collection<String>}; see {@link #getHeaders}.</li>
 	 * </ul>
-	 * @see #getHeaderNames
-	 * @see #getHeaders
-	 * @see #getHeader
-	 * @see #getDateHeader
 	 */
 	public void addHeader(String name, Object value) {
 		if (CONTENT_TYPE_HEADER.equalsIgnoreCase(name) && !this.headers.containsKey(CONTENT_TYPE_HEADER)) {
@@ -907,16 +847,15 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Return the long timestamp for the date header with the given {@code name}.
-	 * <p>If the internal value representation is a String, this method will try
-	 * to parse it as a date using the supported date formats:
+	 * 返回给定的{@code name}的日期header的long时间戳.
+	 * <p>如果内部值表示是String, 则此方法将尝试使用支持的日期格式将其解析为日期:
 	 * <ul>
 	 * <li>"EEE, dd MMM yyyy HH:mm:ss zzz"</li>
 	 * <li>"EEE, dd-MMM-yy HH:mm:ss zzz"</li>
 	 * <li>"EEE MMM dd HH:mm:ss yyyy"</li>
 	 * </ul>
-	 * @param name the header name
-	 * @see <a href="https://tools.ietf.org/html/rfc7231#section-7.1.1.1">Section 7.1.1.1 of RFC 7231</a>
+	 * 
+	 * @param name header名称
 	 */
 	@Override
 	public long getDateHeader(String name) {
@@ -1114,7 +1053,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	@Override
 	public HttpSession getSession(boolean create) {
 		checkActive();
-		// Reset session if invalidated.
+		// 如果无效, 则重置会话.
 		if (this.session instanceof MockHttpSession && ((MockHttpSession) this.session).isInvalid()) {
 			this.session = null;
 		}
@@ -1131,10 +1070,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * The implementation of this (Servlet 3.1+) method calls
-	 * {@link MockHttpSession#changeSessionId()} if the session is a mock session.
-	 * Otherwise it simply returns the current session id.
-	 * @since 4.0.3
+	 * 如果会话是模拟会话, 则此(Servlet 3.1+)方法的实现会调用{@link MockHttpSession#changeSessionId()}.
+	 * 否则它只返回当前的会话ID.
 	 */
 	public String changeSessionId() {
 		Assert.isTrue(this.session != null, "The request does not have a session");

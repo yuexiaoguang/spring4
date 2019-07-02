@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Mock implementation of the {@link AsyncContext} interface.
+ * {@link AsyncContext}接口的模拟实现.
  */
 public class MockAsyncContext implements AsyncContext {
 

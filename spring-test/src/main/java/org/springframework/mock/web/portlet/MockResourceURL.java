@@ -4,7 +4,7 @@ import java.util.Map;
 import javax.portlet.ResourceURL;
 
 /**
- * Mock implementation of the {@link javax.portlet.ResourceURL} interface.
+ * {@link javax.portlet.ResourceURL}接口的模拟实现.
  */
 public class MockResourceURL extends MockBaseURL implements ResourceURL {
 

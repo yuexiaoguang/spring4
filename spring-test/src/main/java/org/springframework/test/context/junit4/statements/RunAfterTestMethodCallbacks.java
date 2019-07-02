@@ -10,12 +10,11 @@ import org.junit.runners.model.Statement;
 import org.springframework.test.context.TestContextManager;
 
 /**
- * {@code RunAfterTestMethodCallbacks} is a custom JUnit {@link Statement} which allows
- * the <em>Spring TestContext Framework</em> to be plugged into the JUnit execution chain
- * by calling {@link TestContextManager#afterTestMethod afterTestMethod()} on the supplied
- * {@link TestContextManager}.
+ * {@code RunAfterTestMethodCallbacks}是一个自定义的JUnit {@link Statement},
+ * 它允许通过在提供的{@link TestContextManager}上调用{@link TestContextManager#afterTestMethod afterTestMethod()},
+ * 将<em>Spring TestContext Framework</em>插入到JUnit执行链中.
  *
- * <p><strong>NOTE:</strong> This class requires JUnit 4.9 or higher.
+ * <p><strong>NOTE:</strong> 此类需要JUnit 4.9或更高版本.
  */
 public class RunAfterTestMethodCallbacks extends Statement {
 
@@ -29,13 +28,10 @@ public class RunAfterTestMethodCallbacks extends Statement {
 
 
 	/**
-	 * Construct a new {@code RunAfterTestMethodCallbacks} statement.
-	 * @param next the next {@code Statement} in the execution chain
-	 * @param testInstance the current test instance (never {@code null})
-	 * @param testMethod the test method which has just been executed on the
-	 * test instance
-	 * @param testContextManager the TestContextManager upon which to call
-	 * {@code afterTestMethod()}
+	 * @param next 执行链中的下一个{@code Statement}
+	 * @param testInstance 当前的测试实例 (never {@code null})
+	 * @param testMethod 刚刚在测试实例上执行的测试方法
+	 * @param testContextManager 要调用{@code afterTestMethod()}的TestContextManager
 	 */
 	public RunAfterTestMethodCallbacks(Statement next, Object testInstance, Method testMethod,
 			TestContextManager testContextManager) {
@@ -48,14 +44,11 @@ public class RunAfterTestMethodCallbacks extends Statement {
 
 
 	/**
-	 * Evaluate the next {@link Statement} in the execution chain (typically an instance of
-	 * {@link org.junit.internal.runners.statements.RunAfters RunAfters}), catching any
-	 * exceptions thrown, and then invoke
-	 * {@link TestContextManager#afterTestMethod(Object, Method, Throwable)} supplying the
-	 * first caught exception (if any).
-	 * <p>If the invocation of {@code afterTestMethod()} throws an exception, that
-	 * exception will also be tracked. Multiple exceptions will be combined into a
-	 * {@link MultipleFailureException}.
+	 * 评估执行链中的下一个{@link Statement},
+	 * (通常是{@link org.junit.internal.runners.statements.RunAfters RunAfters}的一个实例),
+	 * 捕获抛出的任何异常, 然后调用
+	 * {@link TestContextManager#afterTestMethod(Object, Method, Throwable)}提供第一个捕获的异常.
+	 * <p>如果{@code afterTestMethod()}的调用抛出异常, 那么也将跟踪该异常. 多个异常将合并到{@link MultipleFailureException}.
 	 */
 	@Override
 	public void evaluate() throws Throwable {

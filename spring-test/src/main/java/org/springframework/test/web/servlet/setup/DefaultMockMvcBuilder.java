@@ -8,15 +8,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * A concrete implementation of {@link AbstractMockMvcBuilder} that provides
- * the {@link WebApplicationContext} supplied to it as a constructor argument.
+ * {@link AbstractMockMvcBuilder}的具体实现, 提供作为构造函数参数提供给它的{@link WebApplicationContext}.
  *
- * <p>In addition, if the {@link ServletContext} in the supplied
- * {@code WebApplicationContext} does not contain an entry for the
- * {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE}
- * key, the root {@code WebApplicationContext} will be detected and stored
- * in the {@code ServletContext} under the
- * {@code ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE} key.
+ * <p>此外, 如果提供的{@code WebApplicationContext}中的{@link ServletContext}不包含
+ * {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE} 键的条目,
+ * 则将检测根{@code WebApplicationContext}, 并将其存储在{@code ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE}键下的{@code ServletContext}.
  */
 public class DefaultMockMvcBuilder extends AbstractMockMvcBuilder<DefaultMockMvcBuilder> {
 
@@ -24,7 +20,7 @@ public class DefaultMockMvcBuilder extends AbstractMockMvcBuilder<DefaultMockMvc
 
 
 	/**
-	 * Protected constructor. Not intended for direct instantiation.
+	 * 不适用于直接实例化.
 	 */
 	protected DefaultMockMvcBuilder(WebApplicationContext webAppContext) {
 		Assert.notNull(webAppContext, "WebApplicationContext is required");

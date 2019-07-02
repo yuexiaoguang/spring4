@@ -8,29 +8,23 @@ import java.util.Set;
 import com.gargoylesoftware.htmlunit.WebRequest;
 
 /**
- * A {@link WebRequestMatcher} that allows matching on the host and optionally
- * the port of {@code WebRequest#getUrl()}.
+ * {@link WebRequestMatcher}, 它允许在{@code WebRequest#getUrl()}的主机和端口上进行匹配.
  *
- * <p>For example, the following would match any request to the host
- * {@code "code.jquery.com"} without regard for the port.
+ * <p>例如, 以下内容将匹配对主机{@code "code.jquery.com"}的任何请求, 而不考虑端口.
  *
  * <pre class="code">WebRequestMatcher cdnMatcher = new HostMatcher("code.jquery.com");</pre>
  *
- * <p>Multiple hosts can also be passed in. For example, the following would
- * match any request to the host {@code "code.jquery.com"} or the host
- * {@code "cdn.com"} without regard for the port.
+ * <p>也可以传入多个主机. 例如, 以下内容将匹配对主机{@code "code.jquery.com"}或主机{@code "cdn.com"}的任何请求, 而不考虑端口.
  *
  * <pre class="code">WebRequestMatcher cdnMatcher = new HostMatcher("code.jquery.com", "cdn.com");</pre>
  *
- * <p>Alternatively, one can also specify the port. For example, the following would match
- * any request to the host {@code "code.jquery.com"} with the port of {@code 80}.
+ * <p>或者, 也可以指定端口. 例如, 以下内容将匹配对主机{@code "code.jquery.com"}以及{@code 80}端口的任何请求.
  *
  * <pre class="code">WebRequestMatcher cdnMatcher = new HostMatcher("code.jquery.com:80");</pre>
  *
- * <p>The above {@code cdnMatcher} would match {@code "http://code.jquery.com/jquery.js"}
- * which has a default port of {@code 80} and {@code "http://code.jquery.com:80/jquery.js"}.
- * However, it would not match {@code "https://code.jquery.com/jquery.js"}
- * which has a default port of {@code 443}.
+ * <p>以上{@code cdnMatcher}将匹配{@code "http://code.jquery.com/jquery.js"},
+ * 其默认端口为{@code 80}和{@code "http://code.jquery.com:80/jquery.js"}.
+ * 但是, 它与 {@code "https://code.jquery.com/jquery.js"}不匹配, 其默认端口为{@code 443}.
  */
 public final class HostRequestMatcher implements WebRequestMatcher {
 
@@ -38,9 +32,10 @@ public final class HostRequestMatcher implements WebRequestMatcher {
 
 
 	/**
-	 * Create a new {@code HostRequestMatcher} for the given hosts &mdash;
-	 * for example: {@code "localhost"}, {@code "example.com:443"}, etc.
-	 * @param hosts the hosts to match on
+	 * 为给定的主机创建一个新的{@code HostRequestMatcher} &mdash;
+	 * 例如: {@code "localhost"}, {@code "example.com:443"}, etc.
+	 * 
+	 * @param hosts 要匹配的主机
 	 */
 	public HostRequestMatcher(String... hosts) {
 		this.hosts.addAll(Arrays.asList(hosts));

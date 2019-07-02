@@ -12,7 +12,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * General utility methods for working with <em>profile values</em>.
+ * 使用<em>配置文件值</em>的方法.
  */
 public abstract class ProfileValueUtils {
 
@@ -20,19 +20,14 @@ public abstract class ProfileValueUtils {
 
 
 	/**
-	 * Retrieves the {@link ProfileValueSource} type for the specified
-	 * {@link Class test class} as configured via the
-	 * {@link ProfileValueSourceConfiguration
-	 * &#064;ProfileValueSourceConfiguration} annotation and instantiates a new
-	 * instance of that type.
-	 * <p>If {@link ProfileValueSourceConfiguration
-	 * &#064;ProfileValueSourceConfiguration} is not present on the specified
-	 * class or if a custom {@link ProfileValueSource} is not declared, the
-	 * default {@link SystemProfileValueSource} will be returned instead.
-	 * @param testClass The test class for which the ProfileValueSource should
-	 * be retrieved
-	 * @return the configured (or default) ProfileValueSource for the specified
-	 * class
+	 * 通过{@link ProfileValueSourceConfiguration &#064;ProfileValueSourceConfiguration}注解
+	 * 检索指定的{@link Class 测试类}的{@link ProfileValueSource}类型, 并实例化该类型的新实例.
+	 * <p>如果指定的类上不存在{@link ProfileValueSourceConfiguration  &#064;ProfileValueSourceConfiguration},
+	 * 或者未声明自定义{@link ProfileValueSource}, 则将返回默认的{@link SystemProfileValueSource}.
+	 * 
+	 * @param testClass 应检索ProfileValueSource的测试类
+	 * 
+	 * @return 指定类的配置的 (或默认的) ProfileValueSource
 	 */
 	@SuppressWarnings("unchecked")
 	public static ProfileValueSource retrieveProfileValueSource(Class<?> testClass) {
@@ -78,14 +73,13 @@ public abstract class ProfileValueUtils {
 	}
 
 	/**
-	 * Determine if the supplied {@code testClass} is <em>enabled</em> in
-	 * the current environment, as specified by the {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation at the class level.
-	 * <p>Defaults to {@code true} if no {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation is declared.
-	 * @param testClass the test class
-	 * @return {@code true} if the test is <em>enabled</em> in the current
-	 * environment
+	 * 确定当前环境中提供的{@code testClass}是否<em>已启用</em>,
+	 * 由类级别的{@link IfProfileValue &#064;IfProfileValue}注解指定的.
+	 * <p>如果未声明{@link IfProfileValue &#064;IfProfileValue}注解, 则默认{@code true}.
+	 * 
+	 * @param testClass 测试类
+	 * 
+	 * @return {@code true}如果在当前环境中<em>启用</em>测试
 	 */
 	public static boolean isTestEnabledInThisEnvironment(Class<?> testClass) {
 		IfProfileValue ifProfileValue = AnnotatedElementUtils.findMergedAnnotation(testClass, IfProfileValue.class);
@@ -93,36 +87,31 @@ public abstract class ProfileValueUtils {
 	}
 
 	/**
-	 * Determine if the supplied {@code testMethod} is <em>enabled</em> in
-	 * the current environment, as specified by the {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation, which may be declared on the test
-	 * method itself or at the class level. Class-level usage overrides
-	 * method-level usage.
-	 * <p>Defaults to {@code true} if no {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation is declared.
-	 * @param testMethod the test method
-	 * @param testClass the test class
-	 * @return {@code true} if the test is <em>enabled</em> in the current
-	 * environment
+	 * 确定当前环境中提供的{@code testMethod}是否<em>已启用</em>,
+	 * 由{@link IfProfileValue  &#064;IfProfileValue}注解指定, 该注解可在测试方法本身或类级别上声明.
+	 * 类级别使用会覆盖方法级别的使用.
+	 * <p>如果未声明{@link IfProfileValue &#064;IfProfileValue}注解, 则默认为{@code true}.
+	 * 
+	 * @param testMethod 测试方法
+	 * @param testClass 测试类
+	 * 
+	 * @return {@code true}如果在当前环境中<em>启用</em>测试
 	 */
 	public static boolean isTestEnabledInThisEnvironment(Method testMethod, Class<?> testClass) {
 		return isTestEnabledInThisEnvironment(retrieveProfileValueSource(testClass), testMethod, testClass);
 	}
 
 	/**
-	 * Determine if the supplied {@code testMethod} is <em>enabled</em> in
-	 * the current environment, as specified by the {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation, which may be declared on the test
-	 * method itself or at the class level. Class-level usage overrides
-	 * method-level usage.
-	 * <p>Defaults to {@code true} if no {@link IfProfileValue
-	 * &#064;IfProfileValue} annotation is declared.
-	 * @param profileValueSource the ProfileValueSource to use to determine if
-	 * the test is enabled
-	 * @param testMethod the test method
-	 * @param testClass the test class
-	 * @return {@code true} if the test is <em>enabled</em> in the current
-	 * environment
+	 * 确定当前环境中提供的{@code testMethod}是否<em>已启用</em>,
+	 * 由{@link IfProfileValue &#064;IfProfileValue}注解指定, 该注解可在测试方法本身或类级别上声明.
+	 * 类级别使用会覆盖方法级别的使用.
+	 * <p>如果未声明{@link IfProfileValue &#064;IfProfileValue}注解, 则默认为{@code true}.
+	 * 
+	 * @param profileValueSource 用于确定是否启用了测试的ProfileValueSource
+	 * @param testMethod 测试方法
+	 * @param testClass 测试类
+	 * 
+	 * @return {@code true} 如果在当前环境中<em>启用</em>测试
 	 */
 	public static boolean isTestEnabledInThisEnvironment(ProfileValueSource profileValueSource, Method testMethod,
 			Class<?> testClass) {
@@ -139,16 +128,13 @@ public abstract class ProfileValueUtils {
 	}
 
 	/**
-	 * Determine if the {@code value} (or one of the {@code values})
-	 * in the supplied {@link IfProfileValue &#064;IfProfileValue} annotation is
-	 * <em>enabled</em> in the current environment.
-	 * @param profileValueSource the ProfileValueSource to use to determine if
-	 * the test is enabled
-	 * @param ifProfileValue the annotation to introspect; may be
-	 * {@code null}
-	 * @return {@code true} if the test is <em>enabled</em> in the current
-	 * environment or if the supplied {@code ifProfileValue} is
-	 * {@code null}
+	 * 确定当前环境中所提供的{@link IfProfileValue &#064;IfProfileValue}注解
+	 * 中的{@code value}(或{@code values}其中一个)是否<em>已启用</em>.
+	 * 
+	 * @param profileValueSource 用于确定是否启用了测试的ProfileValueSource
+	 * @param ifProfileValue 要内省的注解; 可能是{@code null}
+	 * 
+	 * @return {@code true} 如果在当前环境中<em>启用</em>测试, 或提供的{@code ifProfileValue}是 {@code null}
 	 */
 	private static boolean isTestEnabledInThisEnvironment(ProfileValueSource profileValueSource,
 			IfProfileValue ifProfileValue) {

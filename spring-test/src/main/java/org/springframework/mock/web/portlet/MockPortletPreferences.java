@@ -15,7 +15,7 @@ import javax.portlet.ValidatorException;
 import org.springframework.util.Assert;
 
 /**
- * Mock implementation of the {@link javax.portlet.PortletPreferences} interface.
+ * {@link javax.portlet.PortletPreferences}接口的模拟实现.
  */
 public class MockPortletPreferences implements PortletPreferences {
 

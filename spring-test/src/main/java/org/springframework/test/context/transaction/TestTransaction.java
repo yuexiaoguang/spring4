@@ -5,24 +5,21 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.util.Assert;
 
 /**
- * {@code TestTransaction} provides a collection of static utility methods for
- * programmatic interaction with <em>test-managed transactions</em> within
- * <em>test</em> methods, <em>before</em> methods, and <em>after</em> methods.
+ * {@code TestTransaction}提供了一组静态实用程序方法,
+ * 用于在<em>test</em>方法, <em>before</em>方法, 和<em>after</em>方法中与<em>测试管理的事务</em>交互.
  *
- * <p>Consult the javadocs for {@link TransactionalTestExecutionListener}
- * for a detailed explanation of <em>test-managed transactions</em>.
+ * <p>有关<em>测试管理的事务</em>的详细说明, 请参阅{@link TransactionalTestExecutionListener}的javadocs.
  *
- * <p>Support for {@code TestTransaction} is automatically available whenever
- * the {@code TransactionalTestExecutionListener} is enabled. Note that the
- * {@code TransactionalTestExecutionListener} is typically enabled by default,
- * but it can also be manually enabled via the
- * {@link TestExecutionListeners @TestExecutionListeners} annotation.
+ * <p>只要启用了{@code TransactionalTestExecutionListener}, 就会自动提供对{@code TestTransaction}的支持.
+ * 请注意, {@code TransactionalTestExecutionListener}通常默认启用,
+ * 但也可以通过{@link TestExecutionListeners @TestExecutionListeners}注解手动启用它.
  */
 public class TestTransaction {
 
 	/**
-	 * Determine whether a test-managed transaction is currently <em>active</em>.
-	 * @return {@code true} if a test-managed transaction is currently active
+	 * 确定测试管理的事务当前是否<em>活动</em>.
+	 * 
+	 * @return {@code true} 如果测试管理的事务当前处于活动状态
 	 */
 	public static boolean isActive() {
 		TransactionContext transactionContext = TransactionContextHolder.getCurrentTransactionContext();
@@ -34,75 +31,51 @@ public class TestTransaction {
 	}
 
 	/**
-	 * Determine whether the current test-managed transaction has been
-	 * {@linkplain #flagForRollback() flagged for rollback} or
-	 * {@linkplain #flagForCommit() flagged for commit}.
-	 * @return {@code true} if the current test-managed transaction is flagged
-	 * to be rolled back; {@code false} if the current test-managed transaction
-	 * is flagged to be committed
-	 * @throws IllegalStateException if a transaction is not active for the
-	 * current test
-	 * @see #isActive()
-	 * @see #flagForRollback()
-	 * @see #flagForCommit()
+	 * 确定当前测试管理的事务是否已被{@linkplain #flagForRollback() 标记为回滚}或{@linkplain #flagForCommit() 标记为提交}.
+	 * 
+	 * @return {@code true} 如果当前测试管理的事务被标记为回滚; {@code false} 如果当前测试管理的事务被标记为提交
+	 * @throws IllegalStateException 如果当前测试的事务处于非活动状态
 	 */
 	public static boolean isFlaggedForRollback() {
 		return requireCurrentTransactionContext().isFlaggedForRollback();
 	}
 
 	/**
-	 * Flag the current test-managed transaction for <em>rollback</em>.
-	 * <p>Invoking this method will <em>not</em> end the current transaction.
-	 * Rather, the value of this flag will be used to determine whether or not
-	 * the current test-managed transaction should be rolled back or committed
-	 * once it is {@linkplain #end ended}.
-	 * @throws IllegalStateException if no transaction is active for the current test
-	 * @see #isActive()
-	 * @see #isFlaggedForRollback()
-	 * @see #start()
-	 * @see #end()
+	 * 标记当前测试管理的事务为<em>回滚</em>.
+	 * <p>调用此方法将<em>不</em>结束当前事务.
+	 * 相反, 此标志的值将用于确定当前测试管理的事务是否应该在{@linkplain #end ended}后回滚或提交.
+	 * 
+	 * @throws IllegalStateException 如果当前测试没有活动的事务
 	 */
 	public static void flagForRollback() {
 		setFlaggedForRollback(true);
 	}
 
 	/**
-	 * Flag the current test-managed transaction for <em>commit</em>.
-	 * <p>Invoking this method will <em>not</em> end the current transaction.
-	 * Rather, the value of this flag will be used to determine whether or not
-	 * the current test-managed transaction should be rolled back or committed
-	 * once it is {@linkplain #end ended}.
-	 * @throws IllegalStateException if no transaction is active for the current test
-	 * @see #isActive()
-	 * @see #isFlaggedForRollback()
-	 * @see #start()
-	 * @see #end()
+	 * 标记当前测试管理的事务为<em>提交</em>.
+	 * <p>调用此方法将<em>不</em>结束当前事务.
+	 * 相反, 此标志的值将用于确定当前测试管理的事务是否应该在{@linkplain #end ended}后回滚或提交.
+	 * 
+	 * @throws IllegalStateException 如果当前测试没有活动的事务
 	 */
 	public static void flagForCommit() {
 		setFlaggedForRollback(false);
 	}
 
 	/**
-	 * Start a new test-managed transaction.
-	 * <p>Only call this method if {@link #end} has been called or if no
-	 * transaction has been previously started.
-	 * @throws IllegalStateException if the transaction context could not be
-	 * retrieved or if a transaction is already active for the current test
-	 * @see #isActive()
-	 * @see #end()
+	 * 启动一个新的测试管理的事务.
+	 * <p>如果已调用{@link #end}或之前未启动任何事务, 则仅调用此方法.
+	 * 
+	 * @throws IllegalStateException 如果无法检索事务上下文, 或者当前测试的事务已处于活动状态
 	 */
 	public static void start() {
 		requireCurrentTransactionContext().startTransaction();
 	}
 
 	/**
-	 * Immediately force a <em>commit</em> or <em>rollback</em> of the
-	 * current test-managed transaction, according to the
-	 * {@linkplain #isFlaggedForRollback rollback flag}.
-	 * @throws IllegalStateException if the transaction context could not be
-	 * retrieved or if a transaction is not active for the current test
-	 * @see #isActive()
-	 * @see #start()
+	 * 根据{@linkplain #isFlaggedForRollback 回滚标志}, 立即强制执行当前测试管理的事务的<em>提交</em>或<em>回滚</em>.
+	 * 
+	 * @throws IllegalStateException 如果无法检索事务上下文, 或者当前测试的事务处于非活动状态
 	 */
 	public static void end() {
 		requireCurrentTransactionContext().endTransaction();

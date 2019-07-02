@@ -5,16 +5,15 @@ import java.lang.reflect.Method;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 /**
- * Collection of utility methods for working with Spring's core testing annotations.
+ * 用于处理Spring核心测试注解的方法.
  */
 public class TestAnnotationUtils {
 
 	/**
-	 * Get the {@code timeout} configured via the {@link Timed @Timed}
-	 * annotation on the supplied {@code method}.
-	 * <p>Negative configured values will be converted to {@code 0}.
-	 * @return the configured timeout, or {@code 0} if the method is not
-	 * annotated with {@code @Timed}
+	 * 通过提供的{@code method}上的{@link Timed @Timed}注解配置{@code timeout}.
+	 * <p>负值将转换为{@code 0}.
+	 * 
+	 * @return 配置的超时, 如果方法未使用{@code @Timed}注解, 则为{@code 0}
 	 */
 	public static long getTimeout(Method method) {
 		Timed timed = AnnotatedElementUtils.findMergedAnnotation(method, Timed.class);
@@ -25,11 +24,10 @@ public class TestAnnotationUtils {
 	}
 
 	/**
-	 * Get the repeat count configured via the {@link Repeat @Repeat}
-	 * annotation on the supplied {@code method}.
-	 * <p>Non-negative configured values will be converted to {@code 1}.
-	 * @return the configured repeat count, or {@code 1} if the method is
-	 * not annotated with {@code @Repeat}
+	 * 获取通过提供的{@code method}上的{@link Repeat @Repeat}注解配置的重复计数.
+	 * <p>负值将转换为{@code 1}.
+	 * 
+	 * @return 配置的重复计数, 如果方法未使用{@code @Repeat}注解, 则为{@code 1}
 	 */
 	public static int getRepeatCount(Method method) {
 		Repeat repeat = AnnotatedElementUtils.findMergedAnnotation(method, Repeat.class);

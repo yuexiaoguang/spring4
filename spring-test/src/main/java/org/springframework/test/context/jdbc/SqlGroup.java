@@ -8,15 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Container annotation that aggregates several {@link Sql @Sql} annotations.
+ * 容器注解, 聚合了多个{@link Sql @Sql}注解.
  *
- * <p>Can be used natively, declaring several nested {@code @Sql} annotations.
- * Can also be used in conjunction with Java 8's support for repeatable
- * annotations, where {@code @Sql} can simply be declared several times on the
- * same class or method, implicitly generating this container annotation.
+ * <p>可以本机使用, 声明几个嵌套的{@code @Sql}注解.
+ * 也可以与Java 8对可重复注解的支持结合使用, 其中{@code @Sql}可以简单地在同一个类或方法上多次声明, 隐式生成此容器注解.
  *
- * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
- * <em>composed annotations</em>.
+ * <p>此注解可用作<em>元注解</em>以创建自定义<em>组合注解</em>.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

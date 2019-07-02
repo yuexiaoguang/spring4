@@ -6,8 +6,7 @@ import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * {@code RequestExpectationManager} that matches requests to expectations
- * regardless of the order of declaration of expected requests.
+ * {@code RequestExpectationManager}将请求与期望匹配, 而不管预期请求的声明顺序如何.
  */
 public class UnorderedRequestExpectationManager extends AbstractRequestExpectationManager {
 

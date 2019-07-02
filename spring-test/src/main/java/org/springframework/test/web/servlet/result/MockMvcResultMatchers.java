@@ -12,11 +12,11 @@ import org.springframework.util.AntPathMatcher;
 import static org.springframework.test.util.AssertionErrors.*;
 
 /**
- * Static factory methods for {@link ResultMatcher}-based result actions.
+ * 基于{@link ResultMatcher}的结果操作的静态工厂方法.
  *
  * <h3>Eclipse Users</h3>
- * <p>Consider adding this class as a Java editor favorite. To navigate to
- * this setting, open the Preferences and type "favorites".
+ * <p>Consider adding this class as a Java editor favorite.
+ * To navigate to this setting, open the Preferences and type "favorites".
  */
 public abstract class MockMvcResultMatchers {
 
@@ -24,44 +24,45 @@ public abstract class MockMvcResultMatchers {
 
 
 	/**
-	 * Access to request-related assertions.
+	 * 访问与请求相关的断言.
 	 */
 	public static RequestResultMatchers request() {
 		return new RequestResultMatchers();
 	}
 
 	/**
-	 * Access to assertions for the handler that handled the request.
+	 * 访问处理请求的处理器的断言.
 	 */
 	public static HandlerResultMatchers handler() {
 		return new HandlerResultMatchers();
 	}
 
 	/**
-	 * Access to model-related assertions.
+	 * 访问与模型相关的断言.
 	 */
 	public static ModelResultMatchers model() {
 		return new ModelResultMatchers();
 	}
 
 	/**
-	 * Access to assertions on the selected view.
+	 * 访问所选视图上的断言.
 	 */
 	public static ViewResultMatchers view() {
 		return new ViewResultMatchers();
 	}
 
 	/**
-	 * Access to flash attribute assertions.
+	 * 访问flash属性断言.
 	 */
 	public static FlashAttributeResultMatchers flash() {
 		return new FlashAttributeResultMatchers();
 	}
 
 	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
+	 * 断言请求已转发到给定的URL.
+	 * <p>此方法仅接受精确匹配.
+	 * 
+	 * @param expectedUrl 预期的精确URL
 	 */
 	public static ResultMatcher forwardedUrl(final String expectedUrl) {
 		return new ResultMatcher() {
@@ -73,12 +74,10 @@ public abstract class MockMvcResultMatchers {
 	}
 
 	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param urlPattern an AntPath expression to match against
-	 * @since 4.0
-	 * @see org.springframework.util.AntPathMatcher
+	 * 断言请求已转发到给定的URL.
+	 * <p>此方法接受{@link org.springframework.util.AntPathMatcher}表达式.
+	 * 
+	 * @param urlPattern 要匹配的AntPath表达式
 	 */
 	public static ResultMatcher forwardedUrlPattern(final String urlPattern) {
 		return new ResultMatcher() {
@@ -92,9 +91,10 @@ public abstract class MockMvcResultMatchers {
 	}
 
 	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
+	 * 断言请求被重定向到给定的URL.
+	 * <p>此方法仅接受精确匹配.
+	 * 
+	 * @param expectedUrl 预期的精确URL
 	 */
 	public static ResultMatcher redirectedUrl(final String expectedUrl) {
 		return new ResultMatcher() {
@@ -106,12 +106,10 @@ public abstract class MockMvcResultMatchers {
 	}
 
 	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This method accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param expectedUrl an AntPath expression to match against
-	 * @see org.springframework.util.AntPathMatcher
-	 * @since 4.0
+	 * 断言请求被重定向到给定的URL.
+	 * <p>此方法接受{@link org.springframework.util.AntPathMatcher}表达式
+	 * 
+	 * @param expectedUrl 要匹配的AntPath表达式
 	 */
 	public static ResultMatcher redirectedUrlPattern(final String expectedUrl) {
 		return new ResultMatcher() {
@@ -125,72 +123,66 @@ public abstract class MockMvcResultMatchers {
 	}
 
 	/**
-	 * Access to response status assertions.
+	 * 访问响应状态断言.
 	 */
 	public static StatusResultMatchers status() {
 		return new StatusResultMatchers();
 	}
 
 	/**
-	 * Access to response header assertions.
+	 * 访问响应header断言.
 	 */
 	public static HeaderResultMatchers header() {
 		return new HeaderResultMatchers();
 	}
 
 	/**
-	 * Access to response body assertions.
+	 * 访问响应正文断言.
 	 */
 	public static ContentResultMatchers content() {
 		return new ContentResultMatchers();
 	}
 
 	/**
-	 * Access to response body assertions using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-	 * to inspect a specific subset of the body.
-	 * <p>The JSON path expression can be a parameterized string using
-	 * formatting specifiers as defined in
-	 * {@link String#format(String, Object...)}.
-	 * @param expression the JSON path expression, optionally parameterized with arguments
-	 * @param args arguments to parameterize the JSON path expression with
+	 * 使用<a href="https://github.com/jayway/JsonPath">JsonPath</a>表达式访问响应正文断言以检查正文的特定子集.
+	 * <p>JSON路径表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression JSON路径表达式, 可选择使用参数进行参数化
+	 * @param args 用于参数化JSON路径表达式的参数
 	 */
 	public static JsonPathResultMatchers jsonPath(String expression, Object... args) {
 		return new JsonPathResultMatchers(expression, args);
 	}
 
 	/**
-	 * Access to response body assertions using a
-	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-	 * to inspect a specific subset of the body and a Hamcrest matcher for
-	 * asserting the value found at the JSON path.
-	 * @param expression the JSON path expression
-	 * @param matcher a matcher for the value expected at the JSON path
+	 * 使用<a href="https://github.com/jayway/JsonPath">JsonPath</a>表达式访问响应正文断言以检查正文的特定子集,
+	 * 并使用Hamcrest匹配器断言在JSON路径中找到的值.
+	 * 
+	 * @param expression JSON路径表达式
+	 * @param matcher JSON路径上预期值的匹配器
 	 */
 	public static <T> ResultMatcher jsonPath(String expression, Matcher<T> matcher) {
 		return new JsonPathResultMatchers(expression).value(matcher);
 	}
 
 	/**
-	 * Access to response body assertions using an XPath expression to
-	 * inspect a specific subset of the body.
-	 * <p>The XPath expression can be a parameterized string using formatting
-	 * specifiers as defined in {@link String#format(String, Object...)}.
-	 * @param expression the XPath expression, optionally parameterized with arguments
-	 * @param args arguments to parameterize the XPath expression with
+	 * 使用XPath表达式访问响应正文断言以检查正文的特定子集.
+	 * <p>XPath表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression XPath表达式, 可选择使用参数进行参数化
+	 * @param args 用于参数化XPath表达式的参数
 	 */
 	public static XpathResultMatchers xpath(String expression, Object... args) throws XPathExpressionException {
 		return new XpathResultMatchers(expression, null, args);
 	}
 
 	/**
-	 * Access to response body assertions using an XPath expression to
-	 * inspect a specific subset of the body.
-	 * <p>The XPath expression can be a parameterized string using formatting
-	 * specifiers as defined in {@link String#format(String, Object...)}.
-	 * @param expression the XPath expression, optionally parameterized with arguments
-	 * @param namespaces namespaces referenced in the XPath expression
-	 * @param args arguments to parameterize the XPath expression with
+	 * 使用XPath表达式访问响应正文断言以检查正文的特定子集.
+	 * <p>XPath表达式可以是使用{@link String#format(String, Object...)}中定义的格式说明符的参数化字符串.
+	 * 
+	 * @param expression XPath表达式, 可选择使用参数进行参数化
+	 * @param namespaces XPath表达式中引用的命名空间
+	 * @param args 用于参数化XPath表达式的参数
 	 */
 	public static XpathResultMatchers xpath(String expression, Map<String, String> namespaces, Object... args)
 			throws XPathExpressionException {
@@ -199,7 +191,7 @@ public abstract class MockMvcResultMatchers {
 	}
 
 	/**
-	 * Access to response cookie assertions.
+	 * 访问响应cookie断言.
 	 */
 	public static CookieResultMatchers cookie() {
 		return new CookieResultMatchers();

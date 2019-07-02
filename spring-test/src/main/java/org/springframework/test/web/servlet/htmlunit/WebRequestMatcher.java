@@ -3,14 +3,16 @@ package org.springframework.test.web.servlet.htmlunit;
 import com.gargoylesoftware.htmlunit.WebRequest;
 
 /**
- * Strategy for matching on a {@link WebRequest}.
+ * 匹配{@link WebRequest}的策略.
  */
 public interface WebRequestMatcher {
 
 	/**
-	 * Whether this matcher matches on the supplied web request.
-	 * @param request the {@link WebRequest} to attempt to match on
-	 * @return {@code true} if this matcher matches on the {@code WebRequest}
+	 * 此匹配器是否与提供的Web请求匹配.
+	 * 
+	 * @param request 尝试匹配的{@link WebRequest}
+	 * 
+	 * @return {@code true} 如果此匹配器匹配{@code WebRequest}
 	 */
 	boolean matches(WebRequest request);
 

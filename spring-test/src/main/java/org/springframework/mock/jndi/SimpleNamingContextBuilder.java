@@ -13,22 +13,20 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.ClassUtils;
 
 /**
- * Simple implementation of a JNDI naming context builder.
+ * JNDI命名上下文构建器的简单实现.
  *
- * <p>Mainly targeted at test environments, where each test case can
- * configure JNDI appropriately, so that {@code new InitialContext()}
- * will expose the required objects. Also usable for standalone applications,
- * e.g. for binding a JDBC DataSource to a well-known JNDI location, to be
- * able to use traditional J2EE data access code outside of a J2EE container.
+ * <p>主要针对测试环境, 每个测试用例都可以适当地配置JNDI, 以便{@code new InitialContext()}将公开所需的对象.
+ * 也可用于独立应用程序, e.g. 用于将JDBC DataSource绑定到一个已知的JNDI位置,
+ * 以便能够在J2EE容器之外使用传统的J2EE数据访问代码.
  *
- * <p>There are various choices for DataSource implementations:
+ * <p>DataSource实现有多种选择:
  * <ul>
- * <li>{@code SingleConnectionDataSource} (using the same Connection for all getConnection calls)
- * <li>{@code DriverManagerDataSource} (creating a new Connection on each getConnection call)
- * <li>Apache's Commons DBCP offers {@code org.apache.commons.dbcp.BasicDataSource} (a real pool)
+ * <li>{@code SingleConnectionDataSource} (对所有getConnection调用使用相同的Connection)
+ * <li>{@code DriverManagerDataSource} (在每个getConnection调用上创建一个新的Connection)
+ * <li>Apache的Commons DBCP提供{@code org.apache.commons.dbcp.BasicDataSource} (一个真正的池)
  * </ul>
  *
- * <p>Typical usage in bootstrap code:
+ * <p>引导代码中的典型用法:
  *
  * <pre class="code">
  * SimpleNamingContextBuilder builder = new SimpleNamingContextBuilder();
@@ -36,25 +34,22 @@ import org.springframework.util.ClassUtils;
  * builder.bind("java:comp/env/jdbc/myds", ds);
  * builder.activate();</pre>
  *
- * Note that it's impossible to activate multiple builders within the same JVM,
- * due to JNDI restrictions. Thus to configure a fresh builder repeatedly, use
- * the following code to get a reference to either an already activated builder
- * or a newly activated one:
+ * 请注意, 由于JNDI限制, 无法在同一JVM中激活多个构建器.
+ * 因此, 要重复配置新构建器, 请使用以下代码获取对已激活的构建器或新激活的构建器的引用:
  *
  * <pre class="code">
  * SimpleNamingContextBuilder builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
  * DataSource ds = new DriverManagerDataSource(...);
  * builder.bind("java:comp/env/jdbc/myds", ds);</pre>
  *
- * Note that you <i>should not</i> call {@code activate()} on a builder from
- * this factory method, as there will already be an activated one in any case.
+ * 请注意, <i>不应该</i>从此工厂方法调用构建器上的{@code activate()}, 因为在任何情况下都会激活一个.
  *
- * <p>An instance of this class is only necessary at setup time.
- * An application does not need to keep a reference to it after activation.
+ * <p>只有在设置时才需要此类的实例.
+ * 应用程序在激活后不需要保留对它的引用.
  */
 public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder {
 
-	/** An instance of this class bound to JNDI */
+	/** 此类绑定到JNDI的实例 */
 	private static volatile SimpleNamingContextBuilder activated;
 
 	private static boolean initialized = false;
@@ -63,32 +58,30 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
 
 
 	/**
-	 * Checks if a SimpleNamingContextBuilder is active.
-	 * @return the current SimpleNamingContextBuilder instance,
-	 * or {@code null} if none
+	 * 检查SimpleNamingContextBuilder是否处于活动状态.
+	 * 
+	 * @return 当前的SimpleNamingContextBuilder实例, 或{@code null}
 	 */
 	public static SimpleNamingContextBuilder getCurrentContextBuilder() {
 		return activated;
 	}
 
 	/**
-	 * If no SimpleNamingContextBuilder is already configuring JNDI,
-	 * create and activate one. Otherwise take the existing activate
-	 * SimpleNamingContextBuilder, clear it and return it.
-	 * <p>This is mainly intended for test suites that want to
-	 * reinitialize JNDI bindings from scratch repeatedly.
-	 * @return an empty SimpleNamingContextBuilder that can be used
-	 * to control JNDI bindings
+	 * 如果没有SimpleNamingContextBuilder已经配置JNDI, 创建并激活一个.
+	 * 否则, 使用现有的激活的 SimpleNamingContextBuilder, 清除它并返回它.
+	 * <p>这主要适用于希望重复从头开始重新初始化JNDI绑定的测试套件.
+	 * 
+	 * @return 可用于控制JNDI绑定的空的SimpleNamingContextBuilder
 	 */
 	public static SimpleNamingContextBuilder emptyActivatedContextBuilder() throws NamingException {
 		if (activated != null) {
-			// Clear already activated context builder.
+			// 清除已激活的上下文构建器.
 			activated.clear();
 		}
 		else {
-			// Create and activate new context builder.
+			// 创建并激活新的上下文构建器.
 			SimpleNamingContextBuilder builder = new SimpleNamingContextBuilder();
-			// The activate() call will cause an assignment to the activated variable.
+			// activate() 调用将导致对激活变量的赋值.
 			builder.activate();
 		}
 		return activated;
@@ -101,12 +94,11 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
 
 
 	/**
-	 * Register the context builder by registering it with the JNDI NamingManager.
-	 * Note that once this has been done, {@code new InitialContext()} will always
-	 * return a context from this factory. Use the {@code emptyActivatedContextBuilder()}
-	 * static method to get an empty context (for example, in test methods).
-	 * @throws IllegalStateException if there's already a naming context builder
-	 * registered with the JNDI NamingManager
+	 * 通过向JNDI NamingManager注册它来注册上下文构建器.
+	 * 请注意, 完成此操作后, {@code new InitialContext()}将始终从此工厂返回上下文.
+	 * 使用{@code emptyActivatedContextBuilder()}静态方法获取空上下文 (例如, 在测试方法中).
+	 * 
+	 * @throws IllegalStateException 如果已经在JNDI NamingManager中注册了命名上下文构建器
 	 */
 	public void activate() throws IllegalStateException, NamingException {
 		logger.info("Activating simple JNDI environment");
@@ -126,13 +118,10 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
 	}
 
 	/**
-	 * Temporarily deactivate this context builder. It will remain registered with
-	 * the JNDI NamingManager but will delegate to the standard JNDI InitialContextFactory
-	 * (if configured) instead of exposing its own bound objects.
-	 * <p>Call {@code activate()} again in order to expose this context builder's own
-	 * bound objects again. Such activate/deactivate sequences can be applied any number
-	 * of times (e.g. within a larger integration test suite running in the same VM).
-	 * @see #activate()
+	 * 暂时停用此上下文构建器.
+	 * 它将保持在JNDI NamingManager中注册, 但将委托给标准JNDI InitialContextFactory (如果已配置), 而不是公开自己的绑定对象.
+	 * <p>再次调用{@code activate()}以再次公开此上下文构建器自己的绑定对象.
+	 * 这种激活/停用序列可以应用任意次数 (e.g. 在同一VM中运行的较大集成测试套件中).
 	 */
 	public void deactivate() {
 		logger.info("Deactivating simple JNDI environment");
@@ -140,17 +129,17 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
 	}
 
 	/**
-	 * Clear all bindings in this context builder, while keeping it active.
+	 * 清除此上下文构建器中的所有绑定, 同时保持其活动状态.
 	 */
 	public void clear() {
 		this.boundObjects.clear();
 	}
 
 	/**
-	 * Bind the given object under the given name, for all naming contexts
-	 * that this context builder will generate.
-	 * @param name the JNDI name of the object (e.g. "java:comp/env/jdbc/myds")
-	 * @param obj the object to bind (e.g. a DataSource implementation)
+	 * 对于此上下文构建器将生成的所有命名上下文, 将给定对象绑定在给定名称下.
+	 * 
+	 * @param name 对象的JNDI名称 (e.g. "java:comp/env/jdbc/myds")
+	 * @param obj 要绑定的对象 (e.g. DataSource实现)
 	 */
 	public void bind(String name, Object obj) {
 		if (logger.isInfoEnabled()) {
@@ -161,9 +150,7 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
 
 
 	/**
-	 * Simple InitialContextFactoryBuilder implementation,
-	 * creating a new SimpleNamingContext instance.
-	 * @see SimpleNamingContext
+	 * 简单的InitialContextFactoryBuilder实现, 创建一个新的SimpleNamingContext实例.
 	 */
 	@Override
 	public InitialContextFactory createInitialContextFactory(Hashtable<?,?> environment) {
