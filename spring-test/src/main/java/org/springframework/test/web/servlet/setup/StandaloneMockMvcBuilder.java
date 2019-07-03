@@ -47,20 +47,14 @@ import org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * A {@code MockMvcBuilder} that accepts {@code @Controller} registrations
- * thus allowing full control over the instantiation and initialization of
- * controllers and their dependencies similar to plain unit tests, and also
- * making it possible to test one controller at a time.
+ * {@code MockMvcBuilder}, 接受{@code @Controller}注册, 从而允许完全控制控制器及其依赖关系的实例化和初始化,
+ * 类似于普通单元测试, 并且还可以一次测试一个控制器.
  *
- * <p>This builder creates the minimum infrastructure required by the
- * {@link DispatcherServlet} to serve requests with annotated controllers and
- * also provides methods for customization. The resulting configuration and
- * customization options are equivalent to using MVC Java config except
- * using builder style methods.
+ * <p>此构建器创建{@link DispatcherServlet}所需的最小基础结构, 以使用带注解的控制器来处理请求, 并提供自定义方法.
+ * 生成的配置和自定义选项等同于使用MVC Java配置, 但使用构建器样式方法.
  *
- * <p>To configure view resolution, either select a "fixed" view to use for every
- * request performed (see {@link #setSingleView(View)}) or provide a list of
- * {@code ViewResolver}s (see {@link #setViewResolvers(ViewResolver...)}).
+ * <p>要配置视图解析, 请选择"固定"视图以用于每个执行的请求 (see {@link #setSingleView(View)})
+ * 或提供​​{@code ViewResolver}的列表 (see {@link #setViewResolvers(ViewResolver...)}).
  */
 public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneMockMvcBuilder> {
 
@@ -102,8 +96,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 
 	/**
-	 * Protected constructor. Not intended for direct instantiation.
-	 * @see MockMvcBuilders#standaloneSetup(Object...)
+	 * 不适用于直接实例化.
 	 */
 	protected StandaloneMockMvcBuilder(Object... controllers) {
 		this.controllers = controllers;
@@ -111,12 +104,9 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 
 	/**
-	 * Register one or more {@link org.springframework.web.bind.annotation.ControllerAdvice}
-	 * instances to be used in tests.
-	 * <p>Normally {@code @ControllerAdvice} are auto-detected as long as they're declared
-	 * as Spring beans. However since the standalone setup does not load any Spring config,
-	 * they need to be registered explicitly here instead much like controllers.
-	 * @since 4.2
+	 * 注册一个或多个要在测试中使用的{@link org.springframework.web.bind.annotation.ControllerAdvice}实例.
+	 * <p>通常{@code @ControllerAdvice}是自动检测的, 只要它们被声明为Spring bean即可.
+	 * 但是, 由于独立安装程序不加载任何Spring配置, 因此需要在此处明确注册, 而不是像控制器一样.
 	 */
 	public StandaloneMockMvcBuilder setControllerAdvice(Object... controllerAdvice) {
 		this.controllerAdvice = Arrays.asList(controllerAdvice);
@@ -124,10 +114,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set the message converters to use in argument resolvers and in return value
-	 * handlers, which support reading and/or writing to the body of the request
-	 * and response. If no message converters are added to the list, a default
-	 * list of converters is added instead.
+	 * 设置消息转换器, 以在参数解析器和返回值处理器中使用, 它们支持读取和/或写入请求和响应的主体.
+	 * 如果列表中未添加任何消息转换器, 则会添加默认的转换器列表.
 	 */
 	public StandaloneMockMvcBuilder setMessageConverters(HttpMessageConverter<?>...messageConverters) {
 		this.messageConverters = Arrays.asList(messageConverters);
@@ -135,8 +123,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide a custom {@link Validator} instead of the one created by default.
-	 * The default implementation used, assuming JSR-303 is on the classpath, is
+	 * 提供自定义{@link Validator}, 而不是默认创建的自定义{@link Validator}.
+	 * 假设JSR-303在类路径上, 使用的默认实现是
 	 * {@link org.springframework.validation.beanvalidation.LocalValidatorFactoryBean}.
 	 */
 	public StandaloneMockMvcBuilder setValidator(Validator validator) {
@@ -145,8 +133,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide a conversion service with custom formatters and converters.
-	 * If not set, a {@link DefaultFormattingConversionService} is used by default.
+	 * 使用自定义格式化器和转换器提供转换服务.
+	 * 如果未设置, 则默认使用{@link DefaultFormattingConversionService}.
 	 */
 	public StandaloneMockMvcBuilder setConversionService(FormattingConversionService conversionService) {
 		this.conversionService = conversionService;
@@ -154,7 +142,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Add interceptors mapped to all incoming requests.
+	 * 添加映射到所有传入请求的拦截器.
 	 */
 	public StandaloneMockMvcBuilder addInterceptors(HandlerInterceptor... interceptors) {
 		addMappedInterceptors(null, interceptors);
@@ -162,7 +150,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Add interceptors mapped to a set of path patterns.
+	 * 添加映射到一组路径模式的拦截器.
 	 */
 	public StandaloneMockMvcBuilder addMappedInterceptors(String[] pathPatterns, HandlerInterceptor... interceptors) {
 		for (HandlerInterceptor interceptor : interceptors) {
@@ -172,7 +160,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set a ContentNegotiationManager.
+	 * 设置ContentNegotiationManager.
 	 */
 	public StandaloneMockMvcBuilder setContentNegotiationManager(ContentNegotiationManager manager) {
 		this.contentNegotiationManager = manager;
@@ -180,10 +168,10 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Specify the timeout value for async execution. In Spring MVC Test, this
-	 * value is used to determine how to long to wait for async execution to
-	 * complete so that a test can verify the results synchronously.
-	 * @param timeout the timeout value in milliseconds
+	 * 指定异步执行的超时值.
+	 * 在Spring MVC Test中, 此值用于确定如何等待异步执行完成, 以便测试可以同步验证结果.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public StandaloneMockMvcBuilder setAsyncRequestTimeout(long timeout) {
 		this.asyncRequestTimeout = timeout;
@@ -191,7 +179,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide custom resolvers for controller method arguments.
+	 * 为控制器方法参数提供自定义解析器.
 	 */
 	public StandaloneMockMvcBuilder setCustomArgumentResolvers(HandlerMethodArgumentResolver... argumentResolvers) {
 		this.customArgumentResolvers = Arrays.asList(argumentResolvers);
@@ -199,7 +187,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide custom handlers for controller method return values.
+	 * 为控制器方法返回值提供自定义处理器.
 	 */
 	public StandaloneMockMvcBuilder setCustomReturnValueHandlers(HandlerMethodReturnValueHandler... handlers) {
 		this.customReturnValueHandlers = Arrays.asList(handlers);
@@ -207,7 +195,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set the HandlerExceptionResolver types to use as a list.
+	 * 设置HandlerExceptionResolver类型以用作列表.
 	 */
 	public StandaloneMockMvcBuilder setHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		this.handlerExceptionResolvers = exceptionResolvers;
@@ -215,7 +203,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set the HandlerExceptionResolver types to use as an array.
+	 * 设置HandlerExceptionResolver类型以用作数组.
 	 */
 	public StandaloneMockMvcBuilder setHandlerExceptionResolvers(HandlerExceptionResolver... exceptionResolvers) {
 		this.handlerExceptionResolvers = Arrays.asList(exceptionResolvers);
@@ -223,8 +211,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set up view resolution with the given {@link ViewResolver}s.
-	 * If not set, an {@link InternalResourceViewResolver} is used by default.
+	 * 使用给定的{@link ViewResolver}设置视图解析.
+	 * 如果未设置, 则默认使用{@link InternalResourceViewResolver}.
 	 */
 	public StandaloneMockMvcBuilder setViewResolvers(ViewResolver...resolvers) {
 		this.viewResolvers = Arrays.asList(resolvers);
@@ -232,9 +220,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Sets up a single {@link ViewResolver} that always returns the provided
-	 * view instance. This is a convenient shortcut if you need to use one
-	 * View instance only -- e.g. rendering generated content (JSON, XML, Atom).
+	 * 设置一个{@link ViewResolver}, 它始终返回提供的视图实例.
+	 * 如果只需要使用一个View实例, 这是一个方便的快捷方式 -- e.g. 渲染生成的内容 (JSON, XML, Atom).
 	 */
 	public StandaloneMockMvcBuilder setSingleView(View view) {
 		this.viewResolvers = Collections.<ViewResolver>singletonList(new StaticViewResolver(view));
@@ -242,8 +229,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide a LocaleResolver instance.
-	 * If not provided, the default one used is {@link AcceptHeaderLocaleResolver}.
+	 * 提供LocaleResolver实例.
+	 * 如果未提供, 则使用的默认值为{@link AcceptHeaderLocaleResolver}.
 	 */
 	public StandaloneMockMvcBuilder setLocaleResolver(LocaleResolver localeResolver) {
 		this.localeResolver = localeResolver;
@@ -251,8 +238,8 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Provide a custom FlashMapManager instance.
-	 * If not provided, {@code SessionFlashMapManager} is used by default.
+	 * 提供自定义FlashMapManager实例.
+	 * 如果未提供, 则默认使用{@code SessionFlashMapManager}.
 	 */
 	public StandaloneMockMvcBuilder setFlashMapManager(FlashMapManager flashMapManager) {
 		this.flashMapManager = flashMapManager;
@@ -260,9 +247,9 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Whether to use suffix pattern match (".*") when matching patterns to
-	 * requests. If enabled a method mapped to "/users" also matches to "/users.*".
-	 * <p>The default value is {@code true}.
+	 * 在将模式与请求匹配时是否使用后缀模式匹配 (".*").
+	 * 如果启用, 映射到"/users"的方法也匹配"/users.*".
+	 * <p>默认{@code true}.
 	 */
 	public StandaloneMockMvcBuilder setUseSuffixPatternMatch(boolean useSuffixPatternMatch) {
 		this.useSuffixPatternMatch = useSuffixPatternMatch;
@@ -270,9 +257,9 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a method mapped to "/users" also matches to "/users/".
-	 * <p>The default value is {@code true}.
+	 * 是否匹配URL而不管是否存在尾部斜杠.
+	 * 如果启用, 映射到"/users"的方法也匹配"/users/".
+	 * <p>默认{@code true}.
 	 */
 	public StandaloneMockMvcBuilder setUseTrailingSlashPatternMatch(boolean useTrailingSlashPatternMatch) {
 		this.useTrailingSlashPatternMatch = useTrailingSlashPatternMatch;
@@ -280,9 +267,9 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * Set if ";" (semicolon) content should be stripped from the request URI. The value,
-	 * if provided, is in turn set on
-	 * {@link AbstractHandlerMapping#setRemoveSemicolonContent(boolean)}.
+	 * 设置是否应从请求URI中删除";" (分号)内容.
+	 * 如果提供了值, 则依次在
+	 * {@link AbstractHandlerMapping#setRemoveSemicolonContent(boolean)}上设置.
 	 */
 	public StandaloneMockMvcBuilder setRemoveSemicolonContent(boolean removeSemicolonContent) {
 		this.removeSemicolonContent = removeSemicolonContent;
@@ -290,11 +277,9 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 	/**
-	 * In a standalone setup there is no support for placeholder values embedded in
-	 * request mappings. This method allows manually provided placeholder values so they
-	 * can be resolved. Alternatively consider creating a test that initializes a
-	 * {@link WebApplicationContext}.
-	 * @since 4.2.8
+	 * 在独立设置中, 不支持嵌入在请求映射中的占位符值.
+	 * 此方法允许手动提供占位符值, 以便可以解析它们.
+	 * 或者考虑创建一个初始化{@link WebApplicationContext}的测试.
 	 */
 	public StandaloneMockMvcBuilder addPlaceholderValue(String name, String value) {
 		this.placeholderValues.put(name, value);
@@ -362,7 +347,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 
-	/** Using the MVC Java configuration as the starting point for the "standalone" setup */
+	/** 使用MVC Java配置作为"独立"设置的起点 */
 	private class StandaloneConfiguration extends WebMvcConfigurationSupport {
 
 		public StaticRequestMappingHandlerMapping getHandlerMapping() {
@@ -458,7 +443,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 
 	/**
-	 * A {@code RequestMappingHandlerMapping} that allows registration of controllers.
+	 * 允许注册控制器的{@code RequestMappingHandlerMapping}.
 	 */
 	private static class StaticRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
@@ -471,7 +456,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 
 	/**
-	 * A static resolver placeholder for values embedded in request mappings.
+	 * 静态解析器占位符, 用于嵌入请求映射中的值.
 	 */
 	private static class StaticStringValueResolver implements StringValueResolver {
 
@@ -497,7 +482,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 
 	/**
-	 * A {@link ViewResolver} that always returns same View.
+	 * 一个始终返回相同View的{@link ViewResolver}.
 	 */
 	private static class StaticViewResolver implements ViewResolver {
 
@@ -512,5 +497,4 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 			return this.view;
 		}
 	}
-
 }

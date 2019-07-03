@@ -5,7 +5,7 @@ import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * The main class to import in order to access all available {@link MockMvcBuilder}s.
+ * 要导入的主要类, 以便访问所有可用的{@link MockMvcBuilder}.
  *
  * <h3>Eclipse Users</h3>
  * <p>Consider adding this class as a Java editor favorite. To navigate to this setting, open the Preferences and type "favorites".
@@ -13,22 +13,26 @@ import org.springframework.web.context.WebApplicationContext;
 public class MockMvcBuilders {
 
 	/**
-	 * Build a {@link MockMvc} instance using the given, fully initialized (i.e., <em>refreshed</em>) {@link WebApplicationContext}.
-	 * <p>The {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet} will use the context to discover Spring MVC infrastructure and application controllers in it.
-	 * The context must have been configured with a {@link javax.servlet.ServletContext ServletContext}.
+	 * 使用给定的完全初始化的(i.e., <em>刷新</em>){@link WebApplicationContext}构建{@link MockMvc}实例.
+	 * <p>{@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet}
+	 * 将使用上下文在其中发现Spring MVC基础结构和应用程序控制器.
+	 * 必须使用{@link javax.servlet.ServletContext ServletContext}配置上下文.
 	 */
 	public static DefaultMockMvcBuilder webAppContextSetup(WebApplicationContext context) {
 		return new DefaultMockMvcBuilder(context);
 	}
 
 	/**
-	 * Build a {@link MockMvc} instance by registering one or more {@code @Controller} instances and configuring Spring MVC infrastructure programmatically.
-	 * <p>This allows full control over the instantiation and initialization of controllers and their dependencies, similar to plain unit tests while also making it possible to test one controller at a time.
-	 * <p>When this builder is used, the minimum infrastructure required by the {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet} to serve requests with annotated controllers is created automatically and can be customized, resulting in configuration that is equivalent to what MVC Java configuration provides except using builder-style methods.
-	 * <p>If the Spring MVC configuration of an application is relatively straight-forward &mdash; for example, when using the MVC namespace in XML or MVC Java config &mdash; then using this builder might be a good option for testing a majority of controllers.
-	 * In such cases, a much smaller number of tests can be used to focus on testing and verifying the actual Spring MVC configuration.
+	 * 通过注册一个或多个{@code @Controller}实例并以编程方式配置Spring MVC基础结构来构建{@link MockMvc}实例.
+	 * <p>这允许完全控制控制器及其依赖关系的实例化和初始化, 类似于普通单元测试, 同时还可以一次测试一个控制器.
+	 * <p>使用此构建器时, {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet}
+	 * 为带有带注解的控制器的请求提供服务所需的最小基础结构是自动创建的并且可以自定义,
+	 * 除了使用构建器样式的方法之外, 该配置等同于MVC Java配置提供的配置.
+	 * <p>如果应用程序的Spring MVC配置相对简单 &mdash; 例如, 在XML或MVC Java配置中使用MVC命名空间时 &mdash;
+	 * 那么使用这个构建器可能是测试大多数控制器的一个很好的选择.
+	 * 在这种情况下, 可以使用少得多的测试来专注于测试和验证实际的Spring MVC配置.
 	 * 
-	 * @param controllers one or more {@code @Controller} instances to test
+	 * @param controllers 要测试的一个或多个{@code @Controller}实例
 	 */
 	public static StandaloneMockMvcBuilder standaloneSetup(Object... controllers) {
 		return new StandaloneMockMvcBuilder(controllers);

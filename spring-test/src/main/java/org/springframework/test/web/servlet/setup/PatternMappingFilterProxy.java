@@ -15,9 +15,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A Filter that invokes a delegate {@link Filter} only if the request URL
- * matches the pattern it is mapped to using pattern matching as defined in the
- * Servlet spec.
+ * 仅当请求URL匹配使用Servlet规范中定义的模式匹配映射到的模式时, 才调用委托{@link Filter}的过滤器.
  */
 final class PatternMappingFilterProxy implements Filter {
 
@@ -29,19 +27,16 @@ final class PatternMappingFilterProxy implements Filter {
 
 	private final Filter delegate;
 
-	/** Patterns that require an exact match, e.g. "/test" */
+	/** 需要完全匹配的模式, e.g. "/test" */
 	private final List<String> exactMatches = new ArrayList<String>();
 
-	/** Patterns that require the URL to have a specific prefix, e.g. "/test/*" */
+	/** 需要URL具有特定前缀的模式, e.g. "/test/*" */
 	private final List<String> startsWithMatches = new ArrayList<String>();
 
-	/** Patterns that require the request URL to have a specific suffix, e.g. "*.html" */
+	/** 需要请求URL具有特定后缀的模式, e.g. "*.html" */
 	private final List<String> endsWithMatches = new ArrayList<String>();
 
 
-	/**
-	 * Creates a new instance.
-	 */
 	public PatternMappingFilterProxy(Filter delegate, String... urlPatterns) {
 		Assert.notNull(delegate, "A delegate Filter is required");
 		this.delegate = delegate;

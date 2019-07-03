@@ -35,13 +35,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.ServletContextResourcePatternResolver;
 
 /**
- * A stub WebApplicationContext that accepts registrations of object instances.
+ * 存根WebApplicationContext, 它接受对象实例的注册.
  *
- * <p>As registered object instances are instantiated and initialized externally,
- * there is no wiring, bean initialization, lifecycle events, as well as no
- * pre-processing and post-processing hooks typically associated with beans
- * managed by an {@link ApplicationContext}. Just a simple lookup into a
- * {@link StaticListableBeanFactory}.
+ * <p>由于已在外部实例化和初始化已注册的对象实例, 因此没有连接, bean初始化,
+ * 生命周期事件, 而且没有通常与{@link ApplicationContext}管理的bean关联的预处理和后处理挂钩.
+ * 只需简单查找{@link StaticListableBeanFactory}.
  */
 class StubWebApplicationContext implements WebApplicationContext {
 
@@ -69,7 +67,7 @@ class StubWebApplicationContext implements WebApplicationContext {
 
 
 	/**
-	 * Returns an instance that can initialize {@link ApplicationContextAware} beans.
+	 * 返回可以初始化{@link ApplicationContextAware} bean的实例.
 	 */
 	@Override
 	public AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException {
@@ -331,9 +329,8 @@ class StubWebApplicationContext implements WebApplicationContext {
 
 
 	/**
-	 * An extension of StaticListableBeanFactory that implements
-	 * AutowireCapableBeanFactory in order to allow bean initialization of
-	 * {@link ApplicationContextAware} singletons.
+	 * StaticListableBeanFactory的扩展, 它实现了AutowireCapableBeanFactory,
+	 * 以便允许{@link ApplicationContextAware}单例的bean初始化.
 	 */
 	private class StubBeanFactory extends StaticListableBeanFactory implements AutowireCapableBeanFactory {
 
