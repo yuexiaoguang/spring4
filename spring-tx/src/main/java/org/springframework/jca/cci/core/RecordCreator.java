@@ -7,32 +7,27 @@ import javax.resource.cci.RecordFactory;
 import org.springframework.dao.DataAccessException;
 
 /**
- * Callback interface for creating a CCI Record instance,
- * usually based on the passed-in CCI RecordFactory.
+ * 用于创建CCI Record实例的回调接口, 通常基于传入的CCI RecordFactory.
  *
- * <p>Used for input Record creation in CciTemplate. Alternatively,
- * Record instances can be passed into CciTemplate's corresponding
- * {@code execute} methods directly, either instantiated manually
- * or created through CciTemplate's Record factory methods.
+ * <p>用于在CciTemplate中创建输入记录.
+ * 或者, Record实例可以直接传递到CciTemplate的相应{@code execute}方法,
+ * 手动实例化或通过CciTemplate的Record工厂方法创建.
  *
- * <P>Also used for creating default output Records in CciTemplate.
- * This is useful when the JCA connector needs an explicit output Record
- * instance, but no output Records should be passed into CciTemplate's
- * {@code execute} methods.
+ * <P>还用于在CciTemplate中创建默认输出记录.
+ * 当JCA连接器需要显式输出Record实例时, 这很有用, 但是不应将输出记录传递给CciTemplate的{@code execute}方法.
  */
 public interface RecordCreator {
 
 	/**
-	 * Create a CCI Record instance, usually based on the passed-in CCI RecordFactory.
-	 * <p>For use as <i>input</i> creator with CciTemplate's {@code execute} methods,
-	 * this method should create a <i>populated</i> Record instance. For use as
-	 * <i>output</i> Record creator, it should return an <i>empty</i> Record instance.
-	 * @param recordFactory the CCI RecordFactory (never {@code null}, but not guaranteed to be
-	 * supported by the connector: its create methods might throw NotSupportedException)
-	 * @return the Record instance
-	 * @throws ResourceException if thrown by a CCI method, to be auto-converted
-	 * to a DataAccessException
-	 * @throws DataAccessException in case of custom exceptions
+	 * 创建一个CCI Record实例, 通常基于传入的CCI RecordFactory.
+	 * <p>要用作使用CciTemplate的{@code execute}方法的<i>input</i>创建者, 此方法应创建<i>填充的</i>记录实例.
+	 * 要用作<i>output</i> Record创建者, 它应该返回<i>空</i>记录实例.
+	 * 
+	 * @param recordFactory CCI RecordFactory (不能是{@code null}, 但不保证连接器支持它: 它的create方法可能抛出NotSupportedException)
+	 * 
+	 * @return Record实例
+	 * @throws ResourceException 如果由CCI方法抛出, 则自动转换为DataAccessException
+	 * @throws DataAccessException 自定义异常
 	 */
 	Record createRecord(RecordFactory recordFactory) throws ResourceException, DataAccessException;
 

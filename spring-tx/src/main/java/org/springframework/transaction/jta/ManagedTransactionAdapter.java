@@ -12,9 +12,8 @@ import javax.transaction.xa.XAResource;
 import org.springframework.util.Assert;
 
 /**
- * Adapter for a managed JTA Transaction handle, taking a JTA
- * {@link javax.transaction.TransactionManager} reference and creating
- * a JTA {@link javax.transaction.Transaction} handle for it.
+ * 托管JTA事务句柄的适配器, 获取 JTA {@link javax.transaction.TransactionManager}引用,
+ * 并为其创建JTA {@link javax.transaction.Transaction}句柄.
  */
 public class ManagedTransactionAdapter implements Transaction {
 
@@ -22,8 +21,7 @@ public class ManagedTransactionAdapter implements Transaction {
 
 
 	/**
-	 * Create a new ManagedTransactionAdapter for the given TransactionManager.
-	 * @param transactionManager the JTA TransactionManager to wrap
+	 * @param transactionManager 要包装的JTA TransactionManager
 	 */
 	public ManagedTransactionAdapter(TransactionManager transactionManager) throws SystemException {
 		Assert.notNull(transactionManager, "TransactionManager must not be null");
@@ -31,7 +29,7 @@ public class ManagedTransactionAdapter implements Transaction {
 	}
 
 	/**
-	 * Return the JTA TransactionManager that this adapter delegates to.
+	 * 返回此适配器委托给的JTA TransactionManager.
 	 */
 	public final TransactionManager getTransactionManager() {
 		return this.transactionManager;

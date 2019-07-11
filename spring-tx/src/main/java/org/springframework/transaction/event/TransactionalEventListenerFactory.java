@@ -8,8 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 /**
- * {@link EventListenerFactory} implementation that handles {@link TransactionalEventListener}
- * annotated methods.
+ * {@link EventListenerFactory}实现, 处理带{@link TransactionalEventListener}注解的方法.
  */
 public class TransactionalEventListenerFactory implements EventListenerFactory, Ordered {
 

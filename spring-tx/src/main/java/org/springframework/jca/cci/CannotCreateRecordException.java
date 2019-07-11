@@ -5,17 +5,11 @@ import javax.resource.ResourceException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
- * Exception thrown when the creating of a CCI Record failed
- * for connector-internal reasons.
+ * 由于连接器内部原因, 创建CCI记录失败时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class CannotCreateRecordException extends DataAccessResourceFailureException {
 
-	/**
-	 * Constructor for CannotCreateRecordException.
-	 * @param msg message
-	 * @param ex ResourceException root cause
-	 */
 	public CannotCreateRecordException(String msg, ResourceException ex) {
 		super(msg, ex);
 	}

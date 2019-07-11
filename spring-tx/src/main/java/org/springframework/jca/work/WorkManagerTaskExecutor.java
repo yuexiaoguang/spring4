@@ -26,30 +26,22 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
- * {@link org.springframework.core.task.TaskExecutor} implementation
- * that delegates to a JCA 1.5 WorkManager, implementing the
- * {@link javax.resource.spi.work.WorkManager} interface.
+ * 委托给JCA 1.5 WorkManager的{@link org.springframework.core.task.TaskExecutor}实现,
+ * 实现{@link javax.resource.spi.work.WorkManager}接口.
  *
- * <p>This is mainly intended for use within a JCA ResourceAdapter implementation,
- * but may also be used in a standalone environment, delegating to a locally
- * embedded WorkManager implementation (such as Geronimo's).
+ * <p>这主要用于JCA ResourceAdapter实现, 但也可以在独立环境中使用, 委托给本地嵌入的WorkManager实现 (例如 Geronimo's).
  *
- * <p>Also implements the JCA 1.5 WorkManager interface itself, delegating all
- * calls to the target WorkManager. Hence, a caller can choose whether it wants
- * to talk to this executor through the Spring TaskExecutor interface or the
- * JCA 1.5 WorkManager interface.
+ * <p>还实现了JCA 1.5 WorkManager接口本身, 将所有调用委托给目标WorkManager.
+ * 因此, 调用者可以通过Spring TaskExecutor接口或JCA 1.5 WorkManager接口选择是否要与此执行器通信.
  *
- * <p>This adapter is also capable of obtaining a JCA WorkManager from JNDI.
- * This is for example appropriate on the Geronimo application server, where
- * WorkManager GBeans (e.g. Geronimo's default "DefaultWorkManager" GBean)
- * can be linked into the J2EE environment through "gbean-ref" entries
- * in the {@code geronimo-web.xml} deployment descriptor.
+ * <p>此适配器还能够从JNDI获取JCA WorkManager.
+ * 例如, 这适用于Geronimo应用程序服务器, 其中WorkManager GBeans (e.g. Geronimo的默认"DefaultWorkManager" GBean)
+ * 可以通过{@code geronimo-web.xml}部署描述符中的"gbean-ref"条目链接到J2EE环境中.
  *
- * <p><b>On JBoss and GlassFish, obtaining the default JCA WorkManager
- * requires special lookup steps.</b> See the
- * {@link org.springframework.jca.work.jboss.JBossWorkManagerTaskExecutor}
- * {@link org.springframework.jca.work.glassfish.GlassFishWorkManagerTaskExecutor}
- * classes which are the direct equivalent of this generic JCA adapter class.
+ * <p><b>在JBoss和GlassFish上, 获取默认的JCA WorkManager需要特殊的查找步骤.</b>
+ * 请参阅{@link org.springframework.jca.work.jboss.JBossWorkManagerTaskExecutor}
+ * {@link org.springframework.jca.work.glassfish.GlassFishWorkManagerTaskExecutor}类,
+ * 它们直接等效于此通用JCA适配器类.
  */
 public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		implements AsyncListenableTaskExecutor, SchedulingTaskExecutor, WorkManager, BootstrapContextAware, InitializingBean {
@@ -67,16 +59,11 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	private TaskDecorator taskDecorator;
 
 
-	/**
-	 * Create a new WorkManagerTaskExecutor, expecting bean-style configuration.
-	 * @see #setWorkManager
-	 */
 	public WorkManagerTaskExecutor() {
 	}
 
 	/**
-	 * Create a new WorkManagerTaskExecutor for the given WorkManager.
-	 * @param workManager the JCA WorkManager to delegate to
+	 * @param workManager 要委托的JCA WorkManager
 	 */
 	public WorkManagerTaskExecutor(WorkManager workManager) {
 		setWorkManager(workManager);
@@ -84,7 +71,7 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 
 
 	/**
-	 * Specify the JCA WorkManager instance to delegate to.
+	 * 指定要委托的JCA WorkManager实例.
 	 */
 	public void setWorkManager(WorkManager workManager) {
 		Assert.notNull(workManager, "WorkManager must not be null");
@@ -92,20 +79,15 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Set the JNDI name of the JCA WorkManager.
-	 * <p>This can either be a fully qualified JNDI name,
-	 * or the JNDI name relative to the current environment
-	 * naming context if "resourceRef" is set to "true".
-	 * @see #setWorkManager
-	 * @see #setResourceRef
+	 * 设置JCA WorkManager的JNDI名称.
+	 * <p>如果"resourceRef"设置为"true", 则可以是完全限定的JNDI名称, 也可以是相对于当前环境命名上下文的JNDI名称.
 	 */
 	public void setWorkManagerName(String workManagerName) {
 		this.workManagerName = workManagerName;
 	}
 
 	/**
-	 * Specify the JCA BootstrapContext that contains the
-	 * WorkManager to delegate to.
+	 * 指定包含要委托给的WorkManager的JCA BootstrapContext.
 	 */
 	@Override
 	public void setBootstrapContext(BootstrapContext bootstrapContext) {
@@ -114,47 +96,34 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Set whether to let {@link #execute} block until the work
-	 * has been actually started.
-	 * <p>Uses the JCA {@code startWork} operation underneath,
-	 * instead of the default {@code scheduleWork}.
-	 * @see javax.resource.spi.work.WorkManager#startWork
-	 * @see javax.resource.spi.work.WorkManager#scheduleWork
+	 * 设置是否让{@link #execute}阻塞, 直到工作实际开始.
+	 * <p>使用下面的JCA {@code startWork}操作, 而不是默认的{@code scheduleWork}.
 	 */
 	public void setBlockUntilStarted(boolean blockUntilStarted) {
 		this.blockUntilStarted = blockUntilStarted;
 	}
 
 	/**
-	 * Set whether to let {@link #execute} block until the work
-	 * has been completed.
-	 * <p>Uses the JCA {@code doWork} operation underneath,
-	 * instead of the default {@code scheduleWork}.
-	 * @see javax.resource.spi.work.WorkManager#doWork
-	 * @see javax.resource.spi.work.WorkManager#scheduleWork
+	 * 设置是否让{@link #execute}阻塞, 直到工作完成.
+	 * <p>使用下面的JCA {@code doWork}操作, 而不是默认的{@code scheduleWork}.
 	 */
 	public void setBlockUntilCompleted(boolean blockUntilCompleted) {
 		this.blockUntilCompleted = blockUntilCompleted;
 	}
 
 	/**
-	 * Specify a JCA 1.5 WorkListener to apply, if any.
-	 * <p>This shared WorkListener instance will be passed on to the
-	 * WorkManager by all {@link #execute} calls on this TaskExecutor.
+	 * 指定要应用的JCA 1.5 WorkListener.
+	 * <p>这个共享的WorkListener实例将通过此TaskExecutor上的所有{@link #execute}调用传递给WorkManager.
 	 */
 	public void setWorkListener(WorkListener workListener) {
 		this.workListener = workListener;
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * @since 4.3
+	 * 指定要应用于即将执行的任何{@link Runnable}的自定义{@link TaskDecorator}.
+	 * <p>请注意, 这样的装饰器不一定应用于用户提供的{@code Runnable}/{@code Callable},
+	 * 而是应用于实际执行回调 (可能是用户提供的任务的包装器).
+	 * <p>主要用例是围绕任务的调用设置一些执行上下文, 或者为任务执行提供一些监视/统计.
 	 */
 	public void setTaskDecorator(TaskDecorator taskDecorator) {
 		this.taskDecorator = taskDecorator;
@@ -173,10 +142,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Obtain a default WorkManager to delegate to.
-	 * Called if no explicit WorkManager or WorkManager JNDI name has been specified.
-	 * <p>The default implementation returns a {@link SimpleTaskWorkManager}.
-	 * Can be overridden in subclasses.
+	 * 获取要委托给的默认WorkManager.
+	 * 如果未指定显式的WorkManager或WorkManager JNDI名称, 则调用此方法.
+	 * <p>默认实现返回{@link SimpleTaskWorkManager}. 可以在子类中重写.
 	 */
 	protected WorkManager getDefaultWorkManager() {
 		return new SimpleTaskWorkManager();
@@ -264,7 +232,7 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * This task executor prefers short-lived work units.
+	 * 该任务执行器更喜欢短期工作单位.
 	 */
 	@Override
 	public boolean prefersShortLivedTasks() {

@@ -3,36 +3,25 @@ package org.springframework.dao;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * Root of the hierarchy of data access exceptions discussed in
- * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0764543857/">Expert One-On-One J2EE Design and Development</a>.
- * Please see Chapter 9 of this book for detailed discussion of the
- * motivation for this package.
+ * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0764543857/">Expert One-On-One J2EE Design and Development</a>
+ * 中讨论的数据访问异常层次结构的根.
+ * 有关此程序包动机的详细讨论, 请参阅本书的第9章.
  *
- * <p>This exception hierarchy aims to let user code find and handle the
- * kind of error encountered without knowing the details of the particular
- * data access API in use (e.g. JDBC). Thus it is possible to react to an
- * optimistic locking failure without knowing that JDBC is being used.
+ * <p>此异常层次结构旨在让用户代码在不知道正在使用的特定数据访问API的详细信息的情况下查找和处理遇到的错误类型 (e.g. JDBC).
+ * 因此, 可以在不知道正在使用JDBC的情况下对乐观锁失败做出反应.
  *
- * <p>As this class is a runtime exception, there is no need for user code
- * to catch it or subclasses if any error is to be considered fatal
- * (the usual case).
+ * <p>由于此类是运行时异常, 因此如果任何错误被认为是致命的, 则不需要用户代码来捕获它或子类 (通常情况下).
  */
 @SuppressWarnings("serial")
 public abstract class DataAccessException extends NestedRuntimeException {
 
-	/**
-	 * Constructor for DataAccessException.
-	 * @param msg the detail message
-	 */
 	public DataAccessException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for DataAccessException.
-	 * @param msg the detail message
-	 * @param cause the root cause (usually from using a underlying
-	 * data access API such as JDBC)
+	 * @param msg 详细信息
+	 * @param cause 根本原因 (通常来自使用底层数据访问API, 如JDBC)
 	 */
 	public DataAccessException(String msg, Throwable cause) {
 		super(msg, cause);

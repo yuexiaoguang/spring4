@@ -1,9 +1,7 @@
 package org.springframework.transaction;
 
 /**
- * Exception that gets thrown when an invalid timeout is specified,
- * that is, the specified timeout valid is out of range or the
- * transaction manager implementation doesn't support timeouts.
+ * 指定无效超时时抛出的异常, 即指定的超时超出有效范围, 或事务管理器实现不支持超时.
  */
 @SuppressWarnings("serial")
 public class InvalidTimeoutException extends TransactionUsageException {
@@ -11,18 +9,13 @@ public class InvalidTimeoutException extends TransactionUsageException {
 	private int timeout;
 
 
-	/**
-	 * Constructor for InvalidTimeoutException.
-	 * @param msg the detail message
-	 * @param timeout the invalid timeout value
-	 */
 	public InvalidTimeoutException(String msg, int timeout) {
 		super(msg);
 		this.timeout = timeout;
 	}
 
 	/**
-	 * Return the invalid timeout value.
+	 * 返回无效的超时值.
 	 */
 	public int getTimeout() {
 		return timeout;

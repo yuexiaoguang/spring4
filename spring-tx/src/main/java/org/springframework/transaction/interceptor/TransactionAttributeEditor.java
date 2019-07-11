@@ -5,24 +5,23 @@ import java.beans.PropertyEditorSupport;
 import org.springframework.util.StringUtils;
 
 /**
- * PropertyEditor for {@link TransactionAttribute} objects. Accepts a String of form
+ * {@link TransactionAttribute}对象的PropertyEditor.
+ * 接受只需传播代码的
  * <p>{@code PROPAGATION_NAME, ISOLATION_NAME, readOnly, timeout_NNNN,+Exception1,-Exception2}
- * <p>where only propagation code is required. For example:
+ * <p>的格式的字符串. 示例:
  * <p>{@code PROPAGATION_MANDATORY, ISOLATION_DEFAULT}
  *
- * <p>The tokens can be in <strong>any</strong> order. Propagation and isolation codes
- * must use the names of the constants in the TransactionDefinition class. Timeout values
- * are in seconds. If no timeout is specified, the transaction manager will apply a default
- * timeout specific to the particular transaction manager.
+ * <p>可以是<strong>任何</strong>顺序.
+ * 传播和隔离代码必须使用TransactionDefinition类中的常量名称.
+ * 超时值以秒为单位. 如果未指定超时, 则事务管理器将应用特定于特定事务管理器的默认超时.
  *
- * <p>A "+" before an exception name substring indicates that transactions should commit
- * even if this exception is thrown; a "-" that they should roll back.
+ * <p>异常名称子字符串之前的"+"表示即使抛出此异常, 事务也应该提交; "-"表示应该回滚.
  */
 public class TransactionAttributeEditor extends PropertyEditorSupport {
 
 	/**
-	 * Format is PROPAGATION_NAME,ISOLATION_NAME,readOnly,timeout_NNNN,+Exception1,-Exception2.
-	 * Null or the empty string means that the method is non transactional.
+	 * 格式为PROPAGATION_NAME,ISOLATION_NAME,readOnly,timeout_NNNN,+Exception1,-Exception2.
+	 * null或空字符串表示该方法是非事务性的.
 	 */
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -31,9 +30,9 @@ public class TransactionAttributeEditor extends PropertyEditorSupport {
 			String[] tokens = StringUtils.commaDelimitedListToStringArray(text);
 			RuleBasedTransactionAttribute attr = new RuleBasedTransactionAttribute();
 			for (int i = 0; i < tokens.length; i++) {
-				// Trim leading and trailing whitespace.
+				// 去除首尾空格.
 				String token = StringUtils.trimWhitespace(tokens[i].trim());
-				// Check whether token contains illegal whitespace within text.
+				// 检查是否包含文本中的非法空格.
 				if (StringUtils.containsWhitespace(token)) {
 					throw new IllegalArgumentException(
 							"Transaction attribute token contains illegal whitespace: [" + token + "]");

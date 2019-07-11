@@ -8,14 +8,13 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
 /**
- * A simple transaction-backed {@link Scope} implementation, delegating to
- * {@link TransactionSynchronizationManager}'s resource binding mechanism.
+ * 一个简单的事务支持的{@link Scope}实现, 委托给{@link TransactionSynchronizationManager}的资源绑定机制.
  *
- * <p><b>NOTE:</b> Like {@link org.springframework.context.support.SimpleThreadScope},
- * this transaction scope is not registered by default in common contexts. Instead,
- * you need to explicitly assign it to a scope key in your setup, either through
+ * <p><b>NOTE:</b> 与{@link org.springframework.context.support.SimpleThreadScope}一样,
+ * 此事务范围默认情况下未在常见上下文中注册.
+ * 相反, 需要通过
  * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory#registerScope}
- * or through a {@link org.springframework.beans.factory.config.CustomScopeConfigurer} bean.
+ * 或通过{@link org.springframework.beans.factory.config.CustomScopeConfigurer} bean将其显式分配给设置中的范围键.
  */
 public class SimpleTransactionScope implements Scope {
 

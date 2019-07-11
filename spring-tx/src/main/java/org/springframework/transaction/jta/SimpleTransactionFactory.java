@@ -8,10 +8,9 @@ import javax.transaction.TransactionManager;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of the {@link TransactionFactory} strategy interface,
- * simply wrapping a standard JTA {@link javax.transaction.TransactionManager}.
+ * {@link TransactionFactory}策略接口的默认实现, 只需包装标准JTA {@link javax.transaction.TransactionManager}.
  *
- * <p>Does not support transaction names; simply ignores any specified name.
+ * <p>不支持事务名称; 只是忽略任何指定的名称.
  */
 public class SimpleTransactionFactory implements TransactionFactory {
 
@@ -19,8 +18,7 @@ public class SimpleTransactionFactory implements TransactionFactory {
 
 
 	/**
-	 * Create a new SimpleTransactionFactory for the given TransactionManager
-	 * @param transactionManager the JTA TransactionManager to wrap
+	 * @param transactionManager 要包装的JTA TransactionManager
 	 */
 	public SimpleTransactionFactory(TransactionManager transactionManager) {
 		Assert.notNull(transactionManager, "TransactionManager must not be null");

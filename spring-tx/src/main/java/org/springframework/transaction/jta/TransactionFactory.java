@@ -5,37 +5,30 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 
 /**
- * Strategy interface for creating JTA {@link javax.transaction.Transaction}
- * objects based on specified transactional characteristics.
+ * 用于根据指定的事务特征创建JTA {@link javax.transaction.Transaction}对象的策略接口.
  *
- * <p>The default implementation, {@link SimpleTransactionFactory}, simply
- * wraps a standard JTA {@link javax.transaction.TransactionManager}.
- * This strategy interface allows for more sophisticated implementations
- * that adapt to vendor-specific JTA extensions.
+ * <p>默认实现, {@link SimpleTransactionFactory}, 只包含一个标准的JTA {@link javax.transaction.TransactionManager}.
+ * 此策略接口允许更复杂的实现, 以适应特定于供应商的JTA扩展.
  */
 public interface TransactionFactory {
 
 	/**
-	 * Create an active Transaction object based on the given name and timeout.
-	 * @param name the transaction name (may be {@code null})
-	 * @param timeout the transaction timeout (may be -1 for the default timeout)
-	 * @return the active Transaction object (never {@code null})
-	 * @throws NotSupportedException if the transaction manager does not support
-	 * a transaction of the specified type
-	 * @throws SystemException if the transaction manager failed to create the
-	 * transaction
+	 * 根据给定的名称和超时创建一个活动的Transaction对象.
+	 * 
+	 * @param name 事务名称 (may be {@code null})
+	 * @param timeout 事务超时 (-1 表示默认超时)
+	 * 
+	 * @return 活动的Transaction对象 (never {@code null})
+	 * @throws NotSupportedException 如果事务管理器不支持指定类型的事务
+	 * @throws SystemException 如果事务管理器无法创建事务
 	 */
 	Transaction createTransaction(String name, int timeout) throws NotSupportedException, SystemException;
 
 	/**
-	 * Determine whether the underlying transaction manager supports XA transactions
-	 * managed by a resource adapter (i.e. without explicit XA resource enlistment).
-	 * <p>Typically {@code false}. Checked by
-	 * {@link org.springframework.jca.endpoint.AbstractMessageEndpointFactory}
-	 * in order to differentiate between invalid configuration and valid
-	 * ResourceAdapter-managed transactions.
-	 * @see javax.resource.spi.ResourceAdapter#endpointActivation
-	 * @see javax.resource.spi.endpoint.MessageEndpointFactory#isDeliveryTransacted
+	 * 确定底层事务管理器是否支持由资源适配器管理的XA事务 (i.e. 没有明确的XA资源登记).
+	 * <p>通常是{@code false}.
+	 * 由{@link org.springframework.jca.endpoint.AbstractMessageEndpointFactory}检查,
+	 * 以区分无效配置和有效的ResourceAdapter管理的事务.
 	 */
 	boolean supportsResourceAdapterManagedTransactions();
 

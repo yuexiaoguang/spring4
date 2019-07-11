@@ -1,4 +1,4 @@
 /**
- * Spring's support for listening to transaction events.
+ * 监听事务事件的Spring支持.
  */
 package org.springframework.transaction.event;

@@ -3,8 +3,8 @@ package org.springframework.transaction.interceptor;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- * Spring's common transaction attribute implementation.
- * Rolls back on runtime, but not checked, exceptions by default.
+ * Spring的常见事务属性实现.
+ * 在运行时回滚, 但默认情况下为非受检异常.
  */
 @SuppressWarnings("serial")
 public class DefaultTransactionAttribute extends DefaultTransactionDefinition implements TransactionAttribute {
@@ -15,25 +15,21 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 
 
 	/**
-	 * Create a new DefaultTransactionAttribute, with default settings.
-	 * Can be modified through bean property setters.
+	 * 使用默认设置.
 	 */
 	public DefaultTransactionAttribute() {
 		super();
 	}
 
 	/**
-	 * Copy constructor. Definition can be modified through bean property setters.
+	 * 复制构造函数.
 	 */
 	public DefaultTransactionAttribute(TransactionAttribute other) {
 		super(other);
 	}
 
 	/**
-	 * Create a new DefaultTransactionAttribute with the given
-	 * propagation behavior. Can be modified through bean property setters.
-	 * @param propagationBehavior one of the propagation constants in the
-	 * TransactionDefinition interface
+	 * @param propagationBehavior TransactionDefinition接口中的传播常量之一
 	 */
 	public DefaultTransactionAttribute(int propagationBehavior) {
 		super(propagationBehavior);
@@ -41,18 +37,15 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 
 
 	/**
-	 * Associate a qualifier value with this transaction attribute.
-	 * <p>This may be used for choosing a corresponding transaction manager
-	 * to process this specific transaction.
-	 * @since 3.0
+	 * 将限定符值与此事务属性相关联.
+	 * <p>这可以用于选择相应的事务管理器来处理该特定事务.
 	 */
 	public void setQualifier(String qualifier) {
 		this.qualifier = qualifier;
 	}
 
 	/**
-	 * Return a qualifier value associated with this transaction attribute.
-	 * @since 3.0
+	 * 返回与此事务属性关联的限定符值.
 	 */
 	@Override
 	public String getQualifier() {
@@ -60,36 +53,26 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 	}
 
 	/**
-	 * Set a descriptor for this transaction attribute,
-	 * e.g. indicating where the attribute is applying.
-	 * @since 4.3.4
+	 * 为此事务属性设置描述符, e.g. 指示属性应用的位置.
 	 */
 	public void setDescriptor(String descriptor) {
 		this.descriptor = descriptor;
 	}
 
 	/**
-	 * Return a descriptor for this transaction attribute,
-	 * or {@code null} if none.
-	 * @since 4.3.4
+	 * 返回此事务属性的描述符, 或{@code null}.
 	 */
 	public String getDescriptor() {
 		return this.descriptor;
 	}
 
 	/**
-	 * The default behavior is as with EJB: rollback on unchecked exception
-	 * ({@link RuntimeException}), assuming an unexpected outcome outside of any
-	 * business rules. Additionally, we also attempt to rollback on {@link Error} which
-	 * is clearly an unexpected outcome as well. By contrast, a checked exception is
-	 * considered a business exception and therefore a regular expected outcome of the
-	 * transactional business method, i.e. a kind of alternative return value which
-	 * still allows for regular completion of resource operations.
-	 * <p>This is largely consistent with TransactionTemplate's default behavior,
-	 * except that TransactionTemplate also rolls back on undeclared checked exceptions
-	 * (a corner case). For declarative transactions, we expect checked exceptions to be
-	 * intentionally declared as business exceptions, leading to a commit by default.
-	 * @see org.springframework.transaction.support.TransactionTemplate#execute
+	 * 默认行为与EJB一样: 在非受检异常上回滚 ({@link RuntimeException}), 假设任何业务规则之外的意外结果.
+	 * 此外, 还尝试在{@link Error}上回滚, 这显然也是一个意外结果.
+	 * 相比之下, 受检异常被视为业务异常, 因此是事务性业务方法的常规预期结果,
+	 * i.e. 替代返回值, 仍然允许完成资源操作.
+	 * <p>这与TransactionTemplate的默认行为基本一致, 除了TransactionTemplate还回滚未声明的受检异常 (一个极端情况).
+	 * 对于声明式事务, 希望将受检异常有意声明为业务异常, 从而导致默认提交.
 	 */
 	@Override
 	public boolean rollbackOn(Throwable ex) {
@@ -98,8 +81,8 @@ public class DefaultTransactionAttribute extends DefaultTransactionDefinition im
 
 
 	/**
-	 * Return an identifying description for this transaction attribute.
-	 * <p>Available to subclasses, for inclusion in their {@code toString()} result.
+	 * 返回此事务属性的标识说明.
+	 * <p>可用于子类, 包含在其{@code toString()}结果中.
 	 */
 	protected final StringBuilder getAttributeDescription() {
 		StringBuilder result = getDefinitionDescription();

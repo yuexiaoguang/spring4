@@ -1,27 +1,20 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on an optimistic locking violation.
+ * 乐观锁定违规抛出的异常.
  *
- * <p>This exception will be thrown either by O/R mapping tools
- * or by custom DAO implementations. Optimistic locking failure
- * is typically <i>not</i> detected by the database itself.
+ * <p>O/R映射工具或自定义DAO实现将抛出此异常. 数据库本身通常<i>不</i>检测乐观锁定失败.
  */
 @SuppressWarnings("serial")
 public class OptimisticLockingFailureException extends ConcurrencyFailureException {
 
-	/**
-	 * Constructor for OptimisticLockingFailureException.
-	 * @param msg the detail message
-	 */
 	public OptimisticLockingFailureException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for OptimisticLockingFailureException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public OptimisticLockingFailureException(String msg, Throwable cause) {
 		super(msg, cause);

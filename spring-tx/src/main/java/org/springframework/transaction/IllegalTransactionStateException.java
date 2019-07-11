@@ -1,26 +1,15 @@
 package org.springframework.transaction;
 
 /**
- * Exception thrown when the existence or non-existence of a transaction
- * amounts to an illegal state according to the transaction propagation
- * behavior that applies.
+ * 根据适用的事务传播行为, 当事务的存在或不存在等于非法状态时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class IllegalTransactionStateException extends TransactionUsageException {
 
-	/**
-	 * Constructor for IllegalTransactionStateException.
-	 * @param msg the detail message
-	 */
 	public IllegalTransactionStateException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Constructor for IllegalTransactionStateException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the transaction API in use
-	 */
 	public IllegalTransactionStateException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

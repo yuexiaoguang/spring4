@@ -1,25 +1,15 @@
 package org.springframework.transaction;
 
 /**
- * Exception thrown when attempting to suspend an existing transaction
- * but transaction suspension is not supported by the underlying backend.
+ * 尝试挂起现有事务, 但底层后端不支持事务暂停时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class TransactionSuspensionNotSupportedException extends CannotCreateTransactionException {
 
-	/**
-	 * Constructor for TransactionSuspensionNotSupportedException.
-	 * @param msg the detail message
-	 */
 	public TransactionSuspensionNotSupportedException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Constructor for TransactionSuspensionNotSupportedException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the transaction API in use
-	 */
 	public TransactionSuspensionNotSupportedException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

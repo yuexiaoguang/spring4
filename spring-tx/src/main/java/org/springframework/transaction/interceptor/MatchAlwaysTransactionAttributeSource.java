@@ -7,11 +7,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Very simple implementation of TransactionAttributeSource which will always return
- * the same TransactionAttribute for all methods fed to it. The TransactionAttribute
- * may be specified, but will otherwise default to PROPAGATION_REQUIRED. This may be
- * used in the cases where you want to use the same transaction attribute with all
- * methods being handled by a transaction interceptor.
+ * TransactionAttributeSource的非常简单的实现, 它将始终为所有提供给它的方法返回相同的TransactionAttribute.
+ * 可以指定TransactionAttribute, 但是默认为PROPAGATION_REQUIRED.
+ * 这可以用于希望使用相同的事务属性, 并且所有方法都由事务拦截器处理的情况.
  */
 @SuppressWarnings("serial")
 public class MatchAlwaysTransactionAttributeSource implements TransactionAttributeSource, Serializable {
@@ -20,9 +18,9 @@ public class MatchAlwaysTransactionAttributeSource implements TransactionAttribu
 
 
 	/**
-	 * Allows a transaction attribute to be specified, using the String form, for
-	 * example, "PROPAGATION_REQUIRED".
-	 * @param transactionAttribute The String form of the transactionAttribute to use.
+	 * 允许使用String格式指定事务属性，例如, "PROPAGATION_REQUIRED".
+	 * 
+	 * @param transactionAttribute 要使用的transactionAttribute的String形式.
 	 */
 	public void setTransactionAttribute(TransactionAttribute transactionAttribute) {
 		this.transactionAttribute = transactionAttribute;

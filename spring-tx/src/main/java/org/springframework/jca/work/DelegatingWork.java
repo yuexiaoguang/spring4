@@ -5,7 +5,7 @@ import javax.resource.spi.work.Work;
 import org.springframework.util.Assert;
 
 /**
- * Simple Work adapter that delegates to a given Runnable.
+ * 委托给给定Runnable的简单Work适配器.
  */
 public class DelegatingWork implements Work {
 
@@ -13,8 +13,7 @@ public class DelegatingWork implements Work {
 
 
 	/**
-	 * Create a new DelegatingWork.
-	 * @param delegate the Runnable implementation to delegate to
+	 * @param delegate 要委托给的Runnable实现
 	 */
 	public DelegatingWork(Runnable delegate) {
 		Assert.notNull(delegate, "Delegate must not be null");
@@ -22,7 +21,7 @@ public class DelegatingWork implements Work {
 	}
 
 	/**
-	 * Return the wrapped Runnable implementation.
+	 * 返回包装的Runnable实现.
 	 */
 	public final Runnable getDelegate() {
 		return this.delegate;
@@ -30,7 +29,7 @@ public class DelegatingWork implements Work {
 
 
 	/**
-	 * Delegates execution to the underlying Runnable.
+	 * 委托执行给底层Runnable.
 	 */
 	@Override
 	public void run() {
@@ -38,8 +37,7 @@ public class DelegatingWork implements Work {
 	}
 
 	/**
-	 * This implementation is empty, since we expect the Runnable
-	 * to terminate based on some specific shutdown signal.
+	 * 此实现为空, 因为希望Runnable根据某些特定的关闭信号终止.
 	 */
 	@Override
 	public void release() {

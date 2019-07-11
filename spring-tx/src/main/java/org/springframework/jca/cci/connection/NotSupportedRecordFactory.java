@@ -7,14 +7,11 @@ import javax.resource.cci.MappedRecord;
 import javax.resource.cci.RecordFactory;
 
 /**
- * Implementation of the CCI RecordFactory interface that always throws
- * NotSupportedException.
+ * CCI RecordFactory接口的实现, 始终抛出NotSupportedException.
  *
- * <p>Useful as a placeholder for a RecordFactory argument (for example as
- * defined by the RecordCreator callback), in particular when the connector's
- * {@code ConnectionFactory.getRecordFactory()} implementation happens to
- * throw NotSupportedException early rather than throwing the exception from
- * RecordFactory's methods.
+ * <p>用作RecordFactory参数的占位符 (例如, 由RecordCreator回调定义),
+ * 特别是当连接器的{@code ConnectionFactory.getRecordFactory()}实现恰好提前抛出NotSupportedException,
+ * 而不是从RecordFactory的方法抛出异常时.
  */
 public class NotSupportedRecordFactory implements RecordFactory {
 

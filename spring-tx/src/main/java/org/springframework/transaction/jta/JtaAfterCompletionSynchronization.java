@@ -8,10 +8,9 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 /**
- * Adapter for a JTA Synchronization, invoking the {@code afterCommit} /
- * {@code afterCompletion} callbacks of Spring {@link TransactionSynchronization}
- * objects callbacks after the outer JTA transaction has completed.
- * Applied when participating in an existing (non-Spring) JTA transaction.
+ * 适用于JTA同步的适配器, 在外部JTA事务完成后, 调用Spring {@link TransactionSynchronization}对象的
+ * {@code afterCommit} / {@code afterCompletion}回调.
+ * 在参与现有(非Spring)JTA事务时应用.
  */
 public class JtaAfterCompletionSynchronization implements Synchronization {
 
@@ -19,8 +18,7 @@ public class JtaAfterCompletionSynchronization implements Synchronization {
 
 
 	/**
-	 * Create a new JtaAfterCompletionSynchronization for the given synchronization objects.
-	 * @param synchronizations the List of TransactionSynchronization objects
+	 * @param synchronizations TransactionSynchronization对象
 	 */
 	public JtaAfterCompletionSynchronization(List<TransactionSynchronization> synchronizations) {
 		this.synchronizations = synchronizations;

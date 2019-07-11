@@ -1,26 +1,18 @@
 package org.springframework.dao;
 
 /**
- * Root of the hierarchy of data access exceptions that are considered non-transient -
- * where a retry of the same operation would fail unless the cause of the Exception
- * is corrected.
+ * 被视为非瞬态的数据访问异常层次结构的根 - 除非更正异常的原因, 否则相同操作的重试将失败.
  */
 @SuppressWarnings("serial")
 public abstract class NonTransientDataAccessException extends DataAccessException {
 
-	/**
-	 * Constructor for NonTransientDataAccessException.
-	 * @param msg the detail message
-	 */
 	public NonTransientDataAccessException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for NonTransientDataAccessException.
-	 * @param msg the detail message
-	 * @param cause the root cause (usually from using a underlying
-	 * data access API such as JDBC)
+	 * @param msg 详细信息
+	 * @param cause 根本原因 (通常来自使用底层数据访问API, 如JDBC)
 	 */
 	public NonTransientDataAccessException(String msg, Throwable cause) {
 		super(msg, cause);

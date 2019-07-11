@@ -16,8 +16,7 @@ import org.springframework.transaction.event.TransactionalEventListenerFactory;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Abstract base {@code @Configuration} class providing common structure for enabling
- * Spring's annotation-driven transaction management capability.
+ * 抽象基础{@code @Configuration}类, 提供用于启用Spring注解驱动的事务管理功能的通用结构.
  */
 @Configuration
 public abstract class AbstractTransactionManagementConfiguration implements ImportAware {
@@ -25,7 +24,7 @@ public abstract class AbstractTransactionManagementConfiguration implements Impo
 	protected AnnotationAttributes enableTx;
 
 	/**
-	 * Default transaction manager, as configured through a {@link TransactionManagementConfigurer}.
+	 * 默认事务管理器, 通过{@link TransactionManagementConfigurer}配置.
 	 */
 	protected PlatformTransactionManager txManager;
 

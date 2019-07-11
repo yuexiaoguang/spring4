@@ -27,47 +27,33 @@ import org.springframework.transaction.support.TransactionSynchronizationUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * WebSphere-specific PlatformTransactionManager implementation that delegates
- * to a {@link com.ibm.wsspi.uow.UOWManager} instance, obtained from WebSphere's
- * JNDI environment. This allows Spring to leverage the full power of the WebSphere
- * transaction coordinator, including transaction suspension, in a manner that is
- * perfectly compliant with officially supported WebSphere API.
+ * 特定于WebSphere的PlatformTransactionManager实现, 它委托给从WebSphere的JNDI环境获得的{@link com.ibm.wsspi.uow.UOWManager}实例.
+ * 这允许Spring以完全符合官方支持的WebSphere API的方式利用WebSphere事务协调器的全部功能, 包括事务暂停.
  *
- * <p>The {@link CallbackPreferringPlatformTransactionManager} interface
- * implemented by this class indicates that callers should preferably pass in
- * a {@link TransactionCallback} through the {@link #execute} method, which
- * will be handled through the callback-based WebSphere UOWManager API instead
- * of through standard JTA API (UserTransaction / TransactionManager). This avoids
- * the use of the non-public {@code javax.transaction.TransactionManager}
- * API on WebSphere, staying within supported WebSphere API boundaries.
+ * <p>此类实现的{@link CallbackPreferringPlatformTransactionManager}接口
+ * 表明调用者最好通过{@link #execute}方法传递{@link TransactionCallback},
+ * 它将通过基于回调的WebSphere UOWManager API, 而不是通过标准JTA API (UserTransaction / TransactionManager).
+ * 这避免了在WebSphere上使用非public {@code javax.transaction.TransactionManager} API, 保持在受支持的WebSphere API边界内.
  *
- * <p>This transaction manager implementation derives from Spring's standard
- * {@link JtaTransactionManager}, inheriting the capability to support programmatic
- * transaction demarcation via {@code getTransaction} / {@code commit} /
- * {@code rollback} calls through a JTA UserTransaction handle, for callers
- * that do not use the TransactionCallback-based {@link #execute} method. However,
- * transaction suspension is <i>not</i> supported in this {@code getTransaction}
- * style (unless you explicitly specify a {@link #setTransactionManager} reference,
- * despite the official WebSphere recommendations). Use the {@link #execute} style
- * for any code that might require transaction suspension.
+ * <p>此事务管理器实现源自Spring的标准{@link JtaTransactionManager},
+ * 继承了使用{@code getTransaction}/{@code commit}/{@code rollback}调用通过JTA UserTransaction句柄支持程序化事务划分的功能,
+ * 用于不使用基于TransactionCallback的{@link #execute}方法的调用者.
+ * 但是, 此{@code getTransaction}<i>不支持</i>事务暂停 (除非明确指定{@link #setTransactionManager}引用, 尽管有官方的WebSphere建议).
+ * 对于可能需要事务暂停的代码, 请使用{@link #execute}样式.
  *
- * <p>This transaction manager is compatible with WebSphere 6.1.0.9 and above.
- * The default JNDI location for the UOWManager is "java:comp/websphere/UOWManager".
- * If the location happens to differ according to your WebSphere documentation,
- * simply specify the actual location through this transaction manager's
- * "uowManagerName" bean property.
+ * <p>此事务管理器与WebSphere 6.1.0.9及更高版本兼容.
+ * UOWManager的默认JNDI位置是 "java:comp/websphere/UOWManager".
+ * 如果位置根据WebSphere文档而不同, 只需通过此事务管理器的"uowManagerName" bean属性指定实际位置.
  *
- * <p><b>NOTE: This JtaTransactionManager is intended to refine specific transaction
- * demarcation behavior on Spring's side. It will happily co-exist with independently
- * configured WebSphere transaction strategies in your persistence provider, with no
- * need to specifically connect those setups in any way.</b>
+ * <p><b>NOTE: 这个JtaTransactionManager旨在改进Spring的特定事务划分行为.
+ * 它将与持久化提供者中独立配置的WebSphere事务策略共存, 而无需以任何方式专门连接这些设置.</b>
  */
 @SuppressWarnings("serial")
 public class WebSphereUowTransactionManager extends JtaTransactionManager
 		implements CallbackPreferringPlatformTransactionManager {
 
 	/**
-	 * Default JNDI location for the WebSphere UOWManager.
+	 * WebSphere UOWManager的默认JNDI位置.
 	 */
 	public static final String DEFAULT_UOW_MANAGER_NAME = "java:comp/websphere/UOWManager";
 
@@ -77,16 +63,12 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	private String uowManagerName;
 
 
-	/**
-	 * Create a new WebSphereUowTransactionManager.
-	 */
 	public WebSphereUowTransactionManager() {
 		setAutodetectTransactionManager(false);
 	}
 
 	/**
-	 * Create a new WebSphereUowTransactionManager for the given UOWManager.
-	 * @param uowManager the WebSphere UOWManager to use as direct reference
+	 * @param uowManager 用作直接引用的WebSphere UOWManager
 	 */
 	public WebSphereUowTransactionManager(UOWManager uowManager) {
 		this();
@@ -95,20 +77,16 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 
 
 	/**
-	 * Set the WebSphere UOWManager to use as direct reference.
-	 * <p>Typically just used for test setups; in a Java EE environment,
-	 * the UOWManager will always be fetched from JNDI.
-	 * @see #setUserTransactionName
+	 * 设置WebSphere UOWManager为直接引用.
+	 * <p>通常只用于测试设置; 在Java EE环境中, 将始终从JNDI获取UOWManager.
 	 */
 	public void setUowManager(UOWManager uowManager) {
 		this.uowManager = uowManager;
 	}
 
 	/**
-	 * Set the JNDI name of the WebSphere UOWManager.
-	 * The default "java:comp/websphere/UOWManager" is used if not set.
-	 * @see #DEFAULT_USER_TRANSACTION_NAME
-	 * @see #setUowManager
+	 * 设置WebSphere UOWManager的JNDI名称.
+	 * 如果未设置, 则使用默认的"java:comp/websphere/UOWManager".
 	 */
 	public void setUowManagerName(String uowManagerName) {
 		this.uowManagerName = uowManagerName;
@@ -131,12 +109,12 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	}
 
 	/**
-	 * Look up the WebSphere UOWManager in JNDI via the configured name.
-	 * @param uowManagerName the JNDI name of the UOWManager
-	 * @return the UOWManager object
-	 * @throws TransactionSystemException if the JNDI lookup failed
-	 * @see #setJndiTemplate
-	 * @see #setUowManagerName
+	 * 通过配置的名称在JNDI中查找WebSphere UOWManager.
+	 * 
+	 * @param uowManagerName UOWManager的JNDI名称
+	 * 
+	 * @return UOWManager对象
+	 * @throws TransactionSystemException 如果JNDI查找失败
 	 */
 	protected UOWManager lookupUowManager(String uowManagerName) throws TransactionSystemException {
 		try {
@@ -152,11 +130,10 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	}
 
 	/**
-	 * Obtain the WebSphere UOWManager from the default JNDI location
-	 * "java:comp/websphere/UOWManager".
-	 * @return the UOWManager object
-	 * @throws TransactionSystemException if the JNDI lookup failed
-	 * @see #setJndiTemplate
+	 * 从默认的JNDI位置"java:comp/websphere/UOWManager"获取WebSphere UOWManager.
+	 * 
+	 * @return UOWManager对象
+	 * @throws TransactionSystemException 如果JNDI查找失败
 	 */
 	protected UOWManager lookupDefaultUowManager() throws TransactionSystemException {
 		try {
@@ -171,7 +148,7 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	}
 
 	/**
-	 * Registers the synchronizations as interposed JTA Synchronization on the UOWManager.
+	 * 在UOWManager上将同步注册为插入的JTA同步.
 	 */
 	@Override
 	protected void doRegisterAfterCompletionWithJtaTransaction(
@@ -181,13 +158,9 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	}
 
 	/**
-	 * Returns {@code true} since WebSphere ResourceAdapters (as exposed in JNDI)
-	 * implicitly perform transaction enlistment if the MessageEndpointFactory's
-	 * {@code isDeliveryTransacted} method returns {@code true}.
-	 * In that case we'll simply skip the {@link #createTransaction} call.
-	 * @see javax.resource.spi.endpoint.MessageEndpointFactory#isDeliveryTransacted
-	 * @see org.springframework.jca.endpoint.AbstractMessageEndpointFactory
-	 * @see TransactionFactory#createTransaction
+	 * 返回{@code true}, 因为如果MessageEndpointFactory的{@code isDeliveryTransacted}方法返回{@code true},
+	 * 则WebSphere ResourceAdapters (在JNDI中公开) 会隐式执行事务登记.
+	 * 在这种情况下, 只需跳过{@link #createTransaction}调用.
 	 */
 	@Override
 	public boolean supportsResourceAdapterManagedTransactions() {
@@ -198,7 +171,7 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 	@Override
 	public <T> T execute(TransactionDefinition definition, TransactionCallback<T> callback) throws TransactionException {
 		if (definition == null) {
-			// Use defaults if no transaction definition given.
+			// 如果没有给出事务定义, 则使用默认值.
 			definition = new DefaultTransactionDefinition();
 		}
 
@@ -302,7 +275,7 @@ public class WebSphereUowTransactionManager extends JtaTransactionManager
 
 
 	/**
-	 * Adapter that executes the given Spring transaction within the WebSphere UOWAction shape.
+	 * 在WebSphere UOWAction形状内执行给定Spring事务的适配器.
 	 */
 	private class UOWActionAdapter<T> implements UOWAction, SmartTransactionObject {
 

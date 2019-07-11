@@ -1,26 +1,20 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on concurrency failure.
+ * 并发失败引发的异常.
  *
- * <p>This exception should be subclassed to indicate the type of failure:
- * optimistic locking, failure to acquire lock, etc.
+ * <p>应该对此异常进行子类化以指示失败的类型: 乐观锁定, 无法获取锁定等.
  */
 @SuppressWarnings("serial")
 public class ConcurrencyFailureException extends TransientDataAccessException {
 
-	/**
-	 * Constructor for ConcurrencyFailureException.
-	 * @param msg the detail message
-	 */
 	public ConcurrencyFailureException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for ConcurrencyFailureException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public ConcurrencyFailureException(String msg, Throwable cause) {
 		super(msg, cause);

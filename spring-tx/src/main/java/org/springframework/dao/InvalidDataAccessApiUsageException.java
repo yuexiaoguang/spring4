@@ -1,27 +1,20 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on incorrect usage of the API, such as failing to
- * "compile" a query object that needed compilation before execution.
+ * 不正确使用API​​时抛出的异常, 例如无法在执行前"编译"需要编译的查询对象.
  *
- * <p>This represents a problem in our Java data access framework,
- * not the underlying data access infrastructure.
+ * <p>这表示Java数据访问框架中的问题, 而不是底层数据访问基础结构.
  */
 @SuppressWarnings("serial")
 public class InvalidDataAccessApiUsageException extends NonTransientDataAccessException {
 
-	/**
-	 * Constructor for InvalidDataAccessApiUsageException.
-	 * @param msg the detail message
-	 */
 	public InvalidDataAccessApiUsageException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for InvalidDataAccessApiUsageException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public InvalidDataAccessApiUsageException(String msg, Throwable cause) {
 		super(msg, cause);

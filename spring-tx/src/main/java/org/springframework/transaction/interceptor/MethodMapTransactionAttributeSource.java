@@ -17,8 +17,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.PatternMatchUtils;
 
 /**
- * Simple {@link TransactionAttributeSource} implementation that
- * allows attributes to be stored per method in a {@link Map}.
+ * 简单的{@link TransactionAttributeSource}实现, 允许在{@link Map}中按方法存储属性.
  */
 public class MethodMapTransactionAttributeSource
 		implements TransactionAttributeSource, BeanClassLoaderAware, InitializingBean {
@@ -26,7 +25,7 @@ public class MethodMapTransactionAttributeSource
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/** Map from method name to attribute value */
+	/** 方法名到属性值的Map */
 	private Map<String, TransactionAttribute> methodMap;
 
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
@@ -44,16 +43,11 @@ public class MethodMapTransactionAttributeSource
 
 
 	/**
-	 * Set a name/attribute map, consisting of "FQCN.method" method names
-	 * (e.g. "com.mycompany.mycode.MyClass.myMethod") and
-	 * {@link TransactionAttribute} instances (or Strings to be converted
-	 * to {@code TransactionAttribute} instances).
-	 * <p>Intended for configuration via setter injection, typically within
-	 * a Spring bean factory. Relies on {@link #afterPropertiesSet()}
-	 * being called afterwards.
-	 * @param methodMap said {@link Map} from method name to attribute value
-	 * @see TransactionAttribute
-	 * @see TransactionAttributeEditor
+	 * 设置名称/属性Map, 包括"FQCN.method"方法名称 (e.g. "com.mycompany.mycode.MyClass.myMethod")
+	 * 和{@link TransactionAttribute}实例 (或要转换为{@code TransactionAttribute}实例的字符串).
+	 * <p>通过setter注入进行配置, 通常在Spring bean工厂中进行. 依赖于之后被调用的{@link #afterPropertiesSet()}.
+	 * 
+	 * @param methodMap 从方法名到属性值的{@link Map}
 	 */
 	public void setMethodMap(Map<String, TransactionAttribute> methodMap) {
 		this.methodMap = methodMap;
@@ -66,9 +60,7 @@ public class MethodMapTransactionAttributeSource
 
 
 	/**
-	 * Eagerly initializes the specified
-	 * {@link #setMethodMap(java.util.Map) "methodMap"}, if any.
-	 * @see #initMethodMap(java.util.Map)
+	 * 实时初始化指定的{@link #setMethodMap(java.util.Map) "methodMap"}.
 	 */
 	@Override
 	public void afterPropertiesSet() {
@@ -78,9 +70,9 @@ public class MethodMapTransactionAttributeSource
 	}
 
 	/**
-	 * Initialize the specified {@link #setMethodMap(java.util.Map) "methodMap"}, if any.
-	 * @param methodMap Map from method names to {@code TransactionAttribute} instances
-	 * @see #setMethodMap
+	 * 初始化指定的{@link #setMethodMap(java.util.Map) "methodMap"}.
+	 * 
+	 * @param methodMap 从方法名到{@code TransactionAttribute}实例的Map
 	 */
 	protected void initMethodMap(Map<String, TransactionAttribute> methodMap) {
 		if (methodMap != null) {
@@ -92,11 +84,13 @@ public class MethodMapTransactionAttributeSource
 
 
 	/**
-	 * Add an attribute for a transactional method.
-	 * <p>Method names can end or start with "*" for matching multiple methods.
-	 * @param name class and method name, separated by a dot
-	 * @param attr attribute associated with the method
-	 * @throws IllegalArgumentException in case of an invalid name
+	 * 为事务方法添加属性.
+	 * <p>方法名称可以以 "*"结尾或以"*"开头, 以匹配多个方法.
+	 * 
+	 * @param name 类和方法名称, 用点分隔
+	 * @param attr 与该方法关联的属性
+	 * 
+	 * @throws IllegalArgumentException 无效的名称
 	 */
 	public void addTransactionalMethod(String name, TransactionAttribute attr) {
 		Assert.notNull(name, "Name must not be null");
@@ -111,11 +105,12 @@ public class MethodMapTransactionAttributeSource
 	}
 
 	/**
-	 * Add an attribute for a transactional method.
-	 * Method names can end or start with "*" for matching multiple methods.
-	 * @param clazz target interface or class
-	 * @param mappedName mapped method name
-	 * @param attr attribute associated with the method
+	 * 为事务方法添加属性.
+	 * 方法名称可以以"*"结尾或以"*"开头, 以匹配多个方法.
+	 * 
+	 * @param clazz 目标接口或类
+	 * @param mappedName 映射的方法名
+	 * @param attr 与该方法关联的属性
 	 */
 	public void addTransactionalMethod(Class<?> clazz, String mappedName, TransactionAttribute attr) {
 		Assert.notNull(clazz, "Class must not be null");
@@ -134,12 +129,11 @@ public class MethodMapTransactionAttributeSource
 					"Couldn't find method '" + mappedName + "' on class [" + clazz.getName() + "]");
 		}
 
-		// register all matching methods
+		// 注册所有匹配的方法
 		for (Method method : matchingMethods) {
 			String regMethodName = this.methodNameMap.get(method);
 			if (regMethodName == null || (!regMethodName.equals(name) && regMethodName.length() <= name.length())) {
-				// No already registered method name, or more specific
-				// method name specification now -> (re-)register method.
+				// 现在还没有已注册的方法名称或更具体的方法名称规范 -> (重新)注册方法.
 				if (logger.isDebugEnabled() && regMethodName != null) {
 					logger.debug("Replacing attribute for transactional method [" + method + "]: current name '" +
 							name + "' is more specific than '" + regMethodName + "'");
@@ -157,9 +151,10 @@ public class MethodMapTransactionAttributeSource
 	}
 
 	/**
-	 * Add an attribute for a transactional method.
-	 * @param method the method
-	 * @param attr attribute associated with the method
+	 * 为事务方法添加属性.
+	 * 
+	 * @param method 方法
+	 * @param attr 与该方法关联的属性
 	 */
 	public void addTransactionalMethod(Method method, TransactionAttribute attr) {
 		Assert.notNull(method, "Method must not be null");
@@ -171,13 +166,13 @@ public class MethodMapTransactionAttributeSource
 	}
 
 	/**
-	 * Return if the given method name matches the mapped name.
-	 * <p>The default implementation checks for "xxx*", "*xxx" and "*xxx*"
-	 * matches, as well as direct equality.
-	 * @param methodName the method name of the class
-	 * @param mappedName the name in the descriptor
-	 * @return if the names match
-	 * @see org.springframework.util.PatternMatchUtils#simpleMatch(String, String)
+	 * 返回给定的方法名称是否与映射的名称匹配.
+	 * <p>默认实现检查 "xxx*", "*xxx"和"*xxx*"匹配, 以及直接相等.
+	 * 
+	 * @param methodName 类的方法名称
+	 * @param mappedName 描述符中的名称
+	 * 
+	 * @return 是否匹配
 	 */
 	protected boolean isMatch(String methodName, String mappedName) {
 		return PatternMatchUtils.simpleMatch(mappedName, methodName);

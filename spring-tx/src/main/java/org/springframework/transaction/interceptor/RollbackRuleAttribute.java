@@ -5,39 +5,33 @@ import java.io.Serializable;
 import org.springframework.util.Assert;
 
 /**
- * Rule determining whether or not a given exception (and any subclasses)
- * should cause a rollback.
+ * 确定给定异常 (和任何子类)是否应该导致回滚的规则.
  *
- * <p>Multiple such rules can be applied to determine whether a transaction
- * should commit or rollback after an exception has been thrown.
+ * <p>可以应用多个此类规则来确定, 在抛出异常后, 事务是应该提交还是回滚.
  */
 @SuppressWarnings("serial")
 public class RollbackRuleAttribute implements Serializable{
 
 	/**
-	 * The {@link RollbackRuleAttribute rollback rule} for
-	 * {@link RuntimeException RuntimeExceptions}.
+	 * {@link RuntimeException RuntimeExceptions}的{@link RollbackRuleAttribute 回滚规则}.
 	 */
 	public static final RollbackRuleAttribute ROLLBACK_ON_RUNTIME_EXCEPTIONS =
 			new RollbackRuleAttribute(RuntimeException.class);
 
 
 	/**
-	 * Could hold exception, resolving class name but would always require FQN.
-	 * This way does multiple string comparisons, but how often do we decide
-	 * whether to roll back a transaction following an exception?
+	 * 可以保存异常, 解析类名, 但总是需要FQN.
+	 * 这种方式进行多个字符串比较, 但多久决定是否在异常后回滚事务?
 	 */
 	private final String exceptionName;
 
 
 	/**
-	 * Create a new instance of the {@code RollbackRuleAttribute} class.
-	 * <p>This is the preferred way to construct a rollback rule that matches
-	 * the supplied {@link Exception} class (and subclasses).
-	 * @param clazz throwable class; must be {@link Throwable} or a subclass
-	 * of {@code Throwable}
-	 * @throws IllegalArgumentException if the supplied {@code clazz} is
-	 * not a {@code Throwable} type or is {@code null}
+	 * <p>这是构造与提供的{@link Exception}类(和子类)匹配的回滚规则的首选方法.
+	 * 
+	 * @param clazz 可以是{@link Throwable}及其子类
+	 * 
+	 * @throws IllegalArgumentException 如果提供的{@code clazz}不是{@code Throwable}类型, 或是{@code null}
 	 */
 	public RollbackRuleAttribute(Class<?> clazz) {
 		Assert.notNull(clazz, "'clazz' cannot be null");
@@ -49,22 +43,16 @@ public class RollbackRuleAttribute implements Serializable{
 	}
 
 	/**
-	 * Create a new instance of the {@code RollbackRuleAttribute} class
-	 * for the given {@code exceptionName}.
-	 * <p>This can be a substring, with no wildcard support at present. A value
-	 * of "ServletException" would match
-	 * {@code javax.servlet.ServletException} and subclasses, for example.
-	 * <p><b>NB:</b> Consider carefully how specific the pattern is, and
-	 * whether to include package information (which is not mandatory). For
-	 * example, "Exception" will match nearly anything, and will probably hide
-	 * other rules. "java.lang.Exception" would be correct if "Exception" was
-	 * meant to define a rule for all checked exceptions. With more unusual
-	 * exception names such as "BaseBusinessException" there's no need to use a
-	 * fully package-qualified name.
-	 * @param exceptionName the exception name pattern; can also be a fully
-	 * package-qualified class name
-	 * @throws IllegalArgumentException if the supplied
-	 * {@code exceptionName} is {@code null} or empty
+	 * <p>这可以是子字符串, 目前没有通配符支持.
+	 * 例如, "ServletException"将匹配{@code javax.servlet.ServletException}及其子类.
+	 * <p><b>NB:</b> 仔细考虑模式的具体程度, 以及是否包含包信息 (这不是强制性的).
+	 * 例如, "Exception"几乎可以匹配任何内容, 并且可能会隐藏其他规则.
+	 * 如果"Exception"用于为所有受检异常定义规则, 则"java.lang.Exception"将是正确的.
+	 * 使用更多不寻常的异常名称, 例如"BaseBusinessException", 不需要使用完全包限定名称.
+	 * 
+	 * @param exceptionName 异常名称模式; 也可以是完全包限定的类名
+	 * 
+	 * @throws IllegalArgumentException 如果提供的{@code exceptionName}是{@code null}或为空
 	 */
 	public RollbackRuleAttribute(String exceptionName) {
 		Assert.hasText(exceptionName, "'exceptionName' cannot be null or empty");
@@ -73,17 +61,16 @@ public class RollbackRuleAttribute implements Serializable{
 
 
 	/**
-	 * Return the pattern for the exception name.
+	 * 返回异常名称的模式.
 	 */
 	public String getExceptionName() {
 		return exceptionName;
 	}
 
 	/**
-	 * Return the depth of the superclass matching.
-	 * <p>{@code 0} means {@code ex} matches exactly. Returns
-	 * {@code -1} if there is no match. Otherwise, returns depth with the
-	 * lowest depth winning.
+	 * 返回超类匹配的深度.
+	 * <p>{@code 0}表示{@code ex}完全匹配. 如果没有匹配, 则返回{@code -1}.
+	 * 否则, 最低深度获胜.
 	 */
 	public int getDepth(Throwable ex) {
 		return getDepth(ex.getClass(), 0);
@@ -95,7 +82,7 @@ public class RollbackRuleAttribute implements Serializable{
 			// Found it!
 			return depth;
 		}
-		// If we've gone as far as we can go and haven't found it...
+		// 找不到它...
 		if (exceptionClass == Throwable.class) {
 			return -1;
 		}

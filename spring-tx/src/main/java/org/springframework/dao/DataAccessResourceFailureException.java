@@ -1,24 +1,18 @@
 package org.springframework.dao;
 
 /**
- * Data access exception thrown when a resource fails completely:
- * for example, if we can't connect to a database using JDBC.
+ * 资源完全失败时抛出的数据访问异常: 例如, 如果无法使用JDBC连接到数据库.
  */
 @SuppressWarnings("serial")
 public class DataAccessResourceFailureException extends NonTransientDataAccessResourceException {
 
-	/**
-	 * Constructor for DataAccessResourceFailureException.
-	 * @param msg the detail message
-	 */
 	public DataAccessResourceFailureException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for DataAccessResourceFailureException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public DataAccessResourceFailureException(String msg, Throwable cause) {
 		super(msg, cause);

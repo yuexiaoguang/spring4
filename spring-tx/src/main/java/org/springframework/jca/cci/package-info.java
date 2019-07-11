@@ -1,7 +1,5 @@
 /**
- * This package contains Spring's support for the Common Client Interface (CCI),
- * as defined by the J2EE Connector Architecture. It is conceptually similar
- * to the {@code org.springframework.jdbc} package, providing the same
- * levels of data access abstraction.
+ * 该包包含Spring对J2EE连接器体系结构定义的公共客户端接口 (CCI)的支持.
+ * 它在概念上类似于{@code org.springframework.jdbc}包, 提供相同级别的数据访问抽象.
  */
 package org.springframework.jca.cci;

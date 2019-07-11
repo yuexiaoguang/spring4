@@ -20,8 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser
- * BeanDefinitionParser} for the {@code <tx:advice/>} tag.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser BeanDefinitionParser}用于{@code <tx:advice/>}标签.
  */
 class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -59,13 +58,13 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 					"Element <attributes> is allowed at most once inside element <advice>", element);
 		}
 		else if (txAttributes.size() == 1) {
-			// Using attributes source.
+			// 使用属性源.
 			Element attributeSourceElement = txAttributes.get(0);
 			RootBeanDefinition attributeSourceDefinition = parseAttributeSource(attributeSourceElement, parserContext);
 			builder.addPropertyValue("transactionAttributeSource", attributeSourceDefinition);
 		}
 		else {
-			// Assume annotations source.
+			// 假设注解源.
 			builder.addPropertyValue("transactionAttributeSource",
 					new RootBeanDefinition("org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"));
 		}

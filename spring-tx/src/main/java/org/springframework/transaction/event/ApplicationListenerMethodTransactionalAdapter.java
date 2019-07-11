@@ -12,14 +12,11 @@ import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * {@link GenericApplicationListener} adapter that delegates the processing of
- * an event to a {@link TransactionalEventListener} annotated method. Supports
- * the exact same features as any regular {@link EventListener} annotated method
- * but is aware of the transactional context of the event publisher.
+ * {@link GenericApplicationListener}适配器, 它将事件处理委托给带{@link TransactionalEventListener}注解的方法.
+ * 支持与任何常规带{@link EventListener}注解的方法完全相同的功能, 但是知道事件发布者的事务上下文.
  *
- * <p>Processing of {@link TransactionalEventListener} is enabled automatically
- * when Spring's transaction management is enabled. For other cases, registering
- * a bean of type {@link TransactionalEventListenerFactory} is required.
+ * <p>启用S​​pring的事务管理后, 将自动启用{@link TransactionalEventListener}的处理.
+ * 对于其他情况, 需要注册类型为{@link TransactionalEventListenerFactory}的bean.
  */
 class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerMethodAdapter {
 
@@ -48,7 +45,7 @@ class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerM
 			processEvent(event);
 		}
 		else {
-			// No transactional event execution at all
+			// 根本没有事务性事件执行
 			if (logger.isDebugEnabled()) {
 				logger.debug("No transaction is active - skipping " + event);
 			}

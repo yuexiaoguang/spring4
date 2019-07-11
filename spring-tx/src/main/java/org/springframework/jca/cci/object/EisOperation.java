@@ -8,11 +8,10 @@ import org.springframework.jca.cci.core.CciTemplate;
 import org.springframework.util.Assert;
 
 /**
- * Base class for EIS operation objects that work with the CCI API.
- * Encapsulates a CCI ConnectionFactory and a CCI InteractionSpec.
+ * 与CCI API一起使用的EIS操作对象的基类.
+ * 封装CCI ConnectionFactory和CCI InteractionSpec.
  *
- * <p>Works with a CciTemplate instance underneath. EIS operation objects
- * are an alternative to working with a CciTemplate directly.
+ * <p>适用于下面的CciTemplate实例. EIS操作对象是直接使用CciTemplate的替代方法.
  */
 public abstract class EisOperation implements InitializingBean {
 
@@ -22,8 +21,8 @@ public abstract class EisOperation implements InitializingBean {
 
 
 	/**
-	 * Set the CciTemplate to be used by this operation.
-	 * Alternatively, specify a CCI ConnectionFactory.
+	 * 设置此操作使用的CciTemplate.
+	 * 或者, 指定CCI ConnectionFactory.
 	 */
 	public void setCciTemplate(CciTemplate cciTemplate) {
 		Assert.notNull(cciTemplate, "CciTemplate must not be null");
@@ -31,28 +30,28 @@ public abstract class EisOperation implements InitializingBean {
 	}
 
 	/**
-	 * Return the CciTemplate used by this operation.
+	 * 返回此操作使用的CciTemplate.
 	 */
 	public CciTemplate getCciTemplate() {
 		return this.cciTemplate;
 	}
 
 	/**
-	 * Set the CCI ConnectionFactory to be used by this operation.
+	 * 设置此操作使用的CCI ConnectionFactory.
 	 */
 	public void setConnectionFactory(ConnectionFactory connectionFactory) {
 		this.cciTemplate.setConnectionFactory(connectionFactory);
 	}
 
 	/**
-	 * Set the CCI InteractionSpec for this operation.
+	 * 设置此操作的CCI InteractionSpec.
 	 */
 	public void setInteractionSpec(InteractionSpec interactionSpec) {
 		this.interactionSpec = interactionSpec;
 	}
 
 	/**
-	 * Return the CCI InteractionSpec for this operation.
+	 * 返回此操作的CCI InteractionSpec.
 	 */
 	public InteractionSpec getInteractionSpec() {
 		return this.interactionSpec;

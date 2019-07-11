@@ -7,8 +7,7 @@ import org.springframework.aop.support.StaticMethodMatcherPointcut;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Inner class that implements a Pointcut that matches if the underlying
- * {@link TransactionAttributeSource} has an attribute for a given method.
+ * 实现Pointcut的内部类, 匹配底层{@link TransactionAttributeSource}是否具有给定方法的属性.
  */
 @SuppressWarnings("serial")
 abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPointcut implements Serializable {
@@ -46,8 +45,8 @@ abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPoi
 
 
 	/**
-	 * Obtain the underlying TransactionAttributeSource (may be {@code null}).
-	 * To be implemented by subclasses.
+	 * 获取底层的TransactionAttributeSource (may be {@code null}).
+	 * 由子类实现.
 	 */
 	protected abstract TransactionAttributeSource getTransactionAttributeSource();
 

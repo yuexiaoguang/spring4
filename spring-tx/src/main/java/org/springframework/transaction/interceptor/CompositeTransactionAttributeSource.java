@@ -6,8 +6,7 @@ import java.lang.reflect.Method;
 import org.springframework.util.Assert;
 
 /**
- * Composite {@link TransactionAttributeSource} implementation that iterates
- * over a given array of {@link TransactionAttributeSource} instances.
+ * 复合{@link TransactionAttributeSource}实现, 它迭代{@link TransactionAttributeSource}实例的给定数组.
  */
 @SuppressWarnings("serial")
 public class CompositeTransactionAttributeSource implements TransactionAttributeSource, Serializable {
@@ -16,8 +15,7 @@ public class CompositeTransactionAttributeSource implements TransactionAttribute
 
 
 	/**
-	 * Create a new CompositeTransactionAttributeSource for the given sources.
-	 * @param transactionAttributeSources the TransactionAttributeSource instances to combine
+	 * @param transactionAttributeSources 要合并的TransactionAttributeSource实例
 	 */
 	public CompositeTransactionAttributeSource(TransactionAttributeSource[] transactionAttributeSources) {
 		Assert.notNull(transactionAttributeSources, "TransactionAttributeSource array must not be null");
@@ -25,8 +23,7 @@ public class CompositeTransactionAttributeSource implements TransactionAttribute
 	}
 
 	/**
-	 * Return the TransactionAttributeSource instances that this
-	 * CompositeTransactionAttributeSource combines.
+	 * 返回此CompositeTransactionAttributeSource组合的TransactionAttributeSource实例.
 	 */
 	public final TransactionAttributeSource[] getTransactionAttributeSources() {
 		return this.transactionAttributeSources;
@@ -43,5 +40,4 @@ public class CompositeTransactionAttributeSource implements TransactionAttribute
 		}
 		return null;
 	}
-
 }

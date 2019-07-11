@@ -1,5 +1,4 @@
 /**
- * Convenience package for obtaining a GlassFish JCA WorkManager for use in
- * web applications. Provides a Spring TaskExecutor adapter for GlassFish.
+ * 用于获取GlassFish JCA WorkManager以在Web应用程序中使用的便捷包. 为GlassFish提供Spring TaskExecutor适配器.
  */
 package org.springframework.jca.work.glassfish;

@@ -1,25 +1,20 @@
 package org.springframework.transaction.interceptor;
 
 /**
- * Tag subclass of {@link RollbackRuleAttribute} that has the opposite behavior
- * to the {@code RollbackRuleAttribute} superclass.
+ * 标记{@link RollbackRuleAttribute}的子类，它与{@code RollbackRuleAttribute}超类具有相反的行为.
  */
 @SuppressWarnings("serial")
 public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
 
 	/**
-	 * Create a new instance of the {@code NoRollbackRuleAttribute} class
-	 * for the supplied {@link Throwable} class.
-	 * @param clazz the {@code Throwable} class
+	 * @param clazz {@code Throwable}类
 	 */
 	public NoRollbackRuleAttribute(Class<?> clazz) {
 		super(clazz);
 	}
 
 	/**
-	 * Create a new instance of the {@code NoRollbackRuleAttribute} class
-	 * for the supplied {@code exceptionName}.
-	 * @param exceptionName the exception name pattern
+	 * @param exceptionName 异常名称模式
 	 */
 	public NoRollbackRuleAttribute(String exceptionName) {
 		super(exceptionName);

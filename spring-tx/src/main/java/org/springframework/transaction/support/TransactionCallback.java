@@ -3,28 +3,24 @@ package org.springframework.transaction.support;
 import org.springframework.transaction.TransactionStatus;
 
 /**
- * Callback interface for transactional code. Used with {@link TransactionTemplate}'s
- * {@code execute} method, often as anonymous class within a method implementation.
+ * 事务代码的回调接口.
+ * 与{@link TransactionTemplate}的{@code execute}方法一起使用, 通常作为方法实现中的匿名类.
  *
- * <p>Typically used to assemble various calls to transaction-unaware data access
- * services into a higher-level service method with transaction demarcation. As an
- * alternative, consider the use of declarative transaction demarcation (e.g. through
- * Spring's {@link org.springframework.transaction.annotation.Transactional} annotation).
+ * <p>通常用于将对没有事务的数据访问服务的各种调用组合成具有事务划分的更高级服务方法.
+ * 作为替代方案, 考虑使用声明式事务划分 (e.g. 通过Spring的{@link org.springframework.transaction.annotation.Transactional}注解).
  */
 public interface TransactionCallback<T> {
 
 	/**
-	 * Gets called by {@link TransactionTemplate#execute} within a transactional context.
-	 * Does not need to care about transactions itself, although it can retrieve and
-	 * influence the status of the current transaction via the given status object,
-	 * e.g. setting rollback-only.
-	 * <p>Allows for returning a result object created within the transaction, i.e. a
-	 * domain object or a collection of domain objects. A RuntimeException thrown by the
-	 * callback is treated as application exception that enforces a rollback. Any such
-	 * exception will be propagated to the caller of the template, unless there is a
-	 * problem rolling back, in which case a TransactionException will be thrown.
-	 * @param status associated transaction status
-	 * @return a result object, or {@code null}
+	 * 在事务上下文中由{@link TransactionTemplate#execute}调用.
+	 * 不需要关心事务本身, 尽管它可以通过给定的状态对象检索和影响当前事务的状态, e.g. 设置仅回滚.
+	 * <p>允许返回在事务中创建的结果对象, i.e. 域对象或域对象的集合.
+	 * 回调抛出的RuntimeException被视为强制执行回滚的应用程序异常.
+	 * 任何此类异常都将传播到模板的调用者, 除非回滚有问题, 在这种情况下将抛出TransactionException.
+	 * 
+	 * @param status 关联的事务状态
+	 * 
+	 * @return 结果对象, 或{@code null}
 	 */
 	T doInTransaction(TransactionStatus status);
 

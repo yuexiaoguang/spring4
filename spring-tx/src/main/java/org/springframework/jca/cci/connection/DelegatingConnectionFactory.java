@@ -12,12 +12,9 @@ import javax.resource.cci.ResourceAdapterMetaData;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * CCI {@link ConnectionFactory} implementation that delegates all calls
- * to a given target {@link ConnectionFactory}.
+ * CCI {@link ConnectionFactory}实现, 它将所有调用委托给给定目标{@link ConnectionFactory}.
  *
- * <p>This class is meant to be subclassed, with subclasses overriding only
- * those methods (such as {@link #getConnection()}) that should not simply
- * delegate to the target {@link ConnectionFactory}.
+ * <p>这个类是子类化的, 子类只覆盖那些不应该简单地委托给目标{@link ConnectionFactory}的方法(例如{@link #getConnection()}).
  */
 @SuppressWarnings("serial")
 public class DelegatingConnectionFactory implements ConnectionFactory, InitializingBean {
@@ -26,14 +23,14 @@ public class DelegatingConnectionFactory implements ConnectionFactory, Initializ
 
 
 	/**
-	 * Set the target ConnectionFactory that this ConnectionFactory should delegate to.
+	 * 设置此ConnectionFactory应委托给的目标ConnectionFactory.
 	 */
 	public void setTargetConnectionFactory(ConnectionFactory targetConnectionFactory) {
 		this.targetConnectionFactory = targetConnectionFactory;
 	}
 
 	/**
-	 * Return the target ConnectionFactory that this ConnectionFactory should delegate to.
+	 * 返回此ConnectionFactory应委托给的目标ConnectionFactory.
 	 */
 	public ConnectionFactory getTargetConnectionFactory() {
 		return this.targetConnectionFactory;

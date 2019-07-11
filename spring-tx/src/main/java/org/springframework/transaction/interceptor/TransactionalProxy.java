@@ -3,11 +3,10 @@ package org.springframework.transaction.interceptor;
 import org.springframework.aop.SpringProxy;
 
 /**
- * A marker interface for manually created transactional proxies.
+ * 用于手动创建的事务代理的标记接口.
  *
- * <p>{@link TransactionAttributeSourcePointcut} will ignore such existing
- * transactional proxies during AOP auto-proxying and therefore avoid
- * re-processing transaction metadata on them.
+ * <p>{@link TransactionAttributeSourcePointcut}将在AOP自动代理期间忽略此类现有事务代理,
+ * 从而避免重新处理它们上的事务元数据.
  */
 public interface TransactionalProxy extends SpringProxy {
 

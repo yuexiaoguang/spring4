@@ -5,10 +5,8 @@ import java.io.Serializable;
 import org.springframework.transaction.support.DelegatingTransactionDefinition;
 
 /**
- * {@link TransactionAttribute} implementation that delegates all calls to a given target
- * {@link TransactionAttribute} instance. Abstract because it is meant to be subclassed,
- * with subclasses overriding specific methods that are not supposed to simply delegate
- * to the target instance.
+ * {@link TransactionAttribute}实现, 它将所有调用委托给给定的目标{@link TransactionAttribute}实例.
+ * 它需要子类化, 子类重写不应该简单地委托给目标实例的特定方法.
  */
 @SuppressWarnings("serial")
 public abstract class DelegatingTransactionAttribute extends DelegatingTransactionDefinition
@@ -18,8 +16,7 @@ public abstract class DelegatingTransactionAttribute extends DelegatingTransacti
 
 
 	/**
-	 * Create a DelegatingTransactionAttribute for the given target attribute.
-	 * @param targetAttribute the target TransactionAttribute to delegate to
+	 * @param targetAttribute 要委托的目标TransactionAttribute
 	 */
 	public DelegatingTransactionAttribute(TransactionAttribute targetAttribute) {
 		super(targetAttribute);

@@ -1,6 +1,4 @@
 /**
- * Provides a utility class for easy ConnectionFactory access,
- * a PlatformTransactionManager for local CCI transactions,
- * and various simple ConnectionFactory proxies/adapters.
+ * 提供工具类以便于ConnectionFactory访问, PlatformTransactionManager用于本地CCI事务, 以及各种简单的ConnectionFactory代理/适配器.
  */
 package org.springframework.jca.cci.connection;

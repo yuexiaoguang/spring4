@@ -1,5 +1,4 @@
 /**
- * Annotation support for DAOs. Contains a bean post-processor for translating
- * persistence exceptions based on a repository stereotype annotation.
+ * DAO的注解支持. 包含bean后处理器, 用于根据存储库构造型注解转换持久性异常.
  */
 package org.springframework.dao.annotation;

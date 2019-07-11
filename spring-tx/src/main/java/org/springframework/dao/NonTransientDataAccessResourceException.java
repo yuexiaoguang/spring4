@@ -1,23 +1,18 @@
 package org.springframework.dao;
 
 /**
- * Data access exception thrown when a resource fails completely and the failure is permanent.
+ * 当资源完全失败并且失败是永久性的时, 抛出数据访问异常.
  */
 @SuppressWarnings("serial")
 public class NonTransientDataAccessResourceException extends NonTransientDataAccessException {
 
-	/**
-	 * Constructor for NonTransientDataAccessResourceException.
-	 * @param msg the detail message
-	 */
 	public NonTransientDataAccessResourceException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for NonTransientDataAccessResourceException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public NonTransientDataAccessResourceException(String msg, Throwable cause) {
 		super(msg, cause);

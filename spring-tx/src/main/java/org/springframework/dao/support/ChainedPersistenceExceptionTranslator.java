@@ -7,9 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link PersistenceExceptionTranslator} that supports chaining,
- * allowing the addition of PersistenceExceptionTranslator instances in order.
- * Returns {@code non-null} on the first (if any) match.
+ * 支持链接的{@link PersistenceExceptionTranslator}的实现, 允许按顺序添加PersistenceExceptionTranslator实例.
+ * 在第一个匹配时返回{@code non-null}.
  */
 public class ChainedPersistenceExceptionTranslator implements PersistenceExceptionTranslator {
 
@@ -18,7 +17,7 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 
 
 	/**
-	 * Add a PersistenceExceptionTranslator to the chained delegate list.
+	 * 将PersistenceExceptionTranslator添加到已链接的委托列表中.
 	 */
 	public final void addDelegate(PersistenceExceptionTranslator pet) {
 		Assert.notNull(pet, "PersistenceExceptionTranslator must not be null");
@@ -26,7 +25,7 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 	}
 
 	/**
-	 * Return all registered PersistenceExceptionTranslator delegates (as array).
+	 * 返回所有已注册的PersistenceExceptionTranslator委托 (作为数组).
 	 */
 	public final PersistenceExceptionTranslator[] getDelegates() {
 		return this.delegates.toArray(new PersistenceExceptionTranslator[this.delegates.size()]);

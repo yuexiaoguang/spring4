@@ -15,8 +15,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.PatternMatchUtils;
 
 /**
- * Simple {@link TransactionAttributeSource} implementation that
- * allows attributes to be matched by registered name.
+ * 简单的{@link TransactionAttributeSource}实现, 允许通过注册名称匹配属性.
  */
 @SuppressWarnings("serial")
 public class NameMatchTransactionAttributeSource implements TransactionAttributeSource, Serializable {
@@ -27,14 +26,12 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	 */
 	protected static final Log logger = LogFactory.getLog(NameMatchTransactionAttributeSource.class);
 
-	/** Keys are method names; values are TransactionAttributes */
+	/** 方法名称作为键; 值是TransactionAttributes */
 	private Map<String, TransactionAttribute> nameMap = new HashMap<String, TransactionAttribute>();
 
 
 	/**
-	 * Set a name/attribute map, consisting of method names
-	 * (e.g. "myMethod") and TransactionAttribute instances
-	 * (or Strings to be converted to TransactionAttribute instances).
+	 * 设置名称/属性映射, 包括方法名称 (e.g. "myMethod")和TransactionAttribute实例(或要转换为TransactionAttribute实例的字符串).
 	 */
 	public void setNameMap(Map<String, TransactionAttribute> nameMap) {
 		for (Map.Entry<String, TransactionAttribute> entry : nameMap.entrySet()) {
@@ -43,11 +40,9 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	}
 
 	/**
-	 * Parses the given properties into a name/attribute map.
-	 * Expects method names as keys and String attributes definitions as values,
-	 * parsable into TransactionAttribute instances via TransactionAttributeEditor.
-	 * @see #setNameMap
-	 * @see TransactionAttributeEditor
+	 * 将给定属性解析为名称/属性映射.
+	 * 将方法名称视为键, 将字符串属性定义视为值,
+	 * 可通过TransactionAttributeEditor解析为TransactionAttribute实例.
 	 */
 	public void setProperties(Properties transactionAttributes) {
 		TransactionAttributeEditor tae = new TransactionAttributeEditor();
@@ -62,11 +57,11 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	}
 
 	/**
-	 * Add an attribute for a transactional method.
-	 * <p>Method names can be exact matches, or of the pattern "xxx*",
-	 * "*xxx" or "*xxx*" for matching multiple methods.
-	 * @param methodName the name of the method
-	 * @param attr attribute associated with the method
+	 * 为事务方法添加属性.
+	 * <p>方法名称可以精确匹配, 或者是模式"xxx*", "*xxx" 或 "*xxx*", 用于匹配多个方法.
+	 * 
+	 * @param methodName 方法名称
+	 * @param attr 方法关联的属性
 	 */
 	public void addTransactionalMethod(String methodName, TransactionAttribute attr) {
 		if (logger.isDebugEnabled()) {
@@ -82,12 +77,12 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 			return null;
 		}
 
-		// Look for direct name match.
+		// 寻找直接名称匹配.
 		String methodName = method.getName();
 		TransactionAttribute attr = this.nameMap.get(methodName);
 
 		if (attr == null) {
-			// Look for most specific name match.
+			// 寻找最具体的名称匹配.
 			String bestNameMatch = null;
 			for (String mappedName : this.nameMap.keySet()) {
 				if (isMatch(methodName, mappedName) &&
@@ -102,13 +97,13 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	}
 
 	/**
-	 * Return if the given method name matches the mapped name.
-	 * <p>The default implementation checks for "xxx*", "*xxx" and "*xxx*" matches,
-	 * as well as direct equality. Can be overridden in subclasses.
-	 * @param methodName the method name of the class
-	 * @param mappedName the name in the descriptor
-	 * @return if the names match
-	 * @see org.springframework.util.PatternMatchUtils#simpleMatch(String, String)
+	 * 给定的方法名称是否匹配映射的名称.
+	 * <p>默认实现检查"xxx*", "*xxx" 和 "*xxx*"匹配, 以及直接相等. 可以在子类中重写.
+	 * 
+	 * @param methodName 类的方法名
+	 * @param mappedName 描述符中的名称
+	 * 
+	 * @return 名称是否匹配
 	 */
 	protected boolean isMatch(String methodName, String mappedName) {
 		return PatternMatchUtils.simpleMatch(mappedName, methodName);

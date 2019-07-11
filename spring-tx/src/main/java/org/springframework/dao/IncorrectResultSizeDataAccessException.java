@@ -1,8 +1,7 @@
 package org.springframework.dao;
 
 /**
- * Data access exception thrown when a result was not of the expected size,
- * for example when expecting a single row but getting 0 or more than 1 rows.
+ * 当结果不是预期大小时抛出的数据访问异常, 例如, 当期望单行但获得0或多于1行时.
  */
 @SuppressWarnings("serial")
 public class IncorrectResultSizeDataAccessException extends DataRetrievalFailureException {
@@ -12,10 +11,6 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	private int actualSize;
 
 
-	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param expectedSize the expected result size
-	 */
 	public IncorrectResultSizeDataAccessException(int expectedSize) {
 		super("Incorrect result size: expected " + expectedSize);
 		this.expectedSize = expectedSize;
@@ -23,9 +18,8 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	}
 
 	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param expectedSize the expected result size
-	 * @param actualSize the actual result size (or -1 if unknown)
+	 * @param expectedSize 预期的结果大小
+	 * @param actualSize 实际结果大小 (或 -1 未知)
 	 */
 	public IncorrectResultSizeDataAccessException(int expectedSize, int actualSize) {
 		super("Incorrect result size: expected " + expectedSize + ", actual " + actualSize);
@@ -34,9 +28,8 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	}
 
 	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
 	 */
 	public IncorrectResultSizeDataAccessException(String msg, int expectedSize) {
 		super(msg);
@@ -45,10 +38,9 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	}
 
 	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
-	 * @param ex the wrapped exception
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
+	 * @param ex 包装的异常
 	 */
 	public IncorrectResultSizeDataAccessException(String msg, int expectedSize, Throwable ex) {
 		super(msg, ex);
@@ -57,10 +49,9 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	}
 
 	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
-	 * @param actualSize the actual result size (or -1 if unknown)
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
+	 * @param actualSize 实际结果大小 (或 -1 未知)
 	 */
 	public IncorrectResultSizeDataAccessException(String msg, int expectedSize, int actualSize) {
 		super(msg);
@@ -69,11 +60,10 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	}
 
 	/**
-	 * Constructor for IncorrectResultSizeDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
-	 * @param actualSize the actual result size (or -1 if unknown)
-	 * @param ex the wrapped exception
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
+	 * @param actualSize 实际结果大小 (或 -1 未知)
+	 * @param ex 包装的异常
 	 */
 	public IncorrectResultSizeDataAccessException(String msg, int expectedSize, int actualSize, Throwable ex) {
 		super(msg, ex);
@@ -83,14 +73,14 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 
 
 	/**
-	 * Return the expected result size.
+	 * 返回预期的结果大小.
 	 */
 	public int getExpectedSize() {
 		return this.expectedSize;
 	}
 
 	/**
-	 * Return the actual result size (or -1 if unknown).
+	 * 返回实际的结果大小 (或 -1 未知).
 	 */
 	public int getActualSize() {
 		return this.actualSize;

@@ -12,16 +12,13 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that bootstraps
- * the specified JCA 1.7 {@link javax.resource.spi.ResourceAdapter},
- * starting it with a local {@link javax.resource.spi.BootstrapContext}
- * and exposing it for bean references. It will also stop the ResourceAdapter
- * on context shutdown. This corresponds to 'non-managed' bootstrap in a
- * local environment, according to the JCA 1.7 specification.
+ * {@link org.springframework.beans.factory.FactoryBean}
+ * 引导指定的JCA 1.7 {@link javax.resource.spi.ResourceAdapter},
+ * 以本地{@link javax.resource.spi.BootstrapContext}启动它, 并公开它用于bean引用.
+ * 它还将在上下文关闭时停止ResourceAdapter. 根据JCA 1.7规范, 这对应于本地环境中的'非托管'引导程序.
  *
- * <p>This is essentially an adapter for bean-style bootstrapping of a
- * JCA ResourceAdapter, allowing the BootstrapContext or its elements
- * (such as the JCA WorkManager) to be specified through bean properties.
+ * <p>这本质上是一个适用于JCA ResourceAdapter的bean风格引导的适配器,
+ * 允许通过bean属性指定BootstrapContext或其元素 (例如JCA WorkManager).
  */
 public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>, InitializingBean, DisposableBean {
 
@@ -35,48 +32,38 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 
 
 	/**
-	 * Specify the target JCA ResourceAdapter as class, to be instantiated
-	 * with its default configuration.
-	 * <p>Alternatively, specify a pre-configured ResourceAdapter instance
-	 * through the "resourceAdapter" property.
-	 * @see #setResourceAdapter
+	 * 将目标JCA ResourceAdapter指定为类, 使用其默认配置进行实例化.
+	 * <p>或者, 通过"resourceAdapter"属性指定预配置的ResourceAdapter实例.
 	 */
 	public void setResourceAdapterClass(Class<? extends ResourceAdapter> resourceAdapterClass) {
 		this.resourceAdapter = BeanUtils.instantiateClass(resourceAdapterClass);
 	}
 
 	/**
-	 * Specify the target JCA ResourceAdapter, passed in as configured instance
-	 * which hasn't been started yet. This will typically happen as an
-	 * inner bean definition, configuring the ResourceAdapter instance
-	 * through its vendor-specific bean properties.
+	 * 指定目标JCA ResourceAdapter, 作为尚未启动的已配置实例传入.
+	 * 这通常作为内部bean定义发生, 通过其特定于供应商的bean属性配置ResourceAdapter实例.
 	 */
 	public void setResourceAdapter(ResourceAdapter resourceAdapter) {
 		this.resourceAdapter = resourceAdapter;
 	}
 
 	/**
-	 * Specify the JCA BootstrapContext to use for starting the ResourceAdapter.
-	 * <p>Alternatively, you can specify the individual parts (such as the
-	 * JCA WorkManager) as individual references.
-	 * @see #setWorkManager
-	 * @see #setXaTerminator
+	 * 指定用于启动ResourceAdapter的JCA BootstrapContext.
+	 * <p>或者, 可以将各个部件 (例如 JCA WorkManager) 指定为单独的引用.
 	 */
 	public void setBootstrapContext(BootstrapContext bootstrapContext) {
 		this.bootstrapContext = bootstrapContext;
 	}
 
 	/**
-	 * Specify the JCA WorkManager to use for bootstrapping the ResourceAdapter.
-	 * @see #setBootstrapContext
+	 * 指定用于引导ResourceAdapter的JCA WorkManager.
 	 */
 	public void setWorkManager(WorkManager workManager) {
 		this.workManager = workManager;
 	}
 
 	/**
-	 * Specify the JCA XATerminator to use for bootstrapping the ResourceAdapter.
-	 * @see #setBootstrapContext
+	 * 指定用于引导ResourceAdapter的JCA XATerminator.
 	 */
 	public void setXaTerminator(XATerminator xaTerminator) {
 		this.xaTerminator = xaTerminator;
@@ -84,8 +71,7 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 
 
 	/**
-	 * Builds the BootstrapContext and starts the ResourceAdapter with it.
-	 * @see javax.resource.spi.ResourceAdapter#start(javax.resource.spi.BootstrapContext)
+	 * 构建BootstrapContext并使用它启动ResourceAdapter.
 	 */
 	@Override
 	public void afterPropertiesSet() throws ResourceException {
@@ -116,8 +102,7 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 
 
 	/**
-	 * Stops the ResourceAdapter.
-	 * @see javax.resource.spi.ResourceAdapter#stop()
+	 * 停止ResourceAdapter.
 	 */
 	@Override
 	public void destroy() {

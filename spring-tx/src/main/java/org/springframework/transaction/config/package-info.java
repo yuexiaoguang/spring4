@@ -1,5 +1,4 @@
 /**
- * Support package for declarative transaction configuration,
- * with XML schema being the primary configuration format.
+ * 声明式事务配置的支持包, XML模式是主要配置格式.
  */
 package org.springframework.transaction.config;

@@ -1,5 +1,4 @@
 /**
- * Integration package that allows for deploying a Spring application context
- * as a JCA 1.5 compliant RAR file.
+ * 集成包, 允许将Spring应用程序上下文部署为符合JCA 1.5的RAR文件.
  */
 package org.springframework.jca.context;

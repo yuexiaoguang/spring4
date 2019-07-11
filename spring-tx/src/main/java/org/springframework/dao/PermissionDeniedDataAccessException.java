@@ -1,17 +1,14 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown when the underlying resource denied a permission
- * to access a specific element, such as a specific database table.
+ * 当底层资源拒绝访问特定元素时抛出异常, 例如特定数据库表.
  */
 @SuppressWarnings("serial")
 public class PermissionDeniedDataAccessException extends NonTransientDataAccessException {
 
 	/**
-	 * Constructor for PermissionDeniedDataAccessException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the underlying data access API,
-	 * such as JDBC
+	 * @param msg 详细信息
+	 * @param cause 来自底层数据访问API的根本原因, 例如JDBC
 	 */
 	public PermissionDeniedDataAccessException(String msg, Throwable cause) {
 		super(msg, cause);

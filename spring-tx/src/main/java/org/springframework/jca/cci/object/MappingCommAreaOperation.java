@@ -11,21 +11,17 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jca.cci.core.support.CommAreaRecord;
 
 /**
- * EIS operation object for access to COMMAREA records.
- * Subclass of the generic MappingRecordOperation class.
+ * 用于访问COMMAREA记录的EIS操作对象.
+ * 通用MappingRecordOperation类的子类.
  */
 public abstract class MappingCommAreaOperation extends MappingRecordOperation {
 
-	/**
-	 * Create a new MappingCommAreaQuery.
-	 */
 	public MappingCommAreaOperation() {
 	}
 
 	/**
-	 * Create a new MappingCommAreaQuery.
-	 * @param connectionFactory ConnectionFactory to use to obtain connections
-	 * @param interactionSpec specification to configure the interaction
+	 * @param connectionFactory 用于获取连接的ConnectionFactory
+	 * @param interactionSpec 配置交互的规范
 	 */
 	public MappingCommAreaOperation(ConnectionFactory connectionFactory, InteractionSpec interactionSpec) {
 		super(connectionFactory, interactionSpec);
@@ -55,20 +51,24 @@ public abstract class MappingCommAreaOperation extends MappingRecordOperation {
 
 
 	/**
-	 * Method used to convert an object into COMMAREA bytes.
-	 * @param inObject the input data
-	 * @return the COMMAREA's bytes
-	 * @throws IOException if thrown by I/O methods
-	 * @throws DataAccessException if conversion failed
+	 * 用于将对象转换为COMMAREA字节的方法.
+	 * 
+	 * @param inObject 输入数据
+	 * 
+	 * @return COMMAREA的字节
+	 * @throws IOException 如果由I/O方法抛出
+	 * @throws DataAccessException 如果转换失败
 	 */
 	protected abstract byte[] objectToBytes(Object inObject) throws IOException, DataAccessException;
 
 	/**
-	 * Method used to convert the COMMAREA's bytes to an object.
-	 * @param bytes the COMMAREA's bytes
-	 * @return the output data
-	 * @throws IOException if thrown by I/O methods
-	 * @throws DataAccessException if conversion failed
+	 * 用于将COMMAREA的字节转换为对象的方法.
+	 * 
+	 * @param bytes COMMAREA的字节
+	 * 
+	 * @return 输出数据
+	 * @throws IOException 如果由I/O方法抛出
+	 * @throws DataAccessException 如果转换失败
 	 */
 	protected abstract Object bytesToObject(byte[] bytes) throws IOException, DataAccessException;
 

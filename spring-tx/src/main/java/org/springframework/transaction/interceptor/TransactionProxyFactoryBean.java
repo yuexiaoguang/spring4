@@ -13,54 +13,43 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
- * Proxy factory bean for simplified declarative transaction handling.
- * This is a convenient alternative to a standard AOP
- * {@link org.springframework.aop.framework.ProxyFactoryBean}
- * with a separate {@link TransactionInterceptor} definition.
+ * 用于简化声明式事务处理的代理工厂bean.
+ * 这是标准AOP {@link org.springframework.aop.framework.ProxyFactoryBean}的一个方便的替代方案,
+ * 具有单独的{@link TransactionInterceptor}定义.
  *
- * <p><strong>HISTORICAL NOTE:</strong> This class was originally designed to cover the
- * typical case of declarative transaction demarcation: namely, wrapping a singleton
- * target object with a transactional proxy, proxying all the interfaces that the target
- * implements. However, in Spring versions 2.0 and beyond, the functionality provided here
- * is superseded by the more convenient {@code tx:} XML namespace. See the <a
- * href="http://bit.ly/qUwvwz">declarative transaction management</a> section of the
- * Spring reference documentation to understand the modern options for managing
- * transactions in Spring applications. For these reasons, <strong>users should favor of
- * the {@code tx:} XML namespace as well as
- * the @{@link org.springframework.transaction.annotation.Transactional Transactional}
- * and @{@link org.springframework.transaction.annotation.EnableTransactionManagement
- * EnableTransactionManagement} annotations.</strong>
+ * <p><strong>HISTORICAL NOTE:</strong> 该类最初设计用于涵盖声明性事务划分的典型情况:
+ * 即, 使用事务代理包装单个目标对象, 代理目标实现的所有接口.
+ * 但是, 在Spring 2.0及更高版本中, 此处提供的功能被更方便的{@code tx:} XML命名空间所取代.
+ * 请参阅Spring参考文档的<a href="http://bit.ly/qUwvwz">声明式事务管理</a>部分,
+ * 以了解管理Spring应用程序中的事务的现代选项.
+ * 出于这些原因, <strong>用户应该支持{@code tx:} XML命名空间以及
+ * @{@link org.springframework.transaction.annotation.Transactional Transactional}
+ * 和@{@link org.springframework.transaction.annotation.EnableTransactionManagement EnableTransactionManagement}注解.</strong>
  *
- * <p>There are three main properties that need to be specified:
+ * <p>需要指定三个主要属性:
  * <ul>
- * <li>"transactionManager": the {@link PlatformTransactionManager} implementation to use
- * (for example, a {@link org.springframework.transaction.jta.JtaTransactionManager} instance)
- * <li>"target": the target object that a transactional proxy should be created for
- * <li>"transactionAttributes": the transaction attributes (for example, propagation
- * behavior and "readOnly" flag) per target method name (or method name pattern)
+ * <li>"transactionManager": 要使用的{@link PlatformTransactionManager}实现
+ * (例如, {@link org.springframework.transaction.jta.JtaTransactionManager}实例)
+ * <li>"target": 应为其创建事务代理的目标对象
+ * <li>"transactionAttributes": 每个目标方法名称(或方法名称模式)的事务属性(例如, 传播行为和"readOnly"标志)
  * </ul>
  *
- * <p>If the "transactionManager" property is not set explicitly and this {@link FactoryBean}
- * is running in a {@link ListableBeanFactory}, a single matching bean of type
- * {@link PlatformTransactionManager} will be fetched from the {@link BeanFactory}.
+ * <p>如果没有显式设置"transactionManager"属性, 并且{@link FactoryBean}在{@link ListableBeanFactory}中运行,
+ * 则将从{@link BeanFactory}获取类型为{@link PlatformTransactionManager}的匹配bean.
  *
- * <p>In contrast to {@link TransactionInterceptor}, the transaction attributes are
- * specified as properties, with method names as keys and transaction attribute
- * descriptors as values. Method names are always applied to the target class.
+ * <p>与{@link TransactionInterceptor}相反, 事务属性被指定为属性, 方法名称为键, 事务属性描述符为值.
+ * 方法名称始终应用于目标类.
  *
- * <p>Internally, a {@link TransactionInterceptor} instance is used, but the user of this
- * class does not have to care. Optionally, a method pointcut can be specified
- * to cause conditional invocation of the underlying {@link TransactionInterceptor}.
+ * <p>在内部, 使用{@link TransactionInterceptor}实例, 但此类的用户不必关心.
+ * 可选, 可以指定方法切点以对底层{@link TransactionInterceptor}进行条件调用.
  *
- * <p>The "preInterceptors" and "postInterceptors" properties can be set to add
- * additional interceptors to the mix, like
+ * <p>可以设置"preInterceptors"和"postInterceptors"属性, 以向混合添加额外的拦截器, 如
  * {@link org.springframework.aop.interceptor.PerformanceMonitorInterceptor}.
  *
- * <p><b>HINT:</b> This class is often used with parent / child bean definitions.
- * Typically, you will define the transaction manager and default transaction
- * attributes (for method name patterns) in an abstract parent bean definition,
- * deriving concrete child bean definitions for specific target objects.
- * This reduces the per-bean definition effort to a minimum.
+ * <p><b>HINT:</b> 此类通常与父/子 bean定义一起使用.
+ * 通常, 将在抽象父bean定义中定义事务管理器和默认事务属性 (用于方法名称模式),
+ * 从而为特定目标对象派生具体的子bean定义.
+ * 这将每个bean的定义工作量降至最低.
  *
  * <pre code="class">
  * {@code
@@ -94,63 +83,42 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 
 
 	/**
-	 * Set the default transaction manager. This will perform actual
-	 * transaction management: This class is just a way of invoking it.
-	 * @see TransactionInterceptor#setTransactionManager
+	 * 设置默认事务管理器.
+	 * 这将执行实际的事务管理: 这个类只是一种调用它的方法.
 	 */
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
 		this.transactionInterceptor.setTransactionManager(transactionManager);
 	}
 
 	/**
-	 * Set properties with method names as keys and transaction attribute
-	 * descriptors (parsed via TransactionAttributeEditor) as values:
+	 * 设置属性, 使用方法名称作为键, 事务属性描述符作为值 (通过TransactionAttributeEditor解析):
 	 * e.g. key = "myMethod", value = "PROPAGATION_REQUIRED,readOnly".
-	 * <p>Note: Method names are always applied to the target class,
-	 * no matter if defined in an interface or the class itself.
-	 * <p>Internally, a NameMatchTransactionAttributeSource will be
-	 * created from the given properties.
-	 * @see #setTransactionAttributeSource
-	 * @see TransactionInterceptor#setTransactionAttributes
-	 * @see TransactionAttributeEditor
-	 * @see NameMatchTransactionAttributeSource
+	 * <p>Note: 方法名称始终应用于目标类, 无论是在接口中定义还是在类本身中定义.
+	 * <p>在内部, 将从给定属性创建NameMatchTransactionAttributeSource.
 	 */
 	public void setTransactionAttributes(Properties transactionAttributes) {
 		this.transactionInterceptor.setTransactionAttributes(transactionAttributes);
 	}
 
 	/**
-	 * Set the transaction attribute source which is used to find transaction
-	 * attributes. If specifying a String property value, a PropertyEditor
-	 * will create a MethodMapTransactionAttributeSource from the value.
-	 * @see #setTransactionAttributes
-	 * @see TransactionInterceptor#setTransactionAttributeSource
-	 * @see TransactionAttributeSourceEditor
-	 * @see MethodMapTransactionAttributeSource
-	 * @see NameMatchTransactionAttributeSource
-	 * @see org.springframework.transaction.annotation.AnnotationTransactionAttributeSource
+	 * 设置用于查找事务属性的事务属性源.
+	 * 如果指定String属性值, PropertyEditor将从该值创建MethodMapTransactionAttributeSource.
 	 */
 	public void setTransactionAttributeSource(TransactionAttributeSource transactionAttributeSource) {
 		this.transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
 	}
 
 	/**
-	 * Set a pointcut, i.e a bean that can cause conditional invocation
-	 * of the TransactionInterceptor depending on method and attributes passed.
-	 * Note: Additional interceptors are always invoked.
-	 * @see #setPreInterceptors
-	 * @see #setPostInterceptors
+	 * 设置切点, i.e 可以根据传递的方法和属性导致TransactionInterceptor的条件调用的bean.
+	 * Note: 始终调用其他拦截器.
 	 */
 	public void setPointcut(Pointcut pointcut) {
 		this.pointcut = pointcut;
 	}
 
 	/**
-	 * This callback is optional: If running in a BeanFactory and no transaction
-	 * manager has been set explicitly, a single matching bean of type
-	 * {@link PlatformTransactionManager} will be fetched from the BeanFactory.
-	 * @see org.springframework.beans.factory.BeanFactory#getBean(Class)
-	 * @see org.springframework.transaction.PlatformTransactionManager
+	 * 此回调是可选的: 如果在BeanFactory中运行, 并且没有显式设置事务管理器,
+	 * 则将从BeanFactory中获取类型为{@link PlatformTransactionManager}的单个匹配bean.
 	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
@@ -159,7 +127,7 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 
 
 	/**
-	 * Creates an advisor for this FactoryBean's TransactionInterceptor.
+	 * 为此FactoryBean的TransactionInterceptor创建一个顾问.
 	 */
 	@Override
 	protected Object createMainInterceptor() {
@@ -168,14 +136,13 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 			return new DefaultPointcutAdvisor(this.pointcut, this.transactionInterceptor);
 		}
 		else {
-			// Rely on default pointcut.
+			// 依赖默认切点.
 			return new TransactionAttributeSourceAdvisor(this.transactionInterceptor);
 		}
 	}
 
 	/**
-	 * As of 4.2, this method adds {@link TransactionalProxy} to the set of
-	 * proxy interfaces in order to avoid re-processing of transaction metadata.
+	 * 从4.2开始, 此方法将{@link TransactionalProxy}添加到代理接口集, 以避免重新处理事务元数据.
 	 */
 	@Override
 	protected void postProcessProxyFactory(ProxyFactory proxyFactory) {

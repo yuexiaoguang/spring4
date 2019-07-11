@@ -14,15 +14,13 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
- * Helper class that provides static methods for obtaining CCI Connections
- * from a {@link javax.resource.cci.ConnectionFactory}. Includes special
- * support for Spring-managed transactional Connections, e.g. managed
- * by {@link CciLocalTransactionManager} or
- * {@link org.springframework.transaction.jta.JtaTransactionManager}.
+ * 提供从{@link javax.resource.cci.ConnectionFactory}获取CCI连接的静态方法.
+ * 包括对Spring管理的事务连接的特殊支持, e.g. 由{@link CciLocalTransactionManager}
+ * 或{@link org.springframework.transaction.jta.JtaTransactionManager}管理.
  *
- * <p>Used internally by {@link org.springframework.jca.cci.core.CciTemplate},
- * Spring's CCI operation objects and the {@link CciLocalTransactionManager}.
- * Can also be used directly in application code.
+ * <p>由{@link org.springframework.jca.cci.core.CciTemplate},
+ * Spring的CCI操作对象和{@link CciLocalTransactionManager}内部使用.
+ * 也可以直接在应用程序代码中使用.
  */
 public abstract class ConnectionFactoryUtils {
 
@@ -30,36 +28,34 @@ public abstract class ConnectionFactoryUtils {
 
 
 	/**
-	 * Obtain a Connection from the given ConnectionFactory. Translates ResourceExceptions
-	 * into the Spring hierarchy of unchecked generic data access exceptions, simplifying
-	 * calling code and making any exception that is thrown more meaningful.
-	 * <p>Is aware of a corresponding Connection bound to the current thread, for example
-	 * when using {@link CciLocalTransactionManager}. Will bind a Connection to the thread
-	 * if transaction synchronization is active (e.g. if in a JTA transaction).
-	 * @param cf the ConnectionFactory to obtain Connection from
-	 * @return a CCI Connection from the given ConnectionFactory
-	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException
-	 * if the attempt to get a Connection failed
+	 * 从给定的ConnectionFactory获取连接.
+	 * 将ResourceExceptions转换为未受检的通用数据访问异常的Spring层次结构,
+	 * 简化调用代码并使任何抛出的异常更有意义.
+	 * <p>知道绑定到当前线程的相应Connection, 例如使用{@link CciLocalTransactionManager}时.
+	 * 如果事务同步处于活动状态, 则会将Connection绑定到线程 (e.g. 如果在JTA事务中).
+	 * 
+	 * @param cf 从中获取Connection的ConnectionFactory
+	 * 
+	 * @return 来自给定ConnectionFactory的CCI连接
+	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException 如果尝试获取连接失败
 	 */
 	public static Connection getConnection(ConnectionFactory cf) throws CannotGetCciConnectionException {
 		return getConnection(cf, null);
 	}
 
 	/**
-	 * Obtain a Connection from the given ConnectionFactory. Translates ResourceExceptions
-	 * into the Spring hierarchy of unchecked generic data access exceptions, simplifying
-	 * calling code and making any exception that is thrown more meaningful.
-	 * <p>Is aware of a corresponding Connection bound to the current thread, for example
-	 * when using {@link CciLocalTransactionManager}. Will bind a Connection to the thread
-	 * if transaction synchronization is active (e.g. if in a JTA transaction).
-	 * @param cf the ConnectionFactory to obtain Connection from
-	 * @param spec the ConnectionSpec for the desired Connection (may be {@code null}).
-	 * Note: If this is specified, a new Connection will be obtained for every call,
-	 * without participating in a shared transactional Connection.
-	 * @return a CCI Connection from the given ConnectionFactory
-	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException
-	 * if the attempt to get a Connection failed
-	 * @see #releaseConnection
+	 * 从给定的ConnectionFactory获取连接.
+	 * 将ResourceExceptions转换为未受检的通用数据访问异常的Spring层次结构,
+	 * 简化调用代码并使任何抛出的异常更有意义.
+	 * <p>知道绑定到当前线程的相应Connection, 例如使用{@link CciLocalTransactionManager}时.
+	 * 如果事务同步处于活动状态, 则会将Connection绑定到线程 (e.g. 如果在JTA事务中).
+	 * 
+	 * @param cf 从中获取Connection的ConnectionFactory
+	 * @param spec 所需连接的ConnectionSpec (may be {@code null}).
+	 * Note: 如果指定了此项, 则将为每个调用获取新的Connection, 而不参与共享事务连接.
+	 * 
+	 * @return 来自给定ConnectionFactory的CCI连接
+	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException 如果尝试获取连接失败
 	 */
 	public static Connection getConnection(ConnectionFactory cf, ConnectionSpec spec)
 			throws CannotGetCciConnectionException {
@@ -78,16 +74,16 @@ public abstract class ConnectionFactoryUtils {
 	}
 
 	/**
-	 * Actually obtain a CCI Connection from the given ConnectionFactory.
-	 * Same as {@link #getConnection}, but throwing the original ResourceException.
-	 * <p>Is aware of a corresponding Connection bound to the current thread, for example
-	 * when using {@link CciLocalTransactionManager}. Will bind a Connection to the thread
-	 * if transaction synchronization is active (e.g. if in a JTA transaction).
-	 * <p>Directly accessed by {@link TransactionAwareConnectionFactoryProxy}.
-	 * @param cf the ConnectionFactory to obtain Connection from
-	 * @return a CCI Connection from the given ConnectionFactory
-	 * @throws ResourceException if thrown by CCI API methods
-	 * @see #doReleaseConnection
+	 * 实际从给定的ConnectionFactory获取CCI连接.
+	 * 与{@link #getConnection}相同, 但抛出原始的ResourceException.
+	 * <p>知道绑定到当前线程的相应Connection, 例如使用{@link CciLocalTransactionManager}时.
+	 * 如果事务同步处于活动状态, 则会将Connection绑定到线程 (e.g. 如果在JTA事务中).
+	 * <p>由{@link TransactionAwareConnectionFactoryProxy}直接访问.
+	 * 
+	 * @param cf 从中获取Connection的ConnectionFactory
+	 * 
+	 * @return 来自给定ConnectionFactory的CCI连接
+	 * @throws ResourceException 如果由CCI API方法抛出
 	 */
 	public static Connection doGetConnection(ConnectionFactory cf) throws ResourceException {
 		Assert.notNull(cf, "No ConnectionFactory specified");
@@ -112,12 +108,12 @@ public abstract class ConnectionFactoryUtils {
 	}
 
 	/**
-	 * Determine whether the given JCA CCI Connection is transactional, that is,
-	 * bound to the current thread by Spring's transaction facilities.
-	 * @param con the Connection to check
-	 * @param cf the ConnectionFactory that the Connection was obtained from
-	 * (may be {@code null})
-	 * @return whether the Connection is transactional
+	 * 确定给定的JCA CCI连接是否是事务性的, 即由Spring的事务工具绑定到当前线程.
+	 * 
+	 * @param con 要检查的Connection
+	 * @param cf 从中获取Connection的ConnectionFactory (may be {@code null})
+	 * 
+	 * @return Connection是否是事务性的
 	 */
 	public static boolean isConnectionTransactional(Connection con, ConnectionFactory cf) {
 		if (cf == null) {
@@ -128,13 +124,10 @@ public abstract class ConnectionFactoryUtils {
 	}
 
 	/**
-	 * Close the given Connection, obtained from the given ConnectionFactory,
-	 * if it is not managed externally (that is, not bound to the thread).
-	 * @param con the Connection to close if necessary
-	 * (if this is {@code null}, the call will be ignored)
-	 * @param cf the ConnectionFactory that the Connection was obtained from
-	 * (can be {@code null})
-	 * @see #getConnection
+	 * 关闭从给定的ConnectionFactory获取的给定Connection, 如果它不是外部管理的 (也就是说, 没有绑定到线程).
+	 * 
+	 * @param con 如有必要, 将关闭的Connection (如果是{@code null}, 则将忽略该调用)
+	 * @param cf 从中获取Connection的ConnectionFactory (can be {@code null})
 	 */
 	public static void releaseConnection(Connection con, ConnectionFactory cf) {
 		try {
@@ -144,21 +137,20 @@ public abstract class ConnectionFactoryUtils {
 			logger.debug("Could not close CCI Connection", ex);
 		}
 		catch (Throwable ex) {
-			// We don't trust the CCI driver: It might throw RuntimeException or Error.
+			// 不信任CCI驱动程序: 它可能会抛出RuntimeException或Error.
 			logger.debug("Unexpected exception on closing CCI Connection", ex);
 		}
 	}
 
 	/**
-	 * Actually close the given Connection, obtained from the given ConnectionFactory.
-	 * Same as {@link #releaseConnection}, but throwing the original ResourceException.
-	 * <p>Directly accessed by {@link TransactionAwareConnectionFactoryProxy}.
-	 * @param con the Connection to close if necessary
-	 * (if this is {@code null}, the call will be ignored)
-	 * @param cf the ConnectionFactory that the Connection was obtained from
-	 * (can be {@code null})
-	 * @throws ResourceException if thrown by JCA CCI methods
-	 * @see #doGetConnection
+	 * 实际关闭从给定的ConnectionFactory获取的给定Connection.
+	 * 与{@link #releaseConnection}相同, 但抛出原始的ResourceException.
+	 * <p>由{@link TransactionAwareConnectionFactoryProxy}直接访问.
+	 * 
+	 * @param con 要关闭的Connection (如果是{@code null}, 则将忽略该调用)
+	 * @param cf 从中获取Connection的ConnectionFactory (can be {@code null})
+	 * 
+	 * @throws ResourceException 如果被JCA CCI方法抛出
 	 */
 	public static void doReleaseConnection(Connection con, ConnectionFactory cf) throws ResourceException {
 		if (con == null || isConnectionTransactional(con, cf)) {
@@ -169,8 +161,7 @@ public abstract class ConnectionFactoryUtils {
 
 
 	/**
-	 * Callback for resource cleanup at the end of a non-native CCI transaction
-	 * (e.g. when participating in a JTA transaction).
+	 * 在非本机CCI事务结束时资源清理的回调 (e.g. 在参与JTA事务时).
 	 */
 	private static class ConnectionSynchronization
 			extends ResourceHolderSynchronization<ConnectionHolder, ConnectionFactory> {
@@ -184,5 +175,4 @@ public abstract class ConnectionFactoryUtils {
 			releaseConnection(resourceHolder.getConnection(), resourceKey);
 		}
 	}
-
 }

@@ -12,9 +12,8 @@ import org.springframework.dao.support.PersistenceExceptionTranslationIntercepto
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
 /**
- * Spring AOP exception translation aspect for use at Repository or DAO layer level.
- * Translates native persistence exceptions into Spring's DataAccessException hierarchy,
- * based on a given PersistenceExceptionTranslator.
+ * 用于Repository或DAO层级的Spring AOP异常转换切面.
+ * 基于给定的PersistenceExceptionTranslator将本机持久化异常转换为Spring的DataAccessException层次结构.
  */
 @SuppressWarnings("serial")
 public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvisor {
@@ -25,9 +24,8 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 
 
 	/**
-	 * Create a new PersistenceExceptionTranslationAdvisor.
-	 * @param persistenceExceptionTranslator the PersistenceExceptionTranslator to use
-	 * @param repositoryAnnotationType the annotation type to check for
+	 * @param persistenceExceptionTranslator 要使用的PersistenceExceptionTranslator
+	 * @param repositoryAnnotationType 要检查的注解类型
 	 */
 	public PersistenceExceptionTranslationAdvisor(
 			PersistenceExceptionTranslator persistenceExceptionTranslator,
@@ -38,10 +36,8 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 	}
 
 	/**
-	 * Create a new PersistenceExceptionTranslationAdvisor.
-	 * @param beanFactory the ListableBeanFactory to obtaining all
-	 * PersistenceExceptionTranslators from
-	 * @param repositoryAnnotationType the annotation type to check for
+	 * @param beanFactory 从中获取所有PersistenceExceptionTranslators的ListableBeanFactory
+	 * @param repositoryAnnotationType 要检查的注解类型
 	 */
 	PersistenceExceptionTranslationAdvisor(
 			ListableBeanFactory beanFactory, Class<? extends Annotation> repositoryAnnotationType) {
@@ -60,5 +56,4 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 	public Pointcut getPointcut() {
 		return this.pointcut;
 	}
-
 }

@@ -1,8 +1,7 @@
 package org.springframework.transaction.support;
 
 /**
- * {@link TransactionSynchronization} implementation that manages a
- * {@link ResourceHolder} bound through {@link TransactionSynchronizationManager}.
+ * {@link TransactionSynchronization}实现, 通过{@link TransactionSynchronizationManager}管理{@link ResourceHolder}.
  */
 public abstract class ResourceHolderSynchronization<H extends ResourceHolder, K>
 		implements TransactionSynchronization {
@@ -15,9 +14,8 @@ public abstract class ResourceHolderSynchronization<H extends ResourceHolder, K>
 
 
 	/**
-	 * Create a new ResourceHolderSynchronization for the given holder.
-	 * @param resourceHolder the ResourceHolder to manage
-	 * @param resourceKey the key to bind the ResourceHolder for
+	 * @param resourceHolder 要管理的ResourceHolder
+	 * @param resourceKey 绑定ResourceHolder的键
 	 */
 	public ResourceHolderSynchronization(H resourceHolder, K resourceKey) {
 		this.resourceHolder = resourceHolder;
@@ -71,8 +69,7 @@ public abstract class ResourceHolderSynchronization<H extends ResourceHolder, K>
 		if (shouldUnbindAtCompletion()) {
 			boolean releaseNecessary = false;
 			if (this.holderActive) {
-				// The thread-bound resource holder might not be available anymore,
-				// since afterCompletion might get called from a different thread.
+				// 线程绑定的资源保存器可能不再可用, 因为afterCompletion可能从另一个线程调用.
 				this.holderActive = false;
 				TransactionSynchronizationManager.unbindResourceIfPossible(this.resourceKey);
 				this.resourceHolder.unbound();
@@ -86,7 +83,7 @@ public abstract class ResourceHolderSynchronization<H extends ResourceHolder, K>
 			}
 		}
 		else {
-			// Probably a pre-bound resource...
+			// 可能是预先绑定的资源...
 			cleanupResource(this.resourceHolder, this.resourceKey, (status == STATUS_COMMITTED));
 		}
 		this.resourceHolder.reset();
@@ -94,68 +91,62 @@ public abstract class ResourceHolderSynchronization<H extends ResourceHolder, K>
 
 
 	/**
-	 * Return whether this holder should be unbound at completion
-	 * (or should rather be left bound to the thread after the transaction).
-	 * <p>The default implementation returns {@code true}.
+	 * 返回此保存器是否应在完成时解绑 (或者应该在事务之后保留绑定到该线程).
+	 * <p>默认实现返回 {@code true}.
 	 */
 	protected boolean shouldUnbindAtCompletion() {
 		return true;
 	}
 
 	/**
-	 * Return whether this holder's resource should be released before
-	 * transaction completion ({@code true}) or rather after
-	 * transaction completion ({@code false}).
-	 * <p>Note that resources will only be released when they are
-	 * unbound from the thread ({@link #shouldUnbindAtCompletion()}).
-	 * <p>The default implementation returns {@code true}.
-	 * @see #releaseResource
+	 * 返回是否应在事务完成之前释放此保存器的资源 ({@code true}), 或者在事务完成之后 ({@code false}).
+	 * <p>请注意, 资源只有在从线程中解除绑定时才会被释放 ({@link #shouldUnbindAtCompletion()}).
+	 * <p>默认实现返回 {@code true}.
 	 */
 	protected boolean shouldReleaseBeforeCompletion() {
 		return true;
 	}
 
 	/**
-	 * Return whether this holder's resource should be released after
-	 * transaction completion ({@code true}).
-	 * <p>The default implementation returns {@code !shouldReleaseBeforeCompletion()},
-	 * releasing after completion if no attempt was made before completion.
-	 * @see #releaseResource
+	 * 返回事务完成后是否应释放此保存器的资源 ({@code true}).
+	 * <p>默认实现返回{@code !shouldReleaseBeforeCompletion()}, 如果在完成之前没有尝试则在完成后释放.
 	 */
 	protected boolean shouldReleaseAfterCompletion(H resourceHolder) {
 		return !shouldReleaseBeforeCompletion();
 	}
 
 	/**
-	 * Flush callback for the given resource holder.
-	 * @param resourceHolder the resource holder to flush
+	 * 刷新给定资源保存器的回调.
+	 * 
+	 * @param resourceHolder 要刷新的资源保存器
 	 */
 	protected void flushResource(H resourceHolder) {
 	}
 
 	/**
-	 * After-commit callback for the given resource holder.
-	 * Only called when the resource hasn't been released yet
-	 * ({@link #shouldReleaseBeforeCompletion()}).
-	 * @param resourceHolder the resource holder to process
+	 * 给定资源保存器的提交后回调.
+	 * 仅在资源尚未释放时调用 ({@link #shouldReleaseBeforeCompletion()}).
+	 * 
+	 * @param resourceHolder 要处理的资源保存器
 	 */
 	protected void processResourceAfterCommit(H resourceHolder) {
 	}
 
 	/**
-	 * Release the given resource (after it has been unbound from the thread).
-	 * @param resourceHolder the resource holder to process
-	 * @param resourceKey the key that the ResourceHolder was bound for
+	 * 释放给定资源 (在从线程解除绑定之后).
+	 * 
+	 * @param resourceHolder 要处理的资源保存器
+	 * @param resourceKey ResourceHolder绑定的键
 	 */
 	protected void releaseResource(H resourceHolder, K resourceKey) {
 	}
 
 	/**
-	 * Perform a cleanup on the given resource (which is left bound to the thread).
-	 * @param resourceHolder the resource holder to process
-	 * @param resourceKey the key that the ResourceHolder was bound for
-	 * @param committed whether the transaction has committed ({@code true})
-	 * or rolled back ({@code false})
+	 * 对给定资源执行清理 (左边绑定到线程).
+	 * 
+	 * @param resourceHolder 要处理的资源保存器
+	 * @param resourceKey ResourceHolder绑定的键
+	 * @param committed 事务是否已提交 ({@code true}) 或已回滚 ({@code false})
 	 */
 	protected void cleanupResource(H resourceHolder, K resourceKey, boolean committed) {
 	}

@@ -19,25 +19,21 @@ import org.springframework.core.task.TaskTimeoutException;
 import org.springframework.util.Assert;
 
 /**
- * Simple JCA 1.5 {@link javax.resource.spi.work.WorkManager} implementation that
- * delegates to a Spring {@link org.springframework.core.task.TaskExecutor}.
- * Provides simple task execution including start timeouts, but without support
- * for a JCA ExecutionContext (i.e. without support for imported transactions).
+ * 简单JCA 1.5 {@link javax.resource.spi.work.WorkManager}实现,
+ * 委托给Spring {@link org.springframework.core.task.TaskExecutor}.
+ * 提供简单的任务执行, 包括启动超时, 但不支持JCA ExecutionContext (i.e. 不支持导入的事务).
  *
- * <p>Uses a {@link org.springframework.core.task.SyncTaskExecutor} for {@link #doWork}
- * calls and a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}
- * for {@link #startWork} and {@link #scheduleWork} calls, by default.
- * These default task executors can be overridden through configuration.
+ * <p>默认使用{@link org.springframework.core.task.SyncTaskExecutor}进行{@link #doWork}调用,
+ * 使用{@link org.springframework.core.task.SimpleAsyncTaskExecutor} 进行{@link #startWork}和{@link #scheduleWork}调用.
+ * 可以通过配置覆盖这些默认任务执行器.
  *
- * <p><b>NOTE: This WorkManager does not provide thread pooling by default!</b>
- * Specify a {@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor}
- * (or any other thread-pooling TaskExecutor) as "asyncTaskExecutor" in order to
- * achieve actual thread pooling.
+ * <p><b>NOTE: 默认情况下, 此WorkManager不提供线程池!</b>
+ * 将{@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor} (或任何其他线程池TaskExecutor)
+ * 指定为"asyncTaskExecutor"以实现实际的线程池.
  *
- * <p>This WorkManager automatically detects a specified
- * {@link org.springframework.core.task.AsyncTaskExecutor} implementation
- * and uses its extended timeout functionality where appropriate.
- * JCA WorkListeners are fully supported in any case.
+ * <p>此WorkManager自动检测指定的{@link org.springframework.core.task.AsyncTaskExecutor}实现,
+ * 并在适当的地方使用其扩展的超时功能.
+ * 无论如何都完全支持JCA WorkListener.
  */
 public class SimpleTaskWorkManager implements WorkManager {
 
@@ -47,20 +43,17 @@ public class SimpleTaskWorkManager implements WorkManager {
 
 
 	/**
-	 * Specify the TaskExecutor to use for <i>synchronous</i> work execution
-	 * (i.e. {@link #doWork} calls).
-	 * <p>Default is a {@link org.springframework.core.task.SyncTaskExecutor}.
+	 * 指定用于<i>同步</i>工作执行的TaskExecutor (i.e. {@link #doWork}调用).
+	 * <p>默认{@link org.springframework.core.task.SyncTaskExecutor}.
 	 */
 	public void setSyncTaskExecutor(TaskExecutor syncTaskExecutor) {
 		this.syncTaskExecutor = syncTaskExecutor;
 	}
 
 	/**
-	 * Specify the TaskExecutor to use for <i>asynchronous</i> work execution
-	 * (i.e. {@link #startWork} and {@link #scheduleWork} calls).
-	 * <p>This will typically (but not necessarily) be an
-	 * {@link org.springframework.core.task.AsyncTaskExecutor} implementation.
-	 * Default is a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
+	 * 指定TaskExecutor用于<i>异步</i>工作执行 (i.e. {@link #startWork}和{@link #scheduleWork}调用).
+	 * <p>这通常(但不一定)是{@link org.springframework.core.task.AsyncTaskExecutor}实现.
+	 * 默认{@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
 	 */
 	public void setAsyncTaskExecutor(AsyncTaskExecutor asyncTaskExecutor) {
 		this.asyncTaskExecutor = asyncTaskExecutor;
@@ -108,16 +101,17 @@ public class SimpleTaskWorkManager implements WorkManager {
 
 
 	/**
-	 * Execute the given Work on the specified TaskExecutor.
-	 * @param taskExecutor the TaskExecutor to use
-	 * @param work the Work to execute
-	 * @param startTimeout the time duration within which the Work is supposed to start
-	 * @param blockUntilStarted whether to block until the Work has started
-	 * @param executionContext the JCA ExecutionContext for the given Work
-	 * @param workListener the WorkListener to clal for the given Work
-	 * @return the time elapsed from Work acceptance until start of execution
-	 * (or -1 if not applicable or not known)
-	 * @throws WorkException if the TaskExecutor did not accept the Work
+	 * 在指定的TaskExecutor上执行给定的Work.
+	 * 
+	 * @param taskExecutor 要使用的TaskExecutor
+	 * @param work 要执行的Work
+	 * @param startTimeout Work启动的持续时间
+	 * @param blockUntilStarted 是否在Work启动之前阻塞
+	 * @param executionContext 给定Work的JCA ExecutionContext
+	 * @param workListener 要为给定的Work进行调用的WorkListener
+	 * 
+	 * @return 从Work接收到开始执行所经过的时间 (如果不适用或未知, 则为-1)
+	 * @throws WorkException 如果TaskExecutor不接受 Work
 	 */
 	protected long executeWork(TaskExecutor taskExecutor, Work work, long startTimeout,
 			boolean blockUntilStarted, ExecutionContext executionContext, WorkListener workListener)
@@ -183,8 +177,7 @@ public class SimpleTaskWorkManager implements WorkManager {
 
 
 	/**
-	 * Work adapter that supports start timeouts and WorkListener callbacks
-	 * for a given Work that it delegates to.
+	 * 支持启动超时和WorkListener回调的Work适配器.
 	 */
 	private static class DelegatingWorkAdapter implements Work {
 

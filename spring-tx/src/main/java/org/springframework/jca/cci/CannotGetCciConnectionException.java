@@ -5,16 +5,11 @@ import javax.resource.ResourceException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
- * Fatal exception thrown when we can't connect to an EIS using CCI.
+ * 当无法使用CCI连接到EIS时抛出的致命异常.
  */
 @SuppressWarnings("serial")
 public class CannotGetCciConnectionException extends DataAccessResourceFailureException {
 
-	/**
-	 * Constructor for CannotGetCciConnectionException.
-	 * @param msg message
-	 * @param ex ResourceException root cause
-	 */
 	public CannotGetCciConnectionException(String msg, ResourceException ex) {
 		super(msg, ex);
 	}

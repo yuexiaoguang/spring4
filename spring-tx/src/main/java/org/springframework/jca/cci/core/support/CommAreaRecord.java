@@ -9,7 +9,7 @@ import javax.resource.cci.Streamable;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * CCI Record implementation for a COMMAREA, holding a byte array.
+ * COMMAREA的CCI Record实现, 持有一个字节数组.
  */
 @SuppressWarnings("serial")
 public class CommAreaRecord implements Record, Streamable {
@@ -21,15 +21,11 @@ public class CommAreaRecord implements Record, Streamable {
 	private String recordShortDescription;
 
 
-	/**
-	 * Create a new CommAreaRecord.
-	 */
 	public CommAreaRecord() {
 	}
 
 	/**
-	 * Create a new CommAreaRecord.
-	 * @param bytes the bytes to fill the record with
+	 * @param bytes 用于填充记录的字节
 	 */
 	public CommAreaRecord(byte[] bytes) {
 		this.bytes = bytes;

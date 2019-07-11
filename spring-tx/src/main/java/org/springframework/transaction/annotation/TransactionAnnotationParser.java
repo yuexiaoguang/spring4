@@ -5,21 +5,20 @@ import java.lang.reflect.AnnotatedElement;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 /**
- * Strategy interface for parsing known transaction annotation types.
- * {@link AnnotationTransactionAttributeSource} delegates to such
- * parsers for supporting specific annotation types such as Spring's own
- * {@link Transactional}, JTA 1.2's {@link javax.transaction.Transactional}
- * or EJB3's {@link javax.ejb.TransactionAttribute}.
+ * 用于解析已知事务注解类型的策略接口.
+ * {@link AnnotationTransactionAttributeSource}委托给支持特定的注解类型的解析器,
+ * 例如Spring自己的{@link Transactional}, JTA 1.2的{@link javax.transaction.Transactional}
+ * 或EJB3的{@link javax.ejb.TransactionAttribute}.
  */
 public interface TransactionAnnotationParser {
 
 	/**
-	 * Parse the transaction attribute for the given method or class,
-	 * based on an annotation type understood by this parser.
-	 * <p>This essentially parses a known transaction annotation into Spring's metadata
-	 * attribute class. Returns {@code null} if the method/class is not transactional.
-	 * @param element the annotated method or class
-	 * @return the configured transaction attribute, or {@code null} if none found
+	 * 基于此解析器理解的注解类型, 解析给定方法或类的事务属性.
+	 * <p>这实际上将已知的事务注解解析为Spring的元数据属性类. 如果方法/类不是事务的, 则返回{@code null}.
+	 * 
+	 * @param element 带注解的方法或类
+	 * 
+	 * @return 已配置的事务属性, 或{@code null}
 	 */
 	TransactionAttribute parseTransactionAnnotation(AnnotatedElement element);
 

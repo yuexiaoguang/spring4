@@ -1,6 +1,5 @@
 /**
- * Support classes for the org.springframework.transaction package.
- * Provides an abstract base class for transaction manager implementations,
- * and a template plus callback for transaction demarcation.
+ * org.springframework.transaction包的支持类.
+ * 为事务管理器实现提供抽象基类, 为事务划分提供模板和回调.
  */
 package org.springframework.transaction.support;

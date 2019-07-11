@@ -1,34 +1,27 @@
 package org.springframework.dao;
 
 /**
- * Data access exception thrown when a result was expected to have at least
- * one row (or element) but zero rows (or elements) were actually returned.
+ * 当预期结果至少有一行 (或元素), 但实际返回零行 (或元素)时抛出的数据访问异常.
  */
 @SuppressWarnings("serial")
 public class EmptyResultDataAccessException extends IncorrectResultSizeDataAccessException {
 
-	/**
-	 * Constructor for EmptyResultDataAccessException.
-	 * @param expectedSize the expected result size
-	 */
 	public EmptyResultDataAccessException(int expectedSize) {
 		super(expectedSize, 0);
 	}
 
 	/**
-	 * Constructor for EmptyResultDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
 	 */
 	public EmptyResultDataAccessException(String msg, int expectedSize) {
 		super(msg, expectedSize, 0);
 	}
 
 	/**
-	 * Constructor for EmptyResultDataAccessException.
-	 * @param msg the detail message
-	 * @param expectedSize the expected result size
-	 * @param ex the wrapped exception
+	 * @param msg 详细信息
+	 * @param expectedSize 预期的结果大小
+	 * @param ex 包装的异常
 	 */
 	public EmptyResultDataAccessException(String msg, int expectedSize, Throwable ex) {
 		super(msg, expectedSize, 0, ex);

@@ -10,10 +10,9 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.context.ApplicationContext} implementation
- * for a JCA ResourceAdapter. Needs to be initialized with the JCA
- * {@link javax.resource.spi.BootstrapContext}, passing it on to
- * Spring-managed beans that implement {@link BootstrapContextAware}.
+ * JCA ResourceAdapter的{@link org.springframework.context.ApplicationContext}实现.
+ * 需要使用JCA {@link javax.resource.spi.BootstrapContext}进行初始化,
+ * 并将其传递给实现{@link BootstrapContextAware}的Spring托管bean.
  */
 public class ResourceAdapterApplicationContext extends GenericApplicationContext {
 
@@ -21,9 +20,7 @@ public class ResourceAdapterApplicationContext extends GenericApplicationContext
 
 
 	/**
-	 * Create a new ResourceAdapterApplicationContext for the given BootstrapContext.
-	 * @param bootstrapContext the JCA BootstrapContext that the ResourceAdapter
-	 * has been started with
+	 * @param bootstrapContext ResourceAdapter已启动的JCA BootstrapContext
 	 */
 	public ResourceAdapterApplicationContext(BootstrapContext bootstrapContext) {
 		Assert.notNull(bootstrapContext, "BootstrapContext must not be null");
@@ -37,7 +34,7 @@ public class ResourceAdapterApplicationContext extends GenericApplicationContext
 		beanFactory.ignoreDependencyInterface(BootstrapContextAware.class);
 		beanFactory.registerResolvableDependency(BootstrapContext.class, this.bootstrapContext);
 
-		// JCA WorkManager resolved lazily - may not be available.
+		// JCA WorkManager延迟解析 - 可能无法使用.
 		beanFactory.registerResolvableDependency(WorkManager.class, new ObjectFactory<WorkManager>() {
 			@Override
 			public WorkManager getObject() {

@@ -6,9 +6,8 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.util.ClassUtils;
 
 /**
- * A {@link FactoryBean} equivalent to the &lt;tx:jta-transaction-manager/&gt; XML element,
- * autodetecting WebLogic and WebSphere servers and exposing the corresponding
- * {@link org.springframework.transaction.jta.JtaTransactionManager} subclass.
+ * {@link FactoryBean}等同于 &lt;tx:jta-transaction-manager/&gt; XML元素,
+ * 自动检测WebLogic和WebSphere服务器, 并公开相应的{@link org.springframework.transaction.jta.JtaTransactionManager}子类.
  */
 public class JtaTransactionManagerFactoryBean implements FactoryBean<JtaTransactionManager> {
 

@@ -10,15 +10,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * An {@link EventListener} that is invoked according to a {@link TransactionPhase}.
+ * 根据{@link TransactionPhase}调用的{@link EventListener}.
  *
- * <p>If the event is not published within the boundaries of a managed transaction, the
- * event is discarded unless the {@link #fallbackExecution} flag is explicitly set. If a
- * transaction is running, the event is processed according to its {@code TransactionPhase}.
+ * <p>如果事件未在托管事务的边界内发布, 则除非明确设置{@link #fallbackExecution}标志, 否则将丢弃该事件.
+ * 如果事务正在运行, 则事件将根据其{@code TransactionPhase}进行处理.
  *
- * <p>Adding {@link org.springframework.core.annotation.Order @Order} to your annotated
- * method allows you to prioritize that listener amongst other listeners running before
- * or after transaction completion.
+ * <p>将{@link org.springframework.core.annotation.Order @Order}添加到带注解的方法,
+ * 允许在事务完成之前或之后运行的其他监听器中优先处理该监听器.
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -27,39 +25,34 @@ import org.springframework.core.annotation.AliasFor;
 public @interface TransactionalEventListener {
 
 	/**
-	 * Phase to bind the handling of an event to.
-	 * <p>The default phase is {@link TransactionPhase#AFTER_COMMIT}.
-	 * <p>If no transaction is in progress, the event is not processed at
-	 * all unless {@link #fallbackExecution} has been enabled explicitly.
+	 * 用于绑定事件处理的阶段.
+	 * <p>默认阶段是{@link TransactionPhase#AFTER_COMMIT}.
+	 * <p>如果没有正在进行的事务, 则除非已明确启用{@link #fallbackExecution}, 否则不会处理该事件.
 	 */
 	TransactionPhase phase() default TransactionPhase.AFTER_COMMIT;
 
 	/**
-	 * Whether the event should be processed if no transaction is running.
+	 * 如果没有正在运行的事务, 是否应该处理事件.
 	 */
 	boolean fallbackExecution() default false;
 
 	/**
-	 * Alias for {@link #classes}.
+	 * {@link #classes}的别名.
 	 */
 	@AliasFor(annotation = EventListener.class, attribute = "classes")
 	Class<?>[] value() default {};
 
 	/**
-	 * The event classes that this listener handles.
-	 * <p>If this attribute is specified with a single value, the annotated
-	 * method may optionally accept a single parameter. However, if this
-	 * attribute is specified with multiple values, the annotated method
-	 * must <em>not</em> declare any parameters.
+	 * 此监听器处理的事件类.
+	 * <p>如果使用单个值指定此属性, 则带注解的方法可以选择接受单个参数.
+	 * 但是, 如果使用多个值指定此属性, 则带注解的方法<em>不能</em>声明任何参数.
 	 */
 	@AliasFor(annotation = EventListener.class, attribute = "classes")
 	Class<?>[] classes() default {};
 
 	/**
-	 * Spring Expression Language (SpEL) attribute used for making the event
-	 * handling conditional.
-	 * <p>The default is {@code ""}, meaning the event is always handled.
-	 * @see EventListener#condition
+	 * Spring Expression Language (SpEL)属性, 用于使事件处理成为条件.
+	 * <p>默认{@code ""}, 表示始终处理事件.
 	 */
 	String condition() default "";
 

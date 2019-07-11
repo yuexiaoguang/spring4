@@ -6,21 +6,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor}
- * implementation that passes the BootstrapContext to beans that implement
- * the {@link BootstrapContextAware} interface.
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor}实现,
+ * 它将BootstrapContext传递给实现{@link BootstrapContextAware}接口的bean.
  *
- * <p>{@link ResourceAdapterApplicationContext} automatically registers
- * this processor with its underlying bean factory.
+ * <p>{@link ResourceAdapterApplicationContext}自动将此处理器注册到其底层bean工厂.
  */
 class BootstrapContextAwareProcessor implements BeanPostProcessor {
 
 	private final BootstrapContext bootstrapContext;
 
 
-	/**
-	 * Create a new BootstrapContextAwareProcessor for the given context.
-	 */
 	public BootstrapContextAwareProcessor(BootstrapContext bootstrapContext) {
 		this.bootstrapContext = bootstrapContext;
 	}

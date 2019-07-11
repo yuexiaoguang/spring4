@@ -11,18 +11,14 @@ import javax.transaction.UserTransaction;
 import org.springframework.util.Assert;
 
 /**
- * Adapter for a JTA UserTransaction handle, taking a JTA
- * {@link javax.transaction.TransactionManager} reference and creating
- * a JTA {@link javax.transaction.UserTransaction} handle for it.
+ * JTA UserTransaction句柄的适配器, 获取JTA {@link javax.transaction.TransactionManager}引用,
+ * 并为其创建JTA {@link javax.transaction.UserTransaction}句柄.
  *
- * <p>The JTA UserTransaction interface is an exact subset of the JTA
- * TransactionManager interface. Unfortunately, it does not serve as
- * super-interface of TransactionManager, though, which requires an
- * adapter such as this class to be used when intending to talk to
- * a TransactionManager handle through the UserTransaction interface.
+ * <p>JTA UserTransaction接口是JTA TransactionManager接口的精确子集.
+ * 不幸的是, 它不能作为TransactionManager的超级接口,
+ * 这需要在通过UserTransaction接口与TransactionManager句柄通信时使用此类的适配器.
  *
- * <p>Used internally by Spring's {@link JtaTransactionManager} for certain
- * scenarios. Not intended for direct use in application code.
+ * <p>在某些情况下, Spring的{@link JtaTransactionManager}在内部使用. 不适合直接用于应用程序代码.
  */
 public class UserTransactionAdapter implements UserTransaction {
 
@@ -30,8 +26,7 @@ public class UserTransactionAdapter implements UserTransaction {
 
 
 	/**
-	 * Create a new UserTransactionAdapter for the given TransactionManager.
-	 * @param transactionManager the JTA TransactionManager to wrap
+	 * @param transactionManager 要包装的JTA TransactionManager
 	 */
 	public UserTransactionAdapter(TransactionManager transactionManager) {
 		Assert.notNull(transactionManager, "TransactionManager must not be null");
@@ -39,7 +34,7 @@ public class UserTransactionAdapter implements UserTransaction {
 	}
 
 	/**
-	 * Return the JTA TransactionManager that this adapter delegates to.
+	 * 返回此适配器委托给的JTA TransactionManager.
 	 */
 	public final TransactionManager getTransactionManager() {
 		return this.transactionManager;

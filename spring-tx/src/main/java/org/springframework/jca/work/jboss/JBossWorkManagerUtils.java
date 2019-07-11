@@ -10,11 +10,9 @@ import javax.resource.spi.work.WorkManager;
 import org.springframework.util.Assert;
 
 /**
- * Utility class for obtaining the JBoss JCA WorkManager,
- * typically for use in web applications.
+ * 用于获取JBoss JCA WorkManager的工具类, 通常用于Web应用程序.
  *
- * @deprecated as of Spring 4.0, since there are no fully supported versions
- * of JBoss that this class works with anymore
+ * @deprecated 从Spring 4.0开始, 因为没有完全支持的JBoss版本, 所以这个类不再适用了
  */
 @Deprecated
 public abstract class JBossWorkManagerUtils {
@@ -27,19 +25,16 @@ public abstract class JBossWorkManagerUtils {
 
 
 	/**
-	 * Obtain the default JBoss JCA WorkManager through a JMX lookup
-	 * for the default JBossWorkManagerMBean.
-	 * @see org.jboss.resource.work.JBossWorkManagerMBean
+	 * 通过JMX查找默认的JBossWorkManagerMBean获取默认的JBoss JCA WorkManager.
 	 */
 	public static WorkManager getWorkManager() {
 		return getWorkManager(DEFAULT_WORK_MANAGER_MBEAN_NAME);
 	}
 
 	/**
-	 * Obtain the default JBoss JCA WorkManager through a JMX lookup
-	 * for the JBossWorkManagerMBean.
-	 * @param mbeanName the JMX object name to use
-	 * @see org.jboss.resource.work.JBossWorkManagerMBean
+	 * 通过JBossWorkManagerMBean的JMX查找获取默认的JBoss JCA WorkManager.
+	 * 
+	 * @param mbeanName 要使用的JMX对象名称
 	 */
 	public static WorkManager getWorkManager(String mbeanName) {
 		Assert.hasLength(mbeanName, "JBossWorkManagerMBean name must not be empty");

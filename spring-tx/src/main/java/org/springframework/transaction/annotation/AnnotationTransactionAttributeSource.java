@@ -13,16 +13,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Implementation of the
- * {@link org.springframework.transaction.interceptor.TransactionAttributeSource}
- * interface for working with transaction metadata in JDK 1.5+ annotation format.
+ * {@link org.springframework.transaction.interceptor.TransactionAttributeSource}接口的实现,
+ * 用于处理JDK 1.5+注解格式的事务元数据.
  *
- * <p>This class reads Spring's JDK 1.5+ {@link Transactional} annotation and
- * exposes corresponding transaction attributes to Spring's transaction infrastructure.
- * Also supports JTA 1.2's {@link javax.transaction.Transactional} and EJB3's
- * {@link javax.ejb.TransactionAttribute} annotation (if present).
- * This class may also serve as base class for a custom TransactionAttributeSource,
- * or get customized through {@link TransactionAnnotationParser} strategies.
+ * <p>该类读取Spring的JDK 1.5+ {@link Transactional}注解, 并向Spring的事务基础结构公开相应的事务属性.
+ * 还支持JTA 1.2的{@link javax.transaction.Transactional}和EJB3的{@link javax.ejb.TransactionAttribute}注解.
+ * 此类还可以作为自定义TransactionAttributeSource的基类, 或通过{@link TransactionAnnotationParser}策略进行自定义.
  */
 @SuppressWarnings("serial")
 public class AnnotationTransactionAttributeSource extends AbstractFallbackTransactionAttributeSource
@@ -40,22 +36,17 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 
 
 	/**
-	 * Create a default AnnotationTransactionAttributeSource, supporting
-	 * public methods that carry the {@code Transactional} annotation
-	 * or the EJB3 {@link javax.ejb.TransactionAttribute} annotation.
+	 * 支持带有{@code Transactional}注解或EJB3 {@link javax.ejb.TransactionAttribute}注解的public方法.
 	 */
 	public AnnotationTransactionAttributeSource() {
 		this(true);
 	}
 
 	/**
-	 * Create a custom AnnotationTransactionAttributeSource, supporting
-	 * public methods that carry the {@code Transactional} annotation
-	 * or the EJB3 {@link javax.ejb.TransactionAttribute} annotation.
-	 * @param publicMethodsOnly whether to support public methods that carry
-	 * the {@code Transactional} annotation only (typically for use
-	 * with proxy-based AOP), or protected/private methods as well
-	 * (typically used with AspectJ class weaving)
+	 * 支持带有{@code Transactional}注解或EJB3 {@link javax.ejb.TransactionAttribute}注解的public方法.
+	 *
+	 * @param publicMethodsOnly 是否支持仅带有{@code Transactional}注解的public方法 (通常用于基于代理的AOP),
+	 * 或protected/private方法 (通常与AspectJ类织入一起使用)
 	 */
 	public AnnotationTransactionAttributeSource(boolean publicMethodsOnly) {
 		this.publicMethodsOnly = publicMethodsOnly;
@@ -70,8 +61,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	}
 
 	/**
-	 * Create a custom AnnotationTransactionAttributeSource.
-	 * @param annotationParser the TransactionAnnotationParser to use
+	 * @param annotationParser 要使用的TransactionAnnotationParser
 	 */
 	public AnnotationTransactionAttributeSource(TransactionAnnotationParser annotationParser) {
 		this.publicMethodsOnly = true;
@@ -80,8 +70,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	}
 
 	/**
-	 * Create a custom AnnotationTransactionAttributeSource.
-	 * @param annotationParsers the TransactionAnnotationParsers to use
+	 * @param annotationParsers 要使用的TransactionAnnotationParsers
 	 */
 	public AnnotationTransactionAttributeSource(TransactionAnnotationParser... annotationParsers) {
 		this.publicMethodsOnly = true;
@@ -92,8 +81,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	}
 
 	/**
-	 * Create a custom AnnotationTransactionAttributeSource.
-	 * @param annotationParsers the TransactionAnnotationParsers to use
+	 * @param annotationParsers 要使用的TransactionAnnotationParsers
 	 */
 	public AnnotationTransactionAttributeSource(Set<TransactionAnnotationParser> annotationParsers) {
 		this.publicMethodsOnly = true;
@@ -113,14 +101,15 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	}
 
 	/**
-	 * Determine the transaction attribute for the given method or class.
-	 * <p>This implementation delegates to configured
-	 * {@link TransactionAnnotationParser TransactionAnnotationParsers}
-	 * for parsing known annotations into Spring's metadata attribute class.
-	 * Returns {@code null} if it's not transactional.
-	 * <p>Can be overridden to support custom annotations that carry transaction metadata.
-	 * @param element the annotated method or class
-	 * @return the configured transaction attribute, or {@code null} if none was found
+	 * 确定给定方法或类的事务属性.
+	 * <p>此实现委托给配置的{@link TransactionAnnotationParser TransactionAnnotationParsers},
+	 * 用于将已知注解解析为Spring的元数据属性类.
+	 * 如果它不是事务性的, 则返回{@code null}.
+	 * <p>可以重写以支持带有事务元数据的自定义注解.
+	 * 
+	 * @param element 带注解的方法或类
+	 * 
+	 * @return 配置的事务属性, 或{@code null}
 	 */
 	protected TransactionAttribute determineTransactionAttribute(AnnotatedElement element) {
 		if (element.getAnnotations().length > 0) {
@@ -135,7 +124,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	}
 
 	/**
-	 * By default, only public methods can be made transactional.
+	 * 默认情况下, 只有public方法可以进行事务处理.
 	 */
 	@Override
 	protected boolean allowPublicMethodsOnly() {

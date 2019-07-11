@@ -1,24 +1,18 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown when we couldn't cleanup after a data access operation,
- * but the actual operation went OK.
+ * 在数据访问操作后无法清理时抛出异常, 但实际操作正常.
  *
- * <p>For example, this exception or a subclass might be thrown if a JDBC
- * Connection couldn't be closed after it had been used successfully.
+ * <p>例如, 如果在成功使用JDBC连接后无法关闭它, 则可能抛出此异常或子类.
  *
- * <p>Note that data access code might perform resources cleanup in a
- * finally block and therefore log cleanup failure rather than rethrow it,
- * to keep the original data access exception, if any.
+ * <p>请注意, 数据访问代码可能会在finally块中执行资源清理, 因此会记录清理失败而不是重新抛出它, 以保持原始数据访问异常.
  */
 @SuppressWarnings("serial")
 public class CleanupFailureDataAccessException extends NonTransientDataAccessException {
 
 	/**
-	 * Constructor for CleanupFailureDataAccessException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the underlying data access API,
-	 * such as JDBC
+	 * @param msg 详细信息
+	 * @param cause 来自底层数据访问API的根本原因, 例如JDBC
 	 */
 	public CleanupFailureDataAccessException(String msg, Throwable cause) {
 		super(msg, cause);

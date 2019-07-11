@@ -1,24 +1,18 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on failure to complete a transaction in serialized mode
- * due to update conflicts.
+ * 由于更新冲突而无法在序列化模式下完成事务时抛出异常.
  */
 @SuppressWarnings("serial")
 public class CannotSerializeTransactionException extends PessimisticLockingFailureException {
 
-	/**
-	 * Constructor for CannotSerializeTransactionException.
-	 * @param msg the detail message
-	 */
 	public CannotSerializeTransactionException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for CannotSerializeTransactionException.
-	 * @param msg the detail message
-	 * @param cause the root cause from the data access API in use
+	 * @param msg 详细信息
+	 * @param cause 正在使用的数据访问API的根本原因
 	 */
 	public CannotSerializeTransactionException(String msg, Throwable cause) {
 		super(msg, cause);

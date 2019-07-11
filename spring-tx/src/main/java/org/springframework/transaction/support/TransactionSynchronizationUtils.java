@@ -11,8 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Utility methods for triggering specific {@link TransactionSynchronization}
- * callback methods on all currently registered synchronizations.
+ * 用于在所有当前注册的同步上触发特定{@link TransactionSynchronization}回调方法的工具方法.
  */
 public abstract class TransactionSynchronizationUtils {
 
@@ -23,26 +22,24 @@ public abstract class TransactionSynchronizationUtils {
 
 
 	/**
-	 * Check whether the given resource transaction managers refers to the given
-	 * (underlying) resource factory.
+	 * 检查给定的资源事务管理器是否引用给定 (底层)资源工厂.
 	 */
 	public static boolean sameResourceFactory(ResourceTransactionManager tm, Object resourceFactory) {
 		return unwrapResourceIfNecessary(tm.getResourceFactory()).equals(unwrapResourceIfNecessary(resourceFactory));
 	}
 
 	/**
-	 * Unwrap the given resource handle if necessary; otherwise return
-	 * the given handle as-is.
+	 * 必要时展开给定的资源句柄; 否则按原样返回给定的句柄.
 	 */
 	static Object unwrapResourceIfNecessary(Object resource) {
 		Assert.notNull(resource, "Resource must not be null");
 		Object resourceRef = resource;
-		// unwrap infrastructure proxy
+		// 解包基础结构代理
 		if (resourceRef instanceof InfrastructureProxy) {
 			resourceRef = ((InfrastructureProxy) resourceRef).getWrappedObject();
 		}
 		if (aopAvailable) {
-			// now unwrap scoped proxy
+			// 现在解包scoped代理
 			resourceRef = ScopedProxyUnwrapper.unwrapIfNecessary(resourceRef);
 		}
 		return resourceRef;
@@ -50,9 +47,9 @@ public abstract class TransactionSynchronizationUtils {
 
 
 	/**
-	 * Trigger {@code flush} callbacks on all currently registered synchronizations.
-	 * @throws RuntimeException if thrown by a {@code flush} callback
-	 * @see TransactionSynchronization#flush()
+	 * 在所有当前注册的同步上触发{@code flush}回调.
+	 * 
+	 * @throws RuntimeException 如果被{@code flush}回调抛出
 	 */
 	public static void triggerFlush() {
 		for (TransactionSynchronization synchronization : TransactionSynchronizationManager.getSynchronizations()) {
@@ -61,10 +58,11 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code beforeCommit} callbacks on all currently registered synchronizations.
-	 * @param readOnly whether the transaction is defined as read-only transaction
-	 * @throws RuntimeException if thrown by a {@code beforeCommit} callback
-	 * @see TransactionSynchronization#beforeCommit(boolean)
+	 * 在所有当前注册的同步上触发{@code beforeCommit}回调.
+	 * 
+	 * @param readOnly 是否将事务定义为只读事务
+	 * 
+	 * @throws RuntimeException 如果被{@code beforeCommit}回调抛出
 	 */
 	public static void triggerBeforeCommit(boolean readOnly) {
 		for (TransactionSynchronization synchronization : TransactionSynchronizationManager.getSynchronizations()) {
@@ -73,8 +71,7 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code beforeCompletion} callbacks on all currently registered synchronizations.
-	 * @see TransactionSynchronization#beforeCompletion()
+	 * 在所有当前注册的同步上触发{@code beforeCompletion}回调.
 	 */
 	public static void triggerBeforeCompletion() {
 		for (TransactionSynchronization synchronization : TransactionSynchronizationManager.getSynchronizations()) {
@@ -88,20 +85,18 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code afterCommit} callbacks on all currently registered synchronizations.
-	 * @throws RuntimeException if thrown by a {@code afterCommit} callback
-	 * @see TransactionSynchronizationManager#getSynchronizations()
-	 * @see TransactionSynchronization#afterCommit()
+	 * 在所有当前注册的同步上触发{@code afterCommit}回调.
+	 * 
+	 * @throws RuntimeException 如果被{@code afterCommit}回调引发
 	 */
 	public static void triggerAfterCommit() {
 		invokeAfterCommit(TransactionSynchronizationManager.getSynchronizations());
 	}
 
 	/**
-	 * Actually invoke the {@code afterCommit} methods of the
-	 * given Spring TransactionSynchronization objects.
-	 * @param synchronizations List of TransactionSynchronization objects
-	 * @see TransactionSynchronization#afterCommit()
+	 * 实际调用给定的Spring TransactionSynchronization对象的{@code afterCommit}方法.
+	 * 
+	 * @param synchronizations TransactionSynchronization对象的列表
 	 */
 	public static void invokeAfterCommit(List<TransactionSynchronization> synchronizations) {
 		if (synchronizations != null) {
@@ -112,14 +107,9 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code afterCompletion} callbacks on all currently registered synchronizations.
-	 * @see TransactionSynchronizationManager#getSynchronizations()
-	 * @param completionStatus the completion status according to the
-	 * constants in the TransactionSynchronization interface
-	 * @see TransactionSynchronization#afterCompletion(int)
-	 * @see TransactionSynchronization#STATUS_COMMITTED
-	 * @see TransactionSynchronization#STATUS_ROLLED_BACK
-	 * @see TransactionSynchronization#STATUS_UNKNOWN
+	 * 在所有当前注册的同步上触发{@code afterCompletion}回调.
+	 * 
+	 * @param completionStatus 根据TransactionSynchronization接口中的常量的完成状态
 	 */
 	public static void triggerAfterCompletion(int completionStatus) {
 		List<TransactionSynchronization> synchronizations = TransactionSynchronizationManager.getSynchronizations();
@@ -127,15 +117,10 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Actually invoke the {@code afterCompletion} methods of the
-	 * given Spring TransactionSynchronization objects.
-	 * @param synchronizations List of TransactionSynchronization objects
-	 * @param completionStatus the completion status according to the
-	 * constants in the TransactionSynchronization interface
-	 * @see TransactionSynchronization#afterCompletion(int)
-	 * @see TransactionSynchronization#STATUS_COMMITTED
-	 * @see TransactionSynchronization#STATUS_ROLLED_BACK
-	 * @see TransactionSynchronization#STATUS_UNKNOWN
+	 * 实际调用给定Spring TransactionSynchronization对象的{@code afterCompletion}方法.
+	 * 
+	 * @param synchronizations TransactionSynchronization对象集合
+	 * @param completionStatus 根据TransactionSynchronization接口中的常量的完成状态
 	 */
 	public static void invokeAfterCompletion(List<TransactionSynchronization> synchronizations, int completionStatus) {
 		if (synchronizations != null) {
@@ -152,7 +137,7 @@ public abstract class TransactionSynchronizationUtils {
 
 
 	/**
-	 * Inner class to avoid hard-coded dependency on AOP module.
+	 * 内部类, 以避免对AOP模块的硬编码依赖.
 	 */
 	private static class ScopedProxyUnwrapper {
 
@@ -165,5 +150,4 @@ public abstract class TransactionSynchronizationUtils {
 			}
 		}
 	}
-
 }

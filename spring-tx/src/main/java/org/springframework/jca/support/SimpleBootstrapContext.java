@@ -7,11 +7,9 @@ import javax.resource.spi.XATerminator;
 import javax.resource.spi.work.WorkManager;
 
 /**
- * Simple implementation of the JCA 1.5 {@link javax.resource.spi.BootstrapContext}
- * interface, used for bootstrapping a JCA ResourceAdapter in a local environment.
+ * JCA 1.5 {@link javax.resource.spi.BootstrapContext}接口的简单实现, 用于在本地环境中引导JCA ResourceAdapter.
  *
- * <p>Delegates to the given WorkManager and XATerminator, if any. Creates simple
- * local instances of {@code java.util.Timer}.
+ * <p>委托给给定的WorkManager和XATerminator. 创建{@code java.util.Timer}的简单本地实例.
  */
 public class SimpleBootstrapContext implements BootstrapContext {
 
@@ -21,18 +19,15 @@ public class SimpleBootstrapContext implements BootstrapContext {
 
 
 	/**
-	 * Create a new SimpleBootstrapContext for the given WorkManager,
-	 * with no XATerminator available.
-	 * @param workManager the JCA WorkManager to use (may be {@code null})
+	 * @param workManager 要使用的JCA WorkManager (may be {@code null})
 	 */
 	public SimpleBootstrapContext(WorkManager workManager) {
 		this.workManager = workManager;
 	}
 
 	/**
-	 * Create a new SimpleBootstrapContext for the given WorkManager and XATerminator.
-	 * @param workManager the JCA WorkManager to use (may be {@code null})
-	 * @param xaTerminator the JCA XATerminator to use (may be {@code null})
+	 * @param workManager 要使用的JCA WorkManager (may be {@code null})
+	 * @param xaTerminator 要使用的JCA XATerminator (may be {@code null})
 	 */
 	public SimpleBootstrapContext(WorkManager workManager, XATerminator xaTerminator) {
 		this.workManager = workManager;

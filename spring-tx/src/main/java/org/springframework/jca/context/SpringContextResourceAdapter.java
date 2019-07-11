@@ -21,34 +21,22 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * JCA 1.5 {@link javax.resource.spi.ResourceAdapter} implementation
- * that loads a Spring {@link org.springframework.context.ApplicationContext},
- * starting and stopping Spring-managed beans as part of the ResourceAdapter's
- * lifecycle.
+ * JCA 1.5 {@link javax.resource.spi.ResourceAdapter}实现,
+ * 加载Spring {@link org.springframework.context.ApplicationContext},
+ * 启动和停止Spring管理的bean作为ResourceAdapter生命周期的一部分.
  *
- * <p>Ideal for application contexts that do not need any HTTP entry points
- * but rather just consist of message endpoints and scheduled jobs etc.
- * Beans in such a context may use application server resources such as the
- * JTA transaction manager and JNDI-bound JDBC DataSources and JMS
- * ConnectionFactory instances, and may also register with the platform's
- * JMX server - all through Spring's standard transaction management and
- * JNDI and JMX support facilities.
+ * <p>非常适合不需要任何HTTP入口点, 只包含消息端点和定时任务等的应用程序上下文.
+ * 在这样的上下文中的Bean可以使用应用程序服务器资源, 例如JTA事务管理器和JNDI绑定的JDBC DataSources和JMS ConnectionFactory实例,
+ * 也可以注册平台的JMX服务器 - 所有这些都通过Spring的标准事务管理以及JNDI和JMX支持工具完成.
  *
- * <p>If the need for scheduling asynchronous work arises, consider using
- * Spring's {@link org.springframework.jca.work.WorkManagerTaskExecutor}
- * as a standard bean definition, to be injected into application beans
- * through dependency injection. This WorkManagerTaskExecutor will automatically
- * use the JCA WorkManager from the BootstrapContext that has been provided
- * to this ResourceAdapter.
+ * <p>如果需要调度异步工作, 请考虑使用Spring的{@link org.springframework.jca.work.WorkManagerTaskExecutor}作为标准bean定义,
+ * 通过依赖注入将其注入应用程序bean.
+ * 此WorkManagerTaskExecutor将自动使用已提供给此ResourceAdapter的BootstrapContext中的JCA WorkManager.
  *
- * <p>The JCA {@link javax.resource.spi.BootstrapContext} may also be
- * accessed directly, through application components that implement the
- * {@link BootstrapContextAware} interface. When deployed using this
- * ResourceAdapter, the BootstrapContext is guaranteed to be passed on
- * to such components.
+ * <p>也可以通过实现{@link BootstrapContextAware}接口的应用程序组件直接访问JCA {@link javax.resource.spi.BootstrapContext}.
+ * 使用此ResourceAdapter进行部署时, 可确保将BootstrapContext传递给此类组件.
  *
- * <p>This ResourceAdapter is to be defined in a "META-INF/ra.xml" file
- * within a J2EE ".rar" deployment unit like as follows:
+ * <p>此ResourceAdapter将在J2EE ".rar"部署单元中的"META-INF/ra.xml"文件中定义, 如下所示:
  *
  * <pre class="code">
  * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -69,25 +57,19 @@ import org.springframework.util.StringUtils;
  *	 &lt;/resourceadapter&gt;
  * &lt;/connector&gt;</pre>
  *
- * Note that "META-INF/applicationContext.xml" is the default context config
- * location, so it doesn't have to specified unless you intend to specify
- * different/additional config files. So in the default case, you may remove
- * the entire {@code config-property} section above.
+ * 请注意, "META-INF/applicationContext.xml"是默认的上下文配置位置, 因此除非打算指定不同的/额外的配置文件, 否则不必指定它.
+ * 因此, 在默认情况下, 可以删除上面的整个{@code config-property}部分.
  *
- * <p><b>For simple deployment needs, all you need to do is the following:</b>
- * Package all application classes into a RAR file (which is just a standard
- * JAR file with a different file extension), add all required library jars
- * into the root of the RAR archive, add a "META-INF/ra.xml" deployment
- * descriptor as shown above as well as the corresponding Spring XML bean
- * definition file(s) (typically "META-INF/applicationContext.xml"),
- * and drop the resulting RAR file into your application server's
- * deployment directory!
+ * <p><b>对于简单的部署需求, 需要做的就是以下内容:</b>
+ * 将所有应用程序类打包到一个RAR文件 (它只是一个具有不同文件扩展名的标准JAR文件)中,
+ * 将所有必需的库jar添加到RAR存档的根目录中, 添加如上所示的"META-INF/ra.xml"部署描述符,
+ * 以及相应的Spring XML bean定义文件 (通常是"META-INF/applicationContext.xml"),
+ * 并将生成的RAR文件放入应用程序服务器的部署目录中!
  */
 public class SpringContextResourceAdapter implements ResourceAdapter {
 
 	/**
-	 * Any number of these characters are considered delimiters between
-	 * multiple context config paths in a single String value.
+	 * 任何数量的这些字符都被视为单个String值中多个上下文配置路径之间的分隔符.
 	 */
 	public static final String CONFIG_LOCATION_DELIMITERS = ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS;
 
@@ -102,37 +84,32 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 
 
 	/**
-	 * Set the location of the context configuration files, within the
-	 * resource adapter's deployment unit. This can be a delimited
-	 * String that consists of multiple resource location, separated
-	 * by commas, semicolons, whitespace, or line breaks.
-	 * <p>This can be specified as "ContextConfigLocation" config
-	 * property in the {@code ra.xml} deployment descriptor.
-	 * <p>The default is "classpath:META-INF/applicationContext.xml".
+	 * 在资源适配器的部署单元中设置上下文配置文件的位置.
+	 * 这可以是由多个资源位置组成的分隔字符串, 以逗号, 分号, 空格或换行符分隔.
+	 * <p>这可以在{@code ra.xml}部署描述符中指定为"ContextConfigLocation"配置属性.
+	 * <p>默认是"classpath:META-INF/applicationContext.xml".
 	 */
 	public void setContextConfigLocation(String contextConfigLocation) {
 		this.contextConfigLocation = contextConfigLocation;
 	}
 
 	/**
-	 * Return the specified context configuration files.
+	 * 返回指定的上下文配置文件.
 	 */
 	protected String getContextConfigLocation() {
 		return this.contextConfigLocation;
 	}
 
 	/**
-	 * Return a new {@link StandardEnvironment}.
-	 * <p>Subclasses may override this method in order to supply
-	 * a custom {@link ConfigurableEnvironment} implementation.
+	 * 返回新的{@link StandardEnvironment}.
+	 * <p>子类可以覆盖此方法, 以便提供自定义的{@link ConfigurableEnvironment}实现.
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
 		return new StandardEnvironment();
 	}
 
 	/**
-	 * This implementation loads a Spring ApplicationContext through the
-	 * {@link #createApplicationContext} template method.
+	 * 此实现通过{@link #createApplicationContext}模板方法加载Spring ApplicationContext.
 	 */
 	@Override
 	public void start(BootstrapContext bootstrapContext) throws ResourceAdapterInternalException {
@@ -143,19 +120,20 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 	}
 
 	/**
-	 * Build a Spring ApplicationContext for the given JCA BootstrapContext.
-	 * <p>The default implementation builds a {@link ResourceAdapterApplicationContext}
-	 * and delegates to {@link #loadBeanDefinitions} for actually parsing the
-	 * specified configuration files.
-	 * @param bootstrapContext this ResourceAdapter's BootstrapContext
-	 * @return the Spring ApplicationContext instance
+	 * 为给定的JCA BootstrapContext构建Spring ApplicationContext.
+	 * <p>默认实现构建{@link ResourceAdapterApplicationContext}
+	 * 并委托给{@link #loadBeanDefinitions}以实际解析指定的配置文件.
+	 * 
+	 * @param bootstrapContext 这个ResourceAdapter的BootstrapContext
+	 * 
+	 * @return Spring ApplicationContext实例
 	 */
 	protected ConfigurableApplicationContext createApplicationContext(BootstrapContext bootstrapContext) {
 		ResourceAdapterApplicationContext applicationContext =
 				new ResourceAdapterApplicationContext(bootstrapContext);
-		// Set ResourceAdapter's ClassLoader as bean class loader.
+		// 将ResourceAdapter的ClassLoader设置为bean类加载器.
 		applicationContext.setClassLoader(getClass().getClassLoader());
-		// Extract individual config locations.
+		// 提取单个配置位置.
 		String[] configLocations =
 				StringUtils.tokenizeToStringArray(getContextConfigLocation(), CONFIG_LOCATION_DELIMITERS);
 		if (configLocations != null) {
@@ -166,18 +144,17 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 	}
 
 	/**
-	 * Load the bean definitions into the given registry,
-	 * based on the specified configuration files.
-	 * @param registry the registry to load into
-	 * @param configLocations the parsed config locations
-	 * @see #setContextConfigLocation
+	 * 根据指定的配置文件将bean定义加载到给定的注册表中.
+	 * 
+	 * @param registry 加载到的注册表
+	 * @param configLocations 解析的配置位置
 	 */
 	protected void loadBeanDefinitions(BeanDefinitionRegistry registry, String[] configLocations) {
 		new XmlBeanDefinitionReader(registry).loadBeanDefinitions(configLocations);
 	}
 
 	/**
-	 * This implementation closes the Spring ApplicationContext.
+	 * 此实现关闭Spring ApplicationContext.
 	 */
 	@Override
 	public void stop() {
@@ -187,7 +164,7 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 
 
 	/**
-	 * This implementation always throws a NotSupportedException.
+	 * 此实现始终抛出NotSupportedException.
 	 */
 	@Override
 	public void endpointActivation(MessageEndpointFactory messageEndpointFactory, ActivationSpec activationSpec)
@@ -197,14 +174,14 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 	}
 
 	/**
-	 * This implementation does nothing.
+	 * 此实现为空.
 	 */
 	@Override
 	public void endpointDeactivation(MessageEndpointFactory messageEndpointFactory, ActivationSpec activationSpec) {
 	}
 
 	/**
-	 * This implementation always returns {@code null}.
+	 * 此实现总是返回{@code null}.
 	 */
 	@Override
 	public XAResource[] getXAResources(ActivationSpec[] activationSpecs) throws ResourceException {
@@ -223,5 +200,4 @@ public class SpringContextResourceAdapter implements ResourceAdapter {
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(getContextConfigLocation());
 	}
-
 }

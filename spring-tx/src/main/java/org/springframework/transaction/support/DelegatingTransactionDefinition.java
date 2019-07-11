@@ -6,10 +6,8 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.util.Assert;
 
 /**
- * {@link TransactionDefinition} implementation that delegates all calls to a given target
- * {@link TransactionDefinition} instance. Abstract because it is meant to be subclassed,
- * with subclasses overriding specific methods that are not supposed to simply delegate
- * to the target instance.
+ * {@link TransactionDefinition}实现, 将所有调用委托给给定的目标{@link TransactionDefinition}实例.
+ * 需要子类化, 子类重写不应该简单地委托给目标实例的特定方法.
  */
 @SuppressWarnings("serial")
 public abstract class DelegatingTransactionDefinition implements TransactionDefinition, Serializable {
@@ -18,8 +16,7 @@ public abstract class DelegatingTransactionDefinition implements TransactionDefi
 
 
 	/**
-	 * Create a DelegatingTransactionAttribute for the given target attribute.
-	 * @param targetDefinition the target TransactionAttribute to delegate to
+	 * @param targetDefinition 要委托给的目标TransactionAttribute
 	 */
 	public DelegatingTransactionDefinition(TransactionDefinition targetDefinition) {
 		Assert.notNull(targetDefinition, "Target definition must not be null");

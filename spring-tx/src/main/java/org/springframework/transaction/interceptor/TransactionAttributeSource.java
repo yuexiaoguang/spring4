@@ -3,21 +3,19 @@ package org.springframework.transaction.interceptor;
 import java.lang.reflect.Method;
 
 /**
- * Strategy interface used by {@link TransactionInterceptor} for metadata retrieval.
+ * {@link TransactionInterceptor}用于元数据检索的策略接口.
  *
- * <p>Implementations know how to source transaction attributes, whether from configuration,
- * metadata attributes at source level (such as Java 5 annotations), or anywhere else.
+ * <p>实现知道如何从源级别的配置, 元数据属性(例如Java 5注解)或其他任何地方获取事务属性.
  */
 public interface TransactionAttributeSource {
 
 	/**
-	 * Return the transaction attribute for the given method,
-	 * or {@code null} if the method is non-transactional.
-	 * @param method the method to introspect
-	 * @param targetClass the target class. May be {@code null},
-	 * in which case the declaring class of the method must be used.
-	 * @return TransactionAttribute the matching transaction attribute,
-	 * or {@code null} if none found
+	 * 返回给定方法的事务属性, 或{@code null} 如果方法是非事务性的.
+	 * 
+	 * @param method 要内省的方法
+	 * @param targetClass 目标类. 可能是{@code null}, 在这种情况下必须使用方法的声明类.
+	 * 
+	 * @return 匹配事务属性的TransactionAttribute, 或{@code null}
 	 */
 	TransactionAttribute getTransactionAttribute(Method method, Class<?> targetClass);
 

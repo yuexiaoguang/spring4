@@ -8,41 +8,30 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that creates
- * a local JCA connection factory in "non-managed" mode (as defined by the
- * Java Connector Architecture specification). This is a direct alternative
- * to a {@link org.springframework.jndi.JndiObjectFactoryBean} definition that
- * obtains a connection factory handle from a J2EE server's naming environment.
+ * {@link org.springframework.beans.factory.FactoryBean}以"非托管"模式创建本地JCA连接工厂
+ * (由Java Connector Architecture规范定义).
+ * 这是{@link org.springframework.jndi.JndiObjectFactoryBean}定义的直接替代,
+ * 它从J2EE服务器的命名环境获取连接工厂句柄.
  *
- * <p>The type of the connection factory is dependent on the actual connector:
- * the connector can either expose its native API (such as a JDBC
- * {@link javax.sql.DataSource} or a JMS {@link javax.jms.ConnectionFactory})
- * or follow the standard Common Client Interface (CCI), as defined by the JCA spec.
- * The exposed interface in the CCI case is {@link javax.resource.cci.ConnectionFactory}.
+ * <p>连接工厂的类型取决于实际的连接器:
+ * 连接器可以公开其本机API (例如JDBC {@link javax.sql.DataSource}或JMS {@link javax.jms.ConnectionFactory})
+ * 或遵循标准的Common Client Interface (CCI), 如JCA规范定义的那样.
+ * CCI案例中的公开接口是{@link javax.resource.cci.ConnectionFactory}.
  *
- * <p>In order to use this FactoryBean, you must specify the connector's
- * {@link #setManagedConnectionFactory "managedConnectionFactory"} (usually
- * configured as separate JavaBean), which will be used to create the actual
- * connection factory reference as exposed to the application. Optionally,
- * you can also specify a {@link #setConnectionManager "connectionManager"},
- * in order to use a custom ConnectionManager instead of the connector's default.
+ * <p>要使用此FactoryBean, 必须指定连接器的{@link #setManagedConnectionFactory "managedConnectionFactory"}
+ * (通常配置为单独的JavaBean), 它将用于创建暴露给应用程序的实际连接工厂引用.
+ * 或者, 也可以指定 {@link #setConnectionManager "connectionManager"}, 以便使用自定义ConnectionManager而不是连接器的默认值.
  *
- * <p><b>NOTE:</b> In non-managed mode, a connector is not deployed on an
- * application server, or more specificially not interacting with an application
- * server. Consequently, it cannot use a J2EE server's system contracts:
- * connection management, transaction management, and security management.
- * A custom ConnectionManager implementation has to be used for applying those
- * services in conjunction with a standalone transaction coordinator etc.
+ * <p><b>NOTE:</b> 在非托管模式下, 连接器未部署在应用程序服务器上, 或者更具体地未与应用程序服务器交互.
+ * 因此, 它无法使用J2EE服务器的系统约定: 连接管理, 事务管理, 和安全管理.
+ * 必须使用自定义ConnectionManager实现将这些服务与独立事务协调器等一起应用.
  *
- * <p>The connector will use a local ConnectionManager (included in the connector)
- * by default, which cannot participate in global transactions due to the lack
- * of XA enlistment. You need to specify an XA-capable ConnectionManager in
- * order to make the connector interact with an XA transaction coordinator.
- * Alternatively, simply use the native local transaction facilities of the
- * exposed API (e.g. CCI local transactions), or use a corresponding
- * implementation of Spring's PlatformTransactionManager SPI
+ * <p>默认情况下, 连接器将使用本地ConnectionManager (包含在连接器中), 由于缺少XA登记, 它不能参与全局事务.
+ * 需要指定支持XA的ConnectionManager才能使连接器与XA事务协调器进行交互.
+ * 或者, 只需使用公开API的本地本地事务工具 (e.g. CCI 本地事务),
+ * 或使用Spring的PlatformTransactionManager SPI的相应实现
  * (e.g. {@link org.springframework.jca.cci.connection.CciLocalTransactionManager})
- * to drive local transactions.
+ * 来驱动本地事务.
  */
 public class LocalConnectionFactoryBean implements FactoryBean<Object>, InitializingBean {
 
@@ -54,32 +43,22 @@ public class LocalConnectionFactoryBean implements FactoryBean<Object>, Initiali
 
 
 	/**
-	 * Set the JCA ManagerConnectionFactory that should be used to create
-	 * the desired connection factory.
-	 * <p>The ManagerConnectionFactory will usually be set up as separate bean
-	 * (potentially as inner bean), populated with JavaBean properties:
-	 * a ManagerConnectionFactory is encouraged to follow the JavaBean pattern
-	 * by the JCA specification, analogous to a JDBC DataSource and a JDO
-	 * PersistenceManagerFactory.
-	 * <p>Note that the ManagerConnectionFactory implementation might expect
-	 * a reference to its JCA 1.5 ResourceAdapter, expressed through the
-	 * {@link javax.resource.spi.ResourceAdapterAssociation} interface.
-	 * Simply inject the corresponding ResourceAdapter instance into its
-	 * "resourceAdapter" bean property in this case, before passing the
-	 * ManagerConnectionFactory into this LocalConnectionFactoryBean.
-	 * @see javax.resource.spi.ManagedConnectionFactory#createConnectionFactory()
+	 * 设置应该用于创建所需连接工厂的JCA ManagerConnectionFactory.
+	 * <p>ManagerConnectionFactory通常将设置为单独的bean (可能作为内部bean), 并使用JavaBean属性进行填充:
+	 * 鼓励ManagerConnectionFactory遵循JCA规范的JavaBean模式, 类似于JDBC DataSource和JDO PersistenceManagerFactory.
+	 * <p>请注意, ManagerConnectionFactory实现可能需要引用其JCA 1.5 ResourceAdapter,
+	 * 通过{@link javax.resource.spi.ResourceAdapterAssociation}接口表示.
+	 * 在将ManagerConnectionFactory传递给此LocalConnectionFactoryBean之前,
+	 * 只需将相应的ResourceAdapter实例注入其"resourceAdapter" bean属性中.
 	 */
 	public void setManagedConnectionFactory(ManagedConnectionFactory managedConnectionFactory) {
 		this.managedConnectionFactory = managedConnectionFactory;
 	}
 
 	/**
-	 * Set the JCA ConnectionManager that should be used to create the
-	 * desired connection factory.
-	 * <p>A ConnectionManager implementation for local usage is often
-	 * included with a JCA connector. Such an included ConnectionManager
-	 * might be set as default, with no need to explicitly specify one.
-	 * @see javax.resource.spi.ManagedConnectionFactory#createConnectionFactory(javax.resource.spi.ConnectionManager)
+	 * 设置应该用于创建所需连接工厂的JCA ConnectionManager.
+	 * <p>用于本地使用的ConnectionManager实现通常包含在JCA连接器中.
+	 * 这样包含的ConnectionManager可能被设置为默认值, 无需显式指定.
 	 */
 	public void setConnectionManager(ConnectionManager connectionManager) {
 		this.connectionManager = connectionManager;

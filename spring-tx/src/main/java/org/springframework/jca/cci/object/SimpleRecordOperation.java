@@ -7,21 +7,17 @@ import javax.resource.cci.Record;
 import org.springframework.dao.DataAccessException;
 
 /**
- * EIS operation object that accepts a passed-in CCI input Record
- * and returns a corresponding CCI output Record.
+ * EIS操作对象, 接受传入的CCI输入记录并返回相应的CCI输出记录.
  */
 public class SimpleRecordOperation extends EisOperation {
 
-	/**
-	 * Constructor that allows use as a JavaBean.
-	 */
 	public SimpleRecordOperation() {
 	}
 
 	/**
-	 * Convenient constructor with ConnectionFactory and specifications
-	 * (connection and interaction).
-	 * @param connectionFactory ConnectionFactory to use to obtain connections
+	 * 使用ConnectionFactory和规范 (连接和交互).
+	 * 
+	 * @param connectionFactory 用于获取连接的ConnectionFactory
 	 */
 	public SimpleRecordOperation(ConnectionFactory connectionFactory, InteractionSpec interactionSpec) {
 		getCciTemplate().setConnectionFactory(connectionFactory);
@@ -29,26 +25,26 @@ public class SimpleRecordOperation extends EisOperation {
 	}
 
 	/**
-	 * Execute the CCI interaction encapsulated by this operation object.
-	 * <p>This method will call CCI's {@code Interaction.execute} variant
-	 * that returns an output Record.
-	 * @param inputRecord the input record
-	 * @return the output record
-	 * @throws DataAccessException if there is any problem
-	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec, Record)
+	 * 执行此操作对象封装的CCI交互.
+	 * <p>此方法将调用CCI的{@code Interaction.execute}变体, 该变体返回输出记录.
+	 * 
+	 * @param inputRecord 输入记录
+	 * 
+	 * @return 输出记录
+	 * @throws DataAccessException
 	 */
 	public Record execute(Record inputRecord) throws DataAccessException {
 		return getCciTemplate().execute(getInteractionSpec(), inputRecord);
 	}
 
 	/**
-	 * Execute the CCI interaction encapsulated by this operation object.
-	 * <p>This method will call CCI's {@code Interaction.execute} variant
-	 * with a passed-in output Record.
-	 * @param inputRecord the input record
-	 * @param outputRecord the output record
-	 * @throws DataAccessException if there is any problem
-	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec, Record, Record)
+	 * 执行此操作对象封装的CCI交互.
+	 * <p>此方法将使用传入的输出Record调用CCI的{@code Interaction.execute}变体.
+	 * 
+	 * @param inputRecord 输入记录
+	 * @param outputRecord 输出记录
+	 * 
+	 * @throws DataAccessException
 	 */
 	public void execute(Record inputRecord, Record outputRecord) throws DataAccessException {
 		getCciTemplate().execute(getInteractionSpec(), inputRecord, outputRecord);

@@ -7,9 +7,8 @@ import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 
 /**
- * Parser for the &lt;tx:jta-transaction-manager/&gt; XML configuration element,
- * autodetecting WebLogic and WebSphere servers and exposing the corresponding
- * {@link org.springframework.transaction.jta.JtaTransactionManager} subclass.
+ * &lt;tx:jta-transaction-manager/&gt; XML配置元素的解析器,
+ * 自动检测WebLogic和WebSphere服务器, 并公开相应的{@link org.springframework.transaction.jta.JtaTransactionManager}子类.
  */
 public class JtaTransactionManagerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser  {
 

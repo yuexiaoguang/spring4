@@ -7,12 +7,9 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
 
 /**
- * Advisor driven by a {@link TransactionAttributeSource}, used to include
- * a {@link TransactionInterceptor} only for methods that are transactional.
+ * 由{@link TransactionAttributeSource}驱动的顾问, 用于仅为事务性方法包含{@link TransactionInterceptor}.
  *
- * <p>Because the AOP framework caches advice calculations, this is normally
- * faster than just letting the TransactionInterceptor run and find out
- * itself that it has no work to do.
+ * <p>因为AOP框架缓存增强计算, 这通常比让TransactionInterceptor运行并发现自己没有工作要做更快.
  */
 @SuppressWarnings("serial")
 public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
@@ -27,15 +24,11 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 	};
 
 
-	/**
-	 * Create a new TransactionAttributeSourceAdvisor.
-	 */
 	public TransactionAttributeSourceAdvisor() {
 	}
 
 	/**
-	 * Create a new TransactionAttributeSourceAdvisor.
-	 * @param interceptor the transaction interceptor to use for this advisor
+	 * @param interceptor 用于此顾问的事务拦截器
 	 */
 	public TransactionAttributeSourceAdvisor(TransactionInterceptor interceptor) {
 		setTransactionInterceptor(interceptor);
@@ -43,15 +36,15 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 
 
 	/**
-	 * Set the transaction interceptor to use for this advisor.
+	 * 设置要用于此顾问的事务拦截器.
 	 */
 	public void setTransactionInterceptor(TransactionInterceptor interceptor) {
 		this.transactionInterceptor = interceptor;
 	}
 
 	/**
-	 * Set the {@link ClassFilter} to use for this pointcut.
-	 * Default is {@link ClassFilter#TRUE}.
+	 * 设置用于此切点的{@link ClassFilter}.
+	 * 默认{@link ClassFilter#TRUE}.
 	 */
 	public void setClassFilter(ClassFilter classFilter) {
 		this.pointcut.setClassFilter(classFilter);

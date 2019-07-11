@@ -1,4 +1,4 @@
 /**
- * This package provides a facility for generic JCA message endpoint management.
+ * 该包为通用JCA消息端点管理提供了便利.
  */
 package org.springframework.jca.endpoint;

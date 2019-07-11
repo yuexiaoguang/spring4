@@ -5,16 +5,11 @@ import javax.resource.ResourceException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
- * Exception thrown when the connector doesn't support a specific CCI operation.
+ * 连接器不支持特定CCI操作时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class CciOperationNotSupportedException extends InvalidDataAccessResourceUsageException {
 
-	/**
-	 * Constructor for CciOperationNotSupportedException.
-	 * @param msg message
-	 * @param ex ResourceException root cause
-	 */
 	public CciOperationNotSupportedException(String msg, ResourceException ex) {
 		super(msg, ex);
 	}

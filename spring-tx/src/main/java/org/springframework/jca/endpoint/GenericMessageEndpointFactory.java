@@ -13,20 +13,13 @@ import org.springframework.aop.support.DelegatingIntroductionInterceptor;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Generic implementation of the JCA 1.5
- * {@link javax.resource.spi.endpoint.MessageEndpointFactory} interface,
- * providing transaction management capabilities for any kind of message
- * listener object (e.g. {@link javax.jms.MessageListener} objects or
- * {@link javax.resource.cci.MessageListener} objects.
+ * JCA 1.5 {@link javax.resource.spi.endpoint.MessageEndpointFactory}接口的通用实现,
+ * 为任何类型的消息监听器对象提供事务管理功能 (e.g. {@link javax.jms.MessageListener}对象或{@link javax.resource.cci.MessageListener}对象).
  *
- * <p>Uses AOP proxies for concrete endpoint instances, simply wrapping
- * the specified message listener object and exposing all of its implemented
- * interfaces on the endpoint instance.
+ * <p>对具体端点实例使用AOP代理, 只需包装指定的消息监听器对象, 并在端点实例上公开其所有已实现的接口.
  *
- * <p>Typically used with Spring's {@link GenericMessageEndpointManager},
- * but not tied to it. As a consequence, this endpoint factory could
- * also be used with programmatic endpoint management on a native
- * {@link javax.resource.spi.ResourceAdapter} instance.
+ * <p>通常与Spring的{@link GenericMessageEndpointManager}一起使用, 但不与它绑定.
+ * 因此, 此端点工厂也可用于本机{@link javax.resource.spi.ResourceAdapter}实例上的编程端点管理.
  */
 public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactory {
 
@@ -34,18 +27,15 @@ public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactor
 
 
 	/**
-	 * Specify the message listener object that the endpoint should expose
-	 * (e.g. a {@link javax.jms.MessageListener} objects or
-	 * {@link javax.resource.cci.MessageListener} implementation).
+	 * 指定端点应公开的消息监听器对象
+	 * (e.g. {@link javax.jms.MessageListener}对象或{@link javax.resource.cci.MessageListener}实现).
 	 */
 	public void setMessageListener(Object messageListener) {
 		this.messageListener = messageListener;
 	}
 
 	/**
-	 * Wrap each concrete endpoint instance with an AOP proxy,
-	 * exposing the message listener's interfaces as well as the
-	 * endpoint SPI through an AOP introduction.
+	 * 使用AOP代理包装每个具体端点实例, 通过AOP公开消息监听器的接口以及端点SPI.
 	 */
 	@Override
 	public MessageEndpoint createEndpoint(XAResource xaResource) throws UnavailableException {
@@ -58,7 +48,7 @@ public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactor
 	}
 
 	/**
-	 * Creates a concrete generic message endpoint, internal to this factory.
+	 * 创建此工厂内部的具体通用消息端点.
 	 */
 	@Override
 	protected AbstractMessageEndpoint createEndpointInternal() throws UnavailableException {
@@ -67,8 +57,7 @@ public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactor
 
 
 	/**
-	 * Private inner class that implements the concrete generic message endpoint,
-	 * as an AOP Alliance MethodInterceptor that will be invoked by a proxy.
+	 * 实现具体通用消息端点的私有内部类, 作为将由代理调用的AOP Alliance MethodInterceptor.
 	 */
 	private class GenericMessageEndpoint extends AbstractMessageEndpoint implements MethodInterceptor {
 
@@ -123,12 +112,9 @@ public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactor
 
 
 	/**
-	 * Internal exception thrown when a ResourceException has been encountered
-	 * during the endpoint invocation.
-	 * <p>Will only be used if the ResourceAdapter does not invoke the
-	 * endpoint's {@code beforeDelivery} and {@code afterDelivery}
-	 * directly, leaving it up to the concrete endpoint to apply those -
-	 * and to handle any ResourceExceptions thrown from them.
+	 * 在端点调用期间遇到ResourceException时抛出的内部异常.
+	 * <p>仅当ResourceAdapter不直接调用端点的{@code beforeDelivery} 和{@code afterDelivery},
+	 * 将其留给具体端点以应用它们 - 并处理从它们抛出的任何ResourceExceptions时, 才会使用.
 	 */
 	@SuppressWarnings("serial")
 	public static class InternalResourceException extends RuntimeException {
@@ -137,5 +123,4 @@ public class GenericMessageEndpointFactory extends AbstractMessageEndpointFactor
 			super(cause);
 		}
 	}
-
 }
