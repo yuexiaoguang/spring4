@@ -16,32 +16,26 @@ import org.springframework.remoting.support.RemoteInvocationBasedAccessor;
 import org.springframework.remoting.support.RemoteInvocationResult;
 
 /**
- * {@link org.aopalliance.intercept.MethodInterceptor} for accessing an
- * HTTP invoker service. The service URL must be an HTTP URL exposing
- * an HTTP invoker service.
+ * 用于访问HTTP调用器服务的{@link org.aopalliance.intercept.MethodInterceptor}.
+ * 服务URL必须是公开HTTP调用程序服务的HTTP URL.
  *
- * <p>Serializes remote invocation objects and deserializes remote invocation
- * result objects. Uses Java serialization just like RMI, but provides the
- * same ease of setup as Caucho's HTTP-based Hessian and Burlap protocols.
+ * <p>序列化远程调用对象, 并反序列化远程调用结果对象.
+ * 像RMI一样使用Java序列化, 但提供与Caucho基于HTTP的Hessian和Burlap协议相同的易用性设置.
  *
- * <P>HTTP invoker is a very extensible and customizable protocol.
- * It supports the RemoteInvocationFactory mechanism, like RMI invoker,
- * allowing to include additional invocation attributes (for example,
- * a security context). Furthermore, it allows to customize request
- * execution via the {@link HttpInvokerRequestExecutor} strategy.
+ * <P>HTTP调用器是一种非常可扩展和可自定义的协议.
+ * 它支持RemoteInvocationFactory机制, 如RMI调用器, 允许包含其他调用属性 (例如, 安全上下文).
+ * 此外, 它允许通过{@link HttpInvokerRequestExecutor}策略自定义请求执行.
  *
- * <p>Can use the JDK's {@link java.rmi.server.RMIClassLoader} to load classes
- * from a given {@link #setCodebaseUrl codebase}, performing on-demand dynamic
- * code download from a remote location. The codebase can consist of multiple
- * URLs, separated by spaces. Note that RMIClassLoader requires a SecurityManager
- * to be set, analogous to when using dynamic class download with standard RMI!
+ * <p>可以使用JDK的{@link java.rmi.server.RMIClassLoader} 从给定的{@link #setCodebaseUrl 代码库}加载类,
+ * 从远程位置执行按需动态下载代码.
+ * 代码库可以包含多个URL, 以空格分隔.
+ * 请注意, RMIClassLoader需要设置SecurityManager, 类似于使用标准RMI的动态类下载!
  * (See the RMI documentation for details.)
  *
- * <p><b>WARNING: Be aware of vulnerabilities due to unsafe Java deserialization:
- * Manipulated input streams could lead to unwanted code execution on the server
- * during the deserialization step. As a consequence, do not expose HTTP invoker
- * endpoints to untrusted clients but rather just between your own services.</b>
- * In general, we strongly recommend any other message format (e.g. JSON) instead.
+ * <p><b>WARNING: 请注意由于不安全的Java反序列化导致的漏洞:
+ * 在反序列化步骤中, 操作的输入流可能导致服务器上不需要的代码执行.
+ * 因此, 不要将HTTP调用器端点暴露给不受信任的客户端, 而只是在自己的服务之间.</b>
+ * 通常, 强烈建议使用任何其他消息格式 (e.g. JSON).
  */
 public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 		implements MethodInterceptor, HttpInvokerClientConfiguration {
@@ -52,20 +46,18 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 
 
 	/**
-	 * Set the codebase URL to download classes from if not found locally.
-	 * Can consists of multiple URLs, separated by spaces.
-	 * <p>Follows RMI's codebase conventions for dynamic class download.
-	 * In contrast to RMI, where the server determines the URL for class download
-	 * (via the "java.rmi.server.codebase" system property), it's the client
-	 * that determines the codebase URL here. The server will usually be the
-	 * same as for the service URL, just pointing to a different path there.
+	 * 设置下载类的代码库URL, 如果从本地未找到.
+	 * 可以由多个URL组成, 以空格分隔.
+	 * <p>遵循RMI的动态类下载代码库约定.
+	 * 与RMI相反, 服务器确定类下载的URL (通过"java.rmi.server.codebase"系统属性), 这是确定代码库URL的客户端.
+	 * 服务器通常与服务URL相同, 只是指向不同的路径.
 	 */
 	public void setCodebaseUrl(String codebaseUrl) {
 		this.codebaseUrl = codebaseUrl;
 	}
 
 	/**
-	 * Return the codebase URL to download classes from if not found locally.
+	 * 返回下载类的代码库URL.
 	 */
 	@Override
 	public String getCodebaseUrl() {
@@ -73,22 +65,17 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 	}
 
 	/**
-	 * Set the HttpInvokerRequestExecutor implementation to use for executing
-	 * remote invocations.
-	 * <p>Default is {@link SimpleHttpInvokerRequestExecutor}. Alternatively,
-	 * consider using {@link HttpComponentsHttpInvokerRequestExecutor} for more
-	 * sophisticated needs.
-	 * @see SimpleHttpInvokerRequestExecutor
-	 * @see HttpComponentsHttpInvokerRequestExecutor
+	 * 设置用于执行远程调用的HttpInvokerRequestExecutor实现.
+	 * <p>默认{@link SimpleHttpInvokerRequestExecutor}.
+	 * 或者, 考虑使用{@link HttpComponentsHttpInvokerRequestExecutor}来满足更复杂的需求.
 	 */
 	public void setHttpInvokerRequestExecutor(HttpInvokerRequestExecutor httpInvokerRequestExecutor) {
 		this.httpInvokerRequestExecutor = httpInvokerRequestExecutor;
 	}
 
 	/**
-	 * Return the HttpInvokerRequestExecutor used by this remote accessor.
-	 * <p>Creates a default SimpleHttpInvokerRequestExecutor if no executor
-	 * has been initialized already.
+	 * 返回此远程访问者使用的HttpInvokerRequestExecutor.
+	 * <p>如果尚未初始化执行器, 则创建默认的SimpleHttpInvokerRequestExecutor.
 	 */
 	public HttpInvokerRequestExecutor getHttpInvokerRequestExecutor() {
 		if (this.httpInvokerRequestExecutor == null) {
@@ -103,7 +90,7 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 
-		// Eagerly initialize the default HttpInvokerRequestExecutor, if needed.
+		// 实时初始化默认的HttpInvokerRequestExecutor.
 		getHttpInvokerRequestExecutor();
 	}
 
@@ -140,14 +127,15 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 	}
 
 	/**
-	 * Execute the given remote invocation via the {@link HttpInvokerRequestExecutor}.
-	 * <p>This implementation delegates to {@link #executeRequest(RemoteInvocation)}.
-	 * Can be overridden to react to the specific original MethodInvocation.
-	 * @param invocation the RemoteInvocation to execute
-	 * @param originalInvocation the original MethodInvocation (can e.g. be cast
-	 * to the ProxyMethodInvocation interface for accessing user attributes)
-	 * @return the RemoteInvocationResult object
-	 * @throws Exception in case of errors
+	 * 通过{@link HttpInvokerRequestExecutor}执行给定的远程调用.
+	 * <p>此实现委托给{@link #executeRequest(RemoteInvocation)}.
+	 * 可以重写以对特定的原始MethodInvocation作出反应.
+	 * 
+	 * @param invocation 要执行的RemoteInvocation
+	 * @param originalInvocation 原始MethodInvocation (可以被强制转换为ProxyMethodInvocation接口以访问用户属性)
+	 * 
+	 * @return RemoteInvocationResult对象
+	 * @throws Exception
 	 */
 	protected RemoteInvocationResult executeRequest(
 			RemoteInvocation invocation, MethodInvocation originalInvocation) throws Exception {
@@ -156,29 +144,27 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 	}
 
 	/**
-	 * Execute the given remote invocation via the {@link HttpInvokerRequestExecutor}.
-	 * <p>Can be overridden in subclasses to pass a different configuration object
-	 * to the executor. Alternatively, add further configuration properties in a
-	 * subclass of this accessor: By default, the accessor passed itself as
-	 * configuration object to the executor.
-	 * @param invocation the RemoteInvocation to execute
-	 * @return the RemoteInvocationResult object
-	 * @throws IOException if thrown by I/O operations
-	 * @throws ClassNotFoundException if thrown during deserialization
-	 * @throws Exception in case of general errors
-	 * @see #getHttpInvokerRequestExecutor
-	 * @see HttpInvokerClientConfiguration
+	 * 通过{@link HttpInvokerRequestExecutor}执行给定的远程调用.
+	 * <p>可以在子类中重写, 以将不同的配置对象传递给执行器.
+	 * 或者, 在此访问器的子类中添加其他配置属性: 默认情况下, 访问者将自身作为配置对象传递给执行器.
+	 * 
+	 * @param invocation 要执行的RemoteInvocation
+	 * 
+	 * @return RemoteInvocationResult对象
+	 * @throws IOException
+	 * @throws ClassNotFoundException 如果在反序列化期间抛出
+	 * @throws Exception
 	 */
 	protected RemoteInvocationResult executeRequest(RemoteInvocation invocation) throws Exception {
 		return getHttpInvokerRequestExecutor().executeRequest(this, invocation);
 	}
 
 	/**
-	 * Convert the given HTTP invoker access exception to an appropriate
-	 * Spring {@link RemoteAccessException}.
-	 * @param ex the exception to convert
-	 * @return the RemoteAccessException to throw, or {@code null} to have the
-	 * original exception propagated to the caller
+	 * 将给定的HTTP调用器访问异常转换为适当的Spring {@link RemoteAccessException}.
+	 * 
+	 * @param ex 要转换的异常
+	 * 
+	 * @return 要抛出的RemoteAccessException, 或{@code null}将原始异常传播给调用者
 	 */
 	protected RemoteAccessException convertHttpInvokerAccessException(Throwable ex) {
 		if (ex instanceof ConnectException) {
@@ -197,7 +183,7 @@ public class HttpInvokerClientInterceptor extends RemoteInvocationBasedAccessor
 					"Could not access HTTP invoker remote service at [" + getServiceUrl() + "]", ex);
 		}
 
-		// For any other Throwable, e.g. OutOfMemoryError: let it get propagated as-is.
+		// 其它Throwable, e.g. OutOfMemoryError: 按原样传播.
 		return null;
 	}
 

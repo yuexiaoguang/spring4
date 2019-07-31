@@ -9,21 +9,18 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Resolves method arguments annotated with {@code @Value}.
+ * 解析使用{@code @Value}注解的方法参数.
  *
- * <p>An {@code @Value} does not have a name but gets resolved from the default
- * value string, which may contain ${...} placeholder or Spring Expression
- * Language #{...} expressions.
+ * <p>{@code @Value}没有名称, 但是从默认值字符串中解析,
+ * 该字符串可能包含 ${...} 占位符或Spring Expression Language #{...}表达式.
  *
- * <p>A {@link WebDataBinder} may be invoked to apply type conversion to
- * resolved argument value.
+ * <p>可以调用{@link WebDataBinder}以将类型转换应用于已解析的参数值.
  */
 public class ExpressionValueMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver {
 
 	/**
-	 * @param beanFactory a bean factory to use for resolving  ${...}
-	 * placeholder and #{...} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to contain expressions
+	 * @param beanFactory 一个bean工厂, 用于在默认值中解析 ${...}占位符和 #{...} SpEL表达式;
+	 * 如果预期默认值不包含表达式, 则为{@code null}
 	 */
 	public ExpressionValueMethodArgumentResolver(ConfigurableBeanFactory beanFactory) {
 		super(beanFactory);

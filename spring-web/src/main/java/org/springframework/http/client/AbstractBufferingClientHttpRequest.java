@@ -7,8 +7,7 @@ import java.io.OutputStream;
 import org.springframework.http.HttpHeaders;
 
 /**
- * Base implementation of {@link ClientHttpRequest} that buffers output
- * in a byte array before sending it over the wire.
+ * {@link ClientHttpRequest}的基本实现, 它在通过线路发送之前缓冲字节数组中的输出.
  */
 abstract class AbstractBufferingClientHttpRequest extends AbstractClientHttpRequest {
 
@@ -32,10 +31,12 @@ abstract class AbstractBufferingClientHttpRequest extends AbstractClientHttpRequ
 	}
 
 	/**
-	 * Abstract template method that writes the given headers and content to the HTTP request.
+	 * 将给定header和内容写入HTTP请求的抽象模板方法.
+	 * 
 	 * @param headers the HTTP headers
-	 * @param bufferedOutput the body content
-	 * @return the response object for the executed request
+	 * @param bufferedOutput 主体内容
+	 * 
+	 * @return 已执行请求的响应对象
 	 */
 	protected abstract ClientHttpResponse executeInternal(HttpHeaders headers, byte[] bufferedOutput)
 			throws IOException;

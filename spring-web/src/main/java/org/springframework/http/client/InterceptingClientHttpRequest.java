@@ -14,7 +14,7 @@ import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.util.StreamUtils;
 
 /**
- * Wrapper for a {@link ClientHttpRequest} that has support for {@link ClientHttpRequestInterceptor}s.
+ * 支持{@link ClientHttpRequestInterceptor}的{@link ClientHttpRequest}的包装器.
  */
 class InterceptingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 

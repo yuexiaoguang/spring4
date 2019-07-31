@@ -10,16 +10,14 @@ import org.springframework.context.support.LiveBeansView;
 import org.springframework.util.Assert;
 
 /**
- * {@link LiveBeansView} subclass which looks for all ApplicationContexts
- * in the web application, as exposed in ServletContext attributes.
+ * {@link LiveBeansView}子类, 它在Web应用程序中查找所有ApplicationContexts, 在ServletContext属性中公开.
  */
 public class ServletContextLiveBeansView extends LiveBeansView {
 
 	private final ServletContext servletContext;
 
 	/**
-	 * Create a new LiveBeansView for the given ServletContext.
-	 * @param servletContext current ServletContext
+	 * @param servletContext 当前ServletContext
 	 */
 	public ServletContextLiveBeansView(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext must not be null");

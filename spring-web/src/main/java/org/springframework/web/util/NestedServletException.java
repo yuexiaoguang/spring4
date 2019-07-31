@@ -5,17 +5,14 @@ import javax.servlet.ServletException;
 import org.springframework.core.NestedExceptionUtils;
 
 /**
- * Subclass of {@link ServletException} that properly handles a root cause in terms
- * of message and stacktrace, just like NestedChecked/RuntimeException does.
+ * 正如消息和堆栈跟踪一样正确处理根本原因的{@link ServletException}的子类,
+ * 就像 NestedChecked/RuntimeException一样.
  *
- * <p>Note that the plain ServletException doesn't expose its root cause at all,
- * neither in the exception message nor in printed stack traces! While this might
- * be fixed in later Servlet API variants (which even differ per vendor for the
- * same API version), it is not reliably available on Servlet 2.4 (the minimum
- * version required by Spring 3.x), which is why we need to do it ourselves.
+ * <p>请注意, 普通的ServletException根本不会公开其根本原因, 无论是在异常消息中还是在打印的堆栈跟踪中!
+ * 虽然这可能会在以后的Servlet API变体中修复 (对于相同的API版本, 每个供应商甚至会有所不同),
+ * 但它在Servlet 2.4 (Spring 3.x所需的最低版本)上并不可靠, 这就是我们需要做的事情.
  *
- * <p>The similarity between this class and the NestedChecked/RuntimeException
- * class is unavoidable, as this class needs to derive from ServletException.
+ * <p>此类与NestedChecked/RuntimeException类之间的相似性是不可避免的, 因为此类需要从ServletException派生.
  */
 public class NestedServletException extends ServletException {
 
@@ -23,30 +20,18 @@ public class NestedServletException extends ServletException {
 	private static final long serialVersionUID = -5292377985529381145L;
 
 	static {
-		// Eagerly load the NestedExceptionUtils class to avoid classloader deadlock
-		// issues on OSGi when calling getMessage(). Reported by Don Brown; SPR-5607.
+		// 在调用getMessage()时, 实时加载NestedExceptionUtils类以避免OSGi上的类加载器死锁问题. Reported by Don Brown; SPR-5607.
 		NestedExceptionUtils.class.getName();
 	}
 
 
-	/**
-	 * Construct a {@code NestedServletException} with the specified detail message.
-	 * @param msg the detail message
-	 */
 	public NestedServletException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Construct a {@code NestedServletException} with the specified detail message
-	 * and nested exception.
-	 * @param msg the detail message
-	 * @param cause the nested exception
-	 */
 	public NestedServletException(String msg, Throwable cause) {
 		super(msg, cause);
-		// Set JDK 1.4 exception chain cause if not done by ServletException class already
-		// (this differs between Servlet API versions).
+		// 如果不是由ServletException类完成, 则设置JDK 1.4异常链原因 (这在Servlet API版本之间不同).
 		if (getCause() == null && cause!=null) {
 			initCause(cause);
 		}
@@ -54,8 +39,7 @@ public class NestedServletException extends ServletException {
 
 
 	/**
-	 * Return the detail message, including the message from the nested exception
-	 * if there is one.
+	 * 返回详细消息, 包括嵌套异常中的消息.
 	 */
 	@Override
 	public String getMessage() {

@@ -4,15 +4,12 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 /**
- * Base class for JSF NavigationHandler implementations that want
- * to be capable of decorating an original NavigationHandler.
+ * 希望能够装饰原始NavigationHandler的JSF NavigationHandler实现的基类.
  *
- * <p>Supports the standard JSF style of decoration (through a constructor argument)
- * as well as an overloaded {@code handleNavigation} method with explicit
- * NavigationHandler argument (passing in the original NavigationHandler). Subclasses
- * are forced to implement this overloaded {@code handleNavigation} method.
- * Standard JSF invocations will automatically delegate to the overloaded method,
- * with the constructor-injected NavigationHandler as argument.
+ * <p>支持标准JSF样式的装饰 (通过构造函数参数),
+ * 以及带有显式NavigationHandler参数的重载{@code handleNavigation}方法 (传入原始NavigationHandler).
+ * 子类被迫实现这个重载的{@code handleNavigation}方法.
+ * 标准JSF调用将自动委托给重载方法, 并将构造函数注入的NavigationHandler作为参数.
  */
 public abstract class DecoratingNavigationHandler extends NavigationHandler {
 
@@ -20,22 +17,20 @@ public abstract class DecoratingNavigationHandler extends NavigationHandler {
 
 
 	/**
-	 * Create a DecoratingNavigationHandler without fixed original NavigationHandler.
+	 * 没有固定原始NavigationHandler.
 	 */
 	protected DecoratingNavigationHandler() {
 	}
 
 	/**
-	 * Create a DecoratingNavigationHandler with fixed original NavigationHandler.
-	 * @param originalNavigationHandler the original NavigationHandler to decorate
+	 * @param originalNavigationHandler 要装饰的原始的NavigationHandler
 	 */
 	protected DecoratingNavigationHandler(NavigationHandler originalNavigationHandler) {
 		this.decoratedNavigationHandler = originalNavigationHandler;
 	}
 
 	/**
-	 * Return the fixed original NavigationHandler decorated by this handler, if any
-	 * (that is, if passed in through the constructor).
+	 * 返回由此处理器装饰的固定原始NavigationHandler (即, 如果通过构造函数传入).
 	 */
 	public final NavigationHandler getDecoratedNavigationHandler() {
 		return this.decoratedNavigationHandler;
@@ -43,10 +38,7 @@ public abstract class DecoratingNavigationHandler extends NavigationHandler {
 
 
 	/**
-	 * This implementation of the standard JSF {@code handleNavigation} method
-	 * delegates to the overloaded variant, passing in constructor-injected
-	 * NavigationHandler as argument.
-	 * @see #handleNavigation(javax.faces.context.FacesContext, String, String, javax.faces.application.NavigationHandler)
+	 * 标准JSF {@code handleNavigation}方法的这种实现委托给重载的变体, 传入构造函数注入的NavigationHandler作为参数.
 	 */
 	@Override
 	public final void handleNavigation(FacesContext facesContext, String fromAction, String outcome) {
@@ -54,56 +46,39 @@ public abstract class DecoratingNavigationHandler extends NavigationHandler {
 	}
 
 	/**
-	 * Special {@code handleNavigation} variant with explicit NavigationHandler
-	 * argument. Either called directly, by code with an explicit original handler,
-	 * or called from the standard {@code handleNavigation} method, as
-	 * plain JSF-defined NavigationHandler.
-	 * <p>Implementations should invoke {@code callNextHandlerInChain} to
-	 * delegate to the next handler in the chain. This will always call the most
-	 * appropriate next handler (see {@code callNextHandlerInChain} javadoc).
-	 * Alternatively, the decorated NavigationHandler or the passed-in original
-	 * NavigationHandler can also be called directly; however, this is not as
-	 * flexible in terms of reacting to potential positions in the chain.
-	 * @param facesContext the current JSF context
-	 * @param fromAction the action binding expression that was evaluated to retrieve the
-	 * specified outcome, or {@code null} if the outcome was acquired by some other means
-	 * @param outcome the logical outcome returned by a previous invoked application action
-	 * (which may be {@code null})
-	 * @param originalNavigationHandler the original NavigationHandler,
-	 * or {@code null} if none
-	 * @see #callNextHandlerInChain
+	 * 具有显式NavigationHandler参数的特殊{@code handleNavigation}变体.
+	 * 通过带有显式原始处理器的代码直接调用, 或者从标准{@code handleNavigation}方法调用, 作为普通JSF定义的NavigationHandler.
+	 * <p>实现应该调用{@code callNextHandlerInChain}来委托给链中的下一个处理器.
+	 * 这将始终调用最合适的下一个处理器 (see {@code callNextHandlerInChain} javadoc).
+	 * 或者, 也可以直接调用装饰的NavigationHandler或传入的原始NavigationHandler;
+	 * 然而, 就对链中潜在位置的反应而言, 这并不灵活.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * @param fromAction 已评估的动作绑定表达式用于检索指定的结果, 或{@code null} 如果结果是通过其他方式获取的
+	 * @param outcome 先前调用的应用程序操作返回的逻辑结果 (可能是{@code null})
+	 * @param originalNavigationHandler 原始NavigationHandler, 或{@code null}
 	 */
 	public abstract void handleNavigation(
 			FacesContext facesContext, String fromAction, String outcome, NavigationHandler originalNavigationHandler);
 
 
 	/**
-	 * Method to be called by subclasses when intending to delegate to the next
-	 * handler in the NavigationHandler chain. Will always call the most
-	 * appropriate next handler, either the decorated NavigationHandler passed
-	 * in as constructor argument or the original NavigationHandler as passed
-	 * into this method - according to the position of this instance in the chain.
-	 * <p>Will call the decorated NavigationHandler specified as constructor
-	 * argument, if any. In case of a DecoratingNavigationHandler as target, the
-	 * original NavigationHandler as passed into this method will be passed on to
-	 * the next element in the chain: This ensures propagation of the original
-	 * handler that the last element in the handler chain might delegate back to.
-	 * In case of a standard NavigationHandler as target, the original handler
-	 * will simply not get passed on; no delegating back to the original is
-	 * possible further down the chain in that scenario.
-	 * <p>If no decorated NavigationHandler specified as constructor argument,
-	 * this instance is the last element in the chain. Hence, this method will
-	 * call the original NavigationHandler as passed into this method. If no
-	 * original NavigationHandler has been passed in (for example if this
-	 * instance is the last element in a chain with standard NavigationHandlers
-	 * as earlier elements), this method corresponds to a no-op.
-	 * @param facesContext the current JSF context
-	 * @param fromAction the action binding expression that was evaluated to retrieve the
-	 * specified outcome, or {@code null} if the outcome was acquired by some other means
-	 * @param outcome the logical outcome returned by a previous invoked application action
-	 * (which may be {@code null})
-	 * @param originalNavigationHandler the original NavigationHandler,
-	 * or {@code null} if none
+	 * 当打算委托给NavigationHandler链中的下一个处理器时, 子类调用的方法.
+	 * 将始终调用最合适的下一个处理器, 作为构造函数参数传入装饰的NavigationHandler,
+	 * 或传递给此方法的原始NavigationHandler - 根据此实例在链中的位置.
+	 * <p>将调用装饰的NavigationHandler指定为构造函数参数.
+	 * 如果将DecoratingNavigationHandler作为目标, 则传递给此方法的原始NavigationHandler将传递给链中的下一个元素:
+	 * 这确保了处理器链中最后一个元素可能委托回原始处理器的传播.
+	 * 如果标准的NavigationHandler作为目标, 原始处理器将不会被传递; 在该场景中, 没有任何委托回到原始链接的可能性.
+	 * <p>如果未装饰的NavigationHandler指定为构造函数参数, 则此实例是链中的最后一个元素.
+	 * 因此, 此方法将调用传递给此方法的原始NavigationHandler.
+	 * 如果没有传入原始的NavigationHandler (例如, 如果此实例是链中的最后一个元素,
+	 * 标准NavigationHandlers作为早期元素), 则此方法对应于无操作.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * @param fromAction 已评估的动作绑定表达式, 用于检索指定的结果, 或{@code null} 如果结果是通过其他方式获取的
+	 * @param outcome 先前调用的应用程序操作返回的逻辑结果 (可能是{@code null})
+	 * @param originalNavigationHandler 原始的NavigationHandler, 或{@code null}
 	 */
 	protected final void callNextHandlerInChain(
 			FacesContext facesContext, String fromAction, String outcome, NavigationHandler originalNavigationHandler) {
@@ -111,20 +86,20 @@ public abstract class DecoratingNavigationHandler extends NavigationHandler {
 		NavigationHandler decoratedNavigationHandler = getDecoratedNavigationHandler();
 
 		if (decoratedNavigationHandler instanceof DecoratingNavigationHandler) {
-			// DecoratingNavigationHandler specified through constructor argument:
-			// Call it with original NavigationHandler passed in.
+			// 通过构造函数参数指定的DecoratingNavigationHandler:
+			// 使用传入的原始NavigationHandler调用它.
 			DecoratingNavigationHandler decHandler = (DecoratingNavigationHandler) decoratedNavigationHandler;
 			decHandler.handleNavigation(facesContext, fromAction, outcome, originalNavigationHandler);
 		}
 		else if (decoratedNavigationHandler != null) {
-			// Standard NavigationHandler specified through constructor argument:
-			// Call it through standard API, without original NavigationHandler passed in.
-			// The called handler will not be able to redirect to the original handler.
+			// 通过构造函数参数指定的标准NavigationHandler:
+			// 通过标准API调用它, 而不传入原始的NavigationHandler.
+			// 被调用的处理器将无法重定向到原始处理器.
 			decoratedNavigationHandler.handleNavigation(facesContext, fromAction, outcome);
 		}
 		else if (originalNavigationHandler != null) {
-			// No NavigationHandler specified through constructor argument:
-			// Call original handler, marking the end of this chain.
+			// 没有通过构造函数参数指定的NavigationHandler:
+			// 调用原始处理器, 标记此链的末尾.
 			originalNavigationHandler.handleNavigation(facesContext, fromAction, outcome);
 		}
 	}

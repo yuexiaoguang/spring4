@@ -1,27 +1,16 @@
 package org.springframework.http.converter;
 
 /**
- * Thrown by {@link HttpMessageConverter} implementations when the
- * {@link HttpMessageConverter#read} method fails.
+ * 当{@link HttpMessageConverter#read}方法失败时, 由{@link HttpMessageConverter}实现抛出.
  */
 @SuppressWarnings("serial")
 public class HttpMessageNotReadableException extends HttpMessageConversionException {
 
-	/**
-	 * Create a new HttpMessageNotReadableException.
-	 * @param msg the detail message
-	 */
 	public HttpMessageNotReadableException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Create a new HttpMessageNotReadableException.
-	 * @param msg the detail message
-	 * @param cause the root cause (if any)
-	 */
 	public HttpMessageNotReadableException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
-
 }

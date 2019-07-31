@@ -1,25 +1,15 @@
 package org.springframework.http.converter;
 
 /**
- * Thrown by {@link HttpMessageConverter} implementations when the
- * {@link HttpMessageConverter#write} method fails.
+ * 当{@link HttpMessageConverter#write}方法失败时, 由{@link HttpMessageConverter}实现抛出.
  */
 @SuppressWarnings("serial")
 public class HttpMessageNotWritableException extends HttpMessageConversionException {
 
-	/**
-	 * Create a new HttpMessageNotWritableException.
-	 * @param msg the detail message
-	 */
 	public HttpMessageNotWritableException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Create a new HttpMessageNotWritableException.
-	 * @param msg the detail message
-	 * @param cause the root cause (if any)
-	 */
 	public HttpMessageNotWritableException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

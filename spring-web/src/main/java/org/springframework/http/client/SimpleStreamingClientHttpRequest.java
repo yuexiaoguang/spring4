@@ -11,8 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpRequest} implementation that uses standard JDK facilities to
- * execute streaming requests. Created via the {@link SimpleClientHttpRequestFactory}.
+ * {@link ClientHttpRequest}实现, 它使用标准JDK工具来执行流请求.
+ * 通过{@link SimpleClientHttpRequestFactory}创建.
  */
 final class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest {
 
@@ -74,7 +74,7 @@ final class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest {
 			else {
 				SimpleBufferingClientHttpRequest.addHeaders(this.connection, headers);
 				this.connection.connect();
-				// Immediately trigger the request in a no-output scenario as well
+				// 在无输出场景中立即触发请求
 				this.connection.getResponseCode();
 			}
 		}

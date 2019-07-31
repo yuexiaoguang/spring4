@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 import org.springframework.http.HttpHeaders;
 
 /**
- * Common base class for exceptions that contain actual HTTP response data.
+ * 包含实际HTTP响应数据的异常的公共基类.
  */
 public class RestClientResponseException extends RestClientException {
 
@@ -27,12 +27,11 @@ public class RestClientResponseException extends RestClientException {
 
 
 	/**
-	 * Construct a new instance of with the given response data.
-	 * @param statusCode the raw status code value
-	 * @param statusText the status text
-	 * @param responseHeaders the response headers (may be {@code null})
-	 * @param responseBody the response body content (may be {@code null})
-	 * @param responseCharset the response body charset (may be {@code null})
+	 * @param statusCode 原始状态码值
+	 * @param statusText 状态文本
+	 * @param responseHeaders 响应header (may be {@code null})
+	 * @param responseBody 响应主体内容 (may be {@code null})
+	 * @param responseCharset 响应主体字符集 (may be {@code null})
 	 */
 	public RestClientResponseException(String message, int statusCode, String statusText,
 			HttpHeaders responseHeaders, byte[] responseBody, Charset responseCharset) {
@@ -47,35 +46,35 @@ public class RestClientResponseException extends RestClientException {
 
 
 	/**
-	 * Return the raw HTTP status code value.
+	 * 返回原始HTTP状态码值.
 	 */
 	public int getRawStatusCode() {
 		return this.rawStatusCode;
 	}
 
 	/**
-	 * Return the HTTP status text.
+	 * 返回HTTP状态文本.
 	 */
 	public String getStatusText() {
 		return this.statusText;
 	}
 
 	/**
-	 * Return the HTTP response headers.
+	 * 返回HTTP响应 header.
 	 */
 	public HttpHeaders getResponseHeaders() {
 		return this.responseHeaders;
 	}
 
 	/**
-	 * Return the response body as a byte array.
+	 * 返回响应主体.
 	 */
 	public byte[] getResponseBodyAsByteArray() {
 		return this.responseBody;
 	}
 
 	/**
-	 * Return the response body as a string.
+	 * 返回响应主体.
 	 */
 	public String getResponseBodyAsString() {
 		try {

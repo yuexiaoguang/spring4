@@ -1,37 +1,34 @@
 package org.springframework.http.server;
 
 /**
- * A control that can put the processing of an HTTP request in asynchronous mode during
- * which the response remains open until explicitly closed.
+ * 一种控件, 可以将HTTP请求的处理置于异步模式, 在此期间响应保持打开状态直到显式关闭.
  */
 public interface ServerHttpAsyncRequestControl {
 
 	/**
-	 * Enable asynchronous processing after which the response remains open until a call
-	 * to {@link #complete()} is made or the server times out the request. Once enabled,
-	 * additional calls to this method are ignored.
+	 * 启用异步处理, 之后响应保持打开状态, 直到调用{@link #complete()}或服务器超时请求.
+	 * 启用后, 将忽略对此方法的其他调用.
 	 */
 	void start();
 
 	/**
-	 * A variation on {@link #start()} that allows specifying a timeout value to use to
-	 * use for asynchronous processing. If {@link #complete()} is not called within the
-	 * specified value, the request times out.
+	 * {@link #start()}的变体, 允许指定用于异步处理的超时值.
+	 * 如果未在指定值内调用{@link #complete()}, 则请求超时.
 	 */
 	void start(long timeout);
 
 	/**
-	 * Return whether asynchronous request processing has been started.
+	 * 返回是否已启动异步请求处理.
 	 */
 	boolean isStarted();
 
 	/**
-	 * Mark asynchronous request processing as completed.
+	 * 将异步请求处理标记为已完成.
 	 */
 	void complete();
 
 	/**
-	 * Return whether asynchronous request processing has been completed.
+	 * 返回异步请求处理是否已完成.
 	 */
 	boolean isCompleted();
 

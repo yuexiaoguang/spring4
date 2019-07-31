@@ -8,8 +8,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves a {@link SessionStatus} argument by obtaining it from
- * the {@link ModelAndViewContainer}.
+ * 通过从{@link ModelAndViewContainer}获取{@link SessionStatus}参数来解析它.
  */
 public class SessionStatusMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

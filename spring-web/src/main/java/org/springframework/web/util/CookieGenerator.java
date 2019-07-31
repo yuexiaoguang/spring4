@@ -9,17 +9,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
- * Helper class for cookie generation, carrying cookie descriptor settings
- * as bean properties and being able to add and remove cookie to/from a
- * given response.
+ * 用于生成cookie的Helper类, 将cookie描述符设置作为bean属性, 并能够在给定响应中添加和删除cookie.
  *
- * <p>Can serve as base class for components that generate specific cookies,
- * such as CookieLocaleResolver and CookieThemeResolver.
+ * <p>可以作为生成特定cookie的组件的基类, 例如 CookieLocaleResolver 和 CookieThemeResolver.
  */
 public class CookieGenerator {
 
 	/**
-	 * Default path that cookies will be visible to: "/", i.e. the entire server.
+	 * Cookie可见的默认路径: "/", i.e. 整个服务器.
 	 */
 	public static final String DEFAULT_COOKIE_PATH = "/";
 
@@ -40,100 +37,91 @@ public class CookieGenerator {
 
 
 	/**
-	 * Use the given name for cookies created by this generator.
-	 * @see javax.servlet.http.Cookie#getName()
+	 * 使用此生成器创建的cookie的给定名称.
 	 */
 	public void setCookieName(String cookieName) {
 		this.cookieName = cookieName;
 	}
 
 	/**
-	 * Return the given name for cookies created by this generator.
+	 * 返回此生成器创建的cookie的给定名称.
 	 */
 	public String getCookieName() {
 		return this.cookieName;
 	}
 
 	/**
-	 * Use the given domain for cookies created by this generator.
-	 * The cookie is only visible to servers in this domain.
-	 * @see javax.servlet.http.Cookie#setDomain
+	 * 将给定域用于此生成器创建的cookie.
+	 * 该cookie仅对此域中的服务器可见.
 	 */
 	public void setCookieDomain(String cookieDomain) {
 		this.cookieDomain = cookieDomain;
 	}
 
 	/**
-	 * Return the domain for cookies created by this generator, if any.
+	 * 返回此生成器创建的cookie的域.
 	 */
 	public String getCookieDomain() {
 		return this.cookieDomain;
 	}
 
 	/**
-	 * Use the given path for cookies created by this generator.
-	 * The cookie is only visible to URLs in this path and below.
-	 * @see javax.servlet.http.Cookie#setPath
+	 * 使用此生成器创建的cookie的给定路径.
+	 * 该Cookie仅对此路径及以下的URL可见.
 	 */
 	public void setCookiePath(String cookiePath) {
 		this.cookiePath = cookiePath;
 	}
 
 	/**
-	 * Return the path for cookies created by this generator.
+	 * 返回此生成器创建的cookie的路径.
 	 */
 	public String getCookiePath() {
 		return this.cookiePath;
 	}
 
 	/**
-	 * Use the given maximum age (in seconds) for cookies created by this generator.
-	 * Useful special value: -1 ... not persistent, deleted when client shuts down.
-	 * <p>Default is no specific maximum age at all, using the Servlet container's
-	 * default.
-	 * @see javax.servlet.http.Cookie#setMaxAge
+	 * 使用此生成器创建的cookie的给定最大有效期 (以秒为单位).
+	 * 有用的特殊值: -1 ... 不持久化, 在客户端关闭时删除.
+	 * <p>默认情况下, 使用Servlet容器的默认值, 根本没有特定的最大有效期.
 	 */
 	public void setCookieMaxAge(Integer cookieMaxAge) {
 		this.cookieMaxAge = cookieMaxAge;
 	}
 
 	/**
-	 * Return the maximum age for cookies created by this generator.
+	 * 返回此生成器创建的cookie的最大有效期.
 	 */
 	public Integer getCookieMaxAge() {
 		return this.cookieMaxAge;
 	}
 
 	/**
-	 * Set whether the cookie should only be sent using a secure protocol,
-	 * such as HTTPS (SSL). This is an indication to the receiving browser,
-	 * not processed by the HTTP server itself.
-	 * <p>Default is "false".
-	 * @see javax.servlet.http.Cookie#setSecure
+	 * 设置是否应仅使用安全协议发送cookie, 例如HTTPS (SSL).
+	 * 这是对接收浏览器的指示, 不是由HTTP服务器本身处理的.
+	 * <p>默认 "false".
 	 */
 	public void setCookieSecure(boolean cookieSecure) {
 		this.cookieSecure = cookieSecure;
 	}
 
 	/**
-	 * Return whether the cookie should only be sent using a secure protocol,
-	 * such as HTTPS (SSL).
+	 * 返回是否应仅使用安全协议, 例如 HTTPS (SSL)发送cookie.
 	 */
 	public boolean isCookieSecure() {
 		return this.cookieSecure;
 	}
 
 	/**
-	 * Set whether the cookie is supposed to be marked with the "HttpOnly" attribute.
-	 * <p>Default is "false".
-	 * @see javax.servlet.http.Cookie#setHttpOnly
+	 * 设置是否应该使用"HttpOnly"属性标记cookie.
+	 * <p>默认 "false".
 	 */
 	public void setCookieHttpOnly(boolean cookieHttpOnly) {
 		this.cookieHttpOnly = cookieHttpOnly;
 	}
 
 	/**
-	 * Return whether the cookie is supposed to be marked with the "HttpOnly" attribute.
+	 * 返回cookie是否应标记为 "HttpOnly"属性.
 	 */
 	public boolean isCookieHttpOnly() {
 		return this.cookieHttpOnly;
@@ -141,15 +129,11 @@ public class CookieGenerator {
 
 
 	/**
-	 * Add a cookie with the given value to the response,
-	 * using the cookie descriptor settings of this generator.
-	 * <p>Delegates to {@link #createCookie} for cookie creation.
-	 * @param response the HTTP response to add the cookie to
-	 * @param cookieValue the value of the cookie to add
-	 * @see #setCookieName
-	 * @see #setCookieDomain
-	 * @see #setCookiePath
-	 * @see #setCookieMaxAge
+	 * 用此生成器的cookie描述符设置, 将具有给定值的cookie添加到响应中.
+	 * <p>委托给{@link #createCookie}进行cookie创建.
+	 * 
+	 * @param response 用于添加cookie的HTTP响应
+	 * @param cookieValue 要添加的cookie的值
 	 */
 	public void addCookie(HttpServletResponse response, String cookieValue) {
 		Assert.notNull(response, "HttpServletResponse must not be null");
@@ -171,13 +155,11 @@ public class CookieGenerator {
 	}
 
 	/**
-	 * Remove the cookie that this generator describes from the response.
-	 * Will generate a cookie with empty value and max age 0.
-	 * <p>Delegates to {@link #createCookie} for cookie creation.
-	 * @param response the HTTP response to remove the cookie from
-	 * @see #setCookieName
-	 * @see #setCookieDomain
-	 * @see #setCookiePath
+	 * 从响应中删除此生成器描述的cookie.
+	 * 将生成一个空值和最大有效期为0的cookie.
+	 * <p>委托给{@link #createCookie}创建 cookie.
+	 * 
+	 * @param response 从中删除cookie的HTTP响应
 	 */
 	public void removeCookie(HttpServletResponse response) {
 		Assert.notNull(response, "HttpServletResponse must not be null");
@@ -196,13 +178,11 @@ public class CookieGenerator {
 	}
 
 	/**
-	 * Create a cookie with the given value, using the cookie descriptor
-	 * settings of this generator (except for "cookieMaxAge").
-	 * @param cookieValue the value of the cookie to crate
-	 * @return the cookie
-	 * @see #setCookieName
-	 * @see #setCookieDomain
-	 * @see #setCookiePath
+	 * 使用此生成器的cookie描述符设置创建具有给定值的cookie (除了"cookieMaxAge").
+	 * 
+	 * @param cookieValue 要创建的cookie的值
+	 * 
+	 * @return cookie
 	 */
 	protected Cookie createCookie(String cookieValue) {
 		Cookie cookie = new Cookie(getCookieName(), cookieValue);

@@ -6,14 +6,11 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * {@link FactoryBean} that retrieves a specific ServletContext init parameter
- * (that is, a "context-param" defined in {@code web.xml}).
- * Exposes that ServletContext init parameter when used as bean reference,
- * effectively making it available as named Spring bean instance.
+ * 检索特定的ServletContext init参数的{@link FactoryBean} (即{@code web.xml}中定义的"context-param").
+ * 在用作bean引用时公开ServletContext init参数, 有效地使其可用作命名的Spring bean实例.
  *
- * <p><b>NOTE:</b> As of Spring 3.0, you may also use the "contextParameters" default
- * bean which is of type Map, and dereference it using an "#{contextParameters.myKey}"
- * expression to access a specific parameter by name.
+ * <p><b>NOTE:</b> 从Spring 3.0开始, 还可以使用Map类型的"contextParameters"默认bean,
+ * 并使用"#{contextParameters.myKey}"表达式取消引用它, 以按名称访问特定参数.
  */
 public class ServletContextParameterFactoryBean implements FactoryBean<String>, ServletContextAware {
 
@@ -23,7 +20,7 @@ public class ServletContextParameterFactoryBean implements FactoryBean<String>, 
 
 
 	/**
-	 * Set the name of the ServletContext init parameter to expose.
+	 * 设置要公开的ServletContext init参数的名称.
 	 */
 	public void setInitParamName(String initParamName) {
 		this.initParamName = initParamName;

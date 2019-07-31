@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * A {@code ContentNegotiationStrategy} that returns a fixed content type.
+ * 返回一个固定的内容类型的{@code ContentNegotiationStrategy}.
  */
 public class FixedContentNegotiationStrategy implements ContentNegotiationStrategy {
 
@@ -19,9 +19,6 @@ public class FixedContentNegotiationStrategy implements ContentNegotiationStrate
 	private final List<MediaType> contentType;
 
 
-	/**
-	 * Create an instance with the given content type.
-	 */
 	public FixedContentNegotiationStrategy(MediaType contentType) {
 		this.contentType = Collections.singletonList(contentType);
 	}

@@ -10,9 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
 /**
- * {@link ClientHttpRequest} implementation based on OkHttp 2.x.
+ * 基于OkHttp 2.x的{@link ClientHttpRequest}实现.
  *
- * <p>Created via the {@link OkHttpClientHttpRequestFactory}.
+ * <p>通过{@link OkHttpClientHttpRequestFactory}创建.
  */
 class OkHttpClientHttpRequest extends AbstractBufferingClientHttpRequest {
 

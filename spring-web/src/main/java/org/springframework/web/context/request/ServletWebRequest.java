@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link WebRequest} adapter for an {@link javax.servlet.http.HttpServletRequest}.
+ * {@link WebRequest}适配器, 用于{@link javax.servlet.http.HttpServletRequest}.
  */
 public class ServletWebRequest extends ServletRequestAttributes implements NativeWebRequest {
 
@@ -42,12 +42,12 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 	private static final List<String> SAFE_METHODS = Arrays.asList("GET", "HEAD");
 
 	/**
-	 * Pattern matching ETag multiple field values in headers such as "If-Match", "If-None-Match"
+	 * 模式匹配header中的ETag多个字段值, 例如"If-Match", "If-None-Match"
 	 */
 	private static final Pattern ETAG_HEADER_VALUE_PATTERN = Pattern.compile("\\*|\\s*((W\\/)?(\"[^\"]*\"))\\s*,?");
 
 	/**
-	 * Date formats as specified in the HTTP RFC
+	 * HTTP RFC中指定的日期格式
 	 */
 	private static final String[] DATE_FORMATS = new String[] {
 			"EEE, dd MMM yyyy HH:mm:ss zzz",
@@ -57,7 +57,7 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 
 	private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
-	/** Checking for Servlet 3.0+ HttpServletResponse.getHeader(String) */
+	/** 检查Servlet 3.0+ HttpServletResponse.getHeader(String) */
 	private static final boolean servlet3Present =
 			ClassUtils.hasMethod(HttpServletResponse.class, "getHeader", String.class);
 
@@ -65,17 +65,15 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 
 
 	/**
-	 * Create a new ServletWebRequest instance for the given request.
-	 * @param request current HTTP request
+	 * @param request 当前的HTTP请求
 	 */
 	public ServletWebRequest(HttpServletRequest request) {
 		super(request);
 	}
 
 	/**
-	 * Create a new ServletWebRequest instance for the given request/response pair.
-	 * @param request current HTTP request
-	 * @param response current HTTP response (for automatic last-modified handling)
+	 * @param request 当前的HTTP请求
+	 * @param response 当前HTTP响应 (用于自动 last-modified处理)
 	 */
 	public ServletWebRequest(HttpServletRequest request, HttpServletResponse response) {
 		super(request, response);
@@ -102,10 +100,6 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		return WebUtils.getNativeResponse(getResponse(), requiredType);
 	}
 
-	/**
-	 * Return the HTTP method of the request.
-	 * @since 4.0.2
-	 */
 	public HttpMethod getHttpMethod() {
 		return HttpMethod.resolve(getRequest().getMethod());
 	}
@@ -341,8 +335,8 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 			return -1;
 		}
 		if (headerValue.length() >= 3) {
-			// Short "0" or "-1" like values are never valid HTTP date headers...
-			// Let's only bother with SimpleDateFormat parsing for long enough values.
+			// "0"或"-1"之类的值永远不会是有效的HTTP日期header...
+			// SimpleDateFormat解析足够长的值.
 			for (String dateFormat : DATE_FORMATS) {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
 				simpleDateFormat.setTimeZone(GMT);

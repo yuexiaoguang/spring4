@@ -4,27 +4,22 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * {@link FactoryBean} for HTTP invoker proxies. Exposes the proxied service
- * for use as a bean reference, using the specified service interface.
+ * 用于HTTP调用器代理的{@link FactoryBean}. 使用指定的服务接口公开代理服务以用作bean引用.
  *
- * <p>The service URL must be an HTTP URL exposing an HTTP invoker service.
- * Optionally, a codebase URL can be specified for on-demand dynamic code download
- * from a remote location. For details, see HttpInvokerClientInterceptor docs.
+ * <p>服务URL必须是公开HTTP调用器服务的HTTP URL.
+ * 可选地, 可以指定代码库URL以从远程位置按需动态下载代码. 有关详细信息, 请参阅HttpInvokerClientInterceptor docs.
  *
- * <p>Serializes remote invocation objects and deserializes remote invocation
- * result objects. Uses Java serialization just like RMI, but provides the
- * same ease of setup as Caucho's HTTP-based Hessian and Burlap protocols.
+ * <p>序列化远程调用对象并反序列化远程调用结果对象.
+ * 像RMI一样使用Java序列化, 但提供与Caucho基于HTTP的Hessian和Burlap协议相同的易用性设置.
  *
- * <p><b>HTTP invoker is the recommended protocol for Java-to-Java remoting.</b>
- * It is more powerful and more extensible than Hessian and Burlap, at the
- * expense of being tied to Java. Nevertheless, it is as easy to set up as
- * Hessian and Burlap, which is its main advantage compared to RMI.
+ * <p><b>HTTP调用器是Java-to-Java远程处理的推荐协议.</b>
+ * 它比Hessian和Burlap更强大, 更具扩展性, 但却牺牲了与Java的联系.
+ * 然而, 它与Hessian和Burlap一样容易设置, 这是它与RMI相比的主要优势.
  *
- * <p><b>WARNING: Be aware of vulnerabilities due to unsafe Java deserialization:
- * Manipulated input streams could lead to unwanted code execution on the server
- * during the deserialization step. As a consequence, do not expose HTTP invoker
- * endpoints to untrusted clients but rather just between your own services.</b>
- * In general, we strongly recommend any other message format (e.g. JSON) instead.
+ * <p><b>WARNING: 请注意由于不安全的Java反序列化导致的漏洞:
+ * 在反序列化步骤中, 操作的输入流可能导致服务器上不需要的代码执行.
+ * 因此, 不要将HTTP调用器端点暴露给不受信任的客户端, 而只是在自己的服务之间.</b>
+ * 通常, 强烈建议使用任何其他消息格式 (e.g. JSON).
  */
 public class HttpInvokerProxyFactoryBean extends HttpInvokerClientInterceptor implements FactoryBean<Object> {
 

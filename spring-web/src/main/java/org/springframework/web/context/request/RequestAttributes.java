@@ -1,127 +1,120 @@
 package org.springframework.web.context.request;
 
 /**
- * Abstraction for accessing attribute objects associated with a request.
- * Supports access to request-scoped attributes as well as to session-scoped
- * attributes, with the optional notion of a "global session".
+ * 用于访问与请求关联的属性对象的抽象.
+ * 支持访问请求范围的属性以及会话范围的属性, 具有"全局会话"的可选概念.
  *
- * <p>Can be implemented for any kind of request/session mechanism,
- * in particular for servlet requests and portlet requests.
+ * <p>可以为任何类型的请求/会话机制实现, 特别是对于servlet请求和portlet请求.
  */
 public interface RequestAttributes {
 
 	/**
-	 * Constant that indicates request scope.
+	 * 表示请求范围的常量.
 	 */
 	int SCOPE_REQUEST = 0;
 
 	/**
-	 * Constant that indicates session scope.
-	 * <p>This preferably refers to a locally isolated session, if such
-	 * a distinction is available (for example, in a Portlet environment).
-	 * Else, it simply refers to the common session.
+	 * 表示会话范围的常量.
+	 * <p>如果可以区分, 则优选地指本地隔离的会话 (例如, 在Portlet环境中).
+	 * 否则, 它只是指普通会话.
 	 */
 	int SCOPE_SESSION = 1;
 
 	/**
-	 * Constant that indicates global session scope.
-	 * <p>This explicitly refers to a globally shared session, if such
-	 * a distinction is available (for example, in a Portlet environment).
-	 * Else, it simply refers to the common session.
+	 * 指示全局会话范围的常量.
+	 * <p>如果可以使用此区别(例如, 在Portlet环境中), 则显式引用全局共享会话.
+	 * 否则, 它只是指普通会话.
 	 */
 	int SCOPE_GLOBAL_SESSION = 2;
 
 
 	/**
-	 * Name of the standard reference to the request object: "request".
-	 * @see #resolveReference
+	 * 请求对象的标准引用的名称: "request".
 	 */
 	String REFERENCE_REQUEST = "request";
 
 	/**
-	 * Name of the standard reference to the session object: "session".
-	 * @see #resolveReference
+	 * 会话对象的标准引用的名称: "session".
 	 */
 	String REFERENCE_SESSION = "session";
 
 
 	/**
-	 * Return the value for the scoped attribute of the given name, if any.
-	 * @param name the name of the attribute
-	 * @param scope the scope identifier
-	 * @return the current attribute value, or {@code null} if not found
+	 * 返回给定名称的scoped属性的值.
+	 * 
+	 * @param name 属性的名称
+	 * @param scope 范围标识符
+	 * 
+	 * @return 当前属性值, 或{@code null}
 	 */
 	Object getAttribute(String name, int scope);
 
 	/**
-	 * Set the value for the scoped attribute of the given name,
-	 * replacing an existing value (if any).
-	 * @param name the name of the attribute
-	 * @param scope the scope identifier
-	 * @param value the value for the attribute
+	 * 设置给定名称的scoped属性的值, 替换现有值.
+	 * 
+	 * @param name 属性的名称
+	 * @param scope 范围标识符
+	 * @param value 属性值
 	 */
 	void setAttribute(String name, Object value, int scope);
 
 	/**
-	 * Remove the scoped attribute of the given name, if it exists.
-	 * <p>Note that an implementation should also remove a registered destruction
-	 * callback for the specified attribute, if any. It does, however, <i>not</i>
-	 * need to <i>execute</i> a registered destruction callback in this case,
-	 * since the object will be destroyed by the caller (if appropriate).
-	 * @param name the name of the attribute
-	 * @param scope the scope identifier
+	 * 删除给定名称的scoped属性.
+	 * <p>请注意, 实现还应删除指定属性的已注册销毁回调.
+	 * 但是, 在这种情况下, 它确实<i>不</i>需要<i>执行</i>已注册的销毁回调, 因为对象将被调用者销毁.
+	 * 
+	 * @param name 属性的名称
+	 * @param scope 范围标识符
 	 */
 	void removeAttribute(String name, int scope);
 
 	/**
-	 * Retrieve the names of all attributes in the scope.
-	 * @param scope the scope identifier
-	 * @return the attribute names as String array
+	 * 检索范围中所有属性的名称.
+	 * 
+	 * @param scope 范围标识符
+	 * 
+	 * @return 属性名称
 	 */
 	String[] getAttributeNames(int scope);
 
 	/**
-	 * Register a callback to be executed on destruction of the
-	 * specified attribute in the given scope.
-	 * <p>Implementations should do their best to execute the callback
-	 * at the appropriate time: that is, at request completion or session
-	 * termination, respectively. If such a callback is not supported by the
-	 * underlying runtime environment, the callback <i>must be ignored</i>
-	 * and a corresponding warning should be logged.
-	 * <p>Note that 'destruction' usually corresponds to destruction of the
-	 * entire scope, not to the individual attribute having been explicitly
-	 * removed by the application. If an attribute gets removed via this
-	 * facade's {@link #removeAttribute(String, int)} method, any registered
-	 * destruction callback should be disabled as well, assuming that the
-	 * removed object will be reused or manually destroyed.
-	 * <p><b>NOTE:</b> Callback objects should generally be serializable if
-	 * they are being registered for a session scope. Otherwise the callback
-	 * (or even the entire session) might not survive web app restarts.
-	 * @param name the name of the attribute to register the callback for
-	 * @param callback the destruction callback to be executed
-	 * @param scope the scope identifier
+	 * 注册要在销毁给定范围内的指定属性时执行的回调.
+	 * <p>实现应该尽力在适当的时候执行回调:
+	 * 也就是说, 分别在请求完成或会话终止时.
+	 * 如果底层运行时环境不支持这样的回调, 则必须<i>忽略</i>回调, 并记录相应的警告.
+	 * <p>请注意, '销毁'通常对应于整个范围的销毁, 而不是应用程序已明确删除的单个属性.
+	 * 如果通过此facade的{@link #removeAttribute(String, int)}方法删除属性, 则应禁用任何已注册的销毁回调,
+	 * 假设已删除的对象将被重用或手动销毁.
+	 * <p><b>NOTE:</b> 如果要为会话范围注册回调对象, 则它们通常应该是可序列化的.
+	 * 否则, 回调(甚至整个会话)可能无法在Web应用程序重新启动后继续存在.
+	 * 
+	 * @param name 注册回调的属性的名称
+	 * @param callback 要执行的销毁回调
+	 * @param scope 范围标识符
 	 */
 	void registerDestructionCallback(String name, Runnable callback, int scope);
 
 	/**
-	 * Resolve the contextual reference for the given key, if any.
-	 * <p>At a minimum: the HttpServletRequest/PortletRequest reference for key
-	 * "request", and the HttpSession/PortletSession reference for key "session".
-	 * @param key the contextual key
-	 * @return the corresponding object, or {@code null} if none found
+	 * 解析给定键的上下文引用.
+	 * <p>至少: 键"request"的 HttpServletRequest/PortletRequest引用, 以及键"session"的HttpSession/PortletSession引用.
+	 * 
+	 * @param key 上下文键
+	 * 
+	 * @return 相应的对象, 或{@code null}
 	 */
 	Object resolveReference(String key);
 
 	/**
-	 * Return an id for the current underlying session.
-	 * @return the session id as String (never {@code null})
+	 * 返回当前底层会话的id.
+	 * 
+	 * @return 会话的id (never {@code null})
 	 */
 	String getSessionId();
 
 	/**
-	 * Expose the best available mutex for the underlying session:
-	 * that is, an object to synchronize on for the underlying session.
-	 * @return the session mutex to use (never {@code null})
+	 * 为底层会话公开最佳可用互斥锁: 即, 用于底层会话同步的对象.
+	 * 
+	 * @return 要使用的会话互斥锁(never {@code null})
 	 */
 	Object getSessionMutex();
 

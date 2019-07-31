@@ -69,13 +69,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 /**
- * Support class for invoking an annotated handler method. Operates on the introspection
- * results of a {@link HandlerMethodResolver} for a specific handler type.
+ * 用于调用带注解的处理器方法的支持类. 对特定处理器类型的{@link HandlerMethodResolver}的内省结果进行操作.
  *
  * <p>Used by {@link org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter}
  * and {@link org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter}.
  *
- * @deprecated as of 4.3, in favor of the {@code HandlerMethod}-based MVC infrastructure
+ * @deprecated 从4.3开始, 支持基于{@code HandlerMethod}的MVC基础结构
  */
 @Deprecated
 public class HandlerMethodInvoker {

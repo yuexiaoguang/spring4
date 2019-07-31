@@ -11,10 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpResponse} implementation based on
- * Apache HttpComponents HttpAsyncClient.
+ * {@link ClientHttpResponse}实现, 基于Apache HttpComponents HttpAsyncClient.
  *
- * <p>Created via the {@link HttpComponentsAsyncClientHttpRequest}.
+ * <p>通过{@link HttpComponentsAsyncClientHttpRequest}创建.
  */
 final class HttpComponentsAsyncClientHttpResponse extends AbstractClientHttpResponse {
 
@@ -57,8 +56,7 @@ final class HttpComponentsAsyncClientHttpResponse extends AbstractClientHttpResp
 
 	@Override
 	public void close() {
-        // HTTP responses returned by async HTTP client are not bound to an
-        // active connection and do not have to deallocate any resources...
+        // 异步HTTP客户端返回的HTTP响应未绑定到活动连接, 并且不必释放任何资源...
 	}
 
 }

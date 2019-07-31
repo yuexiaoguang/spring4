@@ -10,18 +10,18 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * Spring's default implementation of the {@link ResponseErrorHandler} interface.
+ * {@link ResponseErrorHandler}接口的Spring的默认实现.
  *
- * <p>This error handler checks for the status code on the {@link ClientHttpResponse}:
- * Any code with series {@link org.springframework.http.HttpStatus.Series#CLIENT_ERROR}
- * or {@link org.springframework.http.HttpStatus.Series#SERVER_ERROR} is considered to be
- * an error; this behavior can be changed by overriding the {@link #hasError(HttpStatus)}
- * method. Unknown status codes will be ignored by {@link #hasError(ClientHttpResponse)}.
+ * <p>此错误处理器检查{@link ClientHttpResponse}上的状态码:
+ * 任何具有{@link org.springframework.http.HttpStatus.Series#CLIENT_ERROR}
+ * 或{@link org.springframework.http.HttpStatus.Series#SERVER_ERROR}系列的代码都被视为错误;
+ * 可以通过覆盖{@link #hasError(HttpStatus)}方法来更改此行为.
+ * {@link #hasError(ClientHttpResponse)}将忽略未知状态码.
  */
 public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
 	/**
-	 * Delegates to {@link #hasError(HttpStatus)} with the response status code.
+	 * 使用响应状态码委托给{@link #hasError(HttpStatus)}.
 	 */
 	@Override
 	public boolean hasError(ClientHttpResponse response) throws IOException {
@@ -35,14 +35,15 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	}
 
 	/**
-	 * Template method called from {@link #hasError(ClientHttpResponse)}.
-	 * <p>The default implementation checks if the given status code is
-	 * {@link HttpStatus.Series#CLIENT_ERROR CLIENT_ERROR} or
-	 * {@link HttpStatus.Series#SERVER_ERROR SERVER_ERROR}.
-	 * Can be overridden in subclasses.
-	 * @param statusCode the HTTP status code
-	 * @return {@code true} if the response has an error; {@code false} otherwise
-	 * @see #getHttpStatusCode(ClientHttpResponse)
+	 * 从{@link #hasError(ClientHttpResponse)}调用的模板方法.
+	 * <p>默认实现检查给定的状态码是否为
+	 * {@link HttpStatus.Series#CLIENT_ERROR CLIENT_ERROR}
+	 * 或{@link HttpStatus.Series#SERVER_ERROR SERVER_ERROR}.
+	 * 可以在子类中重写.
+	 * 
+	 * @param statusCode HTTP状态码
+	 * 
+	 * @return {@code true} 如果响应有错误; 否则{@code false}
 	 */
 	protected boolean hasError(HttpStatus statusCode) {
 		return (statusCode.series() == HttpStatus.Series.CLIENT_ERROR ||
@@ -50,10 +51,11 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	}
 
 	/**
-	 * This default implementation throws a {@link HttpClientErrorException} if the response status code
-	 * is {@link org.springframework.http.HttpStatus.Series#CLIENT_ERROR}, a {@link HttpServerErrorException}
-	 * if it is {@link org.springframework.http.HttpStatus.Series#SERVER_ERROR},
-	 * and a {@link RestClientException} in other cases.
+	 * 如果响应状态代码是{@link org.springframework.http.HttpStatus.Series#CLIENT_ERROR},
+	 * 则此默认实现抛出{@link HttpClientErrorException},
+	 * 如果是{@link org.springframework.http.HttpStatus.Series#SERVER_ERROR},
+	 * 则抛出{@link HttpServerErrorException},
+	 * 在其他情况下抛出{@link RestClientException}.
 	 */
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {
@@ -73,14 +75,14 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
 
 	/**
-	 * Determine the HTTP status of the given response.
-	 * <p>Note: Only called from {@link #handleError}, not from {@link #hasError}.
-	 * @param response the response to inspect
-	 * @return the associated HTTP status
-	 * @throws IOException in case of I/O errors
-	 * @throws UnknownHttpStatusCodeException in case of an unknown status code
-	 * that cannot be represented with the {@link HttpStatus} enum
-	 * @since 4.3.8
+	 * 确定给定响应的HTTP状态.
+	 * <p>Note: 仅从{@link #handleError}调用, 而不是从{@link #hasError}调用.
+	 * 
+	 * @param response 要检查的响应
+	 * 
+	 * @return 关联的HTTP状态
+	 * @throws IOException
+	 * @throws UnknownHttpStatusCodeException 如果是未知状态码, 无法用{@link HttpStatus}枚举表示
 	 */
 	protected HttpStatus getHttpStatusCode(ClientHttpResponse response) throws IOException {
 		try {
@@ -93,11 +95,11 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	}
 
 	/**
-	 * Read the body of the given response (for inclusion in a status exception).
-	 * @param response the response to inspect
-	 * @return the response body as a byte array,
-	 * or an empty byte array if the body could not be read
-	 * @since 4.3.8
+	 * 读取给定响应的主体 (包含在状态异常中).
+	 * 
+	 * @param response 要检查的响应
+	 * 
+	 * @return 响应主体, 如果无法读取主体, 则为空字节数组
 	 */
 	protected byte[] getResponseBody(ClientHttpResponse response) {
 		try {
@@ -110,15 +112,15 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	}
 
 	/**
-	 * Determine the charset of the response (for inclusion in a status exception).
-	 * @param response the response to inspect
-	 * @return the associated charset, or {@code null} if none
-	 * @since 4.3.8
+	 * 确定响应的字符集 (包含在状态异常中).
+	 * 
+	 * @param response 要检查的响应
+	 * 
+	 * @return 关联的字符集, 或{@code null}
 	 */
 	protected Charset getCharset(ClientHttpResponse response) {
 		HttpHeaders headers = response.getHeaders();
 		MediaType contentType = headers.getContentType();
 		return (contentType != null ? contentType.getCharset() : null);
 	}
-
 }

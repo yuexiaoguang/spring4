@@ -16,14 +16,12 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.HandlerMethod;
 
 /**
- * Provides a method for invoking the handler method for a given request after resolving its
- * method argument values through registered {@link HandlerMethodArgumentResolver}s.
+ * 提供一种方法, 用于在通过已注册的{@link HandlerMethodArgumentResolver}解析其方法参数值后, 调用给定请求的处理器方法.
  *
- * <p>Argument resolution often requires a {@link WebDataBinder} for data binding or for type
- * conversion. Use the {@link #setDataBinderFactory(WebDataBinderFactory)} property to supply
- * a binder factory to pass to argument resolvers.
+ * <p>参数解析通常需要{@link WebDataBinder}来进行数据绑定或类型转换.
+ * 使用{@link #setDataBinderFactory(WebDataBinderFactory)}属性提供一个绑定工厂以传递给参数解析器.
  *
- * <p>Use {@link #setHandlerMethodArgumentResolvers} to customize the list of argument resolvers.
+ * <p>使用{@link #setHandlerMethodArgumentResolvers}自定义参数解析器列表.
  */
 public class InvocableHandlerMethod extends HandlerMethod {
 
@@ -34,26 +32,20 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
 
-	/**
-	 * Create an instance from a {@code HandlerMethod}.
-	 */
 	public InvocableHandlerMethod(HandlerMethod handlerMethod) {
 		super(handlerMethod);
 	}
 
-	/**
-	 * Create an instance from a bean instance and a method.
-	 */
 	public InvocableHandlerMethod(Object bean, Method method) {
 		super(bean, method);
 	}
 
 	/**
-	 * Construct a new handler method with the given bean instance, method name and parameters.
-	 * @param bean the object bean
-	 * @param methodName the method name
-	 * @param parameterTypes the method parameter types
-	 * @throws NoSuchMethodException when the method cannot be found
+	 * @param bean 对象bean
+	 * @param methodName 方法名称
+	 * @param parameterTypes 方法参数类型
+	 * 
+	 * @throws NoSuchMethodException 当无法找到方法时
 	 */
 	public InvocableHandlerMethod(Object bean, String methodName, Class<?>... parameterTypes)
 			throws NoSuchMethodException {
@@ -63,25 +55,24 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 
 	/**
-	 * Set the {@link WebDataBinderFactory} to be passed to argument resolvers allowing them to create
-	 * a {@link WebDataBinder} for data binding and type conversion purposes.
-	 * @param dataBinderFactory the data binder factory.
+	 * 设置要传递给参数解析器的{@link WebDataBinderFactory}, 允许创建{@link WebDataBinder}用于数据绑定和类型转换.
+	 * 
+	 * @param dataBinderFactory 数据绑定器工厂.
 	 */
 	public void setDataBinderFactory(WebDataBinderFactory dataBinderFactory) {
 		this.dataBinderFactory = dataBinderFactory;
 	}
 
 	/**
-	 * Set {@link HandlerMethodArgumentResolver}s to use to use for resolving method argument values.
+	 * 设置用于解析方法参数值的{@link HandlerMethodArgumentResolver}.
 	 */
 	public void setHandlerMethodArgumentResolvers(HandlerMethodArgumentResolverComposite argumentResolvers) {
 		this.argumentResolvers = argumentResolvers;
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer for resolving parameter names when needed
-	 * (e.g. default request attribute name).
-	 * <p>Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
+	 * 设置在需要时解析参数名称的ParameterNameDiscoverer (e.g. 默认请求属性名称).
+	 * <p>默认{@link org.springframework.core.DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
@@ -89,18 +80,18 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 
 	/**
-	 * Invoke the method after resolving its argument values in the context of the given request.
-	 * <p>Argument values are commonly resolved through {@link HandlerMethodArgumentResolver}s.
-	 * The {@code providedArgs} parameter however may supply argument values to be used directly,
-	 * i.e. without argument resolution. Examples of provided argument values include a
-	 * {@link WebDataBinder}, a {@link SessionStatus}, or a thrown exception instance.
-	 * Provided argument values are checked before argument resolvers.
-	 * @param request the current request
-	 * @param mavContainer the ModelAndViewContainer for this request
-	 * @param providedArgs "given" arguments matched by type, not resolved
-	 * @return the raw value returned by the invoked method
-	 * @throws Exception raised if no suitable argument resolver can be found,
-	 * or if the method raised an exception
+	 * 在给定请求的上下文中解析其参数值后调用该方法.
+	 * <p>参数值通常通过{@link HandlerMethodArgumentResolver}来解析.
+	 * 然而, {@code providedArgs}参数可以提供要直接使用的参数值, i.e. 没有参数解析.
+	 * 提供的参数值的示例包括{@link WebDataBinder}, {@link SessionStatus}, 或抛出的异常实例.
+	 * 在参数解析器之前检查提供的参数值.
+	 * 
+	 * @param request 当前的请求
+	 * @param mavContainer 此请求的ModelAndViewContainer
+	 * @param providedArgs 与类型匹配的"给定"参数, 未解析
+	 * 
+	 * @return 调用方法返回的原始值
+	 * @throws Exception 如果找不到合适的参数解析器, 或者方法引发异常
 	 */
 	public Object invokeForRequest(NativeWebRequest request, ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
@@ -119,7 +110,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Get the method argument values for the current request.
+	 * 获取当前请求的方法参数值.
 	 */
 	private Object[] getMethodArgumentValues(NativeWebRequest request, ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
@@ -161,7 +152,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Attempt to resolve a method parameter from the list of provided argument values.
+	 * 尝试从提供的参数值列表中解析方法参数.
 	 */
 	private Object resolveProvidedArgument(MethodParameter parameter, Object... providedArgs) {
 		if (providedArgs == null) {
@@ -177,7 +168,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 
 	/**
-	 * Invoke the handler method with the given argument values.
+	 * 使用给定的参数值调用处理器方法.
 	 */
 	protected Object doInvoke(Object... args) throws Exception {
 		ReflectionUtils.makeAccessible(getBridgedMethod());
@@ -209,11 +200,9 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Assert that the target bean class is an instance of the class where the given
-	 * method is declared. In some cases the actual controller instance at request-
-	 * processing time may be a JDK dynamic proxy (lazy initialization, prototype
-	 * beans, and others). {@code @Controller}'s that require proxying should prefer
-	 * class-based proxy mechanisms.
+	 * 断言目标bean类是声明给定方法的类的实例.
+	 * 在某些情况下, 请求处理时的实际控制器实例可能是JDK动态代理 (延迟初始化, 原型bean等).
+	 * 需要代理的{@code @Controller}应该更喜欢基于类的代理机制.
 	 */
 	private void assertTargetBean(Method method, Object targetBean, Object[] args) {
 		Class<?> methodDeclaringClass = method.getDeclaringClass();
@@ -244,8 +233,9 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Adds HandlerMethod details such as the bean type and method signature to the message.
-	 * @param text error message to append the HandlerMethod details to
+	 * 向消息添加HandlerMethod详细信息, 例如bean类型和方法签名.
+	 * 
+	 * @param text 要将HandlerMethod详细信息附加到的错误消息
 	 */
 	protected String getDetailedErrorMessage(String text) {
 		StringBuilder sb = new StringBuilder(text).append("\n");

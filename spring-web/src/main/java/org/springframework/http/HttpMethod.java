@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Java 5 enumeration of HTTP request methods. Intended for use
- * with {@link org.springframework.http.client.ClientHttpRequest}
- * and {@link org.springframework.web.client.RestTemplate}.
+ * HTTP请求方法的Java 5枚举.
+ * 旨在与{@link org.springframework.http.client.ClientHttpRequest}
+ * 和{@link org.springframework.web.client.RestTemplate}一起使用.
  */
 public enum HttpMethod {
 
@@ -23,10 +23,11 @@ public enum HttpMethod {
 
 
 	/**
-	 * Resolve the given method value to an {@code HttpMethod}.
-	 * @param method the method value as a String
-	 * @return the corresponding {@code HttpMethod}, or {@code null} if not found
-	 * @since 4.2.4
+	 * 将给定的方法值解析为{@code HttpMethod}.
+	 * 
+	 * @param method 方法值
+	 * 
+	 * @return 相应的{@code HttpMethod}, 或{@code null}
 	 */
 	public static HttpMethod resolve(String method) {
 		return (method != null ? mappings.get(method) : null);
@@ -34,14 +35,13 @@ public enum HttpMethod {
 
 
 	/**
-	 * Determine whether this {@code HttpMethod} matches the given
-	 * method value.
-	 * @param method the method value as a String
-	 * @return {@code true} if it matches, {@code false} otherwise
-	 * @since 4.2.4
+	 * 确定此{@code HttpMethod}是否与给定的方法值匹配.
+	 * 
+	 * @param method 方法值
+	 * 
+	 * @return {@code true}如果匹配, 否则{@code false}
 	 */
 	public boolean matches(String method) {
 		return (this == resolve(method));
 	}
-
 }

@@ -5,9 +5,8 @@ import java.beans.PropertyEditorSupport;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link java.beans.PropertyEditor Editor} for {@link MediaType}
- * descriptors, to automatically convert {@code String} specifications
- * (e.g. {@code "text/html"}) to {@code MediaType} properties.
+ * {@link MediaType}描述符的{@link java.beans.PropertyEditor Editor},
+ * 自动将{@code String}规范 (e.g. {@code "text/html"})转换为{@code MediaType}属性.
  */
 public class MediaTypeEditor extends PropertyEditorSupport {
 

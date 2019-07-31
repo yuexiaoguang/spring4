@@ -9,7 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
- * {@link FactoryBean} that creates a {@link Proxy java.net.Proxy}.
+ * {@link FactoryBean}, 创建{@link Proxy java.net.Proxy}.
  */
 public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
 
@@ -23,22 +23,22 @@ public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
 
 
 	/**
-	 * Set the proxy type.
-	 * <p>Defaults to {@link java.net.Proxy.Type#HTTP}.
+	 * 设置代理类型.
+	 * <p>默认{@link java.net.Proxy.Type#HTTP}.
 	 */
 	public void setType(Proxy.Type type) {
 		this.type = type;
 	}
 
 	/**
-	 * Set the proxy host name.
+	 * 设置代理主机名.
 	 */
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
 
 	/**
-	 * Set the proxy port.
+	 * 设置代理端口.
 	 */
 	public void setPort(int port) {
 		this.port = port;

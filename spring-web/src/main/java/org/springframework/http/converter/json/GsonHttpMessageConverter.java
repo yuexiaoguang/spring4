@@ -23,16 +23,13 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter}
- * that can read and write JSON using the
- * <a href="https://code.google.com/p/google-gson/">Google Gson</a> library's
- * {@link Gson} class.
+ * {@link org.springframework.http.converter.HttpMessageConverter}的实现,
+ * 可以使用<a href="https://code.google.com/p/google-gson/">Google Gson</a>库的 {@link Gson}类读写JSON.
  *
- * <p>This converter can be used to bind to typed beans or untyped {@code HashMap}s.
- * By default, it supports {@code application/json} and {@code application/*+json} with
- * {@code UTF-8} character set.
+ * <p>此转换器可用于绑定到类型化的bean或无类型的{@code HashMap}.
+ * 默认情况下, 它支持使用{@code UTF-8}字符集的{@code application/json} 和 {@code application/*+json}.
  *
- * <p>Tested against Gson 2.8; compatible with Gson 2.0 and higher.
+ * <p>测试了Gson 2.8; 兼容Gson 2.0及更高版本.
  */
 public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 
@@ -44,9 +41,6 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 	private String jsonPrefix;
 
 
-	/**
-	 * Construct a new {@code GsonHttpMessageConverter}.
-	 */
 	public GsonHttpMessageConverter() {
 		super(MediaType.APPLICATION_JSON, new MediaType("application", "*+json"));
 		setDefaultCharset(DEFAULT_CHARSET);
@@ -54,10 +48,9 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 
 
 	/**
-	 * Set the {@code Gson} instance to use.
-	 * If not set, a default {@link Gson#Gson() Gson} instance will be used.
-	 * <p>Setting a custom-configured {@code Gson} is one way to take further
-	 * control of the JSON serialization process.
+	 * 设置要使用的{@code Gson}实例.
+	 * 如果未设置, 将使用默认的{@link Gson#Gson() Gson}实例.
+	 * <p>设置自定义配置的{@code Gson}是进一步控制JSON序列化过程的一种方法.
 	 */
 	public void setGson(Gson gson) {
 		Assert.notNull(gson, "A Gson instance is required");
@@ -65,28 +58,25 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 	}
 
 	/**
-	 * Return the configured {@code Gson} instance for this converter.
+	 * 返回此转换器的已配置{@code Gson}实例.
 	 */
 	public Gson getGson() {
 		return this.gson;
 	}
 
 	/**
-	 * Specify a custom prefix to use for JSON output. Default is none.
-	 * @see #setPrefixJson
+	 * 指定用于JSON输出的自定义前缀. 默认无.
 	 */
 	public void setJsonPrefix(String jsonPrefix) {
 		this.jsonPrefix = jsonPrefix;
 	}
 
 	/**
-	 * Indicate whether the JSON output by this view should be prefixed with ")]}', ".
-	 * Default is {@code false}.
-	 * <p>Prefixing the JSON string in this manner is used to help prevent JSON
-	 * Hijacking. The prefix renders the string syntactically invalid as a script
-	 * so that it cannot be hijacked.
-	 * This prefix should be stripped before parsing the string as JSON.
-	 * @see #setJsonPrefix
+	 * 指示此视图的JSON输出是否应以 ")]}', "为前缀.
+	 * 默认{@code false}.
+	 * <p>以这种方式为JSON字符串添加前缀, 用于防止JSON劫持.
+	 * 前缀使字符串在脚本语法上无效, 因此无法被劫持.
+	 * 在将字符串解析为JSON之前, 应该删除此前缀.
 	 */
 	public void setPrefixJson(boolean prefixJson) {
 		this.jsonPrefix = (prefixJson ? ")]}', " : null);
@@ -112,10 +102,9 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 	}
 
 	/**
-	 * Return the Gson {@link TypeToken} for the specified type.
-	 * <p>The default implementation returns {@code TypeToken.get(type)}, but
-	 * this can be overridden in subclasses to allow for custom generic
-	 * collection handling. For instance:
+	 * 返回指定类型的Gson {@link TypeToken}.
+	 * <p>默认实现返回{@code TypeToken.get(type)}, 但这可以在子类中重写, 以允许自定义泛型集合处理.
+	 * For instance:
 	 * <pre class="code">
 	 * protected TypeToken<?> getTypeToken(Type type) {
 	 *   if (type instanceof Class && List.class.isAssignableFrom((Class<?>) type)) {
@@ -126,8 +115,10 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 	 *   }
 	 * }
 	 * </pre>
-	 * @param type the type for which to return the TypeToken
-	 * @return the type token
+	 * 
+	 * @param type 要返回TypeToken的类型
+	 * 
+	 * @return 类型token
 	 * @deprecated as of Spring Framework 4.3.8, in favor of signature-based resolution
 	 */
 	@Deprecated
@@ -163,11 +154,9 @@ public class GsonHttpMessageConverter extends AbstractGenericHttpMessageConverte
 				writer.append(this.jsonPrefix);
 			}
 
-			// In Gson, toJson with a type argument will exclusively use that given type,
-			// ignoring the actual type of the object... which might be more specific,
-			// e.g. a subclass of the specified type which includes additional fields.
-			// As a consequence, we're only passing in parameterized type declarations
-			// which might contain extra generics that the object instance doesn't retain.
+			// 在Gson中, 带有类型参数的toJson将专门使用该给定类型, 忽略对象的实际类型... 这可能更具体,
+			// e.g. 指定类型的子类, 包含其他字段.
+			// 因此, 只传递参数化类型声明, 这些声明可能包含对象实例未保留的额外泛型.
 			if (type instanceof ParameterizedType) {
 				this.gson.toJson(o, type, writer);
 			}

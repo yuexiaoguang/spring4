@@ -12,15 +12,12 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * {@code @SessionScope} is a specialization of {@link Scope @Scope} for a
- * component whose lifecycle is bound to the current web session.
+ * {@code @SessionScope}是{@link Scope @Scope}的细化, 用于生命周期绑定到当前Web会话的组件.
  *
- * <p>Specifically, {@code @SessionScope} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @Scope("session")} with the default
- * {@link #proxyMode} set to {@link ScopedProxyMode#TARGET_CLASS TARGET_CLASS}.
+ * <p>具体来说, {@code @SessionScope}是一个<em>组合注解</em>, 它充当{@code @Scope("session")}的快捷方式,
+ * {@link #proxyMode}默认为{@link ScopedProxyMode#TARGET_CLASS TARGET_CLASS}.
  *
- * <p>{@code @SessionScope} may be used as a meta-annotation to create custom
- * composed annotations.
+ * <p>{@code @SessionScope}可用作元注解来创建自定义组合注解.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -30,7 +27,7 @@ public @interface SessionScope {
 
 	/**
 	 * Alias for {@link Scope#proxyMode}.
-	 * <p>Defaults to {@link ScopedProxyMode#TARGET_CLASS}.
+	 * <p>默认为{@link ScopedProxyMode#TARGET_CLASS}.
 	 */
 	@AliasFor(annotation = Scope.class)
 	ScopedProxyMode proxyMode() default ScopedProxyMode.TARGET_CLASS;

@@ -9,11 +9,10 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation for mapping HTTP {@code PATCH} requests onto specific handler
- * methods.
+ * 用于将HTTP {@code PATCH}请求映射到特定处理器方法的注解.
  *
- * <p>Specifically, {@code @PatchMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @RequestMapping(method = RequestMethod.PATCH)}.
+ * <p>具体来说, {@code @PatchMapping}是<em>组合注解</em>,
+ * 它充当{@code @RequestMapping(method = RequestMethod.PATCH)}的快捷方式.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

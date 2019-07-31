@@ -23,15 +23,11 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A {@code ContentNegotiationStrategy} that resolves the file extension in the
- * request path to a key to be used to look up a media type.
+ * 一个{@code ContentNegotiationStrategy}, 它将请求路径中的文件扩展名解析为用于查找媒体类型的键.
  *
- * <p>If the file extension is not found in the explicit registrations provided
- * to the constructor, the Java Activation Framework (JAF) is used as a fallback
- * mechanism.
+ * <p>如果在提供给构造函数的显式注册中找不到文件扩展名, 则Java Activation Framework (JAF)将用作回退机制.
  *
- * <p>The presence of the JAF is detected and enabled automatically but the
- * {@link #setUseJaf(boolean)} property may be set to false.
+ * <p>自动检测并启用JAF, 但{@link #setUseJaf(boolean)}属性可能设置为false.
  */
 public class PathExtensionContentNegotiationStrategy extends AbstractMappingContentNegotiationStrategy {
 
@@ -48,15 +44,15 @@ public class PathExtensionContentNegotiationStrategy extends AbstractMappingCont
 
 
 	/**
-	 * Create an instance without any mappings to start with. Mappings may be added
-	 * later on if any extensions are resolved through the Java Activation framework.
+	 * 创建一个没有任何映射的实例.
+	 * 如果通过Java Activation框架解析出任何扩展名, 则可以稍后添加映射.
 	 */
 	public PathExtensionContentNegotiationStrategy() {
 		this(null);
 	}
 
 	/**
-	 * Create an instance with the given map of file extensions and media types.
+	 * 使用给定的文件扩展名和媒体类型映射创建实例.
 	 */
 	public PathExtensionContentNegotiationStrategy(Map<String, MediaType> mediaTypes) {
 		super(mediaTypes);
@@ -65,26 +61,24 @@ public class PathExtensionContentNegotiationStrategy extends AbstractMappingCont
 
 
 	/**
-	 * Configure a {@code UrlPathHelper} to use in {@link #getMediaTypeKey}
-	 * in order to derive the lookup path for a target request URL path.
-	 * @since 4.2.8
+	 * 配置{@code UrlPathHelper}以在{@link #getMediaTypeKey}中使用, 以便为目标请求URL路径派生查找路径.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
 	}
 
 	/**
-	 * Whether to use the Java Activation Framework to look up file extensions.
-	 * <p>By default this is set to "true" but depends on JAF being present.
+	 * 是否使用Java Activation Framework查找文件扩展名.
+	 * <p>默认"true", 但取决于存在的JAF.
 	 */
 	public void setUseJaf(boolean useJaf) {
 		this.useJaf = useJaf;
 	}
 
 	/**
-	 * Whether to ignore requests with unknown file extension. Setting this to
-	 * {@code false} results in {@code HttpMediaTypeNotAcceptableException}.
-	 * <p>By default this is set to {@code true}.
+	 * 是否忽略具有未知文件扩展名的请求.
+	 * 设置为{@code false}将导致{@code HttpMediaTypeNotAcceptableException}.
+	 * <p>默认{@code true}.
 	 */
 	public void setIgnoreUnknownExtensions(boolean ignoreUnknownExtensions) {
 		this.ignoreUnknownExtensions = ignoreUnknownExtensions;
@@ -120,13 +114,12 @@ public class PathExtensionContentNegotiationStrategy extends AbstractMappingCont
 	}
 
 	/**
-	 * A public method exposing the knowledge of the path extension strategy to
-	 * resolve file extensions to a {@link MediaType} in this case for a given
-	 * {@link Resource}. The method first looks up any explicitly registered
-	 * file extensions first and then falls back on JAF if available.
-	 * @param resource the resource to look up
-	 * @return the MediaType for the extension, or {@code null} if none found
-	 * @since 4.3
+	 * 将文件扩展名解析为{@link MediaType}.
+	 * 该方法首先查找显式注册的文件扩展名, 然后返回JAF.
+	 * 
+	 * @param resource 要查找的资源
+	 * 
+	 * @return 扩展名的MediaType, 或{@code null}
 	 */
 	public MediaType getMediaTypeForResource(Resource resource) {
 		Assert.notNull(resource, "Resource must not be null");
@@ -147,7 +140,7 @@ public class PathExtensionContentNegotiationStrategy extends AbstractMappingCont
 
 
 	/**
-	 * Inner class to avoid hard-coded dependency on JAF.
+	 * 内部类, 以避免对JAF的硬编码依赖.
 	 */
 	private static class ActivationMediaTypeFactory {
 
@@ -158,7 +151,7 @@ public class PathExtensionContentNegotiationStrategy extends AbstractMappingCont
 		}
 
 		/**
-		 * Find extended mime.types from the spring-context-support module.
+		 * 从spring-context-support模块中查找扩展的 mime.types.
 		 */
 		private static FileTypeMap initFileTypeMap() {
 			Resource resource = new ClassPathResource("org/springframework/mail/javamail/mime.types");

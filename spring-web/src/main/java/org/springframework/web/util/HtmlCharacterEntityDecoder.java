@@ -1,8 +1,7 @@
 package org.springframework.web.util;
 
 /**
- * Helper for decoding HTML Strings by replacing character
- * entity references with the referred character.
+ * 通过使用引用的字符替换字符实体引用来解码HTML字符串的工具类.
  */
 class HtmlCharacterEntityDecoder {
 

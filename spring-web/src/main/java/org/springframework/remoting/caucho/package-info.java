@@ -1,9 +1,8 @@
 /**
- * This package provides remoting classes for Caucho's Hessian protocol:
- * a proxy factory for accessing Hessian services, and an exporter for
- * making beans available to Hessian clients.
+ * 该包为Caucho的Hessian协议提供了远程处理类:
+ * 用于访问Hessian服务的代理工厂, 以及用于向Hessian客户提供bean的导出器.
  *
- * <p>Hessian is a slim, binary RPC protocol over HTTP.
+ * <p>Hessian是一种基于HTTP的超薄二进制RPC协议.
  * For information on Hessian, see the
  * <a href="http://www.caucho.com/hessian">Hessian website</a>
  */

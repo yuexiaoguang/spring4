@@ -20,10 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.StreamingHttpOutputMessage;
 
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpClient in streaming mode.
+ * {@link ClientHttpRequest}实现, 基于流模式中 Apache HttpComponents HttpClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>通过{@link HttpComponentsClientHttpRequestFactory}创建.
  */
 final class HttpComponentsStreamingClientHttpRequest extends AbstractClientHttpRequest
 		implements StreamingHttpOutputMessage {

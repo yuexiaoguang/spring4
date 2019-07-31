@@ -17,13 +17,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link org.springframework.core.io.Resource} implementation for
- * {@link javax.servlet.ServletContext} resources, interpreting
- * relative paths within the web application root directory.
+ * {@link javax.servlet.ServletContext}资源的{@link org.springframework.core.io.Resource}实现,
+ * 解释Web应用程序根目录中的相对路径.
  *
- * <p>Always supports stream access and URL access, but only allows
- * {@code java.io.File} access when the web application archive
- * is expanded.
+ * <p>始终支持流访问和URL访问, 但仅在扩展Web应用程序存档时允许{@code java.io.File}访问.
  */
 public class ServletContextResource extends AbstractFileResolvingResource implements ContextResource {
 
@@ -33,13 +30,11 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 
 
 	/**
-	 * Create a new ServletContextResource.
-	 * <p>The Servlet spec requires that resource paths start with a slash,
-	 * even if many containers accept paths without leading slash too.
-	 * Consequently, the given path will be prepended with a slash if it
-	 * doesn't already start with one.
-	 * @param servletContext the ServletContext to load from
-	 * @param path the path of the resource
+	 * <p>Servlet规范要求资源路径以斜杠开头, 即使许多容器也接受路径而没有前导斜杠.
+	 * 因此, 如果给定路径尚未以斜杠开头, 则它将以斜杠为前缀.
+	 * 
+	 * @param servletContext 从中加载的ServletContext
+	 * @param path 资源的路径
 	 */
 	public ServletContextResource(ServletContext servletContext, String path) {
 		// check ServletContext
@@ -57,22 +52,21 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 
 
 	/**
-	 * Return the ServletContext for this resource.
+	 * 返回此资源的ServletContext.
 	 */
 	public final ServletContext getServletContext() {
 		return this.servletContext;
 	}
 
 	/**
-	 * Return the path for this resource.
+	 * 返回此资源的路径.
 	 */
 	public final String getPath() {
 		return this.path;
 	}
 
 	/**
-	 * This implementation checks {@code ServletContext.getResource}.
-	 * @see javax.servlet.ServletContext#getResource(String)
+	 * 此实现检查{@code ServletContext.getResource}.
 	 */
 	@Override
 	public boolean exists() {
@@ -86,9 +80,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code ServletContext.getResourceAsStream},
-	 * which returns {@code null} in case of a non-readable resource (e.g. a directory).
-	 * @see javax.servlet.ServletContext#getResourceAsStream(String)
+	 * 此实现委托给{@code ServletContext.getResourceAsStream}, 在不可读资源 (e.g. 目录)的情况下返回{@code null}.
 	 */
 	@Override
 	public boolean isReadable() {
@@ -108,9 +100,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code ServletContext.getResourceAsStream},
-	 * but throws a FileNotFoundException if no resource found.
-	 * @see javax.servlet.ServletContext#getResourceAsStream(String)
+	 * 此实现委托给{@code ServletContext.getResourceAsStream}, 但如果找不到资源则抛出FileNotFoundException.
 	 */
 	@Override
 	public InputStream getInputStream() throws IOException {
@@ -122,9 +112,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code ServletContext.getResource},
-	 * but throws a FileNotFoundException if no resource found.
-	 * @see javax.servlet.ServletContext#getResource(String)
+	 * 此实现委托给{@code ServletContext.getResource}, 但如果找不到资源则抛出FileNotFoundException.
 	 */
 	@Override
 	public URL getURL() throws IOException {
@@ -137,11 +125,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation resolves "file:" URLs or alternatively delegates to
-	 * {@code ServletContext.getRealPath}, throwing a FileNotFoundException
-	 * if not found or not resolvable.
-	 * @see javax.servlet.ServletContext#getResource(String)
-	 * @see javax.servlet.ServletContext#getRealPath(String)
+	 * 此实现解析"file:" URL或者委托给{@code ServletContext.getRealPath}, 如果找不到或者无法解析则抛出FileNotFoundException.
 	 */
 	@Override
 	public File getFile() throws IOException {
@@ -157,9 +141,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation creates a ServletContextResource, applying the given path
-	 * relative to the path of the underlying file of this resource descriptor.
-	 * @see org.springframework.util.StringUtils#applyRelativePath(String, String)
+	 * 此实现创建ServletContextResource, 相对于此资源描述符的底层文件的路径应用给定路径.
 	 */
 	@Override
 	public Resource createRelative(String relativePath) {
@@ -168,9 +150,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation returns the name of the file that this ServletContext
-	 * resource refers to.
-	 * @see org.springframework.util.StringUtils#getFilename(String)
+	 * 此实现返回此ServletContext资源引用的文件的名称.
 	 */
 	@Override
 	public String getFilename() {
@@ -178,8 +158,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation returns a description that includes the ServletContext
-	 * resource location.
+	 * 此实现返回包含ServletContext资源位置的描述.
 	 */
 	@Override
 	public String getDescription() {
@@ -193,7 +172,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 
 
 	/**
-	 * This implementation compares the underlying ServletContext resource locations.
+	 * 此实现比较底层的ServletContext资源位置.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -208,8 +187,7 @@ public class ServletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation returns the hash code of the underlying
-	 * ServletContext resource location.
+	 * 此实现返回底层ServletContext资源位置的哈希码.
 	 */
 	@Override
 	public int hashCode() {

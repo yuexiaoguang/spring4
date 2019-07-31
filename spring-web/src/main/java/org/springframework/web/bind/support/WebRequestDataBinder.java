@@ -18,18 +18,15 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartRequest;
 
 /**
- * Special {@link org.springframework.validation.DataBinder} to perform data binding
- * from web request parameters to JavaBeans, including support for multipart files.
+ * 特殊{@link org.springframework.validation.DataBinder},
+ * 用于执行从Web请求参数到JavaBeans的数据绑定, 包括对multipart文件的支持.
  *
- * <p>See the DataBinder/WebDataBinder superclasses for customization options,
- * which include specifying allowed/required fields, and registering custom
- * property editors.
+ * <p>有关自定义选项, 请参阅 DataBinder/WebDataBinder超类, 其中包括指定允许/必需字段, 以及注册自定义属性编辑器.
  *
- * <p>Can also used for manual data binding in custom web controllers or interceptors
- * that build on Spring's {@link org.springframework.web.context.request.WebRequest}
- * abstraction: e.g. in a {@link org.springframework.web.context.request.WebRequestInterceptor}
- * implementation. Simply instantiate a WebRequestDataBinder for each binding
- * process, and invoke {@code bind} with the current WebRequest as argument:
+ * <p>也可以用于基于Spring的{@link org.springframework.web.context.request.WebRequest}抽象
+ * 构建的自定义Web控制器或拦截器中的手动数据绑定:
+ * e.g. 在{@link org.springframework.web.context.request.WebRequestInterceptor}实现中.
+ * 只需为每个绑定过程实例化一个WebRequestDataBinder, 并以当前的WebRequest作为参数调用{@code bind}:
  *
  * <pre class="code">
  * MyBean myBean = new MyBean();
@@ -49,19 +46,15 @@ public class WebRequestDataBinder extends WebDataBinder {
 
 
 	/**
-	 * Create a new WebRequestDataBinder instance, with default object name.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
+	 * @param target 绑定到的目标对象 (或{@code null}, 如果绑定器仅用于转换普通参数值)
 	 */
 	public WebRequestDataBinder(Object target) {
 		super(target);
 	}
 
 	/**
-	 * Create a new WebRequestDataBinder instance.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
-	 * @param objectName the name of the target object
+	 * @param target 绑定到的目标对象 (或{@code null}, 如果绑定器仅用于转换普通参数值)
+	 * @param objectName 目标对象的名称
 	 */
 	public WebRequestDataBinder(Object target, String objectName) {
 		super(target, objectName);
@@ -69,22 +62,15 @@ public class WebRequestDataBinder extends WebDataBinder {
 
 
 	/**
-	 * Bind the parameters of the given request to this binder's target,
-	 * also binding multipart files in case of a multipart request.
-	 * <p>This call can create field errors, representing basic binding
-	 * errors like a required field (code "required"), or type mismatch
-	 * between value and bean property (code "typeMismatch").
-	 * <p>Multipart files are bound via their parameter name, just like normal
-	 * HTTP parameters: i.e. "uploadedFile" to an "uploadedFile" bean property,
-	 * invoking a "setUploadedFile" setter method.
-	 * <p>The type of the target property for a multipart file can be Part, MultipartFile,
-	 * byte[], or String. The latter two receive the contents of the uploaded file;
-	 * all metadata like original file name, content type, etc are lost in those cases.
-	 * @param request request with parameters to bind (can be multipart)
-	 * @see org.springframework.web.multipart.MultipartRequest
-	 * @see org.springframework.web.multipart.MultipartFile
-	 * @see javax.servlet.http.Part
-	 * @see #bind(org.springframework.beans.PropertyValues)
+	 * 将给定请求的参数绑定到此绑定器的目标, 并在multipart请求的情况下绑定multipart文件.
+	 * <p>此调用可以创建字段错误, 表示基本绑定错误, 如必填字段 (code "required"),
+	 * 或者值和bean属性之间的类型不匹配 (code "typeMismatch").
+	 * <p>Multipart文件通过其参数名称绑定, 就像普通的HTTP参数一样:
+	 * i.e. "uploadedFile"到"uploadedFile" bean属性, 调用"setUploadedFile" setter方法.
+	 * <p>multipart文件的目标属性的类型可以是 Part, MultipartFile, byte[], 或String.
+	 * 后两者接收上传文件的内容; 在这些情况下, 所有元数据(如原始文件名, 内容类型等)都将丢失.
+	 * 
+	 * @param request 要绑定参数的请求 (可以是 multipart)
 	 */
 	public void bind(WebRequest request) {
 		MutablePropertyValues mpvs = new MutablePropertyValues(request.getParameterMap());
@@ -102,8 +88,9 @@ public class WebRequestDataBinder extends WebDataBinder {
 	}
 
 	/**
-	 * Check if the request is a multipart request (by checking its Content-Type header).
-	 * @param request request with parameters to bind
+	 * 检查请求是否是 multipart请求 (通过检查其 Content-Type header).
+	 * 
+	 * @param request 要绑定参数的请求
 	 */
 	private boolean isMultipartRequest(WebRequest request) {
 		String contentType = request.getHeader("Content-Type");
@@ -111,10 +98,11 @@ public class WebRequestDataBinder extends WebDataBinder {
 	}
 
 	/**
-	 * Treats errors as fatal.
-	 * <p>Use this method only if it's an error if the input isn't valid.
-	 * This might be appropriate if all input is from dropdowns, for example.
-	 * @throws BindException if binding errors have been encountered
+	 * 将错误视为致命的.
+	 * <p>仅当输入无效时才使用此方法.
+	 * 例如, 如果所有输入都来自下拉列表, 则这可能是合适的.
+	 * 
+	 * @throws BindException 如果遇到绑定错误
 	 */
 	public void closeNoCatch() throws BindException {
 		if (getBindingResult().hasErrors()) {
@@ -124,8 +112,7 @@ public class WebRequestDataBinder extends WebDataBinder {
 
 
 	/**
-	 * Encapsulate Part binding code for Servlet 3.0+ only containers.
-	 * @see javax.servlet.http.Part
+	 * 封装仅适用于Servlet 3.0+容器的Part绑定代码.
 	 */
 	private static class Servlet3MultipartHelper {
 

@@ -10,15 +10,14 @@ import javax.faces.context.FacesContext;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link WebRequest} adapter for a JSF {@link javax.faces.context.FacesContext}.
+ * {@link WebRequest}适配器, 用于JSF {@link javax.faces.context.FacesContext}.
  *
- * <p>Requires JSF 2.0 or higher, as of Spring 4.0.
+ * <p>从Spring 4.0开始, 需要JSF 2.0或更高版本.
  */
 public class FacesWebRequest extends FacesRequestAttributes implements NativeWebRequest {
 
 	/**
-	 * Create a new FacesWebRequest adapter for the given FacesContext.
-	 * @param facesContext the current FacesContext
+	 * @param facesContext 当前FacesContext
 	 */
 	public FacesWebRequest(FacesContext facesContext) {
 		super(facesContext);
@@ -136,9 +135,8 @@ public class FacesWebRequest extends FacesRequestAttributes implements NativeWeb
 	}
 
 	/**
-	 * Last-modified handling not supported for portlet requests:
-	 * As a consequence, this method always returns {@code false}.
-	 * @since 4.2
+	 * portlet请求不支持Last-modified的处理:
+	 * 因此总是返回{@code false}.
 	 */
 	@Override
 	public boolean checkNotModified(String etag, long lastModifiedTimestamp) {

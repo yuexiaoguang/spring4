@@ -17,21 +17,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link javax.servlet.Filter} that converts posted method parameters into HTTP methods,
- * retrievable via {@link HttpServletRequest#getMethod()}. Since browsers currently only
- * support GET and POST, a common technique - used by the Prototype library, for instance -
- * is to use a normal POST with an additional hidden form field ({@code _method})
- * to pass the "real" HTTP method along. This filter reads that parameter and changes
- * the {@link HttpServletRequestWrapper#getMethod()} return value accordingly.
- * Only {@code "PUT"}, {@code "DELETE"} and {@code "PATCH"} HTTP methods are allowed.
+ * {@link javax.servlet.Filter}将发布的方法参数转换为HTTP方法, 可通过{@link HttpServletRequest#getMethod()}检索.
+ * 由于浏览器目前仅支持GET和POST, 因此Prototype库使用的常用技术是,
+ * 使用普通POST和其他隐藏表单字段({@code _method})来传递"真正的" HTTP方法.
+ * 此过滤器读取该参数并相应地更改{@link HttpServletRequestWrapper#getMethod()}返回值.
+ * 只允许{@code "PUT"}, {@code "DELETE"}和{@code "PATCH"} HTTP方法.
  *
- * <p>The name of the request parameter defaults to {@code _method}, but can be
- * adapted via the {@link #setMethodParam(String) methodParam} property.
+ * <p>请求参数的名称默认为{@code _method}, 但可以通过{@link #setMethodParam(String) methodParam}属性进行调整.
  *
- * <p><b>NOTE: This filter needs to run after multipart processing in case of a multipart
- * POST request, due to its inherent need for checking a POST body parameter.</b>
- * So typically, put a Spring {@link org.springframework.web.multipart.support.MultipartFilter}
- * <i>before</i> this HiddenHttpMethodFilter in your {@code web.xml} filter chain.
+ * <p><b>NOTE: 由于需要检查POST正文参数, 因此在multipart POST请求的情况下, 此过滤器需要在multipart处理之后运行.</b>
+ * 通常, 在{@code web.xml}过滤器链中的这个HiddenHttpMethodFilter之前,
+ * 放一个Spring {@link org.springframework.web.multipart.support.MultipartFilter}.
  */
 public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
@@ -39,15 +35,14 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 			Collections.unmodifiableList(Arrays.asList(HttpMethod.PUT.name(),
 					HttpMethod.DELETE.name(), HttpMethod.PATCH.name()));
 
-	/** Default method parameter: {@code _method} */
+	/** 默认方法参数: {@code _method} */
 	public static final String DEFAULT_METHOD_PARAM = "_method";
 
 	private String methodParam = DEFAULT_METHOD_PARAM;
 
 
 	/**
-	 * Set the parameter name to look for HTTP methods.
-	 * @see #DEFAULT_METHOD_PARAM
+	 * 设置查找HTTP方法的参数名称.
 	 */
 	public void setMethodParam(String methodParam) {
 		Assert.hasText(methodParam, "'methodParam' must not be empty");
@@ -75,8 +70,7 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Simple {@link HttpServletRequest} wrapper that returns the supplied method for
-	 * {@link HttpServletRequest#getMethod()}.
+	 * 简单的{@link HttpServletRequest}包装器, 它返回{@link HttpServletRequest#getMethod()}提供的方法.
 	 */
 	private static class HttpMethodRequestWrapper extends HttpServletRequestWrapper {
 

@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 /**
- * Exception thrown when an HTTP 4xx is received.
+ * 收到HTTP 4xx时抛出的异常.
  */
 public class HttpClientErrorException extends HttpStatusCodeException {
 
@@ -14,31 +14,25 @@ public class HttpClientErrorException extends HttpStatusCodeException {
 
 
 	/**
-	 * Construct a new instance of {@code HttpClientErrorException} based on
-	 * an {@link HttpStatus}.
-	 * @param statusCode the status code
+	 * @param statusCode 状态码
 	 */
 	public HttpClientErrorException(HttpStatus statusCode) {
 		super(statusCode);
 	}
 
 	/**
-	 * Construct a new instance of {@code HttpClientErrorException} based on
-	 * an {@link HttpStatus} and status text.
-	 * @param statusCode the status code
-	 * @param statusText the status text
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
 	 */
 	public HttpClientErrorException(HttpStatus statusCode, String statusText) {
 		super(statusCode, statusText);
 	}
 
 	/**
-	 * Construct a new instance of {@code HttpClientErrorException} based on
-	 * an {@link HttpStatus}, status text, and response body content.
-	 * @param statusCode the status code
-	 * @param statusText the status text
-	 * @param responseBody the response body content (may be {@code null})
-	 * @param responseCharset the response body charset (may be {@code null})
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
+	 * @param responseBody 响应主体内容 (may be {@code null})
+	 * @param responseCharset 响应主体字符集 (may be {@code null})
 	 */
 	public HttpClientErrorException(HttpStatus statusCode, String statusText,
 			byte[] responseBody, Charset responseCharset) {
@@ -47,14 +41,11 @@ public class HttpClientErrorException extends HttpStatusCodeException {
 	}
 
 	/**
-	 * Construct a new instance of {@code HttpClientErrorException} based on
-	 * an {@link HttpStatus}, status text, and response body content.
-	 * @param statusCode the status code
-	 * @param statusText the status text
-	 * @param responseHeaders the response headers (may be {@code null})
-	 * @param responseBody the response body content (may be {@code null})
-	 * @param responseCharset the response body charset (may be {@code null})
-	 * @since 3.1.2
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
+	 * @param responseHeaders 响应header (may be {@code null})
+	 * @param responseBody 响应主体内容 (may be {@code null})
+	 * @param responseCharset 响应主体字符集 (may be {@code null})
 	 */
 	public HttpClientErrorException(HttpStatus statusCode, String statusText,
 			HttpHeaders responseHeaders, byte[] responseBody, Charset responseCharset) {

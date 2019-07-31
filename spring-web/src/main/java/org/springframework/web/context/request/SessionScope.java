@@ -3,18 +3,14 @@ package org.springframework.web.context.request;
 import org.springframework.beans.factory.ObjectFactory;
 
 /**
- * Session-backed {@link org.springframework.beans.factory.config.Scope}
- * implementation.
+ * 会话支持的{@link org.springframework.beans.factory.config.Scope}实现.
  *
- * <p>Relies on a thread-bound {@link RequestAttributes} instance, which
- * can be exported through {@link RequestContextListener},
- * {@link org.springframework.web.filter.RequestContextFilter} or
- * {@link org.springframework.web.servlet.DispatcherServlet}.
+ * <p>依赖于线程绑定的{@link RequestAttributes}实例, 可以通过{@link RequestContextListener},
+ * {@link org.springframework.web.filter.RequestContextFilter}
+ * 或者{@link org.springframework.web.servlet.DispatcherServlet}导出.
  *
- * <p>This {@code Scope} will also work for Portlet environments,
- * through an alternate {@code RequestAttributes} implementation
- * (as exposed out-of-the-box by Spring's
- * {@link org.springframework.web.portlet.DispatcherPortlet}.
+ * <p>此{@code Scope}也适用于Portlet环境, 通过备用{@code RequestAttributes}实现
+ * (Spring的{@link org.springframework.web.portlet.DispatcherPortlet}开箱即用).
  */
 public class SessionScope extends AbstractRequestAttributesScope {
 
@@ -22,26 +18,20 @@ public class SessionScope extends AbstractRequestAttributesScope {
 
 
 	/**
-	 * Create a new SessionScope, storing attributes in a locally
-	 * isolated session (or default session, if there is no distinction
-	 * between a global session and a component-specific session).
+	 * 创建一个新的SessionScope, 将属性存储在本地隔离的会话中
+	 * (或默认会话, 如果全局会话和特定于组件的会话之间没有区别).
 	 */
 	public SessionScope() {
 		this.scope = RequestAttributes.SCOPE_SESSION;
 	}
 
 	/**
-	 * Create a new SessionScope, specifying whether to store attributes
-	 * in the global session, provided that such a distinction is available.
-	 * <p>This distinction is important for Portlet environments, where there
-	 * are two notions of a session: "portlet scope" and "application scope".
-	 * If this flag is on, objects will be put into the "application scope" session;
-	 * else they will end up in the "portlet scope" session (the typical default).
-	 * <p>In a Servlet environment, this flag is effectively ignored.
-	 * @param globalSession {@code true} in case of the global session as target;
-	 * {@code false} in case of a component-specific session as target
-	 * @see org.springframework.web.portlet.context.PortletRequestAttributes
-	 * @see ServletRequestAttributes
+	 * 创建一个新的SessionScope, 指定是否在全局会话中存储属性, 前提是这种区别可用.
+	 * <p>这种区别对于Portlet环境很重要, 其中有两个会话概念: "portlet scope"和"application scope".
+	 * 如果启用此标志, 则对象将被放入"application scope"会话中; 否则它们将最终进入"portlet scope"会话 (典型的默认值).
+	 * <p>在Servlet环境中, 该标志实际上被忽略.
+	 * 
+	 * @param globalSession {@code true} 以全局会话为目标; {@code false} 如果特定于组件的会话作为目标
 	 */
 	public SessionScope(boolean globalSession) {
 		this.scope = (globalSession ? RequestAttributes.SCOPE_GLOBAL_SESSION : RequestAttributes.SCOPE_SESSION);

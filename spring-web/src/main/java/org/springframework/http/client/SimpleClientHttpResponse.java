@@ -9,9 +9,8 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpResponse} implementation that uses standard JDK facilities.
- * Obtained via {@link SimpleBufferingClientHttpRequest#execute()} and
- * {@link SimpleStreamingClientHttpRequest#execute()}.
+ * {@link ClientHttpResponse}实现, 使用标准JDK工具.
+ * 通过{@link SimpleBufferingClientHttpRequest#execute()}和{@link SimpleStreamingClientHttpRequest#execute()}获取.
  */
 final class SimpleClientHttpResponse extends AbstractClientHttpResponse {
 
@@ -41,7 +40,7 @@ final class SimpleClientHttpResponse extends AbstractClientHttpResponse {
 	public HttpHeaders getHeaders() {
 		if (this.headers == null) {
 			this.headers = new HttpHeaders();
-			// Header field 0 is the status line for most HttpURLConnections, but not on GAE
+			// Header 字段 0 是大多数HttpURLConnections的状态行, 但不是GAE的状态行
 			String name = this.connection.getHeaderFieldKey(0);
 			if (StringUtils.hasLength(name)) {
 				this.headers.add(name, this.connection.getHeaderField(0));

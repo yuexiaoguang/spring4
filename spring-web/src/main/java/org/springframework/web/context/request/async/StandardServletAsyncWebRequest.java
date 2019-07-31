@@ -14,12 +14,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * A Servlet 3.0 implementation of {@link AsyncWebRequest}.
+ * {@link AsyncWebRequest}的Servlet 3.0实现.
  *
- * <p>The servlet and all filters involved in an async request must have async
- * support enabled using the Servlet API or by adding an
- * {@code <async-supported>true</async-supported>} element to servlet and filter
- * declarations in {@code web.xml}.
+ * <p>异步请求中涉及的servlet和所有过滤器必须使用Servlet API启用异步支持,
+ * 或者在{@code web.xml}中添加{@code <async-supported>true</async-supported>}元素到servlet和过滤器的声明.
  */
 public class StandardServletAsyncWebRequest extends ServletWebRequest implements AsyncWebRequest, AsyncListener {
 
@@ -37,9 +35,8 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 
 
 	/**
-	 * Create a new instance for the given request/response pair.
-	 * @param request current HTTP request
-	 * @param response current HTTP response
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
 	 */
 	public StandardServletAsyncWebRequest(HttpServletRequest request, HttpServletResponse response) {
 		super(request, response);
@@ -47,8 +44,7 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 
 
 	/**
-	 * In Servlet 3 async processing, the timeout period begins after the
-	 * container processing thread has exited.
+	 * 在Servlet 3异步处理中, 超时期限在容器处理线程退出后开始.
 	 */
 	@Override
 	public void setTimeout(Long timeout) {
@@ -76,9 +72,8 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 	}
 
 	/**
-	 * Whether async request processing has completed.
-	 * <p>It is important to avoid use of request and response objects after async
-	 * processing has completed. Servlet containers often re-use them.
+	 * 异步请求处理是否已完成.
+	 * <p>异步处理完成后, 避免使用请求和响应对象非常重要. Servlet容器经常重复使用它们.
 	 */
 	@Override
 	public boolean isAsyncComplete() {

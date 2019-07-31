@@ -21,12 +21,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**
- * Encapsulates information about an {@linkplain ControllerAdvice @ControllerAdvice}
- * Spring-managed bean without necessarily requiring it to be instantiated.
+ * 封装有关{@linkplain ControllerAdvice @ControllerAdvice} Spring管理的bean的信息, 而不必要求它实例化.
  *
- * <p>The {@link #findAnnotatedBeans(ApplicationContext)} method can be used to
- * discover such beans. However, a {@code ControllerAdviceBean} may be created
- * from any object, including ones without an {@code @ControllerAdvice}.
+ * <p>{@link #findAnnotatedBeans(ApplicationContext)}方法可用于发现此类bean.
+ * 但是, 可以从任何对象创建{@code ControllerAdviceBean}, 包括没有{@code @ControllerAdvice}的对象.
  */
 public class ControllerAdviceBean implements Ordered {
 
@@ -44,17 +42,15 @@ public class ControllerAdviceBean implements Ordered {
 
 
 	/**
-	 * Create a {@code ControllerAdviceBean} using the given bean instance.
-	 * @param bean the bean instance
+	 * @param bean bean实例
 	 */
 	public ControllerAdviceBean(Object bean) {
 		this(bean, null);
 	}
 
 	/**
-	 * Create a {@code ControllerAdviceBean} using the given bean name.
-	 * @param beanName the name of the bean
-	 * @param beanFactory a BeanFactory that can be used later to resolve the bean
+	 * @param beanName bean的名称
+	 * @param beanFactory 用于解析bean的BeanFactory
 	 */
 	public ControllerAdviceBean(String beanName, BeanFactory beanFactory) {
 		this((Object) beanName, beanFactory);
@@ -99,8 +95,7 @@ public class ControllerAdviceBean implements Ordered {
 
 
 	/**
-	 * Returns the order value extracted from the {@link ControllerAdvice}
-	 * annotation, or {@link Ordered#LOWEST_PRECEDENCE} otherwise.
+	 * 返回从{@link ControllerAdvice}注解中提取的顺序值, 或{@link Ordered#LOWEST_PRECEDENCE}.
 	 */
 	@Override
 	public int getOrder() {
@@ -108,9 +103,8 @@ public class ControllerAdviceBean implements Ordered {
 	}
 
 	/**
-	 * Return the type of the contained bean.
-	 * <p>If the bean type is a CGLIB-generated class, the original
-	 * user-defined class is returned.
+	 * 返回包含的bean的类型.
+	 * <p>如果bean类型是CGLIB生成的类, 则返回原始用户定义的类.
 	 */
 	public Class<?> getBeanType() {
 		Class<?> clazz = (this.bean instanceof String ?
@@ -119,18 +113,16 @@ public class ControllerAdviceBean implements Ordered {
 	}
 
 	/**
-	 * Return a bean instance if necessary resolving the bean name through the BeanFactory.
+	 * 返回bean实例, 如果需要, 通过BeanFactory解析bean名称.
 	 */
 	public Object resolveBean() {
 		return (this.bean instanceof String ? this.beanFactory.getBean((String) this.bean) : this.bean);
 	}
 
 	/**
-	 * Check whether the given bean type should be assisted by this
-	 * {@code @ControllerAdvice} instance.
-	 * @param beanType the type of the bean to check
-	 * @see org.springframework.web.bind.annotation.ControllerAdvice
-	 * @since 4.0
+	 * 检查这个{@code @ControllerAdvice}实例是否应该辅助给定的bean类型.
+	 * 
+	 * @param beanType 要检查的bean的类型
 	 */
 	public boolean isApplicableToBeanType(Class<?> beanType) {
 		if (!hasSelectors()) {
@@ -185,9 +177,8 @@ public class ControllerAdviceBean implements Ordered {
 
 
 	/**
-	 * Find the names of beans annotated with
-	 * {@linkplain ControllerAdvice @ControllerAdvice} in the given
-	 * ApplicationContext and wrap them as {@code ControllerAdviceBean} instances.
+	 * 查找给定的ApplicationContext中使用{@linkplain ControllerAdvice @ControllerAdvice}注解的bean的名称,
+	 * 并将它们包装为{@code ControllerAdviceBean}实例.
 	 */
 	public static List<ControllerAdviceBean> findAnnotatedBeans(ApplicationContext applicationContext) {
 		List<ControllerAdviceBean> beans = new ArrayList<ControllerAdviceBean>();

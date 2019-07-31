@@ -1,8 +1,8 @@
 package org.springframework.web.util;
 
 /**
- * Utility class for JavaScript escaping.
- * Escapes based on the JavaScript 1.5 recommendation.
+ * JavaScript转义的工具类.
+ * 基于JavaScript 1.5推荐转义.
  *
  * <p>Reference:
  * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Values,_variables,_and_literals#String_literals">
@@ -11,9 +11,11 @@ package org.springframework.web.util;
 public class JavaScriptUtils {
 
 	/**
-	 * Turn JavaScript special characters into escaped characters.
-	 * @param input the input string
-	 * @return the string with escaped characters
+	 * 将JavaScript特殊字符转换为转义字符.
+	 * 
+	 * @param input 输入字符串
+	 * 
+	 * @return 带有转义字符的字符串
 	 */
 	public static String javaScriptEscape(String input) {
 		if (input == null) {

@@ -29,16 +29,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link javax.servlet.Filter} that makes form encoded data available through
- * the {@code ServletRequest.getParameter*()} family of methods during HTTP PUT
- * or PATCH requests.
+ * {@link javax.servlet.Filter}在HTTP PUT或PATCH请求期间
+ * 通过{@code ServletRequest.getParameter*()}系列方法提供表单编码数据.
  *
- * <p>The Servlet spec requires form data to be available for HTTP POST but
- * not for HTTP PUT or PATCH requests. This filter intercepts HTTP PUT and PATCH
- * requests where content type is {@code 'application/x-www-form-urlencoded'},
- * reads form encoded content from the body of the request, and wraps the ServletRequest
- * in order to make the form data available as request parameters just like
- * it is for HTTP POST requests.
+ * <p>Servlet规范要求表单数据可用于HTTP POST, 但不能用于HTTP PUT或PATCH请求.
+ * 此过滤器拦截内容类型为{@code 'application/x-www-form-urlencoded'}的HTTP PUT和PATCH请求,
+ * 从请求主体读取表单编码内容, 并包装ServletRequest以使表单数据可用作请求参数, 就像它对HTTP POST请求一样.
  */
 public class HttpPutFormContentFilter extends OncePerRequestFilter {
 
@@ -46,8 +42,8 @@ public class HttpPutFormContentFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set the converter to use for parsing form content.
-	 * <p>By default this is an instnace of {@link AllEncompassingFormHttpMessageConverter}.
+	 * 设置用于解析表单内容的转换器.
+	 * <p>默认{@link AllEncompassingFormHttpMessageConverter}实例.
 	 */
 	public void setFormConverter(FormHttpMessageConverter converter) {
 		Assert.notNull(converter, "FormHttpMessageConverter is required.");
@@ -59,8 +55,8 @@ public class HttpPutFormContentFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * The default character set to use for reading form data.
-	 * This is a shortcut for:<br>
+	 * 用于读取表单数据的默认字符集.
+	 * 这是快捷方式:<br>
 	 * {@code getFormConverter.setCharset(charset)}.
 	 */
 	public void setCharset(Charset charset) {

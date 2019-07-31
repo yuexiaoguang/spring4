@@ -5,41 +5,41 @@ import java.io.IOException;
 import org.springframework.http.HttpRequest;
 
 /**
- * Intercepts client-side HTTP requests. Implementations of this interface can be
- * {@linkplain org.springframework.web.client.RestTemplate#setInterceptors registered}
- * with the {@link org.springframework.web.client.RestTemplate RestTemplate},
- * as to modify the outgoing {@link ClientHttpRequest} and/or the incoming
- * {@link ClientHttpResponse}.
+ * 拦截客户端HTTP请求.
+ * 可以使用
+ * {@link org.springframework.web.client.RestTemplate RestTemplate}
+ * {@linkplain org.springframework.web.client.RestTemplate#setInterceptors 注册}
+ * 此接口的实现, 以修改传出的{@link ClientHttpRequest}和/或传入的{@link ClientHttpResponse}.
  *
- * <p>The main entry point for interceptors is
+ * <p>拦截器的主要入口点是
  * {@link #intercept(HttpRequest, byte[], ClientHttpRequestExecution)}.
  */
 public interface ClientHttpRequestInterceptor {
 
 	/**
-	 * Intercept the given request, and return a response. The given
-	 * {@link ClientHttpRequestExecution} allows the interceptor to pass on the
-	 * request and response to the next entity in the chain.
-	 * <p>A typical implementation of this method would follow the following pattern:
+	 * 拦截给定的请求, 并返回响应.
+	 * 给定的{@link ClientHttpRequestExecution}允许拦截器传递请求并响应链中的下一个实体.
+	 * <p>该方法的典型实现将遵循以下模式:
 	 * <ol>
-	 * <li>Examine the {@linkplain HttpRequest request} and body</li>
-	 * <li>Optionally {@linkplain org.springframework.http.client.support.HttpRequestWrapper
-	 * wrap} the request to filter HTTP attributes.</li>
-	 * <li>Optionally modify the body of the request.</li>
-	 * <li><strong>Either</strong>
+	 * <li>检查{@linkplain HttpRequest 请求}和正文</li>
+	 * <li>可选地{@linkplain org.springframework.http.client.support.HttpRequestWrapper 包装}请求, 以过滤HTTP 属性.</li>
+	 * <li>可选地修改请求的正文.</li>
+	 * <li><strong>或者</strong>
 	 * <ul>
-	 * <li>execute the request using
-	 * {@link ClientHttpRequestExecution#execute(org.springframework.http.HttpRequest, byte[])},</li>
-	 * <strong>or</strong>
-	 * <li>do not execute the request to block the execution altogether.</li>
+	 * <li>使用
+	 * {@link ClientHttpRequestExecution#execute(org.springframework.http.HttpRequest, byte[])}执行请求,</li>
+	 * <strong>或者</strong>
+	 * <li>不要执行完全阻塞执行的请求.</li>
 	 * </ul>
-	 * <li>Optionally wrap the response to filter HTTP attributes.</li>
+	 * <li>可选地包装响应以过滤HTTP属性.</li>
 	 * </ol>
-	 * @param request the request, containing method, URI, and headers
-	 * @param body the body of the request
-	 * @param execution the request execution
-	 * @return the response
-	 * @throws IOException in case of I/O errors
+	 * 
+	 * @param request 请求, 包含方法, URI, 和header
+	 * @param body 请求的正文
+	 * @param execution 请求执行
+	 * 
+	 * @return 响应
+	 * @throws IOException
 	 */
 	ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 			throws IOException;

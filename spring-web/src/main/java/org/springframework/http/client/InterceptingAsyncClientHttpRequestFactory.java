@@ -7,8 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpMethod;
 
 /**
- * Wrapper for a {@link AsyncClientHttpRequestFactory} that has support for
- * {@link AsyncClientHttpRequestInterceptor}s.
+ * 支持{@link AsyncClientHttpRequestInterceptor}的{@link AsyncClientHttpRequestFactory}的包装器.
  */
 public class InterceptingAsyncClientHttpRequestFactory implements AsyncClientHttpRequestFactory {
 
@@ -18,10 +17,8 @@ public class InterceptingAsyncClientHttpRequestFactory implements AsyncClientHtt
 
 
 	/**
-	 * Create new instance of {@link InterceptingAsyncClientHttpRequestFactory}
-	 * with delegated request factory and list of interceptors.
-	 * @param delegate the request factory to delegate to
-	 * @param interceptors the list of interceptors to use
+	 * @param delegate 要委托给的请求工厂
+	 * @param interceptors 要使用的拦截器列表
 	 */
 	public InterceptingAsyncClientHttpRequestFactory(AsyncClientHttpRequestFactory delegate,
 			List<AsyncClientHttpRequestInterceptor> interceptors) {

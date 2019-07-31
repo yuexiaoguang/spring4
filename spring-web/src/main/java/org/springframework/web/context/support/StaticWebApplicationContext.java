@@ -16,22 +16,19 @@ import org.springframework.web.context.ServletConfigAware;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * Static {@link org.springframework.web.context.WebApplicationContext}
- * implementation for testing. Not intended for use in production applications.
+ * 静态{@link org.springframework.web.context.WebApplicationContext}实现, 用于测试.
+ * 不适用于生产应用.
  *
- * <p>Implements the {@link org.springframework.web.context.ConfigurableWebApplicationContext}
- * interface to allow for direct replacement of an {@link XmlWebApplicationContext},
- * despite not actually supporting external configuration files.
+ * <p>实现{@link org.springframework.web.context.ConfigurableWebApplicationContext}接口,
+ * 以允许直接替换{@link XmlWebApplicationContext}, 尽管实际上不支持外部配置文件.
  *
- * <p>Interprets resource paths as servlet context resources, i.e. as paths beneath
- * the web application root. Absolute paths, e.g. for files outside the web app root,
- * can be accessed via "file:" URLs, as implemented by
- * {@link org.springframework.core.io.DefaultResourceLoader}.
+ * <p>将资源路径解释为servlet上下文资源, i.e. 作为Web应用程序根目录下的路径.
+ * 绝对路径, e.g. 对于Web应用程序根目录之外的文件, 可以通过"file:" URL访问,
+ * 由{@link org.springframework.core.io.DefaultResourceLoader}实现.
  *
- * <p>In addition to the special beans detected by
- * {@link org.springframework.context.support.AbstractApplicationContext},
- * this class detects a bean of type {@link org.springframework.ui.context.ThemeSource}
- * in the context, under the special bean name "themeSource".
+ * <p>除了{@link org.springframework.context.support.AbstractApplicationContext}检测到的特殊bean之外,
+ * 此类还在上下文中检测{@link org.springframework.ui.context.ThemeSource}类型,
+ * bean名称为"themeSource"的bean.
  */
 public class StaticWebApplicationContext extends StaticApplicationContext
 		implements ConfigurableWebApplicationContext, ThemeSource {
@@ -51,7 +48,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 
 
 	/**
-	 * Set the ServletContext that this WebApplicationContext runs in.
+	 * 设置此WebApplicationContext运行的ServletContext.
 	 */
 	@Override
 	public void setServletContext(ServletContext servletContext) {
@@ -90,8 +87,9 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * The {@link StaticWebApplicationContext} class does not support this method.
-	 * @throws UnsupportedOperationException <b>always</b>
+	 * {@link StaticWebApplicationContext}类不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException <b>始终抛出</b>
 	 */
 	@Override
 	public void setConfigLocation(String configLocation) {
@@ -101,8 +99,9 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * The {@link StaticWebApplicationContext} class does not support this method.
-	 * @throws UnsupportedOperationException <b>always</b>
+	 * {@link StaticWebApplicationContext}类不支持此方法.
+	 * 
+	 * @throws UnsupportedOperationException <b>始终抛出</b>
 	 */
 	@Override
 	public void setConfigLocations(String... configLocations) {
@@ -118,7 +117,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 
 
 	/**
-	 * Register request/session scopes, a {@link ServletContextAwareProcessor}, etc.
+	 * 注册request/session范围, {@link ServletContextAwareProcessor}, etc.
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -131,8 +130,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * This implementation supports file paths beneath the root of the ServletContext.
-	 * @see ServletContextResource
+	 * 此实现支持ServletContext根目录下的文件路径.
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {
@@ -140,8 +138,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * This implementation supports pattern matching in unexpanded WARs too.
-	 * @see ServletContextResourcePatternResolver
+	 * 此实现也支持匹配未展开的WAR中的模式.
 	 */
 	@Override
 	protected ResourcePatternResolver getResourcePatternResolver() {
@@ -149,7 +146,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * Create and return a new {@link StandardServletEnvironment}.
+	 * 创建并返回{@link StandardServletEnvironment}.
 	 */
 	@Override
 	protected ConfigurableEnvironment createEnvironment() {
@@ -157,7 +154,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * Initialize the theme capability.
+	 * 初始化主题功能.
 	 */
 	@Override
 	protected void onRefresh() {
@@ -174,5 +171,4 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 	public Theme getTheme(String themeName) {
 		return this.themeSource.getTheme(themeName);
 	}
-
 }

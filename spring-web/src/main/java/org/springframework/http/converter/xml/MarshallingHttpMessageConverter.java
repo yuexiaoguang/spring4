@@ -16,15 +16,15 @@ import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverter}
- * that can read and write XML using Spring's {@link Marshaller} and {@link Unmarshaller} abstractions.
+ * {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverter}的实现,
+ * 可以使用Spring的{@link Marshaller}和{@link Unmarshaller}抽象来读写XML.
  *
- * <p>This converter requires a {@code Marshaller} and {@code Unmarshaller} before it can be used.
- * These can be injected by the {@linkplain #MarshallingHttpMessageConverter(Marshaller) constructor}
- * or {@linkplain #setMarshaller(Marshaller) bean properties}.
+ * <p>此转换器需要{@code Marshaller}和{@code Unmarshaller}才能使用它.
+ * 这些可以通过{@linkplain #MarshallingHttpMessageConverter(Marshaller) 构造函数}
+ * 或{@linkplain #setMarshaller(Marshaller) bean属性}注入.
  *
- * <p>By default, this converter supports {@code text/xml} and {@code application/xml}. This can be
- * overridden by setting the {@link #setSupportedMediaTypes(java.util.List) supportedMediaTypes} property.
+ * <p>默认情况下, 此转换器支持{@code text/xml}和{@code application/xml}.
+ * 可以通过设置{@link #setSupportedMediaTypes(java.util.List) supportedMediaTypes}属性来覆盖.
  */
 public class MarshallingHttpMessageConverter extends AbstractXmlHttpMessageConverter<Object> {
 
@@ -34,20 +34,19 @@ public class MarshallingHttpMessageConverter extends AbstractXmlHttpMessageConve
 
 
 	/**
-	 * Construct a new {@code MarshallingHttpMessageConverter} with no {@link Marshaller} or
-	 * {@link Unmarshaller} set. The Marshaller and Unmarshaller must be set after construction
-	 * by invoking {@link #setMarshaller(Marshaller)} and {@link #setUnmarshaller(Unmarshaller)}.
+	 * 不设置{@link Marshaller} 或 {@link Unmarshaller}.
+	 * Marshaller和Unmarshaller必须在构造后,
+	 * 通过调用{@link #setMarshaller(Marshaller)}和{@link #setUnmarshaller(Unmarshaller)}来设置.
 	 */
 	public MarshallingHttpMessageConverter() {
 	}
 
 	/**
-	 * Construct a new {@code MarshallingMessageConverter} with the given {@link Marshaller} set.
-	 * <p>If the given {@link Marshaller} also implements the {@link Unmarshaller} interface,
-	 * it is used for both marshalling and unmarshalling. Otherwise, an exception is thrown.
-	 * <p>Note that all {@code Marshaller} implementations in Spring also implement the
-	 * {@code Unmarshaller} interface, so that you can safely use this constructor.
-	 * @param marshaller object used as marshaller and unmarshaller
+	 * 使用给定的{@link Marshaller}.
+	 * <p>如果给定的{@link Marshaller}也实现了{@link Unmarshaller}接口, 它将用于编组和解组.
+	 * <p>请注意, Spring中的所有{@code Marshaller}实现也实现了{@code Unmarshaller}接口, 因此可以安全地使用此构造函数.
+	 * 
+	 * @param marshaller 用作marshaller和unmarshaller的对象
 	 */
 	public MarshallingHttpMessageConverter(Marshaller marshaller) {
 		Assert.notNull(marshaller, "Marshaller must not be null");
@@ -58,10 +57,8 @@ public class MarshallingHttpMessageConverter extends AbstractXmlHttpMessageConve
 	}
 
 	/**
-	 * Construct a new {@code MarshallingMessageConverter} with the given
-	 * {@code Marshaller} and {@code Unmarshaller}.
-	 * @param marshaller the Marshaller to use
-	 * @param unmarshaller the Unmarshaller to use
+	 * @param marshaller 要使用的Marshaller
+	 * @param unmarshaller 要使用的Unmarshaller
 	 */
 	public MarshallingHttpMessageConverter(Marshaller marshaller, Unmarshaller unmarshaller) {
 		Assert.notNull(marshaller, "Marshaller must not be null");
@@ -72,14 +69,14 @@ public class MarshallingHttpMessageConverter extends AbstractXmlHttpMessageConve
 
 
 	/**
-	 * Set the {@link Marshaller} to be used by this message converter.
+	 * 设置此消息转换器使用的{@link Marshaller}.
 	 */
 	public void setMarshaller(Marshaller marshaller) {
 		this.marshaller = marshaller;
 	}
 
 	/**
-	 * Set the {@link Unmarshaller} to be used by this message converter.
+	 * 设置此消息转换器使用的{@link Unmarshaller}.
 	 */
 	public void setUnmarshaller(Unmarshaller unmarshaller) {
 		this.unmarshaller = unmarshaller;

@@ -8,18 +8,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter} that can read and
- * write JSON using <a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2.x's</a> {@link ObjectMapper}.
+ * {@link org.springframework.http.converter.HttpMessageConverter}的实现,
+ * 使用<a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2.x</a>的 {@link ObjectMapper}读写JSON.
  *
- * <p>This converter can be used to bind to typed beans, or untyped {@code HashMap} instances.
+ * <p>此转换器可用于绑定到类型化的bean或无类型的{@code HashMap}实例.
  *
- * <p>By default, this converter supports {@code application/json} and {@code application/*+json}
- * with {@code UTF-8} character set. This can be overridden by setting the
- * {@link #setSupportedMediaTypes supportedMediaTypes} property.
+ * <p>默认情况下, 此转换器支持使用{@code UTF-8}字符集的{@code application/json}和{@code application/*+json}.
+ * 可以通过设置{@link #setSupportedMediaTypes supportedMediaTypes}属性来覆盖.
  *
- * <p>The default constructor uses the default configuration provided by {@link Jackson2ObjectMapperBuilder}.
+ * <p>默认构造函数使用{@link Jackson2ObjectMapperBuilder}提供的默认配置.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 public class MappingJackson2HttpMessageConverter extends AbstractJackson2HttpMessageConverter {
 
@@ -27,37 +26,33 @@ public class MappingJackson2HttpMessageConverter extends AbstractJackson2HttpMes
 
 
 	/**
-	 * Construct a new {@link MappingJackson2HttpMessageConverter} using default configuration
-	 * provided by {@link Jackson2ObjectMapperBuilder}.
+	 * 使用{@link Jackson2ObjectMapperBuilder}提供的默认配置
+	 * 构造一个新的{@link MappingJackson2HttpMessageConverter}.
 	 */
 	public MappingJackson2HttpMessageConverter() {
 		this(Jackson2ObjectMapperBuilder.json().build());
 	}
 
 	/**
-	 * Construct a new {@link MappingJackson2HttpMessageConverter} with a custom {@link ObjectMapper}.
-	 * You can use {@link Jackson2ObjectMapperBuilder} to build it easily.
-	 * @see Jackson2ObjectMapperBuilder#json()
+	 * 可以使用{@link Jackson2ObjectMapperBuilder}轻松构建它.
 	 */
 	public MappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
 		super(objectMapper, MediaType.APPLICATION_JSON, new MediaType("application", "*+json"));
 	}
 
 	/**
-	 * Specify a custom prefix to use for this view's JSON output.
-	 * Default is none.
-	 * @see #setPrefixJson
+	 * 指定用于此视图的JSON输出的自定义前缀.
+	 * 默认无.
 	 */
 	public void setJsonPrefix(String jsonPrefix) {
 		this.jsonPrefix = jsonPrefix;
 	}
 
 	/**
-	 * Indicate whether the JSON output by this view should be prefixed with ")]}', ". Default is false.
-	 * <p>Prefixing the JSON string in this manner is used to help prevent JSON Hijacking.
-	 * The prefix renders the string syntactically invalid as a script so that it cannot be hijacked.
-	 * This prefix should be stripped before parsing the string as JSON.
-	 * @see #setJsonPrefix
+	 * 指示此视图的JSON输出是否应以 ")]}', "为前缀. 默认 false.
+	 * <p>以这种方式对JSON字符串加前缀, 用于帮助防止JSON劫持.
+	 * 前缀使字符串在脚本语法上无效, 因此无法被劫持.
+	 * 在将字符串解析为JSON之前, 应该删除此前缀.
 	 */
 	public void setPrefixJson(boolean prefixJson) {
 		this.jsonPrefix = (prefixJson ? ")]}', " : null);

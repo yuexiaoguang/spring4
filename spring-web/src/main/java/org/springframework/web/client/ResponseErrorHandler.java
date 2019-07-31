@@ -5,27 +5,28 @@ import java.io.IOException;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * Strategy interface used by the {@link RestTemplate} to determine
- * whether a particular response has an error or not.
+ * {@link RestTemplate}用于确定特定响应是否有错误的策略接口.
  */
 public interface ResponseErrorHandler {
 
 	/**
-	 * Indicate whether the given response has any errors.
-	 * <p>Implementations will typically inspect the
-	 * {@link ClientHttpResponse#getStatusCode() HttpStatus} of the response.
-	 * @param response the response to inspect
-	 * @return {@code true} if the response has an error; {@code false} otherwise
-	 * @throws IOException in case of I/O errors
+	 * 指示给定的响应是否有错误.
+	 * <p>实现通常会检查响应的{@link ClientHttpResponse#getStatusCode() HttpStatus}.
+	 * 
+	 * @param response 要检查的响应
+	 * 
+	 * @return {@code true}如果响应有错误; 否则{@code false}
+	 * @throws IOException
 	 */
 	boolean hasError(ClientHttpResponse response) throws IOException;
 
 	/**
-	 * Handle the error in the given response.
-	 * <p>This method is only called when {@link #hasError(ClientHttpResponse)}
-	 * has returned {@code true}.
-	 * @param response the response with the error
-	 * @throws IOException in case of I/O errors
+	 * 处理给定响应中的错误.
+	 * <p>只有在{@link #hasError(ClientHttpResponse)}返回{@code true}时才会调用此方法.
+	 * 
+	 * @param response 有错误的响应
+	 * 
+	 * @throws IOException
 	 */
 	void handleError(ClientHttpResponse response) throws IOException;
 

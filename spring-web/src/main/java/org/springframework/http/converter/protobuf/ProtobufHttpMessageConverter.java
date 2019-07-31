@@ -24,15 +24,15 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * An {@code HttpMessageConverter} that reads and writes {@link com.google.protobuf.Message}s
- * using <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a>.
+ * {@code HttpMessageConverter}, 使用<a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a>
+ * 读取和写入{@link com.google.protobuf.Message}.
  *
- * <p>By default, it supports {@code "application/x-protobuf"}, {@code "text/plain"},
- * {@code "application/json"}, {@code "application/xml"}, while also writing {@code "text/html"}.
+ * <p>默认情况下, 它支持{@code "application/x-protobuf"}, {@code "text/plain"},
+ * {@code "application/json"}, {@code "application/xml"}, 同时还支持{@code "text/html"}.
  *
- * <p>To generate {@code Message} Java classes, you need to install the {@code protoc} binary.
+ * <p>要生成{@code Message} Java类, 需要安装{@code protoc}二进制文件.
  *
- * <p>Requires Protobuf 2.6 and Protobuf Java Format 1.4, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 需要Protobuf 2.6和Protobuf Java Format 1.4.
  */
 public class ProtobufHttpMessageConverter extends AbstractHttpMessageConverter<Message> {
 
@@ -57,16 +57,12 @@ public class ProtobufHttpMessageConverter extends AbstractHttpMessageConverter<M
 	private final ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
 
 
-	/**
-	 * Construct a new instance.
-	 */
 	public ProtobufHttpMessageConverter() {
 		this(null);
 	}
 
 	/**
-	 * Construct a new instance with an {@link ExtensionRegistryInitializer}
-	 * that allows the registration of message extensions.
+	 * 使用允许注册消息扩展的{@link ExtensionRegistryInitializer}构造一个新实例.
 	 */
 	public ProtobufHttpMessageConverter(ExtensionRegistryInitializer registryInitializer) {
 		super(PROTOBUF, MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML);
@@ -122,8 +118,7 @@ public class ProtobufHttpMessageConverter extends AbstractHttpMessageConverter<M
 	}
 
 	/**
-	 * This method overrides the parent implementation, since this HttpMessageConverter
-	 * can also produce {@code MediaType.HTML "text/html"} ContentType.
+	 * 此方法会覆盖父级实现, 因为此HttpMessageConverter还可以生成{@code MediaType.HTML "text/html"} ContentType.
 	 */
 	@Override
 	protected boolean canWrite(MediaType mediaType) {
@@ -164,10 +159,8 @@ public class ProtobufHttpMessageConverter extends AbstractHttpMessageConverter<M
 	}
 
 	/**
-	 * Set the "X-Protobuf-*" HTTP headers when responding with a message of
-	 * content type "application/x-protobuf"
-	 * <p><b>Note:</b> <code>outputMessage.getBody()</code> should not have been called
-	 * before because it writes HTTP headers (making them read only).</p>
+	 * 使用内容类型为"application/x-protobuf"的消息在响应时设置"X-Protobuf-*" HTTP header.
+	 * <p><b>Note:</b> 之前不应该调用<code>outputMessage.getBody()</code>, 因为它会写入HTTP header (使它们只读).</p>
 	 */
 	private void setProtoHeader(HttpOutputMessage response, Message message) {
 		response.getHeaders().set(X_PROTOBUF_SCHEMA_HEADER, message.getDescriptorForType().getFile().getName());
@@ -176,8 +169,8 @@ public class ProtobufHttpMessageConverter extends AbstractHttpMessageConverter<M
 
 
 	/**
-	 * Create a new {@code Message.Builder} instance for the given class.
-	 * <p>This method uses a ConcurrentHashMap for caching method lookups.
+	 * 为给定的类创建一个新的{@code Message.Builder}实例.
+	 * <p>此方法使用ConcurrentHashMap缓存方法查找.
 	 */
 	private static Message.Builder getMessageBuilder(Class<? extends Message> clazz) throws Exception {
 		Method method = methodCache.get(clazz);

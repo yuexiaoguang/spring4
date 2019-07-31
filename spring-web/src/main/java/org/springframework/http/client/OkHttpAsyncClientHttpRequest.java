@@ -15,9 +15,9 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SettableListenableFuture;
 
 /**
- * {@link AsyncClientHttpRequest} implementation based on OkHttp 2.x.
+ * 基于OkHttp 2.x的{@link AsyncClientHttpRequest}实现.
  *
- * <p>Created via the {@link OkHttpClientHttpRequestFactory}.
+ * <p>通过{@link OkHttpClientHttpRequestFactory}创建.
  */
 class OkHttpAsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequest {
 

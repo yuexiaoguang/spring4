@@ -5,19 +5,21 @@ import java.io.IOException;
 import org.springframework.http.client.ClientHttpRequest;
 
 /**
- * Callback interface for code that operates on a {@link ClientHttpRequest}. Allows to manipulate the request
- * headers, and write to the request body.
+ * 在{@link ClientHttpRequest}上操作的代码的回调接口.
+ * 允许操作请求header, 并写入请求正文.
  *
- * <p>Used internally by the {@link RestTemplate}, but also useful for application code.
+ * <p>由{@link RestTemplate}在内部使用, 但对应用程序代码也很有用.
  */
 public interface RequestCallback {
 
 	/**
-	 * Gets called by {@link RestTemplate#execute} with an opened {@code ClientHttpRequest}.
-	 * Does not need to care about closing the request or about handling errors:
-	 * this will all be handled by the {@code RestTemplate}.
-	 * @param request the active HTTP request
-	 * @throws IOException in case of I/O errors
+	 * 使用打开的{@code ClientHttpRequest}由{@link RestTemplate#execute}调用.
+	 * 不需要关心关闭请求或处理错误:
+	 * 这将由{@code RestTemplate}处理.
+	 * 
+	 * @param request 活动的HTTP请求
+	 * 
+	 * @throws IOException
 	 */
 	void doWithRequest(ClientHttpRequest request) throws IOException;
 

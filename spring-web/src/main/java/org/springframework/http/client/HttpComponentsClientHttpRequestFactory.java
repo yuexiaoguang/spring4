@@ -26,14 +26,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link org.springframework.http.client.ClientHttpRequestFactory} implementation that
- * uses <a href="http://hc.apache.org/httpcomponents-client-ga/">Apache HttpComponents
- * HttpClient</a> to create requests.
+ * {@link org.springframework.http.client.ClientHttpRequestFactory}实现,
+ * 使用<a href="http://hc.apache.org/httpcomponents-client-ga/">Apache HttpComponents HttpClient</a>创建请求.
  *
- * <p>Allows to use a pre-configured {@link HttpClient} instance -
- * potentially with authentication, HTTP connection pooling, etc.
+ * <p>允许使用预先配置的{@link HttpClient}实例 - 可能包括身份验证, HTTP连接池等.
  *
- * <p><b>NOTE:</b> Requires Apache HttpComponents 4.3 or higher, as of Spring 4.0.
+ * <p><b>NOTE:</b> 从Spring 4.0开始, 需要Apache HttpComponents 4.3或更高版本.
  */
 public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequestFactory, DisposableBean {
 
@@ -41,7 +39,7 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 
 	static {
 		try {
-			// Looking for AbstractHttpClient class (deprecated as of HttpComponents 4.3)
+			// 查找AbstractHttpClient class (deprecated as of HttpComponents 4.3)
 			abstractHttpClientClass = ClassUtils.forName("org.apache.http.impl.client.AbstractHttpClient",
 					HttpComponentsClientHttpRequestFactory.class.getClassLoader());
 		}
@@ -58,18 +56,13 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	private boolean bufferRequestBody = true;
 
 
-	/**
-	 * Create a new instance of the {@code HttpComponentsClientHttpRequestFactory}
-	 * with a default {@link HttpClient}.
 	 */
 	public HttpComponentsClientHttpRequestFactory() {
 		this.httpClient = HttpClients.createSystem();
 	}
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsClientHttpRequestFactory}
-	 * with the given {@link HttpClient} instance.
-	 * @param httpClient the HttpClient instance to use for this request factory
+	 * @param httpClient 用于此请求工厂的HttpClient实例
 	 */
 	public HttpComponentsClientHttpRequestFactory(HttpClient httpClient) {
 		setHttpClient(httpClient);
@@ -77,8 +70,7 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 
 
 	/**
-	 * Set the {@code HttpClient} used for
-	 * {@linkplain #createRequest(URI, HttpMethod) synchronous execution}.
+	 * 设置用于 {@linkplain #createRequest(URI, HttpMethod) 同步执行}的{@code HttpClient}.
 	 */
 	public void setHttpClient(HttpClient httpClient) {
 		Assert.notNull(httpClient, "HttpClient must not be null");
@@ -86,20 +78,18 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Return the {@code HttpClient} used for
-	 * {@linkplain #createRequest(URI, HttpMethod) synchronous execution}.
+	 * 返回用于{@linkplain #createRequest(URI, HttpMethod) 同步执行}的{@code HttpClient}.
 	 */
 	public HttpClient getHttpClient() {
 		return this.httpClient;
 	}
 
 	/**
-	 * Set the connection timeout for the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param timeout the timeout value in milliseconds
-	 * @see RequestConfig#getConnectTimeout()
+	 * 设置底层HttpClient的连接超时.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public void setConnectTimeout(int timeout) {
 		Assert.isTrue(timeout >= 0, "Timeout must be a non-negative value");
@@ -108,18 +98,14 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Apply the specified connection timeout to deprecated {@link HttpClient}
-	 * implementations.
-	 * <p>As of HttpClient 4.3, default parameters have to be exposed through a
-	 * {@link RequestConfig} instance instead of setting the parameters on the
-	 * client. Unfortunately, this behavior is not backward-compatible and older
-	 * {@link HttpClient} implementations will ignore the {@link RequestConfig}
-	 * object set in the context.
-	 * <p>If the specified client is an older implementation, we set the custom
-	 * connection timeout through the deprecated API. Otherwise, we just return
-	 * as it is set through {@link RequestConfig} with newer clients.
-	 * @param client the client to configure
-	 * @param timeout the custom connection timeout
+	 * 将指定的连接超时应用于已弃用的{@link HttpClient}实现.
+	 * <p>从HttpClient 4.3开始, 默认参数必须通过{@link RequestConfig}实例公开, 而不是在客户端上设置参数.
+	 * 不幸的是, 这种行为不向后兼容, 旧的{@link HttpClient}实现将忽略上下文中设置的{@link RequestConfig}对象.
+	 * <p>如果指定的客户端是较旧的实现, 通过弃用的API设置自定义连接超时.
+	 * 否则, 通过{@link RequestConfig}设置它, 并与与较新的客户端一起返回.
+	 * 
+	 * @param client 要配置的客户端
+	 * @param timeout 自定义连接超时
 	 */
 	@SuppressWarnings("deprecation")
 	private void setLegacyConnectionTimeout(HttpClient client, int timeout) {
@@ -129,25 +115,22 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Set the timeout in milliseconds used when requesting a connection from the connection
-	 * manager using the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param connectionRequestTimeout the timeout value to request a connection in milliseconds
-	 * @see RequestConfig#getConnectionRequestTimeout()
+	 * 设置使用底层HttpClient从连接管理器请求连接时使用的超时, 以毫秒为单位.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param connectionRequestTimeout 请求连接的超时值, 以毫秒为单位
 	 */
 	public void setConnectionRequestTimeout(int connectionRequestTimeout) {
 		this.requestConfig = requestConfigBuilder().setConnectionRequestTimeout(connectionRequestTimeout).build();
 	}
 
 	/**
-	 * Set the socket read timeout for the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param timeout the timeout value in milliseconds
-	 * @see RequestConfig#getSocketTimeout()
+	 * 设置底层HttpClient的套接字读取超时.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public void setReadTimeout(int timeout) {
 		Assert.isTrue(timeout >= 0, "Timeout must be a non-negative value");
@@ -156,11 +139,11 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Apply the specified socket timeout to deprecated {@link HttpClient}
-	 * implementations. See {@link #setLegacyConnectionTimeout}.
-	 * @param client the client to configure
-	 * @param timeout the custom socket timeout
-	 * @see #setLegacyConnectionTimeout
+	 * 将指定的套接字超时应用于已弃用的{@link HttpClient}实现.
+	 * See {@link #setLegacyConnectionTimeout}.
+	 * 
+	 * @param client 要配置的客户端
+	 * @param timeout 指定的套接字超时
 	 */
 	@SuppressWarnings("deprecation")
 	private void setLegacySocketTimeout(HttpClient client, int timeout) {
@@ -170,10 +153,8 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Indicates whether this request factory should buffer the request body internally.
-	 * <p>Default is {@code true}. When sending large amounts of data via POST or PUT, it is
-	 * recommended to change this property to {@code false}, so as not to run out of memory.
-	 * @since 4.0
+	 * 指示此请求工厂是否应在内部缓冲请求主体.
+	 * <p>默认 {@code true}. 通过POST或PUT发送大量数据时, 建议将此属性更改为{@code false}, 以免内存不足.
 	 */
 	public void setBufferRequestBody(boolean bufferRequestBody) {
 		this.bufferRequestBody = bufferRequestBody;
@@ -189,9 +170,9 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 			context = HttpClientContext.create();
 		}
 
-		// Request configuration not set in the context
+		// 请求配置未在上下文中设置
 		if (context.getAttribute(HttpClientContext.REQUEST_CONFIG) == null) {
-			// Use request configuration given by the user, when available
+			// 使用用户提供的请求配置
 			RequestConfig config = null;
 			if (httpRequest instanceof Configurable) {
 				config = ((Configurable) httpRequest).getConfig();
@@ -214,23 +195,20 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 
 
 	/**
-	 * Return a builder for modifying the factory-level {@link RequestConfig}.
-	 * @since 4.2
+	 * 返回修改工厂级{@link RequestConfig}的构建器.
 	 */
 	private RequestConfig.Builder requestConfigBuilder() {
 		return (this.requestConfig != null ? RequestConfig.copy(this.requestConfig) : RequestConfig.custom());
 	}
 
 	/**
-	 * Create a default {@link RequestConfig} to use with the given client.
-	 * Can return {@code null} to indicate that no custom request config should
-	 * be set and the defaults of the {@link HttpClient} should be used.
-	 * <p>The default implementation tries to merge the defaults of the client
-	 * with the local customizations of this factory instance, if any.
-	 * @param client the {@link HttpClient} (or {@code HttpAsyncClient}) to check
-	 * @return the actual RequestConfig to use (may be {@code null})
-	 * @since 4.2
-	 * @see #mergeRequestConfig(RequestConfig)
+	 * 创建与给定的客户端一起使用的默认的{@link RequestConfig}.
+	 * 可以返回{@code null}以指示不应设置自定义请求配置, 并且应使用{@link HttpClient}的默认值.
+	 * <p>默认实现尝试将客户端的默认值与此工厂实例的本地自定义项合并.
+	 * 
+	 * @param client 要检查的{@link HttpClient} (或{@code HttpAsyncClient})
+	 * 
+	 * @return 要使用的实际RequestConfig (may be {@code null})
 	 */
 	protected RequestConfig createRequestConfig(Object client) {
 		if (client instanceof Configurable) {
@@ -241,11 +219,11 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Merge the given {@link HttpClient}-level {@link RequestConfig} with
-	 * the factory-level {@link RequestConfig}, if necessary.
-	 * @param clientConfig the config held by the current
-	 * @return the merged request config
-	 * @since 4.2
+	 * 将给定的{@link HttpClient}级 {@link RequestConfig}与工厂级{@link RequestConfig}合并.
+	 * 
+	 * @param clientConfig 当前持有的配置
+	 * 
+	 * @return 合并的请求配置
 	 */
 	protected RequestConfig mergeRequestConfig(RequestConfig clientConfig) {
 		if (this.requestConfig == null) {  // nothing to merge
@@ -269,10 +247,12 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Create a Commons HttpMethodBase object for the given HTTP method and URI specification.
-	 * @param httpMethod the HTTP method
+	 * 为给定的HTTP方法和URI规范创建Commons HttpMethodBase对象.
+	 * 
+	 * @param httpMethod HTTP方法
 	 * @param uri the URI
-	 * @return the Commons HttpMethodBase object
+	 * 
+	 * @return Commons HttpMethodBase对象
 	 */
 	protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
 		switch (httpMethod) {
@@ -298,20 +278,22 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 	}
 
 	/**
-	 * Template method that allows for manipulating the {@link HttpUriRequest} before it is
-	 * returned as part of a {@link HttpComponentsClientHttpRequest}.
-	 * <p>The default implementation is empty.
-	 * @param request the request to process
+	 * 模板方法, 允许在作为{@link HttpComponentsClientHttpRequest}的一部分返回之前操纵{@link HttpUriRequest}.
+	 * <p>默认实现为空.
+	 * 
+	 * @param request 要处理的请求
 	 */
 	protected void postProcessHttpRequest(HttpUriRequest request) {
 	}
 
 	/**
-	 * Template methods that creates a {@link HttpContext} for the given HTTP method and URI.
-	 * <p>The default implementation returns {@code null}.
-	 * @param httpMethod the HTTP method
+	 * 为给定的HTTP方法和URI创建{@link HttpContext}的模板方法.
+	 * <p>默认实现返回{@code null}.
+	 * 
+	 * @param httpMethod HTTP方法
 	 * @param uri the URI
-	 * @return the http context
+	 * 
+	 * @return http上下文
 	 */
 	protected HttpContext createHttpContext(HttpMethod httpMethod, URI uri) {
 		return null;
@@ -319,9 +301,7 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 
 
 	/**
-	 * Shutdown hook that closes the underlying
-	 * {@link org.apache.http.conn.HttpClientConnectionManager ClientConnectionManager}'s
-	 * connection pool, if any.
+	 * 关闭底层{@link org.apache.http.conn.HttpClientConnectionManager ClientConnectionManager}的连接池的关闭挂钩.
 	 */
 	@Override
 	public void destroy() throws Exception {
@@ -333,12 +313,10 @@ public class HttpComponentsClientHttpRequestFactory implements ClientHttpRequest
 
 
 	/**
-	 * An alternative to {@link org.apache.http.client.methods.HttpDelete} that
-	 * extends {@link org.apache.http.client.methods.HttpEntityEnclosingRequestBase}
-	 * rather than {@link org.apache.http.client.methods.HttpRequestBase} and
-	 * hence allows HTTP delete with a request body. For use with the RestTemplate
-	 * exchange methods which allow the combination of HTTP DELETE with an entity.
-	 * @since 4.1.2
+	 * {@link org.apache.http.client.methods.HttpDelete}的替代方法,
+	 * 它扩展了{@link org.apache.http.client.methods.HttpEntityEnclosingRequestBase}
+	 * 而不是{@link org.apache.http.client.methods.HttpRequestBase}, 因此允许使用请求正文进行HTTP删除.
+	 * 用于RestTemplate交换方法, 允许HTTP DELETE与实体的组合.
 	 */
 	private static class HttpDelete extends HttpEntityEnclosingRequestBase {
 

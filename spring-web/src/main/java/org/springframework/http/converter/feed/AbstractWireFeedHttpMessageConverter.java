@@ -21,11 +21,9 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StringUtils;
 
 /**
- * Abstract base class for Atom and RSS Feed message converters, using the
- * <a href="https://github.com/rometools/rome">ROME tools</a> project.
+ * Atom和RSS Feed消息转换器的抽象基类, 使用<a href="https://github.com/rometools/rome">ROME tools</a>项目.
  *
- * <p>><b>NOTE: As of Spring 4.1, this is based on the {@code com.rometools}
- * variant of ROME, version 1.5. Please upgrade your build dependency.</b>
+ * <p>><b>NOTE: 从Spring 4.1开始, 这是基于ROME版本1.5的{@code com.rometools}变体. 请升级构建依赖项.</b>
  */
 public abstract class AbstractWireFeedHttpMessageConverter<T extends WireFeed> extends AbstractHttpMessageConverter<T> {
 

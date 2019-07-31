@@ -14,16 +14,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Servlet-based implementation of the {@link RequestAttributes} interface.
+ * 基于Servlet的{@link RequestAttributes}接口实现.
  *
- * <p>Accesses objects from servlet request and HTTP session scope,
- * with no distinction between "session" and "global session".
+ * <p>从servlet请求和HTTP会话范围访问对象, "会话"和"全局会话"之间没有区别.
  */
 public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 	/**
-	 * Constant identifying the {@link String} prefixed to the name of a
-	 * destruction callback when it is stored in a {@link HttpSession}.
+	 * 在{@link HttpSession}中存储销毁回调名称时, 标识它的前缀{@link String}常量.
 	 */
 	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX =
 			ServletRequestAttributes.class.getName() + ".DESTRUCTION_CALLBACK.";
@@ -48,8 +46,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Create a new ServletRequestAttributes instance for the given request.
-	 * @param request current HTTP request
+	 * @param request 当前的HTTP请求
 	 */
 	public ServletRequestAttributes(HttpServletRequest request) {
 		Assert.notNull(request, "Request must not be null");
@@ -57,9 +54,8 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	}
 
 	/**
-	 * Create a new ServletRequestAttributes instance for the given request.
-	 * @param request current HTTP request
-	 * @param response current HTTP response (for optional exposure)
+	 * @param request 当前的HTTP请求
+	 * @param response 当前HTTP响应 (用于可选的公开)
 	 */
 	public ServletRequestAttributes(HttpServletRequest request, HttpServletResponse response) {
 		this(request);
@@ -68,22 +64,23 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Exposes the native {@link HttpServletRequest} that we're wrapping.
+	 * 公开正在包装的原生{@link HttpServletRequest}.
 	 */
 	public final HttpServletRequest getRequest() {
 		return this.request;
 	}
 
 	/**
-	 * Exposes the native {@link HttpServletResponse} that we're wrapping (if any).
+	 * 公开正在包装的原生{@link HttpServletResponse}.
 	 */
 	public final HttpServletResponse getResponse() {
 		return this.response;
 	}
 
 	/**
-	 * Exposes the {@link HttpSession} that we're wrapping.
-	 * @param allowCreate whether to allow creation of a new session if none exists yet
+	 * 公开正在包装的{@link HttpSession}.
+	 * 
+	 * @param allowCreate 是否允许创建新会话
 	 */
 	protected final HttpSession getSession(boolean allowCreate) {
 		if (isRequestActive()) {
@@ -92,7 +89,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 			return session;
 		}
 		else {
-			// Access through stored session reference, if any...
+			// 通过存储的会话引用访问...
 			HttpSession session = this.session;
 			if (session == null) {
 				if (allowCreate) {
@@ -166,11 +163,11 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 				this.sessionAttributesToUpdate.remove(name);
 				try {
 					session.removeAttribute(name);
-					// Remove any registered destruction callback as well.
+					// 删除所有已注册的销毁回调.
 					session.removeAttribute(DESTRUCTION_CALLBACK_NAME_PREFIX + name);
 				}
 				catch (IllegalStateException ex) {
-					// Session invalidated - shouldn't usually happen.
+					// 会话无效 - 通常不应该发生.
 				}
 			}
 		}
@@ -192,7 +189,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 					return StringUtils.toStringArray(session.getAttributeNames());
 				}
 				catch (IllegalStateException ex) {
-					// Session invalidated - shouldn't usually happen.
+					// 会话无效 - 通常不应该发生.
 				}
 			}
 			return new String[0];
@@ -234,13 +231,12 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Update all accessed session attributes through {@code session.setAttribute}
-	 * calls, explicitly indicating to the container that they might have been modified.
+	 * 通过{@code session.setAttribute}调用更新所有访问的会话属性, 向容器明确指示它们可能已被修改.
 	 */
 	@Override
 	protected void updateAccessedSessionAttributes() {
 		if (!this.sessionAttributesToUpdate.isEmpty()) {
-			// Update all affected session attributes.
+			// 更新所有受影响的会话属性.
 			HttpSession session = getSession(false);
 			if (session != null) {
 				try {
@@ -254,7 +250,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 					}
 				}
 				catch (IllegalStateException ex) {
-					// Session invalidated - shouldn't usually happen.
+					// 会话无效 - 通常不应该发生.
 				}
 			}
 			this.sessionAttributesToUpdate.clear();
@@ -262,27 +258,24 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	}
 
 	/**
-	 * Determine whether the given value is to be considered as an immutable session
-	 * attribute, that is, doesn't have to be re-set via {@code session.setAttribute}
-	 * since its value cannot meaningfully change internally.
-	 * <p>The default implementation returns {@code true} for {@code String},
-	 * {@code Character}, {@code Boolean} and standard {@code Number} values.
-	 * @param name the name of the attribute
-	 * @param value the corresponding value to check
-	 * @return {@code true} if the value is to be considered as immutable for the
-	 * purposes of session attribute management; {@code false} otherwise
-	 * @see #updateAccessedSessionAttributes()
+	 * 确定是否将给定值视为不可变会话属性, 即不必通过{@code session.setAttribute}重新设置, 因为其值无法在内部进行有意义的更改.
+	 * <p>对于{@code String}, {@code Character}, {@code Boolean}和标准 {@code Number}值, 默认实现返回{@code true}.
+	 * 
+	 * @param name 属性的名称
+	 * @param value 要检查的相应值
+	 * 
+	 * @return {@code true} 如果为了会话属性管理的目的, 将值视为不可变的; 否则{@code false}
 	 */
 	protected boolean isImmutableSessionAttribute(String name, Object value) {
 		return (value == null || immutableValueTypes.contains(value.getClass()));
 	}
 
 	/**
-	 * Register the given callback as to be executed after session termination.
-	 * <p>Note: The callback object should be serializable in order to survive
-	 * web app restarts.
-	 * @param name the name of the attribute to register the callback for
-	 * @param callback the callback to be executed for destruction
+	 * 注册给定的回调, 以便在会话终止后执行.
+	 * <p>Note: 回调对象应该是可序列化的, 以便在Web应用程序重新启动后继续运行.
+	 * 
+	 * @param name 要注册回调的属性的名称
+	 * @param callback 要执行的销毁回调
 	 */
 	protected void registerSessionDestructionCallback(String name, Runnable callback) {
 		HttpSession session = getSession(true);

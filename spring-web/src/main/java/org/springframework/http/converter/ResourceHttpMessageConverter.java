@@ -14,12 +14,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StreamUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can read/write {@link Resource Resources}
- * and supports byte range requests.
+ * {@link HttpMessageConverter}的实现, 可以读/写{@link Resource Resources}, 并支持字节范围请求.
  *
- * <p>By default, this converter can read all media types. The Java Activation Framework (JAF) -
- * if available - is used to determine the {@code Content-Type} of written resources.
- * If JAF is not available, {@code application/octet-stream} is used.
+ * <p>默认情况下, 此转换器可以读取所有媒体类型.
+ * Java Activation Framework (JAF) - 如果可用 - 用于确定写入资源的{@code Content-Type}.
+ * 如果JAF不可用, 则使用{@code application/octet-stream}.
  */
 public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<Resource> {
 
@@ -65,8 +64,8 @@ public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<R
 
 	@Override
 	protected Long getContentLength(Resource resource, MediaType contentType) throws IOException {
-		// Don't try to determine contentLength on InputStreamResource - cannot be read afterwards...
-		// Note: custom InputStreamResource subclasses could provide a pre-calculated content length!
+		// 不要尝试在InputStreamResource上确定contentLength - 之后无法读取...
+		// Note: 自定义InputStreamResource子类可以提供预先计算的内容长度!
 		if (InputStreamResource.class == resource.getClass()) {
 			return null;
 		}

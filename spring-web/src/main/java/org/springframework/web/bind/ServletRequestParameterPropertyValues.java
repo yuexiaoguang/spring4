@@ -6,52 +6,43 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.web.util.WebUtils;
 
 /**
- * PropertyValues implementation created from parameters in a ServletRequest.
- * Can look for all property values beginning with a certain prefix and
- * prefix separator (default is "_").
+ * 从ServletRequest中的参数创建的PropertyValues实现.
+ * 可以查找以特定前缀和前缀分隔符 (默认 "_")开头的所有属性值.
  *
- * <p>For example, with a prefix of "spring", "spring_param1" and
- * "spring_param2" result in a Map with "param1" and "param2" as keys.
+ * <p>例如, 使用前缀"spring", "spring_param1"和"spring_param2"会产生一个带有"param1"和"param2"作为键的Map.
  *
- * <p>This class is not immutable to be able to efficiently remove property
- * values that should be ignored for binding.
+ * <p>此类不是不可变的, 无法有效地删除应该忽略绑定的属性值.
  */
 @SuppressWarnings("serial")
 public class ServletRequestParameterPropertyValues extends MutablePropertyValues {
 
-	/** Default prefix separator */
+	/** 默认前缀分隔符 */
 	public static final String DEFAULT_PREFIX_SEPARATOR = "_";
 
 
 	/**
-	 * Create new ServletRequestPropertyValues using no prefix
-	 * (and hence, no prefix separator).
-	 * @param request HTTP request
+	 * 不使用前缀 (因此, 没有前缀分隔符).
+	 * 
+	 * @param request HTTP请求
 	 */
 	public ServletRequestParameterPropertyValues(ServletRequest request) {
 		this(request, null, null);
 	}
 
 	/**
-	 * Create new ServletRequestPropertyValues using the given prefix and
-	 * the default prefix separator (the underscore character "_").
-	 * @param request HTTP request
-	 * @param prefix the prefix for parameters (the full prefix will
-	 * consist of this plus the separator)
-	 * @see #DEFAULT_PREFIX_SEPARATOR
+	 * 使用给定前缀和默认前缀分隔符 (下划线字符 "_").
+	 * 
+	 * @param request HTTP请求
+	 * @param prefix 参数的前缀 (完整前缀将由它加上分隔符组成)
 	 */
 	public ServletRequestParameterPropertyValues(ServletRequest request, String prefix) {
 		this(request, prefix, DEFAULT_PREFIX_SEPARATOR);
 	}
 
 	/**
-	 * Create new ServletRequestPropertyValues supplying both prefix and
-	 * prefix separator.
-	 * @param request HTTP request
-	 * @param prefix the prefix for parameters (the full prefix will
-	 * consist of this plus the separator)
-	 * @param prefixSeparator separator delimiting prefix (e.g. "spring")
-	 * and the rest of the parameter name ("param1", "param2")
+	 * @param request HTTP请求
+	 * @param prefix 参数的前缀 (完整前缀将由它加上分隔符组成)
+	 * @param prefixSeparator 分隔符分隔前缀 (e.g. "spring")和参数名称的其余部分("param1", "param2")
 	 */
 	public ServletRequestParameterPropertyValues(ServletRequest request, String prefix, String prefixSeparator) {
 		super(WebUtils.getParametersStartingWith(

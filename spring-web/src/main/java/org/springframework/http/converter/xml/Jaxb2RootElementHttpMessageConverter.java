@@ -31,16 +31,13 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.ClassUtils;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter
- * HttpMessageConverter} that can read and write XML using JAXB2.
+ * {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverter}的实现, 可以使用JAXB2读写XML.
  *
- * <p>This converter can read classes annotated with {@link XmlRootElement} and
- * {@link XmlType}, and write classes annotated with {@link XmlRootElement},
- * or subclasses thereof.
+ * <p>此转换器可以读取使用{@link XmlRootElement}和{@link XmlType}注解的类,
+ * 并写入使用{@link XmlRootElement}注解的类或其子类.
  *
- * <p>Note that if using Spring's Marshaller/Unmarshaller abstractions from the
- * {@code spring-oxm} module you should can the
- * {@link MarshallingHttpMessageConverter} instead.
+ * <p>请注意, 如果使用来自{@code spring-oxm}模块的Spring的Marshaller/Unmarshaller抽象,
+ * 应该使用{@link MarshallingHttpMessageConverter}.
  */
 public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessageConverter<Object> {
 
@@ -50,25 +47,24 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 
 
 	/**
-	 * Indicates whether DTD parsing should be supported.
-	 * <p>Default is {@code false} meaning that DTD is disabled.
+	 * 指示是否应支持DTD解析.
+	 * <p>默认值为{@code false}, 表示DTD已禁用.
 	 */
 	public void setSupportDtd(boolean supportDtd) {
 		this.supportDtd = supportDtd;
 	}
 
 	/**
-	 * Whether DTD parsing is supported.
+	 * 是否支持DTD解析.
 	 */
 	public boolean isSupportDtd() {
 		return this.supportDtd;
 	}
 
 	/**
-	 * Indicates whether external XML entities are processed when converting to a Source.
-	 * <p>Default is {@code false}, meaning that external entities are not resolved.
-	 * <p><strong>Note:</strong> setting this option to {@code true} also
-	 * automatically sets {@link #setSupportDtd} to {@code true}.
+	 * 指示转换为Source时是否处理外部XML实体.
+	 * <p>默认{@code false}, 表示未解析外部实体.
+	 * <p><strong>Note:</strong> 将此选项设置为{@code true}也会自动将{@link #setSupportDtd}设置为{@code true}.
 	 */
 	public void setProcessExternalEntities(boolean processExternalEntities) {
 		this.processExternalEntities = processExternalEntities;
@@ -78,7 +74,7 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 	}
 
 	/**
-	 * Returns the configured value for whether XML external entities are allowed.
+	 * 返回是否允许XML外部实体的配置值.
 	 */
 	public boolean isProcessExternalEntities() {
 		return this.processExternalEntities;

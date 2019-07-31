@@ -6,12 +6,9 @@ import org.apache.log4j.NDC;
 import org.springframework.ui.ModelMap;
 
 /**
- * Request logging interceptor that adds a request context message to the
- * Log4J nested diagnostic context (NDC) before the request is processed,
- * removing it again after the request is processed.
+ * 请求日志拦截器, 在处理请求之前将请求上下文消息添加到Log4J嵌套诊断上下文(NDC), 在处理请求后再次将其删除.
  *
- * @deprecated as of Spring 4.2.1, in favor of Apache Log4j 2
- * (following Apache's EOL declaration for log4j 1.x)
+ * @deprecated 从Spring 4.2.1开始, 支持Apache Log4j 2 (遵循Apache的log4j 1.x的EOL声明)
  */
 @Deprecated
 public class Log4jNestedDiagnosticContextInterceptor implements AsyncWebRequestInterceptor {

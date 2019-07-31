@@ -10,9 +10,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ServletRequestBindingException} subclass that indicates an unsatisfied
- * parameter condition, as typically expressed using an {@code @RequestMapping}
- * annotation at the {@code @Controller} type level.
+ * {@link ServletRequestBindingException}子类, 表示不满足的参数条件,
+ * 通常使用{@code @Controller}类型级别的{@code @RequestMapping}注解表示.
  */
 @SuppressWarnings("serial")
 public class UnsatisfiedServletRequestParameterException extends ServletRequestBindingException {
@@ -23,9 +22,8 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 
 
 	/**
-	 * Create a new UnsatisfiedServletRequestParameterException.
-	 * @param paramConditions the parameter conditions that have been violated
-	 * @param actualParams the actual parameter Map associated with the ServletRequest
+	 * @param paramConditions 已违反的参数条件
+	 * @param actualParams 与ServletRequest关联的实际参数Map
 	 */
 	public UnsatisfiedServletRequestParameterException(String[] paramConditions, Map<String, String[]> actualParams) {
 		super("");
@@ -34,10 +32,8 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 	}
 
 	/**
-	 * Create a new UnsatisfiedServletRequestParameterException.
-	 * @param paramConditions all sets of parameter conditions that have been violated
-	 * @param actualParams the actual parameter Map associated with the ServletRequest
-	 * @since 4.2
+	 * @param paramConditions 所有违反的参数条件集
+	 * @param actualParams 与ServletRequest关联的实际参数Map
 	 */
 	public UnsatisfiedServletRequestParameterException(List<String[]> paramConditions,
 			Map<String, String[]> actualParams) {
@@ -68,26 +64,21 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 	}
 
 	/**
-	 * Return the parameter conditions that have been violated or the first group
-	 * in case of multiple groups.
-	 * @see org.springframework.web.bind.annotation.RequestMapping#params()
+	 * 返回已违反的参数条件或多个组的第一组.
 	 */
 	public final String[] getParamConditions() {
 		return this.paramConditions.get(0);
 	}
 
 	/**
-	 * Return all parameter condition groups that have been violated.
-	 * @see org.springframework.web.bind.annotation.RequestMapping#params()
-	 * @since 4.2
+	 * 返回已违反的所有参数条件组.
 	 */
 	public final List<String[]> getParamConditionGroups() {
 		return this.paramConditions;
 	}
 
 	/**
-	 * Return the actual parameter Map associated with the ServletRequest.
-	 * @see javax.servlet.ServletRequest#getParameterMap()
+	 * 返回与ServletRequest关联的实际参数Map.
 	 */
 	public final Map<String, String[]> getActualParams() {
 		return this.actualParams;

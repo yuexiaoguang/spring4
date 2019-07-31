@@ -20,7 +20,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Extension of {@link UriComponents} for hierarchical URIs.
+ * 分层URI的{@link UriComponents}的扩展.
  */
 @SuppressWarnings("serial")
 final class HierarchicalUriComponents extends UriComponents {
@@ -44,16 +44,17 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Package-private constructor. All arguments are optional, and can be {@code null}.
+	 * 所有参数都是可选的, 可以是{@code null}.
+	 * 
 	 * @param scheme the scheme
-	 * @param userInfo the user info
-	 * @param host the host
-	 * @param port the port
-	 * @param path the path
-	 * @param queryParams the query parameters
-	 * @param fragment the fragment
-	 * @param encoded whether the components are already encoded
-	 * @param verify whether the components need to be checked for illegal characters
+	 * @param userInfo 用户信息
+	 * @param host 主机
+	 * @param port 端口
+	 * @param path 路径
+	 * @param queryParams 查询参数
+	 * @param fragment 片段
+	 * @param encoded 组件是否已编码
+	 * @param verify 是否需要检查组件是否存在非法字符
 	 */
 	HierarchicalUriComponents(String scheme, String userInfo, String host, String port,
 			PathComponent path, MultiValueMap<String, String> queryParams,
@@ -146,7 +147,7 @@ final class HierarchicalUriComponents extends UriComponents {
 	}
 
 	/**
-	 * Return the map of query parameters. Empty if no query has been set.
+	 * 返回查询参数的映射. 如果未设置任何查询, 则为空.
 	 */
 	@Override
 	public MultiValueMap<String, String> getQueryParams() {
@@ -157,11 +158,12 @@ final class HierarchicalUriComponents extends UriComponents {
 	// Encoding
 
 	/**
-	 * Encode all URI components using their specific encoding rules and return
-	 * the result as a new {@code UriComponents} instance.
-	 * @param encoding the encoding of the values
-	 * @return the encoded uri components
-	 * @throws UnsupportedEncodingException if the given encoding is not supported
+	 * 使用特定的编码规则对所有URI组件进行编码, 并将结果作为新的{@code UriComponents}实例返回.
+	 * 
+	 * @param encoding 值的编码
+	 * 
+	 * @return 编码的uri组件
+	 * @throws UnsupportedEncodingException 如果不支持给定的编码
 	 */
 	@Override
 	public HierarchicalUriComponents encode(String encoding) throws UnsupportedEncodingException {
@@ -194,13 +196,14 @@ final class HierarchicalUriComponents extends UriComponents {
 	}
 
 	/**
-	 * Encode the given source into an encoded String using the rules specified
-	 * by the given component and with the given options.
-	 * @param source the source String
-	 * @param encoding the encoding of the source String
-	 * @param type the URI component for the source
-	 * @return the encoded URI
-	 * @throws IllegalArgumentException when the given value is not a valid URI component
+	 * 使用给定组件和给定选项指定的规则编码给定的源.
+	 * 
+	 * @param source 源字符串
+	 * @param encoding 源String的编码
+	 * @param type 源的URI组件
+	 * 
+	 * @return 编码后的URI
+	 * @throws IllegalArgumentException 当给定值不是有效的URI组件时
 	 */
 	static String encodeUriComponent(String source, String encoding, Type type) throws UnsupportedEncodingException {
 		if (source == null) {
@@ -241,9 +244,9 @@ final class HierarchicalUriComponents extends UriComponents {
 	// Verifying
 
 	/**
-	 * Verifies all URI components to determine whether they contain any illegal
-	 * characters, throwing an {@code IllegalArgumentException} if so.
-	 * @throws IllegalArgumentException if any component has illegal characters
+	 * 验证所有URI组件以确定它们是否包含任何非法字符, 如果是, 则抛出{@code IllegalArgumentException}.
+	 * 
+	 * @throws IllegalArgumentException 如果任何组件有非法字符
 	 */
 	private void verify() {
 		if (!this.encoded) {
@@ -328,8 +331,7 @@ final class HierarchicalUriComponents extends UriComponents {
 	}
 
 	/**
-	 * Normalize the path removing sequences like "path/..".
-	 * @see StringUtils#cleanPath(String)
+	 * 规范化路径删除序列, 例如"path/..".
 	 */
 	@Override
 	public UriComponents normalize() {
@@ -343,7 +345,7 @@ final class HierarchicalUriComponents extends UriComponents {
 	// Other functionality
 
 	/**
-	 * Returns a URI String from this {@code UriComponents} instance.
+	 * 从此{@code UriComponents}实例返回URI字符串.
 	 */
 	@Override
 	public String toUriString() {
@@ -386,7 +388,7 @@ final class HierarchicalUriComponents extends UriComponents {
 	}
 
 	/**
-	 * Returns a {@code URI} from this {@code UriComponents} instance.
+	 * 从此{@code UriComponents}实例返回{@code URI}.
 	 */
 	@Override
 	public URI toUri() {
@@ -397,7 +399,7 @@ final class HierarchicalUriComponents extends UriComponents {
 			else {
 				String path = getPath();
 				if (StringUtils.hasLength(path) && path.charAt(0) != PATH_DELIMITER) {
-					// Only prefix the path delimiter if something exists before it
+					// 如果在它之前存在某些东西, 则只在路径分隔符前加上前缀
 					if (getScheme() != null || getUserInfo() != null || getHost() != null || getPort() != -1) {
 						path = PATH_DELIMITER + path;
 					}
@@ -458,9 +460,8 @@ final class HierarchicalUriComponents extends UriComponents {
 	// Nested types
 
 	/**
-	 * Enumeration used to identify the allowed characters per URI component.
-	 * <p>Contains methods to indicate whether a given character is valid in a specific URI component.
-	 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>
+	 * 用于标识每个URI组件允许的字符的枚举.
+	 * <p>包含指示给定字符在特定URI组件中是否有效的方法.
 	 */
 	enum Type {
 
@@ -543,38 +544,35 @@ final class HierarchicalUriComponents extends UriComponents {
 		};
 
 		/**
-		 * Indicates whether the given character is allowed in this URI component.
-		 * @return {@code true} if the character is allowed; {@code false} otherwise
+		 * 指示此URI组件中是否允许给定字符.
+		 * 
+		 * @return {@code true} 如果允许该字符; 否则{@code false}
 		 */
 		public abstract boolean isAllowed(int c);
 
 		/**
-		 * Indicates whether the given character is in the {@code ALPHA} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code ALPHA}集中.
 		 */
 		protected boolean isAlpha(int c) {
 			return (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code DIGIT} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code DIGIT}集中.
 		 */
 		protected boolean isDigit(int c) {
 			return (c >= '0' && c <= '9');
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code gen-delims} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code gen-delims}集中.
 		 */
 		protected boolean isGenericDelimiter(int c) {
 			return (':' == c || '/' == c || '?' == c || '#' == c || '[' == c || ']' == c || '@' == c);
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code sub-delims} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code sub-delims}集中.
 		 */
 		protected boolean isSubDelimiter(int c) {
 			return ('!' == c || '$' == c || '&' == c || '\'' == c || '(' == c || ')' == c || '*' == c || '+' == c ||
@@ -582,24 +580,21 @@ final class HierarchicalUriComponents extends UriComponents {
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code reserved} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code reserved}集中.
 		 */
 		protected boolean isReserved(int c) {
 			return (isGenericDelimiter(c) || isSubDelimiter(c));
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code unreserved} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code unreserved}集中.
 		 */
 		protected boolean isUnreserved(int c) {
 			return (isAlpha(c) || isDigit(c) || '-' == c || '.' == c || '_' == c || '~' == c);
 		}
 
 		/**
-		 * Indicates whether the given character is in the {@code pchar} set.
-		 * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986, appendix A</a>
+		 * 指示给定字符是否在{@code pchar}集中.
 		 */
 		protected boolean isPchar(int c) {
 			return (isUnreserved(c) || isSubDelimiter(c) || ':' == c || '@' == c);
@@ -608,7 +603,7 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Defines the contract for path (segments).
+	 * 定义路径 (分段)的约定.
 	 */
 	interface PathComponent extends Serializable {
 
@@ -627,7 +622,7 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Represents a path backed by a String.
+	 * 表示由String支持的路径.
 	 */
 	static final class FullPathComponent implements PathComponent {
 
@@ -687,7 +682,7 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Represents a path backed by a String list (i.e. path segments).
+	 * 表示由字符串列表支持的路径 (i.e. 路径分段).
 	 */
 	static final class PathSegmentComponent implements PathComponent {
 
@@ -765,7 +760,7 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Represents a collection of PathComponents.
+	 * 表示PathComponents的集合.
 	 */
 	static final class PathComponentComposite implements PathComponent {
 
@@ -829,7 +824,7 @@ final class HierarchicalUriComponents extends UriComponents {
 
 
 	/**
-	 * Represents an empty path.
+	 * 表示空路径.
 	 */
 	static final PathComponent NULL_PATH_COMPONENT = new PathComponent() {
 		@Override

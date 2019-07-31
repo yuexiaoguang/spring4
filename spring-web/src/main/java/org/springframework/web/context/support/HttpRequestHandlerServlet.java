@@ -13,16 +13,13 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Simple HttpServlet that delegates to an {@link HttpRequestHandler} bean defined
- * in Spring's root web application context. The target bean name must match the
- * HttpRequestHandlerServlet servlet-name as defined in {@code web.xml}.
+ * 简单的HttpServlet, 它委托给Spring的根Web应用程序上下文中定义的{@link HttpRequestHandler} bean.
+ * 目标bean名称必须与{@code web.xml}中定义的HttpRequestHandlerServlet servlet-name匹配.
  *
- * <p>This can for example be used to expose a single Spring remote exporter,
- * such as {@link org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter}
- * or {@link org.springframework.remoting.caucho.HessianServiceExporter},
- * per HttpRequestHandlerServlet definition. This is a minimal alternative
- * to defining remote exporters as beans in a DispatcherServlet context
- * (with advanced mapping and interception facilities being available there).
+ * <p>根据HttpRequestHandlerServlet定义, 这可以用于公开单个Spring远程导出器,
+ * 例如{@link org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter}
+ * 或{@link org.springframework.remoting.caucho.HessianServiceExporter}.
+ * 这是在DispatcherServlet上下文中将远程导出器定义为bean的最小替代方法 (在那里可以使用高级映射和拦截工具).
  */
 @SuppressWarnings("serial")
 public class HttpRequestHandlerServlet extends HttpServlet {

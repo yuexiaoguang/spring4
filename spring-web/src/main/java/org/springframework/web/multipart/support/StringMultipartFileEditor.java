@@ -6,10 +6,9 @@ import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Custom {@link java.beans.PropertyEditor} for converting
- * {@link MultipartFile MultipartFiles} to Strings.
+ * 自定义{@link java.beans.PropertyEditor}, 用于将{@link MultipartFile MultipartFiles}转换为字符串.
  *
- * <p>Allows one to specify the charset to use.
+ * <p>允许用户指定要使用的字符集.
  */
 public class StringMultipartFileEditor extends PropertyEditorSupport {
 
@@ -17,15 +16,14 @@ public class StringMultipartFileEditor extends PropertyEditorSupport {
 
 
 	/**
-	 * Create a new {@link StringMultipartFileEditor}, using the default charset.
+	 * 使用默认的字符集.
 	 */
 	public StringMultipartFileEditor() {
 		this.charsetName = null;
 	}
 
 	/**
-	 * Create a new {@link StringMultipartFileEditor}, using the given charset.
-	 * @param charsetName valid charset name
+	 * @param charsetName 有效的charset名称
 	 */
 	public StringMultipartFileEditor(String charsetName) {
 		this.charsetName = charsetName;

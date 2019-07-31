@@ -1,13 +1,11 @@
 package org.springframework.web.bind.support;
 
 /**
- * Simple implementation of the {@link SessionStatus} interface,
- * keeping the {@code complete} flag as an instance variable.
+ * {@link SessionStatus}接口的简单实现, 将{@code complete}标志保持为实例变量.
  */
 public class SimpleSessionStatus implements SessionStatus {
 
 	private boolean complete = false;
-
 
 	@Override
 	public void setComplete() {
@@ -18,5 +16,4 @@ public class SimpleSessionStatus implements SessionStatus {
 	public boolean isComplete() {
 		return this.complete;
 	}
-
 }

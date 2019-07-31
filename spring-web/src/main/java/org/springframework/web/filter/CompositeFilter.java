@@ -11,14 +11,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * A generic composite servlet {@link Filter} that just delegates its behavior
- * to a chain (list) of user-supplied filters, achieving the functionality of a
- * {@link FilterChain}, but conveniently using only {@link Filter} instances.
+ * 一个通用的复合servlet {@link Filter}, 它只将其行为委托给用户提供的过滤器的链 (list),
+ * 实现{@link FilterChain}的功能, 但只使用{@link Filter}实例.
  *
- * <p>This is useful for filters that require dependency injection, and can
- * therefore be set up in a Spring application context. Typically, this
- * composite would be used in conjunction with {@link DelegatingFilterProxy},
- * so that it can be declared in Spring but applied to a servlet context.
+ * <p>这对需要依赖注入的过滤器很有用, 因此可以在Spring应用程序上下文中进行设置.
+ * 通常, 此组合将与{@link DelegatingFilterProxy}一起使用, 以便它可以在Spring中声明, 但应用于servlet上下文.
  */
 public class CompositeFilter implements Filter {
 
@@ -31,7 +28,7 @@ public class CompositeFilter implements Filter {
 
 
 	/**
-	 * Initialize all the filters, calling each one's init method in turn in the order supplied.
+	 * 初始化所有过滤器, 按提供的顺序依次调用每个过滤器的init方法.
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -41,9 +38,8 @@ public class CompositeFilter implements Filter {
 	}
 
 	/**
-	 * Forms a temporary chain from the list of delegate filters supplied ({@link #setFilters})
-	 * and executes them in order. Each filter delegates to the next one in the list, achieving
-	 * the normal behavior of a {@link FilterChain}, despite the fact that this is a {@link Filter}.
+	 * 从提供的委托过滤器列表 ({@link #setFilters})中形成一个临时链, 并按顺序执行它们.
+	 * 每个过滤器都委托给列表中的下一个过滤器, 实现{@link FilterChain}的正常行为, 尽管这是{@link Filter}.
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -53,7 +49,7 @@ public class CompositeFilter implements Filter {
 	}
 
 	/**
-	 * Clean up all the filters supplied, calling each one's destroy method in turn, but in reverse order.
+	 * 清理所有提供的过滤器, 依次调用每个过滤器的销毁方法, 但顺序相反.
 	 */
 	@Override
 	public void destroy() {

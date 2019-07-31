@@ -6,12 +6,10 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} for locally
- * defined JAX-WS Service references.
- * Uses {@link LocalJaxWsServiceFactory}'s facilities underneath.
+ * 用于本地定义的JAX-WS服务引用的{@link org.springframework.beans.factory.FactoryBean}.
+ * 使用下面的{@link LocalJaxWsServiceFactory}设施.
  *
- * <p>Alternatively, JAX-WS Service references can be looked up
- * in the JNDI environment of the J2EE container.
+ * <p>或者, 可以在J2EE容器的JNDI环境中查找JAX-WS服务引用.
  */
 public class LocalJaxWsServiceFactoryBean extends LocalJaxWsServiceFactory
 		implements FactoryBean<Service>, InitializingBean {

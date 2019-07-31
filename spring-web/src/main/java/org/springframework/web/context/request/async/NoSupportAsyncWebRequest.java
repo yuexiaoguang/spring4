@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * An {@code AsyncWebRequest} to use when there is no underlying async support.
+ * 在没有底层异步支持时使用的{@code AsyncWebRequest}.
  */
 public class NoSupportAsyncWebRequest extends ServletWebRequest implements AsyncWebRequest {
 

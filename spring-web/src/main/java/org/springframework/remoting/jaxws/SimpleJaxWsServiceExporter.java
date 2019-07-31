@@ -5,20 +5,14 @@ import javax.xml.ws.Endpoint;
 import javax.xml.ws.WebServiceProvider;
 
 /**
- * Simple exporter for JAX-WS services, autodetecting annotated service beans
- * (through the JAX-WS {@link javax.jws.WebService} annotation) and exporting
- * them with a configured base address (by default "http://localhost:8080/")
- * using the JAX-WS provider's built-in publication support. The full address
- * for each service will consist of the base address with the service name
- * appended (e.g. "http://localhost:8080/OrderService").
+ * 用于JAX-WS服务的简单导出器, 自动检测带注解的服务bean (通过JAX-WS {@link javax.jws.WebService}注解),
+ * 并使用配置的基址(默认为"http://localhost:8080/")导出它们, 使用JAX-WS提供者的内置发布支持.
+ * 每个服务的完整地址将包含附加服务名称的基址 (e.g. "http://localhost:8080/OrderService").
  *
- * <p>Note that this exporter will only work if the JAX-WS runtime actually
- * supports publishing with an address argument, i.e. if the JAX-WS runtime
- * ships an internal HTTP server. This is the case with the JAX-WS runtime
- * that's included in Sun's JDK 6 but not with the standalone JAX-WS 2.1 RI.
+ * <p>请注意, 此导出器仅在JAX-WS运行时实际支持使用address参数发布时才起作用, i.e. 如果JAX-WS运行时附带内部HTTP服务器.
+ * 这是JAX-WS运行时的情况, 它包含在Sun的JDK 6中, 但不包含在独立的JAX-WS 2.1 RI中.
  *
- * <p>For explicit configuration of JAX-WS endpoints with Sun's JDK 6
- * HTTP server, consider using {@link SimpleHttpServerJaxWsServiceExporter}!
+ * <p>要使用Sun的JDK 6 HTTP服务器显式配置JAX-WS端点, 考虑使用{@link SimpleHttpServerJaxWsServiceExporter}!
  */
 public class SimpleJaxWsServiceExporter extends AbstractJaxWsServiceExporter {
 
@@ -28,11 +22,10 @@ public class SimpleJaxWsServiceExporter extends AbstractJaxWsServiceExporter {
 
 
 	/**
-	 * Set the base address for exported services.
-	 * Default is "http://localhost:8080/".
-	 * <p>For each actual publication address, the service name will be
-	 * appended to this base address. E.g. service name "OrderService"
-	 * -> "http://localhost:8080/OrderService".
+	 * 设置导出服务的基址.
+	 * 默认"http://localhost:8080/".
+	 * <p>对于每个实际发布地址, 服务名称将附加到此基址.
+	 * E.g. 服务名称"OrderService" -> "http://localhost:8080/OrderService".
 	 */
 	public void setBaseAddress(String baseAddress) {
 		this.baseAddress = baseAddress;
@@ -50,10 +43,12 @@ public class SimpleJaxWsServiceExporter extends AbstractJaxWsServiceExporter {
 	}
 
 	/**
-	 * Calculate the full endpoint address for the given endpoint.
-	 * @param endpoint the JAX-WS Provider Endpoint object
-	 * @param serviceName the given service name
-	 * @return the full endpoint address
+	 * 计算给定端点的完整端点地址.
+	 * 
+	 * @param endpoint JAX-WS Provider Endpoint对象
+	 * @param serviceName 给定服务名称
+	 * 
+	 * @return 完整的端点地址
 	 */
 	protected String calculateEndpointAddress(Endpoint endpoint, String serviceName) {
 		String fullAddress = this.baseAddress + serviceName;

@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.StreamUtils;
 
 /**
- * Simple implementation of {@link ClientHttpRequest} that wraps another request.
+ * {@link ClientHttpRequest}的简单实现, 包装另一个请求.
  */
 final class BufferingClientHttpRequestWrapper extends AbstractBufferingClientHttpRequest {
 

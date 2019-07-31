@@ -12,12 +12,10 @@ import org.springframework.http.client.AsyncClientHttpRequestFactory;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@link org.springframework.web.client.AsyncRestTemplate}
- * and other HTTP accessing gateway helpers, defining common properties
- * such as the {@link AsyncClientHttpRequestFactory} to operate on.
+ * {@link org.springframework.web.client.AsyncRestTemplate}的基类和其他HTTP访问网关助手,
+ * 定义常用属性, 例如要操作的{@link AsyncClientHttpRequestFactory}.
  *
- * <p>Not intended to be used directly. See
- * {@link org.springframework.web.client.AsyncRestTemplate}.
+ * <p>不打算直接使用.See {@link org.springframework.web.client.AsyncRestTemplate}.
  */
 public class AsyncHttpAccessor {
 
@@ -28,8 +26,7 @@ public class AsyncHttpAccessor {
 
 
 	/**
-	 * Set the request factory that this accessor uses for obtaining {@link
-	 * org.springframework.http.client.ClientHttpRequest HttpRequests}.
+	 * 设置此访问者用于获取{@link org.springframework.http.client.ClientHttpRequest HttpRequests}的请求工厂.
 	 */
 	public void setAsyncRequestFactory(AsyncClientHttpRequestFactory asyncRequestFactory) {
 		Assert.notNull(asyncRequestFactory, "AsyncClientHttpRequestFactory must not be null");
@@ -37,20 +34,20 @@ public class AsyncHttpAccessor {
 	}
 
 	/**
-	 * Return the request factory that this accessor uses for obtaining {@link
-	 * org.springframework.http.client.ClientHttpRequest HttpRequests}.
+	 * 返回此访问者用于获取{@link org.springframework.http.client.ClientHttpRequest HttpRequests}的请求工厂.
 	 */
 	public AsyncClientHttpRequestFactory getAsyncRequestFactory() {
 		return this.asyncRequestFactory;
 	}
 
 	/**
-	 * Create a new {@link AsyncClientHttpRequest} via this template's
-	 * {@link AsyncClientHttpRequestFactory}.
-	 * @param url the URL to connect to
-	 * @param method the HTTP method to execute (GET, POST, etc.)
-	 * @return the created request
-	 * @throws IOException in case of I/O errors
+	 * 通过此模板的{@link AsyncClientHttpRequestFactory}创建一个新的{@link AsyncClientHttpRequest}.
+	 * 
+	 * @param url 要连接到的URL
+	 * @param method 要执行的HTTP方法 (GET, POST, etc.)
+	 * 
+	 * @return 创建的请求
+	 * @throws IOException
 	 */
 	protected AsyncClientHttpRequest createAsyncRequest(URI url, HttpMethod method) throws IOException {
 		AsyncClientHttpRequest request = getAsyncRequestFactory().createAsyncRequest(url, method);

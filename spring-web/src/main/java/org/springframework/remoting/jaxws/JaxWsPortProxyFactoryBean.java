@@ -6,9 +6,9 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} for a specific port of a
- * JAX-WS service. Exposes a proxy for the port, to be used for bean references.
- * Inherits configuration properties from {@link JaxWsPortClientInterceptor}.
+ * 用于JAX-WS服务的特定端口的{@link org.springframework.beans.factory.FactoryBean}.
+ * 公开端口的代理, 用于bean引用.
+ * 从{@link JaxWsPortClientInterceptor}继承配置属性.
  */
 public class JaxWsPortProxyFactoryBean extends JaxWsPortClientInterceptor
 		implements FactoryBean<Object> {
@@ -20,7 +20,7 @@ public class JaxWsPortProxyFactoryBean extends JaxWsPortClientInterceptor
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 
-		// Build a proxy that also exposes the JAX-WS BindingProvider interface.
+		// 构建一个也公开JAX-WS BindingProvider接口的代理.
 		ProxyFactory pf = new ProxyFactory();
 		pf.addInterface(getServiceInterface());
 		pf.addInterface(BindingProvider.class);

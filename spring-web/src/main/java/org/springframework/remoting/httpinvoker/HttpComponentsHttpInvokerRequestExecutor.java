@@ -31,15 +31,14 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor} implementation that uses
- * <a href="http://hc.apache.org/httpcomponents-client-ga/httpclient/">Apache HttpComponents HttpClient</a>
- * to execute POST requests.
+ * {@link org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor}实现,
+ * 使用<a href="http://hc.apache.org/httpcomponents-client-ga/httpclient/">Apache HttpComponents HttpClient</a>
+ * 执行POST请求.
  *
- * <p>Allows to use a pre-configured {@link org.apache.http.client.HttpClient}
- * instance, potentially with authentication, HTTP connection pooling, etc.
- * Also designed for easy subclassing, providing specific template methods.
+ * <p>允许使用预先配置的{@link org.apache.http.client.HttpClient}实例, 可能使用身份验证, HTTP连接池等.
+ * 还为易于子类化而设计, 提供特定的模板方法.
  *
- * <p>As of Spring 4.1, this request executor requires Apache HttpComponents 4.3 or higher.
+ * <p>从Spring 4.1开始, 此请求执行器需要Apache HttpComponents 4.3或更高版本.
  */
 public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvokerRequestExecutor {
 
@@ -54,7 +53,7 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 
 	static {
 		try {
-			// Looking for AbstractHttpClient class (deprecated as of HttpComponents 4.3)
+			// 查找AbstractHttpClient类 (deprecated as of HttpComponents 4.3)
 			abstractHttpClientClass = ClassUtils.forName("org.apache.http.impl.client.AbstractHttpClient",
 					HttpComponentsHttpInvokerRequestExecutor.class.getClassLoader());
 		}
@@ -70,8 +69,7 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 
 
 	/**
-	 * Create a new instance of the HttpComponentsHttpInvokerRequestExecutor with a default
-	 * {@link HttpClient} that uses a default {@code org.apache.http.impl.conn.PoolingClientConnectionManager}.
+	 * 使用默认的{@link HttpClient}, 它使用默认的{@code org.apache.http.impl.conn.PoolingClientConnectionManager}.
 	 */
 	public HttpComponentsHttpInvokerRequestExecutor() {
 		this(createDefaultHttpClient(), RequestConfig.custom()
@@ -79,9 +77,7 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Create a new instance of the HttpComponentsClientHttpRequestFactory
-	 * with the given {@link HttpClient} instance.
-	 * @param httpClient the HttpClient instance to use for this request executor
+	 * @param httpClient 用于此请求执行器的HttpClient实例
 	 */
 	public HttpComponentsHttpInvokerRequestExecutor(HttpClient httpClient) {
 		this(httpClient, null);
@@ -108,26 +104,25 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 
 
 	/**
-	 * Set the {@link HttpClient} instance to use for this request executor.
+	 * 设置用于此请求执行器的{@link HttpClient}实例.
 	 */
 	public void setHttpClient(HttpClient httpClient) {
 		this.httpClient = httpClient;
 	}
 
 	/**
-	 * Return the {@link HttpClient} instance that this request executor uses.
+	 * 返回此请求执行器使用的{@link HttpClient}实例.
 	 */
 	public HttpClient getHttpClient() {
 		return this.httpClient;
 	}
 
 	/**
-	 * Set the connection timeout for the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param timeout the timeout value in milliseconds
-	 * @see RequestConfig#getConnectTimeout()
+	 * 设置底层HttpClient的连接超时.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public void setConnectTimeout(int timeout) {
 		Assert.isTrue(timeout >= 0, "Timeout must be a non-negative value");
@@ -136,18 +131,14 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Apply the specified connection timeout to deprecated {@link HttpClient}
-	 * implementations.
-	 * <p>As of HttpClient 4.3, default parameters have to be exposed through a
-	 * {@link RequestConfig} instance instead of setting the parameters on the
-	 * client. Unfortunately, this behavior is not backward-compatible and older
-	 * {@link HttpClient} implementations will ignore the {@link RequestConfig}
-	 * object set in the context.
-	 * <p>If the specified client is an older implementation, we set the custom
-	 * connection timeout through the deprecated API. Otherwise, we just return
-	 * as it is set through {@link RequestConfig} with newer clients.
-	 * @param client the client to configure
-	 * @param timeout the custom connection timeout
+	 * 将指定的连接超时应用于已弃用的{@link HttpClient}实现.
+	 * <p>从HttpClient 4.3开始, 默认参数必须通过{@link RequestConfig}实例公开, 而不是在客户端上设置参数.
+	 * 不幸的是, 这种行为不向后兼容, 旧的{@link HttpClient}实现将忽略上下文中设置的{@link RequestConfig}对象.
+	 * <p>如果指定的客户端是较旧的实现, 通过弃用的API设置自定义连接超时.
+	 * 否则, 只是通过{@link RequestConfig}与较新的客户端一起返回.
+	 * 
+	 * @param client 要配置的客户端
+	 * @param timeout 自定义连接超时
 	 */
 	@SuppressWarnings("deprecation")
 	private void setLegacyConnectionTimeout(HttpClient client, int timeout) {
@@ -157,26 +148,22 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Set the timeout in milliseconds used when requesting a connection from the connection
-	 * manager using the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param connectionRequestTimeout the timeout value to request a connection in milliseconds
-	 * @see RequestConfig#getConnectionRequestTimeout()
+	 * 设置使用底层HttpClient从连接管理器请求连接时使用的超时, 以毫秒为单位.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param connectionRequestTimeout 请求连接的超时值, 以毫秒为单位
 	 */
 	public void setConnectionRequestTimeout(int connectionRequestTimeout) {
 		this.requestConfig = cloneRequestConfig().setConnectionRequestTimeout(connectionRequestTimeout).build();
 	}
 
 	/**
-	 * Set the socket read timeout for the underlying HttpClient.
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Additional properties can be configured by specifying a
-	 * {@link RequestConfig} instance on a custom {@link HttpClient}.
-	 * @param timeout the timeout value in milliseconds
-	 * @see #DEFAULT_READ_TIMEOUT_MILLISECONDS
-	 * @see RequestConfig#getSocketTimeout()
+	 * 设置底层HttpClient的套接字读取超时.
+	 * 值0指定无限超时.
+	 * <p>可以通过在自定义{@link HttpClient}上指定{@link RequestConfig}实例来配置其他属性.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public void setReadTimeout(int timeout) {
 		Assert.isTrue(timeout >= 0, "Timeout must be a non-negative value");
@@ -185,11 +172,11 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Apply the specified socket timeout to deprecated {@link HttpClient}
-	 * implementations. See {@link #setLegacyConnectionTimeout}.
-	 * @param client the client to configure
-	 * @param timeout the custom socket timeout
-	 * @see #setLegacyConnectionTimeout
+	 * 将指定的套接字超时应用于已弃用的{@link HttpClient}实现.
+	 * See {@link #setLegacyConnectionTimeout}.
+	 * 
+	 * @param client 要配置的客户端
+	 * @param timeout 自定义套接字超时
 	 */
 	@SuppressWarnings("deprecation")
 	private void setLegacySocketTimeout(HttpClient client, int timeout) {
@@ -204,14 +191,8 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 
 
 	/**
-	 * Execute the given request through the HttpClient.
-	 * <p>This method implements the basic processing workflow:
-	 * The actual work happens in this class's template methods.
-	 * @see #createHttpPost
-	 * @see #setRequestBody
-	 * @see #executeHttpPost
-	 * @see #validateResponse
-	 * @see #getResponseBody
+	 * 通过HttpClient执行给定的请求.
+	 * <p>此方法实现基本处理工作流程: 实际工作发生在这个类的模板方法中.
 	 */
 	@Override
 	protected RemoteInvocationResult doExecuteRequest(
@@ -232,13 +213,13 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Create a HttpPost for the given configuration.
-	 * <p>The default implementation creates a standard HttpPost with
-	 * "application/x-java-serialized-object" as "Content-Type" header.
-	 * @param config the HTTP invoker configuration that specifies the
-	 * target service
-	 * @return the HttpPost instance
-	 * @throws java.io.IOException if thrown by I/O methods
+	 * 为给定配置创建HttpPost.
+	 * <p>默认实现创建一个标准的HttpPost, 将"Content-Type" header设置为"application/x-java-serialized-object".
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * 
+	 * @return HttpPost实例
+	 * @throws java.io.IOException
 	 */
 	protected HttpPost createHttpPost(HttpInvokerClientConfiguration config) throws IOException {
 		HttpPost httpPost = new HttpPost(config.getServiceUrl());
@@ -264,14 +245,13 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Create a {@link RequestConfig} for the given configuration. Can return {@code null}
-	 * to indicate that no custom request config should be set and the defaults of the
-	 * {@link HttpClient} should be used.
-	 * <p>The default implementation tries to merge the defaults of the client with the
-	 * local customizations of the instance, if any.
-	 * @param config the HTTP invoker configuration that specifies the
-	 * target service
-	 * @return the RequestConfig to use
+	 * 为给定配置创建{@link RequestConfig}.
+	 * 可以返回{@code null}以指示不应设置自定义请求配置, 并且应使用{@link HttpClient}的默认值.
+	 * <p>默认实现尝试将客户端的默认值与实例的本地自定义项合并.
+	 * 
+	 * @param config 指定目标服务的 HTTP调用器配置
+	 * 
+	 * @return 要使用的RequestConfig
 	 */
 	protected RequestConfig createRequestConfig(HttpInvokerClientConfiguration config) {
 		HttpClient client = getHttpClient();
@@ -304,15 +284,15 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Set the given serialized remote invocation as request body.
-	 * <p>The default implementation simply sets the serialized invocation as the
-	 * HttpPost's request body. This can be overridden, for example, to write a
-	 * specific encoding and to potentially set appropriate HTTP request headers.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param httpPost the HttpPost to set the request body on
-	 * @param baos the ByteArrayOutputStream that contains the serialized
-	 * RemoteInvocation object
-	 * @throws java.io.IOException if thrown by I/O methods
+	 * 将给定的序列化远程调用设置为请求正文.
+	 * <p>默认实现只是将序列化调用设置为HttpPost的请求主体.
+	 * 例如, 可以覆盖此选项以写入特定编码, 或者可能设置适当的HTTP请求header.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param httpPost 要设置请求主体的HttpPost
+	 * @param baos 包含序列化RemoteInvocation对象的ByteArrayOutputStream
+	 * 
+	 * @throws java.io.IOException
 	 */
 	protected void setRequestBody(
 			HttpInvokerClientConfiguration config, HttpPost httpPost, ByteArrayOutputStream baos)
@@ -324,12 +304,14 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Execute the given HttpPost instance.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param httpClient the HttpClient to execute on
-	 * @param httpPost the HttpPost to execute
-	 * @return the resulting HttpResponse
-	 * @throws java.io.IOException if thrown by I/O methods
+	 * 执行给定的HttpPost实例.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param httpClient 要执行的HttpClient
+	 * @param httpPost 要执行的HttpPost
+	 * 
+	 * @return 结果HttpResponse
+	 * @throws java.io.IOException
 	 */
 	protected HttpResponse executeHttpPost(
 			HttpInvokerClientConfiguration config, HttpClient httpClient, HttpPost httpPost)
@@ -339,13 +321,13 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Validate the given response as contained in the HttpPost object,
-	 * throwing an exception if it does not correspond to a successful HTTP response.
-	 * <p>Default implementation rejects any HTTP status code beyond 2xx, to avoid
-	 * parsing the response body and trying to deserialize from a corrupted stream.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param response the resulting HttpResponse to validate
-	 * @throws java.io.IOException if validation failed
+	 * 验证HttpPost对象中包含的给定响应, 如果它与成功的HTTP响应不对应, 则抛出异常.
+	 * <p>默认实现拒绝任何超过2xx的HTTP状态代码, 以避免解析响应正文, 并尝试从损坏的流中反序列化.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param response 要验证的结果HttpResponse
+	 * 
+	 * @throws java.io.IOException 如果验证失败
 	 */
 	protected void validateResponse(HttpInvokerClientConfiguration config, HttpResponse response)
 			throws IOException {
@@ -359,16 +341,15 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Extract the response body from the given executed remote invocation request.
-	 * <p>The default implementation simply fetches the HttpPost's response body stream.
-	 * If the response is recognized as GZIP response, the InputStream will get wrapped
-	 * in a GZIPInputStream.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param httpResponse the resulting HttpResponse to read the response body from
-	 * @return an InputStream for the response body
-	 * @throws java.io.IOException if thrown by I/O methods
-	 * @see #isGzipResponse
-	 * @see java.util.zip.GZIPInputStream
+	 * 从给定的执行远程调用请求中提取响应主体.
+	 * <p>默认实现只是获取HttpPost的响应主体流.
+	 * 如果响应被识别为GZIP响应, 则InputStream将被包装在GZIPInputStream中.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param httpResponse 从中读取响应主体的结果HttpResponse
+	 * 
+	 * @return 响应主体的InputStream
+	 * @throws java.io.IOException
 	 */
 	protected InputStream getResponseBody(HttpInvokerClientConfiguration config, HttpResponse httpResponse)
 			throws IOException {
@@ -382,16 +363,16 @@ public class HttpComponentsHttpInvokerRequestExecutor extends AbstractHttpInvoke
 	}
 
 	/**
-	 * Determine whether the given response indicates a GZIP response.
-	 * <p>The default implementation checks whether the HTTP "Content-Encoding"
-	 * header contains "gzip" (in any casing).
-	 * @param httpResponse the resulting HttpResponse to check
-	 * @return whether the given response indicates a GZIP response
+	 * 确定给定的响应是否表示GZIP响应.
+	 * <p>默认实现检查HTTP "Content-Encoding" header是否包含"gzip".
+	 * 
+	 * @param httpResponse 要检查的结果HttpResponse
+	 * 
+	 * @return 给定的响应是否表示GZIP响应
 	 */
 	protected boolean isGzipResponse(HttpResponse httpResponse) {
 		Header encodingHeader = httpResponse.getFirstHeader(HTTP_HEADER_CONTENT_ENCODING);
 		return (encodingHeader != null && encodingHeader.getValue() != null &&
 				encodingHeader.getValue().toLowerCase().contains(ENCODING_GZIP));
 	}
-
 }

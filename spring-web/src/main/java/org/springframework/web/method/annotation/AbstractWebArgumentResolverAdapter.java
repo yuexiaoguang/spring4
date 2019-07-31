@@ -13,18 +13,13 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * An abstract base class adapting a {@link WebArgumentResolver} to the
- * {@link HandlerMethodArgumentResolver} contract.
+ * 一个抽象基类, 使{@link WebArgumentResolver}适配{@link HandlerMethodArgumentResolver}约定.
  *
- * <p><strong>Note:</strong> This class is provided for backwards compatibility.
- * However it is recommended to re-write a {@code WebArgumentResolver} as
- * {@code HandlerMethodArgumentResolver}. Since {@link #supportsParameter}
- * can only be implemented by actually resolving the value and then checking
- * the result is not {@code WebArgumentResolver#UNRESOLVED} any exceptions
- * raised must be absorbed and ignored since it's not clear whether the adapter
- * doesn't support the parameter or whether it failed for an internal reason.
- * The {@code HandlerMethodArgumentResolver} contract also provides access to
- * model attributes and to {@code WebDataBinderFactory} (for type conversion).
+ * <p><strong>Note:</strong> 提供此类是为了向后兼容.
+ * 但是建议重新编写{@code WebArgumentResolver}作为{@code HandlerMethodArgumentResolver}.
+ * 由于{@link #supportsParameter}只能通过实际解析值来实现, 然后检查结果不是{@code WebArgumentResolver#UNRESOLVED},
+ * 所引发的任何异常必须被吸收和忽略, 因为不清楚适配器是否不支持该参数或是否因内部原因而失败.
+ * {@code HandlerMethodArgumentResolver}约定还提供对模型属性和{@code WebDataBinderFactory}的访问 (用于类型转换).
  */
 public abstract class AbstractWebArgumentResolverAdapter implements HandlerMethodArgumentResolver {
 
@@ -33,9 +28,6 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 	private final WebArgumentResolver adaptee;
 
 
-	/**
-	 * Create a new instance.
-	 */
 	public AbstractWebArgumentResolverAdapter(WebArgumentResolver adaptee) {
 		Assert.notNull(adaptee, "'adaptee' must not be null");
 		this.adaptee = adaptee;
@@ -43,8 +35,7 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 
 
 	/**
-	 * Actually resolve the value and check the resolved value is not
-	 * {@link WebArgumentResolver#UNRESOLVED} absorbing _any_ exceptions.
+	 * 实际解析值并检查解析后的值是不是{@link WebArgumentResolver#UNRESOLVED}, 忽略任何异常.
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -66,9 +57,9 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 	}
 
 	/**
-	 * Delegate to the {@link WebArgumentResolver} instance.
-	 * @throws IllegalStateException if the resolved value is not assignable
-	 * to the method parameter.
+	 * 委托给{@link WebArgumentResolver}实例.
+	 * 
+	 * @throws IllegalStateException 如果解析的值不能分配给method参数.
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
@@ -87,7 +78,7 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 
 
 	/**
-	 * Required for access to NativeWebRequest in {@link #supportsParameter}.
+	 * 需要访问{@link #supportsParameter}中的NativeWebRequest.
 	 */
 	protected abstract NativeWebRequest getWebRequest();
 

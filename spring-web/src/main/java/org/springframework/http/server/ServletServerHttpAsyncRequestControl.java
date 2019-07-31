@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.Assert;
 
 /**
- * A {@link ServerHttpAsyncRequestControl} to use on Servlet containers (Servlet 3.0+).
+ * 用于Servlet容器的{@link ServerHttpAsyncRequestControl} (Servlet 3.0+).
  */
 public class ServletServerHttpAsyncRequestControl implements ServerHttpAsyncRequestControl, AsyncListener {
 
@@ -28,9 +28,7 @@ public class ServletServerHttpAsyncRequestControl implements ServerHttpAsyncRequ
 
 
 	/**
-	 * Constructor accepting a request and response pair that are expected to be of type
-	 * {@link ServletServerHttpRequest} and {@link ServletServerHttpResponse}
-	 * respectively.
+	 * 接受{@link ServletServerHttpRequest}和{@link ServletServerHttpResponse}类型的请求和响应对的构造方法.
 	 */
 	public ServletServerHttpAsyncRequestControl(ServletServerHttpRequest request, ServletServerHttpResponse response) {
 		Assert.notNull(request, "request is required");

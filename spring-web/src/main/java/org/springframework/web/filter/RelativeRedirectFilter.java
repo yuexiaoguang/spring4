@@ -10,15 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
 /**
- * Overrides {@link HttpServletResponse#sendRedirect(String)} and handles it by
- * setting the HTTP status and "Location" headers, which keeps the Servlet
- * container from re-writing relative redirect URLs into absolute ones.
- * Servlet containers are required to do that but against the recommendation of
+ * 覆盖{@link HttpServletResponse#sendRedirect(String)}并通过设置HTTP状态和"Location" header来处理它,
+ * 这使Servlet容器不会将相对重定向URL重写为绝对URL.
+ * Servlet容器需要这样做, 但违反了建议
  * <a href="https://tools.ietf.org/html/rfc7231#section-7.1.2"> RFC 7231 Section 7.1.2</a>,
- * and furthermore not necessarily taking into account "X-Forwarded" headers.
+ * 此外, 不一定要考虑"X-Forwarded" header.
  *
- * <p><strong>Note:</strong> While relative redirects are recommended in the
- * RFC, under some configurations with reverse proxies they may not work.
+ * <p><strong>Note:</strong> 虽然RFC中建议使用相对重定向, 但在某些使用反向代理的配置下, 它们可能无法正常工作.
  */
 public class RelativeRedirectFilter extends OncePerRequestFilter {
 
@@ -26,9 +24,10 @@ public class RelativeRedirectFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set the default HTTP Status to use for redirects.
-	 * <p>By default this is {@link HttpStatus#SEE_OTHER}.
-	 * @param status the 3xx redirect status to use
+	 * 设置用于重定向的默认HTTP状态.
+	 * <p>默认{@link HttpStatus#SEE_OTHER}.
+	 * 
+	 * @param status 要使用的3xx重定向状态
 	 */
 	public void setRedirectStatus(HttpStatus status) {
 		Assert.notNull(status, "Property 'redirectStatus' is required");
@@ -37,7 +36,7 @@ public class RelativeRedirectFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Return the configured redirect status.
+	 * 返回配置的重定向状态.
 	 */
 	public HttpStatus getRedirectStatus() {
 		return this.redirectStatus;

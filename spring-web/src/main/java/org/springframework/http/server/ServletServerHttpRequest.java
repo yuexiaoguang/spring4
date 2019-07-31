@@ -28,7 +28,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ServerHttpRequest} implementation that is based on a {@link HttpServletRequest}.
+ * 基于{@link HttpServletRequest}的{@link ServerHttpRequest}实现.
  */
 public class ServletServerHttpRequest implements ServerHttpRequest {
 
@@ -47,8 +47,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 
 
 	/**
-	 * Construct a new instance of the ServletServerHttpRequest based on the given {@link HttpServletRequest}.
-	 * @param servletRequest the servlet request
+	 * @param servletRequest servlet请求
 	 */
 	public ServletServerHttpRequest(HttpServletRequest servletRequest) {
 		Assert.notNull(servletRequest, "HttpServletRequest must not be null");
@@ -57,7 +56,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 
 
 	/**
-	 * Returns the {@code HttpServletRequest} this object is based on.
+	 * 返回此对象所基于的{@code HttpServletRequest}.
 	 */
 	public HttpServletRequest getServletRequest() {
 		return this.servletRequest;
@@ -88,7 +87,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 					throw new IllegalStateException(
 							"Could not resolve HttpServletRequest as URI: " + urlString, ex);
 				}
-				// Maybe a malformed query string... try plain request URL
+				// 可能是格式错误的查询字符串... 尝试普通请求URL
 				try {
 					urlString = this.servletRequest.getRequestURL().toString();
 					this.uri = new URI(urlString);
@@ -116,8 +115,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 				}
 			}
 
-			// HttpServletRequest exposes some headers as properties:
-			// we should include those if not already present
+			// HttpServletRequest 将一些header公开为属性: 应该包括那些尚未存在的header
 			try {
 				MediaType contentType = this.headers.getContentType();
 				if (contentType == null) {
@@ -140,7 +138,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 				}
 			}
 			catch (InvalidMediaTypeException ex) {
-				// Ignore: simply not exposing an invalid content type in HttpHeaders...
+				// Ignore: 只是不在HttpHeaders中暴露无效的内容类型...
 			}
 
 			if (this.headers.getContentLength() < 0) {
@@ -200,10 +198,9 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 	}
 
 	/**
-	 * Use {@link javax.servlet.ServletRequest#getParameterMap()} to reconstruct the
-	 * body of a form 'POST' providing a predictable outcome as opposed to reading
-	 * from the body, which can fail if any other code has used the ServletRequest
-	 * to access a parameter, thus causing the input stream to be "consumed".
+	 * 使用{@link javax.servlet.ServletRequest#getParameterMap()}重建表单'POST'的主体,
+	 * 提供可预测的结果, 而不是从正文中读取,
+	 * 如果任何其他代码使用ServletRequest参数访问主体, 则可能会失败, 从而导致输入流被"消耗".
 	 */
 	private static InputStream getBodyFromServletRequestParameters(HttpServletRequest request) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);

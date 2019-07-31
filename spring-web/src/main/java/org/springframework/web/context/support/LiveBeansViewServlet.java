@@ -9,10 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.support.LiveBeansView;
 
 /**
- * Servlet variant of {@link LiveBeansView}'s MBean exposure.
+ * {@link LiveBeansView}的MBean公开的Servlet变体.
  *
- * <p>Generates a JSON snapshot for current beans and their dependencies in
- * all ApplicationContexts that live within the current web application.
+ * <p>在当前Web应用程序中生成的所有ApplicationContexts中为当前Bean及其依赖项生成JSON快照.
  */
 @SuppressWarnings("serial")
 public class LiveBeansViewServlet extends HttpServlet {

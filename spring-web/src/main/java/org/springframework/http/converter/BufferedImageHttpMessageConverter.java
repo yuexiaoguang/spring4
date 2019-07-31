@@ -30,21 +30,15 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can read and write
- * {@link BufferedImage BufferedImages}.
+ * {@link HttpMessageConverter}的实现, 可以读取和写入{@link BufferedImage BufferedImages}.
  *
- * <p>By default, this converter can read all media types that are supported
- * by the {@linkplain ImageIO#getReaderMIMETypes() registered image readers},
- * and writes using the media type of the first available
- * {@linkplain javax.imageio.ImageIO#getWriterMIMETypes() registered image writer}.
- * The latter can be overridden by setting the
- * {@link #setDefaultContentType defaultContentType} property.
+ * <p>默认情况下, 此转换器可以读取{@linkplain ImageIO#getReaderMIMETypes() 注册的图像读取器}支持的所有媒体类型,
+ * 并使用第一个可用的{@linkplain javax.imageio.ImageIO#getWriterMIMETypes() 注册的图像写入器}进行写入.
+ * 可以通过设置{@link #setDefaultContentType defaultContentType}属性来覆盖后者.
  *
- * <p>If the {@link #setCacheDir cacheDir} property is set, this converter
- * will cache image data.
+ * <p>如果设置了{@link #setCacheDir cacheDir}属性, 则此转换器将缓存图像数据.
  *
- * <p>The {@link #process(ImageReadParam)} and {@link #process(ImageWriteParam)}
- * template methods allow subclasses to override Image I/O parameters.
+ * <p>{@link #process(ImageReadParam)}和{@link #process(ImageWriteParam)}模板方法允许子类覆盖 Image I/O参数.
  */
 public class BufferedImageHttpMessageConverter implements HttpMessageConverter<BufferedImage> {
 
@@ -74,8 +68,9 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 
 
 	/**
-	 * Sets the default {@code Content-Type} to be used for writing.
-	 * @throws IllegalArgumentException if the given content type is not supported by the Java Image I/O API
+	 * 设置用于写入的默认{@code Content-Type}.
+	 * 
+	 * @throws IllegalArgumentException 如果 Java Image I/O API不支持给定的内容类型
 	 */
 	public void setDefaultContentType(MediaType defaultContentType) {
 		Assert.notNull(defaultContentType, "'contentType' must not be null");
@@ -89,16 +84,15 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 	}
 
 	/**
-	 * Returns the default {@code Content-Type} to be used for writing.
-	 * Called when {@link #write} is invoked without a specified content type parameter.
+	 * 返回用于写入的默认{@code Content-Type}.
+	 * 在没有指定内容类型参数的情况下调用{@link #write}时调用.
 	 */
 	public MediaType getDefaultContentType() {
 		return this.defaultContentType;
 	}
 
 	/**
-	 * Sets the cache directory. If this property is set to an existing directory,
-	 * this converter will cache image data.
+	 * 设置缓存目录. 如果此属性设置为现有目录, 则此转换器将缓存图像数据.
 	 */
 	public void setCacheDir(File cacheDir) {
 		Assert.notNull(cacheDir, "'cacheDir' must not be null");
@@ -261,17 +255,15 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 
 
 	/**
-	 * Template method that allows for manipulating the {@link ImageReadParam}
-	 * before it is used to read an image.
-	 * <p>The default implementation is empty.
+	 * 模板方法, 允许在用于读取图像之前操纵{@link ImageReadParam}.
+	 * <p>默认实现为空.
 	 */
 	protected void process(ImageReadParam irp) {
 	}
 
 	/**
-	 * Template method that allows for manipulating the {@link ImageWriteParam}
-	 * before it is used to write an image.
-	 * <p>The default implementation is empty.
+	 * 模板方法, 允许在用于写入图像之前操纵{@link ImageWriteParam}.
+	 * <p>默认实现为空.
 	 */
 	protected void process(ImageWriteParam iwp) {
 	}

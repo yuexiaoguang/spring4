@@ -15,20 +15,15 @@ import org.springframework.web.cors.DefaultCorsProcessor;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * {@link javax.servlet.Filter} that handles CORS preflight requests and intercepts
- * CORS simple and actual requests thanks to a {@link CorsProcessor} implementation
- * ({@link DefaultCorsProcessor} by default) in order to add the relevant CORS
- * response headers (like {@code Access-Control-Allow-Origin}) using the provided
- * {@link CorsConfigurationSource} (for example an {@link UrlBasedCorsConfigurationSource}
- * instance.
+ * {@link javax.servlet.Filter}处理CORS preflight请求并拦截CORS简单和实际请求,
+ * 这要归功于{@link CorsProcessor}实现 (默认为{@link DefaultCorsProcessor}),
+ * 为了使用提供的{@link CorsConfigurationSource}添加相关的CORS响应header (如{@code Access-Control-Allow-Origin})
+ * (例如 {@link UrlBasedCorsConfigurationSource}实例).
  *
- * <p>This is an alternative to Spring MVC Java config and XML namespace CORS configuration,
- * useful for applications depending only on spring-web (not on spring-webmvc) or for
- * security constraints requiring CORS checks to be performed at {@link javax.servlet.Filter}
- * level.
+ * <p>这是Spring MVC Java配置和XML命名空间CORS配置的替代方案, 对于仅依赖于spring-web (而不是不是spring-webmvc)的应用程序
+ * 或者需要在{@link javax.servlet.Filter}级别执行CORS检查的安全约束非常有用.
  *
- * <p>This filter could be used in conjunction with {@link DelegatingFilterProxy} in order
- * to help with its initialization.
+ * <p>此过滤器可与{@link DelegatingFilterProxy}结合使用, 以帮助其初始化.
  */
 public class CorsFilter extends OncePerRequestFilter {
 
@@ -38,9 +33,7 @@ public class CorsFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter
-	 * to find the {@link CorsConfiguration} to use for each incoming request.
-	 * @see UrlBasedCorsConfigurationSource
+	 * 构造函数接受过滤器使用的{@link CorsConfigurationSource}来查找用于每个传入请求的{@link CorsConfiguration}.
 	 */
 	public CorsFilter(CorsConfigurationSource configSource) {
 		Assert.notNull(configSource, "CorsConfigurationSource must not be null");
@@ -49,9 +42,8 @@ public class CorsFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Configure a custom {@link CorsProcessor} to use to apply the matched
-	 * {@link CorsConfiguration} for a request.
-	 * <p>By default {@link DefaultCorsProcessor} is used.
+	 * 配置自定义{@link CorsProcessor}以用于为请求应用匹配的{@link CorsConfiguration}.
+	 * <p>默认使用{@link DefaultCorsProcessor}.
 	 */
 	public void setCorsProcessor(CorsProcessor processor) {
 		Assert.notNull(processor, "CorsProcessor must not be null");

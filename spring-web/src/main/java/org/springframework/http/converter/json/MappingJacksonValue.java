@@ -3,16 +3,13 @@ package org.springframework.http.converter.json;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 
 /**
- * A simple holder for the POJO to serialize via
- * {@link MappingJackson2HttpMessageConverter} along with further
- * serialization instructions to be passed in to the converter.
+ * 要通过{@link MappingJackson2HttpMessageConverter}序列化的POJO的简单保存器,
+ * 以及要传递给转换器的更多序列化指令.
  *
- * <p>On the server side this wrapper is added with a
- * {@code ResponseBodyInterceptor} after content negotiation selects the
- * converter to use but before the write.
+ * <p>在服务器端, 此包装器添加了{@code ResponseBodyInterceptor},
+ * 在内容协商选择要使用的转换器之后, 但在写入之前.
  *
- * <p>On the client side, simply wrap the POJO and pass it in to the
- * {@code RestTemplate}.
+ * <p>在客户端，只需包装POJO并将其传递给{@code RestTemplate}.
  */
 public class MappingJacksonValue {
 
@@ -26,8 +23,7 @@ public class MappingJacksonValue {
 
 
 	/**
-	 * Create a new instance wrapping the given POJO to be serialized.
-	 * @param value the Object to be serialized
+	 * @param value 要序列化的对象
 	 */
 	public MappingJacksonValue(Object value) {
 		this.value = value;
@@ -35,60 +31,50 @@ public class MappingJacksonValue {
 
 
 	/**
-	 * Modify the POJO to serialize.
+	 * 修改要序列化的POJO.
 	 */
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
-	 * Return the POJO that needs to be serialized.
+	 * 返回需要序列化的POJO.
 	 */
 	public Object getValue() {
 		return this.value;
 	}
 
 	/**
-	 * Set the serialization view to serialize the POJO with.
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#writerWithView(Class)
-	 * @see com.fasterxml.jackson.annotation.JsonView
+	 * 设置序列化POJO使用的序列化视图.
 	 */
 	public void setSerializationView(Class<?> serializationView) {
 		this.serializationView = serializationView;
 	}
 
 	/**
-	 * Return the serialization view to use.
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#writerWithView(Class)
-	 * @see com.fasterxml.jackson.annotation.JsonView
+	 * 返回要使用的序列化视图.
 	 */
 	public Class<?> getSerializationView() {
 		return this.serializationView;
 	}
 
 	/**
-	 * Set the Jackson filter provider to serialize the POJO with.
-	 * @since 4.2
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#writer(FilterProvider)
-	 * @see com.fasterxml.jackson.annotation.JsonFilter
-	 * @see Jackson2ObjectMapperBuilder#filters(FilterProvider)
+	 * 设置序列化POJO使用的Jackson过滤器提供者.
 	 */
 	public void setFilters(FilterProvider filters) {
 		this.filters = filters;
 	}
 
 	/**
-	 * Return the Jackson filter provider to use.
-	 * @since 4.2
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#writer(FilterProvider)
-	 * @see com.fasterxml.jackson.annotation.JsonFilter
+	 * 返回要使用的Jackson过滤器提供者.
 	 */
 	public FilterProvider getFilters() {
 		return this.filters;
 	}
 
 	/**
-	 * Set the name of the JSONP function name.
+	 * 设置JSONP函数名称的名称.
+	 * 
 	 * @deprecated Will be removed as of Spring Framework 5.1, use
 	 * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
 	 */
@@ -98,7 +84,8 @@ public class MappingJacksonValue {
 	}
 
 	/**
-	 * Return the configured JSONP function name.
+	 * 返回配置的JSONP函数名称.
+	 * 
 	 * @deprecated Will be removed as of Spring Framework 5.1, use
 	 * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
 	 */

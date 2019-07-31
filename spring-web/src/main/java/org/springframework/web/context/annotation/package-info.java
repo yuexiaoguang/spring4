@@ -1,4 +1,4 @@
 /**
- * Provides convenience annotations for web scopes.
+ * 为Web范围提供便利注解.
  */
 package org.springframework.web.context.annotation;

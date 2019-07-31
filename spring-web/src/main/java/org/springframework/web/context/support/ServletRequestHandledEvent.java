@@ -1,39 +1,36 @@
 package org.springframework.web.context.support;
 
 /**
- * Servlet-specific subclass of RequestHandledEvent,
- * adding servlet-specific context information.
+ * RequestHandledEvent的特定于Servlet的子类, 添加特定于servlet的上下文信息.
  */
 @SuppressWarnings("serial")
 public class ServletRequestHandledEvent extends RequestHandledEvent {
 
-	/** URL that triggered the request */
+	/** 触发请求的URL */
 	private final String requestUrl;
 
-	/** IP address that the request came from */
+	/** 请求来自的IP地址 */
 	private final String clientAddress;
 
-	/** Usually GET or POST */
+	/** 通常是GET 或 POST */
 	private final String method;
 
-	/** Name of the servlet that handled the request */
+	/** 处理请求的servlet的名称 */
 	private final String servletName;
 
-	/** HTTP status code of the response */
+	/** 响应的HTTP状态码 */
 	private final int statusCode;
 
 
 	/**
-	 * Create a new ServletRequestHandledEvent.
-	 * @param source the component that published the event
-	 * @param requestUrl the URL of the request
-	 * @param clientAddress the IP address that the request came from
-	 * @param method the HTTP method of the request (usually GET or POST)
-	 * @param servletName the name of the servlet that handled the request
-	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
-	 * @param processingTimeMillis the processing time of the request in milliseconds
+	 * @param source 发布事件的组件
+	 * @param requestUrl 请求的URL
+	 * @param clientAddress 请求来自的IP地址
+	 * @param method 请求的HTTP方法 (通常是GET或POST)
+	 * @param servletName 处理请求的servlet的名称
+	 * @param sessionId HTTP会话的ID
+	 * @param userName 与请求关联的用户的名称 (通常是UserPrincipal)
+	 * @param processingTimeMillis 请求的处理时间(以毫秒为单位)
 	 */
 	public ServletRequestHandledEvent(Object source, String requestUrl,
 			String clientAddress, String method, String servletName,
@@ -48,17 +45,15 @@ public class ServletRequestHandledEvent extends RequestHandledEvent {
 	}
 
 	/**
-	 * Create a new ServletRequestHandledEvent.
-	 * @param source the component that published the event
-	 * @param requestUrl the URL of the request
-	 * @param clientAddress the IP address that the request came from
-	 * @param method the HTTP method of the request (usually GET or POST)
-	 * @param servletName the name of the servlet that handled the request
-	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
-	 * @param processingTimeMillis the processing time of the request in milliseconds
-	 * @param failureCause the cause of failure, if any
+	 * @param source 发布事件的组件
+	 * @param requestUrl 请求的URL
+	 * @param clientAddress 请求来自的IP地址
+	 * @param method 请求的HTTP方法 (通常是GET或POST)
+	 * @param servletName 处理请求的servlet的名称
+	 * @param sessionId HTTP会话的ID
+	 * @param userName 与请求关联的用户的名称 (通常是UserPrincipal)
+	 * @param processingTimeMillis 请求的处理时间(以毫秒为单位)
+	 * @param failureCause 失败的原因
 	 */
 	public ServletRequestHandledEvent(Object source, String requestUrl,
 			String clientAddress, String method, String servletName, String sessionId,
@@ -73,18 +68,16 @@ public class ServletRequestHandledEvent extends RequestHandledEvent {
 	}
 
 	/**
-	 * Create a new ServletRequestHandledEvent.
-	 * @param source the component that published the event
-	 * @param requestUrl the URL of the request
-	 * @param clientAddress the IP address that the request came from
-	 * @param method the HTTP method of the request (usually GET or POST)
-	 * @param servletName the name of the servlet that handled the request
-	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
-	 * @param processingTimeMillis the processing time of the request in milliseconds
-	 * @param failureCause the cause of failure, if any
-	 * @param statusCode the HTTP status code of the response
+	 * @param source 发布事件的组件
+	 * @param requestUrl 请求的URL
+	 * @param clientAddress 请求来自的IP地址
+	 * @param method 请求的HTTP方法 (通常是GET或POST)
+	 * @param servletName 处理请求的servlet的名称
+	 * @param sessionId HTTP会话的ID
+	 * @param userName 与请求关联的用户的名称 (通常是UserPrincipal)
+	 * @param processingTimeMillis 请求的处理时间(以毫秒为单位)
+	 * @param failureCause 失败的原因
+	 * @param statusCode 响应的HTTP状态码
 	 */
 	public ServletRequestHandledEvent(Object source, String requestUrl,
 			String clientAddress, String method, String servletName, String sessionId,
@@ -100,37 +93,35 @@ public class ServletRequestHandledEvent extends RequestHandledEvent {
 
 
 	/**
-	 * Return the URL of the request.
+	 * 返回请求的URL.
 	 */
 	public String getRequestUrl() {
 		return this.requestUrl;
 	}
 
 	/**
-	 * Return the IP address that the request came from.
+	 * 返回请求来自的IP地址.
 	 */
 	public String getClientAddress() {
 		return this.clientAddress;
 	}
 
 	/**
-	 * Return the HTTP method of the request (usually GET or POST).
+	 * 返回请求的HTTP方法 (通常是GET或POST).
 	 */
 	public String getMethod() {
 		return this.method;
 	}
 
 	/**
-	 * Return the name of the servlet that handled the request.
+	 * 返回处理请求的servlet的名称.
 	 */
 	public String getServletName() {
 		return this.servletName;
 	}
 
 	/**
-	 * Return the HTTP status code of the response or -1 if the status
-	 * code is not available.
-	 * @since 4.1
+	 * 返回响应的HTTP状态码, 或-1 如果状态代码不可用.
 	 */
 	public int getStatusCode() {
 		return this.statusCode;

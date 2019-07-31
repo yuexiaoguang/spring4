@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpMethod;
 
 /**
- * {@link ClientHttpRequestFactory} wrapper with support for {@link ClientHttpRequestInterceptor}s.
+ * {@link ClientHttpRequestFactory}包装器, 支持{@link ClientHttpRequestInterceptor}.
  */
 public class InterceptingClientHttpRequestFactory extends AbstractClientHttpRequestFactoryWrapper {
 
@@ -15,9 +15,8 @@ public class InterceptingClientHttpRequestFactory extends AbstractClientHttpRequ
 
 
 	/**
-	 * Create a new instance of the {@code InterceptingClientHttpRequestFactory} with the given parameters.
-	 * @param requestFactory the request factory to wrap
-	 * @param interceptors the interceptors that are to be applied (can be {@code null})
+	 * @param requestFactory 要包装的请求工厂
+	 * @param interceptors 要应用的拦截器 (can be {@code null})
 	 */
 	public InterceptingClientHttpRequestFactory(ClientHttpRequestFactory requestFactory,
 			List<ClientHttpRequestInterceptor> interceptors) {

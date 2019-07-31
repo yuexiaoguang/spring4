@@ -24,10 +24,9 @@ import org.springframework.util.concurrent.SuccessCallback;
 
 
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpAsyncClient.
+ * 基于Apache HttpComponents HttpAsyncClient的{@link ClientHttpRequest}实现.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>通过{@link HttpComponentsClientHttpRequestFactory}创建.
  */
 final class HttpComponentsAsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequest {
 

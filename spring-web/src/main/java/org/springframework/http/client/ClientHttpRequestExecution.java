@@ -5,20 +5,20 @@ import java.io.IOException;
 import org.springframework.http.HttpRequest;
 
 /**
- * Represents the context of a client-side HTTP request execution.
+ * 表示客户端HTTP请求执行的上下文.
  *
- * <p>Used to invoke the next interceptor in the interceptor chain,
- * or - if the calling interceptor is last - execute the request itself.
+ * <p>用于调用拦截器链中的下一个拦截器, 或者 - 如果调用的拦截器是最后一个 - 执行请求本身.
  */
 public interface ClientHttpRequestExecution {
 
 	/**
-	 * Execute the request with the given request attributes and body,
-	 * and return the response.
-	 * @param request the request, containing method, URI, and headers
-	 * @param body the body of the request to execute
-	 * @return the response
-	 * @throws IOException in case of I/O errors
+	 * 使用给定的请求属性和正文执行请求, 并返回响应.
+	 * 
+	 * @param request 请求, 包含方法, URI, 和header
+	 * @param body 要执行的请求的主体
+	 * 
+	 * @return 响应
+	 * @throws IOException
 	 */
 	ClientHttpResponse execute(HttpRequest request, byte[] body) throws IOException;
 

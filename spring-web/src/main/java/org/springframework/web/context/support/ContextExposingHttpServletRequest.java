@@ -9,9 +9,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * HttpServletRequest decorator that makes all Spring beans in a
- * given WebApplicationContext accessible as request attributes,
- * through lazy checking once an attribute gets accessed.
+ * HttpServletRequest装饰器, 在访问属性后通过延迟检查,
+ * 使给定WebApplicationContext中的所有Spring bean可作为请求属性访问.
  */
 public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper {
 
@@ -23,21 +22,18 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 
 
 	/**
-	 * Create a new ContextExposingHttpServletRequest for the given request.
-	 * @param originalRequest the original HttpServletRequest
-	 * @param context the WebApplicationContext that this request runs in
+	 * @param originalRequest 原始HttpServletRequest
+	 * @param context 此请求运行的WebApplicationContext
 	 */
 	public ContextExposingHttpServletRequest(HttpServletRequest originalRequest, WebApplicationContext context) {
 		this(originalRequest, context, null);
 	}
 
 	/**
-	 * Create a new ContextExposingHttpServletRequest for the given request.
-	 * @param originalRequest the original HttpServletRequest
-	 * @param context the WebApplicationContext that this request runs in
-	 * @param exposedContextBeanNames the names of beans in the context which
-	 * are supposed to be exposed (if this is non-null, only the beans in this
-	 * Set are eligible for exposure as attributes)
+	 * @param originalRequest 原始HttpServletRequest
+	 * @param context 此请求运行的WebApplicationContext
+	 * @param exposedContextBeanNames 上下文中应该暴露的bean的名称
+	 * (如果这是非null, 则只有此Set中的bean才有资格作为属性公开)
 	 */
 	public ContextExposingHttpServletRequest(
 			HttpServletRequest originalRequest, WebApplicationContext context, Set<String> exposedContextBeanNames) {
@@ -50,7 +46,7 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 
 
 	/**
-	 * Return the WebApplicationContext that this request runs in.
+	 * 返回此请求运行的WebApplicationContext.
 	 */
 	public final WebApplicationContext getWebApplicationContext() {
 		return this.webApplicationContext;

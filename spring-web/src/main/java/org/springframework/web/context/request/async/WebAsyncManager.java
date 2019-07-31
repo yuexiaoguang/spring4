@@ -20,18 +20,16 @@ import org.springframework.web.context.request.async.DeferredResult.DeferredResu
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * The central class for managing asynchronous request processing, mainly intended
- * as an SPI and not typically used directly by application classes.
+ * 用于管理异步请求处理的中心类, 主要用作SPI, 通常不由应用程序类直接使用.
  *
- * <p>An async scenario starts with request processing as usual in a thread (T1).
- * Concurrent request handling can be initiated by calling
- * {@link #startCallableProcessing(Callable, Object...) startCallableProcessing} or
- * {@link #startDeferredResultProcessing(DeferredResult, Object...) startDeferredResultProcessing},
- * both of which produce a result in a separate thread (T2). The result is saved
- * and the request dispatched to the container, to resume processing with the saved
- * result in a third thread (T3). Within the dispatched thread (T3), the saved
- * result can be accessed via {@link #getConcurrentResult()} or its presence
- * detected via {@link #hasConcurrentResult()}.
+ * <p>异步场景以线程 (T1)中的常规请求处理开始.
+ * 可以通过调用
+ * {@link #startCallableProcessing(Callable, Object...) startCallableProcessing}
+ * 或{@link #startDeferredResultProcessing(DeferredResult, Object...) startDeferredResultProcessing}
+ * 来启动并发请求处理, 这两者都在单独的线程 (T2)中生成结果.
+ * 保存结果并将请求分派给容器, 以便在第三个线程 (T3)中恢复处理保存的结果.
+ * 在调度线程 (T3)中, 可以通过{@link #getConcurrentResult()}访问保存的结果,
+ * 或通过{@link #hasConcurrentResult()}检测其存在.
  */
 public final class WebAsyncManager {
 
@@ -63,23 +61,16 @@ public final class WebAsyncManager {
 			new LinkedHashMap<Object, DeferredResultProcessingInterceptor>();
 
 
-	/**
-	 * Package-private constructor.
-	 * @see WebAsyncUtils#getAsyncManager(javax.servlet.ServletRequest)
-	 * @see WebAsyncUtils#getAsyncManager(org.springframework.web.context.request.WebRequest)
-	 */
 	WebAsyncManager() {
 	}
 
 
 	/**
-	 * Configure the {@link AsyncWebRequest} to use. This property may be set
-	 * more than once during a single request to accurately reflect the current
-	 * state of the request (e.g. following a forward, request/response
-	 * wrapping, etc). However, it should not be set while concurrent handling
-	 * is in progress, i.e. while {@link #isConcurrentHandlingStarted()} is
-	 * {@code true}.
-	 * @param asyncWebRequest the web request to use
+	 * 配置要使用的{@link AsyncWebRequest}.
+	 * 在单个请求期间可以多次设置此属性以准确反映请求的当前状态 (e.g. 在转发, 请求/响应包装等之后).
+	 * 但是, 在并发处理正在进行时不应设置它, i.e. {@link #isConcurrentHandlingStarted()}是{@code true}时.
+	 * 
+	 * @param asyncWebRequest 要使用的Web请求
 	 */
 	public void setAsyncWebRequest(final AsyncWebRequest asyncWebRequest) {
 		Assert.notNull(asyncWebRequest, "AsyncWebRequest must not be null");
@@ -93,74 +84,72 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Configure an AsyncTaskExecutor for use with concurrent processing via
-	 * {@link #startCallableProcessing(Callable, Object...)}.
-	 * <p>By default a {@link SimpleAsyncTaskExecutor} instance is used.
+	 * 通过{@link #startCallableProcessing(Callable, Object...)}配置AsyncTaskExecutor以用于并发处理.
+	 * <p>默认使用{@link SimpleAsyncTaskExecutor}实例.
 	 */
 	public void setTaskExecutor(AsyncTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
 	}
 
 	/**
-	 * Whether the selected handler for the current request chose to handle the
-	 * request asynchronously. A return value of "true" indicates concurrent
-	 * handling is under way and the response will remain open. A return value
-	 * of "false" means concurrent handling was either not started or possibly
-	 * that it has completed and the request was dispatched for further
-	 * processing of the concurrent result.
+	 * 当前请求的所选处理器是否选择异步处理请求.
+	 * 返回"true"表示正在进行并发处理, 响应将保持打开状态.
+	 * 返回"false"表示并发处理未启动或可能已完成, 并且已分派请求以进一步处理并发结果.
 	 */
 	public boolean isConcurrentHandlingStarted() {
 		return (this.asyncWebRequest != null && this.asyncWebRequest.isAsyncStarted());
 	}
 
 	/**
-	 * Whether a result value exists as a result of concurrent handling.
+	 * 结果值是否因并发处理而存在.
 	 */
 	public boolean hasConcurrentResult() {
 		return (this.concurrentResult != RESULT_NONE);
 	}
 
 	/**
-	 * Provides access to the result from concurrent handling.
-	 * @return an Object, possibly an {@code Exception} or {@code Throwable} if
-	 * concurrent handling raised one.
-	 * @see #clearConcurrentResult()
+	 * 提供对并发处理结果的访问.
+	 * 
+	 * @return Object, 可能是{@code Exception}或{@code Throwable}
 	 */
 	public Object getConcurrentResult() {
 		return this.concurrentResult;
 	}
 
 	/**
-	 * Provides access to additional processing context saved at the start of
-	 * concurrent handling.
-	 * @see #clearConcurrentResult()
+	 * 提供对并发处理开始时保存的其他处理上下文的访问.
 	 */
 	public Object[] getConcurrentResultContext() {
 		return this.concurrentResultContext;
 	}
 
 	/**
-	 * Get the {@link CallableProcessingInterceptor} registered under the given key.
-	 * @param key the key
-	 * @return the interceptor registered under that key, or {@code null} if none
+	 * 获取在给定键下注册的{@link CallableProcessingInterceptor}.
+	 * 
+	 * @param key 键
+	 * 
+	 * @return 在该键下注册的拦截器, 或{@code null}
 	 */
 	public CallableProcessingInterceptor getCallableInterceptor(Object key) {
 		return this.callableInterceptors.get(key);
 	}
 
 	/**
-	 * Get the {@link DeferredResultProcessingInterceptor} registered under the given key.
-	 * @param key the key
-	 * @return the interceptor registered under that key, or {@code null} if none
+	 * 获取在给定键下注册的{@link DeferredResultProcessingInterceptor}.
+	 * 
+	 * @param key 键
+	 * 
+	 * @return 在该键下注册的拦截器, 或{@code null}
 	 */
 	public DeferredResultProcessingInterceptor getDeferredResultInterceptor(Object key) {
 		return this.deferredResultInterceptors.get(key);
 	}
 
 	/**
-	 * Register a {@link CallableProcessingInterceptor} under the given key.
-	 * @param key the key
-	 * @param interceptor the interceptor to register
+	 * 在给定键下注册{@link CallableProcessingInterceptor}.
+	 * 
+	 * @param key 键
+	 * @param interceptor 要注册的拦截器
 	 */
 	public void registerCallableInterceptor(Object key, CallableProcessingInterceptor interceptor) {
 		Assert.notNull(key, "Key is required");
@@ -169,9 +158,10 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Register a {@link CallableProcessingInterceptor} without a key.
-	 * The key is derived from the class name and hashcode.
-	 * @param interceptors one or more interceptors to register
+	 * 在没有键的情况下注册{@link CallableProcessingInterceptor}.
+	 * 键源自类名和哈希码.
+	 * 
+	 * @param interceptors 要注册的一个或多个拦截器
 	 */
 	public void registerCallableInterceptors(CallableProcessingInterceptor... interceptors) {
 		Assert.notNull(interceptors, "A CallableProcessingInterceptor is required");
@@ -182,9 +172,10 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Register a {@link DeferredResultProcessingInterceptor} under the given key.
-	 * @param key the key
-	 * @param interceptor the interceptor to register
+	 * 在给定的键下注册一个{@link DeferredResultProcessingInterceptor}.
+	 * 
+	 * @param key 键
+	 * @param interceptor 要注册的拦截器
 	 */
 	public void registerDeferredResultInterceptor(Object key, DeferredResultProcessingInterceptor interceptor) {
 		Assert.notNull(key, "Key is required");
@@ -193,9 +184,10 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Register one or more {@link DeferredResultProcessingInterceptor}s without a specified key.
-	 * The default key is derived from the interceptor class name and hash code.
-	 * @param interceptors one or more interceptors to register
+	 * 在没有指定键的情况下注册一个或多个{@link DeferredResultProcessingInterceptor}.
+	 * 默认键是从拦截器类名和哈希代码派生的.
+	 * 
+	 * @param interceptors 要注册的一个或多个拦截器
 	 */
 	public void registerDeferredResultInterceptors(DeferredResultProcessingInterceptor... interceptors) {
 		Assert.notNull(interceptors, "A DeferredResultProcessingInterceptor is required");
@@ -206,8 +198,8 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Clear {@linkplain #getConcurrentResult() concurrentResult} and
-	 * {@linkplain #getConcurrentResultContext() concurrentResultContext}.
+	 * 清理{@linkplain #getConcurrentResult() concurrentResult}
+	 * 和{@linkplain #getConcurrentResultContext() concurrentResultContext}.
 	 */
 	public void clearConcurrentResult() {
 		synchronized (WebAsyncManager.this) {
@@ -217,17 +209,14 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Start concurrent request processing and execute the given task with an
-	 * {@link #setTaskExecutor(AsyncTaskExecutor) AsyncTaskExecutor}. The result
-	 * from the task execution is saved and the request dispatched in order to
-	 * resume processing of that result. If the task raises an Exception then
-	 * the saved result will be the raised Exception.
-	 * @param callable a unit of work to be executed asynchronously
-	 * @param processingContext additional context to save that can be accessed
-	 * via {@link #getConcurrentResultContext()}
-	 * @throws Exception if concurrent processing failed to start
-	 * @see #getConcurrentResult()
-	 * @see #getConcurrentResultContext()
+	 * 启动并发请求处理并使用{@link #setTaskExecutor(AsyncTaskExecutor) AsyncTaskExecutor}执行给定任务.
+	 * 保存任务执行的结果并调度请求以便继续处理该结果.
+	 * 如果任务引发异常, 则保存的结果将是引发的异常.
+	 * 
+	 * @param callable 要异步执行的工作单元
+	 * @param processingContext 保存的其他上下文可以通过{@link #getConcurrentResultContext()}访问
+	 * 
+	 * @throws Exception 如果并发处理无法启动
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void startCallableProcessing(Callable<?> callable, Object... processingContext) throws Exception {
@@ -236,13 +225,13 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Use the given {@link WebAsyncTask} to configure the task executor as well as
-	 * the timeout value of the {@code AsyncWebRequest} before delegating to
-	 * {@link #startCallableProcessing(Callable, Object...)}.
-	 * @param webAsyncTask a WebAsyncTask containing the target {@code Callable}
-	 * @param processingContext additional context to save that can be accessed
-	 * via {@link #getConcurrentResultContext()}
-	 * @throws Exception if concurrent processing failed to start
+	 * 在委托给{@link #startCallableProcessing(Callable, Object...)}之前,
+	 * 使用给定的{@link WebAsyncTask}配置任务执行器以及{@code AsyncWebRequest}的超时值.
+	 * 
+	 * @param webAsyncTask 一个包含目标{@code Callable}的WebAsyncTask
+	 * @param processingContext 保存的其他上下文, 可以通过{@link #getConcurrentResultContext()}访问
+	 * 
+	 * @throws Exception 如果并发处理无法启动
 	 */
 	public void startCallableProcessing(final WebAsyncTask<?> webAsyncTask, Object... processingContext)
 			throws Exception {
@@ -346,18 +335,15 @@ public final class WebAsyncManager {
 	}
 
 	/**
-	 * Start concurrent request processing and initialize the given
-	 * {@link DeferredResult} with a {@link DeferredResultHandler} that saves
-	 * the result and dispatches the request to resume processing of that
-	 * result. The {@code AsyncWebRequest} is also updated with a completion
-	 * handler that expires the {@code DeferredResult} and a timeout handler
-	 * assuming the {@code DeferredResult} has a default timeout result.
-	 * @param deferredResult the DeferredResult instance to initialize
-	 * @param processingContext additional context to save that can be accessed
-	 * via {@link #getConcurrentResultContext()}
-	 * @throws Exception if concurrent processing failed to start
-	 * @see #getConcurrentResult()
-	 * @see #getConcurrentResultContext()
+	 * 启动并发请求处理并使用{@link DeferredResultHandler}初始化给定的{@link DeferredResult},
+	 * {@link DeferredResultHandler}用于保存结果并调度请求以继续处理该结果.
+	 * {@code AsyncWebRequest}也使用完成处理器更新, 该处理器使{@code DeferredResult}到期,
+	 * 并且超时处理器假定{@code DeferredResult}具有默认超时结果.
+	 * 
+	 * @param deferredResult 要初始化的DeferredResult实例
+	 * @param processingContext 保存的其他上下文可以通过{@link #getConcurrentResultContext()}访问
+	 * 
+	 * @throws Exception 如果并发处理无法启动
 	 */
 	public void startDeferredResultProcessing(
 			final DeferredResult<?> deferredResult, Object... processingContext) throws Exception {

@@ -10,20 +10,16 @@ import org.springframework.beans.factory.config.Scope;
 import org.springframework.util.Assert;
 
 /**
- * {@link Scope} wrapper for a ServletContext, i.e. for global web application attributes.
+ * 用于ServletContext的{@link Scope}包装器, i.e. 用于全局Web应用程序属性.
  *
- * <p>This differs from traditional Spring singletons in that it exposes attributes in the
- * ServletContext. Those attributes will get destroyed whenever the entire application
- * shuts down, which might be earlier or later than the shutdown of the containing Spring
- * ApplicationContext.
+ * <p>这与传统的Spring单例不同, 它在ServletContext中公开了属性.
+ * 每当整个应用程序关闭时, 这些属性都将被销毁, 这可能比Spring ApplicationContext的关闭更早或更晚.
  *
- * <p>The associated destruction mechanism relies on a
- * {@link org.springframework.web.context.ContextCleanupListener} being registered in
- * {@code web.xml}. Note that {@link org.springframework.web.context.ContextLoaderListener}
- * includes ContextCleanupListener's functionality.
+ * <p>相关的销毁机制依赖于在{@code web.xml}中注册的{@link org.springframework.web.context.ContextCleanupListener}.
+ * 请注意{@link org.springframework.web.context.ContextLoaderListener}包含ContextCleanupListener的功能.
  *
- * <p>This scope is registered as default scope with key
- * {@link org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION "application"}.
+ * <p>此范围注册为键
+ * {@link org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION "application"}的默认范围.
  */
 public class ServletContextScope implements Scope, DisposableBean {
 
@@ -33,8 +29,7 @@ public class ServletContextScope implements Scope, DisposableBean {
 
 
 	/**
-	 * Create a new Scope wrapper for the given ServletContext.
-	 * @param servletContext the ServletContext to wrap
+	 * @param servletContext 要包装的ServletContext
 	 */
 	public ServletContextScope(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext must not be null");
@@ -82,9 +77,8 @@ public class ServletContextScope implements Scope, DisposableBean {
 
 
 	/**
-	 * Invoke all registered destruction callbacks.
-	 * To be called on ServletContext shutdown.
-	 * @see org.springframework.web.context.ContextCleanupListener
+	 * 调用所有已注册的销毁回调.
+	 * 要在ServletContext上调用shutdown.
 	 */
 	@Override
 	public void destroy() {

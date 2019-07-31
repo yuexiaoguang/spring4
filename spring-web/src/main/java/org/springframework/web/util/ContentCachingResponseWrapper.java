@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import org.springframework.util.FastByteArrayOutputStream;
 
 /**
- * {@link javax.servlet.http.HttpServletResponse} wrapper that caches all content written to
- * the {@linkplain #getOutputStream() output stream} and {@linkplain #getWriter() writer},
- * and allows this content to be retrieved via a {@link #getContentAsByteArray() byte array}.
+ * {@link javax.servlet.http.HttpServletResponse}包装器,
+ * 用于缓存写入{@linkplain #getOutputStream() 输出流}和{@linkplain #getWriter() writer}的所有内容,
+ * 并允许通过{@link #getContentAsByteArray() 字节数组}检索此内容.
  *
- * <p>Used e.g. by {@link org.springframework.web.filter.ShallowEtagHeaderFilter}.
+ * <p>由{@link org.springframework.web.filter.ShallowEtagHeaderFilter}使用.
  */
 public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 
@@ -33,8 +33,7 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 
 
 	/**
-	 * Create a new ContentCachingResponseWrapper for the given servlet response.
-	 * @param response the original servlet response
+	 * @param response 原始的servlet响应
 	 */
 	public ContentCachingResponseWrapper(HttpServletResponse response) {
 		super(response);
@@ -61,7 +60,7 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 			super.sendError(sc);
 		}
 		catch (IllegalStateException ex) {
-			// Possibly on Tomcat when called too late: fall back to silent setStatus
+			// 可能在Tomcat上调用太晚了: 回到沉默的setStatus
 			super.setStatus(sc);
 		}
 		this.statusCode = sc;
@@ -75,7 +74,7 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 			super.sendError(sc, msg);
 		}
 		catch (IllegalStateException ex) {
-			// Possibly on Tomcat when called too late: fall back to silent setStatus
+			// 可能在Tomcat上调用太晚了: 回到沉默的setStatus
 			super.setStatus(sc, msg);
 		}
 		this.statusCode = sc;
@@ -104,7 +103,7 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 
 	@Override
 	public void flushBuffer() throws IOException {
-		// do not flush the underlying response as the content as not been copied to it yet
+		// 不要将底层响应刷新为尚未复制到其中的内容
 	}
 
 	@Override
@@ -147,48 +146,44 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 	}
 
 	/**
-	 * Return the status code as specified on the response.
+	 * 返回响应中指定的状态码.
 	 */
 	public int getStatusCode() {
 		return this.statusCode;
 	}
 
 	/**
-	 * Return the cached response content as a byte array.
+	 * 返回缓存的响应内容.
 	 */
 	public byte[] getContentAsByteArray() {
 		return this.content.toByteArray();
 	}
 
 	/**
-	 * Return an {@link InputStream} to the cached content.
-	 * @since 4.2
+	 * 将{@link InputStream}返回到缓存的内容.
 	 */
 	public InputStream getContentInputStream() {
 		return this.content.getInputStream();
 	}
 
 	/**
-	 * Return the current size of the cached content.
-	 * @since 4.2
+	 * 返回缓存内容的当前大小.
 	 */
 	public int getContentSize() {
 		return this.content.size();
 	}
 
 	/**
-	 * Copy the complete cached body content to the response.
-	 * @since 4.2
+	 * 将完整的缓存正文内容复制到响应中.
 	 */
 	public void copyBodyToResponse() throws IOException {
 		copyBodyToResponse(true);
 	}
 
 	/**
-	 * Copy the cached body content to the response.
-	 * @param complete whether to set a corresponding content length
-	 * for the complete cached body content
-	 * @since 4.2
+	 * 将缓存的正文内容复制到响应中.
+	 * 
+	 * @param complete 是否为完整的缓存正文内容设置相应的内容长度
 	 */
 	protected void copyBodyToResponse(boolean complete) throws IOException {
 		if (this.content.size() > 0) {

@@ -9,26 +9,24 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Extension of {@link HttpEntity} that adds a {@linkplain HttpMethod method} and
- * {@linkplain URI uri}.
- * Used in {@code RestTemplate} and {@code @Controller} methods.
+ * {@link HttpEntity}的扩展, 添加{@linkplain HttpMethod 方法}和{@linkplain URI uri}.
+ * 用于{@code RestTemplate}和{@code @Controller}方法.
  *
- * <p>In {@code RestTemplate}, this class is used as parameter in
- * {@link org.springframework.web.client.RestTemplate#exchange(RequestEntity, Class) exchange()}:
+ * <p>在{@code RestTemplate}中, 此类在
+ * {@link org.springframework.web.client.RestTemplate#exchange(RequestEntity, Class) exchange()}中用作参数:
  * <pre class="code">
  * MyRequest body = ...
  * RequestEntity&lt;MyRequest&gt; request = RequestEntity.post(new URI(&quot;http://example.com/bar&quot;)).accept(MediaType.APPLICATION_JSON).body(body);
  * ResponseEntity&lt;MyResponse&gt; response = template.exchange(request, MyResponse.class);
  * </pre>
  *
- * <p>If you would like to provide a URI template with variables, consider using
- * {@link org.springframework.web.util.UriTemplate}:
+ * <p>如果想提供包含变量的URI模板, 考虑使用{@link org.springframework.web.util.UriTemplate}:
  * <pre class="code">
  * URI uri = new UriTemplate(&quot;http://example.com/{foo}&quot;).expand(&quot;bar&quot;);
  * RequestEntity&lt;MyRequest&gt; request = RequestEntity.post(uri).accept(MediaType.APPLICATION_JSON).body(body);
  * </pre>
  *
- * <p>Can also be used in Spring MVC, as a parameter in a @Controller method:
+ * <p>也可以在Spring MVC中使用, 作为@Controller方法中的参数:
  * <pre class="code">
  * &#64;RequestMapping("/handle")
  * public void handle(RequestEntity&lt;String&gt; request) {
@@ -47,66 +45,39 @@ public class RequestEntity<T> extends HttpEntity<T> {
 	private final Type type;
 
 
-	/**
-	 * Constructor with method and URL but without body nor headers.
-	 * @param method the method
-	 * @param url the URL
-	 */
 	public RequestEntity(HttpMethod method, URI url) {
 		this(null, null, method, url);
 	}
 
-	/**
-	 * Constructor with method, URL and body but without headers.
-	 * @param body the body
-	 * @param method the method
-	 * @param url the URL
-	 */
 	public RequestEntity(T body, HttpMethod method, URI url) {
 		this(body, null, method, url, null);
 	}
 
 	/**
-	 * Constructor with method, URL, body and type but without headers.
 	 * @param body the body
 	 * @param method the method
 	 * @param url the URL
-	 * @param type the type used for generic type resolution
+	 * @param type 用于泛型类型解析的类型
 	 * @since 4.3
 	 */
 	public RequestEntity(T body, HttpMethod method, URI url, Type type) {
 		this(body, null, method, url, type);
 	}
 
-	/**
-	 * Constructor with method, URL and headers but without body.
-	 * @param headers the headers
-	 * @param method the method
-	 * @param url the URL
-	 */
 	public RequestEntity(MultiValueMap<String, String> headers, HttpMethod method, URI url) {
 		this(null, headers, method, url, null);
 	}
 
-	/**
-	 * Constructor with method, URL, headers and body.
-	 * @param body the body
-	 * @param headers the headers
-	 * @param method the method
-	 * @param url the URL
-	 */
 	public RequestEntity(T body, MultiValueMap<String, String> headers, HttpMethod method, URI url) {
 		this(body, headers, method, url, null);
 	}
 
 	/**
-	 * Constructor with method, URL, headers, body and type.
 	 * @param body the body
 	 * @param headers the headers
 	 * @param method the method
 	 * @param url the URL
-	 * @param type the type used for generic type resolution
-	 * @since 4.3
+	 * @param type 用于泛型类型解析的类型
 	 */
 	public RequestEntity(T body, MultiValueMap<String, String> headers, HttpMethod method, URI url, Type type) {
 		super(body, headers);
@@ -117,25 +88,27 @@ public class RequestEntity<T> extends HttpEntity<T> {
 
 
 	/**
-	 * Return the HTTP method of the request.
-	 * @return the HTTP method as an {@code HttpMethod} enum value
+	 * 返回请求的HTTP方法.
+	 * 
+	 * @return HTTP方法作为{@code HttpMethod}枚举值
 	 */
 	public HttpMethod getMethod() {
 		return this.method;
 	}
 
 	/**
-	 * Return the URL of the request.
-	 * @return the URL as a {@code URI}
+	 * 返回请求的URL.
+	 * 
+	 * @return URL
 	 */
 	public URI getUrl() {
 		return this.url;
 	}
 
 	/**
-	 * Return the type of the request's body.
-	 * @return the request's body type, or {@code null} if not known
-	 * @since 4.3
+	 * 返回请求正文的类型.
+	 * 
+	 * @return 请求正文的类型, 或{@code null}
 	 */
 	public Type getType() {
 		if (this.type == null) {
@@ -195,73 +168,89 @@ public class RequestEntity<T> extends HttpEntity<T> {
 	// Static builder methods
 
 	/**
-	 * Create a builder with the given method and url.
-	 * @param method the HTTP method (GET, POST, etc)
+	 * 使用给定的方法和URL创建构建器.
+	 * 
+	 * @param method HTTP方法 (GET, POST, etc)
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static BodyBuilder method(HttpMethod method, URI url) {
 		return new DefaultBodyBuilder(method, url);
 	}
 
 	/**
-	 * Create an HTTP GET builder with the given url.
+	 * 使用给定的URL创建HTTP GET构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static HeadersBuilder<?> get(URI url) {
 		return method(HttpMethod.GET, url);
 	}
 
 	/**
-	 * Create an HTTP HEAD builder with the given url.
+	 * 使用给定的URL创建HTTP HEAD构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static HeadersBuilder<?> head(URI url) {
 		return method(HttpMethod.HEAD, url);
 	}
 
 	/**
-	 * Create an HTTP POST builder with the given url.
+	 * 使用给定的URL创建HTTP POST构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static BodyBuilder post(URI url) {
 		return method(HttpMethod.POST, url);
 	}
 
 	/**
-	 * Create an HTTP PUT builder with the given url.
+	 * 使用给定的URL创建HTTP PUT构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static BodyBuilder put(URI url) {
 		return method(HttpMethod.PUT, url);
 	}
 
 	/**
-	 * Create an HTTP PATCH builder with the given url.
+	 * 使用给定的URL创建HTTP PATCH构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static BodyBuilder patch(URI url) {
 		return method(HttpMethod.PATCH, url);
 	}
 
 	/**
-	 * Create an HTTP DELETE builder with the given url.
+	 * 使用给定的URL创建HTTP DELETE构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static HeadersBuilder<?> delete(URI url) {
 		return method(HttpMethod.DELETE, url);
 	}
 
 	/**
-	 * Creates an HTTP OPTIONS builder with the given url.
+	 * 使用给定的URL创建HTTP OPTIONS构建器.
+	 * 
 	 * @param url the URL
-	 * @return the created builder
+	 * 
+	 * @return 创建的构建器
 	 */
 	public static HeadersBuilder<?> options(URI url) {
 		return method(HttpMethod.OPTIONS, url);
@@ -269,95 +258,101 @@ public class RequestEntity<T> extends HttpEntity<T> {
 
 
 	/**
-	 * Defines a builder that adds headers to the request entity.
-	 * @param <B> the builder subclass
+	 * 定义将header添加到请求实体的构建器.
+	 * 
+	 * @param <B> 构建器子类
 	 */
 	public interface HeadersBuilder<B extends HeadersBuilder<B>> {
 
 		/**
-		 * Add the given, single header value under the given name.
-		 * @param headerName  the header name
-		 * @param headerValues the header value(s)
-		 * @return this builder
-		 * @see HttpHeaders#add(String, String)
+		 * 在给定名称下添加给定的单个header值.
+		 * 
+		 * @param headerName  名称
+		 * @param headerValues 值
+		 * 
+		 * @return 此构建器
 		 */
 		B header(String headerName, String... headerValues);
 
 		/**
-		 * Set the list of acceptable {@linkplain MediaType media types}, as
-		 * specified by the {@code Accept} header.
-		 * @param acceptableMediaTypes the acceptable media types
+		 * 设置{@code Accept} header指定的可接受{@linkplain MediaType 媒体类型}列表.
+		 * 
+		 * @param acceptableMediaTypes 可接受的媒体类型
 		 */
 		B accept(MediaType... acceptableMediaTypes);
 
 		/**
-		 * Set the list of acceptable {@linkplain Charset charsets}, as specified
-		 * by the {@code Accept-Charset} header.
-		 * @param acceptableCharsets the acceptable charsets
+		 * 设置{@code Accept-Charset} header指定的可接受{@linkplain Charset 字符集}列表.
+		 * 
+		 * @param acceptableCharsets 可接受的字符集
 		 */
 		B acceptCharset(Charset... acceptableCharsets);
 
 		/**
-		 * Set the value of the {@code If-Modified-Since} header.
-		 * <p>The date should be specified as the number of milliseconds since
-		 * January 1, 1970 GMT.
-		 * @param ifModifiedSince the new value of the header
+		 * 设置{@code If-Modified-Since} header的值.
+		 * <p>日期应指定为格林威治标准时间1970年1月1日以来的毫秒数.
+		 * 
+		 * @param ifModifiedSince header的新值
 		 */
 		B ifModifiedSince(long ifModifiedSince);
 
 		/**
-		 * Set the values of the {@code If-None-Match} header.
-		 * @param ifNoneMatches the new value of the header
+		 * 设置{@code If-None-Match} header的值.
+		 * 
+		 * @param ifNoneMatches header的新值
 		 */
 		B ifNoneMatch(String... ifNoneMatches);
 
 		/**
-		 * Builds the request entity with no body.
-		 * @return the request entity
-		 * @see BodyBuilder#body(Object)
+		 * 构建没有正文的请求实体.
+		 * 
+		 * @return 请求实体
 		 */
 		RequestEntity<Void> build();
 	}
 
 
 	/**
-	 * Defines a builder that adds a body to the response entity.
+	 * 定义将主体添加到响应实体的构建器.
 	 */
 	public interface BodyBuilder extends HeadersBuilder<BodyBuilder> {
 
 		/**
-		 * Set the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
-		 * @param contentLength the content length
-		 * @return this builder
-		 * @see HttpHeaders#setContentLength(long)
+		 * 设置正文的长度(以字节为单位), 由{@code Content-Length} header指定.
+		 * 
+		 * @param contentLength 正文的长度
+		 * 
+		 * @return 此构建器
 		 */
 		BodyBuilder contentLength(long contentLength);
 
 		/**
-		 * Set the {@linkplain MediaType media type} of the body, as specified
-		 * by the {@code Content-Type} header.
-		 * @param contentType the content type
-		 * @return this builder
-		 * @see HttpHeaders#setContentType(MediaType)
+		 * 根据{@code Content-Type} header的指定, 设置正文的{@linkplain MediaType 媒体类型}.
+		 * 
+		 * @param contentType 内容类型
+		 * 
+		 * @return 此构建器
 		 */
 		BodyBuilder contentType(MediaType contentType);
 
 		/**
-		 * Set the body of the request entity and build the RequestEntity.
-		 * @param <T> the type of the body
-		 * @param body the body of the request entity
-		 * @return the built request entity
+		 * 设置请求实体的主体并构建RequestEntity.
+		 * 
+		 * @param <T> 正文的类型
+		 * @param body 请求实体的正文
+		 * 
+		 * @return 构建的请求实体
 		 */
 		<T> RequestEntity<T> body(T body);
 
 		/**
-		 * Set the body and type of the request entity and build the RequestEntity.
-		 * @param <T> the type of the body
-		 * @param body the body of the request entity
-		 * @param type the type of the body, useful for generic type resolution
-		 * @return the built request entity
-		 * @since 4.3
+		 * 设置请求实体的正文和类型, 并构建RequestEntity.
+		 * 
+		 * @param <T> 正文的类型
+		 * @param body 请求实体的正文
+		 * @param type 正文的类型, 对泛型类型解析很有用
+		 * 
+		 * @return 构建的请求实体
 		 */
 		<T> RequestEntity<T> body(T body, Type type);
 	}
@@ -435,5 +430,4 @@ public class RequestEntity<T> extends HttpEntity<T> {
 			return new RequestEntity<T>(body, this.headers, this.method, this.url, type);
 		}
 	}
-
 }

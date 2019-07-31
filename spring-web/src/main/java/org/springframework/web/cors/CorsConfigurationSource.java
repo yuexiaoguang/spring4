@@ -3,14 +3,14 @@ package org.springframework.web.cors;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Interface to be implemented by classes (usually HTTP request handlers) that
- * provides a {@link CorsConfiguration} instance based on the provided request.
+ * 由类(通常是HTTP请求处理器)实现的接口, 它根据提供的请求提供{@link CorsConfiguration}实例.
  */
 public interface CorsConfigurationSource {
 
 	/**
-	 * Return a {@link CorsConfiguration} based on the incoming request.
-	 * @return the associated {@link CorsConfiguration}, or {@code null} if none
+	 * 根据传入的请求返回{@link CorsConfiguration}.
+	 * 
+	 * @return 关联的{@link CorsConfiguration}, 或{@code null}
 	 */
 	CorsConfiguration getCorsConfiguration(HttpServletRequest request);
 

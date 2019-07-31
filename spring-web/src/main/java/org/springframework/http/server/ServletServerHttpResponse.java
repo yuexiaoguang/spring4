@@ -15,11 +15,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
- * {@link ServerHttpResponse} implementation that is based on a {@link HttpServletResponse}.
+ * 基于{@link HttpServletResponse}的{@link ServerHttpResponse}实现.
  */
 public class ServletServerHttpResponse implements ServerHttpResponse {
 
-	/** Checking for Servlet 3.0+ HttpServletResponse.getHeader(String) */
+	/** 检查Servlet 3.0+ HttpServletResponse.getHeader(String) */
 	private static final boolean servlet3Present =
 			ClassUtils.hasMethod(HttpServletResponse.class, "getHeader", String.class);
 
@@ -34,8 +34,7 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 
 
 	/**
-	 * Construct a new instance of the ServletServerHttpResponse based on the given {@link HttpServletResponse}.
-	 * @param servletResponse the servlet response
+	 * @param servletResponse servlet响应
 	 */
 	public ServletServerHttpResponse(HttpServletResponse servletResponse) {
 		Assert.notNull(servletResponse, "HttpServletResponse must not be null");
@@ -45,7 +44,7 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 
 
 	/**
-	 * Return the {@code HttpServletResponse} this object is based on.
+	 * 返回此对象所基于的{@code HttpServletResponse}.
 	 */
 	public HttpServletResponse getServletResponse() {
 		return this.servletResponse;
@@ -90,7 +89,7 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 					this.servletResponse.addHeader(headerName, headerValue);
 				}
 			}
-			// HttpServletResponse exposes some headers as properties: we should include those if not already present
+			// HttpServletResponse公开了一些header作为属性: 应该包括那些尚未存在的header
 			if (this.servletResponse.getContentType() == null && this.headers.getContentType() != null) {
 				this.servletResponse.setContentType(this.headers.getContentType().toString());
 			}
@@ -104,15 +103,10 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 
 
 	/**
-	 * Extends HttpHeaders with the ability to look up headers already present in
-	 * the underlying HttpServletResponse.
+	 * 扩展HttpHeaders, 能够查找底层HttpServletResponse中已存在的header.
 	 *
-	 * <p>The intent is merely to expose what is available through the HttpServletResponse
-	 * i.e. the ability to look up specific header values by name. All other
-	 * map-related operations (e.g. iteration, removal, etc) apply only to values
-	 * added directly through HttpHeaders methods.
-	 *
-	 * @since 4.0.3
+	 * <p>目的仅仅是公开通过HttpServletResponse可用的内容, i.e. 通过名称查找特定header值的功能.
+	 * 所有其他与map相关的操作 (e.g. 迭代, 删除等) 仅适用于通过HttpHeaders方法直接添加的值.
 	 */
 	private class ServletResponseHttpHeaders extends HttpHeaders {
 

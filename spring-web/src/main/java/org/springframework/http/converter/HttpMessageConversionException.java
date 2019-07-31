@@ -3,24 +3,15 @@ package org.springframework.http.converter;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * Thrown by {@link HttpMessageConverter} implementations when a conversion attempt fails.
+ * 当转换尝试失败时, 由{@link HttpMessageConverter}实现抛出.
  */
 @SuppressWarnings("serial")
 public class HttpMessageConversionException extends NestedRuntimeException {
 
-	/**
-	 * Create a new HttpMessageConversionException.
-	 * @param msg the detail message
-	 */
 	public HttpMessageConversionException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Create a new HttpMessageConversionException.
-	 * @param msg the detail message
-	 * @param cause the root cause (if any)
-	 */
 	public HttpMessageConversionException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

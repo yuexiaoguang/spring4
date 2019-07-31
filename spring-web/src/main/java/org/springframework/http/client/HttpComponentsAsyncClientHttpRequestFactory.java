@@ -20,9 +20,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 
 /**
- * Asynchronous extension of the {@link HttpComponentsClientHttpRequestFactory}. Uses
- * <a href="http://hc.apache.org/httpcomponents-asyncclient-dev/">Apache HttpComponents
- * HttpAsyncClient 4.0</a> to create requests.
+ * {@link HttpComponentsClientHttpRequestFactory}的异步扩展.
+ * 使用<a href="http://hc.apache.org/httpcomponents-asyncclient-dev/">Apache HttpComponents HttpAsyncClient 4.0</a>创建请求.
  */
 public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsClientHttpRequestFactory
 		implements AsyncClientHttpRequestFactory, InitializingBean {
@@ -31,8 +30,7 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with a default {@link HttpAsyncClient} and {@link HttpClient}.
+	 * 使用默认的{@link HttpAsyncClient} 和 {@link HttpClient}.
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory() {
 		super();
@@ -40,10 +38,9 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link HttpAsyncClient} instance and a default {@link HttpClient}.
-	 * @param asyncClient the HttpAsyncClient instance to use for this request factory
-	 * @since 4.3.10
+	 * 使用给定的{@link HttpAsyncClient}实例和默认的{@link HttpClient}.
+	 * 
+	 * @param asyncClient 用于此请求工厂的HttpAsyncClient实例
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory(HttpAsyncClient asyncClient) {
 		super();
@@ -51,9 +48,9 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link CloseableHttpAsyncClient} instance and a default {@link HttpClient}.
-	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request factory
+	 * 使用给定的{@link CloseableHttpAsyncClient}实例和默认的{@link HttpClient}.
+	 * 
+	 * @param asyncClient 用于此请求工厂的CloseableHttpAsyncClient实例
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory(CloseableHttpAsyncClient asyncClient) {
 		super();
@@ -61,11 +58,8 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link HttpClient} and {@link HttpAsyncClient} instances.
-	 * @param httpClient the HttpClient instance to use for this request factory
-	 * @param asyncClient the HttpAsyncClient instance to use for this request factory
-	 * @since 4.3.10
+	 * @param httpClient 用于此请求工厂的HttpClient实例
+	 * @param asyncClient 用于此请求工厂的HttpAsyncClient实例
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory(HttpClient httpClient, HttpAsyncClient asyncClient) {
 		super(httpClient);
@@ -73,10 +67,8 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link CloseableHttpClient} and {@link CloseableHttpAsyncClient} instances.
-	 * @param httpClient the CloseableHttpClient instance to use for this request factory
-	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request factory
+	 * @param httpClient 用于此请求工厂的CloseableHttpClient实例
+	 * @param asyncClient 用于此请求工厂的CloseableHttpAsyncClient实例
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory(
 			CloseableHttpClient httpClient, CloseableHttpAsyncClient asyncClient) {
@@ -87,10 +79,7 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 
 
 	/**
-	 * Set the {@code HttpAsyncClient} used for
-	 * {@linkplain #createAsyncRequest(URI, HttpMethod) synchronous execution}.
-	 * @since 4.3.10
-	 * @see #setHttpClient(HttpClient)
+	 * 设置用于{@linkplain #createAsyncRequest(URI, HttpMethod) 同步执行}的{@code HttpAsyncClient}.
 	 */
 	public void setAsyncClient(HttpAsyncClient asyncClient) {
 		Assert.notNull(asyncClient, "HttpAsyncClient must not be null");
@@ -98,18 +87,15 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Return the {@code HttpAsyncClient} used for
-	 * {@linkplain #createAsyncRequest(URI, HttpMethod) synchronous execution}.
-	 * @since 4.3.10
-	 * @see #getHttpClient()
+	 * 返回用于{@linkplain #createAsyncRequest(URI, HttpMethod) 同步执行}的{@code HttpAsyncClient}.
 	 */
 	public HttpAsyncClient getAsyncClient() {
 		return this.asyncClient;
 	}
 
 	/**
-	 * Set the {@code CloseableHttpAsyncClient} used for
-	 * {@linkplain #createAsyncRequest(URI, HttpMethod) asynchronous execution}.
+	 * 设置用于{@linkplain #createAsyncRequest(URI, HttpMethod) 异步执行}的{@code CloseableHttpAsyncClient}.
+	 * 
 	 * @deprecated as of 4.3.10, in favor of {@link #setAsyncClient(HttpAsyncClient)}
 	 */
 	@Deprecated
@@ -118,8 +104,9 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 	}
 
 	/**
-	 * Return the {@code CloseableHttpAsyncClient} used for
-	 * {@linkplain #createAsyncRequest(URI, HttpMethod) asynchronous execution}.
+	 * 返回用于
+	 * {@linkplain #createAsyncRequest(URI, HttpMethod) 异步执行}的{@code CloseableHttpAsyncClient}.
+	 * 
 	 * @deprecated as of 4.3.10, in favor of {@link #getAsyncClient()}
 	 */
 	@Deprecated
@@ -156,9 +143,9 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
             context = HttpClientContext.create();
         }
 
-		// Request configuration not set in the context
+		// 请求配置未在上下文中设置
 		if (context.getAttribute(HttpClientContext.REQUEST_CONFIG) == null) {
-			// Use request configuration given by the user, when available
+			// 使用用户提供的请求配置
 			RequestConfig config = null;
 			if (httpRequest instanceof Configurable) {
 				config = ((Configurable) httpRequest).getConfig();
@@ -186,5 +173,4 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 			}
 		}
 	}
-
 }

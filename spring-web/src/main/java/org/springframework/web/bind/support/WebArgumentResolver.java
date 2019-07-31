@@ -4,11 +4,10 @@ import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * SPI for resolving custom arguments for a specific handler method parameter.
- * Typically implemented to detect special parameter types, resolving
- * well-known argument values for them.
+ * 用于解析特定处理器方法参数的自定义参数的SPI.
+ * 通常用于检测特殊参数类型, 为它们解析已知的参数值.
  *
- * <p>A typical implementation could look like as follows:
+ * <p>典型的实现可能如下所示:
  *
  * <pre class="code">
  * public class MySpecialArgumentResolver implements WebArgumentResolver {
@@ -24,18 +23,19 @@ import org.springframework.web.context.request.NativeWebRequest;
 public interface WebArgumentResolver {
 
 	/**
-	 * Marker to be returned when the resolver does not know how to
-	 * handle the given method parameter.
+	 * 当解析器不知道如何处理给定的方法参数时, 返回的标记.
 	 */
 	Object UNRESOLVED = new Object();
 
 
 	/**
-	 * Resolve an argument for the given handler method parameter within the given web request.
-	 * @param methodParameter the handler method parameter to resolve
-	 * @param webRequest the current web request, allowing access to the native request as well
-	 * @return the argument value, or {@code UNRESOLVED} if not resolvable
-	 * @throws Exception in case of resolution failure
+	 * 解析给定Web请求中给定处理器方法参数的参数.
+	 * 
+	 * @param methodParameter 要解析的处理器方法参数
+	 * @param webRequest 当前的Web请求, 也允许访问本机请求
+	 * 
+	 * @return 参数值, 或{@code UNRESOLVED}
+	 * @throws Exception 如果解析失败
 	 */
 	Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception;
 

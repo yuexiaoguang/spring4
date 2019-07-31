@@ -3,7 +3,7 @@ package org.springframework.web;
 import javax.servlet.ServletException;
 
 /**
- * Exception thrown when an HTTP request handler requires a pre-existing session.
+ * 当HTTP请求处理器需要预先存在的会话时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class HttpSessionRequiredException extends ServletException {
@@ -11,19 +11,13 @@ public class HttpSessionRequiredException extends ServletException {
 	private String expectedAttribute;
 
 
-	/**
-	 * Create a new HttpSessionRequiredException.
-	 * @param msg the detail message
-	 */
 	public HttpSessionRequiredException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Create a new HttpSessionRequiredException.
-	 * @param msg the detail message
-	 * @param expectedAttribute the name of the expected session attribute
-	 * @since 4.3
+	 * @param msg 详细信息
+	 * @param expectedAttribute 预期会话属性的名称
 	 */
 	public HttpSessionRequiredException(String msg, String expectedAttribute) {
 		super(msg);
@@ -32,8 +26,7 @@ public class HttpSessionRequiredException extends ServletException {
 
 
 	/**
-	 * Return the name of the expected session attribute, if any.
-	 * @since 4.3
+	 * 返回预期的会话属性的名称.
 	 */
 	public String getExpectedAttribute() {
 		return this.expectedAttribute;

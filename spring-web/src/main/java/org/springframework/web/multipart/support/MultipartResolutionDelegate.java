@@ -15,8 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A common delegate for {@code HandlerMethodArgumentResolver} implementations
- * which need to resolve {@link MultipartFile} and {@link Part} arguments.
+ * {@code HandlerMethodArgumentResolver}实现的常见委托, 需要解析{@link MultipartFile}和{@link Part}参数.
  */
 public abstract class MultipartResolutionDelegate {
 
@@ -31,8 +30,7 @@ public abstract class MultipartResolutionDelegate {
 					MultipartResolutionDelegate.class.getClassLoader());
 		}
 		catch (ClassNotFoundException ex) {
-			// Servlet 3.0 javax.servlet.http.Part type not available -
-			// Part references simply not supported then.
+			// Servlet 3.0 javax.servlet.http.Part 类型不可用 - Part引用根本不受支持.
 		}
 	}
 
@@ -146,7 +144,7 @@ public abstract class MultipartResolutionDelegate {
 
 
 	/**
-	 * Inner class to avoid hard-coded dependency on Servlet 3.0 Part type...
+	 * 内部类, 以避免对Servlet 3.0 Part类型的硬编码依赖...
 	 */
 	private static class RequestPartResolver {
 

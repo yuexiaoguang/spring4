@@ -16,16 +16,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link RequestAttributes} adapter for a JSF {@link javax.faces.context.FacesContext}.
- * Used as default in a JSF environment, wrapping the current FacesContext.
+ * {@link RequestAttributes}适配器, 用于JSF {@link javax.faces.context.FacesContext}.
+ * 在JSF环境中用作默认值, 包装当前的FacesContext.
  *
- * <p><b>NOTE:</b> In contrast to {@link ServletRequestAttributes}, this variant does
- * <i>not</i> support destruction callbacks for scoped attributes, neither for the
- * request scope nor for the session scope. If you rely on such implicit destruction
- * callbacks, consider defining a Spring {@link RequestContextListener} in your
- * {@code web.xml}.
+ * <p><b>NOTE:</b> 与{@link ServletRequestAttributes}相反, 此变体<i>不</i>支持范围属性的销毁回调,
+ * 既不支持请求范围也不支持会话范围.
+ * 如果依赖于此类隐式销毁回调, 考虑在{@code web.xml}中定义Spring {@link RequestContextListener}.
  *
- * <p>Requires JSF 2.0 or higher, as of Spring 4.0.
+ * <p>从Spring 4.0开始, 需要JSF 2.0或更高版本.
  */
 public class FacesRequestAttributes implements RequestAttributes {
 
@@ -33,7 +31,7 @@ public class FacesRequestAttributes implements RequestAttributes {
 			ClassUtils.isPresent("javax.portlet.PortletSession", FacesRequestAttributes.class.getClassLoader());
 
 	/**
-	 * We'll create a lot of these objects, so we don't want a new logger every time.
+	 * 将创建很多这些对象, 因此不希望每次都有新的记录器.
 	 */
 	private static final Log logger = LogFactory.getLog(FacesRequestAttributes.class);
 
@@ -41,8 +39,7 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 
 	/**
-	 * Create a new FacesRequestAttributes adapter for the given FacesContext.
-	 * @param facesContext the current FacesContext
+	 * @param facesContext 当前FacesContext
 	 */
 	public FacesRequestAttributes(FacesContext facesContext) {
 		Assert.notNull(facesContext, "FacesContext must not be null");
@@ -51,23 +48,25 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 
 	/**
-	 * Return the JSF FacesContext that this adapter operates on.
+	 * 返回此适配器操作的JSF FacesContext.
 	 */
 	protected final FacesContext getFacesContext() {
 		return this.facesContext;
 	}
 
 	/**
-	 * Return the JSF ExternalContext that this adapter operates on.
+	 * 返回此适配器操作的JSF ExternalContext.
 	 */
 	protected final ExternalContext getExternalContext() {
 		return getFacesContext().getExternalContext();
 	}
 
 	/**
-	 * Return the JSF attribute Map for the specified scope
-	 * @param scope constant indicating request or session scope
-	 * @return the Map representation of the attributes in the specified scope
+	 * 返回指定范围的JSF属性Map
+	 * 
+	 * @param scope 常量指示请求或会话范围
+	 * 
+	 * @return 指定范围内属性的Map表示
 	 */
 	protected Map<String, Object> getAttributeMap(int scope) {
 		if (scope == SCOPE_REQUEST) {
@@ -189,7 +188,7 @@ public class FacesRequestAttributes implements RequestAttributes {
 	public String getSessionId() {
 		Object session = getExternalContext().getSession(true);
 		try {
-			// Both HttpSession and PortletSession have a getId() method.
+			// HttpSession 和 PortletSession都有一个getId()方法.
 			Method getIdMethod = session.getClass().getMethod("getId");
 			return ReflectionUtils.invokeMethod(getIdMethod, session).toString();
 		}
@@ -200,7 +199,7 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 	@Override
 	public Object getSessionMutex() {
-		// Enforce presence of a session first to allow listeners to create the mutex attribute
+		// 首先会话必须存在, 以允许监听器创建互斥属性
 		ExternalContext externalContext = getExternalContext();
 		Object session = externalContext.getSession(true);
 		Object mutex = externalContext.getSessionMap().get(WebUtils.SESSION_MUTEX_ATTRIBUTE);
@@ -212,7 +211,7 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 
 	/**
-	 * Inner class to avoid hard-coded Portlet API dependency.
+	 * 内部类, 以避免硬编码Portlet API依赖.
  	 */
 	private static class PortletSessionAccessor {
 
@@ -263,5 +262,4 @@ public class FacesRequestAttributes implements RequestAttributes {
 			}
 		}
 	}
-
 }

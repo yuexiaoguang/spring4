@@ -6,34 +6,31 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
 /**
- * Provides additional methods for dealing with multipart content within a
- * servlet request, allowing to access uploaded files.
- * Implementations also need to override the standard
- * {@link javax.servlet.ServletRequest} methods for parameter access, making
- * multipart parameters available.
+ * 提供用于处理servlet请求中的multipart内容的其他方法, 允许访问上传的文件.
+ * 实现还需要覆盖参数访问的标准{@link javax.servlet.ServletRequest}方法, 使multipart参数可用.
  *
- * <p>A concrete implementation is
+ * <p>具体的实现是
  * {@link org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest}.
- * As an intermediate step,
+ * 作为中间步骤, 可以对
  * {@link org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest}
- * can be subclassed.
+ * 进行子类化.
  */
 public interface MultipartHttpServletRequest extends HttpServletRequest, MultipartRequest {
 
 	/**
-	 * Return this request's method as a convenient HttpMethod instance.
+	 * 返回此请求的方法.
 	 */
 	HttpMethod getRequestMethod();
 
 	/**
-	 * Return this request's headers as a convenient HttpHeaders instance.
+	 * 返回此请求的header.
 	 */
 	HttpHeaders getRequestHeaders();
 
 	/**
-	 * Return the headers associated with the specified part of the multipart request.
-	 * <p>If the underlying implementation supports access to headers, then all headers are returned.
-	 * Otherwise, the returned headers will include a 'Content-Type' header at the very least.
+	 * 返回与multipart请求的指定部分关联的header.
+	 * <p>如果底层实现支持对header的访问, 则返回所有header.
+	 * 否则, 返回的header至少会包含一个'Content-Type' header.
 	 */
 	HttpHeaders getMultipartHeaders(String paramOrFileName);
 

@@ -14,11 +14,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
- * An implementation of {@code MediaTypeFileExtensionResolver} that maintains
- * lookups between file extensions and MediaTypes in both directions.
+ * {@code MediaTypeFileExtensionResolver}的实现, 用于维护文件扩展名和MediaTypes在两个方向上的查找.
  *
- * <p>Initially created with a map of file extensions and media types.
- * Subsequently subclasses can use {@link #addMapping} to add more mappings.
+ * <p>使用文件扩展名和媒体类型的Map创建.
+ * 随后的子类可以使用{@link #addMapping}添加更多映射.
  */
 public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExtensionResolver {
 
@@ -32,7 +31,7 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 
 
 	/**
-	 * Create an instance with the given map of file extensions and media types.
+	 * 使用给定的文件扩展名和媒体类型Map创建实例.
 	 */
 	public MappingMediaTypeFileExtensionResolver(Map<String, MediaType> mediaTypes) {
 		if (mediaTypes != null) {
@@ -56,7 +55,7 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 	}
 
 	/**
-	 * Map an extension to a MediaType. Ignore if extension already mapped.
+	 * 将扩展名映射到MediaType. 如果扩展名已映射, 则忽略.
 	 */
 	protected void addMapping(String extension, MediaType mediaType) {
 		MediaType previous = this.mediaTypes.putIfAbsent(extension, mediaType);
@@ -79,8 +78,9 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 	}
 
 	/**
-	 * Use this method for a reverse lookup from extension to MediaType.
-	 * @return a MediaType for the key, or {@code null} if none found
+	 * 使用此方法进行从扩展名到MediaType的反向查找.
+	 * 
+	 * @return 对应的MediaType, 或{@code null}
 	 */
 	protected MediaType lookupMediaType(String extension) {
 		return this.mediaTypes.get(extension.toLowerCase(Locale.ENGLISH));

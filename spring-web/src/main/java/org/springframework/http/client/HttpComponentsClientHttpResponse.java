@@ -13,10 +13,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpResponse} implementation based on
- * Apache HttpComponents HttpClient.
+ * {@link ClientHttpResponse}实现, 基于Apache HttpComponents HttpClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequest}.
+ * <p>通过{@link HttpComponentsClientHttpRequest}创建.
  */
 final class HttpComponentsClientHttpResponse extends AbstractClientHttpResponse {
 
@@ -59,10 +58,10 @@ final class HttpComponentsClientHttpResponse extends AbstractClientHttpResponse 
 
 	@Override
 	public void close() {
-        // Release underlying connection back to the connection manager
+        // 将底层连接释放回连接管理器
         try {
             try {
-                // Attempt to keep connection alive by consuming its remaining content
+                // 通过消耗其剩余内容来尝试保持连接活跃
                 EntityUtils.consume(this.httpResponse.getEntity());
             }
 			finally {

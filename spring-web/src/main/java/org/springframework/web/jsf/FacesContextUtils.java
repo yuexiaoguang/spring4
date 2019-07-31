@@ -8,21 +8,21 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Convenience methods to retrieve Spring's root {@link WebApplicationContext}
- * for a given JSF {@link FacesContext}. This is useful for accessing a
- * Spring application context from custom JSF-based code.
+ * 为给定的JSF {@link FacesContext}检索Spring的根{@link WebApplicationContext}的便捷方法.
+ * 这对于从基于JSF的自定义代码访问Spring应用程序上下文非常有用.
  *
- * <p>Analogous to Spring's WebApplicationContextUtils for the ServletContext.
+ * <p>类似于用于ServletContext的Spring的WebApplicationContextUtils.
  */
 public abstract class FacesContextUtils {
 
 	/**
-	 * Find the root {@link WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param fc the FacesContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app, or {@code null} if none
+	 * 查找此Web应用程序的根{@link WebApplicationContext},
+	 * 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param fc 用于查找Web应用程序上下文的FacesContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext, 或{@code null}
 	 */
 	public static WebApplicationContext getWebApplicationContext(FacesContext fc) {
 		Assert.notNull(fc, "FacesContext must not be null");
@@ -44,14 +44,14 @@ public abstract class FacesContextUtils {
 	}
 
 	/**
-	 * Find the root {@link WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param fc the FacesContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app
-	 * @throws IllegalStateException if the root WebApplicationContext could not be found
-	 * @see org.springframework.web.context.WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE
+	 * 查找此Web应用程序的根{@link WebApplicationContext},
+	 * 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param fc 用于查找Web应用程序上下文的FacesContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext
+	 * @throws IllegalStateException 如果找不到根WebApplicationContext
 	 */
 	public static WebApplicationContext getRequiredWebApplicationContext(FacesContext fc) throws IllegalStateException {
 		WebApplicationContext wac = getWebApplicationContext(fc);
@@ -62,24 +62,17 @@ public abstract class FacesContextUtils {
 	}
 
 	/**
-	 * Return the best available mutex for the given session:
-	 * that is, an object to synchronize on for the given session.
-	 * <p>Returns the session mutex attribute if available; usually,
-	 * this means that the HttpSessionMutexListener needs to be defined
-	 * in {@code web.xml}. Falls back to the Session reference itself
-	 * if no mutex attribute found.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@code SESSION_MUTEX_ATTRIBUTE} constant. It serves as a
-	 * safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the Session reference itself is a safe mutex
-	 * as well, since it will always be the same object reference for the
-	 * same active logical session. However, this is not guaranteed across
-	 * different servlet containers; the only 100% safe way is a session mutex.
-	 * @param fc the FacesContext to find the session mutex for
-	 * @return the mutex object (never {@code null})
-	 * @see org.springframework.web.util.WebUtils#SESSION_MUTEX_ATTRIBUTE
-	 * @see org.springframework.web.util.HttpSessionMutexListener
+	 * 返回给定会话的最佳可用互斥锁: 即, 用于同步给定会话的对象.
+	 * <p>返回会话互斥锁属性; 通常, 这意味着需要在{@code web.xml}中定义HttpSessionMutexListener.
+	 * 如果未找到互斥锁属性, 则回退到会话引用本身.
+	 * <p>会话互斥锁在会话的整个生命周期内保证是同一个对象, 在{@code SESSION_MUTEX_ATTRIBUTE}常量定义的键下可用.
+	 * 它用作同步锁定当前会话的安全引用.
+	 * <p>在许多情况下, Session引用本身也是一个安全的互斥锁, 因为它始终是同一个活动逻辑会话的相同对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一100% 安全的方式是会话互斥锁.
+	 * 
+	 * @param fc 要查找会话互斥锁的FacesContext
+	 * 
+	 * @return 互斥锁对象 (never {@code null})
 	 */
 	public static Object getSessionMutex(FacesContext fc) {
 		Assert.notNull(fc, "FacesContext must not be null");

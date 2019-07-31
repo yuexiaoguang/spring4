@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 /**
- * Abstract base class for exceptions based on an {@link HttpStatus}.
+ * 基于{@link HttpStatus}的异常的抽象基类.
  */
 public abstract class HttpStatusCodeException extends RestClientResponseException {
 
@@ -17,29 +17,25 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 
 
 	/**
-	 * Construct a new instance with an {@link HttpStatus}.
-	 * @param statusCode the status code
+	 * @param statusCode 状态码
 	 */
 	protected HttpStatusCodeException(HttpStatus statusCode) {
 		this(statusCode, statusCode.name(), null, null, null);
 	}
 
 	/**
-	 * Construct a new instance with an {@link HttpStatus} and status text.
-	 * @param statusCode the status code
-	 * @param statusText the status text
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
 	 */
 	protected HttpStatusCodeException(HttpStatus statusCode, String statusText) {
 		this(statusCode, statusText, null, null, null);
 	}
 
 	/**
-	 * Construct instance with an {@link HttpStatus}, status text, and content.
-	 * @param statusCode the status code
-	 * @param statusText the status text
-	 * @param responseBody the response body content, may be {@code null}
-	 * @param responseCharset the response body charset, may be {@code null}
-	 * @since 3.0.5
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
+	 * @param responseBody 响应主体内容, may be {@code null}
+	 * @param responseCharset 响应主体字符集, may be {@code null}
 	 */
 	protected HttpStatusCodeException(HttpStatus statusCode, String statusText,
 			byte[] responseBody, Charset responseCharset) {
@@ -48,14 +44,11 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 	}
 
 	/**
-	 * Construct instance with an {@link HttpStatus}, status text, content, and
-	 * a response charset.
-	 * @param statusCode the status code
-	 * @param statusText the status text
-	 * @param responseHeaders the response headers, may be {@code null}
-	 * @param responseBody the response body content, may be {@code null}
-	 * @param responseCharset the response body charset, may be {@code null}
-	 * @since 3.1.2
+	 * @param statusCode 状态码
+	 * @param statusText 状态文本
+	 * @param responseHeaders 响应 header, may be {@code null}
+	 * @param responseBody 响应主体内容, may be {@code null}
+	 * @param responseCharset 响应主体字符集, may be {@code null}
 	 */
 	protected HttpStatusCodeException(HttpStatus statusCode, String statusText,
 			HttpHeaders responseHeaders, byte[] responseBody, Charset responseCharset) {
@@ -67,7 +60,7 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 
 
 	/**
-	 * Return the HTTP status code.
+	 * 返回HTTP状态码.
 	 */
 	public HttpStatus getStatusCode() {
 		return this.statusCode;

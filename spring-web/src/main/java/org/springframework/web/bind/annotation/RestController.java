@@ -9,20 +9,15 @@ import java.lang.annotation.Target;
 import org.springframework.stereotype.Controller;
 
 /**
- * A convenience annotation that is itself annotated with
- * {@link Controller @Controller} and {@link ResponseBody @ResponseBody}.
+ * 使用{@link Controller @Controller}和{@link ResponseBody @ResponseBody}作为元注解.
  * <p>
- * Types that carry this annotation are treated as controllers where
- * {@link RequestMapping @RequestMapping} methods assume
- * {@link ResponseBody @ResponseBody} semantics by default.
+ * 带有此注解的类型被视为控制器, 其中{@link RequestMapping @RequestMapping}方法默认采用{@link ResponseBody @ResponseBody}语义.
  *
- * <p><b>NOTE:</b> {@code @RestController} is processed if an appropriate
- * {@code HandlerMapping}-{@code HandlerAdapter} pair is configured such as the
- * {@code RequestMappingHandlerMapping}-{@code RequestMappingHandlerAdapter}
- * pair which are the default in the MVC Java config and the MVC namespace.
- * In particular {@code @RestController} is not supported with the
- * {@code DefaultAnnotationHandlerMapping}-{@code AnnotationMethodHandlerAdapter}
- * pair both of which are also deprecated.
+ * <p><b>NOTE:</b> 如果配置了适当的{@code HandlerMapping}-{@code HandlerAdapter}对,
+ * 例如{@code RequestMappingHandlerMapping}-{@code RequestMappingHandlerAdapter}对,
+ * 它们是MVC Java配置和MVC命名空间中的默认值, 则会处理{@code @RestController}.
+ * 特别是{@code @RestController}不支持弃用的
+ * {@code DefaultAnnotationHandlerMapping}-{@code AnnotationMethodHandlerAdapter}对.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,10 +27,9 @@ import org.springframework.stereotype.Controller;
 public @interface RestController {
 
 	/**
-	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
-	 * @return the suggested component name, if any (or empty String otherwise)
-	 * @since 4.0.1
+	 * 该值可以指示对逻辑组件名称的建议, 在自动检测组件时将其转换为Spring bean.
+	 * 
+	 * @return 建议的组件名称 (或空字符串)
 	 */
 	String value() default "";
 

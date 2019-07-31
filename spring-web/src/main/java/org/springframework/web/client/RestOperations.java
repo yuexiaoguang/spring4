@@ -12,76 +12,84 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 /**
- * Interface specifying a basic set of RESTful operations.
- * Implemented by {@link RestTemplate}. Not often used directly, but a useful
- * option to enhance testability, as it can easily be mocked or stubbed.
+ * 指定一组基本的RESTful操作的接口.
+ * 由{@link RestTemplate}实现. 不经常直接使用, 但是增强可测试性的有用选项, 因为它很容易被模拟或存根.
  */
 public interface RestOperations {
 
 	// GET
 
 	/**
-	 * Retrieve a representation by doing a GET on the specified URL.
-	 * The response (if any) is converted and returned.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 通过对指定的URL执行GET来检索表示.
+	 * 转换并返回响应.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T getForObject(String url, Class<T> responseType, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve a representation by doing a GET on the URI template.
-	 * The response (if any) is converted and returned.
-	 * <p>URI Template variables are expanded using the given map.
+	 * 通过在URI模板上执行GET来检索表示.
+	 * 转换并返回响应.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @param uriVariables the map containing variables for the URI template
-	 * @return the converted object
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 包含URI模板变量的Map
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T getForObject(String url, Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve a representation by doing a GET on the URL .
-	 * The response (if any) is converted and returned.
+	 * 通过对URL执行GET来检索表示.
+	 * 转换并返回响应.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @return the converted object
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T getForObject(URI url, Class<T> responseType) throws RestClientException;
 
 	/**
-	 * Retrieve an entity by doing a GET on the specified URL.
-	 * The response is converted and stored in an {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 通过对指定的URL执行GET来检索实体.
+	 * 响应被转换并存储在{@link ResponseEntity}中.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
 	 * @return the entity
-	 * @since 3.0.2
 	 */
 	<T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve a representation by doing a GET on the URI template.
-	 * The response is converted and stored in an {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given map.
+	 * 通过在URI模板上执行GET来检索表示.
+	 * 响应被转换并存储在{@link ResponseEntity}中.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @param uriVariables the map containing variables for the URI template
-	 * @return the converted object
-	 * @since 3.0.2
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 包含URI模板变量的Map
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve a representation by doing a GET on the URL .
-	 * The response is converted and stored in an {@link ResponseEntity}.
+	 * 通过对URL执行GET来检索表示.
+	 * 响应被转换并存储在{@link ResponseEntity}中.
+	 * 
 	 * @param url the URL
-	 * @param responseType the type of the return value
-	 * @return the converted object
-	 * @since 3.0.2
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> ResponseEntity<T> getForEntity(URI url, Class<T> responseType) throws RestClientException;
 
@@ -89,27 +97,33 @@ public interface RestOperations {
 	// HEAD
 
 	/**
-	 * Retrieve all headers of the resource specified by the URI template.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 检索URI模板指定的资源的所有header.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param uriVariables the variables to expand the template
-	 * @return all HTTP headers of that resource
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 该资源的所有HTTP header
 	 */
 	HttpHeaders headForHeaders(String url, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve all headers of the resource specified by the URI template.
-	 * <p>URI Template variables are expanded using the given map.
+	 * 检索URI模板指定的资源的所有header.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param uriVariables the map containing variables for the URI template
-	 * @return all HTTP headers of that resource
+	 * @param uriVariables 包含URI模板变量的Map
+	 * 
+	 * @return 该资源的所有HTTP header
 	 */
 	HttpHeaders headForHeaders(String url, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Retrieve all headers of the resource specified by the URL.
+	 * 检索URL指定的资源的所有header.
+	 * 
 	 * @param url the URL
-	 * @return all HTTP headers of that resource
+	 * 
+	 * @return 该资源的所有HTTP header
 	 */
 	HttpHeaders headForHeaders(URI url) throws RestClientException;
 
@@ -117,132 +131,123 @@ public interface RestOperations {
 	// POST
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template, and returns the value of
-	 * the {@code Location} header. This header typically indicates where the new resource is stored.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并返回{@code Location} header的值.
+	 * 此header通常指示新资源的存储位置.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to add additional HTTP headers to the request.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param uriVariables the variables to expand the template
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
 	 * @return the value for the {@code Location} header
-	 * @see HttpEntity
 	 */
 	URI postForLocation(String url, Object request, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template, and returns the value of
-	 * the {@code Location} header. This header typically indicates where the new resource is stored.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并返回{@code Location} header的值.
+	 * 此header通常指示新资源的存储位置.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param uriVariables the variables to expand the template
-	 * @return the value for the {@code Location} header
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return {@code Location} header的值
 	 */
 	URI postForLocation(String url, Object request, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URL, and returns the value of the
-	 * {@code Location} header. This header typically indicates where the new resource is stored.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并返回{@code Location} header的值.
+	 * 此header通常指示新资源的存储位置.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @return the value for the {@code Location} header
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * 
+	 * @return {@code Location} header的值
 	 */
 	URI postForLocation(URI url, Object request) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and returns the representation found in the response.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并返回在响应中找到的表示.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T postForObject(String url, Object request, Class<T> responseType, Object... uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and returns the representation found in the response.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并返回在响应中找到的表示.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T postForObject(String url, Object request, Class<T> responseType, Map<String, ?> uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URL,
-	 * and returns the representation found in the response.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URL来创建新资源, 并返回在响应中找到的表示.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @return the converted object
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T postForObject(URI url, Object request, Class<T> responseType) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and returns the response as {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并将响应返回为{@link ResponseEntity}.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @since 3.0.2
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> ResponseEntity<T> postForEntity(String url, Object request, Class<T> responseType, Object... uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and returns the response as {@link HttpEntity}.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URI模板来创建新资源, 并将响应返回为{@link HttpEntity}.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @since 3.0.2
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> ResponseEntity<T> postForEntity(String url, Object request, Class<T> responseType, Map<String, ?> uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URL,
-	 * and returns the response as {@link ResponseEntity}.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象POST到URL来创建新资源, 并将响应返回为{@link ResponseEntity}.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be POSTed (may be {@code null})
-	 * @return the converted object
-	 * @since 3.0.2
-	 * @see HttpEntity
+	 * @param request 要POST的对象 (may be {@code null})
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> ResponseEntity<T> postForEntity(URI url, Object request, Class<T> responseType) throws RestClientException;
 
@@ -250,36 +255,33 @@ public interface RestOperations {
 	// PUT
 
 	/**
-	 * Create or update a resource by PUTting the given object to the URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象PUT到URI来创建或更新资源.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be PUT (may be {@code null})
-	 * @param uriVariables the variables to expand the template
-	 * @see HttpEntity
+	 * @param request 要PUT的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
 	 */
 	void put(String url, Object request, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Creates a new resource by PUTting the given object to URI template.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象PUT到URI模板来创建新资源.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be PUT (may be {@code null})
-	 * @param uriVariables the variables to expand the template
-	 * @see HttpEntity
+	 * @param request 要PUT的对象 (may be {@code null})
+	 * @param uriVariables 用于扩展模板的变量
 	 */
 	void put(String url, Object request, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Creates a new resource by PUTting the given object to URL.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
+	 * 通过将给定对象PUT到URL来创建新资源.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * 
 	 * @param url the URL
-	 * @param request the Object to be PUT (may be {@code null})
-	 * @see HttpEntity
+	 * @param request 要PUT的对象 (may be {@code null})
 	 */
 	void put(URI url, Object request) throws RestClientException;
 
@@ -287,65 +289,47 @@ public interface RestOperations {
 	// PATCH
 
 	/**
-	 * Update a resource by PATCHing the given object to the URI template,
-	 * and return the representation found in the response.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
-	 * <p><b>NOTE: The standard JDK HTTP library does not support HTTP PATCH.
-	 * You need to use the Apache HttpComponents or OkHttp request factory.</b>
+	 * 通过将给定对象PATCH到URI模板来更新资源, 并返回在响应中找到的表示.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * <p><b>NOTE: 标准JDK HTTP库不支持HTTP PATCH. 需要使用Apache HttpComponents或OkHttp请求工厂.</b>
+	 * 
 	 * @param url the URL
-	 * @param request the object to be PATCHed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @since 4.3.5
-	 * @see HttpEntity
-	 * @see RestTemplate#setRequestFactory
-	 * @see org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory
-	 * @see org.springframework.http.client.OkHttp3ClientHttpRequestFactory
+	 * @param request 要PATCH的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T patchForObject(String url, Object request, Class<T> responseType, Object... uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Update a resource by PATCHing the given object to the URI template,
-	 * and return the representation found in the response.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
-	 * <p><b>NOTE: The standard JDK HTTP library does not support HTTP PATCH.
-	 * You need to use the Apache HttpComponents or OkHttp request factory.</b>
+	 * 通过将给定对象PATCH到URI模板来更新资源, 并返回在响应中找到的表示.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * <p><b>NOTE: 标准JDK HTTP库不支持HTTP PATCH. 需要使用Apache HttpComponents或OkHttp请求工厂.</b>
+	 * 
 	 * @param url the URL
-	 * @param request the object to be PATCHed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand the template
-	 * @return the converted object
-	 * @since 4.3.5
-	 * @see HttpEntity
-	 * @see RestTemplate#setRequestFactory
-	 * @see org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory
-	 * @see org.springframework.http.client.OkHttp3ClientHttpRequestFactory
+	 * @param request 要PATCH的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 用于扩展模板的变量
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T patchForObject(String url, Object request, Class<T> responseType, Map<String, ?> uriVariables)
 			throws RestClientException;
 
 	/**
-	 * Update a resource by PATCHing the given object to the URL,
-	 * and return the representation found in the response.
-	 * <p>The {@code request} parameter can be a {@link HttpEntity} in order to
-	 * add additional HTTP headers to the request.
-	 * <p><b>NOTE: The standard JDK HTTP library does not support HTTP PATCH.
-	 * You need to use the Apache HttpComponents or OkHttp request factory.</b>
+	 * 通过将给定对象PATCH到URL来更新资源, 并返回在响应中找到的表示.
+	 * <p>{@code request}参数可以是{@link HttpEntity}, 以便为请求添加额外的HTTP header.
+	 * <p><b>NOTE: 标准JDK HTTP库不支持HTTP PATCH. 需要使用Apache HttpComponents或OkHttp请求工厂.</b>
+	 * 
 	 * @param url the URL
-	 * @param request the object to be PATCHed (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @return the converted object
-	 * @since 4.3.5
-	 * @see HttpEntity
-	 * @see RestTemplate#setRequestFactory
-	 * @see org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory
-	 * @see org.springframework.http.client.OkHttp3ClientHttpRequestFactory
+	 * @param request 要PATCH的对象 (may be {@code null})
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 转换后的对象
 	 */
 	<T> T patchForObject(URI url, Object request, Class<T> responseType) throws RestClientException;
 
@@ -354,24 +338,26 @@ public interface RestOperations {
 	// DELETE
 
 	/**
-	 * Delete the resources at the specified URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 删除指定URI处的资源.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param uriVariables the variables to expand in the template
+	 * @param uriVariables 要在模板中展开的变量
 	 */
 	void delete(String url, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Delete the resources at the specified URI.
-	 * <p>URI Template variables are expanded using the given map.
+	 * 删除指定URI处的资源.
+	 * <p>使用给定的Map扩展URI模板变量.
 	 *
 	 * @param url the URL
-	 * @param uriVariables the variables to expand the template
+	 * @param uriVariables 用于扩展模板的变量
 	 */
 	void delete(String url, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Delete the resources at the specified URL.
+	 * 删除指定URL处的资源.
+	 * 
 	 * @param url the URL
 	 */
 	void delete(URI url) throws RestClientException;
@@ -380,27 +366,33 @@ public interface RestOperations {
 	// OPTIONS
 
 	/**
-	 * Return the value of the Allow header for the given URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 返回给定URI的Allow header的值.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param uriVariables the variables to expand in the template
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
 	 * @return the value of the allow header
 	 */
 	Set<HttpMethod> optionsForAllow(String url, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Return the value of the Allow header for the given URI.
-	 * <p>URI Template variables are expanded using the given map.
+	 * 返回给定URI的Allow header的值.
+	 * <p>使用给定的Map扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param uriVariables the variables to expand in the template
-	 * @return the value of the allow header
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return allow header的值
 	 */
 	Set<HttpMethod> optionsForAllow(String url, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Return the value of the Allow header for the given URL.
+	 * 返回给定URI的Allow header的值.
+	 * 
 	 * @param url the URL
-	 * @return the value of the allow header
+	 * 
+	 * @return allow header的值
 	 */
 	Set<HttpMethod> optionsForAllow(URI url) throws RestClientException;
 
@@ -408,140 +400,134 @@ public interface RestOperations {
 	// exchange
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given request entity to the request, and
-	 * returns the response as {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand in the template
-	 * @return the response as entity
-	 * @since 3.0.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
 			Class<T> responseType, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given request entity to the request, and
-	 * returns the response as {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand in the template
-	 * @return the response as entity
-	 * @since 3.0.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
 			Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given request entity to the request, and
-	 * returns the response as {@link ResponseEntity}.
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @return the response as entity
-	 * @since 3.0.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(URI url, HttpMethod method, HttpEntity<?> requestEntity,
 			Class<T> responseType) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given
-	 * request entity to the request, and returns the response as {@link ResponseEntity}.
-	 * The given {@link ParameterizedTypeReference} is used to pass generic type information:
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * 给定的{@link ParameterizedTypeReference}用于传递泛型类型信息:
 	 * <pre class="code">
 	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean = new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
 	 * ResponseEntity&lt;List&lt;MyBean&gt;&gt; response = template.exchange(&quot;http://example.com&quot;,HttpMethod.GET, null, myBean);
 	 * </pre>
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the
-	 * request (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand in the template
-	 * @return the response as entity
-	 * @since 3.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(String url,HttpMethod method, HttpEntity<?> requestEntity,
 			ParameterizedTypeReference<T> responseType, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given
-	 * request entity to the request, and returns the response as {@link ResponseEntity}.
-	 * The given {@link ParameterizedTypeReference} is used to pass generic type information:
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * 给定的{@link ParameterizedTypeReference}用于传递泛型类型信息:
 	 * <pre class="code">
 	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean = new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
 	 * ResponseEntity&lt;List&lt;MyBean&gt;&gt; response = template.exchange(&quot;http://example.com&quot;,HttpMethod.GET, null, myBean);
 	 * </pre>
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand in the template
-	 * @return the response as entity
-	 * @since 3.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity,
 			ParameterizedTypeReference<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, writing the given
-	 * request entity to the request, and returns the response as {@link ResponseEntity}.
-	 * The given {@link ParameterizedTypeReference} is used to pass generic type information:
+	 * 对给定的URI模板执行HTTP方法, 将给定的请求实体写入请求, 并将响应返回为{@link ResponseEntity}.
+	 * 给定的{@link ParameterizedTypeReference}用于传递泛型类型信息:
 	 * <pre class="code">
 	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean = new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
 	 * ResponseEntity&lt;List&lt;MyBean&gt;&gt; response = template.exchange(&quot;http://example.com&quot;,HttpMethod.GET, null, myBean);
 	 * </pre>
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @return the response as entity
-	 * @since 3.2
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestEntity 写入请求的实体 (header和/或正文)(可能是{@code null})
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(URI url, HttpMethod method, HttpEntity<?> requestEntity,
 			ParameterizedTypeReference<T> responseType) throws RestClientException;
 
 	/**
-	 * Execute the request specified in the given {@link RequestEntity} and return
-	 * the response as {@link ResponseEntity}. Typically used in combination
-	 * with the static builder methods on {@code RequestEntity}, for instance:
+	 * 执行给定{@link RequestEntity}中指定的请求, 并将响应返回为{@link ResponseEntity}.
+	 * 通常与{@code RequestEntity}上的静态构建器方法结合使用, 例如:
 	 * <pre class="code">
 	 * MyRequest body = ...
 	 * RequestEntity request = RequestEntity.post(new URI(&quot;http://example.com/foo&quot;)).accept(MediaType.APPLICATION_JSON).body(body);
 	 * ResponseEntity&lt;MyResponse&gt; response = template.exchange(request, MyResponse.class);
 	 * </pre>
-	 * @param requestEntity the entity to write to the request
-	 * @param responseType the type of the return value
-	 * @return the response as entity
-	 * @since 4.1
+	 * 
+	 * @param requestEntity 要写入请求的实体
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(RequestEntity<?> requestEntity, Class<T> responseType) throws RestClientException;
 
 	/**
-	 * Execute the request specified in the given {@link RequestEntity} and return
-	 * the response as {@link ResponseEntity}. The given
-	 * {@link ParameterizedTypeReference} is used to pass generic type information:
+	 * 执行给定{@link RequestEntity}中指定的请求, 并将响应返回为{@link ResponseEntity}.
+	 * 给定的{@link ParameterizedTypeReference}用于传递泛型类型信息:
 	 * <pre class="code">
 	 * MyRequest body = ...
 	 * RequestEntity request = RequestEntity.post(new URI(&quot;http://example.com/foo&quot;)).accept(MediaType.APPLICATION_JSON).body(body);
 	 * ParameterizedTypeReference&lt;List&lt;MyResponse&gt;&gt; myBean = new ParameterizedTypeReference&lt;List&lt;MyResponse&gt;&gt;() {};
 	 * ResponseEntity&lt;List&lt;MyResponse&gt;&gt; response = template.exchange(request, myBean);
 	 * </pre>
-	 * @param requestEntity the entity to write to the request
-	 * @param responseType the type of the return value
-	 * @return the response as entity
-	 * @since 4.1
+	 * 
+	 * @param requestEntity 要写入请求的实体
+	 * @param responseType 返回值的类型
+	 * 
+	 * @return 响应实体
 	 */
 	<T> ResponseEntity<T> exchange(RequestEntity<?> requestEntity, ParameterizedTypeReference<T> responseType)
 			throws RestClientException;
@@ -550,41 +536,44 @@ public interface RestOperations {
 	// general execution
 
 	/**
-	 * Execute the HTTP method to the given URI template, preparing the request with the
-	 * {@link RequestCallback}, and reading the response with a {@link ResponseExtractor}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * 对给定的URI模板执行HTTP方法, 使用{@link RequestCallback}准备请求, 并使用{@link ResponseExtractor}读取响应.
+	 * <p>使用给定的URI变量扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestCallback object that prepares the request
-	 * @param responseExtractor object that extracts the return value from the response
-	 * @param uriVariables the variables to expand in the template
-	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestCallback 准备请求的对象
+	 * @param responseExtractor 从响应中提取返回值的对象
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 任意的对象, 由{@link ResponseExtractor}返回
 	 */
 	<T> T execute(String url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URI template, preparing the request with the
-	 * {@link RequestCallback}, and reading the response with a {@link ResponseExtractor}.
-	 * <p>URI Template variables are expanded using the given URI variables map.
+	 * 对给定的URI模板执行HTTP方法, 使用{@link RequestCallback}准备请求, 并使用{@link ResponseExtractor}读取响应.
+	 * <p>使用给定的URI变量Map扩展URI模板变量.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestCallback object that prepares the request
-	 * @param responseExtractor object that extracts the return value from the response
-	 * @param uriVariables the variables to expand in the template
-	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestCallback 准备请求的对象
+	 * @param responseExtractor 从响应中提取返回值的对象
+	 * @param uriVariables 要在模板中展开的变量
+	 * 
+	 * @return 任意的对象, 由{@link ResponseExtractor}返回
 	 */
 	<T> T execute(String url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Execute the HTTP method to the given URL, preparing the request with the
-	 * {@link RequestCallback}, and reading the response with a {@link ResponseExtractor}.
+	 * 对给定的URL执行HTTP方法, 使用{@link RequestCallback}准备请求, 并使用{@link ResponseExtractor}读取响应.
+	 * 
 	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestCallback object that prepares the request
-	 * @param responseExtractor object that extracts the return value from the response
-	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
+	 * @param method HTTP方法 (GET, POST, etc)
+	 * @param requestCallback 准备请求的对象
+	 * @param responseExtractor 从响应中提取返回值的对象
+	 * 
+	 * @return 任意的对象, 由{@link ResponseExtractor}返回
 	 */
 	<T> T execute(URI url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor) throws RestClientException;

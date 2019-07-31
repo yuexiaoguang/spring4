@@ -9,9 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * Implementation of {@link ClientHttpResponse} that can not only check if
- * the response has a message body, but also if its length is 0 (i.e. empty)
- * by actually reading the input stream.
+ * {@link ClientHttpResponse}的实现, 它不仅可以通过实际读取输入流,
+ * 来检查响应是否具有消息主体, 还可以检查其长度是否为0 (i.e. 为空).
  */
 class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 
@@ -26,14 +25,15 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 
 
 	/**
-	 * Indicates whether the response has a message body.
-	 * <p>Implementation returns {@code false} for:
+	 * 指示响应是否具有消息正文.
+	 * <p>实现返回{@code false}, 如果:
 	 * <ul>
-	 * <li>a response status of {@code 1XX}, {@code 204} or {@code 304}</li>
-	 * <li>a {@code Content-Length} header of {@code 0}</li>
+	 * <li>{@code 1XX}, {@code 204}或{@code 304}响应状态</li>
+	 * <li>{@code Content-Length} header为{@code 0}</li>
 	 * </ul>
-	 * @return {@code true} if the response has a message body, {@code false} otherwise
-	 * @throws IOException in case of I/O errors
+	 * 
+	 * @return {@code true}如果响应有消息主体, 否则{@code false}
+	 * @throws IOException
 	 */
 	public boolean hasMessageBody() throws IOException {
 		try {
@@ -53,14 +53,15 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 	}
 
 	/**
-	 * Indicates whether the response has an empty message body.
-	 * <p>Implementation tries to read the first bytes of the response stream:
+	 * 指示响应是否具有空消息正文.
+	 * <p>实现尝试读取响应流的第一个字节:
 	 * <ul>
-	 * <li>if no bytes are available, the message body is empty</li>
-	 * <li>otherwise it is not empty and the stream is reset to its start for further reading</li>
+	 * <li>如果没有可用的字节, 则消息正文为空</li>
+	 * <li>否则它不为空, 并且流被重置为其开始位置, 以供进一步读取</li>
 	 * </ul>
-	 * @return {@code true} if the response has a zero-length message body, {@code false} otherwise
-	 * @throws IOException in case of I/O errors
+	 * 
+	 * @return {@code true} 如果响应具有零长度消息主体, 否则{@code false}
+	 * @throws IOException
 	 */
 	public boolean hasEmptyMessageBody() throws IOException {
 		InputStream body = this.response.getBody();

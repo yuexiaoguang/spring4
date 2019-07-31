@@ -31,18 +31,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
- * A {@link FactoryBean} for creating a Jackson 2.x {@link ObjectMapper} (default) or
- * {@link XmlMapper} ({@code createXmlMapper} property set to true) with setters
- * to enable or disable Jackson features from within XML configuration.
+ * {@link FactoryBean}, 用于创建Jackson 2.x {@link ObjectMapper} (默认) 或{@link XmlMapper} ({@code createXmlMapper}属性设置为 true),
+ * 使用setter在XML配置中启用或禁用Jackson功能.
  *
- * <p>It customizes Jackson defaults properties with the following ones:
+ * <p>它使用以下属性自定义Jackson默认属性:
  * <ul>
- * <li>{@link MapperFeature#DEFAULT_VIEW_INCLUSION} is disabled</li>
- * <li>{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} is disabled</li>
+ * <li>禁用{@link MapperFeature#DEFAULT_VIEW_INCLUSION}</li>
+ * <li>禁用{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES}</li>
  * </ul>
  *
- * <p>Example usage with
- * {@link MappingJackson2HttpMessageConverter}:
+ * <p>{@link MappingJackson2HttpMessageConverter}的示例用法:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -55,7 +53,7 @@ import org.springframework.context.ApplicationContextAware;
  * &lt;/bean>
  * </pre>
  *
- * <p>Example usage with MappingJackson2JsonView:
+ * <p>MappingJackson2JsonView的示例用法:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
@@ -73,9 +71,8 @@ import org.springframework.context.ApplicationContextAware;
  * &lt;/bean>
  * </pre>
  *
- * <p>In case there are no specific setters provided (for some rarely used options),
- * you can still use the more general methods  {@link #setFeaturesToEnable} and
- * {@link #setFeaturesToDisable}.
+ * <p>如果没有提供特定的setter (对于一些很少使用的选项),
+ * 仍然可以使用更通用的方法{@link #setFeaturesToEnable}和{@link #setFeaturesToDisable}.
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
@@ -93,18 +90,22 @@ import org.springframework.context.ApplicationContextAware;
  * &lt;/bean>
  * </pre>
  *
- * <p>It also automatically registers the following well-known modules if they are
- * detected on the classpath:
+ * <p>如果在类路径上检测到它们, 它还会自动注册以下已知的模块:
  * <ul>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-jdk7">jackson-datatype-jdk7</a>: support for Java 7 types like {@link java.nio.file.Path}</li>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-jdk8">jackson-datatype-jdk8</a>: support for other Java 8 types like {@link java.util.Optional}</li>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-jsr310">jackson-datatype-jsr310</a>: support for Java 8 Date & Time API types</li>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-joda">jackson-datatype-joda</a>: support for Joda-Time types</li>
- * <li><a href="https://github.com/FasterXML/jackson-module-kotlin">jackson-module-kotlin</a>: support for Kotlin classes and data classes</li>
+ * <li><a href="https://github.com/FasterXML/jackson-datatype-jdk7">jackson-datatype-jdk7</a>:
+ * 支持Java 7类型, 如{@link java.nio.file.Path}</li>
+ * <li><a href="https://github.com/FasterXML/jackson-datatype-jdk8">jackson-datatype-jdk8</a>:
+ * 支持其他Java 8类型, 如{@link java.util.Optional}</li>
+ * <li><a href="https://github.com/FasterXML/jackson-datatype-jsr310">jackson-datatype-jsr310</a>:
+ * 支持Java 8 Date & Time API类型</li>
+ * <li><a href="https://github.com/FasterXML/jackson-datatype-joda">jackson-datatype-joda</a>:
+ * 支持Joda-Time类型</li>
+ * <li><a href="https://github.com/FasterXML/jackson-module-kotlin">jackson-module-kotlin</a>:
+ * 支持Kotlin类和数据类</li>
  * </ul>
  *
- * <p>In case you want to configure Jackson's {@link ObjectMapper} with a custom {@link Module},
- * you can register one or more such Modules by class name via {@link #setModulesToInstall}:
+ * <p>如果使用自定义{@link Module}配置Jackson的{@link ObjectMapper},
+ * 可以通过{@link #setModulesToInstall}按类名注册一个或多个此类模块:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
@@ -112,7 +113,7 @@ import org.springframework.context.ApplicationContextAware;
  * &lt;/bean
  * </pre>
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper>, BeanClassLoaderAware,
 		ApplicationContextAware, InitializingBean {
@@ -123,142 +124,120 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 
 
 	/**
-	 * Set the {@link ObjectMapper} instance to use. If not set, the {@link ObjectMapper}
-	 * will be created using its default constructor.
+	 * 设置要使用的{@link ObjectMapper}实例.
+	 * 如果未设置, 将使用其默认构造函数创建{@link ObjectMapper}.
 	 */
 	public void setObjectMapper(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
 	}
 
 	/**
-	 * If set to true and no custom {@link ObjectMapper} has been set, a {@link XmlMapper}
-	 * will be created using its default constructor.
-	 * @since 4.1
+	 * 如果设置为true且未设置自定义{@link ObjectMapper}, 则将使用其默认构造函数创建{@link XmlMapper}.
 	 */
 	public void setCreateXmlMapper(boolean createXmlMapper) {
 		this.builder.createXmlMapper(createXmlMapper);
 	}
 
 	/**
-	 * Define the format for date/time with the given {@link DateFormat}.
-	 * <p>Note: Setting this property makes the exposed {@link ObjectMapper}
-	 * non-thread-safe, according to Jackson's thread safety rules.
-	 * @see #setSimpleDateFormat(String)
+	 * 使用给定的{@link DateFormat}定义日期/时间的格式.
+	 * <p>Note: 根据Jackson的线程安全规则, 设置此属性会使公开的{@link ObjectMapper}非线程安全.
 	 */
 	public void setDateFormat(DateFormat dateFormat) {
 		this.builder.dateFormat(dateFormat);
 	}
 
 	/**
-	 * Define the date/time format with a {@link SimpleDateFormat}.
-	 * <p>Note: Setting this property makes the exposed {@link ObjectMapper}
-	 * non-thread-safe, according to Jackson's thread safety rules.
-	 * @see #setDateFormat(DateFormat)
+	 * 使用{@link SimpleDateFormat}定义日期/时间格式.
+	 * <p>Note: 根据Jackson的线程安全规则, 设置此属性会使公开的{@link ObjectMapper}非线程安全.
 	 */
 	public void setSimpleDateFormat(String format) {
 		this.builder.simpleDateFormat(format);
 	}
 
 	/**
-	 * Override the default {@link Locale} to use for formatting.
-	 * Default value used is {@link Locale#getDefault()}.
-	 * @since 4.1.5
+	 * 覆盖默认的{@link Locale}以用于格式化.
+	 * 默认{@link Locale#getDefault()}.
 	 */
 	public void setLocale(Locale locale) {
 		this.builder.locale(locale);
 	}
 
 	/**
-	 * Override the default {@link TimeZone} to use for formatting.
-	 * Default value used is UTC (NOT local timezone).
-	 * @since 4.1.5
+	 * 覆盖默认的{@link TimeZone}以用于格式化.
+	 * 默认UTC (非本地时区).
 	 */
 	public void setTimeZone(TimeZone timeZone) {
 		this.builder.timeZone(timeZone);
 	}
 
 	/**
-	 * Set an {@link AnnotationIntrospector} for both serialization and deserialization.
+	 * 为序列化和反序列化设置{@link AnnotationIntrospector}.
 	 */
 	public void setAnnotationIntrospector(AnnotationIntrospector annotationIntrospector) {
 		this.builder.annotationIntrospector(annotationIntrospector);
 	}
 
 	/**
-	 * Specify a {@link com.fasterxml.jackson.databind.PropertyNamingStrategy} to
-	 * configure the {@link ObjectMapper} with.
-	 * @since 4.0.2
+	 * 指定配置{@link ObjectMapper}使用的{@link com.fasterxml.jackson.databind.PropertyNamingStrategy}.
 	 */
 	public void setPropertyNamingStrategy(PropertyNamingStrategy propertyNamingStrategy) {
 		this.builder.propertyNamingStrategy(propertyNamingStrategy);
 	}
 
 	/**
-	 * Specify a {@link TypeResolverBuilder} to use for Jackson's default typing.
-	 * @since 4.2.2
+	 * 指定用于Jackson的默认输入的{@link TypeResolverBuilder}.
 	 */
 	public void setDefaultTyping(TypeResolverBuilder<?> typeResolverBuilder) {
 		this.builder.defaultTyping(typeResolverBuilder);
 	}
 
 	/**
-	 * Set a custom inclusion strategy for serialization.
-	 * @see com.fasterxml.jackson.annotation.JsonInclude.Include
+	 * 设置序列化的自定义包含策略.
 	 */
 	public void setSerializationInclusion(JsonInclude.Include serializationInclusion) {
 		this.builder.serializationInclusion(serializationInclusion);
 	}
 
 	/**
-	 * Set the global filters to use in order to support {@link JsonFilter @JsonFilter} annotated POJO.
-	 * @since 4.2
-	 * @see Jackson2ObjectMapperBuilder#filters(FilterProvider)
+	 * 设置要使用的全局过滤器以支持带{@link JsonFilter @JsonFilter}注解的 POJO.
 	 */
 	public void setFilters(FilterProvider filters) {
 		this.builder.filters(filters);
 	}
 
 	/**
-	 * Add mix-in annotations to use for augmenting specified class or interface.
-	 * @param mixIns Map of entries with target classes (or interface) whose annotations
-	 * to effectively override as key and mix-in classes (or interface) whose
-	 * annotations are to be "added" to target's annotations as value.
-	 * @since 4.1.2
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixInAnnotations(Class, Class)
+	 * 添加混合注解以用于扩充指定的类或接口.
+	 * 
+	 * @param mixIns 具有目标类 (或接口)的条目的Map, 该目标类的注解有效地覆盖为键和混合类 (或接口), 其注解将作为值"添加"到目标的注解.
 	 */
 	public void setMixIns(Map<Class<?>, Class<?>> mixIns) {
 		this.builder.mixIns(mixIns);
 	}
 
 	/**
-	 * Configure custom serializers. Each serializer is registered for the type
-	 * returned by {@link JsonSerializer#handledType()}, which must not be {@code null}.
-	 * @see #setSerializersByType(Map)
+	 * 配置自定义序列化器. 每个序列化器都注册了{@link JsonSerializer#handledType()}返回的类型, 该类型不能是{@code null}.
 	 */
 	public void setSerializers(JsonSerializer<?>... serializers) {
 		this.builder.serializers(serializers);
 	}
 
 	/**
-	 * Configure custom serializers for the given types.
-	 * @see #setSerializers(JsonSerializer...)
+	 * 为给定类型配置自定义序列化器.
 	 */
 	public void setSerializersByType(Map<Class<?>, JsonSerializer<?>> serializers) {
 		this.builder.serializersByType(serializers);
 	}
 
 	/**
-	 * Configure custom deserializers. Each deserializer is registered for the type
-	 * returned by {@link JsonDeserializer#handledType()}, which must not be {@code null}.
-	 * @since 4.3
-	 * @see #setDeserializersByType(Map)
+	 * 配置自定义反序列化器.
+	 * 每个反序列化器都为{@link JsonDeserializer#handledType()}返回的类型注册, 该类型不能是{@code null}.
 	 */
 	public void setDeserializers(JsonDeserializer<?>... deserializers) {
 		this.builder.deserializers(deserializers);
 	}
 
 	/**
-	 * Configure custom deserializers for the given types.
+	 * 配置给定类型的自定义反序列化器.
 	 */
 	public void setDeserializersByType(Map<Class<?>, JsonDeserializer<?>> deserializers) {
 		this.builder.deserializersByType(deserializers);
@@ -273,8 +252,7 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 
 	/**
 	 * Shortcut for {@link MapperFeature#AUTO_DETECT_SETTERS}/
-	 * {@link MapperFeature#AUTO_DETECT_GETTERS}/{@link MapperFeature#AUTO_DETECT_IS_GETTERS}
-	 * options.
+	 * {@link MapperFeature#AUTO_DETECT_GETTERS}/{@link MapperFeature#AUTO_DETECT_IS_GETTERS} options.
 	 */
 	public void setAutoDetectGettersSetters(boolean autoDetectGettersSetters) {
 		this.builder.autoDetectGettersSetters(autoDetectGettersSetters);
@@ -282,7 +260,6 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 
 	/**
 	 * Shortcut for {@link MapperFeature#DEFAULT_VIEW_INCLUSION} option.
-	 * @since 4.1
 	 */
 	public void setDefaultViewInclusion(boolean defaultViewInclusion) {
 		this.builder.defaultViewInclusion(defaultViewInclusion);
@@ -290,7 +267,6 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 
 	/**
 	 * Shortcut for {@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} option.
-	 * @since 4.1.1
 	 */
 	public void setFailOnUnknownProperties(boolean failOnUnknownProperties) {
 		this.builder.failOnUnknownProperties(failOnUnknownProperties);
@@ -311,62 +287,41 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 	}
 
 	/**
-	 * Define if a wrapper will be used for indexed (List, array) properties or not by
-	 * default (only applies to {@link XmlMapper}).
-	 * @since 4.3
+	 * 定义默认情况下是否将包装器用于索引的 (List, array)属性 (仅适用于{@link XmlMapper}).
 	 */
 	public void setDefaultUseWrapper(boolean defaultUseWrapper) {
 		this.builder.defaultUseWrapper(defaultUseWrapper);
 	}
 
 	/**
-	 * Specify features to enable.
-	 * @see com.fasterxml.jackson.core.JsonParser.Feature
-	 * @see com.fasterxml.jackson.core.JsonGenerator.Feature
-	 * @see com.fasterxml.jackson.databind.SerializationFeature
-	 * @see com.fasterxml.jackson.databind.DeserializationFeature
-	 * @see com.fasterxml.jackson.databind.MapperFeature
+	 * 指定要启用的功能.
 	 */
 	public void setFeaturesToEnable(Object... featuresToEnable) {
 		this.builder.featuresToEnable(featuresToEnable);
 	}
 
 	/**
-	 * Specify features to disable.
-	 * @see com.fasterxml.jackson.core.JsonParser.Feature
-	 * @see com.fasterxml.jackson.core.JsonGenerator.Feature
-	 * @see com.fasterxml.jackson.databind.SerializationFeature
-	 * @see com.fasterxml.jackson.databind.DeserializationFeature
-	 * @see com.fasterxml.jackson.databind.MapperFeature
+	 * 指定要禁用的功能.
 	 */
 	public void setFeaturesToDisable(Object... featuresToDisable) {
 		this.builder.featuresToDisable(featuresToDisable);
 	}
 
 	/**
-	 * Set a complete list of modules to be registered with the {@link ObjectMapper}.
-	 * <p>Note: If this is set, no finding of modules is going to happen - not by
-	 * Jackson, and not by Spring either (see {@link #setFindModulesViaServiceLoader}).
-	 * As a consequence, specifying an empty list here will suppress any kind of
-	 * module detection.
-	 * <p>Specify either this or {@link #setModulesToInstall}, not both.
-	 * @since 4.0
-	 * @see com.fasterxml.jackson.databind.Module
+	 * 设置要在{@link ObjectMapper}中注册的完整模块列表.
+	 * <p>Note: 如果确定了这一点, 那么找不到模块就不会发生 - 不是Jackson, 也不是Spring (see {@link #setFindModulesViaServiceLoader}).
+	 * 因此, 在此处指定空列表将禁止任何类型的模块检测.
+	 * <p>指定this或{@link #setModulesToInstall}, 而不是两者.
 	 */
 	public void setModules(List<Module> modules) {
 		this.builder.modules(modules);
 	}
 
 	/**
-	 * Specify one or more modules by class (or class name in XML)
-	 * to be registered with the {@link ObjectMapper}.
-	 * <p>Modules specified here will be registered after
-	 * Spring's autodetection of JSR-310 and Joda-Time, or Jackson's
-	 * finding of modules (see {@link #setFindModulesViaServiceLoader}),
-	 * allowing to eventually override their configuration.
-	 * <p>Specify either this or {@link #setModules}, not both.
-	 * @since 4.0.1
-	 * @see com.fasterxml.jackson.databind.Module
+	 * 按类(或XML中的类名)指定一个或多个要在{@link ObjectMapper}中注册的模块.
+	 * <p>这里指定的模块将在Spring自动检测JSR-310和Joda-Time之后注册,
+	 * 或者Jackson的查找模块之后 (see {@link #setFindModulesViaServiceLoader}), 允许最终覆盖其配置.
+	 * <p>指定this或{@link #setModules}, 而不是两者.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setModulesToInstall(Class<? extends Module>... modules) {
@@ -374,13 +329,9 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 	}
 
 	/**
-	 * Set whether to let Jackson find available modules via the JDK ServiceLoader,
-	 * based on META-INF metadata in the classpath. Requires Jackson 2.2 or higher.
-	 * <p>If this mode is not set, Spring's Jackson2ObjectMapperFactoryBean itself
-	 * will try to find the JSR-310 and Joda-Time support modules on the classpath -
-	 * provided that Java 8 and Joda-Time themselves are available, respectively.
-	 * @since 4.0.1
-	 * @see com.fasterxml.jackson.databind.ObjectMapper#findModules()
+	 * 设置是否让Jackson根据类路径中的META-INF元数据通过JDK ServiceLoader查找可用模块. 需要Jackson 2.2或更高版本.
+	 * <p>如果未设置此模​​式, Spring的Jackson2ObjectMapperFactoryBean本身将尝试
+	 * 在类路径上查找JSR-310和Joda-Time支持模块 - 前提是Java 8和Joda-Time本身都可用.
 	 */
 	public void setFindModulesViaServiceLoader(boolean findModules) {
 		this.builder.findModulesViaServiceLoader(findModules);
@@ -392,23 +343,16 @@ public class Jackson2ObjectMapperFactoryBean implements FactoryBean<ObjectMapper
 	}
 
 	/**
-	 * Customize the construction of Jackson handlers
-	 * ({@link JsonSerializer}, {@link JsonDeserializer}, {@link KeyDeserializer},
-	 * {@code TypeResolverBuilder} and {@code TypeIdResolver}).
-	 * @since 4.1.3
-	 * @see Jackson2ObjectMapperFactoryBean#setApplicationContext(ApplicationContext)
+	 * 定制Jackson处理器的构造
+	 * ({@link JsonSerializer}, {@link JsonDeserializer}, {@link KeyDeserializer}, {@code TypeResolverBuilder} and {@code TypeIdResolver}).
 	 */
 	public void setHandlerInstantiator(HandlerInstantiator handlerInstantiator) {
 		this.builder.handlerInstantiator(handlerInstantiator);
 	}
 
 	/**
-	 * Set the builder {@link ApplicationContext} in order to autowire Jackson handlers
-	 * ({@link JsonSerializer}, {@link JsonDeserializer}, {@link KeyDeserializer},
-	 * {@code TypeResolverBuilder} and {@code TypeIdResolver}).
-	 * @since 4.1.3
-	 * @see Jackson2ObjectMapperBuilder#applicationContext(ApplicationContext)
-	 * @see SpringHandlerInstantiator
+	 * 设置构建器{@link ApplicationContext}以自动装配Jackson处理器
+	 * ({@link JsonSerializer}, {@link JsonDeserializer}, {@link KeyDeserializer}, {@code TypeResolverBuilder} and {@code TypeIdResolver}).
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {

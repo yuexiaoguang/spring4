@@ -25,19 +25,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Extract values from "Forwarded" and "X-Forwarded-*" headers in order to wrap
- * and override the following from the request and response:
+ * 从"Forwarded"和"X-Forwarded-*" header中提取值, 以便从请求和响应中包装和覆盖以下内容:
  * {@link HttpServletRequest#getServerName() getServerName()},
  * {@link HttpServletRequest#getServerPort() getServerPort()},
  * {@link HttpServletRequest#getScheme() getScheme()},
- * {@link HttpServletRequest#isSecure() isSecure()}, and
+ * {@link HttpServletRequest#isSecure() isSecure()},
  * {@link HttpServletResponse#sendRedirect(String) sendRedirect(String)}.
- * In effect the wrapped request and response reflect the client-originated
- * protocol and address.
+ * 实际上, 包装的请求和响应反映了客户端发起的协议和地址.
  *
- * <p><strong>Note:</strong> This filter can also be used in a
- * {@link #setRemoveOnly removeOnly} mode where "Forwarded" and "X-Forwarded-*"
- * headers are only eliminated without being used.
+ * <p><strong>Note:</strong> 此过滤器也可用于{@link #setRemoveOnly removeOnly}模式,
+ * 其中"Forwarded"和"X-Forwarded-*" header仅在不使用的情况下被删除.
  */
 public class ForwardedHeaderFilter extends OncePerRequestFilter {
 
@@ -68,25 +65,21 @@ public class ForwardedHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Enables mode in which any "Forwarded" or "X-Forwarded-*" headers are
-	 * removed only and the information in them ignored.
-	 * @param removeOnly whether to discard and ignore forwarded headers
-	 * @since 4.3.9
+	 * 启用仅删除"Forwarded" 或 "X-Forwarded-*" header并忽略其中信息的模式.
+	 * 
+	 * @param removeOnly 是否丢弃并忽略转发的header
 	 */
 	public void setRemoveOnly(boolean removeOnly) {
 		this.removeOnly = removeOnly;
 	}
 
 	/**
-	 * Use this property to enable relative redirects as explained in
-	 * {@link RelativeRedirectFilter}, and also using the same response wrapper
-	 * as that filter does, or if both are configured, only one will wrap.
-	 * <p>By default, if this property is set to false, in which case calls to
-	 * {@link HttpServletResponse#sendRedirect(String)} are overridden in order
-	 * to turn relative into absolute URLs, also taking into account forwarded
-	 * headers.
-	 * @param relativeRedirects whether to use relative redirects
-	 * @since 4.3.10
+	 * 使用此属性启用相对重定向, 如{@link RelativeRedirectFilter}中所述,
+	 * 并使用与该过滤器相同的响应包装器, 或者如果两者都配置, 则只有一个将包装.
+	 * <p>默认, 如果此属性设置为false, 则在这种情况下, 将覆盖对{@link HttpServletResponse#sendRedirect(String)}的调用,
+	 * 以便将相对转换为绝对URL, 同时还会考虑转发的header.
+	 * 
+	 * @param relativeRedirects 是否使用相对重定向
 	 */
 	public void setRelativeRedirects(boolean relativeRedirects) {
 		this.relativeRedirects = relativeRedirects;
@@ -134,7 +127,7 @@ public class ForwardedHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Hide "Forwarded" or "X-Forwarded-*" headers.
+	 * 隐藏"Forwarded"或"X-Forwarded-*" header.
 	 */
 	private static class ForwardedHeaderRemovingRequest extends HttpServletRequestWrapper {
 
@@ -157,7 +150,7 @@ public class ForwardedHeaderFilter extends OncePerRequestFilter {
 			return headers;
 		}
 
-		// Override header accessors to not expose forwarded headers
+		// 覆盖header访问器以不公开转发的header
 
 		@Override
 		public String getHeader(String name) {
@@ -179,7 +172,7 @@ public class ForwardedHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Extract and use "Forwarded" or "X-Forwarded-*" headers.
+	 * 提取并使用"Forwarded"或"X-Forwarded-*" header.
 	 */
 	private static class ForwardedHeaderExtractingRequest extends ForwardedHeaderRemovingRequest {
 
@@ -301,7 +294,7 @@ public class ForwardedHeaderFilter extends OncePerRequestFilter {
 
 			String path = uriComponents.getPath();
 			if (path != null) {
-				// Relative to Servlet container root or to current request
+				// 相对于Servlet容器根或当前请求
 				path = (path.startsWith(FOLDER_SEPARATOR) ? path :
 						StringUtils.applyRelativePath(this.request.getRequestURI(), path));
 			}

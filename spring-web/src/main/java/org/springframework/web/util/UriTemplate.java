@@ -13,14 +13,12 @@ import java.util.regex.Pattern;
 import org.springframework.util.Assert;
 
 /**
- * Represents a URI template. A URI template is a URI-like String that contains variables
- * enclosed by braces ({@code {}}) which can be expanded to produce an actual URI.
+ * 表示URI模板.
+ * URI模板是一个类似URI的字符串, 它包含由大括号 ({@code {}})括起来的变量, 可以展开这些变量以生成实际的URI.
  *
- * <p>See {@link #expand(Map)}, {@link #expand(Object[])}, and {@link #match(String)}
- * for example usages.
+ * <p>请参阅{@link #expand(Map)}, {@link #expand(Object[])}, 和{@link #match(String)}示例用法.
  *
- * <p>This class is designed to be thread-safe and reusable, allowing for any number
- * of expand or match calls.
+ * <p>此类设计为线程安全且可重用, 允许任意数量的扩展或匹配调用.
  */
 @SuppressWarnings("serial")
 public class UriTemplate implements Serializable {
@@ -35,8 +33,7 @@ public class UriTemplate implements Serializable {
 
 
 	/**
-	 * Construct a new {@code UriTemplate} with the given URI String.
-	 * @param uriTemplate the URI template string
+	 * @param uriTemplate URI模板字符串
 	 */
 	public UriTemplate(String uriTemplate) {
 		Assert.hasText(uriTemplate, "'uriTemplate' must not be null");
@@ -50,16 +47,17 @@ public class UriTemplate implements Serializable {
 
 
 	/**
-	 * Return the names of the variables in the template, in order.
-	 * @return the template variable names
+	 * 按顺序返回模板中变量的名称.
+	 * 
+	 * @return 模板变量名称
 	 */
 	public List<String> getVariableNames() {
 		return this.variableNames;
 	}
 
 	/**
-	 * Given the Map of variables, expands this template into a URI. The Map keys represent variable names,
-	 * the Map values variable values. The order of variables is not significant.
+	 * 给定变量Map, 将此模板扩展为URI.
+	 * Map键表示变量名称, Map值表示变量值. 变量的顺序并不重要.
 	 * <p>Example:
 	 * <pre class="code">
 	 * UriTemplate template = new UriTemplate("http://example.com/hotels/{hotel}/bookings/{booking}");
@@ -68,11 +66,13 @@ public class UriTemplate implements Serializable {
 	 * uriVariables.put("hotel", "Rest & Relax");
 	 * System.out.println(template.expand(uriVariables));
 	 * </pre>
-	 * will print: <blockquote>{@code http://example.com/hotels/Rest%20%26%20Relax/bookings/42}</blockquote>
-	 * @param uriVariables the map of URI variables
-	 * @return the expanded URI
-	 * @throws IllegalArgumentException if {@code uriVariables} is {@code null};
-	 * or if it does not contain values for all the variable names
+	 * 将打印: <blockquote>{@code http://example.com/hotels/Rest%20%26%20Relax/bookings/42}</blockquote>
+	 * 
+	 * @param uriVariables URI变量的映射
+	 * 
+	 * @return 扩展的URI
+	 * @throws IllegalArgumentException 如果{@code uriVariables}是{@code null};
+	 * 或者如果它不包含所有变量名的值
 	 */
 	public URI expand(Map<String, ?> uriVariables) {
 		UriComponents expandedComponents = this.uriComponents.expand(uriVariables);
@@ -81,18 +81,19 @@ public class UriTemplate implements Serializable {
 	}
 
     /**
-     * Given an array of variables, expand this template into a full URI. The array represent variable values.
-     * The order of variables is significant.
+     * 给定一组变量, 将此模板扩展为完整URI. 数组表示变量值.
+     * 变量的顺序很重要.
      * <p>Example:
      * <pre class="code">
      * UriTemplate template = new UriTemplate("http://example.com/hotels/{hotel}/bookings/{booking}");
      * System.out.println(template.expand("Rest & Relax", 42));
      * </pre>
-     * will print: <blockquote>{@code http://example.com/hotels/Rest%20%26%20Relax/bookings/42}</blockquote>
-     * @param uriVariableValues the array of URI variables
-     * @return the expanded URI
-     * @throws IllegalArgumentException if {@code uriVariables} is {@code null}
-     * or if it does not contain sufficient variables
+     * 将打印: <blockquote>{@code http://example.com/hotels/Rest%20%26%20Relax/bookings/42}</blockquote>
+     * 
+     * @param uriVariableValues URI变量数组
+     * 
+     * @return 扩展的URI
+     * @throws IllegalArgumentException 如果{@code uriVariables}是{@code null}或者它不包含足够的变量
      */
 	public URI expand(Object... uriVariableValues) {
 		UriComponents expandedComponents = this.uriComponents.expand(uriVariableValues);
@@ -101,9 +102,11 @@ public class UriTemplate implements Serializable {
 	}
 
 	/**
-	 * Indicate whether the given URI matches this template.
-	 * @param uri the URI to match to
-	 * @return {@code true} if it matches; {@code false} otherwise
+	 * 指示给定的URI是否与此模板匹配.
+	 * 
+	 * @param uri 要匹配的URI
+	 * 
+	 * @return {@code true} 如果匹配; 否则{@code false}
 	 */
 	public boolean matches(String uri) {
 		if (uri == null) {
@@ -114,16 +117,18 @@ public class UriTemplate implements Serializable {
 	}
 
 	/**
-	 * Match the given URI to a map of variable values. Keys in the returned map are variable names,
-	 * values are variable values, as occurred in the given URI.
+	 * 将给定的URI与变量值的Map匹配.
+	 * 返回的Map中的键是变量名, 值是变量值, 如给定URI中所示.
 	 * <p>Example:
 	 * <pre class="code">
 	 * UriTemplate template = new UriTemplate("http://example.com/hotels/{hotel}/bookings/{booking}");
 	 * System.out.println(template.match("http://example.com/hotels/1/bookings/42"));
 	 * </pre>
-	 * will print: <blockquote>{@code {hotel=1, booking=42}}</blockquote>
-	 * @param uri the URI to match to
-	 * @return a map of variable values
+	 * 将打印: <blockquote>{@code {hotel=1, booking=42}}</blockquote>
+	 * 
+	 * @param uri 要匹配的URI
+	 * 
+	 * @return 变量值的Map
 	 */
 	public Map<String, String> match(String uri) {
 		Assert.notNull(uri, "'uri' must not be null");
@@ -146,7 +151,7 @@ public class UriTemplate implements Serializable {
 
 
 	/**
-	 * Helper to extract variable names and regex for matching to actual URLs.
+	 * 提取变量名称和正则表达式以匹配实际的URL的工具类.
 	 */
 	private static class TemplateInfo {
 

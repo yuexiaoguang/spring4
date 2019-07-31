@@ -9,24 +9,24 @@ import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Base class for {@link org.springframework.web.client.RestTemplate} and other HTTP accessing gateway helpers, adding
- * interceptor-related properties to {@link HttpAccessor}'s common properties.
+ * {@link org.springframework.web.client.RestTemplate}的基类和其他HTTP访问网关助手,
+ * 为{@link HttpAccessor}的常用属性添加拦截器相关属性.
  *
- * <p>Not intended to be used directly. See {@link org.springframework.web.client.RestTemplate}.
+ * <p>不打算直接使用. See {@link org.springframework.web.client.RestTemplate}.
  */
 public abstract class InterceptingHttpAccessor extends HttpAccessor {
 
 	private List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
 
 	/**
-	 * Sets the request interceptors that this accessor should use.
+	 * 设置此访问者应使用的请求拦截器.
 	 */
 	public void setInterceptors(List<ClientHttpRequestInterceptor> interceptors) {
 		this.interceptors = interceptors;
 	}
 
 	/**
-	 * Return the request interceptor that this accessor uses.
+	 * 返回此访问者使用的请求拦截器.
 	 */
 	public List<ClientHttpRequestInterceptor> getInterceptors() {
 		return interceptors;

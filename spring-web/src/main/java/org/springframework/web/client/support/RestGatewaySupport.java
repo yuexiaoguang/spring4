@@ -8,9 +8,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Convenient super class for application classes that need REST access.
+ * 方便的超类, 适用于需要REST访问的应用程序类.
  *
- * <p>Requires a {@link ClientHttpRequestFactory} or a {@link RestTemplate} instance to be set.
+ * <p>需要设置{@link ClientHttpRequestFactory}或{@link RestTemplate}实例.
  */
 public class RestGatewaySupport {
 
@@ -20,33 +20,21 @@ public class RestGatewaySupport {
 	private RestTemplate restTemplate;
 
 
-	/**
-	 * Construct a new instance of the {@link RestGatewaySupport}, with default parameters.
-	 */
 	public RestGatewaySupport() {
 		this.restTemplate = new RestTemplate();
 	}
 
-	/**
-	 * Construct a new instance of the {@link RestGatewaySupport}, with the given {@link ClientHttpRequestFactory}.
-	 */
 	public RestGatewaySupport(ClientHttpRequestFactory requestFactory) {
 		Assert.notNull(requestFactory, "'requestFactory' must not be null");
 		this.restTemplate = new RestTemplate(requestFactory);
 	}
 
 
-	/**
-	 * Sets the {@link RestTemplate} for the gateway.
-	 */
 	public void setRestTemplate(RestTemplate restTemplate) {
 		Assert.notNull(restTemplate, "'restTemplate' must not be null");
 		this.restTemplate = restTemplate;
 	}
 
-	/**
-	 * Returns the {@link RestTemplate} for the gateway.
-	 */
 	public RestTemplate getRestTemplate() {
 		return this.restTemplate;
 	}

@@ -1,18 +1,15 @@
 package org.springframework.web.context.request;
 
 /**
- * Request-backed {@link org.springframework.beans.factory.config.Scope}
- * implementation.
+ * 请求支持的{@link org.springframework.beans.factory.config.Scope}实现.
  *
- * <p>Relies on a thread-bound {@link RequestAttributes} instance, which
- * can be exported through {@link RequestContextListener},
- * {@link org.springframework.web.filter.RequestContextFilter} or
- * {@link org.springframework.web.servlet.DispatcherServlet}.
+ * <p>依赖于线程绑定的{@link RequestAttributes}实例,
+ * 可以通过{@link RequestContextListener},
+ * {@link org.springframework.web.filter.RequestContextFilter}
+ * 或{@link org.springframework.web.servlet.DispatcherServlet}导出.
  *
- * <p>This {@code Scope} will also work for Portlet environments,
- * through an alternate {@code RequestAttributes} implementation
- * (as exposed out-of-the-box by Spring's
- * {@link org.springframework.web.portlet.DispatcherPortlet}.
+ * <p>此{@code Scope}也适用于Portlet环境, 通过备用{@code RequestAttributes}实现
+ * (通过Spring的{@link org.springframework.web.portlet.DispatcherPortlet}开箱即用).
  */
 public class RequestScope extends AbstractRequestAttributesScope {
 
@@ -22,12 +19,10 @@ public class RequestScope extends AbstractRequestAttributesScope {
 	}
 
 	/**
-	 * There is no conversation id concept for a request, so this method
-	 * returns {@code null}.
+	 * 请求没有会话ID概念, 因此此方法返回{@code null}.
 	 */
 	@Override
 	public String getConversationId() {
 		return null;
 	}
-
 }

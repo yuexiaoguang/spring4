@@ -7,17 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
- * Servlet listener that exposes the request to the current thread,
- * through both {@link org.springframework.context.i18n.LocaleContextHolder} and
- * {@link RequestContextHolder}. To be registered as listener in {@code web.xml}.
+ * Servlet监听器, 将请求公开给当前线程,
+ * 通过{@link org.springframework.context.i18n.LocaleContextHolder}和{@link RequestContextHolder}.
+ * 要在{@code web.xml}中注册为监听器.
  *
- * <p>Alternatively, Spring's {@link org.springframework.web.filter.RequestContextFilter}
- * and Spring's {@link org.springframework.web.servlet.DispatcherServlet} also expose
- * the same request context to the current thread. In contrast to this listener,
- * advanced options are available there (e.g. "threadContextInheritable").
+ * <p>或者, Spring的{@link org.springframework.web.filter.RequestContextFilter}
+ * 和Spring的{@link org.springframework.web.servlet.DispatcherServlet}也将相同的请求上下文暴露给当前线程.
+ * 与此监听器相比, 那里提供了高级选项 (e.g. "threadContextInheritable").
  *
- * <p>This listener is mainly for use with third-party servlets, e.g. the JSF FacesServlet.
- * Within Spring's own web support, DispatcherServlet's processing is perfectly sufficient.
+ * <p>此监听器主要用于第三方servlet, e.g. the JSF FacesServlet.
+ * 在Spring自己的Web支持中, DispatcherServlet的处理就足够了.
  */
 public class RequestContextListener implements ServletRequestListener {
 
@@ -47,7 +46,7 @@ public class RequestContextListener implements ServletRequestListener {
 		}
 		RequestAttributes threadAttributes = RequestContextHolder.getRequestAttributes();
 		if (threadAttributes != null) {
-			// We're assumably within the original request thread...
+			// 完全可以在原始请求线程中...
 			LocaleContextHolder.resetLocaleContext();
 			RequestContextHolder.resetRequestAttributes();
 			if (attributes == null && threadAttributes instanceof ServletRequestAttributes) {
@@ -58,5 +57,4 @@ public class RequestContextListener implements ServletRequestListener {
 			attributes.requestCompleted();
 		}
 	}
-
 }

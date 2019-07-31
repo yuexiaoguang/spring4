@@ -1,4 +1,4 @@
 /**
- * Provides generic filter base classes allowing for bean-style configuration.
+ * 提供允许bean样式配置的通用过滤器基类.
  */
 package org.springframework.web.filter;

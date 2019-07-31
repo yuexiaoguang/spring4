@@ -15,7 +15,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * {@link MultipartFile} implementation for Apache Commons FileUpload.
+ * Apache Commons FileUpload的{@link MultipartFile}实现.
  */
 @SuppressWarnings("serial")
 public class CommonsMultipartFile implements MultipartFile, Serializable {
@@ -30,8 +30,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
 
 	/**
-	 * Create an instance wrapping the given FileItem.
-	 * @param fileItem the FileItem to wrap
+	 * @param fileItem 要包装的FileItem
 	 */
 	public CommonsMultipartFile(FileItem fileItem) {
 		this.fileItem = fileItem;
@@ -40,22 +39,16 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
 
 	/**
-	 * Return the underlying {@code org.apache.commons.fileupload.FileItem}
-	 * instance. There is hardly any need to access this.
+	 * 返回底层{@code org.apache.commons.fileupload.FileItem}实例. 几乎没有必要访问它.
 	 */
 	public final FileItem getFileItem() {
 		return this.fileItem;
 	}
 
 	/**
-	 * Set whether to preserve the filename as sent by the client, not stripping off
-	 * path information in {@link CommonsMultipartFile#getOriginalFilename()}.
-	 * <p>Default is "false", stripping off path information that may prefix the
-	 * actual filename e.g. from Opera. Switch this to "true" for preserving the
-	 * client-specified filename as-is, including potential path separators.
-	 * @since 4.3.5
-	 * @see #getOriginalFilename()
-	 * @see CommonsMultipartResolver#setPreserveFilename(boolean)
+	 * 设置是否保留客户端发送的文件名, 而不是删除{@link CommonsMultipartFile#getOriginalFilename()}中的路径信息.
+	 * <p>默认为"false", 剥离可能在实际文件名前加的路径信息, e.g. 从Opera上传的文件.
+	 * 将其切换为"true"以保留客户端指定的文件名, 包括潜在的路径分隔符.
 	 */
 	public void setPreserveFilename(boolean preserveFilename) {
 		this.preserveFilename = preserveFilename;
@@ -75,7 +68,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 			return "";
 		}
 		if (this.preserveFilename) {
-			// Do not try to strip off a path...
+			// 不要试图剥离路径...
 			return filename;
 		}
 
@@ -155,7 +148,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 			throw new IllegalStateException(ex.getMessage(), ex);
 		}
 		catch (IllegalStateException ex) {
-			// Pass through when coming from FileItem directly
+			// 从FileItem直接传递
 			throw ex;
 		}
 		catch (IOException ex) {
@@ -168,26 +161,25 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 	}
 
 	/**
-	 * Determine whether the multipart content is still available.
-	 * If a temporary file has been moved, the content is no longer available.
+	 * 确定multipart内容是否仍然可用.
+	 * 如果移动了临时文件, 则内容不再可用.
 	 */
 	protected boolean isAvailable() {
-		// If in memory, it's available.
+		// 如果在内存中, 它是可用的.
 		if (this.fileItem.isInMemory()) {
 			return true;
 		}
-		// Check actual existence of temporary file.
+		// 检查临时文件的实际存在.
 		if (this.fileItem instanceof DiskFileItem) {
 			return ((DiskFileItem) this.fileItem).getStoreLocation().exists();
 		}
-		// Check whether current file size is different than original one.
+		// 检查当前文件大小是否与原始文件大小不同.
 		return (this.fileItem.getSize() == this.size);
 	}
 
 	/**
-	 * Return a description for the storage location of the multipart content.
-	 * Tries to be as specific as possible: mentions the file location in case
-	 * of a temporary file.
+	 * 返回multipart内容的存储位置的描述.
+	 * 尝试尽可能具体: 在临时文件的情况下提到文件位置.
 	 */
 	public String getStorageDescription() {
 		if (this.fileItem.isInMemory()) {

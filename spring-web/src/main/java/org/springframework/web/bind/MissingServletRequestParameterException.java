@@ -1,7 +1,7 @@
 package org.springframework.web.bind;
 
 /**
- * {@link ServletRequestBindingException} subclass that indicates a missing parameter.
+ * {@link ServletRequestBindingException}子类, 表示缺少参数.
  */
 @SuppressWarnings("serial")
 public class MissingServletRequestParameterException extends ServletRequestBindingException {
@@ -12,9 +12,8 @@ public class MissingServletRequestParameterException extends ServletRequestBindi
 
 
 	/**
-	 * Constructor for MissingServletRequestParameterException.
-	 * @param parameterName the name of the missing parameter
-	 * @param parameterType the expected type of the missing parameter
+	 * @param parameterName 缺少的参数名称
+	 * @param parameterType 缺少的参数的预期类型
 	 */
 	public MissingServletRequestParameterException(String parameterName, String parameterType) {
 		super("");
@@ -29,14 +28,14 @@ public class MissingServletRequestParameterException extends ServletRequestBindi
 	}
 
 	/**
-	 * Return the name of the offending parameter.
+	 * 返回有问题的参数的名称.
 	 */
 	public final String getParameterName() {
 		return this.parameterName;
 	}
 
 	/**
-	 * Return the expected type of the offending parameter.
+	 * 返回有问题的参数的预期类型.
 	 */
 	public final String getParameterType() {
 		return this.parameterType;

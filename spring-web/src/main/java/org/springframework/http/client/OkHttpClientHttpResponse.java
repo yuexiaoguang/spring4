@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
 
 /**
- * {@link ClientHttpResponse} implementation based on OkHttp 2.x.
+ * {@link ClientHttpResponse}基于OkHttp 2.x的实现.
  */
 class OkHttpClientHttpResponse extends AbstractClientHttpResponse {
 

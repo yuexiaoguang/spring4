@@ -30,24 +30,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Resolves method arguments annotated with @{@link RequestParam}, arguments of
- * type {@link MultipartFile} in conjunction with Spring's {@link MultipartResolver}
- * abstraction, and arguments of type {@code javax.servlet.http.Part} in conjunction
- * with Servlet 3.0 multipart requests. This resolver can also be created in default
- * resolution mode in which simple types (int, long, etc.) not annotated with
- * {@link RequestParam @RequestParam} are also treated as request parameters with
- * the parameter name derived from the argument name.
+ * 解析使用@{@link RequestParam}注解的方法参数, {@link MultipartFile}类型的参数,
+ * 以及Spring的{@link MultipartResolver}抽象,
+ * 与Servlet 3.0 multipart请求一起使用的{@code javax.servlet.http.Part}类型的参数.
+ * 此解析器也可以在默认解析模式下创建, 其中未使用{@link RequestParam @RequestParam}注解的简单类型(int, long, etc.),
+ * 也被视为请求参数, 参数名称派生自参数名称.
  *
- * <p>If the method parameter type is {@link Map}, the name specified in the
- * annotation is used to resolve the request parameter String value. The value is
- * then converted to a {@link Map} via type conversion assuming a suitable
- * {@link Converter} or {@link PropertyEditor} has been registered.
- * Or if a request parameter name is not specified the
- * {@link RequestParamMapMethodArgumentResolver} is used instead to provide
- * access to all request parameters in the form of a map.
+ * <p>如果方法参数类型为{@link Map}, 则注解中指定的名称用于解析请求参数String值.
+ * 然后通过类型转换将值转换为{@link Map}, 假设已经注册了合适的{@link Converter}或{@link PropertyEditor}.
+ * 或者, 如果未指定请求参数名称, 则使用{@link RequestParamMapMethodArgumentResolver}来提供对Map形式的所有请求参数的访问.
  *
- * <p>A {@link WebDataBinder} is invoked to apply type conversion to resolved request
- * header values that don't yet match the method parameter type.
+ * <p>调用{@link WebDataBinder}以将类型转换应用于尚未与方法参数类型匹配的已解析的请求header值.
  */
 public class RequestParamMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver
 		implements UriComponentsContributor {
@@ -58,23 +51,18 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueMethod
 
 
 	/**
-	 * @param useDefaultResolution in default resolution mode a method argument
-	 * that is a simple type, as defined in {@link BeanUtils#isSimpleProperty},
-	 * is treated as a request parameter even if it isn't annotated, the
-	 * request parameter name is derived from the method parameter name.
+	 * @param useDefaultResolution 在默认解析模式下, {@link BeanUtils#isSimpleProperty}中定义的简单类型的方法参数被视为请求参数,
+	 * 即使它未被注解, 请求参数名称也是从方法参数名称派生的.
 	 */
 	public RequestParamMethodArgumentResolver(boolean useDefaultResolution) {
 		this.useDefaultResolution = useDefaultResolution;
 	}
 
 	/**
-	 * @param beanFactory a bean factory used for resolving  ${...} placeholder
-	 * and #{...} SpEL expressions in default values, or {@code null} if default
-	 * values are not expected to contain expressions
-	 * @param useDefaultResolution in default resolution mode a method argument
-	 * that is a simple type, as defined in {@link BeanUtils#isSimpleProperty},
-	 * is treated as a request parameter even if it isn't annotated, the
-	 * request parameter name is derived from the method parameter name.
+	 * @param beanFactory 用于在默认值中解析 ${...}占位符和 #{...} SpEL表达式的bean工厂;
+	 * 或{@code null}, 如果默认值不包含表达式
+	 * @param useDefaultResolution 在默认解析模式下, {@link BeanUtils#isSimpleProperty}中定义的简单类型的方法参数被视为请求参数,
+	 * 即使它未被注解, 请求参数名称也是从方法参数名称派生的.
 	 */
 	public RequestParamMethodArgumentResolver(ConfigurableBeanFactory beanFactory, boolean useDefaultResolution) {
 		super(beanFactory);
@@ -83,18 +71,14 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueMethod
 
 
 	/**
-	 * Supports the following:
+	 * 支持以下值:
 	 * <ul>
-	 * <li>@RequestParam-annotated method arguments.
-	 * This excludes {@link Map} params where the annotation doesn't
-	 * specify a name.	See {@link RequestParamMapMethodArgumentResolver}
-	 * instead for such params.
-	 * <li>Arguments of type {@link MultipartFile}
-	 * unless annotated with @{@link RequestPart}.
-	 * <li>Arguments of type {@code javax.servlet.http.Part}
-	 * unless annotated with @{@link RequestPart}.
-	 * <li>In default resolution mode, simple type arguments
-	 * even if not with @{@link RequestParam}.
+	 * <li>使用@RequestParam注解的方法参数.
+	 * 这排除了{@link Map}参数, 其中注解未指定名称.
+	 * {@link Map}参数需要使用{@link RequestParamMapMethodArgumentResolver}.
+	 * <li>类型为{@link MultipartFile}的参数, 除非使用@{@link RequestPart}注解.
+	 * <li>类型为{@code javax.servlet.http.Part}的参数, 除非使用@{@link RequestPart}注解.
+	 * <li>在默认解析模式下, 即使没有 @{@link RequestParam}注解的简单类型参数.
 	 * </ul>
 	 */
 	@Override

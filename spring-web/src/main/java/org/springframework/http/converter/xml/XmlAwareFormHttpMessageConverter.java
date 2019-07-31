@@ -5,8 +5,8 @@ import javax.xml.transform.Source;
 import org.springframework.http.converter.FormHttpMessageConverter;
 
 /**
- * Extension of {@link org.springframework.http.converter.FormHttpMessageConverter},
- * adding support for XML-based parts through a {@link SourceHttpMessageConverter}.
+ * {@link org.springframework.http.converter.FormHttpMessageConverter}的扩展,
+ * 通过{@link SourceHttpMessageConverter}添加对基于XML的部件的支持.
  *
  * @deprecated in favor of
  * {@link org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter}

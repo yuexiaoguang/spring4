@@ -10,28 +10,23 @@ import org.springframework.http.MediaType;
 import org.springframework.http.StreamingHttpOutputMessage;
 
 /**
- * Abstract base class for most {@link GenericHttpMessageConverter} implementations.
+ * 大多数{@link GenericHttpMessageConverter}实现的抽象基类.
  */
 public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHttpMessageConverter<T>
 		implements GenericHttpMessageConverter<T> {
 
-	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with no supported media types.
-	 */
 	protected AbstractGenericHttpMessageConverter() {
 	}
 
 	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with one supported media type.
-	 * @param supportedMediaType the supported media type
+	 * @param supportedMediaType 支持的媒体类型
 	 */
 	protected AbstractGenericHttpMessageConverter(MediaType supportedMediaType) {
 		super(supportedMediaType);
 	}
 
 	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with multiple supported media type.
-	 * @param supportedMediaTypes the supported media types
+	 * @param supportedMediaTypes 支持的媒体类型
 	 */
 	protected AbstractGenericHttpMessageConverter(MediaType... supportedMediaTypes) {
 		super(supportedMediaTypes);
@@ -54,8 +49,7 @@ public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHtt
 	}
 
 	/**
-	 * This implementation sets the default headers by calling {@link #addDefaultHeaders},
-	 * and then calls {@link #writeInternal}.
+	 * 此实现通过调用{@link #addDefaultHeaders}来设置默认header, 然后调用{@link #writeInternal}.
 	 */
 	public final void write(final T t, final Type type, MediaType contentType, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
@@ -95,12 +89,14 @@ public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHtt
 	}
 
 	/**
-	 * Abstract template method that writes the actual body. Invoked from {@link #write}.
-	 * @param t the object to write to the output message
-	 * @param type the type of object to write (may be {@code null})
-	 * @param outputMessage the HTTP output message to write to
-	 * @throws IOException in case of I/O errors
-	 * @throws HttpMessageNotWritableException in case of conversion errors
+	 * 写入实际正文的抽象模板方法. 从{@link #write}调用.
+	 * 
+	 * @param t 要写入输出消息的对象
+	 * @param type 要写入的对象的类型 (may be {@code null})
+	 * @param outputMessage 要写入的HTTP输出消息
+	 * 
+	 * @throws IOException
+	 * @throws HttpMessageNotWritableException 如果转换错误
 	 */
 	protected abstract void writeInternal(T t, Type type, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException;

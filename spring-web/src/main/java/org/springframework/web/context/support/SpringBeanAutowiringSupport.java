@@ -12,26 +12,18 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Convenient base class for self-autowiring classes that gets constructed
- * within a Spring-based web application. Resolves {@code @Autowired}
- * annotations in the endpoint class against beans in the current Spring
- * root web application context (as determined by the current thread's
- * context ClassLoader, which needs to be the web application's ClassLoader).
- * Can alternatively be used as a delegate instead of as a base class.
+ * 方便的基类, 用于在基于Spring的Web应用程序中构建的自动装配类.
+ * 在当前Spring根Web应用程序上下文中针对bean解析端点类中的{@code @Autowired}注解
+ * (由当前线程的上下文ClassLoader确定, 它需要是Web应用程序的ClassLoader).
+ * 或者可以用作委托而不是基类.
  *
- * <p>A typical usage of this base class is a JAX-WS endpoint class:
- * Such a Spring-based JAX-WS endpoint implementation will follow the
- * standard JAX-WS contract for endpoint classes but will be 'thin'
- * in that it delegates the actual work to one or more Spring-managed
- * service beans - typically obtained using {@code @Autowired}.
- * The lifecycle of such an endpoint instance will be managed by the
- * JAX-WS runtime, hence the need for this base class to provide
- * {@code @Autowired} processing based on the current Spring context.
+ * <p>此基类的典型用法是JAX-WS端点类:
+ * 这样一个基于Spring的JAX-WS端点实现将遵循端点类的标准JAX-WS约定, 但它更轻量级,
+ * 因为它将实际工作委托给一个或多个Spring管理的服务bean - 通常使用{@code @Autowired}获取.
+ * 这种端点实例的生命周期将由JAX-WS运行时管理, 因此需要此基类根据当前的Spring上下文提供{@code @Autowired}处理.
  *
- * <p><b>NOTE:</b> If there is an explicit way to access the ServletContext,
- * prefer such a way over using this class. The {@link WebApplicationContextUtils}
- * class allows for easy access to the Spring root web application context
- * based on the ServletContext.
+ * <p><b>NOTE:</b> 如果有一种显式方式来访问ServletContext, 那么更喜欢使用这个类.
+ * {@link WebApplicationContextUtils}类允许基于ServletContext轻松访问Spring根Web应用程序上下文.
  */
 public abstract class SpringBeanAutowiringSupport {
 
@@ -39,10 +31,8 @@ public abstract class SpringBeanAutowiringSupport {
 
 
 	/**
-	 * This constructor performs injection on this instance,
-	 * based on the current web application context.
-	 * <p>Intended for use as a base class.
-	 * @see #processInjectionBasedOnCurrentContext
+	 * 此构造函数基于当前Web应用程序上下文在此实例上执行注入.
+	 * <p>打算用作基类.
 	 */
 	public SpringBeanAutowiringSupport() {
 		processInjectionBasedOnCurrentContext(this);
@@ -50,11 +40,10 @@ public abstract class SpringBeanAutowiringSupport {
 
 
 	/**
-	 * Process {@code @Autowired} injection for the given target object,
-	 * based on the current web application context.
-	 * <p>Intended for use as a delegate.
-	 * @param target the target object to process
-	 * @see org.springframework.web.context.ContextLoader#getCurrentWebApplicationContext()
+	 * 基于当前Web应用程序上下文, 为给定目标对象处理{@code @Autowired}注入.
+	 * <p>打算用作委托.
+	 * 
+	 * @param target 要处理的目标对象
 	 */
 	public static void processInjectionBasedOnCurrentContext(Object target) {
 		Assert.notNull(target, "Target object must not be null");
@@ -75,12 +64,11 @@ public abstract class SpringBeanAutowiringSupport {
 
 
 	/**
-	 * Process {@code @Autowired} injection for the given target object,
-	 * based on the current root web application context as stored in the ServletContext.
-	 * <p>Intended for use as a delegate.
-	 * @param target the target object to process
-	 * @param servletContext the ServletContext to find the Spring web application context in
-	 * @see WebApplicationContextUtils#getWebApplicationContext(javax.servlet.ServletContext)
+	 * 根据存储在ServletContext中的当前根Web应用程序上下文, 为给定目标对象处理{@code @Autowired}注入.
+	 * <p>打算用作委托.
+	 * 
+	 * @param target 要处理的目标对象
+	 * @param servletContext 用于查找Spring Web应用程序上下文的ServletContext
 	 */
 	public static void processInjectionBasedOnServletContext(Object target, ServletContext servletContext) {
 		Assert.notNull(target, "Target object must not be null");

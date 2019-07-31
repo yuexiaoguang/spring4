@@ -6,19 +6,15 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * {@link FactoryBean} that fetches a specific, existing ServletContext attribute.
- * Exposes that ServletContext attribute when used as bean reference,
- * effectively making it available as named Spring bean instance.
+ * {@link FactoryBean}获取特定的现有ServletContext属性.
+ * 在用作bean引用时公开ServletContext属性, 有效地使其可用作命名的Spring bean实例.
  *
- * <p>Intended to link in ServletContext attributes that exist before
- * the startup of the Spring application context. Typically, such
- * attributes will have been put there by third-party web frameworks.
- * In a purely Spring-based web application, no such linking in of
- * ServletContext attributes will be necessary.
+ * <p>旨在链接Spring应用程序上下文启动之前存在的ServletContext属性.
+ * 通常, 这些属性将由第三方Web框架提供.
+ * 在纯粹基于Spring的Web应用程序中, 不需要ServletContext属性的这种链接.
  *
- * <p><b>NOTE:</b> As of Spring 3.0, you may also use the "contextAttributes" default
- * bean which is of type Map, and dereference it using an "#{contextAttributes.myKey}"
- * expression to access a specific attribute by name.
+ * <p><b>NOTE:</b> 从Spring 3.0开始, 还可以使用Map类型的"contextAttributes"默认bean,
+ * 并使用"#{contextAttributes.myKey}"表达式取消引用它, 以按名称访问特定属性.
  */
 public class ServletContextAttributeFactoryBean implements FactoryBean<Object>, ServletContextAware {
 
@@ -28,7 +24,7 @@ public class ServletContextAttributeFactoryBean implements FactoryBean<Object>, 
 
 
 	/**
-	 * Set the name of the ServletContext attribute to expose.
+	 * 设置要公开的ServletContext属性的名称.
 	 */
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;

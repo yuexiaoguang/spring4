@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpResponse} implementation based on OkHttp 3.x.
+ * 基于OkHttp 3.x的{@link ClientHttpResponse}实现.
  */
 class OkHttp3ClientHttpResponse extends AbstractClientHttpResponse {
 

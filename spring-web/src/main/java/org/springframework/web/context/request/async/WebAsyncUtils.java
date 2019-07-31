@@ -9,19 +9,18 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 /**
- * Utility methods related to processing asynchronous web requests.
+ * 与处理异步Web请求相关的实用方法.
  */
 public abstract class WebAsyncUtils {
 
 	public static final String WEB_ASYNC_MANAGER_ATTRIBUTE = WebAsyncManager.class.getName() + ".WEB_ASYNC_MANAGER";
 
-	// Determine whether Servlet 3.0's ServletRequest.startAsync method is available
+	// 确定Servlet 3.0的ServletRequest.startAsync方法是否可用
 	private static final boolean startAsyncAvailable = ClassUtils.hasMethod(ServletRequest.class, "startAsync");
 
 
 	/**
-	 * Obtain the {@link WebAsyncManager} for the current request, or if not
-	 * found, create and associate it with the request.
+	 * 获取当前请求的{@link WebAsyncManager}, 如果未找到, 则创建并将其与请求关联.
 	 */
 	public static WebAsyncManager getAsyncManager(ServletRequest servletRequest) {
 		WebAsyncManager asyncManager = null;
@@ -37,8 +36,7 @@ public abstract class WebAsyncUtils {
 	}
 
 	/**
-	 * Obtain the {@link WebAsyncManager} for the current request, or if not
-	 * found, create and associate it with the request.
+	 * 获取当前请求的{@link WebAsyncManager}, 如果未找到, 则创建并将其与请求关联.
 	 */
 	public static WebAsyncManager getAsyncManager(WebRequest webRequest) {
 		int scope = RequestAttributes.SCOPE_REQUEST;
@@ -55,13 +53,14 @@ public abstract class WebAsyncUtils {
 	}
 
 	/**
-	 * Create an AsyncWebRequest instance. By default, an instance of
-	 * {@link StandardServletAsyncWebRequest} gets created when running in
-	 * Servlet 3.0 (or higher) environment - as a fallback, an instance
-	 * of {@link NoSupportAsyncWebRequest} will be returned.
-	 * @param request the current request
-	 * @param response the current response
-	 * @return an AsyncWebRequest instance (never {@code null})
+	 * 创建AsyncWebRequest实例.
+	 * 默认情况下, 在Servlet 3.0 (或更高版本)环境中运行时, 
+	 * 会创建{@link StandardServletAsyncWebRequest}的实例 - 作为后备, 将返回{@link NoSupportAsyncWebRequest}的实例.
+	 * 
+	 * @param request 当前请求
+	 * @param response 当前响应
+	 * 
+	 * @return AsyncWebRequest实例 (never {@code null})
 	 */
 	public static AsyncWebRequest createAsyncWebRequest(HttpServletRequest request, HttpServletResponse response) {
 		return (startAsyncAvailable ? AsyncWebRequestFactory.createStandardAsyncWebRequest(request, response) :
@@ -70,7 +69,7 @@ public abstract class WebAsyncUtils {
 
 
 	/**
-	 * Inner class to avoid a hard dependency on the Servlet 3.0 API.
+	 * 内部类, 以避免硬件依赖于Servlet 3.0 API.
 	 */
 	private static class AsyncWebRequestFactory {
 

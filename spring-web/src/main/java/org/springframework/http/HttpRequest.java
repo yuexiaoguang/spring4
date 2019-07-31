@@ -3,22 +3,21 @@ package org.springframework.http;
 import java.net.URI;
 
 /**
- * Represents an HTTP request message, consisting of
- * {@linkplain #getMethod() method} and {@linkplain #getURI() uri}.
+ * 表示HTTP请求消息, 由{@linkplain #getMethod() 方法}和 {@linkplain #getURI() uri}组成.
  */
 public interface HttpRequest extends HttpMessage {
 
 	/**
-	 * Return the HTTP method of the request.
-	 * @return the HTTP method as an HttpMethod enum value, or {@code null}
-	 * if not resolvable (e.g. in case of a non-standard HTTP method)
+	 * 返回请求的HTTP方法.
+	 * 
+	 * @return HttpMethod枚举值, 或{@code null} (e.g. 在非标准HTTP方法的情况下)
 	 */
 	HttpMethod getMethod();
 
 	/**
-	 * Return the URI of the request (including a query string if any,
-	 * but only if it is well-formed for a URI representation).
-	 * @return the URI of the request (never {@code null})
+	 * 返回请求的URI (包括查询字符串, 但只有在URI表示形式良好的情况下).
+	 * 
+	 * @return 请求的URI (never {@code null})
 	 */
 	URI getURI();
 

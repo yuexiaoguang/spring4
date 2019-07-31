@@ -15,16 +15,13 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
 
 /**
- * Special JSF {@code ELResolver} that exposes the Spring {@code WebApplicationContext}
- * instance under a variable named "webApplicationContext".
+ * 特殊的JSF {@code ELResolver}, 在名为"webApplicationContext"的变量下公开Spring {@code WebApplicationContext}实例.
  *
- * <p>In contrast to {@link SpringBeanFacesELResolver}, this ELResolver variant
- * does <i>not</i> resolve JSF variable names as Spring bean names. It rather
- * exposes Spring's root WebApplicationContext <i>itself</i> under a special name,
- * and is able to resolve "webApplicationContext.mySpringManagedBusinessObject"
- * dereferences to Spring-defined beans in that application context.
+ * <p>与{@link SpringBeanFacesELResolver}相比, 此ELResolver变体<i>不</i>将JSF变量名称解析为Spring bean名称.
+ * 它以一个特殊的名称公开Spring的根WebApplicationContext <i>本身</i>,
+ * 并且能够解析该应用程序上下文中Spring定义的bean的"webApplicationContext.mySpringManagedBusinessObject"引用.
  *
- * <p>Configure this resolver in your {@code faces-config.xml} file as follows:
+ * <p>在{@code faces-config.xml}文件中配置此解析器, 如下所示:
  *
  * <pre class="code">
  * &lt;application>
@@ -35,7 +32,7 @@ import org.springframework.web.jsf.FacesContextUtils;
 public class WebApplicationContextFacesELResolver extends ELResolver {
 
 	/**
-	 * Name of the exposed WebApplicationContext variable: "webApplicationContext".
+	 * 公开的WebApplicationContext变量的名称: "webApplicationContext".
 	 */
 	public static final String WEB_APPLICATION_CONTEXT_VARIABLE_NAME = "webApplicationContext";
 
@@ -66,7 +63,7 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 					}
 				}
 				else {
-					// Mimic standard JSF/JSP behavior when base is a Map by returning null.
+					// 当base是Map时, 通过返回null, 模仿标准JSF/JSP行为.
 					return null;
 				}
 			}
@@ -103,7 +100,7 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 					}
 				}
 				else {
-					// Mimic standard JSF/JSP behavior when base is a Map by returning null.
+					// 当base是Map时, 通过返回null, 模仿标准JSF/JSP行为.
 					return null;
 				}
 			}
@@ -143,12 +140,12 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 
 
 	/**
-	 * Retrieve the {@link WebApplicationContext} reference to expose.
-	 * <p>The default implementation delegates to {@link FacesContextUtils},
-	 * returning {@code null} if no {@code WebApplicationContext} found.
-	 * @param elContext the current JSF ELContext
-	 * @return the Spring web application context
-	 * @see org.springframework.web.jsf.FacesContextUtils#getWebApplicationContext
+	 * 检索要公开的{@link WebApplicationContext}引用.
+	 * <p>默认实现委托给{@link FacesContextUtils}, 如果没有{@code WebApplicationContext}, 则返回{@code null}.
+	 * 
+	 * @param elContext 当前的JSF ELContext
+	 * 
+	 * @return Spring Web应用程序上下文
 	 */
 	protected WebApplicationContext getWebApplicationContext(ELContext elContext) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();

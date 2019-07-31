@@ -7,11 +7,9 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * JSF NavigationHandler implementation that delegates to a NavigationHandler
- * bean obtained from the Spring root WebApplicationContext.
+ * JSF NavigationHandler实现, 它委托给从Spring root WebApplicationContext获取的NavigationHandler bean.
  *
- * <p>Configure this handler proxy in your {@code faces-config.xml} file
- * as follows:
+ * <p>在{@code faces-config.xml}文件中配置此处理器代理, 如下所示:
  *
  * <pre class="code">
  * &lt;application&gt;
@@ -22,53 +20,41 @@ import org.springframework.web.context.WebApplicationContext;
  *   ...
  * &lt;/application&gt;</pre>
  *
- * By default, the Spring ApplicationContext will be searched for the NavigationHandler
- * under the bean name "jsfNavigationHandler". In the simplest case, this is a plain
- * Spring bean definition like the following. However, all of Spring's bean configuration
- * power can be applied to such a bean, in particular all flavors of dependency injection.
+ * 默认, 将在bean名称"jsfNavigationHandler"下搜索Spring ApplicationContext以查找NavigationHandler.
+ * 在最简单的情况下, 这是一个如下所示的简单的Spring bean定义.
+ * 但是, 所有Spring的bean配置能力都可以应用于这样的bean, 特别是所有类型的依赖注入.
  *
  * <pre class="code">
  * &lt;bean name="jsfNavigationHandler" class="mypackage.MyNavigationHandler"&gt;
  *   &lt;property name="myProperty" ref="myOtherBean"/&gt;
  * &lt;/bean&gt;</pre>
  *
- * The target NavigationHandler bean will typically extend the standard JSF
- * NavigationHandler class. However, note that decorating the original
- * NavigationHandler (the JSF provider's default handler) is <i>not</i> supported
- * in such a scenario, since we can't inject the original handler in standard
- * JSF style (that is, as constructor argument).
+ * 目标NavigationHandler bean通常会扩展标准的JSF NavigationHandler类.
+ * 但是, 请注意, 在这种情况下, 不支持装饰原始的NavigationHandler (JSF提供者的默认处理器),
+ * 因为我们无法以标准JSF样式注入原始处理器 (即, 作为构造函数参数).
  *
- * <p>For <b>decorating the original NavigationHandler</b>, make sure that your
- * target bean extends Spring's <b>DecoratingNavigationHandler</b> class. This
- * allows to pass in the original handler as method argument, which this proxy
- * automatically detects. Note that a DecoratingNavigationHandler subclass
- * will still work as standard JSF NavigationHandler as well!
+ * <p>对于<b>装饰原始NavigationHandler</b>, 确保目标bean扩展了Spring的<b>DecoratingNavigationHandler</b>类.
+ * 这允许将原始处理器作为方法参数传递, 此代理自动检测该参数.
+ * 请注意, DecoratingNavigationHandler子类仍将作为标准JSF NavigationHandler工作!
  *
- * <p>This proxy may be subclassed to change the bean name used to search for the
- * navigation handler, change the strategy used to obtain the target handler,
- * or change the strategy used to access the ApplicationContext (normally obtained
- * via {@link FacesContextUtils#getWebApplicationContext(FacesContext)}).
+ * <p>此代理可以子类化, 更改用于搜索导航处理器的bean名称, 更改用于获取目标处理器的策略,
+ * 或更改用于访问ApplicationContext的策略 (通常通过{@link FacesContextUtils#getWebApplicationContext(FacesContext)}获取).
  */
 public class DelegatingNavigationHandlerProxy extends NavigationHandler {
 
 	/**
-	 * Default name of the target bean in the Spring application context:
-	 * "jsfNavigationHandler"
+	 * Spring应用程序上下文中目标bean的默认名称: "jsfNavigationHandler"
 	 */
 	public final static String DEFAULT_TARGET_BEAN_NAME = "jsfNavigationHandler";
 
 	private NavigationHandler originalNavigationHandler;
 
 
-	/**
-	 * Create a new DelegatingNavigationHandlerProxy.
-	 */
 	public DelegatingNavigationHandlerProxy() {
 	}
 
 	/**
-	 * Create a new DelegatingNavigationHandlerProxy.
-	 * @param originalNavigationHandler the original NavigationHandler
+	 * @param originalNavigationHandler 原始NavigationHandler
 	 */
 	public DelegatingNavigationHandlerProxy(NavigationHandler originalNavigationHandler) {
 		this.originalNavigationHandler = originalNavigationHandler;
@@ -76,13 +62,11 @@ public class DelegatingNavigationHandlerProxy extends NavigationHandler {
 
 
 	/**
-	 * Handle the navigation request implied by the specified parameters,
-	 * through delegating to the target bean in the Spring application context.
-	 * <p>The target bean needs to extend the JSF NavigationHandler class.
-	 * If it extends Spring's DecoratingNavigationHandler, the overloaded
-	 * {@code handleNavigation} method with the original NavigationHandler
-	 * as argument will be used. Else, the standard {@code handleNavigation}
-	 * method will be called.
+	 * 通过委托给Spring应用程序上下文中的目标bean, 处理由指定参数隐含的导航请求.
+	 * <p>目标bean需要扩展JSF NavigationHandler类.
+	 * 如果它扩展了Spring的DecoratingNavigationHandler,
+	 * 那么将使用带有原始NavigationHandler作为参数的重载{@code handleNavigation}方法.
+	 * 否则, 将调用标准的{@code handleNavigation}方法.
 	 */
 	@Override
 	public void handleNavigation(FacesContext facesContext, String fromAction, String outcome) {
@@ -97,13 +81,12 @@ public class DelegatingNavigationHandlerProxy extends NavigationHandler {
 	}
 
 	/**
-	 * Return the target NavigationHandler to delegate to.
-	 * <p>By default, a bean with the name "jsfNavigationHandler" is obtained
-	 * from the Spring root WebApplicationContext, for every invocation.
-	 * @param facesContext the current JSF context
-	 * @return the target NavigationHandler to delegate to
-	 * @see #getTargetBeanName
-	 * @see #getBeanFactory
+	 * 返回委托给的目标NavigationHandler.
+	 * <p>默认情况下, 对于每次调用, 都会从Spring root WebApplicationContext获取名为"jsfNavigationHandler"的bean.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
+	 * @return 要委托给的目标NavigationHandler
 	 */
 	protected NavigationHandler getDelegate(FacesContext facesContext) {
 		String targetBeanName = getTargetBeanName(facesContext);
@@ -111,34 +94,37 @@ public class DelegatingNavigationHandlerProxy extends NavigationHandler {
 	}
 
 	/**
-	 * Return the name of the target NavigationHandler bean in the BeanFactory.
-	 * Default is "jsfNavigationHandler".
-	 * @param facesContext the current JSF context
-	 * @return the name of the target bean
+	 * 返回BeanFactory中目标NavigationHandler bean的名称.
+	 * 默认为"jsfNavigationHandler".
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
+	 * @return 目标bean的名称
 	 */
 	protected String getTargetBeanName(FacesContext facesContext) {
 		return DEFAULT_TARGET_BEAN_NAME;
 	}
 
 	/**
-	 * Retrieve the Spring BeanFactory to delegate bean name resolution to.
-	 * <p>Default implementation delegates to {@code getWebApplicationContext}.
-	 * Can be overridden to provide an arbitrary BeanFactory reference to resolve
-	 * against; usually, this will be a full Spring ApplicationContext.
-	 * @param facesContext the current JSF context
+	 * 检索将bean名称解析委托给的Spring BeanFactory.
+	 * <p>默认实现委托给{@code getWebApplicationContext}.
+	 * 可以重写以提供任意BeanFactory引用来解析; 通常, 这将是一个完整的Spring ApplicationContext.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
 	 * @return the Spring BeanFactory (never {@code null})
-	 * @see #getWebApplicationContext
 	 */
 	protected BeanFactory getBeanFactory(FacesContext facesContext) {
 		return getWebApplicationContext(facesContext);
 	}
 
 	/**
-	 * Retrieve the web application context to delegate bean name resolution to.
-	 * <p>Default implementation delegates to FacesContextUtils.
-	 * @param facesContext the current JSF context
-	 * @return the Spring web application context (never {@code null})
-	 * @see FacesContextUtils#getRequiredWebApplicationContext
+	 * 检索将bean名称解析委托给的Web应用程序上下文.
+	 * <p>默认实现委托给FacesContextUtils.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
+	 * @return Spring Web应用程序上下文 (never {@code null})
 	 */
 	protected WebApplicationContext getWebApplicationContext(FacesContext facesContext) {
 		return FacesContextUtils.getRequiredWebApplicationContext(facesContext);

@@ -9,11 +9,10 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation for mapping HTTP {@code PUT} requests onto specific handler
- * methods.
+ * 用于将HTTP {@code PUT}请求映射到特定处理器方法的注解.
  *
- * <p>Specifically, {@code @PutMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @RequestMapping(method = RequestMethod.PUT)}.
+ * <p>具体来说, {@code @PutMapping}是<em>组合注解</em>,
+ * 它充当{@code @RequestMapping(method = RequestMethod.PUT)}的快捷方式.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

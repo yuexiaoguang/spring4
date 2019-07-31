@@ -4,9 +4,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.WebRequest;
 
 /**
- * Default implementation of the {@link SessionAttributeStore} interface,
- * storing the attributes in the WebRequest session (i.e. HttpSession
- * or PortletSession).
+ * {@link SessionAttributeStore}接口的默认实现, 将属性存储在WebRequest会话中 (i.e. HttpSession 或 PortletSession).
  */
 public class DefaultSessionAttributeStore implements SessionAttributeStore {
 
@@ -14,9 +12,8 @@ public class DefaultSessionAttributeStore implements SessionAttributeStore {
 
 
 	/**
-	 * Specify a prefix to use for the attribute names in the backend session.
-	 * <p>Default is to use no prefix, storing the session attributes with the
-	 * same name as in the model.
+	 * 指定用于后端会话中的属性名称的前缀.
+	 * <p>默认是不使用前缀, 存储与模型中名称相同的会话属性.
 	 */
 	public void setAttributeNamePrefix(String attributeNamePrefix) {
 		this.attributeNamePrefix = (attributeNamePrefix != null ? attributeNamePrefix : "");
@@ -50,12 +47,13 @@ public class DefaultSessionAttributeStore implements SessionAttributeStore {
 
 
 	/**
-	 * Calculate the attribute name in the backend session.
-	 * <p>The default implementation simply prepends the configured
-	 * {@link #setAttributeNamePrefix "attributeNamePrefix"}, if any.
-	 * @param request the current request
-	 * @param attributeName the name of the attribute
-	 * @return the attribute name in the backend session
+	 * 计算后端会话中的属性名称.
+	 * <p>默认实现只是预先配置了{@link #setAttributeNamePrefix "attributeNamePrefix"}.
+	 * 
+	 * @param request 当前请求
+	 * @param attributeName 属性名称
+	 * 
+	 * @return 后端会话中的属性名称
 	 */
 	protected String getAttributeNameInSession(WebRequest request, String attributeName) {
 		return this.attributeNamePrefix + attributeName;

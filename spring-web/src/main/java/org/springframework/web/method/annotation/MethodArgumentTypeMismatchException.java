@@ -4,9 +4,8 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.MethodParameter;
 
 /**
- * A TypeMismatchException raised while resolving a controller method argument.
- * Provides access to the target {@link org.springframework.core.MethodParameter
- * MethodParameter}.
+ * 解析控制器方法参数时引发的TypeMismatchException.
+ * 可以访问目标{@link org.springframework.core.MethodParameter MethodParameter}.
  */
 @SuppressWarnings("serial")
 public class MethodArgumentTypeMismatchException extends TypeMismatchException {
@@ -26,14 +25,14 @@ public class MethodArgumentTypeMismatchException extends TypeMismatchException {
 
 
 	/**
-	 * Return the name of the method argument.
+	 * 返回方法参数的名称.
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Return the target method parameter.
+	 * 返回目标方法参数.
 	 */
 	public MethodParameter getParameter() {
 		return this.parameter;

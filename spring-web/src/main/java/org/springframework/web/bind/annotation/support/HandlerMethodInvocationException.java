@@ -5,16 +5,15 @@ import java.lang.reflect.Method;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * Exception indicating that the execution of an annotated MVC handler method failed.
+ * 表示执行带注解的MVC处理器方法失败.
  *
- * @deprecated as of 4.3, in favor of the {@code HandlerMethod}-based MVC infrastructure
+ * @deprecated 从4.3开始, 支持基于{@code HandlerMethod}的MVC基础结构
  */
 @Deprecated
 @SuppressWarnings("serial")
 public class HandlerMethodInvocationException extends NestedRuntimeException {
 
 	/**
-	 * Create a new HandlerMethodInvocationException for the given Method handle and cause.
 	 * @param handlerMethod the handler method handle
 	 * @param cause the cause of the invocation failure
 	 */

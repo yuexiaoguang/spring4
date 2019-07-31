@@ -13,12 +13,10 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@link org.springframework.web.client.RestTemplate}
- * and other HTTP accessing gateway helpers, defining common properties
- * such as the {@link ClientHttpRequestFactory} to operate on.
+ * {@link org.springframework.web.client.RestTemplate}的基类和其他HTTP访问网关助手,
+ * 定义常用属性, 例如要操作的{@link ClientHttpRequestFactory}.
  *
- * <p>Not intended to be used directly.
- * See {@link org.springframework.web.client.RestTemplate}.
+ * <p>不打算直接使用. See {@link org.springframework.web.client.RestTemplate}.
  */
 public abstract class HttpAccessor {
 
@@ -29,11 +27,10 @@ public abstract class HttpAccessor {
 
 
 	/**
-	 * Set the request factory that this accessor uses for obtaining client request handles.
-	 * <p>The default is a {@link SimpleClientHttpRequestFactory} based on the JDK's own
-	 * HTTP libraries ({@link java.net.HttpURLConnection}).
-	 * <p><b>Note that the standard JDK HTTP library does not support the HTTP PATCH method.
-	 * Configure the Apache HttpComponents or OkHttp request factory to enable PATCH.</b>
+	 * 设置此访问者用于获取客户端请求句柄的请求工厂.
+	 * <p>默认值是基于JDK自己的HTTP库的{@link SimpleClientHttpRequestFactory} ({@link java.net.HttpURLConnection}).
+	 * <p><b>请注意, 标准JDK HTTP库不支持HTTP PATCH方法.
+	 * 配置Apache HttpComponents或OkHttp请求工厂以启用PATCH.</b>
 	 */
 	public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
 		Assert.notNull(requestFactory, "ClientHttpRequestFactory must not be null");
@@ -41,7 +38,7 @@ public abstract class HttpAccessor {
 	}
 
 	/**
-	 * Return the request factory that this accessor uses for obtaining client request handles.
+	 * 返回此访问者用于获取客户端请求句柄的请求工厂.
 	 */
 	public ClientHttpRequestFactory getRequestFactory() {
 		return this.requestFactory;
@@ -49,11 +46,13 @@ public abstract class HttpAccessor {
 
 
 	/**
-	 * Create a new {@link ClientHttpRequest} via this template's {@link ClientHttpRequestFactory}.
-	 * @param url the URL to connect to
-	 * @param method the HTTP method to execute (GET, POST, etc)
-	 * @return the created request
-	 * @throws IOException in case of I/O errors
+	 * 通过此模板的{@link ClientHttpRequestFactory}创建一个新的{@link ClientHttpRequest}.
+	 * 
+	 * @param url 要连接的URL
+	 * @param method 要执行的HTTP方法 (GET, POST, etc)
+	 * 
+	 * @return 创建的请求
+	 * @throws IOException
 	 */
 	protected ClientHttpRequest createRequest(URI url, HttpMethod method) throws IOException {
 		ClientHttpRequest request = getRequestFactory().createRequest(url, method);

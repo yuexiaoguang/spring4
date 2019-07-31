@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.springframework.http.HttpMethod;
 
 /**
- * {@link javax.servlet.http.HttpServletRequest} wrapper that caches all content read from
- * the {@linkplain #getInputStream() input stream} and {@linkplain #getReader() reader},
- * and allows this content to be retrieved via a {@link #getContentAsByteArray() byte array}.
+ * {@link javax.servlet.http.HttpServletRequest}包装器,
+ * 用于缓存从{@linkplain #getInputStream() 输入流}和{@linkplain #getReader() reader}读取的所有内容,
+ * 并允许通过{@link #getContentAsByteArray() 字节数组}检索此内容.
  *
- * <p>Used e.g. by {@link org.springframework.web.filter.AbstractRequestLoggingFilter}.
+ * <p>由{@link org.springframework.web.filter.AbstractRequestLoggingFilter}使用.
  */
 public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
@@ -38,8 +38,7 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 
 	/**
-	 * Create a new ContentCachingRequestWrapper for the given servlet request.
-	 * @param request the original servlet request
+	 * @param request 原始的servlet请求
 	 */
 	public ContentCachingRequestWrapper(HttpServletRequest request) {
 		super(request);
@@ -49,11 +48,8 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	/**
-	 * Create a new ContentCachingRequestWrapper for the given servlet request.
-	 * @param request the original servlet request
-	 * @param contentCacheLimit the maximum number of bytes to cache per request
-	 * @since 4.3.6
-	 * @see #handleContentOverflow(int)
+	 * @param request 原始的servlet请求
+	 * @param contentCacheLimit 每个请求缓存的最大字节数
 	 */
 	public ContentCachingRequestWrapper(HttpServletRequest request, int contentCacheLimit) {
 		super(request);
@@ -154,23 +150,18 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	/**
-	 * Return the cached request content as a byte array.
-	 * <p>The returned array will never be larger than the content cache limit.
-	 * @see #ContentCachingRequestWrapper(HttpServletRequest, int)
+	 * 返回缓存的请求内容.
+	 * <p>返回的数组永远不会大于内容缓存限制.
 	 */
 	public byte[] getContentAsByteArray() {
 		return this.cachedContent.toByteArray();
 	}
 
 	/**
-	 * Template method for handling a content overflow: specifically, a request
-	 * body being read that exceeds the specified content cache limit.
-	 * <p>The default implementation is empty. Subclasses may override this to
-	 * throw a payload-too-large exception or the like.
-	 * @param contentCacheLimit the maximum number of bytes to cache per request
-	 * which has just been exceeded
-	 * @since 4.3.6
-	 * @see #ContentCachingRequestWrapper(HttpServletRequest, int)
+	 * 用于处理内容溢出的模板方法: 具体而言, 正在读取的请求正文超过指定的内容缓存限制.
+	 * <p>默认实现为空. 子类可以覆盖它以抛出有效负载太大的异常等.
+	 * 
+	 * @param contentCacheLimit 每个请求缓存的最大字节数
 	 */
 	protected void handleContentOverflow(int contentCacheLimit) {
 	}

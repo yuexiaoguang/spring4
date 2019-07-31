@@ -10,20 +10,16 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
- * Marks the annotated method or type as permitting cross origin requests.
+ * 将带注解的方法或类型标记为允许跨源请求.
  *
- * <p>By default all origins and headers are permitted, credentials are allowed,
- * and the maximum age is set to 1800 seconds (30 minutes). The list of HTTP
- * methods is set to the methods on the {@code @RequestMapping} if not
- * explicitly set on {@code @CrossOrigin}.
+ * <p>默认情况下, 允许所有origin和header, 允许凭据, 并将最大时限设置为 1800秒 (30分钟).
+ * 如果没有在{@code @CrossOrigin}上明确设置, 则将HTTP方法列表设置为{@code @RequestMapping}上的方法.
  *
- * <p><b>NOTE:</b> {@code @CrossOrigin} is processed if an appropriate
- * {@code HandlerMapping}-{@code HandlerAdapter} pair is configured such as the
- * {@code RequestMappingHandlerMapping}-{@code RequestMappingHandlerAdapter}
- * pair which are the default in the MVC Java config and the MVC namespace.
- * In particular {@code @CrossOrigin} is not supported with the
- * {@code DefaultAnnotationHandlerMapping}-{@code AnnotationMethodHandlerAdapter}
- * pair both of which are also deprecated.
+ * <p><b>NOTE:</b> 如果配置了适当的{@code HandlerMapping}-{@code HandlerAdapter}对,
+ * 例如{@code RequestMappingHandlerMapping}-{@code RequestMappingHandlerAdapter}对,
+ * 它们是MVC Java配置和MVC命名空间中的默认值, 则会处理{@code @CrossOrigin}.
+ * 特别是{@code @CrossOrigin}不支持已弃用的
+ * {@code DefaultAnnotationHandlerMapping}-{@code AnnotationMethodHandlerAdapter}对.
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -62,68 +58,56 @@ public @interface CrossOrigin {
 	String[] value() default {};
 
 	/**
-	 * List of allowed origins, e.g. {@code "http://domain1.com"}.
-	 * <p>These values are placed in the {@code Access-Control-Allow-Origin}
-	 * header of both the pre-flight response and the actual response.
-	 * {@code "*"} means that all origins are allowed.
-	 * <p>If undefined, all origins are allowed.
-	 * <p><strong>Note:</strong> CORS checks use values from "Forwarded"
+	 * 允许的来源列表, e.g. {@code "http://domain1.com"}.
+	 * <p>这些值放在pre-flight响应和实际响应的{@code Access-Control-Allow-Origin} header中.
+	 * {@code "*"}表示允许所有来源.
+	 * <p>如果未定义, 则允许所有来源.
+	 * <p><strong>Note:</strong> CORS检查使用"Forwarded"
 	 * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
-	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
-	 * if present, in order to reflect the client-originated address.
-	 * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
-	 * central place whether to extract and use, or to discard such headers.
-	 * See the Spring Framework reference for more on this filter.
-	 * @see #value
+	 * "X-Forwarded-Host", "X-Forwarded-Port", 和"X-Forwarded-Proto" header中的值,
+	 * 以反映客户端发起的地址.
+	 * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此header.
+	 * 有关此过滤器的更多信息, 参阅Spring Framework引用.
 	 */
 	@AliasFor("value")
 	String[] origins() default {};
 
 	/**
-	 * List of request headers that can be used during the actual request.
-	 * <p>This property controls the value of the pre-flight response's
-	 * {@code Access-Control-Allow-Headers} header.
-	 * {@code "*"}  means that all headers requested by the client are allowed.
-	 * <p>If undefined, all requested headers are allowed.
+	 * 可在实际请求期间使用的请求header列表.
+	 * <p>此属性控制 pre-flight响应的{@code Access-Control-Allow-Headers} header的值.
+	 * {@code "*"}表示允许客户端请求的所有header.
+	 * <p>如果未定义, 则允许所有请求的 header.
 	 */
 	String[] allowedHeaders() default {};
 
 	/**
-	 * List of response headers that the user-agent will allow the client to access.
-	 * <p>This property controls the value of actual response's
-	 * {@code Access-Control-Expose-Headers} header.
-	 * <p>If undefined, an empty exposed header list is used.
+	 * 用户代理允许客户端访问的响应header列表.
+	 * <p>此属性控制实际响应的{@code Access-Control-Expose-Headers} header的值.
+	 * <p>如果未定义, 则使用空的公开header列表.
 	 */
 	String[] exposedHeaders() default {};
 
 	/**
-	 * List of supported HTTP request methods, e.g.
-	 * {@code "{RequestMethod.GET, RequestMethod.POST}"}.
-	 * <p>Methods specified here override those specified via {@code RequestMapping}.
-	 * <p>If undefined, methods defined by {@link RequestMapping} annotation
-	 * are used.
+	 * 支持的HTTP请求方法列表, e.g. {@code "{RequestMethod.GET, RequestMethod.POST}"}.
+	 * <p>此处指定的方法将覆盖通过{@code RequestMapping}指定的方法.
+	 * <p>如果未定义, 则使用{@link RequestMapping}注解定义的方法.
 	 */
 	RequestMethod[] methods() default {};
 
 	/**
-	 * Whether the browser should include any cookies associated with the
-	 * domain of the request being annotated.
-	 * <p>Set to {@code "false"} if such cookies should not included.
-	 * An empty string ({@code ""}) means <em>undefined</em>.
-	 * {@code "true"} means that the pre-flight response will include the header
-	 * {@code Access-Control-Allow-Credentials=true}.
-	 * <p>If undefined, credentials are allowed.
+	 * 浏览器是否应包含与被注解的请求的域相关联的任何cookie.
+	 * <p>如果不包含此类cookie, 设置为{@code "false"}. 空字符串({@code ""})表示<em>未定义</em>.
+	 * {@code "true"}表示pre-flight响应将包含 header {@code Access-Control-Allow-Credentials=true}.
+	 * <p>如果未定义, 则允许凭据.
 	 */
 	String allowCredentials() default "";
 
 	/**
-	 * The maximum age (in seconds) of the cache duration for pre-flight responses.
-	 * <p>This property controls the value of the {@code Access-Control-Max-Age}
-	 * header in the pre-flight response.
-	 * <p>Setting this to a reasonable value can reduce the number of pre-flight
-	 * request/response interactions required by the browser.
-	 * A negative value means <em>undefined</em>.
-	 * <p>If undefined, max age is set to {@code 1800} seconds (i.e., 30 minutes).
+	 * pre-flight响应的缓存的过期时间(以秒为单位).
+	 * <p>此属性控制pre-flight响应中{@code Access-Control-Max-Age} header的值.
+	 * <p>将其设置为合理的值可以减少浏览器所需的pre-flight请求/响应交互的数量.
+	 * 负值表示<em>undefined</em>.
+	 * <p>如果未定义, 最大过期时间是{@code 1800}秒 (i.e., 30 分钟).
 	 */
 	long maxAge() default -1;
 

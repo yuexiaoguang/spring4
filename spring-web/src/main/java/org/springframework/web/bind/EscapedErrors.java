@@ -10,13 +10,11 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.util.HtmlUtils;
 
 /**
- * Errors wrapper that adds automatic HTML escaping to the wrapped instance,
- * for convenient usage in HTML views. Can be retrieved easily via
- * RequestContext's {@code getErrors} method.
+ * Error包装器, 它将自动HTML转义添加到包装的实例, 以便在HTML视图中使用.
+ * 可以通过RequestContext的{@code getErrors}方法轻松检索.
  *
- * <p>Note that BindTag does <i>not</i> use this class to avoid unnecessary
- * creation of ObjectError instances. It just escapes the messages and values
- * that get copied into the respective BindStatus instance.
+ * <p>请注意, BindTag <i>不</i>使用此类以避免不必要地创建ObjectError实例.
+ * 它只是转义了复制到相应BindStatus实例中的消息和值.
  */
 public class EscapedErrors implements Errors {
 
@@ -24,7 +22,7 @@ public class EscapedErrors implements Errors {
 
 
 	/**
-	 * Create a new EscapedErrors instance for the given source instance.
+	 * 为给定的源实例创建新的EscapedErrors实例.
 	 */
 	public EscapedErrors(Errors source) {
 		Assert.notNull(source, "Errors source must not be null");

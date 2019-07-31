@@ -11,8 +11,8 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * A {@code ContentNegotiationStrategy} that resolves a query parameter to a key
- * to be used to look up a media type. The default parameter name is {@code format}.
+ * {@code ContentNegotiationStrategy}, 它将查询参数解析为用于查找媒体类型的键.
+ * 默认参数名称是{@code format}.
  */
 public class ParameterContentNegotiationStrategy extends AbstractMappingContentNegotiationStrategy {
 
@@ -21,17 +21,14 @@ public class ParameterContentNegotiationStrategy extends AbstractMappingContentN
 	private String parameterName = "format";
 
 
-	/**
-	 * Create an instance with the given map of file extensions and media types.
-	 */
 	public ParameterContentNegotiationStrategy(Map<String, MediaType> mediaTypes) {
 		super(mediaTypes);
 	}
 
 
 	/**
-	 * Set the name of the parameter to use to determine requested media types.
-	 * <p>By default this is set to {@code "format"}.
+	 * 设置要用于确定请求的媒体类型的参数的名称.
+	 * <p>默认{@code "format"}.
 	 */
 	public void setParameterName(String parameterName) {
 		Assert.notNull(parameterName, "'parameterName' is required");

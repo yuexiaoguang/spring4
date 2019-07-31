@@ -9,8 +9,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A response wrapper used for the implementation of
- * {@link RelativeRedirectFilter} also shared with {@link ForwardedHeaderFilter}.
+ * 响应包装器, 用于{@link RelativeRedirectFilter}的实现, 也与{@link ForwardedHeaderFilter}共享.
  */
 class RelativeRedirectResponseWrapper extends HttpServletResponseWrapper {
 

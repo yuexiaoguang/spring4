@@ -8,11 +8,9 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Represents a set of character entity references defined by the
- * HTML 4.0 standard.
+ * 表示由HTML 4.0标准定义的一组字符实体引用.
  *
- * <p>A complete description of the HTML 4.0 character set can be found
- * at http://www.w3.org/TR/html4/charset.html.
+ * <p>有关HTML 4.0字符集的完整说明, 请访问 http://www.w3.org/TR/html4/charset.html.
  */
 class HtmlCharacterEntityReferences {
 
@@ -35,12 +33,12 @@ class HtmlCharacterEntityReferences {
 
 
 	/**
-	 * Returns a new set of character entity references reflecting the HTML 4.0 character set.
+	 * 返回反映HTML 4.0字符集的新的字符实体引用的集合.
 	 */
 	public HtmlCharacterEntityReferences() {
 		Properties entityReferences = new Properties();
 
-		// Load reference definition file
+		// 加载引用定义文件
 		InputStream is = HtmlCharacterEntityReferences.class.getResourceAsStream(PROPERTIES_FILE);
 		if (is == null) {
 			throw new IllegalStateException(
@@ -59,7 +57,7 @@ class HtmlCharacterEntityReferences {
 					"Failed to parse reference definition file [HtmlCharacterEntityReferences.properties]: " +  ex.getMessage());
 		}
 
-		// Parse reference definition properties
+		// 解析引用定义属性
 		Enumeration<?> keys = entityReferences.propertyNames();
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
@@ -76,36 +74,35 @@ class HtmlCharacterEntityReferences {
 
 
 	/**
-	 * Return the number of supported entity references.
+	 * 返回支持的实体引用数量.
 	 */
 	public int getSupportedReferenceCount() {
 		return this.entityReferenceToCharacterMap.size();
 	}
 
 	/**
-	 * Return true if the given character is mapped to a supported entity reference.
+	 * 如果给定字符映射到受支持的实体引用, 则返回true.
 	 */
 	public boolean isMappedToReference(char character) {
 		return isMappedToReference(character, WebUtils.DEFAULT_CHARACTER_ENCODING);
 	}
 
 	/**
-	 * Return true if the given character is mapped to a supported entity reference.
+	 * 如果给定字符映射到受支持的实体引用, 则返回true.
 	 */
 	public boolean isMappedToReference(char character, String encoding) {
 		return (convertToReference(character, encoding) != null);
 	}
 
 	/**
-	 * Return the reference mapped to the given character, or {@code null} if none found.
+	 * 返回映射到给定字符的引用, 或{@code null}.
 	 */
 	public String convertToReference(char character) {
 	   return convertToReference(character, WebUtils.DEFAULT_CHARACTER_ENCODING);
 	}
 
 	/**
-	 * Return the reference mapped to the given character, or {@code null} if none found.
-	 * @since 4.1.2
+	 * 返回映射到给定字符的引用, 或{@code null}.
 	 */
 	public String convertToReference(char character, String encoding) {
 		if (encoding.startsWith("UTF-")){
@@ -133,7 +130,7 @@ class HtmlCharacterEntityReferences {
 	}
 
 	/**
-	 * Return the char mapped to the given entityReference or -1.
+	 * 返回映射到给定entityReference或-1的char.
 	 */
 	public char convertToCharacter(String entityReference) {
 		Character referredCharacter = this.entityReferenceToCharacterMap.get(entityReference);

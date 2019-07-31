@@ -8,10 +8,9 @@ import org.springframework.http.HttpRequest;
 import org.springframework.util.Assert;
 
 /**
- * Provides a convenient implementation of the {@link HttpRequest} interface
- * that can be overridden to adapt the request.
+ * 提供{@link HttpRequest}接口的便捷实现, 可以重写该接口以适配请求.
  *
- * <p>These methods default to calling through to the wrapped request object.
+ * <p>这些方法默认调用包装的请求对象.
  */
 public class HttpRequestWrapper implements HttpRequest {
 
@@ -19,8 +18,7 @@ public class HttpRequestWrapper implements HttpRequest {
 
 
 	/**
-	 * Create a new {@code HttpRequest} wrapping the given request object.
-	 * @param request the request object to be wrapped
+	 * @param request 要包装的请求对象
 	 */
 	public HttpRequestWrapper(HttpRequest request) {
 		Assert.notNull(request, "HttpRequest must not be null");
@@ -29,14 +27,14 @@ public class HttpRequestWrapper implements HttpRequest {
 
 
 	/**
-	 * Return the wrapped request.
+	 * 返回包装的请求.
 	 */
 	public HttpRequest getRequest() {
 		return this.request;
 	}
 
 	/**
-	 * Return the method of the wrapped request.
+	 * 返回包装的请求的方法.
 	 */
 	@Override
 	public HttpMethod getMethod() {
@@ -44,7 +42,7 @@ public class HttpRequestWrapper implements HttpRequest {
 	}
 
 	/**
-	 * Return the URI of the wrapped request.
+	 * 返回包装的请求的URI.
 	 */
 	@Override
 	public URI getURI() {
@@ -52,7 +50,7 @@ public class HttpRequestWrapper implements HttpRequest {
 	}
 
 	/**
-	 * Return the headers of the wrapped request.
+	 * 返回包装的请求的header.
 	 */
 	@Override
 	public HttpHeaders getHeaders() {

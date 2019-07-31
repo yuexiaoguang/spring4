@@ -19,211 +19,199 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.comparator.CompoundComparator;
 
 /**
- * A subclass of {@link MimeType} that adds support for quality parameters
- * as defined in the HTTP specification.
+ * {@link MimeType}的子类, 它增加了对HTTP规范中定义的质量参数的支持.
  */
 public class MediaType extends MimeType implements Serializable {
 
 	private static final long serialVersionUID = 2069937152339670231L;
 
 	/**
-	 * Public constant media type that includes all media ranges (i.e. "&#42;/&#42;").
+	 * 包含所有媒体范围的公共常量媒体类型 (i.e. "&#42;/&#42;").
 	 */
 	public static final MediaType ALL;
 
 	/**
-	 * A String equivalent of {@link MediaType#ALL}.
+	 * 等同于{@link MediaType#ALL}.
 	 */
 	public static final String ALL_VALUE = "*/*";
 
 	/**
-	 *  Public constant media type for {@code application/atom+xml}.
+	 * 等同于{@code application/atom+xml}.
 	 */
 	public final static MediaType APPLICATION_ATOM_XML;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_ATOM_XML}.
+	 * 等同于{@link MediaType#APPLICATION_ATOM_XML}.
 	 */
 	public final static String APPLICATION_ATOM_XML_VALUE = "application/atom+xml";
 
 	/**
-	 * Public constant media type for {@code application/x-www-form-urlencoded}.
+	 * 等同于{@code application/x-www-form-urlencoded}.
 	 */
 	public final static MediaType APPLICATION_FORM_URLENCODED;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_FORM_URLENCODED}.
+	 * 等同于{@link MediaType#APPLICATION_FORM_URLENCODED}.
 	 */
 	public final static String APPLICATION_FORM_URLENCODED_VALUE = "application/x-www-form-urlencoded";
 
 	/**
-	 * Public constant media type for {@code application/json}.
-	 * @see #APPLICATION_JSON_UTF8
+	 * 等同于{@code application/json}.
 	 */
 	public final static MediaType APPLICATION_JSON;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_JSON}.
-	 * @see #APPLICATION_JSON_UTF8_VALUE
+	 * 等同于{@link MediaType#APPLICATION_JSON}.
 	 */
 	public final static String APPLICATION_JSON_VALUE = "application/json";
 
 	/**
-	 * Public constant media type for {@code application/json;charset=UTF-8}.
+	 * 等同于{@code application/json;charset=UTF-8}.
 	 */
 	public final static MediaType APPLICATION_JSON_UTF8;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_JSON_UTF8}.
+	 * 等同于{@link MediaType#APPLICATION_JSON_UTF8}.
 	 */
 	public final static String APPLICATION_JSON_UTF8_VALUE = "application/json;charset=UTF-8";
 
 	/**
-	 * Public constant media type for {@code application/octet-stream}.
+	 * 等同于{@code application/octet-stream}.
 	 */
 	public final static MediaType APPLICATION_OCTET_STREAM;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_OCTET_STREAM}.
+	 * 等同于{@link MediaType#APPLICATION_OCTET_STREAM}.
 	 */
 	public final static String APPLICATION_OCTET_STREAM_VALUE = "application/octet-stream";
 
 	/**
-	 * Public constant media type for {@code application/pdf}.
-	 * @since 4.3
+	 * 等同于{@code application/pdf}.
 	 */
 	public final static MediaType APPLICATION_PDF;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_PDF}.
-	 * @since 4.3
+	 * 等同于{@link MediaType#APPLICATION_PDF}.
 	 */
 	public final static String APPLICATION_PDF_VALUE = "application/pdf";
 
 	/**
-	 * Public constant media type for {@code application/rss+xml}.
-	 * @since 4.3.6
+	 * 等同于{@code application/rss+xml}.
 	 */
 	public final static MediaType APPLICATION_RSS_XML;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_RSS_XML}.
-	 * @since 4.3.6
+	 * 等同于{@link MediaType#APPLICATION_RSS_XML}.
 	 */
 	public final static String APPLICATION_RSS_XML_VALUE = "application/rss+xml";
 
 	/**
-	 * Public constant media type for {@code application/xhtml+xml}.
+	 * 等同于{@code application/xhtml+xml}.
 	 */
 	public final static MediaType APPLICATION_XHTML_XML;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_XHTML_XML}.
+	 * 等同于{@link MediaType#APPLICATION_XHTML_XML}.
 	 */
 	public final static String APPLICATION_XHTML_XML_VALUE = "application/xhtml+xml";
 
 	/**
-	 * Public constant media type for {@code application/xml}.
+	 * 等同于{@code application/xml}.
 	 */
 	public final static MediaType APPLICATION_XML;
 
 	/**
-	 * A String equivalent of {@link MediaType#APPLICATION_XML}.
+	 * 等同于{@link MediaType#APPLICATION_XML}.
 	 */
 	public final static String APPLICATION_XML_VALUE = "application/xml";
 
 	/**
-	 * Public constant media type for {@code image/gif}.
+	 * 等同于{@code image/gif}.
 	 */
 	public final static MediaType IMAGE_GIF;
 
 	/**
-	 * A String equivalent of {@link MediaType#IMAGE_GIF}.
+	 * 等同于{@link MediaType#IMAGE_GIF}.
 	 */
 	public final static String IMAGE_GIF_VALUE = "image/gif";
 
 	/**
-	 * Public constant media type for {@code image/jpeg}.
+	 * 等同于{@code image/jpeg}.
 	 */
 	public final static MediaType IMAGE_JPEG;
 
 	/**
-	 * A String equivalent of {@link MediaType#IMAGE_JPEG}.
+	 * 等同于{@link MediaType#IMAGE_JPEG}.
 	 */
 	public final static String IMAGE_JPEG_VALUE = "image/jpeg";
 
 	/**
-	 * Public constant media type for {@code image/png}.
+	 * 等同于{@code image/png}.
 	 */
 	public final static MediaType IMAGE_PNG;
 
 	/**
-	 * A String equivalent of {@link MediaType#IMAGE_PNG}.
+	 * 等同于{@link MediaType#IMAGE_PNG}.
 	 */
 	public final static String IMAGE_PNG_VALUE = "image/png";
 
 	/**
-	 * Public constant media type for {@code multipart/form-data}.
+	 * 等同于{@code multipart/form-data}.
 	 */
 	public final static MediaType MULTIPART_FORM_DATA;
 
 	/**
-	 * A String equivalent of {@link MediaType#MULTIPART_FORM_DATA}.
+	 * 等同于{@link MediaType#MULTIPART_FORM_DATA}.
 	 */
 	public final static String MULTIPART_FORM_DATA_VALUE = "multipart/form-data";
 
 	/**
-	 * Public constant media type for {@code text/event-stream}.
-	 * @since 4.3.6
-	 * @see <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events W3C recommendation</a>
+	 * 等同于{@code text/event-stream}.
 	 */
 	public final static MediaType TEXT_EVENT_STREAM;
 
 	/**
-	 * A String equivalent of {@link MediaType#TEXT_EVENT_STREAM}.
-	 * @since 4.3.6
+	 * 等同于{@link MediaType#TEXT_EVENT_STREAM}.
 	 */
 	public final static String TEXT_EVENT_STREAM_VALUE = "text/event-stream";
 
 	/**
-	 * Public constant media type for {@code text/html}.
+	 * 等同于{@code text/html}.
 	 */
 	public final static MediaType TEXT_HTML;
 
 	/**
-	 * A String equivalent of {@link MediaType#TEXT_HTML}.
+	 * 等同于{@link MediaType#TEXT_HTML}.
 	 */
 	public final static String TEXT_HTML_VALUE = "text/html";
 
 	/**
-	 * Public constant media type for {@code text/markdown}.
-	 * @since 4.3
+	 * 等同于{@code text/markdown}.
 	 */
 	public final static MediaType TEXT_MARKDOWN;
 
 	/**
-	 * A String equivalent of {@link MediaType#TEXT_MARKDOWN}.
-	 * @since 4.3
+	 * 等同于{@link MediaType#TEXT_MARKDOWN}.
 	 */
 	public final static String TEXT_MARKDOWN_VALUE = "text/markdown";
 
 	/**
-	 * Public constant media type for {@code text/plain}.
+	 * 等同于{@code text/plain}.
 	 */
 	public final static MediaType TEXT_PLAIN;
 
 	/**
-	 * A String equivalent of {@link MediaType#TEXT_PLAIN}.
+	 * 等同于{@link MediaType#TEXT_PLAIN}.
 	 */
 	public final static String TEXT_PLAIN_VALUE = "text/plain";
 
 	/**
-	 * Public constant media type for {@code text/xml}.
+	 * 等同于{@code text/xml}.
 	 */
 	public final static MediaType TEXT_XML;
 
 	/**
-	 * A String equivalent of {@link MediaType#TEXT_XML}.
+	 * 等同于{@link MediaType#TEXT_XML}.
 	 */
 	public final static String TEXT_XML_VALUE = "text/xml";
 
@@ -254,77 +242,80 @@ public class MediaType extends MimeType implements Serializable {
 
 
 	/**
-	 * Create a new {@code MediaType} for the given primary type.
-	 * <p>The {@linkplain #getSubtype() subtype} is set to "&#42;", parameters empty.
-	 * @param type the primary type
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * <p>{@linkplain #getSubtype() 子类型}设置为"&#42;", 参数为空.
+	 * 
+	 * @param type 主要类型
+	 * 
+	 * @throws IllegalArgumentException 如果任何参数包含非法字符
 	 */
 	public MediaType(String type) {
 		super(type);
 	}
 
 	/**
-	 * Create a new {@code MediaType} for the given primary type and subtype.
-	 * <p>The parameters are empty.
-	 * @param type the primary type
-	 * @param subtype the subtype
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * <p>参数为空.
+	 * 
+	 * @param type 主要类型
+	 * @param subtype 子类型
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(String type, String subtype) {
 		super(type, subtype, Collections.<String, String>emptyMap());
 	}
 
 	/**
-	 * Create a new {@code MediaType} for the given type, subtype, and character set.
-	 * @param type the primary type
-	 * @param subtype the subtype
-	 * @param charset the character set
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * @param type 主要类型
+	 * @param subtype 子类型
+	 * @param charset 字符集
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(String type, String subtype, Charset charset) {
 		super(type, subtype, charset);
 	}
 
 	/**
-	 * Create a new {@code MediaType} for the given type, subtype, and quality value.
-	 * @param type the primary type
-	 * @param subtype the subtype
-	 * @param qualityValue the quality value
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * @param type 主要类型
+	 * @param subtype 子类型
+	 * @param qualityValue 质量值
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(String type, String subtype, double qualityValue) {
 		this(type, subtype, Collections.singletonMap(PARAM_QUALITY_FACTOR, Double.toString(qualityValue)));
 	}
 
 	/**
-	 * Copy-constructor that copies the type, subtype and parameters of the given
-	 * {@code MediaType}, and allows to set the specified character set.
-	 * @param other the other media type
-	 * @param charset the character set
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
-	 * @since 4.3
+	 * 复制构造函数, 复制给定{@code MediaType}的类型, 子类型和参数, 并允许设置指定的字符集.
+	 * 
+	 * @param other 其他媒体类型
+	 * @param charset 字符集
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(MediaType other, Charset charset) {
 		super(other, charset);
 	}
 
 	/**
-	 * Copy-constructor that copies the type and subtype of the given {@code MediaType},
-	 * and allows for different parameter.
-	 * @param other the other media type
-	 * @param parameters the parameters, may be {@code null}
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * 复制构造函数, 复制给定{@code MediaType}的类型和子类型, 并允许不同的参数.
+	 * 
+	 * @param other 其他媒体类型
+	 * @param parameters 参数, 可以是{@code null}
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(MediaType other, Map<String, String> parameters) {
 		super(other.getType(), other.getSubtype(), parameters);
 	}
 
 	/**
-	 * Create a new {@code MediaType} for the given type, subtype, and parameters.
-	 * @param type the primary type
-	 * @param subtype the subtype
-	 * @param parameters the parameters, may be {@code null}
-	 * @throws IllegalArgumentException if any of the parameters contain illegal characters
+	 * @param type 主要类型
+	 * @param subtype 子类型
+	 * @param parameters 参数, 可以是{@code null}
+	 * 
+	 * @throws IllegalArgumentException 如果参数包含非法字符
 	 */
 	public MediaType(String type, String subtype, Map<String, String> parameters) {
 		super(type, subtype, parameters);
@@ -343,9 +334,10 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Return the quality factor, as indicated by a {@code q} parameter, if any.
-	 * Defaults to {@code 1.0}.
-	 * @return the quality factor as double value
+	 * 返回质量因子, 如{@code q}参数所示.
+	 * 默认{@code 1.0}.
+	 * 
+	 * @return 质量因子
 	 */
 	public double getQualityValue() {
 		String qualityFactor = getParameter(PARAM_QUALITY_FACTOR);
@@ -353,39 +345,38 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Indicate whether this {@code MediaType} includes the given media type.
-	 * <p>For instance, {@code text/*} includes {@code text/plain} and {@code text/html},
-	 * and {@code application/*+xml} includes {@code application/soap+xml}, etc.
-	 * This method is <b>not</b> symmetric.
-	 * <p>Simply calls {@link #includes(MimeType)} but declared with a
-	 * {@code MediaType} parameter for binary backwards compatibility.
-	 * @param other the reference media type with which to compare
-	 * @return {@code true} if this media type includes the given media type;
-	 * {@code false} otherwise
+	 * 指示此{@code MediaType}是否包含给定的媒体类型.
+	 * <p>例如, {@code text/*}包括 {@code text/plain}和 {@code text/html},
+	 * 以及{@code application/*+xml}包括 {@code application/soap+xml}, 等.
+	 * 这种方法<b>不</b>对称.
+	 * <p>只需调用{@link #includes(MimeType)}, 但使用{@code MediaType}参数声明用于二进制向后兼容性.
+	 * 
+	 * @param other 要与之比较的参考媒体类型
+	 * 
+	 * @return {@code true} 如果此媒体类型包含给定的媒体类型; 否则{@code false}
 	 */
 	public boolean includes(MediaType other) {
 		return super.includes(other);
 	}
 
 	/**
-	 * Indicate whether this {@code MediaType} is compatible with the given media type.
-	 * <p>For instance, {@code text/*} is compatible with {@code text/plain},
-	 * {@code text/html}, and vice versa. In effect, this method is similar to
-	 * {@link #includes}, except that it <b>is</b> symmetric.
-	 * <p>Simply calls {@link #isCompatibleWith(MimeType)} but declared with a
-	 * {@code MediaType} parameter for binary backwards compatibility.
-	 * @param other the reference media type with which to compare
-	 * @return {@code true} if this media type is compatible with the given media type;
-	 * {@code false} otherwise
+	 * 指示此{@code MediaType}是否与给定的媒体类型兼容.
+	 * <p>例如, {@code text/*}与{@code text/plain}, {@code text/html}兼容, 反之亦然.
+	 * 实际上, 此方法类似于{@link #includes}, 除了它<b>是</b>对称的.
+	 * <p>只需调用{@link #isCompatibleWith(MimeType)}, 但使用{@code MediaType}参数声明用于二进制向后兼容性.
+	 * 
+	 * @param other 要与之比较的参考媒体类型
+	 * 
+	 * @return {@code true} 如果此媒体类型与给定的媒体类型兼容; 否则{@code false}
 	 */
 	public boolean isCompatibleWith(MediaType other) {
 		return super.isCompatibleWith(other);
 	}
 
 	/**
-	 * Return a replica of this instance with the quality value of the given {@code MediaType}.
-	 * @return the same instance if the given MediaType doesn't have a quality value,
-	 * or a new one otherwise
+	 * 使用给定{@code MediaType}的质量值返回此实例的副本.
+	 * 
+	 * @return 如果给定的MediaType没有质量值, 则为相同的实例, 否则为新的
 	 */
 	public MediaType copyQualityValue(MediaType mediaType) {
 		if (!mediaType.getParameters().containsKey(PARAM_QUALITY_FACTOR)) {
@@ -397,9 +388,9 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Return a replica of this instance with its quality value removed.
-	 * @return the same instance if the media type doesn't contain a quality value,
-	 * or a new one otherwise
+	 * 返回此实例的副本, 并删除其质量值.
+	 * 
+	 * @return 如果媒体类型不包含质量值, 则为相同的实例, 否则为新的
 	 */
 	public MediaType removeQualityValue() {
 		if (!getParameters().containsKey(PARAM_QUALITY_FACTOR)) {
@@ -412,22 +403,24 @@ public class MediaType extends MimeType implements Serializable {
 
 
 	/**
-	 * Parse the given String value into a {@code MediaType} object,
-	 * with this method name following the 'valueOf' naming convention
-	 * (as supported by {@link org.springframework.core.convert.ConversionService}.
-	 * @param value the string to parse
-	 * @throws InvalidMediaTypeException if the media type value cannot be parsed
-	 * @see #parseMediaType(String)
+	 * 将给定的String值解析为{@code MediaType}对象, 此方法名称遵循'valueOf'命名约定
+	 * (由{@link org.springframework.core.convert.ConversionService}支持).
+	 * 
+	 * @param value 要解析的字符串
+	 * 
+	 * @throws InvalidMediaTypeException 如果无法解析媒体类型值
 	 */
 	public static MediaType valueOf(String value) {
 		return parseMediaType(value);
 	}
 
 	/**
-	 * Parse the given String into a single {@code MediaType}.
-	 * @param mediaType the string to parse
-	 * @return the media type
-	 * @throws InvalidMediaTypeException if the media type value cannot be parsed
+	 * 将给定的String解析为单个{@code MediaType}.
+	 * 
+	 * @param mediaType 要解析的字符串
+	 * 
+	 * @return 媒体类型
+	 * @throws InvalidMediaTypeException 如果无法解析媒体类型值
 	 */
 	public static MediaType parseMediaType(String mediaType) {
 		MimeType type;
@@ -446,11 +439,13 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Parse the given comma-separated string into a list of {@code MediaType} objects.
-	 * <p>This method can be used to parse an Accept or Content-Type header.
-	 * @param mediaTypes the string to parse
-	 * @return the list of media types
-	 * @throws InvalidMediaTypeException if the media type value cannot be parsed
+	 * 将给定的逗号分隔的字符串解析为{@code MediaType}对象列表.
+	 * <p>此方法可用于解析 Accept 或 Content-Type header.
+	 * 
+	 * @param mediaTypes 要解析的字符串
+	 * 
+	 * @return 媒体类型列表
+	 * @throws InvalidMediaTypeException 如果无法解析媒体类型值
 	 */
 	public static List<MediaType> parseMediaTypes(String mediaTypes) {
 		if (!StringUtils.hasLength(mediaTypes)) {
@@ -465,13 +460,13 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Parse the given list of (potentially) comma-separated strings into a
-	 * list of {@code MediaType} objects.
-	 * <p>This method can be used to parse an Accept or Content-Type header.
-	 * @param mediaTypes the string to parse
-	 * @return the list of media types
-	 * @throws InvalidMediaTypeException if the media type value cannot be parsed
-	 * @since 4.3.2
+	 * 将给定的(可能)逗号分隔的字符串列表解析为{@code MediaType}对象列表.
+	 * <p>此方法可用于解析Accept 或 Content-Type header.
+	 * 
+	 * @param mediaTypes 要解析的字符串
+	 * 
+	 * @return 媒体类型列表
+	 * @throws InvalidMediaTypeException 如果无法解析媒体类型值
 	 */
 	public static List<MediaType> parseMediaTypes(List<String> mediaTypes) {
 		if (CollectionUtils.isEmpty(mediaTypes)) {
@@ -490,41 +485,36 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Return a string representation of the given list of {@code MediaType} objects.
-	 * <p>This method can be used to for an {@code Accept} or {@code Content-Type} header.
-	 * @param mediaTypes the media types to create a string representation for
-	 * @return the string representation
+	 * 返回给定{@code MediaType}对象列表的字符串表示形式.
+	 * <p>此方法可用于{@code Accept} 或 {@code Content-Type} header.
+	 * 
+	 * @param mediaTypes 要为其创建字符串表示形式的媒体类型
+	 * 
+	 * @return 字符串表示
 	 */
 	public static String toString(Collection<MediaType> mediaTypes) {
 		return MimeTypeUtils.toString(mediaTypes);
 	}
 
 	/**
-	 * Sorts the given list of {@code MediaType} objects by specificity.
-	 * <p>Given two media types:
+	 * 按特定方式对给定的{@code MediaType}对象列表进行排序.
+	 * <p>给定两种媒体类型:
 	 * <ol>
-	 * <li>if either media type has a {@linkplain #isWildcardType() wildcard type}, then the media type without the
-	 * wildcard is ordered before the other.</li>
-	 * <li>if the two media types have different {@linkplain #getType() types}, then they are considered equal and
-	 * remain their current order.</li>
-	 * <li>if either media type has a {@linkplain #isWildcardSubtype() wildcard subtype}, then the media type without
-	 * the wildcard is sorted before the other.</li>
-	 * <li>if the two media types have different {@linkplain #getSubtype() subtypes}, then they are considered equal
-	 * and remain their current order.</li>
-	 * <li>if the two media types have different {@linkplain #getQualityValue() quality value}, then the media type
-	 * with the highest quality value is ordered before the other.</li>
-	 * <li>if the two media types have a different amount of {@linkplain #getParameter(String) parameters}, then the
-	 * media type with the most parameters is ordered before the other.</li>
+	 * <li>如果任一媒体类型具有{@linkplain #isWildcardType() 通配符类型}, 则没有通配符的媒体类型排在前面.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getType() 类型}, 那么它们被视为相等并保持其当前顺序.</li>
+	 * <li>如果任一媒体类型具有{@linkplain #isWildcardSubtype() 通配符子类型}, 则不带通配符的媒体类型排在前面.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getSubtype() 子类型}, 那么它们被视为相等并保持其当前顺序.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getQualityValue() 质量值}, 则具有最高质量值的媒体类型排在前面.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getParameter(String) 参数}, 则具有最多参数的媒体类型排在前面.</li>
 	 * </ol>
-	 * <p>For example:
+	 * <p>示例:
 	 * <blockquote>audio/basic &lt; audio/* &lt; *&#047;*</blockquote>
 	 * <blockquote>audio/* &lt; audio/*;q=0.7; audio/*;q=0.3</blockquote>
 	 * <blockquote>audio/basic;level=1 &lt; audio/basic</blockquote>
 	 * <blockquote>audio/basic == text/html</blockquote>
 	 * <blockquote>audio/basic == audio/wave</blockquote>
-	 * @param mediaTypes the list of media types to be sorted
-	 * @see <a href="http://tools.ietf.org/html/rfc7231#section-5.3.2">HTTP 1.1: Semantics
-	 * and Content, section 5.3.2</a>
+	 * 
+	 * @param mediaTypes 要排序的媒体类型列表
 	 */
 	public static void sortBySpecificity(List<MediaType> mediaTypes) {
 		Assert.notNull(mediaTypes, "'mediaTypes' must not be null");
@@ -534,24 +524,18 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Sorts the given list of {@code MediaType} objects by quality value.
-	 * <p>Given two media types:
+	 * 按质量值对给定的{@code MediaType}对象列表进行排序.
+	 * <p>给定两种媒体类型:
 	 * <ol>
-	 * <li>if the two media types have different {@linkplain #getQualityValue() quality value}, then the media type
-	 * with the highest quality value is ordered before the other.</li>
-	 * <li>if either media type has a {@linkplain #isWildcardType() wildcard type}, then the media type without the
-	 * wildcard is ordered before the other.</li>
-	 * <li>if the two media types have different {@linkplain #getType() types}, then they are considered equal and
-	 * remain their current order.</li>
-	 * <li>if either media type has a {@linkplain #isWildcardSubtype() wildcard subtype}, then the media type without
-	 * the wildcard is sorted before the other.</li>
-	 * <li>if the two media types have different {@linkplain #getSubtype() subtypes}, then they are considered equal
-	 * and remain their current order.</li>
-	 * <li>if the two media types have a different amount of {@linkplain #getParameter(String) parameters}, then the
-	 * media type with the most parameters is ordered before the other.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getQualityValue() 质量值}, 则具有最高质量值的媒体类型排在前面.</li>
+	 * <li>如果任一媒体类型具有{@linkplain #isWildcardType() 通配符类型}, 则没有通配符的媒体类型排在前面.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getType() 类型}, 那么它们被视为相等并保持其当前顺序.</li>
+	 * <li>如果任一媒体类型具有{@linkplain #isWildcardSubtype() 通配符子类型}, 则不带通配符的媒体类型排在前面.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getSubtype() 子类型}, 那么它们被视为相等并保持其当前顺序.</li>
+	 * <li>如果两种媒体类型具有不同的{@linkplain #getParameter(String) 参数}, 则具有最多参数的媒体类型排在前面.</li>
 	 * </ol>
-	 * @param mediaTypes the list of media types to be sorted
-	 * @see #getQualityValue()
+	 * 
+	 * @param mediaTypes 要排序的媒体类型列表
 	 */
 	public static void sortByQualityValue(List<MediaType> mediaTypes) {
 		Assert.notNull(mediaTypes, "'mediaTypes' must not be null");
@@ -561,10 +545,7 @@ public class MediaType extends MimeType implements Serializable {
 	}
 
 	/**
-	 * Sorts the given list of {@code MediaType} objects by specificity as the
-	 * primary criteria and quality value the secondary.
-	 * @see MediaType#sortBySpecificity(List)
-	 * @see MediaType#sortByQualityValue(List)
+	 * 按特定方式对给定的{@code MediaType}对象列表进行排序作为主要标准, 质量值排序为次要标准.
 	 */
 	public static void sortBySpecificityAndQuality(List<MediaType> mediaTypes) {
 		Assert.notNull(mediaTypes, "'mediaTypes' must not be null");
@@ -576,7 +557,7 @@ public class MediaType extends MimeType implements Serializable {
 
 
 	/**
-	 * Comparator used by {@link #sortByQualityValue(List)}.
+	 * {@link #sortByQualityValue(List)}使用的比较器.
 	 */
 	public static final Comparator<MediaType> QUALITY_VALUE_COMPARATOR = new Comparator<MediaType>() {
 
@@ -619,7 +600,7 @@ public class MediaType extends MimeType implements Serializable {
 
 
 	/**
-	 * Comparator used by {@link #sortBySpecificity(List)}.
+	 * {@link #sortBySpecificity(List)}使用的比较器.
 	 */
 	public static final Comparator<MediaType> SPECIFICITY_COMPARATOR = new SpecificityComparator<MediaType>() {
 

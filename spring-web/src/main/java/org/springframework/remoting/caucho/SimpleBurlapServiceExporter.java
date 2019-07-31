@@ -10,21 +10,17 @@ import org.springframework.lang.UsesSunHttpServer;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * HTTP request handler that exports the specified service bean as
- * Burlap service endpoint, accessible via a Burlap proxy.
- * Designed for Sun's JRE 1.6 HTTP server, implementing the
- * {@link com.sun.net.httpserver.HttpHandler} interface.
+ * HTTP请求处理器, 将指定的服务bean导出为Burlap服务端点, 可通过Burlap代理访问.
+ * 专为Sun的JRE 1.6 HTTP服务器设计, 实现{@link com.sun.net.httpserver.HttpHandler}接口.
  *
- * <p>Burlap is a slim, XML-based RPC protocol.
+ * <p>Burlap是一种基于XML的轻量级RPC协议.
  * For information on Burlap, see the
  * <a href="http://www.caucho.com/burlap">Burlap website</a>.
  * This exporter requires Burlap 3.x.
  *
- * <p>Note: Burlap services exported with this class can be accessed by
- * any Burlap client, as there isn't any special handling involved.
+ * <p>Note: 使用此类导出的Burlap服务可以由任何Burlap客户端访问, 因为不涉及任何特殊处理.
  *
- * @deprecated as of Spring 4.0, since Burlap hasn't evolved in years
- * and is effectively retired (in contrast to its sibling Hessian)
+ * @deprecated 从Spring 4.0开始, 由于Burlap几年没有进展 (与其兄弟Hessian形成鲜明对比)
  */
 @Deprecated
 @UsesSunHttpServer

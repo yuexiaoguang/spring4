@@ -9,11 +9,10 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class for {@link UriTemplateHandler} implementations.
+ * {@link UriTemplateHandler}实现的抽象基类.
  *
- * <p>Support {@link #setBaseUrl} and {@link #setDefaultUriVariables} properties
- * that should be relevant regardless of the URI template expand and encode
- * mechanism used in sub-classes.
+ * <p>支持{@link #setBaseUrl}和{@link #setDefaultUriVariables}属性,
+ * 无论URI模板扩展和子类中使用的编码机制如何都应该相关.
  */
 public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 
@@ -23,11 +22,11 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 
 
 	/**
-	 * Configure a base URL to prepend URI templates with. The base URL must
-	 * have a scheme and host but may optionally contain a port and a path.
-	 * The base URL must be fully expanded and encoded which can be done via
-	 * {@link UriComponentsBuilder}.
-	 * @param baseUrl the base URL.
+	 * 配置基础URL 前缀.
+	 * 基本URL必须具有scheme和主机, 但可以选择包含端口和路径.
+	 * 基本URL必须完全展开和编码, 可以通过{@link UriComponentsBuilder}完成.
+	 * 
+	 * @param baseUrl 基本URL.
 	 */
 	public void setBaseUrl(String baseUrl) {
 		if (baseUrl != null) {
@@ -41,19 +40,17 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 	}
 
 	/**
-	 * Return the configured base URL.
+	 * 返回配置的基本URL.
 	 */
 	public String getBaseUrl() {
 		return this.baseUrl;
 	}
 
 	/**
-	 * Configure default URI variable values to use with every expanded URI
-	 * template. These default values apply only when expanding with a Map, and
-	 * not with an array, where the Map supplied to {@link #expand(String, Map)}
-	 * can override the default values.
-	 * @param defaultUriVariables the default URI variable values
-	 * @since 4.3
+	 * 配置默认URI变量值以用于每个扩展的URI模板.
+	 * 这些默认值仅在使用Map进行扩展时适用, 而不适用于数组, 其中提供给{@link #expand(String, Map)}的Map可以覆盖默认值.
+	 * 
+	 * @param defaultUriVariables 默认的URI变量值
 	 */
 	public void setDefaultUriVariables(Map<String, ?> defaultUriVariables) {
 		this.defaultUriVariables.clear();
@@ -63,7 +60,7 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 	}
 
 	/**
-	 * Return a read-only copy of the configured default URI variables.
+	 * 返回配置的默认URI变量的只读副本.
 	 */
 	public Map<String, ?> getDefaultUriVariables() {
 		return Collections.unmodifiableMap(this.defaultUriVariables);
@@ -90,18 +87,18 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 
 
 	/**
-	 * Actually expand and encode the URI template.
+	 * 实际扩展和编码URI模板.
 	 */
 	protected abstract URI expandInternal(String uriTemplate, Map<String, ?> uriVariables);
 
 	/**
-	 * Actually expand and encode the URI template.
+	 * 实际扩展和编码URI模板.
 	 */
 	protected abstract URI expandInternal(String uriTemplate, Object... uriVariables);
 
 
 	/**
-	 * Insert a base URL (if configured) unless the given URL has a host already.
+	 * 插入基本URL (如果已配置), 除非给定的URL已有主机.
 	 */
 	private URI insertBaseUrl(URI url) {
 		try {

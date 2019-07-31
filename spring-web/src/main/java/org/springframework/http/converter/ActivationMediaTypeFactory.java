@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
 /**
- * Resolve {@code MediaType} for a given {@link Resource} using JAF.
+ * 使用JAF解析给定{@link Resource}的{@code MediaType}.
  */
 class ActivationMediaTypeFactory {
 
@@ -22,7 +22,7 @@ class ActivationMediaTypeFactory {
 	}
 
 	private static FileTypeMap loadFileTypeMapFromContextSupportModule() {
-		// See if we can find the extended mime.types from the context-support module...
+		// 是否可以从context-support模块中找到扩展的 mime.types...
 		Resource mappingLocation = new ClassPathResource("org/springframework/mail/javamail/mime.types");
 		if (mappingLocation.exists()) {
 			InputStream inputStream = null;

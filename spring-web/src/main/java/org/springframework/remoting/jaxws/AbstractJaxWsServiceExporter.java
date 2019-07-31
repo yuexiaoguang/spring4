@@ -23,12 +23,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Abstract exporter for JAX-WS services, autodetecting annotated service beans
- * (through the JAX-WS {@link javax.jws.WebService} annotation). Compatible with
- * JAX-WS 2.1 and 2.2, as included in JDK 6 update 4+ and Java 7/8.
+ * JAX-WS服务的抽象导出器, 自动检测带注解的服务bean (通过JAX-WS {@link javax.jws.WebService}注解).
+ * 兼容JAX-WS 2.1和2.2, 包含在JDK 6 update 4+和Java 7/8中.
  *
- * <p>Subclasses need to implement the {@link #publishEndpoint} template methods
- * for actual endpoint exposure.
+ * <p>子类需要为实际端点暴露实现{@link #publishEndpoint}模板方法.
  */
 public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, InitializingBean, DisposableBean {
 
@@ -48,49 +46,39 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 
 
 	/**
-	 * Set the property bag for the endpoint, including properties such as
-	 * "javax.xml.ws.wsdl.service" or "javax.xml.ws.wsdl.port".
-	 * @see javax.xml.ws.Endpoint#setProperties
-	 * @see javax.xml.ws.Endpoint#WSDL_SERVICE
-	 * @see javax.xml.ws.Endpoint#WSDL_PORT
+	 * 设置端点的属性包, 包括"javax.xml.ws.wsdl.service"或"javax.xml.ws.wsdl.port"等属性.
 	 */
 	public void setEndpointProperties(Map<String, Object> endpointProperties) {
 		this.endpointProperties = endpointProperties;
 	}
 
 	/**
-	 * Set the JDK concurrent executor to use for dispatching incoming requests
-	 * to exported service instances.
-	 * @see javax.xml.ws.Endpoint#setExecutor
+	 * 设置JDK并发执行器, 以用于将传入请求分派给导出的服务实例.
 	 */
 	public void setExecutor(Executor executor) {
 		this.executor = executor;
 	}
 
 	/**
-	 * Specify the binding type to use, overriding the value of
-	 * the JAX-WS {@link javax.xml.ws.BindingType} annotation.
+	 * 指定要使用的绑定类型, 覆盖JAX-WS {@link javax.xml.ws.BindingType}注解的值.
 	 */
 	public void setBindingType(String bindingType) {
 		this.bindingType = bindingType;
 	}
 
 	/**
-	 * Specify WebServiceFeature objects (e.g. as inner bean definitions)
-	 * to apply to JAX-WS endpoint creation.
-	 * @since 4.0
+	 * 指定要应用于JAX-WS端点创建的WebServiceFeature对象 (e.g. 作为内部bean定义).
 	 */
 	public void setEndpointFeatures(WebServiceFeature... endpointFeatures) {
 		this.endpointFeatures = endpointFeatures;
 	}
 
 	/**
-	 * Allows for providing JAX-WS 2.2 WebServiceFeature specifications:
-	 * in the form of actual {@link javax.xml.ws.WebServiceFeature} objects,
-	 * WebServiceFeature Class references, or WebServiceFeature class names.
-	 * <p>As of Spring 4.0, this is effectively just an alternative way of
-	 * specifying {@link #setEndpointFeatures "endpointFeatures"}. Do not specify
-	 * both properties at the same time; prefer "endpointFeatures" moving forward.
+	 * 允许提供JAX-WS 2.2 WebServiceFeature规范:
+	 * 以实际的{@link javax.xml.ws.WebServiceFeature}对象, WebServiceFeature Class引用, 或WebServiceFeature类名的形式.
+	 * <p>从Spring 4.0开始, 这实际上只是指定{@link #setEndpointFeatures "endpointFeatures"}的另一种方法.
+	 * 不要同时指定这两个属性; 更喜欢"endpointFeatures".
+	 * 
 	 * @deprecated as of Spring 4.0, in favor of {@link #setEndpointFeatures}
 	 */
 	@Deprecated
@@ -99,7 +87,7 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Obtains all web service beans and publishes them as JAX-WS endpoints.
+	 * 获取所有Web服务bean, 并将它们作为JAX-WS端点发布.
 	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
@@ -111,8 +99,7 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 
 
 	/**
-	 * Immediately publish all endpoints when fully configured.
-	 * @see #publishEndpoints()
+	 * 完全配置后立即发布所有端点.
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -120,9 +107,7 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Publish all {@link javax.jws.WebService} annotated beans in the
-	 * containing BeanFactory.
-	 * @see #publishEndpoint
+	 * 在BeanFactory中发布所有带{@link javax.jws.WebService}注解的bean.
 	 */
 	public void publishEndpoints() {
 		Set<String> beanNames = new LinkedHashSet<String>(this.beanFactory.getBeanDefinitionCount());
@@ -161,11 +146,11 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Create the actual Endpoint instance.
-	 * @param bean the service object to wrap
-	 * @return the Endpoint instance
-	 * @see Endpoint#create(Object)
-	 * @see Endpoint#create(String, Object)
+	 * 创建实际的Endpoint实例.
+	 * 
+	 * @param bean 要包装的服务对象
+	 * 
+	 * @return Endpoint实例
 	 */
 	@UsesJava7  // optional use of Endpoint#create with WebServiceFeature[]
 	protected Endpoint createEndpoint(Object bean) {
@@ -213,22 +198,24 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 
 
 	/**
-	 * Actually publish the given endpoint. To be implemented by subclasses.
-	 * @param endpoint the JAX-WS Endpoint object
-	 * @param annotation the service bean's WebService annotation
+	 * 实际发布给定的端点. 由子类实现.
+	 * 
+	 * @param endpoint JAX-WS Endpoint对象
+	 * @param annotation 服务bean的WebService注解
 	 */
 	protected abstract void publishEndpoint(Endpoint endpoint, WebService annotation);
 
 	/**
-	 * Actually publish the given provider endpoint. To be implemented by subclasses.
-	 * @param endpoint the JAX-WS Provider Endpoint object
-	 * @param annotation the service bean's WebServiceProvider annotation
+	 * 实际发布给定的提供者端点. 由子类实现.
+	 * 
+	 * @param endpoint JAX-WS Provider Endpoint对象
+	 * @param annotation 服务bean的WebServiceProvider注解
 	 */
 	protected abstract void publishEndpoint(Endpoint endpoint, WebServiceProvider annotation);
 
 
 	/**
-	 * Stops all published endpoints, taking the web services offline.
+	 * 停止所有已发布的端点, 使Web服务脱机.
 	 */
 	@Override
 	public void destroy() {

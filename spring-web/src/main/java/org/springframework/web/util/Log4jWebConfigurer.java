@@ -7,9 +7,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Convenience class that performs custom log4j initialization for web environments,
- * allowing for log file paths within the web application, with the option to
- * perform automatic refresh checks (for runtime changes in logging configuration).
+ * 为Web环境执行自定义log4j初始化的便捷类, 允许Web应用程序中的日志文件路径,
+ * 并具有执行自动刷新检查的选项 (用于日志配置中的运行时更改).
  *
  * <p><b>WARNING: Assumes an expanded WAR file</b>, both for loading the configuration
  * file and for writing the log files. If you want to keep your WAR unexpanded or
@@ -71,8 +70,7 @@ import org.springframework.util.StringUtils;
  * system properties: Here you can use the default key (i.e. no "webAppRootKey"
  * context-param at all) without worrying.
  *
- * @deprecated as of Spring 4.2.1, in favor of Apache Log4j 2
- * (following Apache's EOL declaration for log4j 1.x)
+ * @deprecated 从Spring 4.2.1开始, 支持Apache Log4j 2 (遵循Apache的log4j 1.x的EOL声明)
  */
 @Deprecated
 public abstract class Log4jWebConfigurer {

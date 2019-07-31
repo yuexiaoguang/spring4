@@ -6,138 +6,157 @@ import java.io.UnsupportedEncodingException;
 import org.springframework.util.Assert;
 
 /**
- * Utility class for URI encoding and decoding based on RFC 3986.
- * Offers encoding methods for the various URI components.
+ * 用于基于RFC 3986的URI编码和解码的工具类.
+ * 提供各种URI组件的编码方法.
  *
- * <p>All {@code encode*(String, String)} methods in this class operate in a similar way:
+ * <p>此类中的所有{@code encode*(String, String)}方法以类似的方式运行:
  * <ul>
- * <li>Valid characters for the specific URI component as defined in RFC 3986 stay the same.</li>
- * <li>All other characters are converted into one or more bytes in the given encoding scheme.
- * Each of the resulting bytes is written as a hexadecimal string in the "<code>%<i>xy</i></code>"
- * format.</li>
+ * <li>RFC 3986中定义的特定URI组件的有效字符保持不变.</li>
+ * <li>在给定的编码模式中, 所有其他字符被转换为一个或多个字节.
+ * 每个结果字节都以"<code>%<i>xy</i></code>"格式写成十六进制字符串.</li>
  * </ul>
  */
 public abstract class UriUtils {
 
 	/**
-	 * Encode the given URI scheme with the given encoding.
-	 * @param scheme the scheme to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded scheme
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI scheme进行编码.
+	 * 
+	 * @param scheme 要编码的scheme
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的scheme
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeScheme(String scheme, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(scheme, encoding, HierarchicalUriComponents.Type.SCHEME);
 	}
 
 	/**
-	 * Encode the given URI authority with the given encoding.
-	 * @param authority the authority to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded authority
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI权限进行编码.
+	 * 
+	 * @param authority 要编码的authority
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的authority
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeAuthority(String authority, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(authority, encoding, HierarchicalUriComponents.Type.AUTHORITY);
 	}
 
 	/**
-	 * Encode the given URI user info with the given encoding.
-	 * @param userInfo the user info to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded user info
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI用户信息进行编码.
+	 * 
+	 * @param userInfo 要编码的用户信息
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的用户信息
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeUserInfo(String userInfo, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(userInfo, encoding, HierarchicalUriComponents.Type.USER_INFO);
 	}
 
 	/**
-	 * Encode the given URI host with the given encoding.
-	 * @param host the host to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded host
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI主机进行编码.
+	 * 
+	 * @param host 要编码的主机
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的主机
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeHost(String host, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(host, encoding, HierarchicalUriComponents.Type.HOST_IPV4);
 	}
 
 	/**
-	 * Encode the given URI port with the given encoding.
-	 * @param port the port to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded port
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI端口进行编码.
+	 * 
+	 * @param port 要编码的端口
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的端口
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodePort(String port, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(port, encoding, HierarchicalUriComponents.Type.PORT);
 	}
 
 	/**
-	 * Encode the given URI path with the given encoding.
-	 * @param path the path to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded path
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI路径进行编码.
+	 * 
+	 * @param path 要编码的路径
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的路径
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodePath(String path, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(path, encoding, HierarchicalUriComponents.Type.PATH);
 	}
 
 	/**
-	 * Encode the given URI path segment with the given encoding.
-	 * @param segment the segment to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded segment
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI路径分段进行编码.
+	 * 
+	 * @param segment 要编码的分段
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的分段
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodePathSegment(String segment, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(segment, encoding, HierarchicalUriComponents.Type.PATH_SEGMENT);
 	}
 
 	/**
-	 * Encode the given URI query with the given encoding.
-	 * @param query the query to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded query
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI查询进行编码.
+	 * 
+	 * @param query 要编码的查询
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的查询
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeQuery(String query, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(query, encoding, HierarchicalUriComponents.Type.QUERY);
 	}
 
 	/**
-	 * Encode the given URI query parameter with the given encoding.
-	 * @param queryParam the query parameter to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded query parameter
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI查询参数进行编码.
+	 * 
+	 * @param queryParam 要编码的查询参数
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的查询参数
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeQueryParam(String queryParam, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(queryParam, encoding, HierarchicalUriComponents.Type.QUERY_PARAM);
 	}
 
 	/**
-	 * Encode the given URI fragment with the given encoding.
-	 * @param fragment the fragment to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded fragment
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 使用给定的编码对给定的URI片段进行编码.
+	 * 
+	 * @param fragment 要编码的片段
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的片段
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encodeFragment(String fragment, String encoding) throws UnsupportedEncodingException {
 		return HierarchicalUriComponents.encodeUriComponent(fragment, encoding, HierarchicalUriComponents.Type.FRAGMENT);
 	}
 
 	/**
-	 * Encode characters outside the unreserved character set as defined in
-	 * <a href="https://tools.ietf.org/html/rfc3986#section-2">RFC 3986 Section 2</a>.
-	 * <p>This can be used to ensure the given String will not contain any
-	 * characters with reserved URI meaning regardless of URI component.
-	 * @param source the String to be encoded
-	 * @param encoding the character encoding to encode to
-	 * @return the encoded String
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
+	 * 编码<a href="https://tools.ietf.org/html/rfc3986#section-2">RFC 3986 Section 2</a>中定义的非保留字符集之外的字符.
+	 * <p>这可以用于确保给定的String不包含任何具有保留URI含义的字符, 而不管URI组件如何.
+	 * 
+	 * @param source 要编码的字符串
+	 * @param encoding 字符编码
+	 * 
+	 * @return 编码后的字符串
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String encode(String source, String encoding) throws UnsupportedEncodingException {
 		HierarchicalUriComponents.Type type = HierarchicalUriComponents.Type.URI;
@@ -145,19 +164,19 @@ public abstract class UriUtils {
 	}
 
 	/**
-	 * Decode the given encoded URI component.
+	 * 解码给定的编码URI组件.
 	 * <ul>
-	 * <li>Alphanumeric characters {@code "a"} through {@code "z"}, {@code "A"} through {@code "Z"}, and
-	 * {@code "0"} through {@code "9"} stay the same.</li>
-	 * <li>Special characters {@code "-"}, {@code "_"}, {@code "."}, and {@code "*"} stay the same.</li>
-	 * <li>A sequence "{@code %<i>xy</i>}" is interpreted as a hexadecimal representation of the character.</li>
+	 * <li>字母数字字符{@code "a"}到{@code "z"}, {@code "A"}到{@code "Z"}, {@code "0"}到{@code "9"}, 保持原样.</li>
+	 * <li>特殊字符{@code "-"}, {@code "_"}, {@code "."}, {@code "*"}, 保持原样.</li>
+	 * <li>序列"{@code %<i>xy</i>}"被解释为字符的十六进制表示.</li>
 	 * </ul>
-	 * @param source the encoded String
-	 * @param encoding the encoding
-	 * @return the decoded value
-	 * @throws IllegalArgumentException when the given source contains invalid encoded sequences
-	 * @throws UnsupportedEncodingException when the given encoding parameter is not supported
-	 * @see java.net.URLDecoder#decode(String, String)
+	 * 
+	 * @param source 已编码的字符串
+	 * @param encoding 编码
+	 * 
+	 * @return 解码后的值
+	 * @throws IllegalArgumentException 当给定的源包含无效的编码序列时
+	 * @throws UnsupportedEncodingException 不支持给定的编码参数
 	 */
 	public static String decode(String source, String encoding) throws UnsupportedEncodingException {
 		if (source == null) {
@@ -194,10 +213,11 @@ public abstract class UriUtils {
 	}
 
 	/**
-	 * Extract the file extension from the given URI path.
-	 * @param path the URI path (e.g. "/products/index.html")
-	 * @return the extracted file extension (e.g. "html")
-	 * @since 4.3.2
+	 * 从给定的URI路径中提取文件扩展名.
+	 * 
+	 * @param path URI路径 (e.g. "/products/index.html")
+	 * 
+	 * @return 提取的文件扩展名 (e.g. "html")
 	 */
 	public static String extractFileExtension(String path) {
 		int end = path.indexOf('?');

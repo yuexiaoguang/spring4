@@ -9,19 +9,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * Exporter that takes Spring-defined objects and exposes them as
- * ServletContext attributes. Usually, bean references will be used
- * to export Spring-defined beans as ServletContext attributes.
+ * 导出器, 接受Spring定义的对象, 并将它们公开为ServletContext属性.
+ * 通常, bean引用将用于将Spring定义的bean导出为ServletContext属性.
  *
- * <p>Useful to make Spring-defined beans available to code that is
- * not aware of Spring at all, but rather just of the Servlet API.
- * Client code can then use plain ServletContext attribute lookups
- * to access those objects, despite them being defined in a Spring
- * application context.
+ * <p>有用的是使Spring定义的bean可用于完全不了解Spring的代码, 而不只是Servlet API.
+ * 然后, 客户端代码可以使用普通的ServletContext属性查找来访问这些对象, 尽管它们是在Spring应用程序上下文中定义的.
  *
- * <p>Alternatively, consider using the WebApplicationContextUtils
- * class to access Spring-defined beans via the WebApplicationContext
- * interface. This makes client code aware of Spring API, of course.
+ * <p>或者, 考虑使用WebApplicationContextUtils类通过WebApplicationContext接口访问Spring定义的bean.
+ * 当然, 这使得客户端代码可以识别Spring API.
  */
 public class ServletContextAttributeExporter implements ServletContextAware {
 
@@ -31,12 +26,10 @@ public class ServletContextAttributeExporter implements ServletContextAware {
 
 
 	/**
-	 * Set the ServletContext attributes to expose as key-value pairs.
-	 * Each key will be considered a ServletContext attributes key,
-	 * and each value will be used as corresponding attribute value.
-	 * <p>Usually, you will use bean references for the values,
-	 * to export Spring-defined beans as ServletContext attributes.
-	 * Of course, it is also possible to define plain values to export.
+	 * 将ServletContext属性.
+	 * 每个键都将被视为ServletContext属性键, 每个值将被用作相应的属性值.
+	 * <p>通常, 将对值使用bean引用, 以将Spring定义的bean导出为ServletContext属性.
+	 * 当然, 也可以定义要导出的普通值.
 	 */
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;

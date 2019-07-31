@@ -8,26 +8,23 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Strategy for contributing to the building of a {@link UriComponents} by
- * looking at a method parameter and an argument value and deciding what
- * part of the target URL should be updated.
+ * 通过查看方法参数和参数值并决定应更新目标URL的哪个部分, 用于构建{@link UriComponents}的策略.
  */
 public interface UriComponentsContributor {
 
 	/**
-	 * Whether this contributor supports the given method parameter.
+	 * 此策略是否支持给定的方法参数.
 	 */
 	boolean supportsParameter(MethodParameter parameter);
 
 	/**
-	 * Process the given method argument and either update the
-	 * {@link UriComponentsBuilder} or add to the map with URI variables
-	 * to use to expand the URI after all arguments are processed.
-	 * @param parameter the controller method parameter (never {@code null})
-	 * @param value the argument value (possibly {@code null})
-	 * @param builder the builder to update (never {@code null})
-	 * @param uriVariables a map to add URI variables to (never {@code null})
-	 * @param conversionService a ConversionService to format values as Strings
+	 * 处理给定的方法参数并更新{@link UriComponentsBuilder}, 或使用URI变量添加到Map, 以用于在处理完所有参数后展开URI.
+	 * 
+	 * @param parameter 控制器方法参数 (never {@code null})
+	 * @param value 参数值 (possibly {@code null})
+	 * @param builder 要更新的构建器 (never {@code null})
+	 * @param uriVariables 要添加URI变量的Map (never {@code null})
+	 * @param conversionService 将值格式化为字符串的ConversionService
 	 */
 	void contributeMethodArgument(MethodParameter parameter, Object value, UriComponentsBuilder builder,
 			Map<String, Object> uriVariables, ConversionService conversionService);

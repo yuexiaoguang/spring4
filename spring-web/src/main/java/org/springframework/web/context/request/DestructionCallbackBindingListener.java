@@ -5,8 +5,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
 /**
- * Adapter that implements the Servlet HttpSessionBindingListener interface,
- * wrapping a session destruction callback.
+ * 实现Servlet HttpSessionBindingListener接口的适配器, 包装会话销毁回调.
  */
 @SuppressWarnings("serial")
 public class DestructionCallbackBindingListener implements HttpSessionBindingListener, Serializable {
@@ -15,9 +14,7 @@ public class DestructionCallbackBindingListener implements HttpSessionBindingLis
 
 
 	/**
-	 * Create a new DestructionCallbackBindingListener for the given callback.
-	 * @param destructionCallback the Runnable to execute when this listener
-	 * object gets unbound from the session
+	 * @param destructionCallback 当此监听器对象从会话中解除绑定时执行的Runnable
 	 */
 	public DestructionCallbackBindingListener(Runnable destructionCallback) {
 		this.destructionCallback = destructionCallback;

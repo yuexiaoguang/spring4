@@ -13,8 +13,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpRequest} implementation that uses standard JDK facilities to
- * execute buffered requests. Created via the {@link SimpleClientHttpRequestFactory}.
+ * {@link ClientHttpRequest}实现, 它使用标准JDK工具来执行缓冲请求.
+ * 通过{@link SimpleClientHttpRequestFactory}创建.
  */
 final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 
@@ -47,7 +47,7 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 	@Override
 	protected ClientHttpResponse executeInternal(HttpHeaders headers, byte[] bufferedOutput) throws IOException {
 		addHeaders(this.connection, headers);
-		// JDK <1.8 doesn't support getOutputStream with HTTP DELETE
+		// JDK <1.8 不支持带有HTTP DELETE的 getOutputStream
 		if (getMethod() == HttpMethod.DELETE && bufferedOutput.length == 0) {
 			this.connection.setDoOutput(false);
 		}
@@ -59,7 +59,7 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 			FileCopyUtils.copy(bufferedOutput, this.connection.getOutputStream());
 		}
 		else {
-			// Immediately trigger the request in a no-output scenario as well
+			// 在无输出场景中立即触发请求
 			this.connection.getResponseCode();
 		}
 		return new SimpleClientHttpResponse(this.connection);
@@ -67,9 +67,10 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 
 
 	/**
-	 * Add the given headers to the given HTTP connection.
-	 * @param connection the connection to add the headers to
-	 * @param headers the headers to add
+	 * 将给定的header添加到给定的HTTP连接.
+	 * 
+	 * @param connection 添加header的连接
+	 * @param headers 要添加到header
 	 */
 	static void addHeaders(HttpURLConnection connection, HttpHeaders headers) {
 		for (Map.Entry<String, List<String>> entry : headers.entrySet()) {

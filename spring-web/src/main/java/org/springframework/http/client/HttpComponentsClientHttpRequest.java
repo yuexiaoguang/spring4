@@ -19,10 +19,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpClient.
+ * {@link ClientHttpRequest}实现, 基于Apache HttpComponents HttpClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>通过{@link HttpComponentsClientHttpRequestFactory}创建.
  */
 final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpRequest {
 
@@ -70,9 +69,10 @@ final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpR
 
 
 	/**
-	 * Add the given headers to the given HTTP request.
-	 * @param httpRequest the request to add the headers to
-	 * @param headers the headers to add
+	 * 将给定的header添加到给定的HTTP请求中.
+	 * 
+	 * @param httpRequest 添加header的请求
+	 * @param headers 要添加的header
 	 */
 	static void addHeaders(HttpUriRequest httpRequest, HttpHeaders headers) {
 		for (Map.Entry<String, List<String>> entry : headers.entrySet()) {

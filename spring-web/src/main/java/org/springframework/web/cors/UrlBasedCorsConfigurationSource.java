@@ -11,11 +11,9 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Provide a per request {@link CorsConfiguration} instance based on a
- * collection of {@link CorsConfiguration} mapped on path patterns.
+ * 根据路径模式上映射的{@link CorsConfiguration}集合提供每个请求{@link CorsConfiguration}实例.
  *
- * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported
- * as well as Ant-style path patterns (such as {@code "/admin/**"}).
+ * <p>支持精确路径映射URI (例如{@code "/admin"})以及Ant样式路径模式 (例如{@code "/admin/**"}).
  */
 public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource {
 
@@ -27,8 +25,7 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 
 
 	/**
-	 * Set the PathMatcher implementation to use for matching URL paths
-	 * against registered URL patterns. Default is AntPathMatcher.
+	 * 设置使用已注册的URL模式匹配URL路径的PathMatcher实现. 默认AntPathMatcher.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		Assert.notNull(pathMatcher, "PathMatcher must not be null");
@@ -36,36 +33,34 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	}
 
 	/**
-	 * Set if URL lookup should always use the full path within the current servlet
-	 * context. Else, the path within the current servlet mapping is used if applicable
-	 * (that is, in the case of a ".../*" servlet mapping in web.xml).
-	 * <p>Default is "false".
+	 * 设置URL查找是否应始终使用当前servlet上下文中的完整路径.
+	 * 否则, 如果适用, 则使用当前servlet映射中的路径 (即, 在web.xml中的".../*"映射的情况下).
+	 * <p>默认"false".
 	 */
 	public void setAlwaysUseFullPath(boolean alwaysUseFullPath) {
 		this.urlPathHelper.setAlwaysUseFullPath(alwaysUseFullPath);
 	}
 
 	/**
-	 * Set if context path and request URI should be URL-decoded. Both are returned
-	 * <i>undecoded</i> by the Servlet API, in contrast to the servlet path.
-	 * <p>Uses either the request encoding or the default encoding according
-	 * to the Servlet spec (ISO-8859-1).
+	 * 设置是否应对上下文路径和请求URI进行URL解码.
+	 * 与servlet路径相比, Servlet API都返回<i>未解码的</i>.
+	 * <p>根据Servlet规范 (ISO-8859-1)使用请求编码或默认编码.
 	 */
 	public void setUrlDecode(boolean urlDecode) {
 		this.urlPathHelper.setUrlDecode(urlDecode);
 	}
 
 	/**
-	 * Set if ";" (semicolon) content should be stripped from the request URI.
-	 * <p>The default value is {@code true}.
+	 * 设置是否应从请求URI中删除";" (分号)内容.
+	 * <p>默认{@code true}.
 	 */
 	public void setRemoveSemicolonContent(boolean removeSemicolonContent) {
 		this.urlPathHelper.setRemoveSemicolonContent(removeSemicolonContent);
 	}
 
 	/**
-	 * Set the UrlPathHelper to use for resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass.
+	 * 设置用于解析查找路径的UrlPathHelper.
+	 * <p>使用此选项可以使用自定义子类覆盖默认的UrlPathHelper.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		Assert.notNull(urlPathHelper, "UrlPathHelper must not be null");
@@ -73,7 +68,7 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	}
 
 	/**
-	 * Set CORS configuration based on URL patterns.
+	 * 根据URL模式设置CORS配置.
 	 */
 	public void setCorsConfigurations(Map<String, CorsConfiguration> corsConfigurations) {
 		this.corsConfigurations.clear();
@@ -83,14 +78,14 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	}
 
 	/**
-	 * Get the CORS configuration.
+	 * 获取CORS配置.
 	 */
 	public Map<String, CorsConfiguration> getCorsConfigurations() {
 		return Collections.unmodifiableMap(this.corsConfigurations);
 	}
 
 	/**
-	 * Register a {@link CorsConfiguration} for the specified path pattern.
+	 * 为指定的路径模式注册{@link CorsConfiguration}.
 	 */
 	public void registerCorsConfiguration(String path, CorsConfiguration config) {
 		this.corsConfigurations.put(path, config);

@@ -11,8 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
 
 /**
- * Exception thrown when a request handler does not support a
- * specific request method.
+ * 当请求处理器不支持特定请求方法时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class HttpRequestMethodNotSupportedException extends ServletException {
@@ -23,45 +22,40 @@ public class HttpRequestMethodNotSupportedException extends ServletException {
 
 
 	/**
-	 * Create a new HttpRequestMethodNotSupportedException.
-	 * @param method the unsupported HTTP request method
+	 * @param method 不支持的HTTP请求方法
 	 */
 	public HttpRequestMethodNotSupportedException(String method) {
 		this(method, (String[]) null);
 	}
 
 	/**
-	 * Create a new HttpRequestMethodNotSupportedException.
-	 * @param method the unsupported HTTP request method
-	 * @param msg the detail message
+	 * @param method 不支持的HTTP请求方法
+	 * @param msg 详细信息
 	 */
 	public HttpRequestMethodNotSupportedException(String method, String msg) {
 		this(method, null, msg);
 	}
 
 	/**
-	 * Create a new HttpRequestMethodNotSupportedException.
-	 * @param method the unsupported HTTP request method
-	 * @param supportedMethods the actually supported HTTP methods (may be {@code null})
+	 * @param method 不支持的HTTP请求方法
+	 * @param supportedMethods 实际支持的HTTP方法 (may be {@code null})
 	 */
 	public HttpRequestMethodNotSupportedException(String method, Collection<String> supportedMethods) {
 		this(method, StringUtils.toStringArray(supportedMethods));
 	}
 
 	/**
-	 * Create a new HttpRequestMethodNotSupportedException.
-	 * @param method the unsupported HTTP request method
-	 * @param supportedMethods the actually supported HTTP methods (may be {@code null})
+	 * @param method 不受支持的HTTP请求方法
+	 * @param supportedMethods 实际支持的HTTP方法 (may be {@code null})
 	 */
 	public HttpRequestMethodNotSupportedException(String method, String[] supportedMethods) {
 		this(method, supportedMethods, "Request method '" + method + "' not supported");
 	}
 
 	/**
-	 * Create a new HttpRequestMethodNotSupportedException.
-	 * @param method the unsupported HTTP request method
-	 * @param supportedMethods the actually supported HTTP methods
-	 * @param msg the detail message
+	 * @param method 不受支持的HTTP请求方法
+	 * @param supportedMethods 实际支持的HTTP方法
+	 * @param msg 详细信息
 	 */
 	public HttpRequestMethodNotSupportedException(String method, String[] supportedMethods, String msg) {
 		super(msg);
@@ -71,23 +65,21 @@ public class HttpRequestMethodNotSupportedException extends ServletException {
 
 
 	/**
-	 * Return the HTTP request method that caused the failure.
+	 * 返回导致失败的HTTP请求方法.
 	 */
 	public String getMethod() {
 		return this.method;
 	}
 
 	/**
-	 * Return the actually supported HTTP methods, or {@code null} if not known.
+	 * 返回实际支持的HTTP方法, 或{@code null}.
 	 */
 	public String[] getSupportedMethods() {
 		return this.supportedMethods;
 	}
 
 	/**
-	 * Return the actually supported HTTP methods as {@link HttpMethod} instances,
-	 * or {@code null} if not known.
-	 * @since 3.2
+	 * 返回实际支持的HTTP方法, 或{@code null}.
 	 */
 	public Set<HttpMethod> getSupportedHttpMethods() {
 		if (this.supportedMethods == null) {

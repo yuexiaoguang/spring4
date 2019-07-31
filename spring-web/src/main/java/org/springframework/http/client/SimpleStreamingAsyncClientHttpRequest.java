@@ -14,9 +14,8 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * {@link org.springframework.http.client.ClientHttpRequest} implementation that uses
- * standard Java facilities to execute streaming requests. Created via the {@link
- * org.springframework.http.client.SimpleClientHttpRequestFactory}.
+ * {@link org.springframework.http.client.ClientHttpRequest}实现, 使用标准Java工具执行流请求.
+ * 通过{@link org.springframework.http.client.SimpleClientHttpRequestFactory}创建.
  */
 final class SimpleStreamingAsyncClientHttpRequest extends AbstractAsyncClientHttpRequest {
 
@@ -88,7 +87,7 @@ final class SimpleStreamingAsyncClientHttpRequest extends AbstractAsyncClientHtt
 					else {
 						SimpleBufferingClientHttpRequest.addHeaders(connection, headers);
 						connection.connect();
-						// Immediately trigger the request in a no-output scenario as well
+						// 在无输出场景中立即触发请求
 						connection.getResponseCode();
 					}
 				}

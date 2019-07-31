@@ -12,12 +12,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves {@link Errors} method arguments.
+ * 解析{@link Errors}方法参数.
  *
- * <p>An {@code Errors} method argument is expected to appear immediately after
- * the model attribute in the method signature. It is resolved by expecting the
- * last two attributes added to the model to be the model attribute and its
- * {@link BindingResult}.
+ * <p>预期{@code Errors}方法参数会立即出现在方法签名中的model属性之后.
+ * 通过期望将添加到模型的最后两个属性作为模型属性及其{@link BindingResult}来解决此问题.
  */
 public class ErrorsMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

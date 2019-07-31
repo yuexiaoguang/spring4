@@ -9,12 +9,11 @@ import java.lang.annotation.Target;
 import org.springframework.http.converter.HttpMessageConverter;
 
 /**
- * Annotation indicating a method parameter should be bound to the body of the web request.
- * The body of the request is passed through an {@link HttpMessageConverter} to resolve the
- * method argument depending on the content type of the request. Optionally, automatic
- * validation can be applied by annotating the argument with {@code @Valid}.
+ * 指示方法参数应绑定到Web请求的主体的注解.
+ * 请求的主体通过{@link HttpMessageConverter}传递, 以根据请求的内容类型解析方法参数.
+ * 可选地, 参数可以通过使用{@code @Valid}注解来应用自动验证.
  *
- * <p>Supported for annotated handler methods in Servlet environments.
+ * <p>支持Servlet环境中带注解的处理器方法.
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,11 +21,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 public @interface RequestBody {
 
 	/**
-	 * Whether body content is required.
-	 * <p>Default is {@code true}, leading to an exception thrown in case
-	 * there is no body content. Switch this to {@code false} if you prefer
-	 * {@code null} to be passed when the body content is {@code null}.
-	 * @since 3.2
+	 * 主体内容是否必需.
+	 * <p>默认{@code true}, 如果没有正文内容, 将抛出异常.
+	 * 如果希望在正文内容为{@code null}时传递{@code null}, 将其切换为{@code false}.
 	 */
 	boolean required() default true;
 

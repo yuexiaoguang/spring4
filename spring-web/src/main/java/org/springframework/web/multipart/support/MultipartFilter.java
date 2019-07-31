@@ -13,32 +13,27 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 
 /**
- * Servlet Filter that resolves multipart requests via a {@link MultipartResolver}.
- * in the root web application context.
+ * Servlet过滤器, 它通过根Web应用程序上下文中的{@link MultipartResolver}解析multipart请求.
  *
- * <p>Looks up the MultipartResolver in Spring's root web application context.
- * Supports a "multipartResolverBeanName" filter init-param in {@code web.xml};
- * the default bean name is "filterMultipartResolver".
+ * <p>在Spring的根Web应用程序上下文中查找MultipartResolver.
+ * 支持{@code web.xml}中的"multipartResolverBeanName"过滤器init-param; 默认的bean名称是"filterMultipartResolver".
  *
- * <p>If no MultipartResolver bean is found, this filter falls back to a default
- * MultipartResolver: {@link StandardServletMultipartResolver} for Servlet 3.0,
- * based on a multipart-config section in {@code web.xml}.
- * Note however that at present the Servlet specification only defines how to
- * enable multipart configuration on a Servlet and as a result multipart request
- * processing is likely not possible in a Filter unless the Servlet container
- * provides a workaround such as Tomcat's "allowCasualMultipartParsing" property.
+ * <p>如果未找到MultipartResolver bean, 则此过滤器将回退到默认的MultipartResolver:
+ * Servlet 3.0的{@link StandardServletMultipartResolver}, 基于{@code web.xml}中的multipart-config部分.
+ * 但请注意, 目前Servlet规范仅定义了如何在Servlet上启用multipart配置,
+ * 因此, 除非Servlet容器提供诸如Tomcat的"allowCasualMultipartParsing"属性之类的解决方法,
+ * 否则可能无法在Filter中进行multipart请求处理.
  *
- * <p>MultipartResolver lookup is customizable: Override this filter's
- * {@code lookupMultipartResolver} method to use a custom MultipartResolver
- * instance, for example if not using a Spring web application context.
- * Note that the lookup method should not create a new MultipartResolver instance
- * for each call but rather return a reference to a pre-built instance.
+ * <p>MultipartResolver查找是可自定义的:
+ * 覆盖此过滤器的{@code lookupMultipartResolver}方法以使用自定义MultipartResolver实例,
+ * 例如, 如果不使用Spring Web应用程序上下文.
+ * 请注意, 查找方法不应为每个调用创建新的MultipartResolver实例, 而应返回对预构建实例的引用.
  *
- * <p>Note: This filter is an <b>alternative</b> to using DispatcherServlet's
- * MultipartResolver support, for example for web applications with custom web views
- * which do not use Spring's web MVC, or for custom filters applied before a Spring MVC
- * DispatcherServlet (e.g. {@link org.springframework.web.filter.HiddenHttpMethodFilter}).
- * In any case, this filter should not be combined with servlet-specific multipart resolution.
+ * <p>Note: 此过滤器是使用DispatcherServlet的MultipartResolver支持的<b>替代</b>,
+ * 例如, 对于具有不使用Spring的Web MVC的自定义Web视图的Web应用程序,
+ * 或者在Spring MVC DispatcherServlet之前应用的自定义过滤器
+ * (e.g. {@link org.springframework.web.filter.HiddenHttpMethodFilter}).
+ * 在任何情况下, 此过滤器都不应与特定于servlet的multipart解析结合使用.
  */
 public class MultipartFilter extends OncePerRequestFilter {
 
@@ -50,16 +45,15 @@ public class MultipartFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set the bean name of the MultipartResolver to fetch from Spring's
-	 * root application context. Default is "filterMultipartResolver".
+	 * 设置MultipartResolver的bean名称, 以从Spring的根应用程序上下文中获取.
+	 * 默认"filterMultipartResolver".
 	 */
 	public void setMultipartResolverBeanName(String multipartResolverBeanName) {
 		this.multipartResolverBeanName = multipartResolverBeanName;
 	}
 
 	/**
-	 * Return the bean name of the MultipartResolver to fetch from Spring's
-	 * root application context.
+	 * 返回MultipartResolver的bean名称, 以从Spring的根应用程序上下文中获取.
 	 */
 	protected String getMultipartResolverBeanName() {
 		return this.multipartResolverBeanName;
@@ -67,11 +61,10 @@ public class MultipartFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Check for a multipart request via this filter's MultipartResolver,
-	 * and wrap the original request with a MultipartHttpServletRequest if appropriate.
-	 * <p>All later elements in the filter chain, most importantly servlets, benefit
-	 * from proper parameter extraction in the multipart case, and are able to cast to
-	 * MultipartHttpServletRequest if they need to.
+	 * 通过此过滤器的MultipartResolver检查multipart请求,
+	 * 并在适当的情况下使用MultipartHttpServletRequest包装原始请求.
+	 * <p>过滤器链中的所有后续元素, 最重要的是servlet, 在Multipart情况下受益于正确的参数提取,
+	 * 并且如果需要, 可以转换为MultipartHttpServletRequest.
 	 */
 	@Override
 	protected void doFilterInternal(
@@ -106,24 +99,21 @@ public class MultipartFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Look up the MultipartResolver that this filter should use,
-	 * taking the current HTTP request as argument.
-	 * <p>The default implementation delegates to the {@code lookupMultipartResolver}
-	 * without arguments.
-	 * @return the MultipartResolver to use
-	 * @see #lookupMultipartResolver()
+	 * 查找此过滤器应使用的MultipartResolver, 将当前HTTP请求作为参数.
+	 * <p>默认实现在没有参数的情况下委托给{@code lookupMultipartResolver}.
+	 * 
+	 * @return 要使用的MultipartResolver
 	 */
 	protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
 		return lookupMultipartResolver();
 	}
 
 	/**
-	 * Look for a MultipartResolver bean in the root web application context.
-	 * Supports a "multipartResolverBeanName" filter init param; the default
-	 * bean name is "filterMultipartResolver".
-	 * <p>This can be overridden to use a custom MultipartResolver instance,
-	 * for example if not using a Spring web application context.
-	 * @return the MultipartResolver instance, or {@code null} if none found
+	 * 在根Web应用程序上下文中查找MultipartResolver bean.
+	 * 支持"multipartResolverBeanName"过滤器init param; 默认的bean名称是"filterMultipartResolver".
+	 * <p>可以重写以使用自定义MultipartResolver实例, 例如, 如果不使用Spring Web应用程序上下文.
+	 * 
+	 * @return MultipartResolver实例, 或{@code null}
 	 */
 	protected MultipartResolver lookupMultipartResolver() {
 		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
@@ -138,5 +128,4 @@ public class MultipartFilter extends OncePerRequestFilter {
 			return this.defaultMultipartResolver;
 		}
 	}
-
 }

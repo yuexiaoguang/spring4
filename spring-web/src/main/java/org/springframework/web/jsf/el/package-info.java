@@ -1,5 +1,4 @@
 /**
- * ELResolvers for integrating a JSF web layer with a Spring service layer
- * which is hosted in a Spring root WebApplicationContext.
+ * ELResolvers用于将JSF Web层与Spring服务层集成, 该Spring服务层托管在Spring root WebApplicationContext中.
  */
 package org.springframework.web.jsf.el;

@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Assists with the invocation of {@link CallableProcessingInterceptor}'s.
+ * 协助调用{@link CallableProcessingInterceptor}.
  */
 class CallableInterceptorChain {
 
@@ -53,7 +53,7 @@ class CallableInterceptorChain {
 				this.interceptors.get(i).postProcess(request, task, concurrentResult);
 			}
 			catch (Throwable t) {
-				// Save the first exception but invoke all interceptors
+				// 保存第一个异常, 但调用所有拦截器
 				if (exceptionResult != null) {
 					logger.error("postProcess error", t);
 				}

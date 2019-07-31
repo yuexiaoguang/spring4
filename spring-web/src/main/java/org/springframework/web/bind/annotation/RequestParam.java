@@ -10,19 +10,15 @@ import java.util.Map;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation which indicates that a method parameter should be bound to a web
- * request parameter.
+ * 指示应将方法参数绑定到Web请求参数的注解.
  *
- * <p>Supported for annotated handler methods in Servlet and Portlet environments.
+ * <p>支持Servlet和Portlet环境中带注解的处理器方法.
  *
- * <p>If the method parameter type is {@link Map} and a request parameter name
- * is specified, then the request parameter value is converted to a {@link Map}
- * assuming an appropriate conversion strategy is available.
+ * <p>如果方法参数类型为{@link Map}且指定了请求参数名称, 则假定适当的转换策略可用, 请求参数值将转换为{@link Map}.
  *
- * <p>If the method parameter is {@link java.util.Map Map&lt;String, String&gt;} or
- * {@link org.springframework.util.MultiValueMap MultiValueMap&lt;String, String&gt;}
- * and a parameter name is not specified, then the map parameter is populated
- * with all request parameter names and values.
+ * <p>如果方法参数是{@link java.util.Map Map&lt;String, String&gt;}
+ * 或{@link org.springframework.util.MultiValueMap MultiValueMap&lt;String, String&gt;}
+ * 并且未指定参数名称, 然后使用所有请求参数名称和值填充map参数.
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,28 +32,22 @@ public @interface RequestParam {
 	String value() default "";
 
 	/**
-	 * The name of the request parameter to bind to.
-	 * @since 4.2
+	 * 要绑定的请求参数的名称.
 	 */
 	@AliasFor("value")
 	String name() default "";
 
 	/**
-	 * Whether the parameter is required.
-	 * <p>Defaults to {@code true}, leading to an exception being thrown
-	 * if the parameter is missing in the request. Switch this to
-	 * {@code false} if you prefer a {@code null} value if the parameter is
-	 * not present in the request.
-	 * <p>Alternatively, provide a {@link #defaultValue}, which implicitly
-	 * sets this flag to {@code false}.
+	 * 参数是否必需.
+	 * <p>默认{@code true}, 如果请求中缺少参数, 则会抛出异常.
+	 * 如果请求中不存在该参数则为{@code null}, 将其切换为{@code false}.
+	 * <p>或者, 提供{@link #defaultValue}, 隐式将此标志设置为{@code false}.
 	 */
 	boolean required() default true;
 
 	/**
-	 * The default value to use as a fallback when the request parameter is
-	 * not provided or has an empty value.
-	 * <p>Supplying a default value implicitly sets {@link #required} to
-	 * {@code false}.
+	 * 未提供请求参数或为空值时, 用作回退的默认值.
+	 * <p>提供默认值会隐式将{@link #required}设置为{@code false}.
 	 */
 	String defaultValue() default ValueConstants.DEFAULT_NONE;
 

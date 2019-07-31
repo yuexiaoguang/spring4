@@ -10,23 +10,19 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Resolves method arguments annotated with {@code @RequestHeader} except for
- * {@link Map} arguments. See {@link RequestHeaderMapMethodArgumentResolver} for
- * details on {@link Map} arguments annotated with {@code @RequestHeader}.
+ * 解析使用{@code @RequestHeader}注解的方法参数, 但{@link Map}参数除外.
+ * 有关使用{@code @RequestHeader}注解的{@link Map}参数的详细信息, 请参阅{@link RequestHeaderMapMethodArgumentResolver}.
  *
- * <p>An {@code @RequestHeader} is a named value resolved from a request header.
- * It has a required flag and a default value to fall back on when the request
- * header does not exist.
+ * <p>{@code @RequestHeader}是从请求header解析的命名值.
+ * 它有一个必需的标志和一个默认值, 当请求header不存在时, 会使用默认值.
  *
- * <p>A {@link WebDataBinder} is invoked to apply type conversion to resolved
- * request header values that don't yet match the method parameter type.
+ * <p>调用{@link WebDataBinder}以将类型转换应用于尚未与方法参数类型匹配的已解析的请求header值.
  */
 public class RequestHeaderMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver {
 
 	/**
-	 * @param beanFactory a bean factory to use for resolving  ${...}
-	 * placeholder and #{...} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to have expressions
+	 * @param beanFactory 一个bean工厂, 用于在默认值中解析 ${...}占位符和 #{...} SpEL表达式;
+	 * 如果预期默认值不具有表达式, 则为{@code null}
 	 */
 	public RequestHeaderMethodArgumentResolver(ConfigurableBeanFactory beanFactory) {
 		super(beanFactory);

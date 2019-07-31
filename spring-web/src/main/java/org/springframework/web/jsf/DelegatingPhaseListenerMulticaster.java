@@ -11,11 +11,9 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * JSF PhaseListener implementation that delegates to one or more Spring-managed
- * PhaseListener beans coming from the Spring root WebApplicationContext.
+ * 委托给一个或多个Spring管理的来自Spring root WebApplicationContext的PhaseListener bean的JSF PhaseListener实现.
  *
- * <p>Configure this listener multicaster in your {@code faces-config.xml} file
- * as follows:
+ * <p>在{@code faces-config.xml}文件中配置此监听器多播器, 如下所示:
  *
  * <pre class="code">
  * &lt;application&gt;
@@ -26,18 +24,15 @@ import org.springframework.web.context.WebApplicationContext;
  *   ...
  * &lt;/application&gt;</pre>
  *
- * The multicaster will delegate all {@code beforePhase} and {@code afterPhase}
- * events to all target PhaseListener beans. By default, those will simply be obtained
- * by type: All beans in the Spring root WebApplicationContext that implement the
- * PhaseListener interface will be fetched and invoked.
+ * 多播器将所有{@code beforePhase}和{@code afterPhase}事件委托给所有目标PhaseListener bean.
+ * 默认情况下, 这些只是按类型获得:
+ * 将获取并调用实现PhaseListener接口的Spring根WebApplicationContext中的所有bean.
  *
- * <p>Note: This multicaster's {@code getPhaseId()} method will always return
- * {@code ANY_PHASE}. <b>The phase id exposed by the target listener beans
- * will be ignored; all events will be propagated to all listeners.</b>
+ * <p>Note: 此多播器的{@code getPhaseId()}方法将始终返回{@code ANY_PHASE}.
+ * <b>目标监听器bean公开的阶段id将被忽略; 所有事件都将传播给所有监听器.</b>
  *
- * <p>This multicaster may be subclassed to change the strategy used to obtain
- * the listener beans, or to change the strategy used to access the ApplicationContext
- * (normally obtained via {@link FacesContextUtils#getWebApplicationContext(FacesContext)}).
+ * <p>可以对此多播器进行子类化以更改用于获取监听器bean的策略, 或者更改用于访问ApplicationContext的策略
+ * (通常通过{@link FacesContextUtils#getWebApplicationContext(FacesContext)}获取).
  */
 @SuppressWarnings("serial")
 public class DelegatingPhaseListenerMulticaster implements PhaseListener {
@@ -63,11 +58,11 @@ public class DelegatingPhaseListenerMulticaster implements PhaseListener {
 
 
 	/**
-	 * Obtain the delegate PhaseListener beans from the Spring root WebApplicationContext.
-	 * @param facesContext the current JSF context
-	 * @return a Collection of PhaseListener objects
-	 * @see #getBeanFactory
-	 * @see org.springframework.beans.factory.ListableBeanFactory#getBeansOfType(Class)
+	 * 从Spring root WebApplicationContext获取委托PhaseListener bean.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
+	 * @return PhaseListener对象的集合
 	 */
 	protected Collection<PhaseListener> getDelegates(FacesContext facesContext) {
 		ListableBeanFactory bf = getBeanFactory(facesContext);
@@ -75,24 +70,25 @@ public class DelegatingPhaseListenerMulticaster implements PhaseListener {
 	}
 
 	/**
-	 * Retrieve the Spring BeanFactory to delegate bean name resolution to.
-	 * <p>The default implementation delegates to {@code getWebApplicationContext}.
-	 * Can be overridden to provide an arbitrary ListableBeanFactory reference to
-	 * resolve against; usually, this will be a full Spring ApplicationContext.
-	 * @param facesContext the current JSF context
+	 * 检索将bean名称解析委托给的Spring BeanFactory.
+	 * <p>默认实现委托给{@code getWebApplicationContext}.
+	 * 可以重写以提供任意ListableBeanFactory引用来解析; 通常, 这将是一个完整的Spring ApplicationContext.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
 	 * @return the Spring ListableBeanFactory (never {@code null})
-	 * @see #getWebApplicationContext
 	 */
 	protected ListableBeanFactory getBeanFactory(FacesContext facesContext) {
 		return getWebApplicationContext(facesContext);
 	}
 
 	/**
-	 * Retrieve the web application context to delegate bean name resolution to.
-	 * <p>The default implementation delegates to FacesContextUtils.
-	 * @param facesContext the current JSF context
-	 * @return the Spring web application context (never {@code null})
-	 * @see FacesContextUtils#getRequiredWebApplicationContext
+	 * 检索将bean名称解析委托给的Web应用程序上下文.
+	 * <p>默认实现委托给 FacesContextUtils.
+	 * 
+	 * @param facesContext 当前的JSF上下文
+	 * 
+	 * @return Spring Web应用程序上下文 (never {@code null})
 	 */
 	protected WebApplicationContext getWebApplicationContext(FacesContext facesContext) {
 		return FacesContextUtils.getRequiredWebApplicationContext(facesContext);

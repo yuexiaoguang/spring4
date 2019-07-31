@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.http.HttpStatus;
 
 /**
- * Abstract base for {@link ClientHttpResponse}.
+ * {@link ClientHttpResponse}的抽象类.
  */
 public abstract class AbstractClientHttpResponse implements ClientHttpResponse {
 

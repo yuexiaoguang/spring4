@@ -3,8 +3,7 @@ package org.springframework.web.context.request.async;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Abstract adapter class for the {@link DeferredResultProcessingInterceptor}
- * interface for simplified implementation of individual methods.
+ * {@link DeferredResultProcessingInterceptor}接口的抽象适配器类, 用于简化单个方法实现.
  */
 public abstract class DeferredResultProcessingInterceptorAdapter implements DeferredResultProcessingInterceptor {
 
@@ -32,8 +31,7 @@ public abstract class DeferredResultProcessingInterceptorAdapter implements Defe
 	}
 
 	/**
-	 * This implementation returns {@code true} by default allowing other interceptors
-	 * to be given a chance to handle the timeout.
+	 * 此实现默认返回{@code true}, 允许其他拦截器处理超时.
 	 */
 	@Override
 	public <T> boolean handleTimeout(NativeWebRequest request, DeferredResult<T> deferredResult) throws Exception {

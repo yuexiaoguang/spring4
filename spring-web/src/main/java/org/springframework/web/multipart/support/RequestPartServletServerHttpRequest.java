@@ -16,10 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 
 /**
- * {@link ServerHttpRequest} implementation that accesses one part of a multipart
- * request. If using {@link MultipartResolver} configuration the part is accessed
- * through a {@link MultipartFile}. Or if using Servlet 3.0 multipart processing
- * the part is accessed through {@code ServletRequest.getPart}.
+ * 访问多部分请求的一部分的{@link ServerHttpRequest}实现.
+ * 如果使用{@link MultipartResolver}配置, 则可通过{@link MultipartFile}访问该part.
+ * 或者, 如果使用Servlet 3.0 multipart处理, 则可以通过{@code ServletRequest.getPart}访问该part.
  */
 public class RequestPartServletServerHttpRequest extends ServletServerHttpRequest {
 
@@ -31,11 +30,11 @@ public class RequestPartServletServerHttpRequest extends ServletServerHttpReques
 
 
 	/**
-	 * Create a new {@code RequestPartServletServerHttpRequest} instance.
-	 * @param request the current servlet request
-	 * @param partName the name of the part to adapt to the {@link ServerHttpRequest} contract
-	 * @throws MissingServletRequestPartException if the request part cannot be found
-	 * @throws MultipartException if MultipartHttpServletRequest cannot be initialized
+	 * @param request 当前的servlet请求
+	 * @param partName 要适配{@link ServerHttpRequest}约定的part名称
+	 * 
+	 * @throws MissingServletRequestPartException 如果无法找到请求part
+	 * @throws MultipartException 如果无法初始化MultipartHttpServletRequest
 	 */
 	public RequestPartServletServerHttpRequest(HttpServletRequest request, String partName)
 			throws MissingServletRequestPartException {

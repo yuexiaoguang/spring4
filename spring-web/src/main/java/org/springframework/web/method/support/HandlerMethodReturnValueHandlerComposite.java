@@ -11,8 +11,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Handles method return values by delegating to a list of registered {@link HandlerMethodReturnValueHandler}s.
- * Previously resolved return types are cached for faster lookups.
+ * 通过委托给已注册的{@link HandlerMethodReturnValueHandler}列表来处理方法返回值.
+ * 缓存先前已解析的返回类型以便更快地进行查找.
  */
 public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMethodReturnValueHandler {
 
@@ -23,15 +23,14 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 
 
 	/**
-	 * Return a read-only list with the registered handlers, or an empty list.
+	 * 返回包含注册的处理器的只读列表, 或空列表.
 	 */
 	public List<HandlerMethodReturnValueHandler> getHandlers() {
 		return Collections.unmodifiableList(this.returnValueHandlers);
 	}
 
 	/**
-	 * Whether the given {@linkplain MethodParameter method return type} is supported by any registered
-	 * {@link HandlerMethodReturnValueHandler}.
+	 * 是否所有已注册的{@link HandlerMethodReturnValueHandler}都支持给定的{@linkplain MethodParameter 方法返回类型}.
 	 */
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
@@ -48,8 +47,9 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 	}
 
 	/**
-	 * Iterate over registered {@link HandlerMethodReturnValueHandler}s and invoke the one that supports it.
-	 * @throws IllegalStateException if no suitable {@link HandlerMethodReturnValueHandler} is found.
+	 * 迭代已注册的{@link HandlerMethodReturnValueHandler}, 并调用支持它的那个.
+	 * 
+	 * @throws IllegalStateException 如果找不到合适的{@link HandlerMethodReturnValueHandler}.
 	 */
 	@Override
 	public void handleReturnValue(Object returnValue, MethodParameter returnType,
@@ -87,17 +87,11 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 		return false;
 	}
 
-	/**
-	 * Add the given {@link HandlerMethodReturnValueHandler}.
-	 */
 	public HandlerMethodReturnValueHandlerComposite addHandler(HandlerMethodReturnValueHandler handler) {
 		this.returnValueHandlers.add(handler);
 		return this;
 	}
 
-	/**
-	 * Add the given {@link HandlerMethodReturnValueHandler}s.
-	 */
 	public HandlerMethodReturnValueHandlerComposite addHandlers(List<? extends HandlerMethodReturnValueHandler> handlers) {
 		if (handlers != null) {
 			for (HandlerMethodReturnValueHandler handler : handlers) {

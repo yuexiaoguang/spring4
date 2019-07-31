@@ -4,30 +4,32 @@ import java.net.URI;
 import java.util.Map;
 
 /**
- * Strategy for expanding a URI template with full control over the URI template
- * syntax and the encoding of variables. Also a convenient central point for
- * pre-processing all URI templates for example to insert a common base path.
+ * 扩展URI模板的策略, 完全控制URI模板语法和变量编码.
+ * 也是预处理所有URI模板的便捷中心点, 例如插入公共基本路径.
  *
- * <p>Supported as a property on the {@code RestTemplate} as well as the
- * {@code AsyncRestTemplate}. The {@link DefaultUriTemplateHandler} is built
- * on Spring's URI template support via {@link UriComponentsBuilder}. An
- * alternative implementation may be used to plug external URI template libraries.
+ * <p>作为{@code RestTemplate}上的属性以及{@code AsyncRestTemplate}支持.
+ * {@link DefaultUriTemplateHandler}是通过{@link UriComponentsBuilder}基于Spring的URI模板支持构建的.
+ * 可以使用替代实现来插入外部URI模板库.
  */
 public interface UriTemplateHandler {
 
 	/**
-	 * Expand the given URI template from a map of URI variables.
-	 * @param uriTemplate the URI template string
-	 * @param uriVariables the URI variables
-	 * @return the resulting URI
+	 * 从URI变量的Map扩展给定的URI模板.
+	 * 
+	 * @param uriTemplate URI模板字符串
+	 * @param uriVariables URI变量
+	 * 
+	 * @return 结果URI
 	 */
 	URI expand(String uriTemplate, Map<String, ?> uriVariables);
 
 	/**
-	 * Expand the given URI template from an array of URI variables.
-	 * @param uriTemplate the URI template string
-	 * @param uriVariables the URI variable values
-	 * @return the resulting URI
+	 * 从URI变量数组中扩展给定的URI模板.
+	 * 
+	 * @param uriTemplate URI模板字符串
+	 * @param uriVariables URI变量值
+	 * 
+	 * @return 结果URI
 	 */
 	URI expand(String uriTemplate, Object... uriVariables);
 

@@ -13,15 +13,14 @@ import org.springframework.remoting.support.RemoteExporter;
 import org.springframework.util.Assert;
 
 /**
- * General stream-based protocol exporter for a Burlap endpoint.
+ * 用于Burlap端点的常规基于流的协议导出器.
  *
- * <p>Burlap is a slim, XML-based RPC protocol.
+ * <p>Burlap是一种基于XML的轻量级RPC协议.
  * For information on Burlap, see the
  * <a href="http://www.caucho.com/burlap">Burlap website</a>.
  * This exporter requires Burlap 3.x.
  *
- * @deprecated as of Spring 4.0, since Burlap hasn't evolved in years
- * and is effectively retired (in contrast to its sibling Hessian)
+ * @deprecated 从Spring 4.0开始, 由于Burlap几年没有进展 (与其兄弟Hessian形成鲜明对比)
  */
 @Deprecated
 public class BurlapExporter extends RemoteExporter implements InitializingBean {

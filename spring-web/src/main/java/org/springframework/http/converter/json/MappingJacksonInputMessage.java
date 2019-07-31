@@ -7,8 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 
 /**
- * {@link HttpInputMessage} that can eventually stores a Jackson view that will be used
- * to deserialize the message.
+ * {@link HttpInputMessage}可以存储将用于反序列化消息的Jackson视图.
  */
 public class MappingJacksonInputMessage implements HttpInputMessage {
 

@@ -9,10 +9,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
 
 /**
- * JSF {@code ELResolver} that delegates to the Spring root {@code WebApplicationContext},
- * resolving name references to Spring-defined beans.
+ * 委托给Spring root {@code WebApplicationContext}的JSF {@code ELResolver}, 解析对Spring定义的bean的名称引用.
  *
- * <p>Configure this resolver in your {@code faces-config.xml} file as follows:
+ * <p>在{@code faces-config.xml}文件中配置此解析器, 如下所示:
  *
  * <pre class="code">
  * &lt;application>
@@ -20,9 +19,7 @@ import org.springframework.web.jsf.FacesContextUtils;
  *   &lt;el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver&lt;/el-resolver>
  * &lt;/application></pre>
  *
- * All your JSF expressions can then implicitly refer to the names of
- * Spring-managed service layer beans, for example in property values of
- * JSF-managed beans:
+ * 然后, 所有JSF表达式都可以隐式引用Spring管理的服务层bean的名称, 例如在JSF管理的bean的属性值中:
  *
  * <pre class="code">
  * &lt;managed-bean>
@@ -35,8 +32,7 @@ import org.springframework.web.jsf.FacesContextUtils;
  *   &lt;/managed-property>
  * &lt;/managed-bean></pre>
  *
- * with "mySpringManagedBusinessObject" defined as Spring bean in
- * applicationContext.xml:
+ * 将"mySpringManagedBusinessObject"定义为applicationContext.xml中的Spring bean:
  *
  * <pre class="code">
  * &lt;bean id="mySpringManagedBusinessObject" class="example.MySpringManagedBusinessObject">
@@ -46,10 +42,11 @@ import org.springframework.web.jsf.FacesContextUtils;
 public class SpringBeanFacesELResolver extends SpringBeanELResolver {
 
 	/**
-	 * This implementation delegates to {@link #getWebApplicationContext}.
-	 * Can be overridden to provide an arbitrary BeanFactory reference to resolve
-	 * against; usually, this will be a full Spring ApplicationContext.
-	 * @param elContext the current JSF ELContext
+	 * 此实现委托给{@link #getWebApplicationContext}.
+	 * 可以重写以提供任意BeanFactory引用来解析; 通常, 这将是一个完整的Spring ApplicationContext.
+	 * 
+	 * @param elContext 当前的JSF ELContext
+	 * 
 	 * @return the Spring BeanFactory (never {@code null})
 	 */
 	@Override
@@ -58,11 +55,12 @@ public class SpringBeanFacesELResolver extends SpringBeanELResolver {
 	}
 
 	/**
-	 * Retrieve the web application context to delegate bean name resolution to.
-	 * <p>The default implementation delegates to FacesContextUtils.
-	 * @param elContext the current JSF ELContext
-	 * @return the Spring web application context (never {@code null})
-	 * @see org.springframework.web.jsf.FacesContextUtils#getRequiredWebApplicationContext
+	 * 检索将bean名称解析委托给的Web应用程序上下文.
+	 * <p>默认实现委托给FacesContextUtils.
+	 * 
+	 * @param elContext 当前JSF ELContext
+	 * 
+	 * @return Spring Web应用程序上下文 (never {@code null})
 	 */
 	protected WebApplicationContext getWebApplicationContext(ELContext elContext) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();

@@ -13,11 +13,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Default implementation of the
- * {@link org.springframework.web.multipart.MultipartHttpServletRequest}
- * interface. Provides management of pre-generated parameter values.
+ * {@link org.springframework.web.multipart.MultipartHttpServletRequest}接口的默认实现.
+ * 提供对预生成参数值的管理.
  *
- * <p>Used by {@link org.springframework.web.multipart.commons.CommonsMultipartResolver}.
+ * <p>由{@link org.springframework.web.multipart.commons.CommonsMultipartResolver}使用.
  */
 public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpServletRequest {
 
@@ -29,11 +28,9 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 
 
 	/**
-	 * Wrap the given HttpServletRequest in a MultipartHttpServletRequest.
-	 * @param request the servlet request to wrap
-	 * @param mpFiles a map of the multipart files
-	 * @param mpParams a map of the parameters to expose,
-	 * with Strings as keys and String arrays as values
+	 * @param request 要包装的servlet请求
+	 * @param mpFiles multipart文件的映射
+	 * @param mpParams 要公开的参数的Map
 	 */
 	public DefaultMultipartHttpServletRequest(HttpServletRequest request, MultiValueMap<String, MultipartFile> mpFiles,
 			Map<String, String[]> mpParams, Map<String, String> mpParamContentTypes) {
@@ -45,8 +42,7 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 	}
 
 	/**
-	 * Wrap the given HttpServletRequest in a MultipartHttpServletRequest.
-	 * @param request the servlet request to wrap
+	 * @param request 要包装的servlet请求
 	 */
 	public DefaultMultipartHttpServletRequest(HttpServletRequest request) {
 		super(request);
@@ -126,17 +122,15 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 
 
 	/**
-	 * Set a Map with parameter names as keys and String array objects as values.
-	 * To be invoked by subclasses on initialization.
+	 * 将参数名称作为键, 将字符串数组对象作为值.
+	 * 在初始化时由子类调用.
 	 */
 	protected final void setMultipartParameters(Map<String, String[]> multipartParameters) {
 		this.multipartParameters = multipartParameters;
 	}
 
 	/**
-	 * Obtain the multipart parameter Map for retrieval,
-	 * lazily initializing it if necessary.
-	 * @see #initializeMultipart()
+	 * 获取用于检索的multipart参数Map, 如有必要, 可以延迟初始化它.
 	 */
 	protected Map<String, String[]> getMultipartParameters() {
 		if (this.multipartParameters == null) {
@@ -146,17 +140,15 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 	}
 
 	/**
-	 * Set a Map with parameter names as keys and content type Strings as values.
-	 * To be invoked by subclasses on initialization.
+	 * 将参数名称作为键, 将内容类型字符串作为值.
+	 * 在初始化时由子类调用.
 	 */
 	protected final void setMultipartParameterContentTypes(Map<String, String> multipartParameterContentTypes) {
 		this.multipartParameterContentTypes = multipartParameterContentTypes;
 	}
 
 	/**
-	 * Obtain the multipart parameter content type Map for retrieval,
-	 * lazily initializing it if necessary.
-	 * @see #initializeMultipart()
+	 * 获取用于检索的multipart参数内容类型Map, 如有必要, 可以延迟初始化它.
 	 */
 	protected Map<String, String> getMultipartParameterContentTypes() {
 		if (this.multipartParameterContentTypes == null) {

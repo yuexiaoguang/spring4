@@ -10,15 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 
 /**
- * An {@code HttpMessageConverter} that uses {@link StringHttpMessageConverter}
- * for reading and writing content and a {@link ConversionService} for converting
- * the String content to and from the target object type.
+ * {@code HttpMessageConverter}, 使用{@link StringHttpMessageConverter}读取和写入内容,
+ * 并使用{@link ConversionService}进行字符串内容和目标对象类型的相互转换.
  *
- * <p>By default, this converter supports the media type {@code text/plain} only.
- * This can be overridden through the {@link #setSupportedMediaTypes supportedMediaTypes}
- * property.
+ * <p>默认情况下, 此转换器仅支持媒体类型{@code text/plain}.
+ * 这可以通过{@link #setSupportedMediaTypes supportedMediaTypes}属性覆盖.
  *
- * <p>A usage example:
+ * <p>示例:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.http.converter.ObjectToStringHttpMessageConverter">
@@ -36,19 +34,18 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 
 
 	/**
-	 * A constructor accepting a {@code ConversionService} to use to convert the
-	 * (String) message body to/from the target class type. This constructor uses
-	 * {@link StringHttpMessageConverter#DEFAULT_CHARSET} as the default charset.
-	 * @param conversionService the conversion service
+	 * 使用{@code ConversionService}进行字符串消息正文和目标对象类型的相互转换.
+	 * 此构造函数使用{@link StringHttpMessageConverter#DEFAULT_CHARSET}作为默认字符集.
+	 * 
+	 * @param conversionService 转换服务
 	 */
 	public ObjectToStringHttpMessageConverter(ConversionService conversionService) {
 		this(conversionService, StringHttpMessageConverter.DEFAULT_CHARSET);
 	}
 
 	/**
-	 * A constructor accepting a {@code ConversionService} as well as a default charset.
-	 * @param conversionService the conversion service
-	 * @param defaultCharset the default charset
+	 * @param conversionService 转换服务
+	 * @param defaultCharset 默认字符集
 	 */
 	public ObjectToStringHttpMessageConverter(ConversionService conversionService, Charset defaultCharset) {
 		super(defaultCharset, MediaType.TEXT_PLAIN);
@@ -60,8 +57,8 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 
 
 	/**
-	 * Indicates whether the {@code Accept-Charset} should be written to any outgoing request.
-	 * <p>Default is {@code true}.
+	 * 指示是否应将{@code Accept-Charset}写入任何传出请求.
+	 * <p>默认{@code true}.
 	 */
 	public void setWriteAcceptCharset(boolean writeAcceptCharset) {
 		this.stringHttpMessageConverter.setWriteAcceptCharset(writeAcceptCharset);
@@ -80,7 +77,7 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 
 	@Override
 	protected boolean supports(Class<?> clazz) {
-		// should not be called, since we override canRead/Write
+		// 不应该调用, 因为覆盖了canRead/Write
 		throw new UnsupportedOperationException();
 	}
 

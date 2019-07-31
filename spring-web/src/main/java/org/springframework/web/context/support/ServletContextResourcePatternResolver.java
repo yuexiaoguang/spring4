@@ -19,10 +19,9 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * ServletContext-aware subclass of {@link PathMatchingResourcePatternResolver},
- * able to find matching resources below the web application root directory
- * via {@link ServletContext#getResourcePaths}. Falls back to the superclass'
- * file system checking for other resources.
+ * {@link PathMatchingResourcePatternResolver}的了解ServletContext子类,
+ * 能够通过{@link ServletContext#getResourcePaths}在Web应用程序根目录下查找匹配的资源.
+ * 回退到超类的文件系统, 检查其他资源.
  */
 public class ServletContextResourcePatternResolver extends PathMatchingResourcePatternResolver {
 
@@ -30,17 +29,14 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 
 
 	/**
-	 * Create a new ServletContextResourcePatternResolver.
-	 * @param servletContext the ServletContext to load resources with
+	 * @param servletContext 用于加载资源的ServletContext
 	 */
 	public ServletContextResourcePatternResolver(ServletContext servletContext) {
 		super(new ServletContextResourceLoader(servletContext));
 	}
 
 	/**
-	 * Create a new ServletContextResourcePatternResolver.
-	 * @param resourceLoader the ResourceLoader to load root directories and
-	 * actual resources with
+	 * @param resourceLoader 用于加载根目录和实际资源的ResourceLoader
 	 */
 	public ServletContextResourcePatternResolver(ResourceLoader resourceLoader) {
 		super(resourceLoader);
@@ -48,13 +44,9 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 
 
 	/**
-	 * Overridden version which checks for ServletContextResource
-	 * and uses {@code ServletContext.getResourcePaths} to find
-	 * matching resources below the web application root directory.
-	 * In case of other resources, delegates to the superclass version.
-	 * @see #doRetrieveMatchingServletContextResources
-	 * @see ServletContextResource
-	 * @see javax.servlet.ServletContext#getResourcePaths
+	 * 重写版本, 检查ServletContextResource并使用{@code ServletContext.getResourcePaths}
+	 * 查找Web应用程序根目录下的匹配资源.
+	 * 在其他资源的情况下, 委托给超类版本.
 	 */
 	@Override
 	protected Set<Resource> doFindPathMatchingFileResources(Resource rootDirResource, String subPattern)
@@ -74,16 +66,14 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 	}
 
 	/**
-	 * Recursively retrieve ServletContextResources that match the given pattern,
-	 * adding them to the given result set.
-	 * @param servletContext the ServletContext to work on
-	 * @param fullPattern the pattern to match against,
-	 * with preprended root directory path
-	 * @param dir the current directory
-	 * @param result the Set of matching Resources to add to
-	 * @throws IOException if directory contents could not be retrieved
-	 * @see ServletContextResource
-	 * @see javax.servlet.ServletContext#getResourcePaths
+	 * 递归检索与给定模式匹配的ServletContextResources, 将它们添加到给定的结果集中.
+	 * 
+	 * @param servletContext 要处理的ServletContext
+	 * @param fullPattern 与预先渲染的根目录路径匹配的模式
+	 * @param dir 当前目录
+	 * @param result 要添加的匹配资源集
+	 * 
+	 * @throws IOException 如果无法检索目录内容
 	 */
 	protected void doRetrieveMatchingServletContextResources(
 			ServletContext servletContext, String fullPattern, String dir, Set<Resource> result)
@@ -101,8 +91,7 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 			}
 			for (String currPath : candidates) {
 				if (!currPath.startsWith(dir)) {
-					// Returned resource path does not start with relative directory:
-					// assuming absolute path returned -> strip absolute path.
+					// 返回的资源路径不以相对目录开头: 假设返回绝对路径  -> 剥离绝对路径.
 					int dirIndex = currPath.indexOf(dir);
 					if (dirIndex != -1) {
 						currPath = currPath.substring(dirIndex);
@@ -110,12 +99,11 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 				}
 				if (currPath.endsWith("/") && (dirDepthNotFixed || StringUtils.countOccurrencesOf(currPath, "/") <=
 						StringUtils.countOccurrencesOf(fullPattern, "/"))) {
-					// Search subdirectories recursively: ServletContext.getResourcePaths
-					// only returns entries for one directory level.
+					// 递归搜索子目录: ServletContext.getResourcePaths 仅返回一个目录级别的条目.
 					doRetrieveMatchingServletContextResources(servletContext, fullPattern, currPath, result);
 				}
 				if (jarFilePath != null && getPathMatcher().match(jarFilePath, currPath)) {
-					// Base pattern matches a jar file - search for matching entries within.
+					// 基本模式匹配jar文件 - 搜索匹配的条目.
 					String absoluteJarPath = servletContext.getRealPath(currPath);
 					if (absoluteJarPath != null) {
 						doRetrieveMatchingJarEntries(absoluteJarPath, pathInJarFile, result);
@@ -129,10 +117,11 @@ public class ServletContextResourcePatternResolver extends PathMatchingResourceP
 	}
 
 	/**
-	 * Extract entries from the given jar by pattern.
-	 * @param jarFilePath the path to the jar file
-	 * @param entryPattern the pattern for jar entries to match
-	 * @param result the Set of matching Resources to add to
+	 * 按模式从给定jar中提取条目.
+	 * 
+	 * @param jarFilePath jar文件的路径
+	 * @param entryPattern 匹配jar条目的模式
+	 * @param result 要添加的匹配资源集
 	 */
 	private void doRetrieveMatchingJarEntries(String jarFilePath, String entryPattern, Set<Resource> result) {
 		if (logger.isDebugEnabled()) {

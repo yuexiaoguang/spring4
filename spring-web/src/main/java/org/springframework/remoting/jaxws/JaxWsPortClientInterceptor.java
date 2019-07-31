@@ -31,13 +31,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.aopalliance.intercept.MethodInterceptor} for accessing a
- * specific port of a JAX-WS service. Compatible with JAX-WS 2.1 and 2.2,
- * as included in JDK 6 update 4+ and Java 7/8.
+ * 用于访问JAX-WS服务的特定端口的{@link org.aopalliance.intercept.MethodInterceptor}.
+ * 兼容JAX-WS 2.1和2.2, 包含在JDK 6 update 4+和Java 7/8中.
  *
- * <p>Uses either {@link LocalJaxWsServiceFactory}'s facilities underneath,
- * or takes an explicit reference to an existing JAX-WS Service instance
- * (e.g. obtained via {@link org.springframework.jndi.JndiObjectFactoryBean}).
+ * <p>使用下面的{@link LocalJaxWsServiceFactory}工具, 或者显式引用现有的JAX-WS服务实例
+ * (e.g. 通过{@link org.springframework.jndi.JndiObjectFactoryBean}获取).
  */
 public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 		implements MethodInterceptor, BeanClassLoaderAware, InitializingBean {
@@ -78,146 +76,131 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 
 
 	/**
-	 * Set a reference to an existing JAX-WS Service instance,
-	 * for example obtained via {@link org.springframework.jndi.JndiObjectFactoryBean}.
-	 * If not set, {@link LocalJaxWsServiceFactory}'s properties have to be specified.
-	 * @see #setWsdlDocumentUrl
-	 * @see #setNamespaceUri
-	 * @see #setServiceName
-	 * @see org.springframework.jndi.JndiObjectFactoryBean
+	 * 设置对现有JAX-WS服务实例的引用, 例如通过{@link org.springframework.jndi.JndiObjectFactoryBean}获取.
+	 * 如果未设置, 则必须指定{@link LocalJaxWsServiceFactory}的属性.
 	 */
 	public void setJaxWsService(Service jaxWsService) {
 		this.jaxWsService = jaxWsService;
 	}
 
 	/**
-	 * Return a reference to an existing JAX-WS Service instance, if any.
+	 * 返回对现有JAX-WS服务实例的引用.
 	 */
 	public Service getJaxWsService() {
 		return this.jaxWsService;
 	}
 
 	/**
-	 * Set the name of the port.
-	 * Corresponds to the "wsdl:port" name.
+	 * 设置端口的名称.
+	 * 对应于 "wsdl:port"名称.
 	 */
 	public void setPortName(String portName) {
 		this.portName = portName;
 	}
 
 	/**
-	 * Return the name of the port.
+	 * 返回端口的名称.
 	 */
 	public String getPortName() {
 		return this.portName;
 	}
 
 	/**
-	 * Set the username to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#USERNAME_PROPERTY
+	 * 设置要在存根上指定的用户名.
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
-	 * Return the username to specify on the stub.
+	 * 返回要在存根上指定的用户名.
 	 */
 	public String getUsername() {
 		return this.username;
 	}
 
 	/**
-	 * Set the password to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#PASSWORD_PROPERTY
+	 * 设置在存根上指定的密码.
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * Return the password to specify on the stub.
+	 * 返回在存根上指定的密码.
 	 */
 	public String getPassword() {
 		return this.password;
 	}
 
 	/**
-	 * Set the endpoint address to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#ENDPOINT_ADDRESS_PROPERTY
+	 * 设置要在存根上指定的端点地址.
 	 */
 	public void setEndpointAddress(String endpointAddress) {
 		this.endpointAddress = endpointAddress;
 	}
 
 	/**
-	 * Return the endpoint address to specify on the stub.
+	 * 返回要在存根上指定的端点地址.
 	 */
 	public String getEndpointAddress() {
 		return this.endpointAddress;
 	}
 
 	/**
-	 * Set the "session.maintain" flag to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#SESSION_MAINTAIN_PROPERTY
+	 * 设置在存根上指定的"session.maintain"标志.
 	 */
 	public void setMaintainSession(boolean maintainSession) {
 		this.maintainSession = maintainSession;
 	}
 
 	/**
-	 * Return the "session.maintain" flag to specify on the stub.
+	 * 返回在存根上指定的"session.maintain"标志.
 	 */
 	public boolean isMaintainSession() {
 		return this.maintainSession;
 	}
 
 	/**
-	 * Set the "soapaction.use" flag to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#SOAPACTION_USE_PROPERTY
+	 * 设置在存根上指定的"soapaction.use"标志.
 	 */
 	public void setUseSoapAction(boolean useSoapAction) {
 		this.useSoapAction = useSoapAction;
 	}
 
 	/**
-	 * Return the "soapaction.use" flag to specify on the stub.
+	 * 返回在存根上指定的"soapaction.use"标志.
 	 */
 	public boolean isUseSoapAction() {
 		return this.useSoapAction;
 	}
 
 	/**
-	 * Set the SOAP action URI to specify on the stub.
-	 * @see javax.xml.ws.BindingProvider#SOAPACTION_URI_PROPERTY
+	 * 设置要在存根上指定的SOAP操作URI.
 	 */
 	public void setSoapActionUri(String soapActionUri) {
 		this.soapActionUri = soapActionUri;
 	}
 
 	/**
-	 * Return the SOAP action URI to specify on the stub.
+	 * 返回要在存根上指定的SOAP操作URI.
 	 */
 	public String getSoapActionUri() {
 		return this.soapActionUri;
 	}
 
 	/**
-	 * Set custom properties to be set on the stub.
-	 * <p>Can be populated with a String "value" (parsed via PropertiesEditor)
-	 * or a "props" element in XML bean definitions.
-	 * @see javax.xml.ws.BindingProvider#getRequestContext()
+	 * 设置要在存根上设置的自定义属性.
+	 * <p>可以使用String "value" (通过PropertiesEditor解析)或XML bean定义中的"props"元素填充.
 	 */
 	public void setCustomProperties(Map<String, Object> customProperties) {
 		this.customProperties = customProperties;
 	}
 
 	/**
-	 * Allow Map access to the custom properties to be set on the stub,
-	 * with the option to add or override specific entries.
-	 * <p>Useful for specifying entries directly, for example via
-	 * "customProperties[myKey]". This is particularly useful for
-	 * adding or overriding entries in child bean definitions.
+	 * 允许对存根上的自定义属性进行Map访问, 并提供添加或覆盖特定条目的选项.
+	 * <p>用于直接指定条目, 例如通过"customProperties[myKey]".
+	 * 这对于在子bean定义中添加或覆盖条目特别有用.
 	 */
 	public Map<String, Object> getCustomProperties() {
 		if (this.customProperties == null) {
@@ -227,36 +210,29 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Add a custom property to this JAX-WS BindingProvider.
-	 * @param name the name of the attribute to expose
-	 * @param value the attribute value to expose
-	 * @see javax.xml.ws.BindingProvider#getRequestContext()
+	 * 将自定义属性添加到此JAX-WS BindingProvider.
+	 * 
+	 * @param name 要公开的属性的名称
+	 * @param value 要公开的属性值
 	 */
 	public void addCustomProperty(String name, Object value) {
 		getCustomProperties().put(name, value);
 	}
 
 	/**
-	 * Specify WebServiceFeature objects (e.g. as inner bean definitions)
-	 * to apply to JAX-WS port stub creation.
-	 * @since 4.0
-	 * @see Service#getPort(Class, javax.xml.ws.WebServiceFeature...)
-	 * @see #setServiceFeatures
+	 * 指定要应用于JAX-WS端口存根创建的WebServiceFeature对象 (e.g. 作为内部bean定义).
 	 */
 	public void setPortFeatures(WebServiceFeature... features) {
 		this.portFeatures = features;
 	}
 
 	/**
-	 * Specify WebServiceFeature specifications for the JAX-WS port stub:
-	 * in the form of actual {@link javax.xml.ws.WebServiceFeature} objects,
-	 * WebServiceFeature Class references, or WebServiceFeature class names.
-	 * <p>As of Spring 4.0, this is effectively just an alternative way of
-	 * specifying {@link #setPortFeatures "portFeatures"}. Do not specify
-	 * both properties at the same time; prefer "portFeatures" moving forward.
-	 * @deprecated as of Spring 4.0, in favor of the differentiated
-	 * {@link #setServiceFeatures "serviceFeatures"} and
-	 * {@link #setPortFeatures "portFeatures"} properties
+	 * 为JAX-WS端口存根指定WebServiceFeature规范:
+	 * 以实际的{@link javax.xml.ws.WebServiceFeature}对象, WebServiceFeature Class引用, 或WebServiceFeature类名的形式.
+	 * <p>从Spring 4.0开始, 这实际上只是指定{@link #setPortFeatures "portFeatures"}的另一种方法.
+	 * 不要同时指定这两个属性; 更喜欢"portFeatures".
+	 * 
+	 * @deprecated as of Spring 4.0, in favor of the differentiated {@link #setServiceFeatures "serviceFeatures"} and {@link #setPortFeatures "portFeatures"} properties
 	 */
 	@Deprecated
 	public void setWebServiceFeatures(Object[] webServiceFeatures) {
@@ -264,7 +240,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Set the interface of the service that this factory should create a proxy for.
+	 * 设置此工厂应为其创建代理的服务的接口.
 	 */
 	public void setServiceInterface(Class<?> serviceInterface) {
 		if (serviceInterface != null && !serviceInterface.isInterface()) {
@@ -274,27 +250,25 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return the interface of the service that this factory should create a proxy for.
+	 * 返回此工厂应为其创建代理的服务的接口.
 	 */
 	public Class<?> getServiceInterface() {
 		return this.serviceInterface;
 	}
 
 	/**
-	 * Set whether to look up the JAX-WS service on startup.
-	 * <p>Default is "true". Turn this flag off to allow for late start
-	 * of the target server. In this case, the JAX-WS service will be
-	 * lazily fetched on first access.
+	 * 设置是否在启动时查找JAX-WS服务.
+	 * <p>默认"true". 关闭此标志以允许目标服务器延迟启动.
+	 * 在这种情况下, JAX-WS服务将在首次访问时延迟获取.
 	 */
 	public void setLookupServiceOnStartup(boolean lookupServiceOnStartup) {
 		this.lookupServiceOnStartup = lookupServiceOnStartup;
 	}
 
 	/**
-	 * Set the bean ClassLoader to use for this interceptor:
-	 * for resolving WebServiceFeature class names as specified through
-	 * {@link #setWebServiceFeatures}, and also for building a client
-	 * proxy in the {@link JaxWsPortProxyFactoryBean} subclass.
+	 * 设置用于此拦截器的bean ClassLoader:
+	 * 用于解析通过{@link #setWebServiceFeatures}指定的WebServiceFeature类名,
+	 * 以及用于在{@link JaxWsPortProxyFactoryBean}子类中构建客户端代理.
 	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
@@ -302,7 +276,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return the bean ClassLoader to use for this interceptor.
+	 * 返回用于此拦截器的bean ClassLoader.
 	 */
 	protected ClassLoader getBeanClassLoader() {
 		return this.beanClassLoader;
@@ -317,7 +291,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Initialize the JAX-WS port for this interceptor.
+	 * 初始化此拦截器的JAX-WS端口.
 	 */
 	public void prepare() {
 		Class<?> ifc = getServiceInterface();
@@ -339,11 +313,11 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Initialize this client interceptor's properties from the given WebService annotation,
-	 * if necessary and possible (i.e. if "wsdlDocumentUrl", "namespaceUri", "serviceName"
-	 * and "portName" haven't been set but corresponding values are declared at the
-	 * annotation level of the specified service interface).
-	 * @param ann the WebService annotation found on the specified service interface
+	 * 如有必要, 可以从给定的WebService注解初始化此客户端拦截器的属性
+	 * (i.e. 如果尚未设置"wsdlDocumentUrl", "namespaceUri", "serviceName"和 "portName",
+	 * 但在指定的服务接口的注解级别声明了相应的值).
+	 * 
+	 * @param ann 在指定的服务接口上找到的WebService注解
 	 */
 	protected void applyDefaultsFromAnnotation(WebService ann) {
 		if (getWsdlDocumentUrl() == null) {
@@ -379,8 +353,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return whether this client interceptor has already been prepared,
-	 * i.e. has already looked up the JAX-WS service and port.
+	 * 返回是否已经准备好此客户端拦截器, i.e. 已经查找了JAX-WS服务和端口.
 	 */
 	protected boolean isPrepared() {
 		synchronized (this.preparationMonitor) {
@@ -389,20 +362,19 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return the prepared QName for the port.
-	 * @see #setPortName
-	 * @see #getQName
+	 * 返回端口的准备好的QName.
 	 */
 	protected final QName getPortQName() {
 		return this.portQName;
 	}
 
 	/**
-	 * Obtain the port stub from the given JAX-WS Service.
-	 * @param service the Service object to obtain the port from
-	 * @param portQName the name of the desired port, if specified
-	 * @return the corresponding port object as returned from
-	 * {@code Service.getPort(...)}
+	 * 从给定的JAX-WS服务获取端口存根.
+	 * 
+	 * @param service 从中获取端口的Service对象
+	 * @param portQName 所需端口的名称
+	 * 
+	 * @return 从{@code Service.getPort(...)}返回的相应端口对象
 	 */
 	protected Object getPortStub(Service service, QName portQName) {
 		if (this.portFeatures != null || this.webServiceFeatures != null) {
@@ -423,10 +395,11 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Convert the given feature specification object to a WebServiceFeature instance
-	 * @param feature the feature specification object, as passed into the
-	 * {@link #setWebServiceFeatures "webServiceFeatures"} bean property
-	 * @return the WebServiceFeature instance (never {@code null})
+	 * 将给定的功能规范对象转换为WebServiceFeature实例
+	 * 
+	 * @param feature 功能规范对象, 传递到{@link #setWebServiceFeatures "webServiceFeatures"} bean属性
+	 * 
+	 * @return WebServiceFeature实例 (never {@code null})
 	 */
 	private WebServiceFeature convertWebServiceFeature(Object feature) {
 		Assert.notNull(feature, "WebServiceFeature specification object must not be null");
@@ -451,14 +424,10 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Prepare the given JAX-WS port stub, applying properties to it.
-	 * Called by {@link #prepare}.
-	 * @param stub the current JAX-WS port stub
-	 * @see #setUsername
-	 * @see #setPassword
-	 * @see #setEndpointAddress
-	 * @see #setMaintainSession
-	 * @see #setCustomProperties
+	 * 准备给定的JAX-WS端口存根, 向其应用属性.
+	 * 由{@link #prepare}调用.
+	 * 
+	 * @param stub 当前的JAX-WS端口存根
 	 */
 	protected void preparePortStub(Object stub) {
 		Map<String, Object> stubProperties = new HashMap<String, Object>();
@@ -495,8 +464,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return the underlying JAX-WS port stub that this interceptor delegates to
-	 * for each method invocation on the proxy.
+	 * 返回此拦截器为代理上的每个方法调用委托给的底层JAX-WS端口存根.
 	 */
 	protected Object getPortStub() {
 		return this.portStub;
@@ -518,12 +486,12 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Perform a JAX-WS service invocation based on the given method invocation.
-	 * @param invocation the AOP method invocation
-	 * @return the invocation result, if any
-	 * @throws Throwable in case of invocation failure
-	 * @see #getPortStub()
-	 * @see #doInvoke(org.aopalliance.intercept.MethodInvocation, Object)
+	 * 基于给定的方法调用执行JAX-WS服务调用.
+	 * 
+	 * @param invocation AOP方法调用
+	 * 
+	 * @return 调用结果
+	 * @throws Throwable 如果调用失败
 	 */
 	protected Object doInvoke(MethodInvocation invocation) throws Throwable {
 		try {
@@ -543,12 +511,13 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Perform a JAX-WS service invocation on the given port stub.
-	 * @param invocation the AOP method invocation
-	 * @param portStub the RMI port stub to invoke
-	 * @return the invocation result, if any
-	 * @throws Throwable in case of invocation failure
-	 * @see #getPortStub()
+	 * 在给定的端口存根上执行JAX-WS服务调用.
+	 * 
+	 * @param invocation AOP方法调用
+	 * @param portStub 要调用的RMI端口存根
+	 * 
+	 * @return 调用结果
+	 * @throws Throwable 如果调用失败
 	 */
 	protected Object doInvoke(MethodInvocation invocation, Object portStub) throws Throwable {
 		Method method = invocation.getMethod();

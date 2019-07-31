@@ -4,14 +4,11 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
 /**
- * Abstract {@link Scope} implementation that reads from a particular scope
- * in the current thread-bound {@link RequestAttributes} object.
+ * 抽象{@link Scope}实现, 它从当前线程绑定的{@link RequestAttributes}对象中的特定范围读取.
  *
- * <p>Subclasses simply need to implement {@link #getScope()} to instruct
- * this class which {@link RequestAttributes} scope to read attributes from.
+ * <p>子类只需要实现{@link #getScope()}来指示从中读取属性的此类的{@link RequestAttributes}范围.
  *
- * <p>Subclasses may wish to override the {@link #get} and {@link #remove}
- * methods to add synchronization around the call back into this super class.
+ * <p>子类可能希望覆盖{@link #get}和{@link #remove}方法, 以便将回调周围的同步添加到此超类中.
  */
 public abstract class AbstractRequestAttributesScope implements Scope {
 
@@ -22,12 +19,12 @@ public abstract class AbstractRequestAttributesScope implements Scope {
 		if (scopedObject == null) {
 			scopedObject = objectFactory.getObject();
 			attributes.setAttribute(name, scopedObject, getScope());
-			// Retrieve object again, registering it for implicit session attribute updates.
-			// As a bonus, we also allow for potential decoration at the getAttribute level.
+			// 再次检索对象, 将其注册为隐式会话属性更新.
+			// 作为奖励, 还允许在getAttribute级别进行潜在装饰.
 			Object retrievedObject = attributes.getAttribute(name, getScope());
 			if (retrievedObject != null) {
-				// Only proceed with retrieved object if still present (the expected case).
-				// If it disappeared concurrently, we return our locally created instance.
+				// 如果仍然存在, 则仅继续检索到的对象 (预期的情况).
+				// 如果它同时消失, 返回本地创建的实例.
 				scopedObject = retrievedObject;
 			}
 		}
@@ -61,12 +58,9 @@ public abstract class AbstractRequestAttributesScope implements Scope {
 
 
 	/**
-	 * Template method that determines the actual target scope.
-	 * @return the target scope, in the form of an appropriate
-	 * {@link RequestAttributes} constant
-	 * @see RequestAttributes#SCOPE_REQUEST
-	 * @see RequestAttributes#SCOPE_SESSION
-	 * @see RequestAttributes#SCOPE_GLOBAL_SESSION
+	 * 用于确定实际目标范围的模板方法.
+	 * 
+	 * @return 目标范围, 以适当的{@link RequestAttributes}常量的形式
 	 */
 	protected abstract int getScope();
 

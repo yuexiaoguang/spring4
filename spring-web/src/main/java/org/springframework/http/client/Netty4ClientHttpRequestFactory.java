@@ -26,20 +26,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.http.client.ClientHttpRequestFactory} implementation
- * that uses <a href="http://netty.io/">Netty 4</a> to create requests.
+ * {@link org.springframework.http.client.ClientHttpRequestFactory}实现,
+ * 使用<a href="http://netty.io/">Netty 4</a>创建请求.
  *
- * <p>Allows to use a pre-configured {@link EventLoopGroup} instance: useful for
- * sharing across multiple clients.
+ * <p>允许使用预先配置的{@link EventLoopGroup}实例: 对于跨多个客户端共享很有用.
  *
- * <p>Note that this implementation consistently closes the HTTP connection on each
- * request.
+ * <p>请注意, 此实现始终关闭每个请求的HTTP连接.
  */
 public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 		AsyncClientHttpRequestFactory, InitializingBean, DisposableBean {
 
 	/**
-	 * The default maximum response size.
+	 * 默认的最大响应大小.
 	 */
 	public static final int DEFAULT_MAX_RESPONSE_SIZE = 1024 * 1024 * 10;
 
@@ -59,10 +57,6 @@ public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 	private volatile Bootstrap bootstrap;
 
 
-	/**
-	 * Create a new {@code Netty4ClientHttpRequestFactory} with a default
-	 * {@link NioEventLoopGroup}.
-	 */
 	public Netty4ClientHttpRequestFactory() {
 		int ioWorkerCount = Runtime.getRuntime().availableProcessors() * 2;
 		this.eventLoopGroup = new NioEventLoopGroup(ioWorkerCount);
@@ -70,11 +64,8 @@ public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 	}
 
 	/**
-	 * Create a new {@code Netty4ClientHttpRequestFactory} with the given
-	 * {@link EventLoopGroup}.
-	 * <p><b>NOTE:</b> the given group will <strong>not</strong> be
-	 * {@linkplain EventLoopGroup#shutdownGracefully() shutdown} by this factory;
-	 * doing so becomes the responsibility of the caller.
+	 * <p><b>NOTE:</b> 该工厂<strong>不会</strong> {@linkplain EventLoopGroup#shutdownGracefully() 关闭}组;
+	 * 这样做成为调用者的责任.
 	 */
 	public Netty4ClientHttpRequestFactory(EventLoopGroup eventLoopGroup) {
 		Assert.notNull(eventLoopGroup, "EventLoopGroup must not be null");
@@ -84,37 +75,32 @@ public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 
 
 	/**
-	 * Set the default maximum response size.
-	 * <p>By default this is set to {@link #DEFAULT_MAX_RESPONSE_SIZE}.
-	 * @see HttpObjectAggregator#HttpObjectAggregator(int)
-	 * @since 4.1.5
+	 * 设置默认的最大响应大小.
+	 * <p>默认{@link #DEFAULT_MAX_RESPONSE_SIZE}.
 	 */
 	public void setMaxResponseSize(int maxResponseSize) {
 		this.maxResponseSize = maxResponseSize;
 	}
 
 	/**
-	 * Set the SSL context. When configured it is used to create and insert an
-	 * {@link io.netty.handler.ssl.SslHandler} in the channel pipeline.
-	 * <p>A default client SslContext is configured if none has been provided.
+	 * 设置SSL上下文. 配置后, 它用于在通道管道中创建和插入{@link io.netty.handler.ssl.SslHandler}.
+	 * <p>如果未提供任何客户端, 则配置默认客户端SslContext.
 	 */
 	public void setSslContext(SslContext sslContext) {
 		this.sslContext = sslContext;
 	}
 
 	/**
-	 * Set the underlying connect timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * @see ChannelConfig#setConnectTimeoutMillis(int)
+	 * 设置底层连接超时 (以毫秒为单位).
+	 * 值0指定无限超时.
 	 */
 	public void setConnectTimeout(int connectTimeout) {
 		this.connectTimeout = connectTimeout;
 	}
 
 	/**
-	 * Set the underlying URLConnection's read timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * @see ReadTimeoutHandler
+	 * 设置底层URLConnection的读取超时 (以毫秒为单位).
+	 * 值0指定无限超时.
 	 */
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
@@ -189,9 +175,10 @@ public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 	}
 
 	/**
-	 * Template method for changing properties on the given {@link SocketChannelConfig}.
-	 * <p>The default implementation sets the connect timeout based on the set property.
-	 * @param config the channel configuration
+	 * 用于更改给定{@link SocketChannelConfig}的属性的模板方法.
+	 * <p>默认实现基于set属性设置连接超时.
+	 * 
+	 * @param config 通道配置
 	 */
 	protected void configureChannel(SocketChannelConfig config) {
 		if (this.connectTimeout >= 0) {
@@ -203,7 +190,7 @@ public class Netty4ClientHttpRequestFactory implements ClientHttpRequestFactory,
 	@Override
 	public void destroy() throws InterruptedException {
 		if (this.defaultEventLoopGroup) {
-			// Clean up the EventLoopGroup if we created it in the constructor
+			// 如果在构造函数中创建它, 清理EventLoopGroup
 			this.eventLoopGroup.shutdownGracefully().sync();
 		}
 	}

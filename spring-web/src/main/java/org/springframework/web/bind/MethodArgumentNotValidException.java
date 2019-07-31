@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 /**
- * Exception to be thrown when validation on an argument annotated with {@code @Valid} fails.
+ * 对使用 {@code @Valid}注解的参数验证失败时抛出的异常.
  */
 @SuppressWarnings("serial")
 public class MethodArgumentNotValidException extends Exception {
@@ -16,9 +16,8 @@ public class MethodArgumentNotValidException extends Exception {
 
 
 	/**
-	 * Constructor for {@link MethodArgumentNotValidException}.
-	 * @param parameter the parameter that failed validation
-	 * @param bindingResult the results of the validation
+	 * @param parameter 验证失败的参数
+	 * @param bindingResult 验证的结果
 	 */
 	public MethodArgumentNotValidException(MethodParameter parameter, BindingResult bindingResult) {
 		this.parameter = parameter;
@@ -26,14 +25,14 @@ public class MethodArgumentNotValidException extends Exception {
 	}
 
 	/**
-	 * Return the method parameter that failed validation.
+	 * 返回验证失败的方法参数.
 	 */
 	public MethodParameter getParameter() {
 		return this.parameter;
 	}
 
 	/**
-	 * Return the results of the failed validation.
+	 * 返回失败验证的结果.
 	 */
 	public BindingResult getBindingResult() {
 		return this.bindingResult;

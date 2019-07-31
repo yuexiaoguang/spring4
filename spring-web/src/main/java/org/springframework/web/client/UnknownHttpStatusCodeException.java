@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 /**
- * Exception thrown when an unknown (or custom) HTTP status code is received.
+ * 收到未知(或自定义) HTTP状态码时抛出的异常.
  */
 public class UnknownHttpStatusCodeException extends RestClientResponseException {
 
@@ -14,13 +14,11 @@ public class UnknownHttpStatusCodeException extends RestClientResponseException 
 
 
 	/**
-	 * Construct a new instance of {@code HttpStatusCodeException} based on an
-	 * {@link HttpStatus}, status text, and response body content.
-	 * @param rawStatusCode the raw status code value
-	 * @param statusText the status text
-	 * @param responseHeaders the response headers (may be {@code null})
-	 * @param responseBody the response body content (may be {@code null})
-	 * @param responseCharset the response body charset (may be {@code null})
+	 * @param rawStatusCode 原始状态码值
+	 * @param statusText 状态文本
+	 * @param responseHeaders 响应headers (may be {@code null})
+	 * @param responseBody 响应主体内容 (may be {@code null})
+	 * @param responseCharset 响应主体字符集 (may be {@code null})
 	 */
 	public UnknownHttpStatusCodeException(int rawStatusCode, String statusText,
 			HttpHeaders responseHeaders, byte[] responseBody, Charset responseCharset) {

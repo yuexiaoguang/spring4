@@ -12,11 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can read and write strings.
+ * {@link HttpMessageConverter}的实现, 可以读写字符串.
  *
- * <p>By default, this converter supports all media types ({@code &#42;&#47;&#42;}),
- * and writes with a {@code Content-Type} of {@code text/plain}. This can be overridden
- * by setting the {@link #setSupportedMediaTypes supportedMediaTypes} property.
+ * <p>默认情况下, 此转换器支持所有媒体类型 ({@code &#42;&#47;&#42;}), 并使用{@code text/plain}的{@code Content-Type}进行写入.
+ * 这可以通过设置{@link #setSupportedMediaTypes supportedMediaTypes}属性来覆盖.
  */
 public class StringHttpMessageConverter extends AbstractHttpMessageConverter<String> {
 
@@ -28,16 +27,12 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 	private boolean writeAcceptCharset = true;
 
 
-	/**
-	 * A default constructor that uses {@code "ISO-8859-1"} as the default charset.
-	 */
 	public StringHttpMessageConverter() {
 		this(DEFAULT_CHARSET);
 	}
 
 	/**
-	 * A constructor accepting a default charset to use if the requested content
-	 * type does not specify one.
+	 * 接受默认字符集的构造函数, 如果请求的内容类型未指定, 则使用该字符集.
 	 */
 	public StringHttpMessageConverter(Charset defaultCharset) {
 		super(defaultCharset, MediaType.TEXT_PLAIN, MediaType.ALL);
@@ -45,8 +40,8 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 
 
 	/**
-	 * Indicates whether the {@code Accept-Charset} should be written to any outgoing request.
-	 * <p>Default is {@code true}.
+	 * 指示是否应将{@code Accept-Charset}写入任何传出请求.
+	 * <p>默认{@code true}.
 	 */
 	public void setWriteAcceptCharset(boolean writeAcceptCharset) {
 		this.writeAcceptCharset = writeAcceptCharset;
@@ -87,10 +82,11 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 
 
 	/**
-	 * Return the list of supported {@link Charset}s.
-	 * <p>By default, returns {@link Charset#availableCharsets()}.
-	 * Can be overridden in subclasses.
-	 * @return the list of accepted charsets
+	 * 返回支持的{@link Charset}列表.
+	 * <p>默认{@link Charset#availableCharsets()}.
+	 * 可以在子类中重写.
+	 * 
+	 * @return 已接受的字符集列表
 	 */
 	protected List<Charset> getAcceptedCharsets() {
 		if (this.availableCharsets == null) {

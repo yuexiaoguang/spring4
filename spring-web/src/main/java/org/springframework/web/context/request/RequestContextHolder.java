@@ -7,17 +7,12 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.util.ClassUtils;
 
 /**
- * Holder class to expose the web request in the form of a thread-bound
- * {@link RequestAttributes} object. The request will be inherited
- * by any child threads spawned by the current thread if the
- * {@code inheritable} flag is set to {@code true}.
+ * Holder类以线程绑定的{@link RequestAttributes}对象的形式公开Web请求.
+ * 如果{@code inheritable}标志设置为{@code true}, 则当前线程生成的任何子线程将继承该请求.
  *
- * <p>Use {@link RequestContextListener} or
- * {@link org.springframework.web.filter.RequestContextFilter} to expose
- * the current web request. Note that
- * {@link org.springframework.web.servlet.DispatcherServlet} and
- * {@link org.springframework.web.portlet.DispatcherPortlet} already
- * expose the current request by default.
+ * <p>使用{@link RequestContextListener}或{@link org.springframework.web.filter.RequestContextFilter}公开当前的Web请求.
+ * 请注意, {@link org.springframework.web.servlet.DispatcherServlet}
+ * 和{@link org.springframework.web.portlet.DispatcherPortlet}已默认公开当前请求.
  */
 public abstract class RequestContextHolder  {
 
@@ -32,7 +27,7 @@ public abstract class RequestContextHolder  {
 
 
 	/**
-	 * Reset the RequestAttributes for the current thread.
+	 * 重置当前线程的RequestAttributes.
 	 */
 	public static void resetRequestAttributes() {
 		requestAttributesHolder.remove();
@@ -40,21 +35,19 @@ public abstract class RequestContextHolder  {
 	}
 
 	/**
-	 * Bind the given RequestAttributes to the current thread,
-	 * <i>not</i> exposing it as inheritable for child threads.
-	 * @param attributes the RequestAttributes to expose
-	 * @see #setRequestAttributes(RequestAttributes, boolean)
+	 * 将给定的RequestAttributes绑定到当前线程, <i>不</i>将其公开为子线程可继承.
+	 * 
+	 * @param attributes 要公开的RequestAttributes
 	 */
 	public static void setRequestAttributes(RequestAttributes attributes) {
 		setRequestAttributes(attributes, false);
 	}
 
 	/**
-	 * Bind the given RequestAttributes to the current thread.
-	 * @param attributes the RequestAttributes to expose,
-	 * or {@code null} to reset the thread-bound context
-	 * @param inheritable whether to expose the RequestAttributes as inheritable
-	 * for child threads (using an {@link InheritableThreadLocal})
+	 * 将给定的RequestAttributes绑定到当前线程.
+	 * 
+	 * @param attributes 要公开的RequestAttributes, 或{@code null}以重置线程绑定上下文
+	 * @param inheritable 是否将RequestAttributes公开为子线程可继承(使用{@link InheritableThreadLocal})
 	 */
 	public static void setRequestAttributes(RequestAttributes attributes, boolean inheritable) {
 		if (attributes == null) {
@@ -73,9 +66,9 @@ public abstract class RequestContextHolder  {
 	}
 
 	/**
-	 * Return the RequestAttributes currently bound to the thread.
-	 * @return the RequestAttributes currently bound to the thread,
-	 * or {@code null} if none bound
+	 * 返回当前绑定到该线程的RequestAttributes.
+	 * 
+	 * @return 当前绑定到线程的 RequestAttributes, 或{@code null}
 	 */
 	public static RequestAttributes getRequestAttributes() {
 		RequestAttributes attributes = requestAttributesHolder.get();
@@ -86,16 +79,11 @@ public abstract class RequestContextHolder  {
 	}
 
 	/**
-	 * Return the RequestAttributes currently bound to the thread.
-	 * <p>Exposes the previously bound RequestAttributes instance, if any.
-	 * Falls back to the current JSF FacesContext, if any.
-	 * @return the RequestAttributes currently bound to the thread
-	 * @throws IllegalStateException if no RequestAttributes object
-	 * is bound to the current thread
-	 * @see #setRequestAttributes
-	 * @see ServletRequestAttributes
-	 * @see FacesRequestAttributes
-	 * @see javax.faces.context.FacesContext#getCurrentInstance()
+	 * 返回当前绑定到该线程的RequestAttributes.
+	 * <p>公开先前绑定的RequestAttributes实例. 如果有的话, 回退到当前的JSF FacesContext.
+	 * 
+	 * @return 当前绑定到该线程的RequestAttributes
+	 * @throws IllegalStateException 如果没有RequestAttributes对象绑定到当前线程
 	 */
 	public static RequestAttributes currentRequestAttributes() throws IllegalStateException {
 		RequestAttributes attributes = getRequestAttributes();
@@ -117,7 +105,7 @@ public abstract class RequestContextHolder  {
 
 
 	/**
-	 * Inner class to avoid hard-coded JSF dependency.
+	 * 内部类, 以避免硬编码的JSF依赖.
  	 */
 	private static class FacesRequestAttributesFactory {
 

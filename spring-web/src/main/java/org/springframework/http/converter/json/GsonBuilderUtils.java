@@ -13,21 +13,17 @@ import com.google.gson.JsonSerializer;
 import org.springframework.util.Base64Utils;
 
 /**
- * A simple utility class for obtaining a Google Gson 2.x {@link GsonBuilder}
- * which Base64-encodes {@code byte[]} properties when reading and writing JSON.
+ * 一个简单的实用工具类, 用于在读取和编写JSON时获取Google Gson 2.x {@link GsonBuilder},
+ * 其中Base64编码{@code byte[]}属性.
  */
 public abstract class GsonBuilderUtils {
 
 	/**
-	 * Obtain a {@link GsonBuilder} which Base64-encodes {@code byte[]}
-	 * properties when reading and writing JSON.
-	 * <p>A custom {@link com.google.gson.TypeAdapter} will be registered via
-	 * {@link GsonBuilder#registerTypeHierarchyAdapter(Class, Object)} which
-	 * serializes a {@code byte[]} property to and from a Base64-encoded String
-	 * instead of a JSON array.
-	 * <p><strong>NOTE:</strong> Use of this option requires the presence of the
-	 * Apache Commons Codec library on the classpath when running on Java 6 or 7.
-	 * On Java 8, the standard {@link java.util.Base64} facility is used instead.
+	 * 在读取和编写JSON时获取{@link GsonBuilder}, 它将Base64编码{@code byte[]}属性.
+	 * <p>自定义{@link com.google.gson.TypeAdapter}将通过{@link GsonBuilder#registerTypeHierarchyAdapter(Class, Object)}注册,
+	 * 将{@code byte[]}属性序列化为Base64编码的字符串, 或将Base64编码的字符串反序列化为{@code byte[]}.
+	 * <p><strong>NOTE:</strong> 使用此选项在Java 6或7上运行时需要Apache Commons Codec库.
+	 * 在Java 8上, 使用标准的{@link java.util.Base64}工具.
 	 */
 	public static GsonBuilder gsonBuilderWithBase64EncodedByteArrays() {
 		GsonBuilder builder = new GsonBuilder();

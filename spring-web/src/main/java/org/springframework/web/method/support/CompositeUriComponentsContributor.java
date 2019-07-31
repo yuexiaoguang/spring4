@@ -13,9 +13,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * A {@link UriComponentsContributor} containing a list of other contributors
- * to delegate and also encapsulating a specific {@link ConversionService} to
- * use for formatting method argument values to Strings.
+ * {@link UriComponentsContributor}, 包含委托的其他贡献者列表,
+ * 还包含一个特定的{{@link ConversionService}, 用于将方法参数值格式化为字符串.
  */
 public class CompositeUriComponentsContributor implements UriComponentsContributor {
 
@@ -25,13 +24,10 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 
 
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor}s or
-	 * {@link HandlerMethodArgumentResolver}s. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
-	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter}
-	 * and provide that to this constructor.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver}s.
+	 * 由于这两者都倾向于由同一个类实现, 因此最方便的选择是在{@code RequestMappingHandlerAdapter}中
+	 * 获取配置的{@code HandlerMethodArgumentResolvers}, 并将其提供给此构造函数.
+	 * 
+	 * @param contributors {@link UriComponentsContributor}或{@link HandlerMethodArgumentResolver}
 	 */
 	public CompositeUriComponentsContributor(UriComponentsContributor... contributors) {
 		Collections.addAll(this.contributors, contributors);
@@ -39,31 +35,23 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 	}
 
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor}s or
-	 * {@link HandlerMethodArgumentResolver}s. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
-	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter}
-	 * and provide that to this constructor.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver}s.
+	 * 由于这两者都倾向于由同一个类实现, 因此最方便的选择是在{@code RequestMappingHandlerAdapter}中
+	 * 获取配置的{@code HandlerMethodArgumentResolvers}, 并将其提供给此构造函数.
+	 * 
+	 * @param contributors {@link UriComponentsContributor}或{@link HandlerMethodArgumentResolver}
 	 */
 	public CompositeUriComponentsContributor(Collection<?> contributors) {
 		this(contributors, null);
 	}
 
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor}s or
-	 * {@link HandlerMethodArgumentResolver}s. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
-	 * {@code HandlerMethodArgumentResolvers} in the {@code RequestMappingHandlerAdapter}
-	 * and provide that to this constructor.
-	 * <p>If the {@link ConversionService} argument is {@code null},
-	 * {@link org.springframework.format.support.DefaultFormattingConversionService}
-	 * will be used by default.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver}s.
-	 * @param cs a ConversionService to use when method argument values
-	 * need to be formatted as Strings before being added to the URI
+	 * 由于这两者都倾向于由同一个类实现, 因此最方便的选择是在{@code RequestMappingHandlerAdapter}中
+	 * 获取配置的{@code HandlerMethodArgumentResolvers}, 并将其提供给此构造函数.
+	 * <p>如果{@link ConversionService}参数是{@code null},
+	 * 默认将使用{@link org.springframework.format.support.DefaultFormattingConversionService}.
+	 * 
+	 * @param contributors {@link UriComponentsContributor}或{@link HandlerMethodArgumentResolver}
+	 * @param cs 在将方法参数值添加到URI之前, 需要将其格式化为字符串时, 使用的ConversionService
 	 */
 	public CompositeUriComponentsContributor(Collection<?> contributors, ConversionService cs) {
 		Assert.notNull(contributors, "'uriComponentsContributors' must not be null");
@@ -115,7 +103,7 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 	}
 
 	/**
-	 * An overloaded method that uses the ConversionService created at construction.
+	 * 一个重载方法, 它使用在构造时创建的ConversionService.
 	 */
 	public void contributeMethodArgument(MethodParameter parameter, Object value, UriComponentsBuilder builder,
 			Map<String, Object> uriVariables) {

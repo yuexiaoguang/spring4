@@ -15,13 +15,12 @@ import org.springframework.remoting.support.RemoteInvocationResult;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor} implementation
- * that uses standard Java facilities to execute POST requests, without support for HTTP
- * authentication or advanced configuration options.
+ * {@link org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor}实现,
+ * 使用标准Java工具执行POST请求, 不支持HTTP身份验证或高级配置选项.
  *
- * <p>Designed for easy subclassing, customizing specific template methods. However,
- * consider {@code HttpComponentsHttpInvokerRequestExecutor} for more sophisticated needs:
- * The standard {@link HttpURLConnection} class is rather limited in its capabilities.
+ * <p>专为轻松子类化而设计, 可自定义特定模板方法.
+ * 但是, 请考虑{@code HttpComponentsHttpInvokerRequestExecutor}以获得更复杂的需求:
+ * 标准{@link HttpURLConnection}类的功能相当有限.
  */
 public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequestExecutor {
 
@@ -31,18 +30,18 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 
 
 	/**
-	 * Set the underlying URLConnection's connect timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Default is the system's default timeout.
+	 * 设置底层URLConnection的连接超时 (以毫秒为单位).
+	 * 值0指定无限超时.
+	 * <p>默认值是系统的默认超时.
 	 */
 	public void setConnectTimeout(int connectTimeout) {
 		this.connectTimeout = connectTimeout;
 	}
 
 	/**
-	 * Set the underlying URLConnection's read timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Default is the system's default timeout.
+	 * 设置底层URLConnection的读取超时 (以毫秒为单位).
+	 * 值0指定无限超时.
+	 * <p>默认值是系统的默认超时.
 	 */
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
@@ -50,9 +49,9 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 
 
 	/**
-	 * Execute the given request through a standard {@link HttpURLConnection}.
-	 * <p>This method implements the basic processing workflow:
-	 * The actual work happens in this class's template methods.
+	 * 通过标准{@link HttpURLConnection}执行给定的请求.
+	 * <p>此方法实现基本处理工作流程:
+	 * 实际工作发生在这个类的模板方法中.
 	 */
 	@Override
 	protected RemoteInvocationResult doExecuteRequest(
@@ -69,11 +68,12 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Open an {@link HttpURLConnection} for the given remote invocation request.
-	 * @param config the HTTP invoker configuration that specifies the
-	 * target service
-	 * @return the HttpURLConnection for the given request
-	 * @throws IOException if thrown by I/O methods
+	 * 为给定的远程调用请求打开{@link HttpURLConnection}.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * 
+	 * @return 给定请求的HttpURLConnection
+	 * @throws IOException
 	 */
 	protected HttpURLConnection openConnection(HttpInvokerClientConfiguration config) throws IOException {
 		URLConnection con = new URL(config.getServiceUrl()).openConnection();
@@ -85,13 +85,14 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Prepare the given HTTP connection.
-	 * <p>The default implementation specifies POST as method,
-	 * "application/x-java-serialized-object" as "Content-Type" header,
-	 * and the given content length as "Content-Length" header.
-	 * @param connection the HTTP connection to prepare
-	 * @param contentLength the length of the content to send
-	 * @throws IOException if thrown by HttpURLConnection methods
+	 * 准备给定的HTTP连接.
+	 * <p>默认实现将POST指定为方法, 将"Content-Type" header指定为"application/x-java-serialized-object",
+	 * 将给定内容长度指定为"Content-Length" header.
+	 * 
+	 * @param connection 要准备的HTTP连接
+	 * @param contentLength 要发送的内容的长度
+	 * 
+	 * @throws IOException 如果被HttpURLConnection方法抛出
 	 */
 	protected void prepareConnection(HttpURLConnection connection, int contentLength) throws IOException {
 		if (this.connectTimeout >= 0) {
@@ -120,17 +121,15 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Set the given serialized remote invocation as request body.
-	 * <p>The default implementation simply write the serialized invocation to the
-	 * HttpURLConnection's OutputStream. This can be overridden, for example, to write
-	 * a specific encoding and potentially set appropriate HTTP request headers.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param con the HttpURLConnection to write the request body to
-	 * @param baos the ByteArrayOutputStream that contains the serialized
-	 * RemoteInvocation object
-	 * @throws IOException if thrown by I/O methods
-	 * @see java.net.HttpURLConnection#getOutputStream()
-	 * @see java.net.HttpURLConnection#setRequestProperty
+	 * 设置给定的序列化远程调用为请求正文.
+	 * <p>默认实现只是将序列化调用写入HttpURLConnection的OutputStream.
+	 * 例如, 可以覆盖此选项以写入特定编码, 并可能设置适当的HTTP请求 header.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param con 将请求正文写入的HttpURLConnection
+	 * @param baos 包含序列化RemoteInvocation对象的ByteArrayOutputStream
+	 * 
+	 * @throws IOException
 	 */
 	protected void writeRequestBody(
 			HttpInvokerClientConfiguration config, HttpURLConnection con, ByteArrayOutputStream baos)
@@ -140,14 +139,14 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Validate the given response as contained in the {@link HttpURLConnection} object,
-	 * throwing an exception if it does not correspond to a successful HTTP response.
-	 * <p>Default implementation rejects any HTTP status code beyond 2xx, to avoid
-	 * parsing the response body and trying to deserialize from a corrupted stream.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param con the HttpURLConnection to validate
-	 * @throws IOException if validation failed
-	 * @see java.net.HttpURLConnection#getResponseCode()
+	 * 验证{@link HttpURLConnection}对象中包含的给定响应,
+	 * 如果它与成功的HTTP响应不对应, 则抛出异常.
+	 * <p>默认实现拒绝任何超过2xx的HTTP状态代码, 以避免解析响应正文并尝试从损坏的流中反序列化.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param con 要验证的HttpURLConnection
+	 * 
+	 * @throws IOException 如果验证失败
 	 */
 	protected void validateResponse(HttpInvokerClientConfiguration config, HttpURLConnection con)
 			throws IOException {
@@ -160,20 +159,15 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Extract the response body from the given executed remote invocation
-	 * request.
-	 * <p>The default implementation simply reads the serialized invocation
-	 * from the HttpURLConnection's InputStream. If the response is recognized
-	 * as GZIP response, the InputStream will get wrapped in a GZIPInputStream.
-	 * @param config the HTTP invoker configuration that specifies the target service
-	 * @param con the HttpURLConnection to read the response body from
-	 * @return an InputStream for the response body
-	 * @throws IOException if thrown by I/O methods
-	 * @see #isGzipResponse
-	 * @see java.util.zip.GZIPInputStream
-	 * @see java.net.HttpURLConnection#getInputStream()
-	 * @see java.net.HttpURLConnection#getHeaderField(int)
-	 * @see java.net.HttpURLConnection#getHeaderFieldKey(int)
+	 * 从给定的执行远程调用请求中提取响应主体.
+	 * <p>默认实现只是从HttpURLConnection的InputStream中读取序列化调用.
+	 * 如果响应被识别为GZIP响应, 则InputStream将被包装在GZIPInputStream中.
+	 * 
+	 * @param config HTTP调用器配置, 指定目标服务
+	 * @param con 从中读取响应主体的HttpURLConnection
+	 * 
+	 * @return 响应主体的InputStream
+	 * @throws IOException
 	 */
 	protected InputStream readResponseBody(HttpInvokerClientConfiguration config, HttpURLConnection con)
 			throws IOException {
@@ -189,14 +183,13 @@ public class SimpleHttpInvokerRequestExecutor extends AbstractHttpInvokerRequest
 	}
 
 	/**
-	 * Determine whether the given response is a GZIP response.
-	 * <p>Default implementation checks whether the HTTP "Content-Encoding"
-	 * header contains "gzip" (in any casing).
-	 * @param con the HttpURLConnection to check
+	 * 确定给定的响应是否是GZIP响应.
+	 * <p>默认实现检查 HTTP "Content-Encoding" header是否包含"gzip" (在任何情况下).
+	 * 
+	 * @param con 要检查的HttpURLConnection
 	 */
 	protected boolean isGzipResponse(HttpURLConnection con) {
 		String encodingHeader = con.getHeaderField(HTTP_HEADER_CONTENT_ENCODING);
 		return (encodingHeader != null && encodingHeader.toLowerCase().contains(ENCODING_GZIP));
 	}
-
 }

@@ -16,7 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Represents an HTTP (byte) range for use with the HTTP {@code "Range"} header.
+ * 表示与HTTP {@code "Range"} header一起使用的HTTP (字节)范围.
  */
 public abstract class HttpRange {
 
@@ -24,15 +24,15 @@ public abstract class HttpRange {
 
 
 	/**
-	 * Turn a {@code Resource} into a {@link ResourceRegion} using the range
-	 * information contained in the current {@code HttpRange}.
-	 * @param resource the {@code Resource} to select the region from
-	 * @return the selected region of the given {@code Resource}
-	 * @since 4.3
+	 * 使用当前{@code HttpRange}中包含的范围信息将{@code Resource}转换为{@link ResourceRegion}.
+	 * 
+	 * @param resource 从中选择区域的{@code Resource}
+	 * 
+	 * @return 给定{@code Resource}的选定区域
 	 */
 	public ResourceRegion toResourceRegion(Resource resource) {
-		// Don't try to determine contentLength on InputStreamResource - cannot be read afterwards...
-		// Note: custom InputStreamResource subclasses could provide a pre-calculated content length!
+		// 不要尝试在InputStreamResource上确定contentLength - 之后无法读取...
+		// Note: 自定义InputStreamResource子类可以提供预先计算的内容长度!
 		Assert.isTrue(resource.getClass() != InputStreamResource.class,
 				"Cannot convert an InputStreamResource to a ResourceRegion");
 		try {
@@ -48,57 +48,66 @@ public abstract class HttpRange {
 	}
 
 	/**
-	 * Return the start of the range given the total length of a representation.
-	 * @param length the length of the representation
-	 * @return the start of this range for the representation
+	 * 给定总长度, 返回范围的开始.
+	 * 
+	 * @param length 表示的长度
+	 * 
+	 * @return 表示范围的开始
 	 */
 	public abstract long getRangeStart(long length);
 
 	/**
-	 * Return the end of the range (inclusive) given the total length of a representation.
-	 * @param length the length of the representation
-	 * @return the end of the range for the representation
+	 * 给定表示的总长度, 返回范围的结尾 (包括).
+	 * 
+	 * @param length 表示的长度
+	 * 
+	 * @return 表示范围的结尾
 	 */
 	public abstract long getRangeEnd(long length);
 
 
 	/**
-	 * Create an {@code HttpRange} from the given position to the end.
-	 * @param firstBytePos the first byte position
-	 * @return a byte range that ranges from {@code firstPos} till the end
-	 * @see <a href="http://tools.ietf.org/html/rfc7233#section-2.1">Byte Ranges</a>
+	 * 从给定位置到结尾创建一个{@code HttpRange}.
+	 * 
+	 * @param firstBytePos 第一个字节位置
+	 * 
+	 * @return 从{@code firstPos}到结尾的字节范围
 	 */
 	public static HttpRange createByteRange(long firstBytePos) {
 		return new ByteRange(firstBytePos, null);
 	}
 
 	/**
-	 * Create a {@code HttpRange} from the given fist to last position.
-	 * @param firstBytePos the first byte position
-	 * @param lastBytePos the last byte position
-	 * @return a byte range that ranges from {@code firstPos} till {@code lastPos}
-	 * @see <a href="http://tools.ietf.org/html/rfc7233#section-2.1">Byte Ranges</a>
+	 * 从给定的第一个到最后位置创建一个{@code HttpRange}.
+	 * 
+	 * @param firstBytePos 第一个字节位置
+	 * @param lastBytePos 最后一个字节位置
+	 * 
+	 * @return 从{@code firstPos}到{@code lastPos}的字节范围
 	 */
 	public static HttpRange createByteRange(long firstBytePos, long lastBytePos) {
 		return new ByteRange(firstBytePos, lastBytePos);
 	}
 
 	/**
-	 * Create an {@code HttpRange} that ranges over the last given number of bytes.
-	 * @param suffixLength the number of bytes for the range
-	 * @return a byte range that ranges over the last {@code suffixLength} number of bytes
-	 * @see <a href="http://tools.ietf.org/html/rfc7233#section-2.1">Byte Ranges</a>
+	 * 创建一个范围超过最后给定字节数的{@code HttpRange}.
+	 * 
+	 * @param suffixLength 范围的字节数
+	 * 
+	 * @return 一个字节范围, 其范围超过最后{@code suffixLength}个字节数
 	 */
 	public static HttpRange createSuffixRange(long suffixLength) {
 		return new SuffixByteRange(suffixLength);
 	}
 
 	/**
-	 * Parse the given, comma-separated string into a list of {@code HttpRange} objects.
-	 * <p>This method can be used to parse an {@code Range} header.
-	 * @param ranges the string to parse
-	 * @return the list of ranges
-	 * @throws IllegalArgumentException if the string cannot be parsed
+	 * 将给定的逗号分隔的字符串解析为{@code HttpRange}对象列表.
+	 * <p>此方法可用于解析{@code Range} header.
+	 * 
+	 * @param ranges 要解析的字符串
+	 * 
+	 * @return 范围集合
+	 * @throws IllegalArgumentException 如果字符串无法解析
 	 */
 	public static List<HttpRange> parseRanges(String ranges) {
 		if (!StringUtils.hasLength(ranges)) {
@@ -140,12 +149,12 @@ public abstract class HttpRange {
 	}
 
 	/**
-	 * Convert each {@code HttpRange} into a {@code ResourceRegion}, selecting the
-	 * appropriate segment of the given {@code Resource} using HTTP Range information.
-	 * @param ranges the list of ranges
-	 * @param resource the resource to select the regions from
-	 * @return the list of regions for the given resource
-	 * @since 4.3
+	 * 将每个{@code HttpRange}转换为{@code ResourceRegion}, 使用HTTP范围信息选择给定{@code Resource}的相应片段.
+	 * 
+	 * @param ranges 范围集合
+	 * @param resource 从中选择范围的资源
+	 * 
+	 * @return 给定资源的范围列表
 	 */
 	public static List<ResourceRegion> toResourceRegions(List<HttpRange> ranges, Resource resource) {
 		if (CollectionUtils.isEmpty(ranges)) {
@@ -159,10 +168,12 @@ public abstract class HttpRange {
 	}
 
 	/**
-	 * Return a string representation of the given list of {@code HttpRange} objects.
-	 * <p>This method can be used to for an {@code Range} header.
-	 * @param ranges the ranges to create a string of
-	 * @return the string representation
+	 * 返回给定{@code HttpRange}对象列表的字符串表示形式.
+	 * <p>此方法可用于{@code Range} header.
+	 * 
+	 * @param ranges 要创建字符串的范围
+	 * 
+	 * @return 字符串表示
 	 */
 	public static String toString(Collection<HttpRange> ranges) {
 		Assert.notEmpty(ranges, "Ranges Collection must not be empty");
@@ -179,10 +190,7 @@ public abstract class HttpRange {
 
 
 	/**
-	 * Represents an HTTP/1.1 byte range, with a first and optional last position.
-	 * @see <a href="http://tools.ietf.org/html/rfc7233#section-2.1">Byte Ranges</a>
-	 * @see HttpRange#createByteRange(long)
-	 * @see HttpRange#createByteRange(long, long)
+	 * 表示HTTP/1.1 字节范围, 具有第一个和可选的最后位置.
 	 */
 	private static class ByteRange extends HttpRange {
 
@@ -254,9 +262,7 @@ public abstract class HttpRange {
 
 
 	/**
-	 * Represents an HTTP/1.1 suffix byte range, with a number of suffix bytes.
-	 * @see <a href="http://tools.ietf.org/html/rfc7233#section-2.1">Byte Ranges</a>
-	 * @see HttpRange#createSuffixRange(long)
+	 * 表示 HTTP/1.1 后缀字节范围, 带有多个后缀字节.
 	 */
 	private static class SuffixByteRange extends HttpRange {
 

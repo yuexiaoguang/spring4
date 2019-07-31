@@ -25,9 +25,8 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Spring MultipartHttpServletRequest adapter, wrapping a Servlet 3.0 HttpServletRequest
- * and its Part objects. Parameters get exposed through the native request's getParameter
- * methods - without any custom processing on our side.
+ * Spring MultipartHttpServletRequest适配器, 包装Servlet 3.0 HttpServletRequest及其Part对象.
+ * 参数通过本机请求的getParameter方法公开 - 没有任何自定义处理.
  */
 public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpServletRequest {
 
@@ -44,22 +43,21 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 
 
 	/**
-	 * Create a new StandardMultipartHttpServletRequest wrapper for the given request,
-	 * immediately parsing the multipart content.
-	 * @param request the servlet request to wrap
-	 * @throws MultipartException if parsing failed
+	 * 立即解析multipart内容.
+	 * 
+	 * @param request 要包装的servlet请求
+	 * 
+	 * @throws MultipartException 如果解析失败
 	 */
 	public StandardMultipartHttpServletRequest(HttpServletRequest request) throws MultipartException {
 		this(request, false);
 	}
 
 	/**
-	 * Create a new StandardMultipartHttpServletRequest wrapper for the given request.
-	 * @param request the servlet request to wrap
-	 * @param lazyParsing whether multipart parsing should be triggered lazily on
-	 * first access of multipart files or parameters
-	 * @throws MultipartException if an immediate parsing attempt failed
-	 * @since 3.2.9
+	 * @param request 要包装的servlet请求
+	 * @param lazyParsing 是否应该在首次访问multipart文件或参数时延迟触发multipart解析
+	 * 
+	 * @throws MultipartException 如果立即解析尝试失败
 	 */
 	public StandardMultipartHttpServletRequest(HttpServletRequest request, boolean lazyParsing)
 			throws MultipartException {
@@ -166,8 +164,7 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 			return super.getParameterNames();
 		}
 
-		// Servlet 3.0 getParameterNames() not guaranteed to include multipart form items
-		// (e.g. on WebLogic 12) -> need to merge them here to be on the safe side
+		// Servlet 3.0 getParameterNames() 不保证包含multipart表单项 (e.g. 在WebLogic 12上) -> 需要将它们合并到这里以保证安全
 		Set<String> paramNames = new LinkedHashSet<String>();
 		Enumeration<String> paramEnum = super.getParameterNames();
 		while (paramEnum.hasMoreElements()) {
@@ -186,8 +183,7 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 			return super.getParameterMap();
 		}
 
-		// Servlet 3.0 getParameterMap() not guaranteed to include multipart form items
-		// (e.g. on WebLogic 12) -> need to merge them here to be on the safe side
+		// Servlet 3.0 getParameterMap() 不保证包含multipart表单项 (e.g. 在WebLogic 12上) -> 需要将它们合并到这里以保证安全
 		Map<String, String[]> paramMap = new LinkedHashMap<String, String[]>();
 		paramMap.putAll(super.getParameterMap());
 		for (String paramName : this.multipartParameterNames) {
@@ -231,7 +227,7 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 
 
 	/**
-	 * Spring MultipartFile adapter, wrapping a Servlet 3.0 Part object.
+	 * Spring MultipartFile适配器, 包装Servlet 3.0 Part对象.
 	 */
 	@SuppressWarnings("serial")
 	private static class StandardMultipartFile implements MultipartFile, Serializable {
@@ -284,12 +280,10 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 		public void transferTo(File dest) throws IOException, IllegalStateException {
 			this.part.write(dest.getPath());
 			if (dest.isAbsolute() && !dest.exists()) {
-				// Servlet 3.0 Part.write is not guaranteed to support absolute file paths:
-				// may translate the given path to a relative location within a temp dir
-				// (e.g. on Jetty whereas Tomcat and Undertow detect absolute paths).
-				// At least we offloaded the file from memory storage; it'll get deleted
-				// from the temp dir eventually in any case. And for our user's purposes,
-				// we can manually copy it to the requested location as a fallback.
+				// Servlet 3.0 Part.write不保证支持绝对文件路径:
+				// 可以将给定路径转换为临时目录内的相对位置 (e.g. 在Jetty上, 而Tomcat和Undertow检测绝对路径).
+				// 至少从内存存储中卸载了文件; 在任何情况下, 它最终都会从临时目录中删除.
+				// 出于用户目的, 可以手动将其复制到所请求的位置作为后备.
 				FileCopyUtils.copy(this.part.getInputStream(), new FileOutputStream(dest));
 			}
 		}

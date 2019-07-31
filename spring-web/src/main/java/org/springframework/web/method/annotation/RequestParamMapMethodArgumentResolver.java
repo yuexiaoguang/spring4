@@ -14,15 +14,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves {@link Map} method arguments annotated with an @{@link RequestParam}
- * where the annotation does not specify a request parameter name.
- * See {@link RequestParamMethodArgumentResolver} for resolving {@link Map}
- * method arguments with a request parameter name.
+ * 解析使用 @{@link RequestParam}注解的{@link Map}方法参数, 其中注解未指定请求参数名称.
+ * 请参阅 {@link RequestParamMethodArgumentResolver}以使用请求参数名称解​​析{@link Map}方法参数.
  *
- * <p>The created {@link Map} contains all request parameter name/value pairs.
- * If the method parameter type is {@link MultiValueMap} instead, the created
- * map contains all request parameters and all there values for cases where
- * request parameters have multiple values.
+ * <p>创建的{@link Map}包含所有请求参数名称/值对.
+ * 如果方法参数类型是{@link MultiValueMap}, 则创建的Map包含所有请求参数, 以及请求参数具有多个值的情况下的所有值.
  */
 public class RequestParamMapMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

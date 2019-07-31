@@ -7,7 +7,7 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link PropertySource} that reads init parameters from a {@link ServletConfig} object.
+ * {@link PropertySource}, 从{@link ServletConfig}对象读取init参数.
  */
 public class ServletConfigPropertySource extends EnumerablePropertySource<ServletConfig> {
 
@@ -24,5 +24,4 @@ public class ServletConfigPropertySource extends EnumerablePropertySource<Servle
 	public String getProperty(String name) {
 		return this.source.getInitParameter(name);
 	}
-
 }

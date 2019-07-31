@@ -17,47 +17,39 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ContextLoader;
 
 /**
- * {@link org.springframework.web.context.WebApplicationContext WebApplicationContext}
- * implementation which accepts annotated classes as input - in particular
- * {@link org.springframework.context.annotation.Configuration @Configuration}-annotated
- * classes, but also plain {@link org.springframework.stereotype.Component @Component}
- * classes and JSR-330 compliant classes using {@code javax.inject} annotations. Allows
- * for registering classes one by one (specifying class names as config location) as well
- * as for classpath scanning (specifying base packages as config location).
+ * {@link org.springframework.web.context.WebApplicationContext WebApplicationContext}实现,
+ * 它接受带注解的类作为输入 - 特别是带
+ * {@link org.springframework.context.annotation.Configuration @Configuration}注解的类,
+ * 也包括普通的{@link org.springframework.stereotype.Component @Component}类
+ * 和使用{@code javax.inject}注解的JSR-330兼容类.
+ * 允许逐个注册类 (将类名指定为配置位置) 以及类路径扫描 (将底层包指定为配置位置).
  *
- * <p>This is essentially the equivalent of
- * {@link org.springframework.context.annotation.AnnotationConfigApplicationContext
- * AnnotationConfigApplicationContext} for a web environment.
+ * <p>这基本上等同于Web环境的
+ * {@link org.springframework.context.annotation.AnnotationConfigApplicationContext AnnotationConfigApplicationContext}.
  *
- * <p>To make use of this application context, the
- * {@linkplain ContextLoader#CONTEXT_CLASS_PARAM "contextClass"} context-param for
- * ContextLoader and/or "contextClass" init-param for FrameworkServlet must be set to
- * the fully-qualified name of this class.
+ * <p>要使用此应用程序上下文, 必须将ContextLoader的
+ * {@linkplain ContextLoader#CONTEXT_CLASS_PARAM "contextClass"} context-param
+ * 和/或FrameworkServlet的"contextClass" init-param设置为此类的完全限定名称.
  *
- * <p>As of Spring 3.1, this class may also be directly instantiated and injected into
- * Spring's {@code DispatcherServlet} or {@code ContextLoaderListener} when using the
- * new {@link org.springframework.web.WebApplicationInitializer WebApplicationInitializer}
- * code-based alternative to {@code web.xml}. See its Javadoc for details and usage examples.
+ * <p>从Spring 3.1开始, 当使用新的{@link org.springframework.web.WebApplicationInitializer WebApplicationInitializer}
+ * 代码替代{@code web.xml}时,
+ * 也可以直接实例化该类并将其注入到Spring的{@code DispatcherServlet}或{@code ContextLoaderListener}中.
+ * 有关详细信息和用法示例, 请参阅其Javadoc.
  *
- * <p>Unlike {@link XmlWebApplicationContext}, no default configuration class locations
- * are assumed. Rather, it is a requirement to set the
- * {@linkplain ContextLoader#CONFIG_LOCATION_PARAM "contextConfigLocation"}
- * context-param for {@link ContextLoader} and/or "contextConfigLocation" init-param for
- * FrameworkServlet.  The param-value may contain both fully-qualified
- * class names and base packages to scan for components. See {@link #loadBeanDefinitions}
- * for exact details on how these locations are processed.
+ * <p>与{@link XmlWebApplicationContext}不同, 不假定默认配置类位置.
+ * 相反, 需要为FrameworkServlet的{@link ContextLoader}和/或"contextConfigLocation" init-param
+ * 设置{@linkplain ContextLoader#CONFIG_LOCATION_PARAM "contextConfigLocation"} context-param.
+ * param-value可以包含完全限定的类名和基本包以扫描组件.
+ * 有关如何处理这些位置的详细信息, 请参阅{@link #loadBeanDefinitions}.
  *
- * <p>As an alternative to setting the "contextConfigLocation" parameter, users may
- * implement an {@link org.springframework.context.ApplicationContextInitializer
- * ApplicationContextInitializer} and set the
- * {@linkplain ContextLoader#CONTEXT_INITIALIZER_CLASSES_PARAM "contextInitializerClasses"}
- * context-param / init-param. In such cases, users should favor the {@link #refresh()}
- * and {@link #scan(String...)} methods over the {@link #setConfigLocation(String)}
- * method, which is primarily for use by {@code ContextLoader}.
+ * <p>作为设置"contextConfigLocation"参数的替代方法, 用户可以实现
+ * {@link org.springframework.context.ApplicationContextInitializer ApplicationContextInitializer}
+ * 并设置{@linkplain ContextLoader#CONTEXT_INITIALIZER_CLASSES_PARAM "contextInitializerClasses"} context-param / init-param.
+ * 在这种情况下, 用户应该支持{@link #setConfigLocation(String)}方法上的{@link #refresh()}和 {@link #scan(String...)}方法,
+ * 该方法主要供{@code ContextLoader}使用.
  *
- * <p>Note: In case of multiple {@code @Configuration} classes, later {@code @Bean}
- * definitions will override ones defined in earlier loaded files. This can be leveraged
- * to deliberately override certain bean definitions via an extra Configuration class.
+ * <p>Note: 如果有多个{@code @Configuration}类, 以后的{@code @Bean}定义将覆盖先前加载的文件中定义的那些.
+ * 这可以用来通过额外的Configuration类故意覆盖某些bean定义.
  */
 public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWebApplicationContext
 		implements AnnotationConfigRegistry {
@@ -72,36 +64,34 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 
 
 	/**
-	 * Set a custom {@link BeanNameGenerator} for use with {@link AnnotatedBeanDefinitionReader}
-	 * and/or {@link ClassPathBeanDefinitionScanner}.
-	 * <p>Default is {@link org.springframework.context.annotation.AnnotationBeanNameGenerator}.
+	 * 设置自定义{@link BeanNameGenerator},
+	 * 与{@link AnnotatedBeanDefinitionReader}和/或{@link ClassPathBeanDefinitionScanner}一起使用.
+	 * <p>默认{@link org.springframework.context.annotation.AnnotationBeanNameGenerator}.
 	 */
 	public void setBeanNameGenerator(BeanNameGenerator beanNameGenerator) {
 		this.beanNameGenerator = beanNameGenerator;
 	}
 
 	/**
-	 * Return the custom {@link BeanNameGenerator} for use with {@link AnnotatedBeanDefinitionReader}
-	 * and/or {@link ClassPathBeanDefinitionScanner}, if any.
+	 * 返回自定义{@link BeanNameGenerator},
+	 * 与{@link AnnotatedBeanDefinitionReader}和/或{@link ClassPathBeanDefinitionScanner}一起使用.
 	 */
 	protected BeanNameGenerator getBeanNameGenerator() {
 		return this.beanNameGenerator;
 	}
 
 	/**
-	 * Set a custom {@link ScopeMetadataResolver} for use with {@link AnnotatedBeanDefinitionReader}
-	 * and/or {@link ClassPathBeanDefinitionScanner}.
-	 * <p>Default is an {@link org.springframework.context.annotation.AnnotationScopeMetadataResolver}.
-	 * @see AnnotatedBeanDefinitionReader#setScopeMetadataResolver
-	 * @see ClassPathBeanDefinitionScanner#setScopeMetadataResolver
+	 * 设置自定义{@link ScopeMetadataResolver},
+	 * 与{@link AnnotatedBeanDefinitionReader}和/或{@link ClassPathBeanDefinitionScanner}一起使用.
+	 * <p>默认{@link org.springframework.context.annotation.AnnotationScopeMetadataResolver}.
 	 */
 	public void setScopeMetadataResolver(ScopeMetadataResolver scopeMetadataResolver) {
 		this.scopeMetadataResolver = scopeMetadataResolver;
 	}
 
 	/**
-	 * Return the custom {@link ScopeMetadataResolver} for use with {@link AnnotatedBeanDefinitionReader}
-	 * and/or {@link ClassPathBeanDefinitionScanner}, if any.
+	 * 返回自定义{@link ScopeMetadataResolver},
+	 * 与{@link AnnotatedBeanDefinitionReader}和/或{@link ClassPathBeanDefinitionScanner}一起使用.
 	 */
 	protected ScopeMetadataResolver getScopeMetadataResolver() {
 		return this.scopeMetadataResolver;
@@ -109,15 +99,11 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 
 
 	/**
-	 * Register one or more annotated classes to be processed.
-	 * <p>Note that {@link #refresh()} must be called in order for the context
-	 * to fully process the new classes.
-	 * @param annotatedClasses one or more annotated classes,
-	 * e.g. {@link org.springframework.context.annotation.Configuration @Configuration} classes
-	 * @see #scan(String...)
-	 * @see #loadBeanDefinitions(DefaultListableBeanFactory)
-	 * @see #setConfigLocation(String)
-	 * @see #refresh()
+	 * 注册一个或多个要处理的带注解的类.
+	 * <p>请注意, 必须调用{@link #refresh()}才能使上下文完全处理新类.
+	 * 
+	 * @param annotatedClasses 一个或多个带注解的类,
+	 * e.g. {@link org.springframework.context.annotation.Configuration @Configuration}类
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		Assert.notEmpty(annotatedClasses, "At least one annotated class must be specified");
@@ -125,14 +111,10 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 	}
 
 	/**
-	 * Perform a scan within the specified base packages.
-	 * <p>Note that {@link #refresh()} must be called in order for the context
-	 * to fully process the new classes.
-	 * @param basePackages the packages to check for annotated classes
-	 * @see #loadBeanDefinitions(DefaultListableBeanFactory)
-	 * @see #register(Class...)
-	 * @see #setConfigLocation(String)
-	 * @see #refresh()
+	 * 在指定的基础包中执行扫描.
+	 * <p>请注意, 必须调用{@link #refresh()}才能使上下文完全处理新类.
+	 * 
+	 * @param basePackages 用于检查带注解的类的包
 	 */
 	public void scan(String... basePackages) {
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
@@ -141,26 +123,15 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 
 
 	/**
-	 * Register a {@link org.springframework.beans.factory.config.BeanDefinition} for
-	 * any classes specified by {@link #register(Class...)} and scan any packages
-	 * specified by {@link #scan(String...)}.
-	 * <p>For any values specified by {@link #setConfigLocation(String)} or
-	 * {@link #setConfigLocations(String[])}, attempt first to load each location as a
-	 * class, registering a {@code BeanDefinition} if class loading is successful,
-	 * and if class loading fails (i.e. a {@code ClassNotFoundException} is raised),
-	 * assume the value is a package and attempt to scan it for annotated classes.
-	 * <p>Enables the default set of annotation configuration post processors, such that
-	 * {@code @Autowired}, {@code @Required}, and associated annotations can be used.
-	 * <p>Configuration class bean definitions are registered with generated bean
-	 * definition names unless the {@code value} attribute is provided to the stereotype
-	 * annotation.
-	 * @param beanFactory the bean factory to load bean definitions into
-	 * @see #register(Class...)
-	 * @see #scan(String...)
-	 * @see #setConfigLocation(String)
-	 * @see #setConfigLocations(String[])
-	 * @see AnnotatedBeanDefinitionReader
-	 * @see ClassPathBeanDefinitionScanner
+	 * 为{@link #register(Class...)}指定的类注册{@link org.springframework.beans.factory.config.BeanDefinition},
+	 * 并扫描{@link #scan(String...)}指定的包.
+	 * <p>对于{@link #setConfigLocation(String)}或{@link #setConfigLocations(String[])}指定的任何值,
+	 * 首先尝试将每个位置作为类加载, 如果类加载成功则注册{@code BeanDefinition},
+	 * 如果类加载失败(i.e. 引发{@code ClassNotFoundException}), 则假定该值是一个包并尝试扫描它以获取带注解的类.
+	 * <p>启用默认的注解配置后处理器集, 以便可以使用{@code @Autowired}, {@code @Required}, 和关联的注解.
+	 * <p>除非为构造型注解提供了{@code value}属性, 否则使用生成的bean定义名称注册配置类bean定义.
+	 * 
+	 * @param beanFactory 将bean定义加载到的bean工厂
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
@@ -227,28 +198,20 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 
 
 	/**
-	 * Build an {@link AnnotatedBeanDefinitionReader} for the given bean factory.
-	 * <p>This should be pre-configured with the {@code Environment} (if desired)
-	 * but not with a {@code BeanNameGenerator} or {@code ScopeMetadataResolver} yet.
-	 * @param beanFactory the bean factory to load bean definitions into
-	 * @since 4.1.9
-	 * @see #getEnvironment()
-	 * @see #getBeanNameGenerator()
-	 * @see #getScopeMetadataResolver()
+	 * 为给定的bean工厂构建一个{@link AnnotatedBeanDefinitionReader}.
+	 * <p>这应该使用{@code Environment}预先配置, 但不能预先配置{@code BeanNameGenerator}或{@code ScopeMetadataResolver}.
+	 * 
+	 * @param beanFactory 将bean定义加载到的bean工厂
 	 */
 	protected AnnotatedBeanDefinitionReader getAnnotatedBeanDefinitionReader(DefaultListableBeanFactory beanFactory) {
 		return new AnnotatedBeanDefinitionReader(beanFactory, getEnvironment());
 	}
 
 	/**
-	 * Build a {@link ClassPathBeanDefinitionScanner} for the given bean factory.
-	 * <p>This should be pre-configured with the {@code Environment} (if desired)
-	 * but not with a {@code BeanNameGenerator} or {@code ScopeMetadataResolver} yet.
-	 * @param beanFactory the bean factory to load bean definitions into
-	 * @since 4.1.9
-	 * @see #getEnvironment()
-	 * @see #getBeanNameGenerator()
-	 * @see #getScopeMetadataResolver()
+	 * 为给定的bean工厂构建一个{@link ClassPathBeanDefinitionScanner}.
+	 * <p>这应该使用{@code Environment}预先配置, 但不能预先配置{@code BeanNameGenerator}或{@code ScopeMetadataResolver}.
+	 * 
+	 * @param beanFactory 将bean定义加载到的bean工厂
 	 */
 	protected ClassPathBeanDefinitionScanner getClassPathBeanDefinitionScanner(DefaultListableBeanFactory beanFactory) {
 		return new ClassPathBeanDefinitionScanner(beanFactory, true, getEnvironment());

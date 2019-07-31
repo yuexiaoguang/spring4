@@ -7,40 +7,40 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 
 /**
- * Represents a client-side HTTP response.
- * Obtained via an calling of the {@link ClientHttpRequest#execute()}.
+ * 表示客户端HTTP响应.
+ * 通过调用{@link ClientHttpRequest#execute()}获得.
  *
- * <p>A {@code ClientHttpResponse} must be {@linkplain #close() closed},
- * typically in a {@code finally} block.
+ * <p>{@code ClientHttpResponse}必须被{@linkplain #close() 关闭}, 通常在{@code finally}块中.
  */
 public interface ClientHttpResponse extends HttpInputMessage, Closeable {
 
 	/**
-	 * Return the HTTP status code of the response.
-	 * @return the HTTP status as an HttpStatus enum value
-	 * @throws IOException in case of I/O errors
-	 * @throws IllegalArgumentException in case of an unknown HTTP status code
+	 * 返回响应的HTTP状态码.
+	 * 
+	 * @return HTTP状态
+	 * @throws IOException
+	 * @throws IllegalArgumentException 如果是未知的HTTP状态码
 	 */
 	HttpStatus getStatusCode() throws IOException;
 
 	/**
-	 * Return the HTTP status code (potentially non-standard and not
-	 * resolvable through the {@link HttpStatus} enum) as an integer.
-	 * @return the HTTP status as an integer
-	 * @throws IOException in case of I/O errors
-	 * @since 3.1.1
+	 * 返回HTTP状态码 (可能是非标准的, 无法通过{@link HttpStatus}枚举解析).
+	 * 
+	 * @return HTTP状态
+	 * @throws IOException
 	 */
 	int getRawStatusCode() throws IOException;
 
 	/**
-	 * Return the HTTP status text of the response.
-	 * @return the HTTP status text
-	 * @throws IOException in case of I/O errors
+	 * 返回响应的HTTP状态文本.
+	 * 
+	 * @return HTTP状态文本
+	 * @throws IOException
 	 */
 	String getStatusText() throws IOException;
 
 	/**
-	 * Close this response, freeing any resources created.
+	 * 关闭此响应, 释放所有创建的资源.
 	 */
 	@Override
 	void close();

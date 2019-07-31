@@ -3,8 +3,7 @@ package org.springframework.http;
 import org.springframework.util.InvalidMimeTypeException;
 
 /**
- * Exception thrown from {@link MediaType#parseMediaType(String)} in case of
- * encountering an invalid media type specification String.
+ * 遇到无效媒体类型规范字符串时, {@link MediaType#parseMediaType(String)}抛出的异常.
  */
 @SuppressWarnings("serial")
 public class InvalidMediaTypeException extends IllegalArgumentException {
@@ -13,9 +12,8 @@ public class InvalidMediaTypeException extends IllegalArgumentException {
 
 
 	/**
-	 * Create a new InvalidMediaTypeException for the given media type.
-	 * @param mediaType the offending media type
-	 * @param message a detail message indicating the invalid part
+	 * @param mediaType 有问题的媒体类型
+	 * @param message 详细信息
 	 */
 	public InvalidMediaTypeException(String mediaType, String message) {
 		super("Invalid media type \"" + mediaType + "\": " + message);
@@ -23,7 +21,7 @@ public class InvalidMediaTypeException extends IllegalArgumentException {
 	}
 
 	/**
-	 * Constructor that allows wrapping {@link InvalidMimeTypeException}.
+	 * 包装{@link InvalidMimeTypeException}.
 	 */
 	InvalidMediaTypeException(InvalidMimeTypeException ex) {
 		super(ex.getMessage(), ex);
@@ -32,7 +30,7 @@ public class InvalidMediaTypeException extends IllegalArgumentException {
 
 
 	/**
-	 * Return the offending media type.
+	 * 返回有问题的媒体类型.
 	 */
 	public String getMediaType() {
 		return this.mediaType;

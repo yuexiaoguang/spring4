@@ -6,11 +6,10 @@ import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.SystemPropertyUtils;
 
 /**
- * Helper class for resolving placeholders in texts. Usually applied to file paths.
+ * 解析文本中的占位符的工具类. 通常应用于文件路径.
  *
- * <p>A text may contain {@code ${...}} placeholders, to be resolved as servlet context
- * init parameters or system properties: e.g. {@code ${user.dir}}. Default values can
- * be supplied using the ":" separator between key and value.
+ * <p>文本可能包含 {@code ${...}}占位符, 需要解析为servlet上下文init参数或系统属性: e.g. {@code ${user.dir}}.
+ * 可以使用键和值之间的":" 分隔符提供默认值.
  */
 public abstract class ServletContextPropertyUtils {
 
@@ -24,29 +23,28 @@ public abstract class ServletContextPropertyUtils {
 
 
 	/**
-	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
-	 * servlet context init parameter or system property values.
-     * @param text the String to resolve
-     * @param servletContext the servletContext to use for lookups.
-	 * @return the resolved String
-	 * @throws IllegalArgumentException if there is an unresolvable placeholder
+	 * 解析给定文本中的 ${...}占位符, 将其替换为相应的servlet上下文init参数或系统属性值.
+     * 
+     * @param text 要解析的字符串
+     * @param servletContext 用于查找的servletContext.
+	 * 
+	 * @return 解析的String
+	 * @throws IllegalArgumentException 如果有一个无法解析的占位符
 	 */
 	public static String resolvePlaceholders(String text, ServletContext servletContext) {
 		return resolvePlaceholders(text, servletContext, false);
 	}
 
 	/**
-	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
-	 * servlet context init parameter or system property values. Unresolvable placeholders
-	 * with no default value are ignored and passed through unchanged if the flag is set to true.
-	 * @param text the String to resolve
-     * @param servletContext the servletContext to use for lookups.
-	 * @param ignoreUnresolvablePlaceholders flag to determine is unresolved placeholders are ignored
-	 * @return the resolved String
-	 * @see SystemPropertyUtils#PLACEHOLDER_PREFIX
-	 * @see SystemPropertyUtils#PLACEHOLDER_SUFFIX
-     * @see SystemPropertyUtils#resolvePlaceholders(String, boolean)
-	 * @throws IllegalArgumentException if there is an unresolvable placeholder and the flag is false
+	 * 解析给定文本中的 ${...}占位符, 将其替换为相应的servlet上下文init参数或系统属性值.
+	 * 如果标志设置为true, 则忽略没有默认值的不可解析的占位符, 并保持不变.
+	 * 
+	 * @param text 要解析的字符串
+     * @param servletContext 用于查找的servletContext
+	 * @param ignoreUnresolvablePlaceholders 是否忽略不可解析的占位符
+	 * 
+	 * @return 已解析的字符串
+	 * @throws IllegalArgumentException 如果存在无法解析的占位符且标志为false
 	 */
 	public static String resolvePlaceholders(String text, ServletContext servletContext, boolean ignoreUnresolvablePlaceholders) {
 		PropertyPlaceholderHelper helper = (ignoreUnresolvablePlaceholders ? nonStrictHelper : strictHelper);
@@ -70,10 +68,10 @@ public abstract class ServletContextPropertyUtils {
             try {
                 String propVal = this.servletContext.getInitParameter(placeholderName);
 				if (propVal == null) {
-					// Fall back to system properties.
+					// 回退到系统属性.
 					propVal = System.getProperty(placeholderName);
 					if (propVal == null) {
-						// Fall back to searching the system environment.
+						// 回退到搜索系统环境.
 						propVal = System.getenv(placeholderName);
 					}
 				}
@@ -86,5 +84,4 @@ public abstract class ServletContextPropertyUtils {
             }
         }
     }
-
 }

@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
- * Support class for resolving web method annotations in a handler type.
- * Processes {@code @RequestMapping}, {@code @InitBinder},
- * {@code @ModelAttribute} and {@code @SessionAttributes}.
+ * 用于解析处理器类型中的Web方法注解的支持类.
+ * 处理{@code @RequestMapping}, {@code @InitBinder},
+ * {@code @ModelAttribute}和{@code @SessionAttributes}.
  *
  * <p>Used by {@link org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter}
  * and {@link org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter}.
  *
- * @deprecated as of 4.3, in favor of the {@code HandlerMethod}-based MVC infrastructure
+ * @deprecated 从4.3开始, 支持基于{@code HandlerMethod}的MVC基础结构
  */
 @Deprecated
 public class HandlerMethodResolver {

@@ -7,18 +7,18 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpRequest;
 
 /**
- * Represents a client-side HTTP request.
- * Created via an implementation of the {@link ClientHttpRequestFactory}.
+ * 表示客户端HTTP请求.
+ * 通过{@link ClientHttpRequestFactory}的实现创建.
  *
- * <p>A {@code ClientHttpRequest} can be {@linkplain #execute() executed},
- * receiving a {@link ClientHttpResponse} which can be read from.
+ * <p>可以{@linkplain #execute() 执行}{@code ClientHttpRequest}, 接收{@link ClientHttpResponse}.
  */
 public interface ClientHttpRequest extends HttpRequest, HttpOutputMessage {
 
 	/**
-	 * Execute this request, resulting in a {@link ClientHttpResponse} that can be read.
-	 * @return the response result of the execution
-	 * @throws IOException in case of I/O errors
+	 * 执行此请求, 生成可以读取的 {@link ClientHttpResponse}.
+	 * 
+	 * @return 执行的响应结果
+	 * @throws IOException
 	 */
 	ClientHttpResponse execute() throws IOException;
 

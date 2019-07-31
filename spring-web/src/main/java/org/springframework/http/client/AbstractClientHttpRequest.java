@@ -7,8 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base for {@link ClientHttpRequest} that makes sure that headers
- * and body are not written multiple times.
+ * {@link ClientHttpRequest}的抽象基类, 确保不会多次写入header和正文.
  */
 public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 
@@ -37,8 +36,9 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 	}
 
 	/**
-	 * Assert that this request has not been {@linkplain #execute() executed} yet.
-	 * @throws IllegalStateException if this request has been executed
+	 * 断言此请求尚未被{@linkplain #execute() 执行}.
+	 * 
+	 * @throws IllegalStateException 如果此请求已被执行
 	 */
 	protected void assertNotExecuted() {
 		Assert.state(!this.executed, "ClientHttpRequest already executed");
@@ -46,16 +46,20 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 
 
 	/**
-	 * Abstract template method that returns the body.
+	 * 返回主体的抽象模板方法.
+	 * 
 	 * @param headers the HTTP headers
-	 * @return the body output stream
+	 * 
+	 * @return 主体输出流
 	 */
 	protected abstract OutputStream getBodyInternal(HttpHeaders headers) throws IOException;
 
 	/**
-	 * Abstract template method that writes the given headers and content to the HTTP request.
+	 * 将给定header和内容写入HTTP请求的抽象模板方法.
+	 * 
 	 * @param headers the HTTP headers
-	 * @return the response object for the executed request
+	 * 
+	 * @return 已执行请求的响应对象
 	 */
 	protected abstract ClientHttpResponse executeInternal(HttpHeaders headers) throws IOException;
 

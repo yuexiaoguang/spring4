@@ -10,30 +10,20 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation that indicates the session attributes that a specific handler uses.
+ * 指示特定处理器使用的会话属性.
  *
- * <p>This will typically list the names of model attributes which should be
- * transparently stored in the session or some conversational storage,
- * serving as form-backing beans. <b>Declared at the type level</b>, applying
- * to the model attributes that the annotated handler class operates on.
+ * <p>这通常会列出model属性的名称, 这些属性应该透明地存储在会话或某些会话存储中, 作为表单支持bean.
+ * <b>在类型级别声明</b>, 应用于带注解的处理器类操作的model属性.
  *
- * <p><b>NOTE:</b> Session attributes as indicated using this annotation
- * correspond to a specific handler's model attributes, getting transparently
- * stored in a conversational session. Those attributes will be removed once
- * the handler indicates completion of its conversational session. Therefore,
- * use this facility for such conversational attributes which are supposed
- * to be stored in the session <i>temporarily</i> during the course of a
- * specific handler's conversation.
+ * <p><b>NOTE:</b> 使用此注解指示的会话属性对应于特定处理器的模型属性, 透明地存储在会话中.
+ * 一旦处理器指示其会话完成, 将删除这些属性.
+ * 因此，将此工具用于此类会话属性, 这些属性应该在特定处理器的交互过程中, 临时存储在会话中.
  *
- * <p>For permanent session attributes, e.g. a user authentication object,
- * use the traditional {@code session.setAttribute} method instead.
- * Alternatively, consider using the attribute management capabilities of the
- * generic {@link org.springframework.web.context.request.WebRequest} interface.
+ * <p>对于永久会话属性, e.g. 用户身份验证对象, 请改用传统的{@code session.setAttribute}方法.
+ * 或者, 考虑使用通用{@link org.springframework.web.context.request.WebRequest}接口的属性管理功能.
  *
- * <p><b>NOTE:</b> When using controller interfaces (e.g. for AOP proxying),
- * make sure to consistently put <i>all</i> your mapping annotations &mdash;
- * such as {@code @RequestMapping} and {@code @SessionAttributes} &mdash; on
- * the controller <i>interface</i> rather than on the implementation class.
+ * <p><b>NOTE:</b> 使用controller接口(e.g. 用于AOP代理)时, 确保始终放入<i>所有</i>映射注解 &mdash;
+ * 例如{@code @RequestMapping}和{@code @SessionAttributes} &mdash; 在controller <i>接口</i>上, 而不是在实现类上.
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -48,22 +38,17 @@ public @interface SessionAttributes {
 	String[] value() default {};
 
 	/**
-	 * The names of session attributes in the model that should be stored in the
-	 * session or some conversational storage.
-	 * <p><strong>Note</strong>: This indicates the <em>model attribute names</em>.
-	 * The <em>session attribute names</em> may or may not match the model attribute
-	 * names. Applications should therefore not rely on the session attribute
-	 * names but rather operate on the model only.
-	 * @since 4.2
+	 * 应存储在会话或某些会话存储中的会话属性的名称.
+	 * <p><strong>Note</strong>: 这表示<em>模型属性名称</em>.
+	 * <em>会话属性名称</em>可能与模型属性名称匹配, 也可能不匹配.
+	 * 因此, 应用程序不应依赖会话属性名称, 而应仅对模型进行操作.
 	 */
 	@AliasFor("value")
 	String[] names() default {};
 
 	/**
-	 * The types of session attributes in the model that should be stored in the
-	 * session or some conversational storage.
-	 * <p>All model attributes of these types will be stored in the session,
-	 * regardless of attribute name.
+	 * 应存储在会话或某些会话存储中的会话属性类型.
+	 * <p>无论属性名称如何, 这些类型的所有模型属性都将存储在会话中.
 	 */
 	Class<?>[] types() default {};
 

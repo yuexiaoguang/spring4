@@ -12,7 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 
 /**
- * {@link ClientHttpRequestFactory} implementation that uses standard JDK facilities.
+ * {@link ClientHttpRequestFactory}实现, 使用标准JDK工具.
  */
 public class SimpleClientHttpRequestFactory implements ClientHttpRequestFactory, AsyncClientHttpRequestFactory {
 
@@ -35,79 +35,69 @@ public class SimpleClientHttpRequestFactory implements ClientHttpRequestFactory,
 
 
 	/**
-	 * Set the {@link Proxy} to use for this request factory.
+	 * 设置用于此请求工厂的{@link Proxy}.
 	 */
 	public void setProxy(Proxy proxy) {
 		this.proxy = proxy;
 	}
 
 	/**
-	 * Indicate whether this request factory should buffer the
-	 * {@linkplain ClientHttpRequest#getBody() request body} internally.
-	 * <p>Default is {@code true}. When sending large amounts of data via POST or PUT,
-	 * it is recommended to change this property to {@code false}, so as not to run
-	 * out of memory. This will result in a {@link ClientHttpRequest} that either
-	 * streams directly to the underlying {@link HttpURLConnection} (if the
-	 * {@link org.springframework.http.HttpHeaders#getContentLength() Content-Length}
-	 * is known in advance), or that will use "Chunked transfer encoding"
-	 * (if the {@code Content-Length} is not known in advance).
-	 * @see #setChunkSize(int)
-	 * @see HttpURLConnection#setFixedLengthStreamingMode(int)
+	 * 指示此请求工厂是否应在内部缓冲{@linkplain ClientHttpRequest#getBody() 请求正文}.
+	 * <p>默认{@code true}. 通过POST或PUT发送大量数据时, 建议将此属性更改为{@code false}, 以免内存不足.
+	 * 这将导致{@link ClientHttpRequest}直接流入底层{@link HttpURLConnection}
+	 * (如果预先知道{@link org.springframework.http.HttpHeaders#getContentLength() Content-Length}),
+	 * 或者将使用"分块传输编码" (如果事先不知道{@code Content-Length}).
 	 */
 	public void setBufferRequestBody(boolean bufferRequestBody) {
 		this.bufferRequestBody = bufferRequestBody;
 	}
 
 	/**
-	 * Set the number of bytes to write in each chunk when not buffering request
-	 * bodies locally.
-	 * <p>Note that this parameter is only used when
-	 * {@link #setBufferRequestBody(boolean) bufferRequestBody} is set to {@code false},
-	 * and the {@link org.springframework.http.HttpHeaders#getContentLength() Content-Length}
-	 * is not known in advance.
-	 * @see #setBufferRequestBody(boolean)
+	 * 设置当不在本地缓冲请求主体时在每个块中写入的字节数.
+	 * <p>请注意, 此参数仅在
+	 * {@link #setBufferRequestBody(boolean) bufferRequestBody}设置为{@code false}时使用,
+	 * 并且事先不知道{@link org.springframework.http.HttpHeaders#getContentLength() Content-Length}.
 	 */
 	public void setChunkSize(int chunkSize) {
 		this.chunkSize = chunkSize;
 	}
 
 	/**
-	 * Set the underlying URLConnection's connect timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Default is the system's default timeout.
-	 * @see URLConnection#setConnectTimeout(int)
+	 * 设置底层URLConnection的连接超时 (以毫秒为单位).
+	 * 超时值0指定无限超时.
+	 * <p>默认值是系统的默认超时.
 	 */
 	public void setConnectTimeout(int connectTimeout) {
 		this.connectTimeout = connectTimeout;
 	}
 
 	/**
-	 * Set the underlying URLConnection's read timeout (in milliseconds).
-	 * A timeout value of 0 specifies an infinite timeout.
-	 * <p>Default is the system's default timeout.
-	 * @see URLConnection#setReadTimeout(int)
+	 * 设置底层URLConnection的读取超时 (以毫秒为单位).
+	 * 超时值0指定无限超时.
+	 * <p>默认值是系统的默认超时.
 	 */
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
 	}
 
 	/**
-	 * Set if the underlying URLConnection can be set to 'output streaming' mode.
-	 * Default is {@code true}.
-	 * <p>When output streaming is enabled, authentication and redirection cannot be handled automatically.
-	 * If output streaming is disabled, the {@link HttpURLConnection#setFixedLengthStreamingMode} and
-	 * {@link HttpURLConnection#setChunkedStreamingMode} methods of the underlying connection will never
-	 * be called.
-	 * @param outputStreaming if output streaming is enabled
+	 * 设置是否可以将底层URLConnection设置为'输出流'模式.
+	 * 默认{@code true}.
+	 * <p>启用输出流时, 无法自动处理身份验证和重定向.
+	 * 如果禁用输出流, 则永远不会调用底层连接的{@link HttpURLConnection#setFixedLengthStreamingMode}
+	 * 和{@link HttpURLConnection#setChunkedStreamingMode}方法.
+	 * 
+	 * @param outputStreaming 如果输出流已启用
 	 */
 	public void setOutputStreaming(boolean outputStreaming) {
 		this.outputStreaming = outputStreaming;
 	}
 
 	/**
-	 * Set the task executor for this request factory. Setting this property is required
-	 * for {@linkplain #createAsyncRequest(URI, HttpMethod) creating asynchronous requests}.
-	 * @param taskExecutor the task executor
+	 * 设置此请求工厂的任务执行器.
+	 * 设置此属性是{@linkplain #createAsyncRequest(URI, HttpMethod) 创建异步请求}所必需的.
+	 * 
+	 * @param taskExecutor 任务执行器
 	 */
 	public void setTaskExecutor(AsyncListenableTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
@@ -129,7 +119,7 @@ public class SimpleClientHttpRequestFactory implements ClientHttpRequestFactory,
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Setting the {@link #setTaskExecutor taskExecutor} property is required before calling this method.
+	 * <p>在调用此方法之前, 需要设置{@link #setTaskExecutor taskExecutor}属性.
 	 */
 	@Override
 	public AsyncClientHttpRequest createAsyncRequest(URI uri, HttpMethod httpMethod) throws IOException {
@@ -149,13 +139,14 @@ public class SimpleClientHttpRequestFactory implements ClientHttpRequestFactory,
 	}
 
 	/**
-	 * Opens and returns a connection to the given URL.
-	 * <p>The default implementation uses the given {@linkplain #setProxy(java.net.Proxy) proxy} -
-	 * if any - to open a connection.
-	 * @param url the URL to open a connection to
-	 * @param proxy the proxy to use, may be {@code null}
-	 * @return the opened connection
-	 * @throws IOException in case of I/O errors
+	 * 打开并返回给定URL的连接.
+	 * <p>默认实现使用给定的{@linkplain #setProxy(java.net.Proxy) 代理} - 打开连接.
+	 * 
+	 * @param url 用于打开连接的URL
+	 * @param proxy 要使用的代理, 可能是{@code null}
+	 * 
+	 * @return 打开的连接
+	 * @throws IOException
 	 */
 	protected HttpURLConnection openConnection(URL url, Proxy proxy) throws IOException {
 		URLConnection urlConnection = (proxy != null ? url.openConnection(proxy) : url.openConnection());
@@ -166,11 +157,13 @@ public class SimpleClientHttpRequestFactory implements ClientHttpRequestFactory,
 	}
 
 	/**
-	 * Template method for preparing the given {@link HttpURLConnection}.
-	 * <p>The default implementation prepares the connection for input and output, and sets the HTTP method.
-	 * @param connection the connection to prepare
-	 * @param httpMethod the HTTP request method ({@code GET}, {@code POST}, etc.)
-	 * @throws IOException in case of I/O errors
+	 * 准备给定的{@link HttpURLConnection}的模板方法.
+	 * <p>默认实现为输入和输出准备连接, 并设置HTTP方法.
+	 * 
+	 * @param connection 要准备的连接
+	 * @param httpMethod HTTP请求方法 ({@code GET}, {@code POST}, etc.)
+	 * 
+	 * @throws IOException
 	 */
 	protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
 		if (this.connectTimeout >= 0) {

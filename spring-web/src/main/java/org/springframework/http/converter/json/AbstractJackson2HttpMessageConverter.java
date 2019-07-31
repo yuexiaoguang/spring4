@@ -34,10 +34,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.TypeUtils;
 
 /**
- * Abstract base class for Jackson based and content type independent
- * {@link HttpMessageConverter} implementations.
+ * 基于Jackson和内容类型独立{@link HttpMessageConverter}实现的抽象基类.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 public abstract class AbstractJackson2HttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 
@@ -77,15 +76,12 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 
 
 	/**
-	 * Set the {@code ObjectMapper} for this view.
-	 * If not set, a default {@link ObjectMapper#ObjectMapper() ObjectMapper} is used.
-	 * <p>Setting a custom-configured {@code ObjectMapper} is one way to take further
-	 * control of the JSON serialization process. For example, an extended
-	 * {@link com.fasterxml.jackson.databind.ser.SerializerFactory}
-	 * can be configured that provides custom serializers for specific types.
-	 * The other option for refining the serialization process is to use Jackson's
-	 * provided annotations on the types to be serialized, in which case a
-	 * custom-configured ObjectMapper is unnecessary.
+	 * 为此视图设置{@code ObjectMapper}.
+	 * 如果未设置, 则使用默认的{@link ObjectMapper#ObjectMapper() ObjectMapper}.
+	 * <p>设置自定义配置的{@code ObjectMapper}是进一步控制JSON序列化过程的一种方法.
+	 * 例如, 可以配置扩展的{@link com.fasterxml.jackson.databind.ser.SerializerFactory},
+	 * 为特定类型提供自定义序列化器.
+	 * 改进序列化过程的另一个选项是使用Jackson提供的在要序列化的类型上的注解, 在这种情况下, 不需要自定义配置的ObjectMapper.
 	 */
 	public void setObjectMapper(ObjectMapper objectMapper) {
 		Assert.notNull(objectMapper, "ObjectMapper must not be null");
@@ -94,15 +90,15 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	}
 
 	/**
-	 * Return the underlying {@code ObjectMapper} for this view.
+	 * 返回此视图的底层{@code ObjectMapper}.
 	 */
 	public ObjectMapper getObjectMapper() {
 		return this.objectMapper;
 	}
 
 	/**
-	 * Whether to use the {@link DefaultPrettyPrinter} when writing JSON.
-	 * This is a shortcut for setting up an {@code ObjectMapper} as follows:
+	 * 在写入JSON时是否使用{@link DefaultPrettyPrinter}.
+	 * 这是设置{@code ObjectMapper}的快捷方式, 如下所示:
 	 * <pre class="code">
 	 * ObjectMapper mapper = new ObjectMapper();
 	 * mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
@@ -154,19 +150,17 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	}
 
 	/**
-	 * Determine whether to log the given exception coming from a
-	 * {@link ObjectMapper#canDeserialize} / {@link ObjectMapper#canSerialize} check.
-	 * @param type the class that Jackson tested for (de-)serializability
-	 * @param cause the Jackson-thrown exception to evaluate
-	 * (typically a {@link JsonMappingException})
-	 * @since 4.3
+	 * 确定是否记录来自{@link ObjectMapper#canDeserialize} / {@link ObjectMapper#canSerialize}检查的给定异常.
+	 * 
+	 * @param type Jackson测试其(反)序列化的类
+	 * @param cause 要评估的Jackson抛出的异常 (通常是{@link JsonMappingException})
 	 */
 	protected void logWarningIfNecessary(Type type, Throwable cause) {
 		if (cause == null) {
 			return;
 		}
 
-		// Do not log warning for serializer not found (note: different message wording on Jackson 2.9)
+		// 不记录未找到序列化器的警告 (note: Jackson 2.9上的不同消息措辞)
 		boolean debugLevel = (cause instanceof JsonMappingException &&
 				(cause.getMessage().startsWith("Can not find") || cause.getMessage().startsWith("Cannot find")));
 
@@ -273,26 +267,28 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	}
 
 	/**
-	 * Write a prefix before the main content.
-	 * @param generator the generator to use for writing content.
-	 * @param object the object to write to the output message.
+	 * 在主要内容之前写入一个前缀.
+	 * 
+	 * @param generator 用于写入内容的生成器.
+	 * @param object 要写入输出消息的对象.
 	 */
 	protected void writePrefix(JsonGenerator generator, Object object) throws IOException {
 	}
 
 	/**
-	 * Write a suffix after the main content.
-	 * @param generator the generator to use for writing content.
-	 * @param object the object to write to the output message.
+	 * 在主要内容后面写入一个后缀.
+	 * 
+	 * @param generator 用于写入内容的生成器.
+	 * @param object 要写入输出消息的对象.
 	 */
 	protected void writeSuffix(JsonGenerator generator, Object object) throws IOException {
 	}
 
 	/**
-	 * Return the Jackson {@link JavaType} for the specified type and context class.
-	 * <p>The default implementation returns {@code typeFactory.constructType(type, contextClass)},
-	 * but this can be overridden in subclasses, to allow for custom generic collection handling.
-	 * For instance:
+	 * 返回指定类型和上下文类的Jackson {@link JavaType}.
+	 * <p>默认实现返回{@code typeFactory.constructType(type, contextClass)},
+	 * 但这可以在子类中重写, 以允许自定义泛型集合处理.
+	 * 示例:
 	 * <pre class="code">
 	 * protected JavaType getJavaType(Type type) {
 	 *   if (type instanceof Class && List.class.isAssignableFrom((Class)type)) {
@@ -302,9 +298,10 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	 *   }
 	 * }
 	 * </pre>
-	 * @param type the generic type to return the Jackson JavaType for
-	 * @param contextClass a context class for the target type, for example a class
-	 * in which the target type appears in a method signature (can be {@code null})
+	 * 
+	 * @param type 要返回Jackson JavaType的泛型类型
+	 * @param contextClass 目标类型的上下文类, 例如目标类型出现在方法签名中的类 (can be {@code null})
+	 * 
 	 * @return the Jackson JavaType
 	 */
 	protected JavaType getJavaType(Type type, Class<?> contextClass) {
@@ -371,9 +368,11 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	}
 
 	/**
-	 * Determine the JSON encoding to use for the given content type.
-	 * @param contentType the media type as requested by the caller
-	 * @return the JSON encoding to use (never {@code null})
+	 * 确定要用于给定内容类型的JSON编码.
+	 * 
+	 * @param contentType 调用者请求的媒体类型
+	 * 
+	 * @return 要使用的JSON编码 (never {@code null})
 	 */
 	protected JsonEncoding getJsonEncoding(MediaType contentType) {
 		if (contentType != null && contentType.getCharset() != null) {

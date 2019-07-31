@@ -22,18 +22,15 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 import org.springframework.web.util.WebUtils;
 
 /**
- * Servlet-based {@link MultipartResolver} implementation for
- * <a href="http://commons.apache.org/proper/commons-fileupload">Apache Commons FileUpload</a>
- * 1.2 or above.
+ * <a href="http://commons.apache.org/proper/commons-fileupload">Apache Commons FileUpload</a> 1.2
+ * 或更高版本的基于Servlet的{@link MultipartResolver}实现.
  *
- * <p>Provides "maxUploadSize", "maxInMemorySize" and "defaultEncoding" settings as
- * bean properties (inherited from {@link CommonsFileUploadSupport}). See corresponding
- * ServletFileUpload / DiskFileItemFactory properties ("sizeMax", "sizeThreshold",
- * "headerEncoding") for details in terms of defaults and accepted values.
+ * <p>提供"maxUploadSize", "maxInMemorySize"和"defaultEncoding"设置作为bean属性 (继承自{@link CommonsFileUploadSupport}).
+ * 有关默认值和接受值的详细信息, 请参阅相应的ServletFileUpload / DiskFileItemFactory属性
+ * ("sizeMax", "sizeThreshold", "headerEncoding").
  *
- * <p>Saves temporary files to the servlet container's temporary directory.
- * Needs to be initialized <i>either</i> by an application context <i>or</i>
- * via the constructor that takes a ServletContext (for standalone usage).
+ * <p>将临时文件保存到servlet容器的临时目录中.
+ * 需要通过应用程序上下文<i>或</i>通过带有ServletContext的构造函数进行初始化 (用于独立使用).
  */
 public class CommonsMultipartResolver extends CommonsFileUploadSupport
 		implements MultipartResolver, ServletContextAware {
@@ -42,18 +39,18 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 
 
 	/**
-	 * Constructor for use as bean. Determines the servlet container's
-	 * temporary directory via the ServletContext passed in as through the
-	 * ServletContextAware interface (typically by a WebApplicationContext).
+	 * 用作bean的构造函数.
+	 * 通过ServletContextAware接口 (通常是WebApplicationContext)传入的ServletContext确定servlet容器的临时目录.
 	 */
 	public CommonsMultipartResolver() {
 		super();
 	}
 
 	/**
-	 * Constructor for standalone usage. Determines the servlet container's
-	 * temporary directory via the given ServletContext.
-	 * @param servletContext the ServletContext to use
+	 * 独立使用的构造函数.
+	 * 通过给定的ServletContext确定servlet容器的临时目录.
+	 * 
+	 * @param servletContext 要使用的ServletContext
 	 */
 	public CommonsMultipartResolver(ServletContext servletContext) {
 		this();
@@ -62,22 +59,21 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 
 
 	/**
-	 * Set whether to resolve the multipart request lazily at the time of
-	 * file or parameter access.
-	 * <p>Default is "false", resolving the multipart elements immediately, throwing
-	 * corresponding exceptions at the time of the {@link #resolveMultipart} call.
-	 * Switch this to "true" for lazy multipart parsing, throwing parse exceptions
-	 * once the application attempts to obtain multipart files or parameters.
+	 * 设置是否在文件或参数访问时延迟地解析multipart请求.
+	 * <p>默认为"false", 立即解析multipart元素, 在{@link #resolveMultipart}调用时抛出相应的异常.
+	 * 对于延迟multipart解析, 将其切换为"true", 一旦应用程序尝试获取multipart文件或参数, 则抛出解析异常.
 	 */
 	public void setResolveLazily(boolean resolveLazily) {
 		this.resolveLazily = resolveLazily;
 	}
 
 	/**
-	 * Initialize the underlying {@code org.apache.commons.fileupload.servlet.ServletFileUpload}
-	 * instance. Can be overridden to use a custom subclass, e.g. for testing purposes.
-	 * @param fileItemFactory the Commons FileItemFactory to use
-	 * @return the new ServletFileUpload instance
+	 * 初始化底层{@code org.apache.commons.fileupload.servlet.ServletFileUpload}实例.
+	 * 可以重写以使用自定义子类, e.g. 用于测试.
+	 * 
+	 * @param fileItemFactory 要使用的Commons FileItemFactory
+	 * 
+	 * @return 新的ServletFileUpload实例
 	 */
 	@Override
 	protected FileUpload newFileUpload(FileItemFactory fileItemFactory) {
@@ -119,10 +115,12 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Parse the given servlet request, resolving its multipart elements.
-	 * @param request the request to parse
-	 * @return the parsing result
-	 * @throws MultipartException if multipart resolution failed.
+	 * 解析给定的servlet请求, 解析其multipart元素.
+	 * 
+	 * @param request 要解析的请求
+	 * 
+	 * @return 解析后的结果
+	 * @throws MultipartException 如果解析multipart失败
 	 */
 	protected MultipartParsingResult parseRequest(HttpServletRequest request) throws MultipartException {
 		String encoding = determineEncoding(request);
@@ -143,14 +141,13 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Determine the encoding for the given request.
-	 * Can be overridden in subclasses.
-	 * <p>The default implementation checks the request encoding,
-	 * falling back to the default encoding specified for this resolver.
-	 * @param request current HTTP request
-	 * @return the encoding for the request (never {@code null})
-	 * @see javax.servlet.ServletRequest#getCharacterEncoding
-	 * @see #setDefaultEncoding
+	 * 确定给定请求的编码.
+	 * 可以在子类中重写.
+	 * <p>默认实现检查请求编码, 然后回退到为此解析器指定的默认编码.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * 
+	 * @return 请求的编码 (never {@code null})
 	 */
 	protected String determineEncoding(HttpServletRequest request) {
 		String encoding = request.getCharacterEncoding();

@@ -1,5 +1,4 @@
 /**
- * This package provides generic HTTP support classes,
- * to be used by higher-level classes like RestTemplate.
+ * 此包提供了通用HTTP支持类, 供RestTemplate等高级类使用.
  */
 package org.springframework.http.client.support;

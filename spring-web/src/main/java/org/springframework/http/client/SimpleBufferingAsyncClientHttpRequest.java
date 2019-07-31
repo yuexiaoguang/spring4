@@ -13,9 +13,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * {@link org.springframework.http.client.ClientHttpRequest} implementation that uses
- * standard JDK facilities to execute buffered requests. Created via the
- * {@link org.springframework.http.client.SimpleClientHttpRequestFactory}.
+ * {@link org.springframework.http.client.ClientHttpRequest}实现, 使用标准JDK工具执行缓冲请求.
+ * 通过{@link org.springframework.http.client.SimpleClientHttpRequestFactory}创建.
  */
 final class SimpleBufferingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequest {
 
@@ -58,7 +57,7 @@ final class SimpleBufferingAsyncClientHttpRequest extends AbstractBufferingAsync
 			@Override
 			public ClientHttpResponse call() throws Exception {
 				SimpleBufferingClientHttpRequest.addHeaders(connection, headers);
-				// JDK <1.8 doesn't support getOutputStream with HTTP DELETE
+				// JDK <1.8 不支持带有HTTP DELETE的getOutputStream
 				if (getMethod() == HttpMethod.DELETE && bufferedOutput.length == 0) {
 					connection.setDoOutput(false);
 				}
@@ -70,7 +69,7 @@ final class SimpleBufferingAsyncClientHttpRequest extends AbstractBufferingAsync
 					FileCopyUtils.copy(bufferedOutput, connection.getOutputStream());
 				}
 				else {
-					// Immediately trigger the request in a no-output scenario as well
+					// 在无输出场景中立即触发请求
 					connection.getResponseCode();
 				}
 				return new SimpleClientHttpResponse(connection);

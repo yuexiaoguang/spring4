@@ -30,13 +30,11 @@ import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.context.request.WebRequest;
 
 /**
- * Convenience methods for retrieving the root {@link WebApplicationContext} for
- * a given {@link ServletContext}. This is useful for programmatically accessing
- * a Spring application context from within custom web views or MVC actions.
+ * 检索给定{@link ServletContext}的根{@link WebApplicationContext}的便捷方法.
+ * 这对于从自定义Web视图或MVC操作中以编程方式访问Spring应用程序上下文非常有用.
  *
- * <p>Note that there are more convenient ways of accessing the root context for
- * many web frameworks, either part of Spring or available as an external library.
- * This helper class is just the most generic way to access the root context.
+ * <p>请注意, 有许多方便的方法可以访问许多Web框架的根上下文, 无论是Spring的一部分还是外部库.
+ * 这个帮助器类只是访问根上下文的最通用方法.
  */
 public abstract class WebApplicationContextUtils {
 
@@ -45,13 +43,14 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Find the root {@code WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param sc ServletContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app
-	 * @throws IllegalStateException if the root WebApplicationContext could not be found
+	 * 查找此Web应用程序的根{@code WebApplicationContext},
+	 * 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param sc 查找Web应用程序上下文的ServletContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext
+	 * @throws IllegalStateException 如果找不到根WebApplicationContext
 	 */
 	public static WebApplicationContext getRequiredWebApplicationContext(ServletContext sc) throws IllegalStateException {
 		WebApplicationContext wac = getWebApplicationContext(sc);
@@ -62,23 +61,25 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
-	 * Find the root {@code WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param sc ServletContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app, or {@code null} if none
-	 * @see org.springframework.web.context.WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE
+	 * 查找此Web应用程序的根{@code WebApplicationContext},
+	 * 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param sc 查找Web应用程序上下文的ServletContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext, 或{@code null}
 	 */
 	public static WebApplicationContext getWebApplicationContext(ServletContext sc) {
 		return getWebApplicationContext(sc, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 	}
 
 	/**
-	 * Find a custom {@code WebApplicationContext} for this web app.
-	 * @param sc ServletContext to find the web application context for
-	 * @param attrName the name of the ServletContext attribute to look for
-	 * @return the desired WebApplicationContext for this web app, or {@code null} if none
+	 * 为此Web应用程序查找自定义{@code WebApplicationContext}.
+	 * 
+	 * @param sc 查找Web应用程序上下文的ServletContext
+	 * @param attrName 要查找的ServletContext属性的名称
+	 * 
+	 * @return 此Web应用程序所需的WebApplicationContext, 或{@code null}
 	 */
 	public static WebApplicationContext getWebApplicationContext(ServletContext sc, String attrName) {
 		Assert.notNull(sc, "ServletContext must not be null");
@@ -102,19 +103,15 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
-	 * Find a unique {@code WebApplicationContext} for this web app: either the
-	 * root web app context (preferred) or a unique {@code WebApplicationContext}
-	 * among the registered {@code ServletContext} attributes (typically coming
-	 * from a single {@code DispatcherServlet} in the current web application).
-	 * <p>Note that {@code DispatcherServlet}'s exposure of its context can be
-	 * controlled through its {@code publishContext} property, which is {@code true}
-	 * by default but can be selectively switched to only publish a single context
-	 * despite multiple {@code DispatcherServlet} registrations in the web app.
-	 * @param sc ServletContext to find the web application context for
-	 * @return the desired WebApplicationContext for this web app, or {@code null} if none
-	 * @since 4.2
-	 * @see #getWebApplicationContext(ServletContext)
-	 * @see ServletContext#getAttributeNames()
+	 * 为此Web应用程序查找唯一的{@code WebApplicationContext}:
+	 * 注册的{@code ServletContext}属性中的根Web应用程序上下文(首选)或唯一的{@code WebApplicationContext}
+	 * (通常来自当前Web应用程序中的单个{@code DispatcherServlet}).
+	 * <p>请注意, {@code DispatcherServlet}对其上下文的暴露可以通过其{@code publishContext}属性进行控制,
+	 * 默认为{@code true}, 但可以选择性地切换为仅发布单个上下文, 尽管Web应用程序中注册了多个{@code DispatcherServlet}.
+	 * 
+	 * @param sc 查找Web应用程序上下文的ServletContext
+	 * 
+	 * @return 此Web应用程序所需的WebApplicationContext, 或{@code null}
 	 */
 	public static WebApplicationContext findWebApplicationContext(ServletContext sc) {
 		WebApplicationContext wac = getWebApplicationContext(sc);
@@ -137,19 +134,20 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Register web-specific scopes ("request", "session", "globalSession")
-	 * with the given BeanFactory, as used by the WebApplicationContext.
-	 * @param beanFactory the BeanFactory to configure
+	 * 使用给定BeanFactory注册特定于Web的作用域 ("request", "session", "globalSession"), 如WebApplicationContext所使用的那样.
+	 * 
+	 * @param beanFactory 要配置的BeanFactory
 	 */
 	public static void registerWebApplicationScopes(ConfigurableListableBeanFactory beanFactory) {
 		registerWebApplicationScopes(beanFactory, null);
 	}
 
 	/**
-	 * Register web-specific scopes ("request", "session", "globalSession", "application")
-	 * with the given BeanFactory, as used by the WebApplicationContext.
-	 * @param beanFactory the BeanFactory to configure
-	 * @param sc the ServletContext that we're running within
+	 * 使用给定BeanFactory注册特定于Web的作用域 ("request", "session", "globalSession", "application"),
+	 * 如WebApplicationContext所使用的那样.
+	 * 
+	 * @param beanFactory 要配置的BeanFactory
+	 * @param sc 正在运行的ServletContext
 	 */
 	public static void registerWebApplicationScopes(ConfigurableListableBeanFactory beanFactory, ServletContext sc) {
 		beanFactory.registerScope(WebApplicationContext.SCOPE_REQUEST, new RequestScope());
@@ -158,7 +156,7 @@ public abstract class WebApplicationContextUtils {
 		if (sc != null) {
 			ServletContextScope appScope = new ServletContextScope(sc);
 			beanFactory.registerScope(WebApplicationContext.SCOPE_APPLICATION, appScope);
-			// Register as ServletContext attribute, for ContextCleanupListener to detect it.
+			// 注册为ServletContext属性, 用于ContextCleanupListener来检测它.
 			sc.setAttribute(ServletContextScope.class.getName(), appScope);
 		}
 
@@ -172,21 +170,23 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
-	 * Register web-specific environment beans ("contextParameters", "contextAttributes")
-	 * with the given BeanFactory, as used by the WebApplicationContext.
-	 * @param bf the BeanFactory to configure
-	 * @param sc the ServletContext that we're running within
+	 * 使用给定的BeanFactory注册特定于Web的环境bean ("contextParameters", "contextAttributes"),
+	 * 如WebApplicationContext所使用的那样.
+	 * 
+	 * @param bf 要配置的BeanFactory
+	 * @param sc 正在运行的ServletContext
 	 */
 	public static void registerEnvironmentBeans(ConfigurableListableBeanFactory bf, ServletContext sc) {
 		registerEnvironmentBeans(bf, sc, null);
 	}
 
 	/**
-	 * Register web-specific environment beans ("contextParameters", "contextAttributes")
-	 * with the given BeanFactory, as used by the WebApplicationContext.
-	 * @param bf the BeanFactory to configure
-	 * @param servletContext the ServletContext that we're running within
-	 * @param servletConfig the ServletConfig of the containing Portlet
+	 * 使用给定的BeanFactory注册特定于Web的环境bean ("contextParameters", "contextAttributes"),
+	 * 如WebApplicationContext所使用的那样.
+	 * 
+	 * @param bf 要配置的BeanFactory
+	 * @param servletContext 正在运行的ServletContext
+	 * @param servletConfig 包含Portlet的ServletConfig
 	 */
 	public static void registerEnvironmentBeans(
 			ConfigurableListableBeanFactory bf, ServletContext servletContext, ServletConfig servletConfig) {
@@ -234,32 +234,23 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
-	 * Convenient variant of {@link #initServletPropertySources(MutablePropertySources,
-	 * ServletContext, ServletConfig)} that always provides {@code null} for the
-	 * {@link ServletConfig} parameter.
-	 * @see #initServletPropertySources(MutablePropertySources, ServletContext, ServletConfig)
+	 * {@link #initServletPropertySources(MutablePropertySources, ServletContext, ServletConfig)}的便捷变体,
+	 * 它始终为{@link ServletConfig}参数提供{@code null}.
 	 */
 	public static void initServletPropertySources(MutablePropertySources propertySources, ServletContext servletContext) {
 		initServletPropertySources(propertySources, servletContext, null);
 	}
 
 	/**
-	 * Replace {@code Servlet}-based {@link StubPropertySource stub property sources} with
-	 * actual instances populated with the given {@code servletContext} and
-	 * {@code servletConfig} objects.
-	 * <p>This method is idempotent with respect to the fact it may be called any number
-	 * of times but will perform replacement of stub property sources with their
-	 * corresponding actual property sources once and only once.
-	 * @param propertySources the {@link MutablePropertySources} to initialize (must not
-	 * be {@code null})
-	 * @param servletContext the current {@link ServletContext} (ignored if {@code null}
-	 * or if the {@link StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME
-	 * servlet context property source} has already been initialized)
-	 * @param servletConfig the current {@link ServletConfig} (ignored if {@code null}
-	 * or if the {@link StandardServletEnvironment#SERVLET_CONFIG_PROPERTY_SOURCE_NAME
-	 * servlet config property source} has already been initialized)
-	 * @see org.springframework.core.env.PropertySource.StubPropertySource
-	 * @see org.springframework.core.env.ConfigurableEnvironment#getPropertySources()
+	 * 将基于{@code Servlet}的{@link StubPropertySource 存根属性源}替换为
+	 * 使用给定的{@code servletContext}和{@code servletConfig}对象填充的实际实例.
+	 * <p>这个方法是幂等的, 因为它可以被调用任意次, 但是会用它们相应的实际属性源替换存根属性源一次且仅有一次.
+	 * 
+	 * @param propertySources 要初始化的{@link MutablePropertySources} (不能是{@code null})
+	 * @param servletContext 当前的{@link ServletContext}
+	 * (如果为{@code null}, 或者如果{@link StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME servlet上下文属性源}已经初始化, 则忽略)
+	 * @param servletConfig 当前的{@link ServletConfig}
+	 * (如果为{@code null}, 或者如果{@link StandardServletEnvironment#SERVLET_CONFIG_PROPERTY_SOURCE_NAME servlet上下文属性源}已经初始化, 则忽略)
 	 */
 	public static void initServletPropertySources(
 			MutablePropertySources propertySources, ServletContext servletContext, ServletConfig servletConfig) {
@@ -278,8 +269,7 @@ public abstract class WebApplicationContextUtils {
 	}
 
 	/**
-	 * Return the current RequestAttributes instance as ServletRequestAttributes.
-	 * @see RequestContextHolder#currentRequestAttributes()
+	 * 返回当前的RequestAttributes实例.
 	 */
 	private static ServletRequestAttributes currentRequestAttributes() {
 		RequestAttributes requestAttr = RequestContextHolder.currentRequestAttributes();
@@ -291,7 +281,7 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current request object on demand.
+	 * 按需公开当前请求对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class RequestObjectFactory implements ObjectFactory<ServletRequest>, Serializable {
@@ -309,7 +299,7 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current response object on demand.
+	 * 按需公开当前响应对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class ResponseObjectFactory implements ObjectFactory<ServletResponse>, Serializable {
@@ -332,7 +322,7 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current session object on demand.
+	 * 按需公开当前会话对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class SessionObjectFactory implements ObjectFactory<HttpSession>, Serializable {
@@ -350,7 +340,7 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current WebRequest object on demand.
+	 * 根据需要公开当前WebRequest对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class WebRequestObjectFactory implements ObjectFactory<WebRequest>, Serializable {
@@ -369,7 +359,7 @@ public abstract class WebApplicationContextUtils {
 
 
 	/**
-	 * Inner class to avoid hard-coded JSF dependency.
+	 * 内部类, 以避免硬编码的JSF依赖.
  	 */
 	private static class FacesDependencyRegistrar {
 
@@ -396,5 +386,4 @@ public abstract class WebApplicationContextUtils {
 			});
 		}
 	}
-
 }

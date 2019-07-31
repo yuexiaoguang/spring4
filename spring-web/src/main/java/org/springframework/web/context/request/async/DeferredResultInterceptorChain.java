@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Assists with the invocation of {@link DeferredResultProcessingInterceptor}'s.
+ * 协助调用{@link DeferredResultProcessingInterceptor}.
  */
 class DeferredResultInterceptorChain {
 

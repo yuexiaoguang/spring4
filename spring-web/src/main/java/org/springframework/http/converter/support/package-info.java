@@ -1,4 +1,4 @@
 /**
- * Provides a comprehensive HttpMessageConverter variant for form handling.
+ * 为表单处理提供全面的HttpMessageConverter变体.
  */
 package org.springframework.http.converter.support;

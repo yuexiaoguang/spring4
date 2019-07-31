@@ -1,15 +1,13 @@
 package org.springframework.web.bind.annotation;
 
 /**
- * Common value constants shared between bind annotations.
+ * 绑定注解之间共享的公共值常量.
  */
 public interface ValueConstants {
 
 	/**
-	 * Constant defining a value for no default - as a replacement for
-	 * {@code null} which we cannot use in annotation attributes.
-	 * <p>This is an artificial arrangement of 16 unicode characters,
-	 * with its sole purpose being to never match user-declared values.
+	 * 常量定义一个没有默认值的值  - 作为{@code null}的替代, 因为不能在注解属性中使用{@code null}.
+	 * <p>这是16个unicode字符的人工排列, 其唯一目的是永远不匹配用户声明的值.
 	 */
 	String DEFAULT_NONE = "\n\t\t\n\t\t\n\uE000\uE001\uE002\n\t\t\t\t\n";
 

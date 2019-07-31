@@ -7,20 +7,21 @@ import org.springframework.core.MethodIntrospector;
 import org.springframework.util.ReflectionUtils.MethodFilter;
 
 /**
- * Defines the algorithm for searching handler methods exhaustively including interfaces and parent
- * classes while also dealing with parameterized methods as well as interface and class-based proxies.
+ * 定义用于搜索处理器方法的算法, 包括接口和父类, 同时还处理参数化方法以及接口和基于类的代理.
  *
- * @deprecated as of Spring 4.2.3, in favor of the generalized and refined {@link MethodIntrospector}
+ * @deprecated 从Spring 4.2.3开始, 支持广义和精炼{@link MethodIntrospector}
  */
 @Deprecated
 public abstract class HandlerMethodSelector {
 
 	/**
-	 * Select handler methods for the given handler type.
-	 * <p>Callers define handler methods of interest through the {@link MethodFilter} parameter.
-	 * @param handlerType the handler type to search handler methods on
-	 * @param handlerMethodFilter a {@link MethodFilter} to help recognize handler methods of interest
-	 * @return the selected methods, or an empty set
+	 * 选择给定处理器类型的处理器方法.
+	 * <p>调用者通过{@link MethodFilter}参数定义感兴趣的处理器方法.
+	 * 
+	 * @param handlerType 用于搜索处理器方法的处理器类型
+	 * @param handlerMethodFilter 帮助识别感兴趣的处理器方法的{@link MethodFilter}
+	 * 
+	 * @return 选择的方法, 或空集合
 	 */
 	public static Set<Method> selectMethods(Class<?> handlerType, MethodFilter handlerMethodFilter) {
 		return MethodIntrospector.selectMethods(handlerType, handlerMethodFilter);

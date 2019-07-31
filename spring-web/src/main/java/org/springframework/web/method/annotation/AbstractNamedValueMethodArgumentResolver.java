@@ -20,24 +20,22 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Abstract base class for resolving method arguments from a named value.
- * Request parameters, request headers, and path variables are examples of named
- * values. Each may have a name, a required flag, and a default value.
+ * 用于从命名值解析方法参数的抽象基类.
+ * 请求参数, 请求header和路径变量是命名值的示例.
+ * 每个都可以有一个名称, 一个必需的标志和一个默认值.
  *
- * <p>Subclasses define how to do the following:
+ * <p>子类定义如何执行以下操作:
  * <ul>
- * <li>Obtain named value information for a method parameter
- * <li>Resolve names into argument values
- * <li>Handle missing argument values when argument values are required
- * <li>Optionally handle a resolved value
+ * <li>获取方法参数的命名值信息
+ * <li>将名称解析为参数值
+ * <li>在需要参数值时处理缺少的参数值
+ * <li>可选地处理已解析的值
  * </ul>
  *
- * <p>A default value string can contain ${...} placeholders and Spring Expression
- * Language #{...} expressions. For this to work a
- * {@link ConfigurableBeanFactory} must be supplied to the class constructor.
+ * <p>默认值字符串可以包含 ${...}占位符和Spring Expression Language #{...}表达式.
+ * 为此, 必须将{@link ConfigurableBeanFactory}提供给类构造函数.
  *
- * <p>A {@link WebDataBinder} is created to apply type conversion to the resolved
- * argument value if it doesn't match the method parameter type.
+ * <p>创建{@link WebDataBinder}以将类型转换应用于已解析的参数值, 如果它与方法参数类型不匹配.
  */
 public abstract class AbstractNamedValueMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -55,9 +53,8 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * @param beanFactory a bean factory to use for resolving ${...} placeholder
-	 * and #{...} SpEL expressions in default values, or {@code null} if default
-	 * values are not expected to contain expressions
+	 * @param beanFactory 用于在默认值中解析 ${...}占位符和 #{...} SpEL表达式的bean工厂;
+	 * 或{@code null}, 如果默认值不包含表达式
 	 */
 	public AbstractNamedValueMethodArgumentResolver(ConfigurableBeanFactory beanFactory) {
 		this.configurableBeanFactory = beanFactory;
@@ -115,7 +112,7 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Obtain the named value for the given method parameter.
+	 * 获取给定方法参数的命名值.
 	 */
 	private NamedValueInfo getNamedValueInfo(MethodParameter parameter) {
 		NamedValueInfo namedValueInfo = this.namedValueInfoCache.get(parameter);
@@ -128,15 +125,17 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Create the {@link NamedValueInfo} object for the given method parameter. Implementations typically
-	 * retrieve the method annotation by means of {@link MethodParameter#getParameterAnnotation(Class)}.
-	 * @param parameter the method parameter
-	 * @return the named value information
+	 * 为给定的方法参数创建{@link NamedValueInfo}对象.
+	 * 实现通常通过{@link MethodParameter#getParameterAnnotation(Class)}检索方法注解.
+	 * 
+	 * @param parameter 方法参数
+	 * 
+	 * @return 命名值信息
 	 */
 	protected abstract NamedValueInfo createNamedValueInfo(MethodParameter parameter);
 
 	/**
-	 * Create a new NamedValueInfo based on the given NamedValueInfo with sanitized values.
+	 * 基于具有已清理值的给定NamedValueInfo创建新的NamedValueInfo.
 	 */
 	private NamedValueInfo updateNamedValueInfo(MethodParameter parameter, NamedValueInfo info) {
 		String name = info.name;
@@ -153,8 +152,7 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Resolve the given annotation-specified value,
-	 * potentially containing placeholders and expressions.
+	 * 解析给定的注解指定的值, 可能包含占位符和表达式.
 	 */
 	private Object resolveStringValue(String value) {
 		if (this.configurableBeanFactory == null) {
@@ -169,24 +167,25 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Resolve the given parameter type and value name into an argument value.
-	 * @param name the name of the value being resolved
-	 * @param parameter the method parameter to resolve to an argument value
-	 * (pre-nested in case of a {@link java.util.Optional} declaration)
-	 * @param request the current request
-	 * @return the resolved argument (may be {@code null})
-	 * @throws Exception in case of errors
+	 * 将给定的参数类型和值名称解析为参数值.
+	 * 
+	 * @param name 要解析的值的名称
+	 * @param parameter 解析为参数值的方法参数 (在声明{@link java.util.Optional}的情况下预先嵌套)
+	 * @param request 当前的请求
+	 * 
+	 * @return 已解析的值 (may be {@code null})
+	 * @throws Exception
 	 */
 	protected abstract Object resolveName(String name, MethodParameter parameter, NativeWebRequest request)
 			throws Exception;
 
 	/**
-	 * Invoked when a named value is required, but {@link #resolveName(String, MethodParameter, NativeWebRequest)}
-	 * returned {@code null} and there is no default value. Subclasses typically throw an exception in this case.
-	 * @param name the name for the value
-	 * @param parameter the method parameter
-	 * @param request the current request
-	 * @since 4.3
+	 * 在需要命名值时调用, 但{@link #resolveName(String, MethodParameter, NativeWebRequest)}返回{@code null}并且没有默认值.
+	 * 在这种情况下, 子类通常会抛出异常.
+	 * 
+	 * @param name 值的名称
+	 * @param parameter 方法参数
+	 * @param request 当前的请求
 	 */
 	protected void handleMissingValue(String name, MethodParameter parameter, NativeWebRequest request)
 			throws Exception {
@@ -195,10 +194,11 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Invoked when a named value is required, but {@link #resolveName(String, MethodParameter, NativeWebRequest)}
-	 * returned {@code null} and there is no default value. Subclasses typically throw an exception in this case.
-	 * @param name the name for the value
-	 * @param parameter the method parameter
+	 * 在需要命名值时调用, 但{@link #resolveName(String, MethodParameter, NativeWebRequest)}返回{@code null}并且没有默认值.
+	 * 在这种情况下, 子类通常会抛出异常.
+	 * 
+	 * @param name 值的名称
+	 * @param parameter 方法参数
 	 */
 	protected void handleMissingValue(String name, MethodParameter parameter) throws ServletException {
 		throw new ServletRequestBindingException("Missing argument '" + name +
@@ -206,7 +206,7 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * A {@code null} results in a {@code false} value for {@code boolean}s or an exception for other primitives.
+	 * {@code null}导致{@code boolean}的{@code false}值或其他原语的异常.
 	 */
 	private Object handleNullValue(String name, Object value, Class<?> paramType) {
 		if (value == null) {
@@ -223,12 +223,13 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 	}
 
 	/**
-	 * Invoked after a value is resolved.
-	 * @param arg the resolved argument value
-	 * @param name the argument name
-	 * @param parameter the argument parameter type
+	 * 在解析值后调用.
+	 * 
+	 * @param arg 已解析的参数值
+	 * @param name 参数名称
+	 * @param parameter 参数类型
 	 * @param mavContainer the {@link ModelAndViewContainer} (may be {@code null})
-	 * @param webRequest the current request
+	 * @param webRequest 当前的请求
 	 */
 	protected void handleResolvedValue(Object arg, String name, MethodParameter parameter,
 			ModelAndViewContainer mavContainer, NativeWebRequest webRequest) {
@@ -236,7 +237,7 @@ public abstract class AbstractNamedValueMethodArgumentResolver implements Handle
 
 
 	/**
-	 * Represents the information about a named value, including name, whether it's required and a default value.
+	 * 表示有关命名值的信息, 包括名称, 是否必需, 以及默认值.
 	 */
 	protected static class NamedValueInfo {
 

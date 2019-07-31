@@ -13,11 +13,10 @@ import org.springframework.lang.UsesJava7;
 import org.springframework.util.Assert;
 
 /**
- * Factory for locally defined JAX-WS {@link javax.xml.ws.Service} references.
- * Uses the JAX-WS {@link javax.xml.ws.Service#create} factory API underneath.
+ * 用于本地定义的JAX-WS {@link javax.xml.ws.Service}引用的工厂.
+ * 使用下面的JAX-WS {@link javax.xml.ws.Service#create}工厂API.
  *
- * <p>Serves as base class for {@link LocalJaxWsServiceFactoryBean} as well as
- * {@link JaxWsPortClientInterceptor} and {@link JaxWsPortProxyFactoryBean}.
+ * <p>用作{@link LocalJaxWsServiceFactoryBean}, {@link JaxWsPortClientInterceptor}和{@link JaxWsPortProxyFactoryBean}的基类.
  */
 public class LocalJaxWsServiceFactory {
 
@@ -35,15 +34,14 @@ public class LocalJaxWsServiceFactory {
 
 
 	/**
-	 * Set the URL of the WSDL document that describes the service.
+	 * 设置描述服务的WSDL文档的URL.
 	 */
 	public void setWsdlDocumentUrl(URL wsdlDocumentUrl) {
 		this.wsdlDocumentUrl = wsdlDocumentUrl;
 	}
 
 	/**
-	 * Set the WSDL document URL as a {@link Resource}.
-	 * @since 3.2
+	 * 设置WSDL文档URL, 作为{@link Resource}.
 	 */
 	public void setWsdlDocumentResource(Resource wsdlDocumentResource) throws IOException {
 		Assert.notNull(wsdlDocumentResource, "WSDL Resource must not be null.");
@@ -51,66 +49,59 @@ public class LocalJaxWsServiceFactory {
 	}
 
 	/**
-	 * Return the URL of the WSDL document that describes the service.
+	 * 返回描述服务的WSDL文档的URL.
 	 */
 	public URL getWsdlDocumentUrl() {
 		return this.wsdlDocumentUrl;
 	}
 
 	/**
-	 * Set the namespace URI of the service.
-	 * Corresponds to the WSDL "targetNamespace".
+	 * 设置服务的命名空间URI.
+	 * 对应于 WSDL "targetNamespace".
 	 */
 	public void setNamespaceUri(String namespaceUri) {
 		this.namespaceUri = (namespaceUri != null ? namespaceUri.trim() : null);
 	}
 
 	/**
-	 * Return the namespace URI of the service.
+	 * 返回服务的命名空间URI.
 	 */
 	public String getNamespaceUri() {
 		return this.namespaceUri;
 	}
 
 	/**
-	 * Set the name of the service to look up.
-	 * Corresponds to the "wsdl:service" name.
+	 * 设置要查找的服务的名称.
+	 * 对应于"wsdl:service"名称.
 	 */
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
 
 	/**
-	 * Return the name of the service.
+	 * 返回服务的名称.
 	 */
 	public String getServiceName() {
 		return this.serviceName;
 	}
 
 	/**
-	 * Specify WebServiceFeature objects (e.g. as inner bean definitions)
-	 * to apply to JAX-WS service creation.
-	 * <p>Note: This mechanism requires JAX-WS 2.2 or higher.
-	 * @since 4.0
-	 * @see Service#create(QName, WebServiceFeature...)
+	 * 指定要应用于JAX-WS服务创建的WebServiceFeature对象 (e.g. 作为内部bean定义).
+	 * <p>Note: 此机制需要JAX-WS 2.2或更高版本.
 	 */
 	public void setServiceFeatures(WebServiceFeature... serviceFeatures) {
 		this.serviceFeatures = serviceFeatures;
 	}
 
 	/**
-	 * Set the JDK concurrent executor to use for asynchronous executions
-	 * that require callbacks.
-	 * @see javax.xml.ws.Service#setExecutor
+	 * 设置JDK并发执行器以用于需要回调的异步执行.
 	 */
 	public void setExecutor(Executor executor) {
 		this.executor = executor;
 	}
 
 	/**
-	 * Set the JAX-WS HandlerResolver to use for all proxies and dispatchers
-	 * created through this factory.
-	 * @see javax.xml.ws.Service#setHandlerResolver
+	 * 设置用于通过此工厂创建的所有代理和调度器的JAX-WS HandlerResolver.
 	 */
 	public void setHandlerResolver(HandlerResolver handlerResolver) {
 		this.handlerResolver = handlerResolver;
@@ -118,9 +109,7 @@ public class LocalJaxWsServiceFactory {
 
 
 	/**
-	 * Create a JAX-WS Service according to the parameters of this factory.
-	 * @see #setServiceName
-	 * @see #setWsdlDocumentUrl
+	 * 根据此工厂的参数创建JAX-WS服务.
 	 */
 	@UsesJava7  // optional use of Service#create with WebServiceFeature[]
 	public Service createJaxWsService() {
@@ -149,12 +138,9 @@ public class LocalJaxWsServiceFactory {
 	}
 
 	/**
-	 * Return a QName for the given name, relative to the namespace URI
-	 * of this factory, if given.
-	 * @see #setNamespaceUri
+	 * 如果给定, 则返回相对于此工厂的命名空间URI的给定名称的QName.
 	 */
 	protected QName getQName(String name) {
 		return (getNamespaceUri() != null ? new QName(getNamespaceUri(), name) : new QName(name));
 	}
-
 }

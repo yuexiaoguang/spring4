@@ -5,22 +5,18 @@ import javax.servlet.ServletConfig;
 import org.springframework.beans.factory.Aware;
 
 /**
- * Interface to be implemented by any object that wishes to be notified of the
- * {@link ServletConfig} (typically determined by the {@link WebApplicationContext})
- * that it runs in.
+ * 由任何希望收到{@link ServletConfig} (通常由{@link WebApplicationContext}确定)通知的对象实现的接口.
  *
- * <p>Note: Only satisfied if actually running within a Servlet-specific
- * WebApplicationContext. Otherwise, no ServletConfig will be set.
+ * <p>Note: 仅在特定于Servlet的WebApplicationContext中实际运行时才满足. 否则, 不会设置ServletConfig.
  */
 public interface ServletConfigAware extends Aware {
 
 	/**
-	 * Set the {@link ServletConfig} that this object runs in.
-	 * <p>Invoked after population of normal bean properties but before an init
-	 * callback like InitializingBean's {@code afterPropertiesSet} or a
-	 * custom init-method. Invoked after ApplicationContextAware's
-	 * {@code setApplicationContext}.
-	 * @param servletConfig ServletConfig object to be used by this object
+	 * 设置此对象运行的{@link ServletConfig}.
+	 * <p>在普通bean属性填充之后但在初始化回调之前调用, 例如InitializingBean的{@code afterPropertiesSet}或自定义init方法.
+	 * 在ApplicationContextAware的{@code setApplicationContext}之后调用.
+	 * 
+	 * @param servletConfig 此对象使用的ServletConfig对象
 	 */
 	void setServletConfig(ServletConfig servletConfig);
 

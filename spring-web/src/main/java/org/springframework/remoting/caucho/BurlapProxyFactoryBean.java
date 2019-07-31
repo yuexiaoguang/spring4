@@ -4,18 +4,16 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * {@link FactoryBean} for Burlap proxies. Exposes the proxied service
- * for use as a bean reference, using the specified service interface.
+ * {@link FactoryBean}用于Burlap代理. 使用指定的服务接口公开代理服务以用作bean引用.
  *
- * <p>Burlap is a slim, XML-based RPC protocol.
+ * <p>Burlap是一种基于XML的轻量级RPC协议.
  * For information on Burlap, see the
  * <a href="http://www.caucho.com/burlap">Burlap website</a>
  *
- * <p>The service URL must be an HTTP URL exposing a Burlap service.
+ * <p>服务URL必须是公开Burlap服务的HTTP URL.
  * For details, see the {@link BurlapClientInterceptor} javadoc.
  *
- * @deprecated as of Spring 4.0, since Burlap hasn't evolved in years
- * and is effectively retired (in contrast to its sibling Hessian)
+ * @deprecated 从Spring 4.0开始, 由于Burlap几年没有进展 (与其兄弟Hessian形成鲜明对比)
  */
 @Deprecated
 public class BurlapProxyFactoryBean extends BurlapClientInterceptor implements FactoryBean<Object> {

@@ -17,15 +17,12 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- * Simple exporter for JAX-WS services, autodetecting annotated service beans
- * (through the JAX-WS {@link javax.jws.WebService} annotation) and exporting
- * them through the HTTP server included in Sun's JDK 1.6. The full address
- * for each service will consist of the server's base address with the
- * service name appended (e.g. "http://localhost:8080/OrderService").
+ * 用于JAX-WS服务的简单导出器, 自动检测带注解的服务bean (通过JAX-WS {@link javax.jws.WebService}注解),
+ * 并通过Sun JDK 1.6中包含的HTTP服务器导出它们.
+ * 每个服务的完整地址将包含服务器的基址和附加的服务名称 (e.g. "http://localhost:8080/OrderService").
  *
- * <p>Note that this exporter will only work on Sun's JDK 1.6 or higher, as well
- * as on JDKs that ship Sun's entire class library as included in the Sun JDK.
- * For a portable JAX-WS exporter, have a look at {@link SimpleJaxWsServiceExporter}.
+ * <p>请注意, 此导出器仅适用于Sun的JDK 1.6或更高版本, 以及适用于Sun JDK中包含的Sun整个类库的JDK.
+ * 对于可移植的JAX-WS导出器, 查看{@link SimpleJaxWsServiceExporter}.
  */
 @UsesSunHttpServer
 public class SimpleHttpServerJaxWsServiceExporter extends AbstractJaxWsServiceExporter {
@@ -52,79 +49,72 @@ public class SimpleHttpServerJaxWsServiceExporter extends AbstractJaxWsServiceEx
 
 
 	/**
-	 * Specify an existing HTTP server to register the web service contexts
-	 * with. This will typically be a server managed by the general Spring
-	 * {@link org.springframework.remoting.support.SimpleHttpServerFactoryBean}.
-	 * <p>Alternatively, configure a local HTTP server through the
-	 * {@link #setPort "port"}, {@link #setHostname "hostname"} and
-	 * {@link #setBacklog "backlog"} properties (or rely on the defaults there).
+	 * 指定注册Web服务上下文使用的现有HTTP服务器.
+	 * 这通常是由通用Spring
+	 * {@link org.springframework.remoting.support.SimpleHttpServerFactoryBean}管理的服务器.
+	 * <p>或者, 通过{@link #setPort "port"}, {@link #setHostname "hostname"}
+	 * 和{@link #setBacklog "backlog"}属性配置本地HTTP服务器 (或依赖于默认值).
 	 */
 	public void setServer(HttpServer server) {
 		this.server = server;
 	}
 
 	/**
-	 * Specify the HTTP server's port. Default is 8080.
-	 * <p>Only applicable for a locally configured HTTP server.
-	 * Ignored when the {@link #setServer "server"} property has been specified.
+	 * 指定HTTP服务器的端口. 默认8080.
+	 * <p>仅适用于本地配置的HTTP服务器.
+	 * 指定{@link #setServer "server"}属性时忽略.
 	 */
 	public void setPort(int port) {
 		this.port = port;
 	}
 
 	/**
-	 * Specify the HTTP server's hostname to bind to. Default is localhost;
-	 * can be overridden with a specific network address to bind to.
-	 * <p>Only applicable for a locally configured HTTP server.
-	 * Ignored when the {@link #setServer "server"} property has been specified.
+	 * 指定要绑定到的HTTP服务器的主机名.
+	 * 默认localhost; 可以使用要绑定的特定网络地址覆盖.
+	 * <p>仅适用于本地配置的HTTP服务器.
+	 * 指定{@link #setServer "server"}属性时忽略.
 	 */
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
 
 	/**
-	 * Specify the HTTP server's TCP backlog. Default is -1,
-	 * indicating the system's default value.
-	 * <p>Only applicable for a locally configured HTTP server.
-	 * Ignored when the {@link #setServer "server"} property has been specified.
+	 * 指定HTTP服务器的TCP backlog.
+	 * 默认-1, 表示系统的默认值.
+	 * <p>仅适用于本地配置的HTTP服务器.
+	 * 指定{@link #setServer "server"}属性时忽略.
 	 */
 	public void setBacklog(int backlog) {
 		this.backlog = backlog;
 	}
 
 	/**
-	 * Specify the number of seconds to wait until HTTP exchanges have
-	 * completed when shutting down the HTTP server. Default is 0.
-	 * <p>Only applicable for a locally configured HTTP server.
-	 * Ignored when the {@link #setServer "server"} property has been specified.
+	 * 指定在关闭HTTP服务器时完成HTTP交换之前要等待的秒数. 默认 0.
+	 * <p>仅适用于本地配置的HTTP服务器.
+	 * 指定{@link #setServer "server"}属性时忽略.
 	 */
 	public void setShutdownDelay(int shutdownDelay) {
 		this.shutdownDelay = shutdownDelay;
 	}
 
 	/**
-	 * Set the base path for context publication. Default is "/".
-	 * <p>For each context publication path, the service name will be
-	 * appended to this base address. E.g. service name "OrderService"
-	 * -> "/OrderService".
-	 * @see javax.xml.ws.Endpoint#publish(Object)
-	 * @see javax.jws.WebService#serviceName()
+	 * 设置上下文发布的基本路径. Default is "/".
+	 * <p>对于每个上下文发布路径, 服务名称将附加到此基址.
+	 * E.g. 服务名称"OrderService" -> "/OrderService".
 	 */
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
 
 	/**
-	 * Register common {@link com.sun.net.httpserver.Filter Filters} to be
-	 * applied to all detected {@link javax.jws.WebService} annotated beans.
+	 * 注册要应用于所有检测到的带{@link javax.jws.WebService}注解的bean的公共{@link com.sun.net.httpserver.Filter Filters}.
 	 */
 	public void setFilters(List<Filter> filters) {
 		this.filters = filters;
 	}
 
 	/**
-	 * Register a common {@link com.sun.net.httpserver.Authenticator} to be
-	 * applied to all detected {@link javax.jws.WebService} annotated beans.
+	 * 注册要应用于所有检测到的带{@link javax.jws.WebService}注解的bean的公共{@link com.sun.net.httpserver.Authenticator}.
 	 */
 	public void setAuthenticator(Authenticator authenticator) {
 		this.authenticator = authenticator;
@@ -158,10 +148,12 @@ public class SimpleHttpServerJaxWsServiceExporter extends AbstractJaxWsServiceEx
 	}
 
 	/**
-	 * Build the HttpContext for the given endpoint.
-	 * @param endpoint the JAX-WS Provider Endpoint object
-	 * @param serviceName the given service name
-	 * @return the fully populated HttpContext
+	 * 为给定端点构建HttpContext.
+	 * 
+	 * @param endpoint JAX-WS Provider Endpoint对象
+	 * @param serviceName 给定的服务名称
+	 * 
+	 * @return 完全填充的HttpContext
 	 */
 	protected HttpContext buildHttpContext(Endpoint endpoint, String serviceName) {
 		String fullPath = calculateEndpointPath(endpoint, serviceName);
@@ -176,10 +168,12 @@ public class SimpleHttpServerJaxWsServiceExporter extends AbstractJaxWsServiceEx
 	}
 
 	/**
-	 * Calculate the full endpoint path for the given endpoint.
-	 * @param endpoint the JAX-WS Provider Endpoint object
-	 * @param serviceName the given service name
-	 * @return the full endpoint path
+	 * 计算给定端点的完整端点路径.
+	 * 
+	 * @param endpoint JAX-WS Provider Endpoint对象
+	 * @param serviceName 给定的服务名称
+	 * 
+	 * @return 完整的端点路径
 	 */
 	protected String calculateEndpointPath(Endpoint endpoint, String serviceName) {
 		return this.basePath + serviceName;

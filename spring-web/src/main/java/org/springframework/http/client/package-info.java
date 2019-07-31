@@ -1,6 +1,5 @@
 /**
- * Contains an abstraction over client-side HTTP. This package
- * contains the {@code ClientHttpRequest} and {@code ClientHttpResponse},
- * as well as a basic implementation of these interfaces.
+ * 包含客户端HTTP的抽象.
+ * 该包包含{@code ClientHttpRequest} 和 {@code ClientHttpResponse}, 以及这些接口的基本实现.
  */
 package org.springframework.http.client;

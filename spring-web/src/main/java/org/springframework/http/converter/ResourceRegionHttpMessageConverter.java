@@ -18,8 +18,7 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StreamUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can write a single {@link ResourceRegion},
- * or Collections of {@link ResourceRegion ResourceRegions}.
+ * {@link HttpMessageConverter}的实现, 可以写入单个{@link ResourceRegion}, 或{@link ResourceRegion ResourceRegions}集合.
  */
 public class ResourceRegionHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 

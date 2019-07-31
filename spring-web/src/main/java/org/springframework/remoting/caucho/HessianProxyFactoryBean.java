@@ -4,15 +4,14 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * {@link FactoryBean} for Hessian proxies. Exposes the proxied service
- * for use as a bean reference, using the specified service interface.
+ * 用于Hessian代理的{@link FactoryBean}. 使用指定的服务接口公开代理服务以用作bean引用.
  *
- * <p>Hessian is a slim, binary RPC protocol.
+ * <p>Hessian是一种轻量级的二进制RPC协议.
  * For information on Hessian, see the
  * <a href="http://www.caucho.com/hessian">Hessian website</a>
- * <b>Note: As of Spring 4.0, this proxy factory requires Hessian 4.0 or above.</b>
+ * <b>Note: 从Spring 4.0开始, 这个代理工厂需要Hessian 4.0或更高版本.</b>
  *
- * <p>The service URL must be an HTTP URL exposing a Hessian service.
+ * <p>服务URL必须是公开Hessian服务的HTTP URL.
  * For details, see the {@link HessianClientInterceptor} javadoc.
  */
 public class HessianProxyFactoryBean extends HessianClientInterceptor implements FactoryBean<Object> {

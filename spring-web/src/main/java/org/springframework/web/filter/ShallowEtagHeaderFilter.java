@@ -18,14 +18,12 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link javax.servlet.Filter} that generates an {@code ETag} value based on the
- * content on the response. This ETag is compared to the {@code If-None-Match}
- * header of the request. If these headers are equal, the response content is
- * not sent, but rather a {@code 304 "Not Modified"} status instead.
+ * 根据响应内容生成{@code ETag}值的{@link javax.servlet.Filter}.
+ * 将此ETag与请求的{@code If-None-Match} header进行比较.
+ * 如果这些header相同, 则不会发送响应内容, 而是发送{@code 304 "Not Modified"}状态.
  *
- * <p>Since the ETag is based on the response content, the response
- * (e.g. a {@link org.springframework.web.servlet.View}) is still rendered.
- * As such, this filter only saves bandwidth, not server performance.
+ * <p>由于ETag基于响应内容, 因此仍会渲染响应 (e.g. {@link org.springframework.web.servlet.View}).
+ * 因此, 此过滤器仅节省带宽, 而不是服务器性能.
  */
 public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
@@ -40,7 +38,7 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	private static final String STREAMING_ATTRIBUTE = ShallowEtagHeaderFilter.class.getName() + ".STREAMING";
 
 
-	/** Checking for Servlet 3.0+ HttpServletResponse.getHeader(String) */
+	/** 检查Servlet 3.0+ HttpServletResponse.getHeader(String) */
 	private static final boolean servlet3Present =
 			ClassUtils.hasMethod(HttpServletResponse.class, "getHeader", String.class);
 
@@ -48,19 +46,15 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * Set whether the ETag value written to the response should be weak, as per RFC 7232.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
-	 * "writeWeakETag" in the filter definition in {@code web.xml}.
-	 * @since 4.3
-	 * @see <a href="https://tools.ietf.org/html/rfc7232#section-2.3">RFC 7232 section 2.3</a>
+	 * 根据RFC 7232, 设置写入响应的ETag值是否应该较弱.
+	 * <p>应使用{@code <init-param>}为{@code web.xml}中的过滤器定义中的参数名称"writeWeakETag"进行配置.
 	 */
 	public void setWriteWeakETag(boolean writeWeakETag) {
 		this.writeWeakETag = writeWeakETag;
 	}
 
 	/**
-	 * Return whether the ETag value written to the response should be weak, as per RFC 7232.
-	 * @since 4.3
+	 * 根据RFC 7232, 返回写入响应的ETag值是否应该较弱.
 	 */
 	public boolean isWriteWeakETag() {
 		return this.writeWeakETag;
@@ -68,8 +62,7 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * The default value is {@code false} so that the filter may delay the generation
-	 * of an ETag until the last asynchronously dispatched thread.
+	 * 默认值为{@code false}, 以便过滤器可以延迟生成ETag, 直到最后一个异步调度的线程.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -130,18 +123,20 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Indicates whether the given request and response are eligible for ETag generation.
-	 * <p>The default implementation returns {@code true} if all conditions match:
+	 * 指示给定的请求和响应是否符合ETag生成的条件.
+	 * <p>如果所有条件都匹配, 则默认实现返回{@code true}:
 	 * <ul>
-	 * <li>response status codes in the {@code 2xx} series</li>
-	 * <li>request method is a GET</li>
-	 * <li>response Cache-Control header is not set or does not contain a "no-store" directive</li>
+	 * <li>{@code 2xx}系列中的响应状态码</li>
+	 * <li>请求方法是 GET</li>
+	 * <li>响应Cache-Control header未设置或不包含"no-store"指令</li>
 	 * </ul>
-	 * @param request the HTTP request
-	 * @param response the HTTP response
-	 * @param responseStatusCode the HTTP response status code
-	 * @param inputStream the response body
-	 * @return {@code true} if eligible for ETag generation, {@code false} otherwise
+	 * 
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param responseStatusCode HTTP响应状态码
+	 * @param inputStream 响应正文
+	 * 
+	 * @return {@code true} 如果符合ETag生成条件, 否则{@code false}
 	 */
 	protected boolean isEligibleForEtag(HttpServletRequest request, HttpServletResponse response,
 			int responseStatusCode, InputStream inputStream) {
@@ -160,12 +155,13 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Generate the ETag header value from the given response body byte array.
-	 * <p>The default implementation generates an MD5 hash.
-	 * @param inputStream the response body as an InputStream
-	 * @param isWeak whether the generated ETag should be weak
-	 * @return the ETag header value
-	 * @see org.springframework.util.DigestUtils
+	 * 从给定的响应主体字节数组生成ETag header值.
+	 * <p>默认实现生成MD5哈希.
+	 * 
+	 * @param inputStream 响应正文
+	 * @param isWeak 生成的ETag是否应该弱
+	 * 
+	 * @return ETag header值
 	 */
 	protected String generateETagHeaderValue(InputStream inputStream, boolean isWeak) throws IOException {
 		// length of W/ + " + 0 + 32bits md5 hash + "
@@ -181,11 +177,8 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 
 	/**
-	 * This method can be used to disable the content caching response wrapper
-	 * of the ShallowEtagHeaderFilter. This can be done before the start of HTTP
-	 * streaming for example where the response will be written to asynchronously
-	 * and not in the context of a Servlet container thread.
-	 * @since 4.2
+	 * 此方法可用于禁用ShallowEtagHeaderFilter的内容缓存响应包装器.
+	 * 这可以在HTTP流式传输开始之前完成, 例如, 响应将被异步写入, 而不是在Servlet容器线程的上下文中.
 	 */
 	public static void disableContentCaching(ServletRequest request) {
 		Assert.notNull(request, "ServletRequest must not be null");

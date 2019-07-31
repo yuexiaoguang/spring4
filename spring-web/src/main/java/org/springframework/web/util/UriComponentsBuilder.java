@@ -18,17 +18,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.HierarchicalUriComponents.PathComponent;
 
 /**
- * Builder for {@link UriComponents}.
+ * {@link UriComponents}的构建器.
  *
- * <p>Typical usage involves:
+ * <p>典型用法涉及:
  * <ol>
- * <li>Create a {@code UriComponentsBuilder} with one of the static factory methods
- * (such as {@link #fromPath(String)} or {@link #fromUri(URI)})</li>
- * <li>Set the various URI components through the respective methods ({@link #scheme(String)},
+ * <li>使用其中一种静态工厂方法(例如{@link #fromPath(String)}或{@link #fromUri(URI)})
+ * 创建{@code UriComponentsBuilder}</li>
+ * <li>通过各自的方法设置各种URI组件 ({@link #scheme(String)},
  * {@link #userInfo(String)}, {@link #host(String)}, {@link #port(int)}, {@link #path(String)},
- * {@link #pathSegment(String...)}, {@link #queryParam(String, Object...)}, and
- * {@link #fragment(String)}.</li>
- * <li>Build the {@link UriComponents} instance with the {@link #build()} method.</li>
+ * {@link #pathSegment(String...)}, {@link #queryParam(String, Object...)}, and {@link #fragment(String)}.</li>
+ * <li>使用{@link #build()}方法构建{@link UriComponents}实例.</li>
  * </ol>
  */
 public class UriComponentsBuilder implements Cloneable {
@@ -55,7 +54,7 @@ public class UriComponentsBuilder implements Cloneable {
 
 	private static final String LAST_PATTERN = "(.*)";
 
-	// Regex patterns that matches URIs. See RFC 3986, appendix B
+	// 匹配URI的正则表达式模式. See RFC 3986, appendix B
 	private static final Pattern URI_PATTERN = Pattern.compile(
 			"^(" + SCHEME_PATTERN + ")?" + "(//(" + USERINFO_PATTERN + "@)?" + HOST_PATTERN + "(:" + PORT_PATTERN +
 					")?" + ")?" + PATH_PATTERN + "(\\?" + QUERY_PATTERN + ")?" + "(#" + LAST_PATTERN + ")?");
@@ -87,19 +86,16 @@ public class UriComponentsBuilder implements Cloneable {
 
 
 	/**
-	 * Default constructor. Protected to prevent direct instantiation.
-	 * @see #newInstance()
-	 * @see #fromPath(String)
-	 * @see #fromUri(URI)
+	 * 防止直接实例化.
 	 */
 	protected UriComponentsBuilder() {
 		this.pathBuilder = new CompositePathComponentBuilder();
 	}
 
 	/**
-	 * Create a deep copy of the given UriComponentsBuilder.
-	 * @param other the other builder to copy from
-	 * @since 4.1.3
+	 * 深度克隆给定的UriComponentsBuilder.
+	 * 
+	 * @param other 要复制的其他构建器
 	 */
 	protected UriComponentsBuilder(UriComponentsBuilder other) {
 		this.scheme = other.scheme;
@@ -115,18 +111,16 @@ public class UriComponentsBuilder implements Cloneable {
 
 	// Factory methods
 
-	/**
-	 * Create a new, empty builder.
-	 * @return the new {@code UriComponentsBuilder}
-	 */
 	public static UriComponentsBuilder newInstance() {
 		return new UriComponentsBuilder();
 	}
 
 	/**
-	 * Create a builder that is initialized with the given path.
-	 * @param path the path to initialize with
-	 * @return the new {@code UriComponentsBuilder}
+	 * 创建使用给定路径初始化的构建器.
+	 * 
+	 * @param path 初始化的路径
+	 * 
+	 * @return 新的{@code UriComponentsBuilder}
 	 */
 	public static UriComponentsBuilder fromPath(String path) {
 		UriComponentsBuilder builder = new UriComponentsBuilder();
@@ -135,9 +129,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Create a builder that is initialized with the given {@code URI}.
-	 * @param uri the URI to initialize with
-	 * @return the new {@code UriComponentsBuilder}
+	 * 创建使用给定的{@code URI}初始化的构建器.
+	 * 
+	 * @param uri 要初始化的URI
+	 * 
+	 * @return 新的{@code UriComponentsBuilder}
 	 */
 	public static UriComponentsBuilder fromUri(URI uri) {
 		UriComponentsBuilder builder = new UriComponentsBuilder();
@@ -146,18 +142,18 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Create a builder that is initialized with the given URI string.
-	 * <p><strong>Note:</strong> The presence of reserved characters can prevent
-	 * correct parsing of the URI string. For example if a query parameter
-	 * contains {@code '='} or {@code '&'} characters, the query string cannot
-	 * be parsed unambiguously. Such values should be substituted for URI
-	 * variables to enable correct parsing:
+	 * 创建使用给定URI字符串初始化的构建器.
+	 * <p><strong>Note:</strong> 保留字符的存在可能会阻止正确解析URI字符串.
+	 * 例如, 如果查询参数包含{@code '='}或{@code '&'}字符, 则无法明确地解析查询字符串.
+	 * 此类值应替换为URI变量以启用正确的解析:
 	 * <pre class="code">
 	 * String uriString = &quot;/hotels/42?filter={value}&quot;;
 	 * UriComponentsBuilder.fromUriString(uriString).buildAndExpand(&quot;hot&amp;cold&quot;);
 	 * </pre>
-	 * @param uri the URI string to initialize with
-	 * @return the new {@code UriComponentsBuilder}
+	 * 
+	 * @param uri 要初始化的URI字符串
+	 * 
+	 * @return 新的{@code UriComponentsBuilder}
 	 */
 	public static UriComponentsBuilder fromUriString(String uri) {
 		Assert.notNull(uri, "URI must not be null");
@@ -206,18 +202,18 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Create a URI components builder from the given HTTP URL String.
-	 * <p><strong>Note:</strong> The presence of reserved characters can prevent
-	 * correct parsing of the URI string. For example if a query parameter
-	 * contains {@code '='} or {@code '&'} characters, the query string cannot
-	 * be parsed unambiguously. Such values should be substituted for URI
-	 * variables to enable correct parsing:
+	 * 从给定的HTTP URL String创建URI组件构建器.
+	 * <p><strong>Note:</strong> 保留字符的存在可能会阻止正确解析URI字符串.
+	 * 例如, 如果查询参数包含{@code '='}或{@code '&'}字符, 则无法明确地解析查询字符串.
+	 * 此类值应替换为URI变量以启用正确的解析:
 	 * <pre class="code">
 	 * String urlString = &quot;https://example.com/hotels/42?filter={value}&quot;;
 	 * UriComponentsBuilder.fromHttpUrl(urlString).buildAndExpand(&quot;hot&amp;cold&quot;);
 	 * </pre>
-	 * @param httpUrl the source URI
-	 * @return the URI components of the URI
+	 * 
+	 * @param httpUrl 源URI
+	 * 
+	 * @return URI的URI组件
 	 */
 	public static UriComponentsBuilder fromHttpUrl(String httpUrl) {
 		Assert.notNull(httpUrl, "HTTP URL must not be null");
@@ -246,27 +242,23 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Create a new {@code UriComponents} object from the URI associated with
-	 * the given HttpRequest while also overlaying with values from the headers
-	 * "Forwarded" (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
-	 * or "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" if
-	 * "Forwarded" is not found.
-	 * <p><strong>Note:</strong> this method uses values from forwarded headers,
-	 * if present, in order to reflect the client-originated protocol and address.
-	 * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
-	 * central place whether to extract and use, or to discard such headers.
-	 * See the Spring Framework reference for more on this filter.
-	 * @param request the source request
-	 * @return the URI components of the URI
-	 * @since 4.1.5
+	 * 从与给定HttpRequest关联的URI创建新的{@code UriComponents}对象,
+	 * 同时还覆盖header "Forwarded"中的值 (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
+	 * 如果未找到"Forwarded", 则覆盖"X-Forwarded-Host", "X-Forwarded-Port", 和"X-Forwarded-Proto"中的值.
+	 * <p><strong>Note:</strong> 此方法使用转发header中的值, 以反映客户端发起的协议和地址.
+	 * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此header.
+	 * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
+	 * 
+	 * @param request 源请求
+	 * 
+	 * @return URI的URI组件
 	 */
 	public static UriComponentsBuilder fromHttpRequest(HttpRequest request) {
 		return fromUri(request.getURI()).adaptFromForwardedHeaders(request.getHeaders());
 	}
 
 	/**
-	 * Create an instance by parsing the "Origin" header of an HTTP request.
-	 * @see <a href="https://tools.ietf.org/html/rfc6454">RFC 6454</a>
+	 * 通过解析HTTP请求的"Origin" header来创建实例.
 	 */
 	public static UriComponentsBuilder fromOriginHeader(String origin) {
 		Matcher matcher = URI_PATTERN.matcher(origin);
@@ -293,19 +285,20 @@ public class UriComponentsBuilder implements Cloneable {
 	// build methods
 
 	/**
-	 * Build a {@code UriComponents} instance from the various components contained in this builder.
-	 * @return the URI components
+	 * 从此构建器中包含的各种组件构建{@code UriComponents}实例.
+	 * 
+	 * @return URI组件
 	 */
 	public UriComponents build() {
 		return build(false);
 	}
 
 	/**
-	 * Build a {@code UriComponents} instance from the various components
-	 * contained in this builder.
-	 * @param encoded whether all the components set in this builder are
-	 * encoded ({@code true}) or not ({@code false})
-	 * @return the URI components
+	 * 从此构建器中包含的各种组件构建{@code UriComponents}实例.
+	 * 
+	 * @param encoded 是否对此构建器中设置的所有组件进行编码({@code true}) 或不进行编码 ({@code false})
+	 * 
+	 * @return URI组件
 	 */
 	public UriComponents build(boolean encoded) {
 		if (this.ssp != null) {
@@ -318,33 +311,32 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Build a {@code UriComponents} instance and replaces URI template variables
-	 * with the values from a map. This is a shortcut method which combines
-	 * calls to {@link #build()} and then {@link UriComponents#expand(Map)}.
-	 * @param uriVariables the map of URI variables
-	 * @return the URI components with expanded values
+	 * 构建一个{@code UriComponents}实例, 并用Map中的值替换URI模板变量.
+	 * 这是一种快捷方法, 它结合了对{@link #build()}和{@link UriComponents#expand(Map)}的调用.
+	 * 
+	 * @param uriVariables URI变量的Map
+	 * 
+	 * @return 具有扩展值的URI组件
 	 */
 	public UriComponents buildAndExpand(Map<String, ?> uriVariables) {
 		return build(false).expand(uriVariables);
 	}
 
 	/**
-	 * Build a {@code UriComponents} instance and replaces URI template variables
-	 * with the values from an array. This is a shortcut method which combines
-	 * calls to {@link #build()} and then {@link UriComponents#expand(Object...)}.
-	 * @param uriVariableValues URI variable values
-	 * @return the URI components with expanded values
+	 * 构建一个{@code UriComponents}实例, 并使用数组中的值替换URI模板变量.
+	 * 这是一种快捷方法, 它结合了对{@link #build()}和{@link UriComponents#expand(Object...)}的调用.
+	 * 
+	 * @param uriVariableValues URI变量值
+	 * 
+	 * @return 具有扩展值的URI组件
 	 */
 	public UriComponents buildAndExpand(Object... uriVariableValues) {
 		return build(false).expand(uriVariableValues);
 	}
 
 	/**
-	 * Build a URI String. This is a shortcut method which combines calls
-	 * to {@link #build()}, then {@link UriComponents#encode()} and finally
-	 * {@link UriComponents#toUriString()}.
-	 * @since 4.1
-	 * @see UriComponents#toUriString()
+	 * 构建URI字符串.
+	 * 这是一种快捷方法, 它结合了对{@link #build()}, {@link UriComponents#encode()}和{@link UriComponents#toUriString()}的调用.
 	 */
 	public String toUriString() {
 		return build(false).encode().toUriString();
@@ -354,8 +346,10 @@ public class UriComponentsBuilder implements Cloneable {
 	// Instance methods
 
 	/**
-	 * Initialize components of this builder from components of the given URI.
+	 * 从给定URI的组件初始化此构建器的组件.
+	 * 
 	 * @param uri the URI
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder uri(URI uri) {
@@ -391,12 +385,12 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set or append individual URI components of this builder from the values
-	 * of the given {@link UriComponents} instance.
-	 * <p>For the semantics of each component (i.e. set vs append) check the
-	 * builder methods on this class. For example {@link #host(String)} sets
-	 * while {@link #path(String)} appends.
-	 * @param uriComponents the UriComponents to copy from
+	 * 根据给定{@link UriComponents}实例的值设置或附加此构建器的各个URI组件.
+	 * <p>对于每个组件的语义 (i.e. set vs append), 请检查此类的构建器方法.
+	 * 例如{@link #host(String)}在{@link #path(String)}附加时设置.
+	 * 
+	 * @param uriComponents 要复制的UriComponents
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder uriComponents(UriComponents uriComponents) {
@@ -406,9 +400,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI scheme. The given scheme may contain URI template variables,
-	 * and may also be {@code null} to clear the scheme of this builder.
+	 * 设置URI scheme.
+	 * 给定的scheme可能包含URI模板变量, 也可能是{@code null}以清除此构建器的scheme.
+	 * 
 	 * @param scheme the URI scheme
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder scheme(String scheme) {
@@ -417,11 +413,13 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI scheme-specific-part. When invoked, this method overwrites
+	 * 设置URI scheme-specific-part.
+	 * 调用时, 此方法重写
 	 * {@linkplain #userInfo(String) user-info}, {@linkplain #host(String) host},
-	 * {@linkplain #port(int) port}, {@linkplain #path(String) path}, and
-	 * {@link #query(String) query}.
-	 * @param ssp the URI scheme-specific-part, may contain URI template parameters
+	 * {@linkplain #port(int) port}, {@linkplain #path(String) path}, 和{@link #query(String) query}.
+	 * 
+	 * @param ssp URI scheme-specific-part, 可以包含URI模板参数
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder schemeSpecificPart(String ssp) {
@@ -431,9 +429,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI user info. The given user info may contain URI template variables,
-	 * and may also be {@code null} to clear the user info of this builder.
-	 * @param userInfo the URI user info
+	 * 设置URI用户信息.
+	 * 给定的用户信息可能包含URI模板变量, 也可能是{@code null}以清除此构建器的用户信息.
+	 * 
+	 * @param userInfo URI用户信息
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder userInfo(String userInfo) {
@@ -443,9 +443,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI host. The given host may contain URI template variables,
-	 * and may also be {@code null} to clear the host of this builder.
-	 * @param host the URI host
+	 * 设置URI主机.
+	 * 给定的主机可能包含URI模板变量, 也可能是{@code null}以清除此构建器的主机.
+	 * 
+	 * @param host URI主机
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder host(String host) {
@@ -455,8 +457,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI port. Passing {@code -1} will clear the port of this builder.
-	 * @param port the URI port
+	 * 设置URI端口.
+	 * 传递{@code -1}将清除此构建器的端口.
+	 * 
+	 * @param port URI端口
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder port(int port) {
@@ -467,10 +472,12 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI port. Use this method only when the port needs to be
-	 * parameterized with a URI variable. Otherwise use {@link #port(int)}.
-	 * Passing {@code null} will clear the port of this builder.
-	 * @param port the URI port
+	 * 设置URI端口.
+	 * 仅当端口需要使用URI变量进行参数化时才使用此方法. 否则使用{@link #port(int)}.
+	 * 传递{@code null}将清除此构建器的端口.
+	 * 
+	 * @param port URI端口
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder port(String port) {
@@ -480,9 +487,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Append the given path to the existing path of this builder.
-	 * The given path may contain URI template variables.
-	 * @param path the URI path
+	 * 将给定路径附加到此构建器的现有路径.
+	 * 给定路径可能包含URI模板变量.
+	 * 
+	 * @param path URI路径
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder path(String path) {
@@ -492,10 +501,12 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Append path segments to the existing path. Each path segment may contain
-	 * URI template variables and should not contain any slashes.
-	 * Use {@code path("/")} subsequently to ensure a trailing slash.
-	 * @param pathSegments the URI path segments
+	 * 将路径分段附加到现有路径.
+	 * 每个路径分段可能包含URI模板变量, 不应包含任何斜杠.
+	 * 随后使用{@code path("/")}确保尾部斜杠.
+	 * 
+	 * @param pathSegments URI路径分段
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder pathSegment(String... pathSegments) throws IllegalArgumentException {
@@ -505,8 +516,10 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the path of this builder overriding all existing path and path segment values.
-	 * @param path the URI path (a {@code null} value results in an empty path)
+	 * 设置此构建器的路径, 覆盖所有现有路径和路径分段值.
+	 * 
+	 * @param path URI路径 ({@code null}值导致空路径)
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder replacePath(String path) {
@@ -516,19 +529,19 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Append the given query to the existing query of this builder.
-	 * The given query may contain URI template variables.
-	 * <p><strong>Note:</strong> The presence of reserved characters can prevent
-	 * correct parsing of the URI string. For example if a query parameter
-	 * contains {@code '='} or {@code '&'} characters, the query string cannot
-	 * be parsed unambiguously. Such values should be substituted for URI
-	 * variables to enable correct parsing:
+	 * 将给定查询附加到此构建器的现有查询.
+	 * 给定的查询可能包含URI模板变量.
+	 * <p><strong>Note:</strong> 保留字符的存在可能会阻止正确解析URI字符串.
+	 * 例如, 如果查询参数包含{@code '='}或{@code '&'}字符, 则无法明确地解析查询字符串.
+	 * 此类值应替换为URI变量以启用正确的解析:
 	 * <pre class="code">
 	 * UriComponentsBuilder.fromUriString(&quot;/hotels/42&quot;)
 	 * 	.query(&quot;filter={value}&quot;)
 	 * 	.buildAndExpand(&quot;hot&amp;cold&quot;);
 	 * </pre>
-	 * @param query the query string
+	 * 
+	 * @param query 查询字符串
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder query(String query) {
@@ -549,8 +562,10 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the query of this builder overriding all existing query parameters.
-	 * @param query the query string; a {@code null} value removes all query parameters.
+	 * 设置此构建器的查询将覆盖所有现有查询参数.
+	 * 
+	 * @param query 查询字符串; {@code null}值将删除所有查询参数.
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder replaceQuery(String query) {
@@ -561,12 +576,13 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Append the given query parameter to the existing query parameters. The
-	 * given name or any of the values may contain URI template variables. If no
-	 * values are given, the resulting URI will contain the query parameter name
-	 * only (i.e. {@code ?foo} instead of {@code ?foo=bar}).
-	 * @param name the query parameter name
-	 * @param values the query parameter values
+	 * 将给定的查询参数附加到现有查询参数.
+	 * 给定名称或任何值可能包含URI模板变量.
+	 * 如果没有给出值, 则生成的URI将仅包含查询参数名称 (i.e. {@code ?foo} 而不是 {@code ?foo=bar}).
+	 * 
+	 * @param name 查询参数名称
+	 * @param values 查询参数值
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder queryParam(String name, Object... values) {
@@ -585,10 +601,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Add the given query parameters.
-	 * @param params the params
+	 * 添加给定的查询参数.
+	 * 
+	 * @param params 参数
+	 * 
 	 * @return this UriComponentsBuilder
-	 * @since 4.0
 	 */
 	public UriComponentsBuilder queryParams(MultiValueMap<String, String> params) {
 		if (params != null) {
@@ -598,10 +615,12 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the query parameter values overriding all existing query values for
-	 * the same parameter. If no values are given, the query parameter is removed.
-	 * @param name the query parameter name
-	 * @param values the query parameter values
+	 * 设置查询参数值, 覆盖同一参数的所有现有查询值.
+	 * 如果未给出值, 则删除查询参数.
+	 * 
+	 * @param name 查询参数名称
+	 * @param values 查询参数值
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder replaceQueryParam(String name, Object... values) {
@@ -615,10 +634,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the query parameter values overriding all existing query values.
-	 * @param params the query parameter name
+	 * 设置查询参数值覆盖所有现有查询值.
+	 * 
+	 * @param params 查询参数名称
+	 * 
 	 * @return this UriComponentsBuilder
-	 * @since 4.2
 	 */
 	public UriComponentsBuilder replaceQueryParams(MultiValueMap<String, String> params) {
 		this.queryParams.clear();
@@ -629,9 +649,11 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Set the URI fragment. The given fragment may contain URI template variables,
-	 * and may also be {@code null} to clear the fragment of this builder.
-	 * @param fragment the URI fragment
+	 * 设置URI片段.
+	 * 给定的片段可能包含URI模板变量, 也可能是{@code null}以清除此构建器的片段.
+	 * 
+	 * @param fragment URI片段
+	 * 
 	 * @return this UriComponentsBuilder
 	 */
 	public UriComponentsBuilder fragment(String fragment) {
@@ -646,13 +668,12 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Adapt this builder's scheme+host+port from the given headers, specifically
-	 * "Forwarded" (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>,
-	 * or "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" if
-	 * "Forwarded" is not found.
-	 * @param headers the HTTP headers to consider
+	 * 从给定的header中调整此构建器的scheme+host+port, 特别是"Forwarded" (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>,
+	 * 如果"Forwarded"不存在, 则为"X-Forwarded-Host", "X-Forwarded-Port", 和"X-Forwarded-Proto".
+	 * 
+	 * @param headers 要考虑的HTTP header
+	 * 
 	 * @return this UriComponentsBuilder
-	 * @since 4.2.7
 	 */
 	UriComponentsBuilder adaptFromForwardedHeaders(HttpHeaders headers) {
 		try {
@@ -727,8 +748,7 @@ public class UriComponentsBuilder implements Cloneable {
 
 
 	/**
-	 * Public declaration of Object's {@code clone()} method.
-	 * Delegates to {@link #cloneBuilder()}.
+	 * 委托给{@link #cloneBuilder()}.
 	 */
 	@Override
 	public Object clone() {
@@ -736,9 +756,9 @@ public class UriComponentsBuilder implements Cloneable {
 	}
 
 	/**
-	 * Clone this {@code UriComponentsBuilder}.
-	 * @return the cloned {@code UriComponentsBuilder} object
-	 * @since 4.2.7
+	 * 克隆此{@code UriComponentsBuilder}.
+	 * 
+	 * @return 克隆的{@code UriComponentsBuilder}对象
 	 */
 	public UriComponentsBuilder cloneBuilder() {
 		return new UriComponentsBuilder(this);

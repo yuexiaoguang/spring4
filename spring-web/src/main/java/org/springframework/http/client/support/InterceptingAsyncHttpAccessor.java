@@ -9,8 +9,7 @@ import org.springframework.http.client.InterceptingAsyncClientHttpRequestFactory
 import org.springframework.util.CollectionUtils;
 
 /**
- * The HTTP accessor that extends the base {@link AsyncHttpAccessor} with
- * request intercepting functionality.
+ * 使用请求拦截功能扩展基础{@link AsyncHttpAccessor}的HTTP访问器.
  */
 public abstract class InterceptingAsyncHttpAccessor extends AsyncHttpAccessor {
 
@@ -19,15 +18,16 @@ public abstract class InterceptingAsyncHttpAccessor extends AsyncHttpAccessor {
 
 
     /**
-     * Set the request interceptors that this accessor should use.
-     * @param interceptors the list of interceptors
+     * 设置此访问者应使用的请求拦截器.
+     * 
+     * @param interceptors 拦截器列表
      */
     public void setInterceptors(List<AsyncClientHttpRequestInterceptor> interceptors) {
         this.interceptors = interceptors;
     }
 
     /**
-     * Return the request interceptor that this accessor uses.
+     * 返回此访问者使用的请求拦截器.
      */
     public List<AsyncClientHttpRequestInterceptor> getInterceptors() {
         return this.interceptors;

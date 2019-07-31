@@ -18,8 +18,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpRequestFactory} implementation that uses
- * <a href="http://square.github.io/okhttp/">OkHttp</a> 2.x to create requests.
+ * {@link ClientHttpRequestFactory}实现,
+ * 使用 <a href="http://square.github.io/okhttp/">OkHttp</a> 2.x创建请求.
  */
 public class OkHttpClientHttpRequestFactory
 		implements ClientHttpRequestFactory, AsyncClientHttpRequestFactory, DisposableBean {
@@ -29,17 +29,13 @@ public class OkHttpClientHttpRequestFactory
 	private final boolean defaultClient;
 
 
-	/**
-	 * Create a factory with a default {@link OkHttpClient} instance.
-	 */
 	public OkHttpClientHttpRequestFactory() {
 		this.client = new OkHttpClient();
 		this.defaultClient = true;
 	}
 
 	/**
-	 * Create a factory with the given {@link OkHttpClient} instance.
-	 * @param client the client to use
+	 * @param client 要使用的客户端
 	 */
 	public OkHttpClientHttpRequestFactory(OkHttpClient client) {
 		Assert.notNull(client, "OkHttpClient must not be null");
@@ -49,27 +45,24 @@ public class OkHttpClientHttpRequestFactory
 
 
 	/**
-	 * Sets the underlying read timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
-	 * @see OkHttpClient#setReadTimeout(long, TimeUnit)
+	 * 设置底层读取超时, 以毫秒为单位.
+	 * 值0指定无限超时.
 	 */
 	public void setReadTimeout(int readTimeout) {
 		this.client.setReadTimeout(readTimeout, TimeUnit.MILLISECONDS);
 	}
 
 	/**
-	 * Sets the underlying write timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
-	 * @see OkHttpClient#setWriteTimeout(long, TimeUnit)
+	 * 设置底层写入超时, 以毫秒为单位.
+	 * 值0指定无限超时.
 	 */
 	public void setWriteTimeout(int writeTimeout) {
 		this.client.setWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS);
 	}
 
 	/**
-	 * Sets the underlying connect timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
-	 * @see OkHttpClient#setConnectTimeout(long, TimeUnit)
+	 * 设置底层连接超时, 以毫秒为单位.
+	 * 值0指定无限超时.
 	 */
 	public void setConnectTimeout(int connectTimeout) {
 		this.client.setConnectTimeout(connectTimeout, TimeUnit.MILLISECONDS);
@@ -90,7 +83,7 @@ public class OkHttpClientHttpRequestFactory
 	@Override
 	public void destroy() throws IOException {
 		if (this.defaultClient) {
-			// Clean up the client if we created it in the constructor
+			// 如果在构造函数中创建它, 清理客户端
 			if (this.client.getCache() != null) {
 				this.client.getCache().close();
 			}

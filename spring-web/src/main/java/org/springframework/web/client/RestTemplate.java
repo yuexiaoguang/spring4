@@ -41,17 +41,14 @@ import org.springframework.web.util.DefaultUriTemplateHandler;
 import org.springframework.web.util.UriTemplateHandler;
 
 /**
- * <strong>Spring's central class for synchronous client-side HTTP access.</strong>
- * It simplifies communication with HTTP servers, and enforces RESTful principles.
- * It handles HTTP connections, leaving application code to provide URLs
- * (with possible template variables) and extract results.
+ * <strong>同步客户端HTTP访问的中心类.</strong>
+ * 它简化了与HTTP服务器的通信, 并实施了RESTful原则.
+ * 它处理HTTP连接, 让应用程序代码提供URL (带有可能的模板变量) 并提取结果.
  *
- * <p><strong>Note:</strong> by default the RestTemplate relies on standard JDK
- * facilities to establish HTTP connections. You can switch to use a different
- * HTTP library such as Apache HttpComponents, Netty, and OkHttp through the
- * {@link #setRequestFactory} property.
+ * <p><strong>Note:</strong> 默认情况下, RestTemplate依赖于标准JDK工具来建立HTTP连接.
+ * 可以通过{@link #setRequestFactory}属性切换到使用不同的HTTP库, 例如Apache HttpComponents, Netty, 和OkHttp.
  *
- * <p>The main entry points of this template are the methods named after the six main HTTP methods:
+ * <p>此模板的主要入口点是以六种主要HTTP方法命名的方法:
  * <table>
  * <tr><th>HTTP method</th><th>RestTemplate methods</th></tr>
  * <tr><td>DELETE</td><td>{@link #delete}</td></tr>
@@ -65,33 +62,25 @@ import org.springframework.web.util.UriTemplateHandler;
  * <tr><td>any</td><td>{@link #exchange}</td></tr>
  * <tr><td></td><td>{@link #execute}</td></tr> </table>
  *
- * <p>In addition the {@code exchange} and {@code execute} methods are generalized versions of
- * the above methods and can be used to support additional, less frequent combinations (e.g.
- * HTTP PATCH, HTTP PUT with response body, etc.). Note however that the underlying HTTP
- * library used must also support the desired combination.
+ * <p>此外, {@code exchange}和{@code execute}方法是上述方法的通用版本,
+ * 可用于支持其他较少使用的组合 (e.g. 带有响应正文的HTTP PATCH, HTTP PUT等).
+ * 但请注意, 所使用的底层HTTP库也必须支持所需的组合.
  *
- * <p>For each HTTP method there are three variants: two accept a URI template string
- * and URI variables (array or map) while a third accepts a {@link URI}.
- * Note that for URI templates it is assumed encoding is necessary, e.g.
- * {@code restTemplate.getForObject("http://example.com/hotel list")} becomes
- * {@code "http://example.com/hotel%20list"}. This also means if the URI template
- * or URI variables are already encoded, double encoding will occur, e.g.
- * {@code http://example.com/hotel%20list} becomes
- * {@code http://example.com/hotel%2520list}). To avoid that use a {@code URI} method
- * variant to provide (or re-use) a previously encoded URI. To prepare such an URI
- * with full control over encoding, consider using
+ * <p>对于每个HTTP方法, 有三种变体: 两个接受URI模板字符串和URI变量 (数组或map), 而第三个接受{@link URI}.
+ * 请注意, 对于URI模板, 假设编码是必要的, e.g.
+ * {@code restTemplate.getForObject("http://example.com/hotel list")}变为{@code "http://example.com/hotel%20list"}.
+ * 这也意味着如果URI模板或URI变量已经编码, 将发生双重编码, e.g.
+ * {@code http://example.com/hotel%20list}变为{@code http://example.com/hotel%2520list}).
+ * 为避免这种情况, 请使用{@code URI}方法变体来提供(或重复使用)之前已编码的URI.
+ * 要准备完全控制编码的URI, 请考虑使用
  * {@link org.springframework.web.util.UriComponentsBuilder}.
  *
- * <p>Internally the template uses {@link HttpMessageConverter} instances to
- * convert HTTP messages to and from POJOs. Converters for the main mime types
- * are registered by default but you can also register additional converters
- * via {@link #setMessageConverters}.
+ * <p>在内部, 模板使用{@link HttpMessageConverter}实例将HTTP消息转换为POJO或从POJO转换为HTTP消息.
+ * 主mime类型的转换器默认注册, 但也可以通过{@link #setMessageConverters}注册其他转换器.
  *
- * <p>This template uses a
- * {@link org.springframework.http.client.SimpleClientHttpRequestFactory} and a
- * {@link DefaultResponseErrorHandler} as default strategies for creating HTTP
- * connections or handling HTTP errors, respectively. These defaults can be overridden
- * through {@link #setRequestFactory} and {@link #setErrorHandler} respectively.
+ * <p>此模板分别使用{@link org.springframework.http.client.SimpleClientHttpRequestFactory}
+ * 和{@link DefaultResponseErrorHandler}作为创建HTTP连接或处理HTTP错误的默认策略.
+ * 可以分别通过{@link #setRequestFactory}和{@link #setErrorHandler}覆盖这些默认值.
  */
 public class RestTemplate extends InterceptingHttpAccessor implements RestOperations {
 
@@ -128,8 +117,8 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Create a new instance of the {@link RestTemplate} using default settings.
-	 * Default {@link HttpMessageConverter}s are initialized.
+	 * 使用默认设置.
+	 * 默认{@link HttpMessageConverter}已初始化.
 	 */
 	public RestTemplate() {
 		this.messageConverters.add(new ByteArrayHttpMessageConverter());
@@ -159,10 +148,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Create a new instance of the {@link RestTemplate} based on the given {@link ClientHttpRequestFactory}.
-	 * @param requestFactory HTTP request factory to use
-	 * @see org.springframework.http.client.SimpleClientHttpRequestFactory
-	 * @see org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+	 * @param requestFactory HTTP请求工厂
 	 */
 	public RestTemplate(ClientHttpRequestFactory requestFactory) {
 		this();
@@ -170,10 +156,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Create a new instance of the {@link RestTemplate} using the given list of
-	 * {@link HttpMessageConverter} to use
-	 * @param messageConverters the list of {@link HttpMessageConverter} to use
-	 * @since 3.2.7
+	 * @param messageConverters 要使用的{@link HttpMessageConverter}
 	 */
 	public RestTemplate(List<HttpMessageConverter<?>> messageConverters) {
 		Assert.notEmpty(messageConverters, "At least one HttpMessageConverter required");
@@ -182,8 +165,8 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Set the message body converters to use.
-	 * <p>These converters are used to convert from and to HTTP requests and responses.
+	 * 设置要使用的消息正文转换器.
+	 * <p>这些转换器用于转换HTTP请求和响应.
 	 */
 	public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
 		Assert.notEmpty(messageConverters, "At least one HttpMessageConverter required");
@@ -195,16 +178,16 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Return the list of message body converters.
-	 * <p>The returned {@link List} is active and may get appended to.
+	 * 返回消息正文转换器列表.
+	 * <p>返回的{@link List}处于活动状态, 可以追加.
 	 */
 	public List<HttpMessageConverter<?>> getMessageConverters() {
 		return this.messageConverters;
 	}
 
 	/**
-	 * Set the error handler.
-	 * <p>By default, RestTemplate uses a {@link DefaultResponseErrorHandler}.
+	 * 设置错误处理器.
+	 * <p>RestTemplate默认使用{@link DefaultResponseErrorHandler}.
 	 */
 	public void setErrorHandler(ResponseErrorHandler errorHandler) {
 		Assert.notNull(errorHandler, "ResponseErrorHandler must not be null");
@@ -212,14 +195,14 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Return the error handler.
+	 * 返回错误处理器.
 	 */
 	public ResponseErrorHandler getErrorHandler() {
 		return this.errorHandler;
 	}
 
 	/**
-	 * Configure default URI variable values. This is a shortcut for:
+	 * 配置默认URI变量值. 这是一个快捷方式:
 	 * <pre class="code">
 	 * DefaultUriTemplateHandler handler = new DefaultUriTemplateHandler();
 	 * handler.setDefaultUriVariables(...);
@@ -227,8 +210,8 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	 * RestTemplate restTemplate = new RestTemplate();
 	 * restTemplate.setUriTemplateHandler(handler);
 	 * </pre>
-	 * @param defaultUriVariables the default URI variable values
-	 * @since 4.3
+	 * 
+	 * @param defaultUriVariables 默认的URI变量值
 	 */
 	public void setDefaultUriVariables(Map<String, ?> defaultUriVariables) {
 		Assert.isInstanceOf(AbstractUriTemplateHandler.class, this.uriTemplateHandler,
@@ -237,13 +220,12 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Configure the {@link UriTemplateHandler} to use to expand URI templates.
-	 * By default the {@link DefaultUriTemplateHandler} is used which relies on
-	 * Spring's URI template support and exposes several useful properties that
-	 * customize its behavior for encoding and for prepending a common base URL.
-	 * An alternative implementation may be used to plug an external URI
-	 * template library.
-	 * @param handler the URI template handler to use
+	 * 配置用于扩展URI模板的{@link UriTemplateHandler}.
+	 * 默认使用{@link DefaultUriTemplateHandler}, 它依赖于Spring的URI模板支持,
+	 * 并公开了几个有用的属性, 这些属性可以自定义其编码行为并预先设置公共基本URL.
+	 * 可以使用替代实现来插入外部URI模板库.
+	 * 
+	 * @param handler 要使用的URI模板处理器
 	 */
 	public void setUriTemplateHandler(UriTemplateHandler handler) {
 		Assert.notNull(handler, "UriTemplateHandler must not be null");
@@ -251,7 +233,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Return the configured URI template handler.
+	 * 返回配置的URI模板处理器.
 	 */
 	public UriTemplateHandler getUriTemplateHandler() {
 		return this.uriTemplateHandler;
@@ -610,14 +592,15 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Execute the given method on the provided URI.
-	 * <p>The {@link ClientHttpRequest} is processed using the {@link RequestCallback};
-	 * the response with the {@link ResponseExtractor}.
-	 * @param url the fully-expanded URL to connect to
-	 * @param method the HTTP method to execute (GET, POST, etc.)
-	 * @param requestCallback object that prepares the request (can be {@code null})
-	 * @param responseExtractor object that extracts the return value from the response (can be {@code null})
-	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
+	 * 在提供的URI上执行给定方法.
+	 * <p>使用{@link RequestCallback}处理{@link ClientHttpRequest}; {@link ResponseExtractor}的响应.
+	 * 
+	 * @param url 要连接的完全展开的URL
+	 * @param method 要执行的HTTP方法 (GET, POST, etc.)
+	 * @param requestCallback 准备请求的对象 (can be {@code null})
+	 * @param responseExtractor 从响应中提取返回值的对象 (can be {@code null})
+	 * 
+	 * @return 任意的对象, 由{@link ResponseExtractor}返回
 	 */
 	protected <T> T doExecute(URI url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor) throws RestClientException {
@@ -654,15 +637,14 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Handle the given response, performing appropriate logging and
-	 * invoking the {@link ResponseErrorHandler} if necessary.
-	 * <p>Can be overridden in subclasses.
-	 * @param url the fully-expanded URL to connect to
-	 * @param method the HTTP method to execute (GET, POST, etc.)
-	 * @param response the resulting {@link ClientHttpResponse}
-	 * @throws IOException if propagated from {@link ResponseErrorHandler}
-	 * @since 4.1.6
-	 * @see #setErrorHandler
+	 * 处理给定的响应, 执行适当的日志记录并在必要时调用{@link ResponseErrorHandler}.
+	 * <p>可以在子类中重写.
+	 * 
+	 * @param url 要连接的完全展开的URL
+	 * @param method 要执行的HTTP方法 (GET, POST, etc.)
+	 * @param response 结果{@link ClientHttpResponse}
+	 * 
+	 * @throws IOException 如果从{@link ResponseErrorHandler}传播过来
 	 */
 	protected void handleResponse(URI url, HttpMethod method, ClientHttpResponse response) throws IOException {
 		ResponseErrorHandler errorHandler = getErrorHandler();
@@ -683,39 +665,36 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 	}
 
 	/**
-	 * Returns a request callback implementation that prepares the request {@code Accept}
-	 * headers based on the given response type and configured
-	 * {@linkplain #getMessageConverters() message converters}.
+	 * 返回一个请求回调实现, 该实现根据给定的响应类型和配置的{@linkplain #getMessageConverters() 消息转换器}
+	 * 准备请求{@code Accept} header.
 	 */
 	protected <T> RequestCallback acceptHeaderRequestCallback(Class<T> responseType) {
 		return new AcceptHeaderRequestCallback(responseType);
 	}
 
 	/**
-	 * Returns a request callback implementation that writes the given object to the
-	 * request stream.
+	 * 返回将给定对象写入请求流的请求回调实现.
 	 */
 	protected <T> RequestCallback httpEntityCallback(Object requestBody) {
 		return new HttpEntityRequestCallback(requestBody);
 	}
 
 	/**
-	 * Returns a request callback implementation that writes the given object to the
-	 * request stream.
+	 * 返回将给定对象写入请求流的请求回调实现.
 	 */
 	protected <T> RequestCallback httpEntityCallback(Object requestBody, Type responseType) {
 		return new HttpEntityRequestCallback(requestBody, responseType);
 	}
 
 	/**
-	 * Returns a response extractor for {@link ResponseEntity}.
+	 * 返回{@link ResponseEntity}的响应提取器.
 	 */
 	protected <T> ResponseExtractor<ResponseEntity<T>> responseEntityExtractor(Type responseType) {
 		return new ResponseEntityResponseExtractor<T>(responseType);
 	}
 
 	/**
-	 * Returns a response extractor for {@link HttpHeaders}.
+	 * 返回{@link HttpHeaders}的响应提取器.
 	 */
 	protected ResponseExtractor<HttpHeaders> headersExtractor() {
 		return this.headersExtractor;
@@ -723,7 +702,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Request callback implementation that prepares the request's accept headers.
+	 * 请求回调实现, 准备请求的accept header.
 	 */
 	private class AcceptHeaderRequestCallback implements RequestCallback {
 
@@ -780,7 +759,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Request callback implementation that writes the given object to the request stream.
+	 * 请求回调实现, 将给定对象写入请求流.
 	 */
 	private class HttpEntityRequestCallback extends AcceptHeaderRequestCallback {
 
@@ -884,7 +863,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Response extractor for {@link HttpEntity}.
+	 * {@link HttpEntity}的响应提取器.
 	 */
 	private class ResponseEntityResponseExtractor<T> implements ResponseExtractor<ResponseEntity<T>> {
 
@@ -913,7 +892,7 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 
 
 	/**
-	 * Response extractor that extracts the response {@link HttpHeaders}.
+	 * 提取响应 {@link HttpHeaders}的响应提取器.
 	 */
 	private static class HeadersExtractor implements ResponseExtractor<HttpHeaders> {
 
@@ -922,5 +901,4 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 			return response.getHeaders();
 		}
 	}
-
 }

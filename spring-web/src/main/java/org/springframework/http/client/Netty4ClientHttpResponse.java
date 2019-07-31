@@ -12,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.Assert;
 
 /**
- * {@link ClientHttpResponse} implementation based on Netty 4.
+ * 基于Netty 4的{@link ClientHttpResponse}实现.
  */
 class Netty4ClientHttpResponse extends AbstractClientHttpResponse {
 

@@ -12,19 +12,15 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.support.SimpleSessionStatus;
 
 /**
- * Records model and view related decisions made by
- * {@link HandlerMethodArgumentResolver}s and
- * {@link HandlerMethodReturnValueHandler}s during the course of invocation of
- * a controller method.
+ * 在调用控制器方法的过程中, 记录{@link HandlerMethodArgumentResolver}
+ * 和{@link HandlerMethodReturnValueHandler}做出的模型和视图相关决策.
  *
- * <p>The {@link #setRequestHandled} flag can be used to indicate the request
- * has been handled directly and view resolution is not required.
+ * <p>{@link #setRequestHandled}标志可用于指示请求已直接处理且不需要查看解析.
  *
- * <p>A default {@link Model} is automatically created at instantiation.
- * An alternate model instance may be provided via {@link #setRedirectModel}
- * for use in a redirect scenario. When {@link #setRedirectModelScenario} is set
- * to {@code true} signalling a redirect scenario, the {@link #getModel()}
- * returns the redirect model instead of the default model.
+ * <p>在实例化时自动创建默认的{@link Model}.
+ * 可以通过{@link #setRedirectModel}提供备用模型实例, 以用于重定向场景.
+ * 当{@link #setRedirectModelScenario}设置为{@code true}表示重定向场景时,
+ * {@link #getModel()}将返回重定向模型而不是默认模型.
  */
 public class ModelAndViewContainer {
 
@@ -50,66 +46,57 @@ public class ModelAndViewContainer {
 
 
 	/**
-	 * By default the content of the "default" model is used both during
-	 * rendering and redirect scenarios. Alternatively controller methods
-	 * can declare an argument of type {@code RedirectAttributes} and use
-	 * it to provide attributes to prepare the redirect URL.
-	 * <p>Setting this flag to {@code true} guarantees the "default" model is
-	 * never used in a redirect scenario even if a RedirectAttributes argument
-	 * is not declared. Setting it to {@code false} means the "default" model
-	 * may be used in a redirect if the controller method doesn't declare a
-	 * RedirectAttributes argument.
-	 * <p>The default setting is {@code false}.
+	 * 默认情况下, 在呈现和重定向场景期间使用"default"模型的内容.
+	 * 或者, 控制器方法可以声明{@code RedirectAttributes}类型的参数, 并使用它来提供属性以准备重定向URL.
+	 * <p>将此标志设置为{@code true}可确保即使未声明RedirectAttributes参数, 也不会在重定向场景中使用"default"模型.
+	 * 将其设置为{@code false}意味着如果控制器方法未声明RedirectAttributes参数, 则可以在重定向中使用"default"模型.
+	 * <p>默认{@code false}.
 	 */
 	public void setIgnoreDefaultModelOnRedirect(boolean ignoreDefaultModelOnRedirect) {
 		this.ignoreDefaultModelOnRedirect = ignoreDefaultModelOnRedirect;
 	}
 
 	/**
-	 * Set a view name to be resolved by the DispatcherServlet via a ViewResolver.
-	 * Will override any pre-existing view name or View.
+	 * 设置要由DispatcherServlet通过ViewResolver解析的视图名称.
+	 * 将覆盖任何预先存在的视图名称或视图.
 	 */
 	public void setViewName(String viewName) {
 		this.view = viewName;
 	}
 
 	/**
-	 * Return the view name to be resolved by the DispatcherServlet via a
-	 * ViewResolver, or {@code null} if a View object is set.
+	 * 返回由DispatcherServlet通过ViewResolver解析的视图名称, 或{@code null}, 如果设置了View对象.
 	 */
 	public String getViewName() {
 		return (this.view instanceof String ? (String) this.view : null);
 	}
 
 	/**
-	 * Set a View object to be used by the DispatcherServlet.
-	 * Will override any pre-existing view name or View.
+	 * 设置DispatcherServlet使用的View对象.
+	 * 将覆盖任何预先存在的视图名称或视图.
 	 */
 	public void setView(Object view) {
 		this.view = view;
 	}
 
 	/**
-	 * Return the View object, or {@code null} if we using a view name
-	 * to be resolved by the DispatcherServlet via a ViewResolver.
+	 * 返回View对象, 或{@code null}, 如果使用视图名称由DispatcherServlet通过ViewResolver解析.
 	 */
 	public Object getView() {
 		return this.view;
 	}
 
 	/**
-	 * Whether the view is a view reference specified via a name to be
-	 * resolved by the DispatcherServlet via a ViewResolver.
+	 * 视图是否是通过名称指定的视图引用, 以便DispatcherServlet通过ViewResolver解析.
 	 */
 	public boolean isViewReference() {
 		return (this.view instanceof String);
 	}
 
 	/**
-	 * Return the model to use -- either the "default" or the "redirect" model.
-	 * The default model is used if {@code redirectModelScenario=false} or
-	 * there is no redirect model (i.e. RedirectAttributes was not declared as
-	 * a method argument) and {@code ignoreDefaultModelOnRedirect=false}.
+	 * 返回要使用的模型 -- "default"或"redirect"模型.
+	 * 如果{@code redirectModelScenario=false}或没有重定向模型 (i.e. RedirectAttributes未声明为方法参数),
+	 * 并且{@code ignoreDefaultModelOnRedirect=false}, 则使用默认模型.
 	 */
 	public ModelMap getModel() {
 		if (useDefaultModel()) {
@@ -124,86 +111,73 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Whether to use the default model or the redirect model.
+	 * 使用默认模型还是重定向模型.
 	 */
 	private boolean useDefaultModel() {
 		return (!this.redirectModelScenario || (this.redirectModel == null && !this.ignoreDefaultModelOnRedirect));
 	}
 
 	/**
-	 * Return the "default" model created at instantiation.
-	 * <p>In general it is recommended to use {@link #getModel()} instead which
-	 * returns either the "default" model (template rendering) or the "redirect"
-	 * model (redirect URL preparation). Use of this method may be needed for
-	 * advanced cases when access to the "default" model is needed regardless,
-	 * e.g. to save model attributes specified via {@code @SessionAttributes}.
-	 * @return the default model (never {@code null})
-	 * @since 4.1.4
+	 * 返回在实例化时创建的"default"模型.
+	 * <p>一般情况下, 建议使用{@link #getModel()}来返回"default"模型 (模板呈现)或"redirect"模型 (重定向URL准备).
+	 * 对于需要访问"default"模型的高级情况, 可能需要使用此方法, e.g. 保存通过{@code @SessionAttributes}指定的模型属性.
+	 * 
+	 * @return 默认模型 (never {@code null})
 	 */
 	public ModelMap getDefaultModel() {
 		return this.defaultModel;
 	}
 
 	/**
-	 * Provide a separate model instance to use in a redirect scenario.
-	 * The provided additional model however is not used unless
-	 * {@link #setRedirectModelScenario(boolean)} gets set to {@code true} to signal
-	 * a redirect scenario.
+	 * 提供单独的模型实例以在重定向场景中使用.
+	 * 但是, 除非{@link #setRedirectModelScenario(boolean)}设置为{@code true}以表示重定向场景, 否则不会使用提供的附加模型.
 	 */
 	public void setRedirectModel(ModelMap redirectModel) {
 		this.redirectModel = redirectModel;
 	}
 
 	/**
-	 * Whether the controller has returned a redirect instruction, e.g. a
-	 * "redirect:" prefixed view name, a RedirectView instance, etc.
+	 * 控制器是否已返回重定向指令, e.g. "redirect:"前缀视图名称, RedirectView实例等.
 	 */
 	public void setRedirectModelScenario(boolean redirectModelScenario) {
 		this.redirectModelScenario = redirectModelScenario;
 	}
 
 	/**
-	 * Provide an HTTP status that will be passed on to with the
-	 * {@code ModelAndView} used for view rendering purposes.
-	 * @since 4.3
+	 * 提供将用于视图呈现的{@code ModelAndView}传递的HTTP状态.
 	 */
 	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
 
 	/**
-	 * Return the configured HTTP status, if any.
-	 * @since 4.3
+	 * 返回配置的HTTP状态.
 	 */
 	public HttpStatus getStatus() {
 		return this.status;
 	}
 
 	/**
-	 * Programmatically register an attribute for which data binding should not occur,
-	 * not even for a subsequent {@code @ModelAttribute} declaration.
-	 * @param attributeName the name of the attribute
-	 * @since 4.3
+	 * 以编程方式注册不应数据绑定的属性, 甚至不是后续的{@code @ModelAttribute}声明.
+	 * 
+	 * @param attributeName 属性名称
 	 */
 	public void setBindingDisabled(String attributeName) {
 		this.bindingDisabled.add(attributeName);
 	}
 
 	/**
-	 * Whether binding is disabled for the given model attribute.
-	 * @since 4.3
+	 * 是否对给定的模型属性禁用绑定.
 	 */
 	public boolean isBindingDisabled(String name) {
 		return (this.bindingDisabled.contains(name) || this.noBinding.contains(name));
 	}
 
 	/**
-	 * Register whether data binding should occur for a corresponding model attribute,
-	 * corresponding to an {@code @ModelAttribute(binding=true/false)} declaration.
-	 * <p>Note: While this flag will be taken into account by {@link #isBindingDisabled},
-	 * a hard {@link #setBindingDisabled} declaration will always override it.
-	 * @param attributeName the name of the attribute
-	 * @since 4.3.13
+	 * 注册是否应对相应的模型属性进行数据绑定, 对应于{@code @ModelAttribute(binding=true/false)}声明.
+	 * <p>Note: 虽然{@link #isBindingDisabled}会考虑此标志, 但硬{@link #setBindingDisabled}声明将始终覆盖它.
+	 * 
+	 * @param attributeName 属性名称
 	 */
 	public void setBinding(String attributeName, boolean enabled) {
 		if (!enabled) {
@@ -215,34 +189,31 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Return the {@link SessionStatus} instance to use that can be used to
-	 * signal that session processing is complete.
+	 * 返回要使用的{@link SessionStatus}实例, 该实例可用于表示会话处理已完成.
 	 */
 	public SessionStatus getSessionStatus() {
 		return this.sessionStatus;
 	}
 
 	/**
-	 * Whether the request has been handled fully within the handler, e.g.
-	 * {@code @ResponseBody} method, and therefore view resolution is not
-	 * necessary. This flag can also be set when controller methods declare an
-	 * argument of type {@code ServletResponse} or {@code OutputStream}).
-	 * <p>The default value is {@code false}.
+	 * 请求是否已在处理器中完全处理, e.g. {@code @ResponseBody}方法, 因此不需要视图解析.
+	 * 当控制器方法声明{@code ServletResponse}或{@code OutputStream}类型的参数时, 也可以设置此标志.
+	 * <p>默认{@code false}.
 	 */
 	public void setRequestHandled(boolean requestHandled) {
 		this.requestHandled = requestHandled;
 	}
 
 	/**
-	 * Whether the request has been handled fully within the handler.
+	 * 请求是否已在处理器中完全处理.
 	 */
 	public boolean isRequestHandled() {
 		return this.requestHandled;
 	}
 
 	/**
-	 * Add the supplied attribute to the underlying model.
-	 * A shortcut for {@code getModel().addAttribute(String, Object)}.
+	 * 将提供的属性添加到底层模型.
+	 * {@code getModel().addAttribute(String, Object)}的快捷方式.
 	 */
 	public ModelAndViewContainer addAttribute(String name, Object value) {
 		getModel().addAttribute(name, value);
@@ -250,8 +221,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Add the supplied attribute to the underlying model.
-	 * A shortcut for {@code getModel().addAttribute(Object)}.
+	 * 将提供的属性添加到底层模型.
+	 * {@code getModel().addAttribute(Object)}的快捷方式.
 	 */
 	public ModelAndViewContainer addAttribute(Object value) {
 		getModel().addAttribute(value);
@@ -259,8 +230,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Copy all attributes to the underlying model.
-	 * A shortcut for {@code getModel().addAllAttributes(Map)}.
+	 * 将所有属性复制到底层模型.
+	 * {@code getModel().addAllAttributes(Map)}的快捷方式.
 	 */
 	public ModelAndViewContainer addAllAttributes(Map<String, ?> attributes) {
 		getModel().addAllAttributes(attributes);
@@ -268,9 +239,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Copy attributes in the supplied {@code Map} with existing objects of
-	 * the same name taking precedence (i.e. not getting replaced).
-	 * A shortcut for {@code getModel().mergeAttributes(Map<String, ?>)}.
+	 * 复制提供的{@code Map}中的属性, 使用相同名称的现有对象优先 (i.e. 不被替换).
+	 * {@code getModel().mergeAttributes(Map<String, ?>)}的快捷方式.
 	 */
 	public ModelAndViewContainer mergeAttributes(Map<String, ?> attributes) {
 		getModel().mergeAttributes(attributes);
@@ -278,7 +248,7 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Remove the given attributes from the model.
+	 * 从模型中删除给定的属性.
 	 */
 	public ModelAndViewContainer removeAttributes(Map<String, ?> attributes) {
 		if (attributes != null) {
@@ -290,8 +260,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Whether the underlying model contains the given attribute name.
-	 * A shortcut for {@code getModel().containsAttribute(String)}.
+	 * 底层模型是否包含给定的属性名称.
+	 * {@code getModel().containsAttribute(String)}的快捷方式.
 	 */
 	public boolean containsAttribute(String name) {
 		return getModel().containsAttribute(name);
@@ -299,7 +269,7 @@ public class ModelAndViewContainer {
 
 
 	/**
-	 * Return diagnostic information.
+	 * 返回诊断信息.
 	 */
 	@Override
 	public String toString() {

@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
 
 /**
- * {@link ClientHttpRequestInterceptor} to apply a BASIC authorization header.
+ * {@link ClientHttpRequestInterceptor}应用BASIC授权 header.
  */
 public class BasicAuthorizationInterceptor implements ClientHttpRequestInterceptor {
 
@@ -23,10 +23,10 @@ public class BasicAuthorizationInterceptor implements ClientHttpRequestIntercept
 
 
 	/**
-	 * Create a new interceptor which adds a BASIC authorization header
-	 * for the given username and password.
-	 * @param username the username to use
-	 * @param password the password to use
+	 * 创建一个新的拦截器, 为给定的用户名和密码添加BASIC授权header.
+	 * 
+	 * @param username 要使用的用户名
+	 * @param password 要使用的密码
 	 */
 	public BasicAuthorizationInterceptor(String username, String password) {
 		Assert.hasLength(username, "Username must not be empty");

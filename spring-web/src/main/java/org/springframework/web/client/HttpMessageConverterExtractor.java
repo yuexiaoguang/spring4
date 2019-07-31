@@ -14,8 +14,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.Assert;
 
 /**
- * Response extractor that uses the given {@linkplain HttpMessageConverter entity converters}
- * to convert the response into a type {@code T}.
+ * 响应提取器, 使用给定的{@linkplain HttpMessageConverter 实体转换器}将响应转换为类型{@code T}.
  */
 public class HttpMessageConverterExtractor<T> implements ResponseExtractor<T> {
 
@@ -29,16 +28,15 @@ public class HttpMessageConverterExtractor<T> implements ResponseExtractor<T> {
 
 
 	/**
-	 * Create a new instance of the {@code HttpMessageConverterExtractor} with the given response
-	 * type and message converters. The given converters must support the response type.
+	 * 使用给定的响应类型和消息转换器.
+	 * 给定的转换器必须支持响应类型.
 	 */
 	public HttpMessageConverterExtractor(Class<T> responseType, List<HttpMessageConverter<?>> messageConverters) {
 		this((Type) responseType, messageConverters);
 	}
 
 	/**
-	 * Creates a new instance of the {@code HttpMessageConverterExtractor} with the given response
-	 * type and message converters. The given converters must support the response type.
+	 * 使用给定的响应类型和消息转换器. 给定的转换器必须支持响应类型.
 	 */
 	public HttpMessageConverterExtractor(Type responseType, List<HttpMessageConverter<?>> messageConverters) {
 		this(responseType, messageConverters, LogFactory.getLog(HttpMessageConverterExtractor.class));

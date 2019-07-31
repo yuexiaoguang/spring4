@@ -9,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StreamUtils;
 
 /**
- * Simple implementation of {@link ClientHttpResponse} that reads the response's body
- * into memory, thus allowing for multiple invocations of {@link #getBody()}.
+ * {@link ClientHttpResponse}的简单实现, 将响应的主体读入内存, 从而允许多次调用{@link #getBody()}.
  */
 final class BufferingClientHttpResponseWrapper implements ClientHttpResponse {
 

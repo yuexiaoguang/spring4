@@ -13,7 +13,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.InvocableHandlerMethod;
 
 /**
- * Adds initialization to a WebDataBinder via {@code @InitBinder} methods.
+ * 通过{@code @InitBinder}方法向WebDataBinder添加初始化.
  */
 public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 
@@ -21,9 +21,8 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 
 
 	/**
-	 * Create a new InitBinderDataBinderFactory instance.
-	 * @param binderMethods {@code @InitBinder} methods
-	 * @param initializer for global data binder initialization
+	 * @param binderMethods {@code @InitBinder}方法
+	 * @param initializer 全局数据绑定器初始化的初始化器
 	 */
 	public InitBinderDataBinderFactory(List<InvocableHandlerMethod> binderMethods, WebBindingInitializer initializer) {
 		super(initializer);
@@ -32,10 +31,9 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 
 
 	/**
-	 * Initialize a WebDataBinder with {@code @InitBinder} methods.
-	 * <p>If the {@code @InitBinder} annotation specifies attributes names,
-	 * it is invoked only if the names include the target object name.
-	 * @throws Exception if one of the invoked @{@link InitBinder} methods fails
+	 * <p>如果{@code @InitBinder}注解指定了属性名称, 则只有在名称包含目标对象名称时才会调用它.
+	 * 
+	 * @throws Exception 如果其中一个被调用的 @{@link InitBinder}方法失败
 	 */
 	@Override
 	public void initBinder(WebDataBinder dataBinder, NativeWebRequest request) throws Exception {
@@ -51,9 +49,8 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 	}
 
 	/**
-	 * Determine whether the given {@code @InitBinder} method should be used
-	 * to initialize the given {@link WebDataBinder} instance. By default we
-	 * check the specified attribute names in the annotation value, if any.
+	 * 确定是否应使用给定的{@code @InitBinder}方法初始化给定的{@link WebDataBinder}实例.
+	 * 默认情况下, 检查注解值中的指定属性名称.
 	 */
 	protected boolean isBinderMethodApplicable(HandlerMethod initBinderMethod, WebDataBinder dataBinder) {
 		InitBinder ann = initBinderMethod.getMethodAnnotation(InitBinder.class);

@@ -18,21 +18,18 @@ import org.springframework.remoting.support.UrlBasedRemoteAccessor;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.aopalliance.intercept.MethodInterceptor} for accessing a Burlap service.
- * Supports authentication via username and password.
- * The service URL must be an HTTP URL exposing a Burlap service.
+ * {@link org.aopalliance.intercept.MethodInterceptor}用于访问Burlap服务.
+ * 通过用户名和密码支持身份验证.
+ * 服务URL必须是公开Burlap服务的HTTP URL.
  *
- * <p>Burlap is a slim, XML-based RPC protocol.
+ * <p>Burlap是一种基于XML的轻量级RPC协议.
  * For information on Burlap, see the
  * <a href="http://www.caucho.com/burlap">Burlap website</a>
  *
- * <p>Note: There is no requirement for services accessed with this proxy factory
- * to have been exported using Spring's {@link BurlapServiceExporter}, as there is
- * no special handling involved. As a consequence, you can also access services that
- * have been exported using Caucho's {@link com.caucho.burlap.server.BurlapServlet}.
+ * <p>Note: 使用Spring的{@link BurlapServiceExporter}不需要使用此代理工厂访问的服务, 因为不涉及特殊处理.
+ * 因此, 还可以使用Caucho的{@link com.caucho.burlap.server.BurlapServlet}访问已导出的服务.
  *
- * @deprecated as of Spring 4.0, since Burlap hasn't evolved in years
- * and is effectively retired (in contrast to its sibling Hessian)
+ * @deprecated 从Spring 4.0开始, 由于Burlap几年没有进展 (与其兄弟Hessian形成鲜明对比)
  */
 @Deprecated
 public class BurlapClientInterceptor extends UrlBasedRemoteAccessor implements MethodInterceptor {
