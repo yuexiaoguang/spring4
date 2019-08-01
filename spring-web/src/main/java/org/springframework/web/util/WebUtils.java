@@ -345,17 +345,17 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Return the best available mutex for the given session: that is, an object to synchronize on for the given session.
-	 * <p>Returns the session mutex attribute if available; usually, this means that the HttpSessionMutexListener needs to be defined in {@code web.xml}.
-	 * Falls back to the HttpSession itself if no mutex attribute found.
-	 * <p>The session mutex is guaranteed to be the same object during the entire lifetime of the session, available under the key defined by the {@code SESSION_MUTEX_ATTRIBUTE} constant.
-	 * It serves as a safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the HttpSession reference itself is a safe mutex as well, since it will always be the same object reference for the same active logical session.
-	 * However, this is not guaranteed across different servlet containers; the only 100% safe way is a session mutex.
+	 * 返回给定会话的最佳可用互斥锁: 即, 用于同步给定会话的对象.
+	 * <p>返回会话互斥锁属性, 如果可用; 通常, 这意味着需要在{@code web.xml}中定义HttpSessionMutexListener.
+	 * 如果没有找到互斥锁属性, 则回退到HttpSession本身.
+	 * <p>会话互斥锁在会话的整个生命周期内保证是同一个对象, 在{@code SESSION_MUTEX_ATTRIBUTE}常量定义的键下可用.
+	 * 它用作同步锁定当前会话的安全引用.
+	 * <p>在许多情况下, HttpSession引用本身也是一个安全的互斥锁, 因为它对于同一个活动逻辑会话始终是相同的对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一 100% 安全的方式是会话互斥.
 	 * 
-	 * @param session the HttpSession to find a mutex for
+	 * @param session 要为其查找互斥锁的HttpSession
 	 * 
-	 * @return the mutex object (never {@code null})
+	 * @return 互斥锁对象 (never {@code null})
 	 */
 	public static Object getSessionMutex(HttpSession session) {
 		Assert.notNull(session, "Session must not be null");
@@ -368,12 +368,12 @@ public abstract class WebUtils {
 
 
 	/**
-	 * Return an appropriate request object of the specified type, if available, unwrapping the given request as far as necessary.
+	 * 返回指定类型的适当请求对象, 如果可用, 根据需要解包给定请求.
 	 * 
-	 * @param request the servlet request to introspect
-	 * @param requiredType the desired type of request object
+	 * @param request 要内省的servlet请求
+	 * @param requiredType 请求对象的所需类型
 	 * 
-	 * @return the matching request object, or {@code null} if none of that type is available
+	 * @return 匹配的请求对象, 或{@code null} 如果没有该类型可用
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getNativeRequest(ServletRequest request, Class<T> requiredType) {
@@ -389,12 +389,12 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Return an appropriate response object of the specified type, if available, unwrapping the given response as far as necessary.
+	 * 返回指定类型的适当响应对象, 根据需要解包给定的响应.
 	 * 
-	 * @param response the servlet response to introspect
-	 * @param requiredType the desired type of response object
+	 * @param response 要内省的servlet反应
+	 * @param requiredType 响应对象的所需类型
 	 * 
-	 * @return the matching response object, or {@code null} if none of that type is available
+	 * @return 匹配的响应对象, 或{@code null} 如果没有该类型可用
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getNativeResponse(ServletResponse response, Class<T> requiredType) {
@@ -410,32 +410,33 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Determine whether the given request is an include request, that is, not a top-level HTTP request coming in from the outside.
-	 * <p>Checks the presence of the "javax.servlet.include.request_uri" request attribute.
-	 * Could check any request attribute that is only present in an include request.
+	 * 确定给定请求是否为include请求, 即不是从外部进入的顶级HTTP请求.
+	 * <p>检查是否存在"javax.servlet.include.request_uri"请求属性.
+	 * 可以检查仅包含在include请求中的请求属性.
 	 * 
-	 * @param request current servlet request
+	 * @param request 当前的servlet请求
 	 * 
-	 * @return whether the given request is an include request
+	 * @return 给定请求是否为include请求
 	 */
 	public static boolean isIncludeRequest(ServletRequest request) {
 		return (request.getAttribute(INCLUDE_REQUEST_URI_ATTRIBUTE) != null);
 	}
 
 	/**
-	 * Expose the Servlet spec's error attributes as {@link javax.servlet.http.HttpServletRequest} attributes under the keys defined in the Servlet 2.3 specification, for error pages that are rendered directly rather than through the Servlet container's error page resolution:
+	 * 将Servlet规范的错误属性公开为Servlet 2.3规范中定义的键下的{@link javax.servlet.http.HttpServletRequest}属性,
+	 * 用于直接呈现的错误页面, 而不是通过Servlet容器的错误页面解析:
 	 * {@code javax.servlet.error.status_code},
 	 * {@code javax.servlet.error.exception_type},
 	 * {@code javax.servlet.error.message},
 	 * {@code javax.servlet.error.exception},
 	 * {@code javax.servlet.error.request_uri},
 	 * {@code javax.servlet.error.servlet_name}.
-	 * <p>Does not override values if already present, to respect attribute values that have been exposed explicitly before.
-	 * <p>Exposes status code 200 by default. Set the "javax.servlet.error.status_code" attribute explicitly (before or after) in order to expose a different status code.
+	 * <p>如果已经存在, 则不覆盖值, 以尊重之前已明确公开的属性值.
+	 * <p>默认情况下显示状态码200. 显式设置"javax.servlet.error.status_code"属性 (之前或之后), 以显示不同的状态码.
 	 * 
-	 * @param request current servlet request
-	 * @param ex the exception encountered
-	 * @param servletName the name of the offending servlet
+	 * @param request 当前的servlet请求
+	 * @param ex 遇到的异常
+	 * @param servletName 违规servlet的名称
 	 */
 	public static void exposeErrorRequestAttributes(HttpServletRequest request, Throwable ex, String servletName) {
 		exposeRequestAttributeIfNotPresent(request, ERROR_STATUS_CODE_ATTRIBUTE, HttpServletResponse.SC_OK);
@@ -447,11 +448,11 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Expose the specified request attribute if not already present.
+	 * 如果尚未存在, 公开指定的请求属性.
 	 * 
-	 * @param request current servlet request
-	 * @param name the name of the attribute
-	 * @param value the suggested value of the attribute
+	 * @param request 当前的servlet请求
+	 * @param name 属性的名称
+	 * @param value 属性的建议值
 	 */
 	private static void exposeRequestAttributeIfNotPresent(ServletRequest request, String name, Object value) {
 		if (request.getAttribute(name) == null) {
@@ -460,7 +461,7 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Clear the Servlet spec's error attributes as {@link javax.servlet.http.HttpServletRequest} attributes under the keys defined in the Servlet 2.3 specification:
+	 * 清除Servlet规范的错误属性, 作为Servlet 2.3规范中定义的键下的{@link javax.servlet.http.HttpServletRequest}属性:
 	 * {@code javax.servlet.error.status_code},
 	 * {@code javax.servlet.error.exception_type},
 	 * {@code javax.servlet.error.message},
@@ -468,7 +469,7 @@ public abstract class WebUtils {
 	 * {@code javax.servlet.error.request_uri},
 	 * {@code javax.servlet.error.servlet_name}.
 	 * 
-	 * @param request current servlet request
+	 * @param request 当前的servlet请求
 	 */
 	public static void clearErrorRequestAttributes(HttpServletRequest request) {
 		request.removeAttribute(ERROR_STATUS_CODE_ATTRIBUTE);
@@ -480,10 +481,11 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Expose the given Map as request attributes, using the keys as attribute names and the values as corresponding attribute values. Keys need to be Strings.
+	 * 将给定的Map公开为请求属性, 使用键作为属性名称, 值作为相应的属性值.
+	 * 键必须是字符串.
 	 * 
-	 * @param request current HTTP request
-	 * @param attributes the attributes Map
+	 * @param request 当前的HTTP请求
+	 * @param attributes 属性Map
 	 * 
 	 * @deprecated as of Spring 4.3.2, in favor of custom code for such purposes
 	 */
@@ -497,13 +499,13 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Retrieve the first cookie with the given name.
-	 * Note that multiple cookies can have the same name but different paths or domains.
+	 * 检索具有给定名称的第一个cookie.
+	 * 请注意, 多个Cookie可以具有相同的名称, 但路径或域不同.
 	 * 
-	 * @param request current servlet request
-	 * @param name cookie name
+	 * @param request 当前的servlet请求
+	 * @param name cookie名称
 	 * 
-	 * @return the first cookie with the given name, or {@code null} if none is found
+	 * @return 具有给定名称的第一个cookie, 或{@code null}
 	 */
 	public static Cookie getCookie(HttpServletRequest request, String name) {
 		Assert.notNull(request, "Request must not be null");
@@ -519,12 +521,12 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Check if a specific input type="submit" parameter was sent in the request, either via a button (directly with name) or via an image (name + ".x" or name + ".y").
+	 * 检查请求中是否通过按钮(直接使用名称)或通过图像(名称 + ".x" 或名称 + ".y")发送了特定输入类型为"submit"的参数.
 	 * 
-	 * @param request current HTTP request
-	 * @param name name of the parameter
+	 * @param request 当前的HTTP请求
+	 * @param name 参数名称
 	 * 
-	 * @return if the parameter was sent
+	 * @return 如果参数已发送
 	 */
 	public static boolean hasSubmitParameter(ServletRequest request, String name) {
 		Assert.notNull(request, "Request must not be null");
@@ -540,39 +542,39 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Obtain a named parameter from the given request parameters.
-	 * <p>See {@link #findParameterValue(java.util.Map, String)} for a description of the lookup algorithm.
+	 * 从给定的请求参数中获取命名参数.
+	 * <p>有关查找算法的说明, 请参阅{@link #findParameterValue(java.util.Map, String)}.
 	 * 
-	 * @param request current HTTP request
-	 * @param name the <i>logical</i> name of the request parameter
+	 * @param request 当前的HTTP请求
+	 * @param name 请求参数的<i>逻辑</i>名称
 	 * 
-	 * @return the value of the parameter, or {@code null} if the parameter does not exist in given request
+	 * @return 参数的值, 或{@code null} 如果参数在给定请求中不存在
 	 */
 	public static String findParameterValue(ServletRequest request, String name) {
 		return findParameterValue(request.getParameterMap(), name);
 	}
 
 	/**
-	 * Obtain a named parameter from the given request parameters.
-	 * <p>This method will try to obtain a parameter value using the following algorithm:
+	 * 从给定的请求参数中获取命名参数.
+	 * <p>此方法将尝试使用以下算法获取参数值:
 	 * <ol>
-	 * <li>Try to get the parameter value using just the given <i>logical</i> name.
-	 * This handles parameters of the form <tt>logicalName = value</tt>.
-	 * For normal parameters, e.g. submitted using a hidden HTML form field, this will return the requested value.</li>
-	 * <li>Try to obtain the parameter value from the parameter name, where the parameter name in the request is of the form <tt>logicalName_value = xyz</tt> with "_" being the configured delimiter.
-	 * This deals with parameter values submitted using an HTML form submit button.</li>
-	 * <li>If the value obtained in the previous step has a ".x" or ".y" suffix, remove that.
-	 * This handles cases where the value was submitted using an HTML form image button.
-	 * In this case the parameter in the request would actually be of the form <tt>logicalName_value.x = 123</tt>. </li>
+	 * <li>尝试仅使用给定的<i>逻辑</i>名称获取参数值.
+	 * 这将处理<tt>logicalName = value</tt>形式的参数.
+	 * 对于正常参数, e.g. 使用隐藏的HTML表单字段提交, 这将返回请求的值.</li>
+	 * <li>尝试从参数名称中获取参数值, 其中请求中的参数名称的格式为<tt>logicalName_value = xyz</tt>, 其中 "_"是已配置的分隔符.
+	 * 这涉及使用HTML表单提交按钮提交的参数值.</li>
+	 * <li>如果在上一步中获得的值具有".x" 或 ".y"后缀, 将其删除.
+	 * 这将处理使用HTML表单图像按钮提交的值的情况.
+	 * 在这种情况下, 请求中的参数实际上是<tt>logicalName_value.x = 123</tt>的形式. </li>
 	 * </ol>
 	 * 
-	 * @param parameters the available parameter map
-	 * @param name the <i>logical</i> name of the request parameter
+	 * @param parameters 可用的参数Map
+	 * @param name 请求参数的<i>逻辑</i>名称
 	 * 
-	 * @return the value of the parameter, or {@code null} if the parameter does not exist in given request
+	 * @return 参数的值, 或{@code null} 如果参数在给定请求中不存在
 	 */
 	public static String findParameterValue(Map<String, ?> parameters, String name) {
-		// First try to get it as a normal name=value parameter
+		// 首先尝试将其作为普通的 name=value 参数
 		Object value = parameters.get(name);
 		if (value instanceof String[]) {
 			String[] values = (String[]) value;
@@ -581,11 +583,11 @@ public abstract class WebUtils {
 		else if (value != null) {
 			return value.toString();
 		}
-		// If no value yet, try to get it as a name_value=xyz parameter
+		// 如果还没有值, 尝试将其作为 name_value=xyz 参数
 		String prefix = name + "_";
 		for (String paramName : parameters.keySet()) {
 			if (paramName.startsWith(prefix)) {
-				// Support images buttons, which would submit parameters as name_value.x=123
+				// 支持图像按钮, 提交参数为 name_value.x=123
 				for (String suffix : SUBMIT_IMAGE_SUFFIXES) {
 					if (paramName.endsWith(suffix)) {
 						return paramName.substring(prefix.length(), paramName.length() - suffix.length());
@@ -594,19 +596,19 @@ public abstract class WebUtils {
 				return paramName.substring(prefix.length());
 			}
 		}
-		// We couldn't find the parameter value...
+		// 找不到参数值...
 		return null;
 	}
 
 	/**
-	 * Return a map containing all parameters with the given prefix.
-	 * Maps single values to String and multiple values to String array.
-	 * <p>For example, with a prefix of "spring_", "spring_param1" and "spring_param2" result in a Map with "param1" and "param2" as keys.
+	 * 返回包含具有给定前缀的所有参数的Map.
+	 * 将单个值映射到String, 将多个值映射到String数组.
+	 * <p>例如, 使用前缀"spring_", "spring_param1" 和 "spring_param2"会产生一个带有"param1" 和 "param2"作为键的Map.
 	 * 
-	 * @param request HTTP request in which to look for parameters
-	 * @param prefix the beginning of parameter names (if this is null or the empty string, all parameters will match)
+	 * @param request 用于查找参数的HTTP请求
+	 * @param prefix 参数名称的开头 (如果为null或空字符串, 则所有参数都匹配)
 	 * 
-	 * @return map containing request parameters <b>without the prefix</b>, containing either a String or a String array as values
+	 * @return 包含请求参数<b>不带前缀</b>的Map, 包含String或String数组作为值
 	 */
 	public static Map<String, Object> getParametersStartingWith(ServletRequest request, String prefix) {
 		Assert.notNull(request, "Request must not be null");
@@ -635,13 +637,13 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Return the target page specified in the request.
+	 * 返回请求中指定的目标页面.
 	 * 
-	 * @param request current servlet request
-	 * @param paramPrefix the parameter prefix to check for (e.g. "_target" for parameters like "_target1" or "_target2")
-	 * @param currentPage the current page, to be returned as fallback if no target page specified
+	 * @param request 当前的servlet请求
+	 * @param paramPrefix 要检查的参数前缀 (e.g. "_target"参数, 如"_target1"或"_target2")
+	 * @param currentPage 当前页面, 如果没有指定目标页面, 则作为后备返回
 	 * 
-	 * @return the page specified in the request, or current page if not found
+	 * @return 请求中指定的页面, 或当前页面
 	 * @deprecated as of Spring 4.3.2, in favor of custom code for such purposes
 	 */
 	@Deprecated
@@ -664,12 +666,12 @@ public abstract class WebUtils {
 
 
 	/**
-	 * Extract the URL filename from the given request URL path.
-	 * Correctly resolves nested paths such as "/products/view.html" as well.
+	 * 从给定的请求URL路径中提取URL文件名.
+	 * 正确解析嵌套的路径, 例如"/products/view.html".
 	 * 
-	 * @param urlPath the request URL path (e.g. "/index.html")
+	 * @param urlPath 请求URL路径 (e.g. "/index.html")
 	 * 
-	 * @return the extracted URI filename (e.g. "index")
+	 * @return 提取的URI文件名 (e.g. "index")
 	 * @deprecated as of Spring 4.3.2, in favor of custom code for such purposes
 	 */
 	@Deprecated
@@ -683,13 +685,14 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Extract the full URL filename (including file extension) from the given request URL path. Correctly resolve nested paths such as "/products/view.html" and remove any path and or query parameters.
+	 * 从给定的请求URL路径中提取完整的URL文件名 (包括文件扩展名).
+	 * 正确解析嵌套的路径, 例如 "/products/view.html", 并删除任何路径和/或查询参数.
 	 * 
-	 * @param urlPath the request URL path (e.g. "/products/index.html")
+	 * @param urlPath 请求URL路径 (e.g. "/products/index.html")
 	 * 
-	 * @return the extracted URI filename (e.g. "index.html")
+	 * @return 提取的URI文件名 (e.g. "index.html")
 	 * @deprecated as of Spring 4.3.2, in favor of custom code for such purposes
-	 * (or {@link UriUtils#extractFileExtension} for the file extension use case)
+	 * (或{@link UriUtils#extractFileExtension}用于文件扩展名用例)
 	 */
 	@Deprecated
 	public static String extractFullFilenameFromUrlPath(String urlPath) {
@@ -707,12 +710,12 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Parse the given string with matrix variables. An example string would look like this {@code "q1=a;q1=b;q2=a,b,c"}.
-	 * The resulting map would contain keys {@code "q1"} and {@code "q2"} with values {@code ["a","b"]} and {@code ["a","b","c"]} respectively.
+	 * 使用矩阵变量解析给定的字符串. 示例字符串看起来像这样{@code "q1=a;q1=b;q2=a,b,c"}.
+	 * 生成的Map将包含{@code "q1"}和{@code "q2"}, 其值为{@code ["a","b"]} 和 {@code ["a","b","c"]}.
 	 * 
-	 * @param matrixVariables the unparsed matrix variables string
+	 * @param matrixVariables 未解析的矩阵变量字符串
 	 * 
-	 * @return a map with matrix variable names and values (never {@code null})
+	 * @return 带有矩阵变量名称和值的Map (never {@code null})
 	 */
 	public static MultiValueMap<String, String> parseMatrixVariables(String matrixVariables) {
 		MultiValueMap<String, String> result = new LinkedMultiValueMap<String, String>();
@@ -738,17 +741,17 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Check the given request origin against a list of allowed origins.
-	 * A list containing "*" means that all origins are allowed.
-	 * An empty list means only same origin is allowed.
-	 * <p><strong>Note:</strong> this method may use values from "Forwarded"
+	 * 根据允许的来源列表检查给定的请求来源.
+	 * 包含"*"的列表表示允许所有来源.
+	 * 空列表表示只允许相同的来源.
+	 * <p><strong>Note:</strong>此方法可以使用"Forwarded"
 	 * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
-	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
-	 * if present, in order to reflect the client-originated address.
-	 * Consider using the {@code ForwardedHeaderFilter} in order to choose from a central place whether to extract and use, or to discard such headers.
-	 * See the Spring Framework reference for more on this filter.
+	 * "X-Forwarded-Host", "X-Forwarded-Port", 和"X-Forwarded-Proto" header中的值,
+	 * 以反映客户端发起的地址.
+	 * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此header.
+	 * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
 	 * 
-	 * @return {@code true} if the request origin is valid, {@code false} otherwise
+	 * @return {@code true} 如果请求来源有效, 否则{@code false}
 	 */
 	public static boolean isValidOrigin(HttpRequest request, Collection<String> allowedOrigins) {
 		Assert.notNull(request, "Request must not be null");
@@ -767,16 +770,16 @@ public abstract class WebUtils {
 	}
 
 	/**
-	 * Check if the request is a same-origin one, based on {@code Origin}, {@code Host},
-	 * {@code Forwarded}, {@code X-Forwarded-Proto}, {@code X-Forwarded-Host} and {@code X-Forwarded-Port} headers.
-	 * <p><strong>Note:</strong> this method uses values from "Forwarded"
+	 * 根据{@code Origin}, {@code Host}, {@code Forwarded}, {@code X-Forwarded-Proto},
+	 * {@code X-Forwarded-Host}和{@code X-Forwarded-Port} header检查请求是否是相同来源的请求.
+	 * <p><strong>Note:</strong>此方法可以使用"Forwarded"
 	 * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
-	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
-	 * if present, in order to reflect the client-originated address.
-	 * Consider using the {@code ForwardedHeaderFilter} in order to choose from a central place whether to extract and use, or to discard such headers.
-	 * See the Spring Framework reference for more on this filter.
+	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" header中的值,
+	 * 以反映客户端发起的地址.
+	 * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此header.
+	 * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
 	 * 
-	 * @return {@code true} if the request is a same-origin one, {@code false} in case of cross-origin request
+	 * @return {@code true} 如果请求是相同来源的请求, {@code false} 如果是跨源请求
 	 */
 	public static boolean isSameOrigin(HttpRequest request) {
 		String origin = request.getHeaders().getOrigin();
@@ -785,7 +788,7 @@ public abstract class WebUtils {
 		}
 		UriComponentsBuilder urlBuilder;
 		if (request instanceof ServletServerHttpRequest) {
-			// Build more efficiently if we can: we only need scheme, host, port for origin comparison
+			// 如果能够更有效地构建: 只需要 scheme, host, port进行来源比较
 			HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
 			urlBuilder = new UriComponentsBuilder().
 					scheme(servletRequest.getScheme()).
