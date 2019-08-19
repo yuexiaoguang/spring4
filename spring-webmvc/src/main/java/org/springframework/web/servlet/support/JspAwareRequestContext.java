@@ -9,11 +9,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.jstl.core.Config;
 
 /**
- * JSP-aware (and JSTL-aware) subclass of RequestContext, allowing for
- * population of the context from a {@code javax.servlet.jsp.PageContext}.
+ * RequestContext的JSP-aware (和JSTL-aware)子类, 允许来自{@code javax.servlet.jsp.PageContext}的上下文的填充.
  *
- * <p>This context will detect a JSTL locale attribute in page/request/session/application
- * scope, in addition to the fallback locale strategy provided by the base class.
+ * <p>除了基类提供的回退区域设置策略之外, 此上下文还将检测 page/request/session/application范围中的JSTL区域设置属性.
  */
 public class JspAwareRequestContext extends RequestContext {
 
@@ -21,31 +19,29 @@ public class JspAwareRequestContext extends RequestContext {
 
 
 	/**
-	 * Create a new JspAwareRequestContext for the given page context,
-	 * using the request attributes for Errors retrieval.
-	 * @param pageContext current JSP page context
+	 * 使用错误检索的请求属性为给定的页面上下文创建新的JspAwareRequestContext.
+	 * 
+	 * @param pageContext 当前的JSP页面上下文
 	 */
 	public JspAwareRequestContext(PageContext pageContext) {
 		initContext(pageContext, null);
 	}
 
 	/**
-	 * Create a new JspAwareRequestContext for the given page context,
-	 * using the given model attributes for Errors retrieval.
-	 * @param pageContext current JSP page context
-	 * @param model the model attributes for the current view
-	 * (can be {@code null}, using the request attributes for Errors retrieval)
+	 * 使用给定的模型属性进行错误检索, 为给定的页面上下文创建新的JspAwareRequestContext.
+	 * 
+	 * @param pageContext 当前的JSP页面上下文
+	 * @param model 当前视图的模型属性 (可以是{@code null}, 使用Errors检索的请求属性)
 	 */
 	public JspAwareRequestContext(PageContext pageContext, Map<String, Object> model) {
 		initContext(pageContext, model);
 	}
 
 	/**
-	 * Initialize this context with the given page context,
-	 * using the given model attributes for Errors retrieval.
-	 * @param pageContext current JSP page context
-	 * @param model the model attributes for the current view
-	 * (can be {@code null}, using the request attributes for Errors retrieval)
+	 * 使用给定的模型属性进行错误检索, 使用给定的页面上下文初始化此上下文.
+	 * 
+	 * @param pageContext 当前的JSP页面上下文
+	 * @param model 当前视图的模型属性 (可以是{@code null}, 使用Errors检索的请求属性)
 	 */
 	protected void initContext(PageContext pageContext, Map<String, Object> model) {
 		if (!(pageContext.getRequest() instanceof HttpServletRequest)) {
@@ -58,17 +54,15 @@ public class JspAwareRequestContext extends RequestContext {
 
 
 	/**
-	 * Return the underlying PageContext.
-	 * Only intended for cooperating classes in this package.
+	 * 返回底层的PageContext.
+	 * 仅适用于此程序包中的协作类.
 	 */
 	protected final PageContext getPageContext() {
 		return this.pageContext;
 	}
 
 	/**
-	 * This implementation checks for a JSTL locale attribute in page,
-	 * request, session or application scope; if not found, returns the
-	 * {@code HttpServletRequest.getLocale()}.
+	 * 此实现检查 page, request, session 或 application范围中的JSTL语言环境属性; 如果找不到, 则返回{@code HttpServletRequest.getLocale()}.
 	 */
 	@Override
 	protected Locale getFallbackLocale() {
@@ -82,8 +76,7 @@ public class JspAwareRequestContext extends RequestContext {
 	}
 
 	/**
-	 * This implementation checks for a JSTL time zone attribute in page,
-	 * request, session or application scope; if not found, returns {@code null}.
+	 * 此实现检查 page, request, session 或 application范围中的JSTL时区属性; 如果没有找到, 则返回{@code null}.
 	 */
 	@Override
 	protected TimeZone getFallbackTimeZone() {
@@ -98,8 +91,8 @@ public class JspAwareRequestContext extends RequestContext {
 
 
 	/**
-	 * Inner class that isolates the JSTL dependency.
-	 * Just called to resolve the fallback locale if the JSTL API is present.
+	 * 隔离JSTL依赖项的内部类.
+	 * 如果存在JSTL API, 则调用以解析回退区域设置.
 	 */
 	private static class JstlPageLocaleResolver {
 

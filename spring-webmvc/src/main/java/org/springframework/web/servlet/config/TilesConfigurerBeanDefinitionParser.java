@@ -13,8 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * Parse the <mvc:tiles-configurer> MVC namespace element and register
- * a corresponding TilesConfigurer bean.
+ * 解析<mvc:tiles-configurer> MVC命名空间元素并注册相应的TilesConfigurer bean.
  */
 public class TilesConfigurerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 

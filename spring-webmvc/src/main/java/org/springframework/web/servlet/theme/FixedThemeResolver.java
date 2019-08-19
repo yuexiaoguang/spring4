@@ -4,12 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * {@link org.springframework.web.servlet.ThemeResolver} implementation
- * that simply uses a fixed theme. The fixed name can be defined via
- * the "defaultThemeName" property; out of the box, it is "theme".
+ * 仅使用固定主题的{@link org.springframework.web.servlet.ThemeResolver}实现.
+ * 固定名称可以通过"defaultThemeName"属性定义; 开箱即用, 为"theme".
  *
- * <p>Note: Does not support {@code setThemeName}, as the fixed theme
- * cannot be changed.
+ * <p>Note: 不支持{@code setThemeName}, 因为无法更改固定主题.
  */
 public class FixedThemeResolver extends AbstractThemeResolver {
 

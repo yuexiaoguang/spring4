@@ -30,31 +30,28 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves {@link HttpEntity} and {@link RequestEntity} method argument values
- * and also handles {@link HttpEntity} and {@link ResponseEntity} return values.
+ * 解析{@link HttpEntity}和{@link RequestEntity}方法参数值,
+ * 并处理{@link HttpEntity}和{@link ResponseEntity}返回值.
  *
- * <p>An {@link HttpEntity} return type has a specific purpose. Therefore this
- * handler should be configured ahead of handlers that support any return
- * value type annotated with {@code @ModelAttribute} or {@code @ResponseBody}
- * to ensure they don't take over.
+ * <p>{@link HttpEntity}返回类型具有特定目的.
+ * 因此, 应该在处理器之前配置此处理器, 该处理器支持使用{@code @ModelAttribute}
+ * 或{@code @ResponseBody}注解的返回值类型, 以确保它们不会接管.
  */
 public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodProcessor {
 
 	private static final Set<HttpMethod> SAFE_METHODS = EnumSet.of(HttpMethod.GET, HttpMethod.HEAD);
 
 	/**
-	 * Basic constructor with converters only. Suitable for resolving
-	 * {@code HttpEntity}. For handling {@code ResponseEntity} consider also
-	 * providing a {@code ContentNegotiationManager}.
+	 * 适合解析{@code HttpEntity}.
+	 * 要处理{@code ResponseEntity}, 考虑提供{@code ContentNegotiationManager}.
 	 */
 	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters) {
 		super(converters);
 	}
 
 	/**
-	 * Basic constructor with converters and {@code ContentNegotiationManager}.
-	 * Suitable for resolving {@code HttpEntity} and handling {@code ResponseEntity}
-	 * without {@code Request~} or {@code ResponseBodyAdvice}.
+	 * 适用于解析{@code HttpEntity},
+	 * 并在没有{@code Request~}或{@code ResponseBodyAdvice}的情况下处理{@code ResponseEntity}.
 	 */
 	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters,
 			ContentNegotiationManager manager) {
@@ -63,10 +60,8 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 	}
 
 	/**
-	 * Complete constructor for resolving {@code HttpEntity} method arguments.
-	 * For handling {@code ResponseEntity} consider also providing a
-	 * {@code ContentNegotiationManager}.
-	 * @since 4.2
+	 * 用于解析{@code HttpEntity}方法参数的完整构造函数.
+	 * 要处理{@code ResponseEntity}, 考虑提供{@code ContentNegotiationManager}.
 	 */
 	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters,
 			List<Object> requestResponseBodyAdvice) {
@@ -75,8 +70,7 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 	}
 
 	/**
-	 * Complete constructor for resolving {@code HttpEntity} and handling
-	 * {@code ResponseEntity}.
+	 * 用于解析{@code HttpEntity}和处理{@code ResponseEntity}的完整构造函数.
 	 */
 	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters,
 			ContentNegotiationManager manager, List<Object> requestResponseBodyAdvice) {
@@ -175,18 +169,18 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 			if (returnStatus == 200) {
 				if (SAFE_METHODS.contains(inputMessage.getMethod())
 						&& isResourceNotModified(inputMessage, outputMessage)) {
-					// Ensure headers are flushed, no body should be written.
+					// 确保刷新header, 不应写入正文.
 					outputMessage.flush();
-					// Skip call to converters, as they may update the body.
+					// 跳过对转换器的调用, 因为它们可能会更新正文.
 					return;
 				}
 			}
 		}
 
-		// Try even with null body. ResponseBodyAdvice could get involved.
+		// 尝试使用null 正文. ResponseBodyAdvice 可以参与其中.
 		writeWithMessageConverters(responseEntity.getBody(), returnType, inputMessage, outputMessage);
 
-		// Ensure headers are flushed even if no body was written.
+		// 即使没有写入正文, 也要确保刷新header.
 		outputMessage.flush();
 	}
 
@@ -237,5 +231,4 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 			return ResolvableType.forMethodParameter(returnType, type).resolve(Object.class);
 		}
 	}
-
 }

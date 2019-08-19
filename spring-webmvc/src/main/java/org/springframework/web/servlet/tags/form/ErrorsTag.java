@@ -12,27 +12,26 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Form tag for displaying errors for a particular field or object.
+ * 用于显示特定字段或对象的错误的表单标记.
  *
- * <p>This tag supports three main usage patterns:
+ * <p>此标记支持三种主要使用模式:
  *
  * <ol>
- *	<li>Field only - set '{@code path}' to the field name (or path)</li>
- *	<li>Object errors only - omit '{@code path}'</li>
- *	<li>All errors - set '{@code path}' to '{@code *}'</li>
+ *	<li>仅字段 - 将'{@code path}'设置为字段名称 (或路径)</li>
+ *	<li>仅对象错误 - 省略'{@code path}'</li>
+ *	<li>所有错误 - 将'{@code path}'设置为'{@code *}'</li>
  * </ol>
  */
 @SuppressWarnings("serial")
 public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 
 	/**
-	 * The key under which this tag exposes error messages in
-	 * the {@link PageContext#PAGE_SCOPE page context scope}.
+	 * 此标记在{@link PageContext#PAGE_SCOPE 页面上下文范围}中公开错误消息的键.
 	 */
 	public static final String MESSAGES_ATTRIBUTE = "messages";
 
 	/**
-	 * The HTML '{@code span}' tag.
+	 * HTML '{@code span}'标记.
 	 */
 	public static final String SPAN_TAG = "span";
 
@@ -42,7 +41,7 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	private String delimiter = "<br/>";
 
 	/**
-	 * Stores any value that existed in the 'errors messages' before the tag was started.
+	 * 在标记启动之前存储'错误消息'中存在的任何值.
 	 */
 	private Object oldMessages;
 
@@ -50,8 +49,8 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 
 
 	/**
-	 * Set the HTML element must be used to render the error messages.
-	 * <p>Defaults to an HTML '{@code <span/>}' tag.
+	 * 设置必须用于呈现错误消息的HTML元素.
+	 * <p>默认为HTML '{@code <span/>}'标记.
 	 */
 	public void setElement(String element) {
 		Assert.hasText(element, "'element' cannot be null or blank");
@@ -59,22 +58,22 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	}
 
 	/**
-	 * Get the HTML element must be used to render the error messages.
+	 * 获取必须用于呈现错误消息的HTML元素.
 	 */
 	public String getElement() {
 		return this.element;
 	}
 
 	/**
-	 * Set the delimiter to be used between error messages.
-	 * <p>Defaults to an HTML '{@code <br/>}' tag.
+	 * 设置要在错误消息之间使用的分隔符.
+	 * <p>默认为 HTML '{@code <br/>}'标记.
 	 */
 	public void setDelimiter(String delimiter) {
 		this.delimiter = delimiter;
 	}
 
 	/**
-	 * Return the delimiter to be used between error messages.
+	 * 返回错误消息之间使用的分隔符.
 	 */
 	public String getDelimiter() {
 		return this.delimiter;
@@ -82,12 +81,11 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 
 
 	/**
-	 * Get the value for the HTML '{@code id}' attribute.
-	 * <p>Appends '{@code .errors}' to the value returned by {@link #getPropertyPath()}
-	 * or to the model attribute name if the {@code <form:errors/>} tag's
-	 * '{@code path}' attribute has been omitted.
-	 * @return the value for the HTML '{@code id}' attribute
-	 * @see #getPropertyPath()
+	 * 获取HTML '{@code id}'属性的值.
+	 * <p>如果忽略{@code <form:errors/>}标记的'{@code path}'属性,
+	 * 追加'{@code .errors}'到{@link #getPropertyPath()}返回的值, 或到模型属性名称.
+	 * 
+	 * @return HTML '{@code id}'属性的值
 	 */
 	@Override
 	protected String autogenerateId() throws JspException {
@@ -100,9 +98,8 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	}
 
 	/**
-	 * Get the value for the HTML '{@code name}' attribute.
-	 * <p>Simply returns {@code null} because the '{@code name}' attribute
-	 * is not a validate attribute for the '{@code span}' element.
+	 * 获取 HTML '{@code name}'属性的值.
+	 * <p>只需返回{@code null}, 因为'{@code name}'属性不是'{@code span}'元素的验证属性.
 	 */
 	@Override
 	protected String getName() throws JspException {
@@ -110,9 +107,10 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	}
 
 	/**
-	 * Should rendering of this tag proceed at all?
-	 * <p>Only renders output when there are errors for the configured {@link #setPath path}.
-	 * @return {@code true} only when there are errors for the configured {@link #setPath path}
+	 * 是否应该继续呈现此标记?
+	 * <p>仅在配置的{@link #setPath path}出现错误时才呈现输出.
+	 * 
+	 * @return {@code true} 仅当配置的{@link #setPath path}出现错误时
 	 */
 	@Override
 	protected boolean shouldRender() throws JspException {
@@ -142,10 +140,8 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	}
 
 	/**
-	 * Exposes any bind status error messages under {@link #MESSAGES_ATTRIBUTE this key}
-	 * in the {@link PageContext#PAGE_SCOPE}.
-	 * <p>Only called if {@link #shouldRender()} returns {@code true}.
-	 * @see #removeAttributes()
+	 * 在{@link PageContext#PAGE_SCOPE}中 {@link #MESSAGES_ATTRIBUTE 此键}下公开任何绑定状态错误消息.
+	 * <p>仅在{@link #shouldRender()}返回{@code true}时调用.
 	 */
 	@Override
 	protected void exposeAttributes() throws JspException {
@@ -157,9 +153,7 @@ public class ErrorsTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	}
 
 	/**
-	 * Removes any bind status error messages that were previously stored under
-	 * {@link #MESSAGES_ATTRIBUTE this key} in the {@link PageContext#PAGE_SCOPE}.
-	 * @see #exposeAttributes()
+	 * 删除以前存储在{@link PageContext#PAGE_SCOPE}中{@link #MESSAGES_ATTRIBUTE 此键}下的任何绑定状态错误消息.
 	 */
 	@Override
 	protected void removeAttributes() {

@@ -3,12 +3,10 @@ package org.springframework.web.servlet.view.jasperreports;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 /**
- * Implementation of {@code AbstractJasperReportsSingleFormatView}
- * that renders report results in XLSX format.
+ * {@code AbstractJasperReportsSingleFormatView}的实现, 以呈现XLSX格式的报告结果.
  *
- * <p><b>This class is compatible with classic JasperReports releases back until 2.x.</b>
- * As a consequence, it keeps using the {@link net.sf.jasperreports.engine.JRExporter}
- * API which got deprecated as of JasperReports 5.5.2 (early 2014).
+ * <p><b>这个类与经典的JasperReports版本兼容, 直到2.x..</b>
+ * 因此, 它继续使用{@link net.sf.jasperreports.engine.JRExporter} API, 该API自JasperReports 5.5.2 (2014年初)起已弃用.
  */
 @SuppressWarnings({"deprecation", "rawtypes"})
 public class JasperReportsXlsxView extends AbstractJasperReportsSingleFormatView {

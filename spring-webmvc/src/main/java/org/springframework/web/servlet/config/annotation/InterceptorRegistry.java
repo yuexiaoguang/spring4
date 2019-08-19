@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
 
 /**
- * Helps with configuring a list of mapped interceptors.
+ * 帮助配置映射的拦截器列表.
  */
 public class InterceptorRegistry {
 
@@ -16,10 +16,12 @@ public class InterceptorRegistry {
 
 
 	/**
-	 * Adds the provided {@link HandlerInterceptor}.
-	 * @param interceptor the interceptor to add
-	 * @return An {@link InterceptorRegistration} that allows you optionally configure the
-	 * registered interceptor further for example adding URL patterns it should apply to.
+	 * 添加提供的{@link HandlerInterceptor}.
+	 * 
+	 * @param interceptor 要添加的拦截器
+	 * 
+	 * @return 一个{@link InterceptorRegistration}, 允许选择性地配置已注册的拦截器,
+	 * 例如添加它应该应用的URL模式.
 	 */
 	public InterceptorRegistration addInterceptor(HandlerInterceptor interceptor) {
 		InterceptorRegistration registration = new InterceptorRegistration(interceptor);
@@ -28,10 +30,12 @@ public class InterceptorRegistry {
 	}
 
 	/**
-	 * Adds the provided {@link WebRequestInterceptor}.
-	 * @param interceptor the interceptor to add
-	 * @return An {@link InterceptorRegistration} that allows you optionally configure the
-	 * registered interceptor further for example adding URL patterns it should apply to.
+	 * 添加提供的{@link WebRequestInterceptor}.
+	 * 
+	 * @param interceptor 要添加的拦截器
+	 * 
+	 * @return 一个{@link InterceptorRegistration}, 允许选择性地配置已注册的拦截器,
+	 * 例如添加它应该应用的URL模式.
 	 */
 	public InterceptorRegistration addWebRequestInterceptor(WebRequestInterceptor interceptor) {
 		WebRequestHandlerInterceptorAdapter adapted = new WebRequestHandlerInterceptorAdapter(interceptor);
@@ -41,7 +45,7 @@ public class InterceptorRegistry {
 	}
 
 	/**
-	 * Return all registered interceptors.
+	 * 返回所有已注册的拦截器.
 	 */
 	protected List<Object> getInterceptors() {
 		List<Object> interceptors = new ArrayList<Object>(this.registrations.size());
@@ -50,5 +54,4 @@ public class InterceptorRegistry {
 		}
 		return interceptors ;
 	}
-
 }

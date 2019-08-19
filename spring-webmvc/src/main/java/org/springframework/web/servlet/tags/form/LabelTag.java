@@ -6,42 +6,41 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code label}' element
- * that defines text that is associated with a single form element.
+ * 用于呈现 HTML '{@code label}'元素的数据绑定感知JSP标记, 该元素定义与单个表单元素关联的文本.
  *
- * <p>See the "formTags" showcase application that ships with the
- * full Spring distribution for an example of this class in action.
+ * <p>请参阅"formTags"展示应用程序, 该应用程序附带完整的Spring发行版, 以获取此类的实例.
  */
 @SuppressWarnings("serial")
 public class LabelTag extends AbstractHtmlElementTag {
 
 	/**
-	 * The HTML '{@code label}' tag.
+	 * HTML '{@code label}'标记.
 	 */
 	private static final String LABEL_TAG = "label";
 
 	/**
-	 * The name of the '{@code for}' attribute.
+	 * '{@code for}'属性的名称.
 	 */
 	private static final String FOR_ATTRIBUTE = "for";
 
 
 	/**
-	 * The {@link TagWriter} instance being used.
-	 * <p>Stored so we can close the tag on {@link #doEndTag()}.
+	 * 正在使用的{@link TagWriter}实例.
+	 * <p>存储, 以便可以关闭{@link #doEndTag()}上的标记.
 	 */
 	private TagWriter tagWriter;
 
 	/**
-	 * The value of the '{@code for}' attribute.
+	 * '{@code for}'属性的值.
 	 */
 	private String forId;
 
 
 	/**
-	 * Set the value of the '{@code for}' attribute.
-	 * <p>Defaults to the value of {@link #getPath}; may be a runtime expression.
-	 * @throws IllegalArgumentException if the supplied value is {@code null}
+	 * 设置'{@code for}'属性的值.
+	 * <p>默认为{@link #getPath}的值; 可以是运行时表达式.
+	 * 
+	 * @throws IllegalArgumentException 如果提供的值是{@code null}
 	 */
 	public void setFor(String forId) {
 		Assert.notNull(forId, "'forId' must not be null");
@@ -49,8 +48,8 @@ public class LabelTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Get the value of the '{@code id}' attribute.
-	 * <p>May be a runtime expression.
+	 * 获取'{@code id}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public String getFor() {
 		return this.forId;
@@ -58,8 +57,8 @@ public class LabelTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Writes the opening '{@code label}' tag and forces a block tag so
-	 * that body content is written correctly.
+	 * 写入开头的'{@code label}'标记并强制块标记, 以便正确写入正文内容.
+	 * 
 	 * @return {@link javax.servlet.jsp.tagext.Tag#EVAL_BODY_INCLUDE}
 	 */
 	@Override
@@ -73,22 +72,18 @@ public class LabelTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Overrides {@code #getName()} to always return {@code null},
-	 * because the '{@code name}' attribute is not supported by the
-	 * '{@code label}' tag.
-	 * @return the value for the HTML '{@code name}' attribute
+	 * 覆盖{@code #getName()}以始终返回{@code null}, 因为'{@code label}'标签不支持'{@code name}'属性.
+	 * 
+	 * @return HTML '{@code name}'属性的值
 	 */
 	@Override
 	protected String getName() throws JspException {
-		// This also suppresses the 'id' attribute (which is okay for a <label/>)
+		// 也抑制了'id'属性 (可以用于<label/>)
 		return null;
 	}
 
 	/**
-	 * Determine the '{@code for}' attribute value for this tag,
-	 * autogenerating one if none specified.
-	 * @see #getFor()
-	 * @see #autogenerateFor()
+	 * 确定此标记的'{@code for}'属性值, 如果未指定, 则自动生成一个.
 	 */
 	protected String resolveFor() throws JspException {
 		if (StringUtils.hasText(this.forId)) {
@@ -100,16 +95,15 @@ public class LabelTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Autogenerate the '{@code for}' attribute value for this tag.
-	 * <p>The default implementation delegates to {@link #getPropertyPath()},
-	 * deleting invalid characters (such as "[" or "]").
+	 * 自动生成此标记的'{@code for}'属性值.
+	 * <p>默认实现委托给{@link #getPropertyPath()}, 删除无效的字符 (例如 "[" 或 "]").
 	 */
 	protected String autogenerateFor() throws JspException {
 		return StringUtils.deleteAny(getPropertyPath(), "[]");
 	}
 
 	/**
-	 * Close the '{@code label}' tag.
+	 * 关闭'{@code label}'标记.
 	 */
 	@Override
 	public int doEndTag() throws JspException {
@@ -118,7 +112,7 @@ public class LabelTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Disposes of the {@link TagWriter} instance.
+	 * 处置{@link TagWriter}实例.
 	 */
 	@Override
 	public void doFinally() {

@@ -3,9 +3,9 @@ package org.springframework.web.servlet.mvc.support;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- * Internal helper class that identifies controller types.
+ * 标识控制器类型的内部工具类.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 class ControllerTypePredicate {

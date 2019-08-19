@@ -17,41 +17,34 @@ import org.springframework.web.util.CookieGenerator;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link LocaleResolver} implementation that uses a cookie sent back to the user
- * in case of a custom setting, with a fallback to the specified default locale
- * or the request's accept-header locale.
+ * {@link LocaleResolver}实现, 它在自定义设置的情况下使用cookie发送回用户,
+ * 回退到指定的默认语言环境或请求的accept-header语言环境.
  *
- * <p>This is particularly useful for stateless applications without user sessions.
- * The cookie may optionally contain an associated time zone value as well;
- * alternatively, you may specify a default time zone.
+ * <p>这对于没有用户会话的无状态应用程序特别有用.
+ * cookie还可以选择包含相关的时区值; 或者, 可以指定默认时区.
  *
- * <p>Custom controllers can override the user's locale and time zone by calling
- * {@code #setLocale(Context)} on the resolver, e.g. responding to a locale change
- * request. As a more convenient alternative, consider using
+ * <p>自定义控制器可以通过在解析器上调用{@code #setLocale(Context)}来覆盖用户的语言环境和时区, e.g. 响应区域设置更改请求.
+ * 作为更方便的替代方案, 考虑使用
  * {@link org.springframework.web.servlet.support.RequestContext#changeLocale}.
  */
 public class CookieLocaleResolver extends CookieGenerator implements LocaleContextResolver {
 
 	/**
-	 * The name of the request attribute that holds the Locale.
-	 * <p>Only used for overriding a cookie value if the locale has been
-	 * changed in the course of the current request!
-	 * <p>Use {@code RequestContext(Utils).getLocale()}
-	 * to retrieve the current locale in controllers or views.
+	 * 包含Locale的请求属性的名称.
+	 * <p>仅用于在当前请求过程中更改区域设置时覆盖cookie值!
+	 * <p>使用{@code RequestContext(Utils).getLocale()}检索控制器或​​视图中的当前区域设置.
 	 */
 	public static final String LOCALE_REQUEST_ATTRIBUTE_NAME = CookieLocaleResolver.class.getName() + ".LOCALE";
 
 	/**
-	 * The name of the request attribute that holds the TimeZone.
-	 * <p>Only used for overriding a cookie value if the locale has been
-	 * changed in the course of the current request!
-	 * <p>Use {@code RequestContext(Utils).getTimeZone()}
-	 * to retrieve the current time zone in controllers or views.
+	 * 包含TimeZone的请求属性的名称.
+	 * <p>仅用于在当前请求过程中更改区域设置时覆盖cookie值!
+	 * <p>使用{@code RequestContext(Utils).getTimeZone()}检索控制器或​​视图中的当前时区.
 	 */
 	public static final String TIME_ZONE_REQUEST_ATTRIBUTE_NAME = CookieLocaleResolver.class.getName() + ".TIME_ZONE";
 
 	/**
-	 * The default cookie name used if none is explicitly set.
+	 * 如果未显式设置, 则使用默认cookie名称.
 	 */
 	public static final String DEFAULT_COOKIE_NAME = CookieLocaleResolver.class.getName() + ".LOCALE";
 
@@ -64,8 +57,7 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 
 
 	/**
-	 * Create a new instance of the {@link CookieLocaleResolver} class
-	 * using the {@link #DEFAULT_COOKIE_NAME default cookie name}.
+	 * 使用{@link #DEFAULT_COOKIE_NAME 默认Cookie名称}.
 	 */
 	public CookieLocaleResolver() {
 		setCookieName(DEFAULT_COOKIE_NAME);
@@ -73,55 +65,44 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 
 
 	/**
-	 * Specify whether this resolver's cookies should be compliant with BCP 47
-	 * language tags instead of Java's legacy locale specification format.
-	 * The default is {@code false}.
-	 * <p>Note: This mode requires JDK 7 or higher. Set this flag to {@code true}
-	 * for BCP 47 compliance on JDK 7+ only.
-	 * @since 4.3
-	 * @see Locale#forLanguageTag(String)
-	 * @see Locale#toLanguageTag()
+	 * 指定此解析器的cookie是否应符合BCP 47语言标记, 而不是Java旧的区域规范格式.
+	 * 默认为{@code false}.
+	 * <p>Note: 此模式需要JDK 7或更高版本. 设置为{@code true} 仅适用于JDK 7+上的BCP 47合规性.
 	 */
 	public void setLanguageTagCompliant(boolean languageTagCompliant) {
 		this.languageTagCompliant = languageTagCompliant;
 	}
 
 	/**
-	 * Return whether this resolver's cookies should be compliant with BCP 47
-	 * language tags instead of Java's legacy locale specification format.
-	 * @since 4.3
+	 * 返回此解析器的cookie是否应符合BCP 47语言标记而不是Java旧的区域设置规范格式.
 	 */
 	public boolean isLanguageTagCompliant() {
 		return this.languageTagCompliant;
 	}
 
 	/**
-	 * Set a fixed Locale that this resolver will return if no cookie found.
+	 * 如果找不到cookie, 设置此解析器将返回的固定区域设置.
 	 */
 	public void setDefaultLocale(Locale defaultLocale) {
 		this.defaultLocale = defaultLocale;
 	}
 
 	/**
-	 * Return the fixed Locale that this resolver will return if no cookie found,
-	 * if any.
+	 * 如果找不到cookie, 则返回此解析器的固定Locale.
 	 */
 	protected Locale getDefaultLocale() {
 		return this.defaultLocale;
 	}
 
 	/**
-	 * Set a fixed TimeZone that this resolver will return if no cookie found.
-	 * @since 4.0
+	 * 设置一个固定的TimeZone, 如果找不到cookie, 该解析器将返回它.
 	 */
 	public void setDefaultTimeZone(TimeZone defaultTimeZone) {
 		this.defaultTimeZone = defaultTimeZone;
 	}
 
 	/**
-	 * Return the fixed TimeZone that this resolver will return if no cookie found,
-	 * if any.
-	 * @since 4.0
+	 * 如果没有找到cookie, 则返回此解析器的固定TimeZone.
 	 */
 	protected TimeZone getDefaultTimeZone() {
 		return this.defaultTimeZone;
@@ -151,7 +132,7 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 
 	private void parseLocaleCookieIfNecessary(HttpServletRequest request) {
 		if (request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME) == null) {
-			// Retrieve and parse cookie value.
+			// 检索并解析cookie值.
 			Cookie cookie = WebUtils.getCookie(request, getCookieName());
 			Locale locale = null;
 			TimeZone timeZone = null;
@@ -172,7 +153,7 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 				}
 				catch (IllegalArgumentException ex) {
 					if (request.getAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE) != null) {
-						// Error dispatch: ignore locale/timezone parse exceptions
+						// 错误分派: 忽略locale/timezone 解析异常
 						if (logger.isDebugEnabled()) {
 							logger.debug("Ignoring invalid locale cookie '" + getCookieName() +
 									"' with value [" + value + "] due to error dispatch: " + ex.getMessage());
@@ -223,13 +204,14 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 
 
 	/**
-	 * Parse the given locale value coming from an incoming cookie.
-	 * <p>The default implementation calls {@link StringUtils#parseLocaleString(String)}
-	 * or JDK 7's {@link Locale#forLanguageTag(String)}, depending on the
-	 * {@link #setLanguageTagCompliant "languageTagCompliant"} configuration property.
-	 * @param locale the locale value to parse
-	 * @return the corresponding {@code Locale} instance
-	 * @since 4.3
+	 * 解析来自传入cookie的给定区域设置值.
+	 * <p>默认实现调用{@link StringUtils#parseLocaleString(String)}
+	 * 或JDK 7的{@link Locale#forLanguageTag(String)},
+	 * 具体取决于{@link #setLanguageTagCompliant "languageTagCompliant"}配置属性.
+	 * 
+	 * @param locale 要解析的区域设置值
+	 * 
+	 * @return 相应的{@code Locale}实例
 	 */
 	@UsesJava7
 	protected Locale parseLocaleValue(String locale) {
@@ -237,13 +219,13 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 	}
 
 	/**
-	 * Render the given locale as a text value for inclusion in a cookie.
-	 * <p>The default implementation calls {@link Locale#toString()}
-	 * or JDK 7's {@link Locale#toLanguageTag()}, depending on the
-	 * {@link #setLanguageTagCompliant "languageTagCompliant"} configuration property.
-	 * @param locale the locale to stringify
-	 * @return a String representation for the given locale
-	 * @since 4.3
+	 * 将给定的区域设置渲染为文本值以包含在cookie中.
+	 * <p>默认实现调用{@link Locale#toString()} 或JDK 7的{@link Locale#toLanguageTag()},
+	 * 具体取决于{@link #setLanguageTagCompliant "languageTagCompliant"}配置属性.
+	 * 
+	 * @param locale 区域设置
+	 * 
+	 * @return 给定区域设置的字符串值
 	 */
 	@UsesJava7
 	protected String toLocaleValue(Locale locale) {
@@ -251,14 +233,12 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 	}
 
 	/**
-	 * Determine the default locale for the given request,
-	 * Called if no locale cookie has been found.
-	 * <p>The default implementation returns the specified default locale,
-	 * if any, else falls back to the request's accept-header locale.
-	 * @param request the request to resolve the locale for
-	 * @return the default locale (never {@code null})
-	 * @see #setDefaultLocale
-	 * @see javax.servlet.http.HttpServletRequest#getLocale()
+	 * 确定给定请求的默认语言环境, 如果未找到语言环境cookie, 则调用.
+	 * <p>默认实现返回指定的默认语言环境, 否则返回请求的accept-header语言环境.
+	 * 
+	 * @param request 要解析语言环境的请求
+	 * 
+	 * @return 默认区域设置 (never {@code null})
 	 */
 	protected Locale determineDefaultLocale(HttpServletRequest request) {
 		Locale defaultLocale = getDefaultLocale();
@@ -269,13 +249,12 @@ public class CookieLocaleResolver extends CookieGenerator implements LocaleConte
 	}
 
 	/**
-	 * Determine the default time zone for the given request,
-	 * Called if no TimeZone cookie has been found.
-	 * <p>The default implementation returns the specified default time zone,
-	 * if any, or {@code null} otherwise.
-	 * @param request the request to resolve the time zone for
-	 * @return the default time zone (or {@code null} if none defined)
-	 * @see #setDefaultTimeZone
+	 * 确定给定请求的默认时区, 如果未找到TimeZone cookie, 则调用.
+	 * <p>默认实现返回指定的默认时区, 否则返回{@code null}.
+	 * 
+	 * @param request 要解析时区的请求
+	 * 
+	 * @return 默认时区 (或{@code null})
 	 */
 	protected TimeZone determineDefaultTimeZone(HttpServletRequest request) {
 		return getDefaultTimeZone();

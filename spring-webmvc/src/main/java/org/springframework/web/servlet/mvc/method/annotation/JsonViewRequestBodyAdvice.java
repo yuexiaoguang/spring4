@@ -12,19 +12,17 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 import org.springframework.http.converter.json.MappingJacksonInputMessage;
 
 /**
- * A {@link RequestBodyAdvice} implementation that adds support for Jackson's
- * {@code @JsonView} annotation declared on a Spring MVC {@code @HttpEntity}
- * or {@code @RequestBody} method parameter.
+ * {@link RequestBodyAdvice}实现, 增加了对在Spring MVC {@code @HttpEntity}或{@code @RequestBody}方法参数上
+ * 声明的Jackson {@code @JsonView}注解的支持.
  *
- * <p>The deserialization view specified in the annotation will be passed in to the
- * {@link org.springframework.http.converter.json.MappingJackson2HttpMessageConverter}
- * which will then use it to deserialize the request body with.
+ * <p>注解中指定的反序列化视图将传递给
+ * {@link org.springframework.http.converter.json.MappingJackson2HttpMessageConverter},
+ * 然后使用它来反序列化请求主体.
  *
- * <p>Note that despite {@code @JsonView} allowing for more than one class to
- * be specified, the use for a request body advice is only supported with
- * exactly one class argument. Consider the use of a composite interface.
+ * <p>请注意, 尽管{@code @JsonView}允许指定多个类, 但只有一个类参数时才支持使用请求正文增强.
+ * 考虑使用复合接口.
  *
- * <p>Jackson 2.5 or later is required for parameter-level use of {@code @JsonView}.
+ * <p>{@code @JsonView}参数级使用需要Jackson 2.5或更高版本.
  */
 public class JsonViewRequestBodyAdvice extends RequestBodyAdviceAdapter {
 

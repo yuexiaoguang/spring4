@@ -4,10 +4,9 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 
 /**
- * Extension of {@link ControllerTypePredicate} that detects
- * annotated {@code @Controller} beans as well.
+ * {@link ControllerTypePredicate}的扩展, 它也检测带注解的{@code @Controller} bean.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 class AnnotationControllerTypePredicate extends ControllerTypePredicate {
@@ -23,5 +22,4 @@ class AnnotationControllerTypePredicate extends ControllerTypePredicate {
 		return (super.isMultiActionControllerType(beanClass) ||
 				AnnotationUtils.findAnnotation(beanClass, Controller.class) != null);
 	}
-
 }

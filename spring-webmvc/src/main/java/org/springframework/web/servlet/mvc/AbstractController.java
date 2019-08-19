@@ -10,26 +10,22 @@ import org.springframework.web.servlet.support.WebContentGenerator;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Convenient superclass for controller implementations, using the Template Method
- * design pattern.
+ * 控制器实现的便捷超类, 使用模板方法设计模式.
  *
  * <p><b><a name="workflow">Workflow
- * (<a href="Controller.html#workflow">and that defined by interface</a>):</b><br>
+ * (<a href="Controller.html#workflow">以及接口定义的那些</a>):</b><br>
  * <ol>
- * <li>{@link #handleRequest(HttpServletRequest, HttpServletResponse) handleRequest()}
- * will be called by the DispatcherServlet</li>
- * <li>Inspection of supported methods (ServletException if request method
- * is not support)</li>
- * <li>If session is required, try to get it (ServletException if not found)</li>
- * <li>Set caching headers if needed according to the cacheSeconds property</li>
- * <li>Call abstract method {@link #handleRequestInternal(HttpServletRequest, HttpServletResponse) handleRequestInternal()}
- * (optionally synchronizing around the call on the HttpSession),
- * which should be implemented by extending classes to provide actual
- * functionality to return {@link org.springframework.web.servlet.ModelAndView ModelAndView} objects.</li>
+ * <li>{@link #handleRequest(HttpServletRequest, HttpServletResponse) handleRequest()}将由DispatcherServlet调用</li>
+ * <li>检查支持的方法 (如果请求方法不支持, 则为ServletException)</li>
+ * <li>如果需要session, 尝试获取它 (如果找不到抛出ServletException)</li>
+ * <li>根据cacheSeconds属性, 需要时设置缓存header</li>
+ * <li>调用抽象方法{@link #handleRequestInternal(HttpServletRequest, HttpServletResponse) handleRequestInternal()}
+ * (可选地围绕HttpSession上的调用进行同步),
+ * 应该通过扩展类来实现, 以提供返回{@link org.springframework.web.servlet.ModelAndView ModelAndView}对象的实际功能.</li>
  * </ol>
  *
- * <p><b><a name="config">Exposed configuration properties</a>
- * (<a href="Controller.html#config">and those defined by interface</a>):</b><br>
+ * <p><b><a name="config">暴露的配置属性</a>
+ * (<a href="Controller.html#config">以及接口定义的那些</a>):</b><br>
  * <table border="1">
  * <tr>
  * <td><b>name</b></th>
@@ -39,33 +35,26 @@ import org.springframework.web.util.WebUtils;
  * <tr>
  * <td>supportedMethods</td>
  * <td>GET,POST</td>
- * <td>comma-separated (CSV) list of methods supported by this controller,
- * such as GET, POST and PUT</td>
+ * <td>此控制器支持的逗号分隔的 (CSV) 方法列表, 例如 GET, POST 和 PUT</td>
  * </tr>
  * <tr>
  * <td>requireSession</td>
  * <td>false</td>
- * <td>whether a session should be required for requests to be able to
- * be handled by this controller. This ensures that derived controller
- * can - without fear of null pointers - call request.getSession() to
- * retrieve a session. If no session can be found while processing
- * the request, a ServletException will be thrown</td>
+ * <td>是否应该需要会话以使该控制器能够处理请求.
+ * 这可以确保派生的控制器可以 - 无需担心空指针 - 调用 request.getSession() 来检索会话.
+ * 如果在处理请求时找不到会话, 则抛出ServletException</td>
  * </tr>
  * <tr>
  * <td>cacheSeconds</td>
  * <td>-1</td>
- * <td>indicates the amount of seconds to include in the cache header
- * for the response following on this request. 0 (zero) will include
- * headers for no caching at all, -1 (the default) will not generate
- * <i>any headers</i> and any positive number will generate headers
- * that state the amount indicated as seconds to cache the content</td>
+ * <td>表示此请求之后的响应的缓存header中包含的秒数.
+ * 0 (zero) 将包括根本不缓存的header, -1 (默认) 不会生成<i>任何headers</i>, 任何正数将生成header, 表示缓存内容的秒数</td>
  * </tr>
  * <tr>
  * <td>synchronizeOnSession</td>
  * <td>false</td>
- * <td>whether the call to {@code handleRequestInternal} should be
- * synchronized around the HttpSession, to serialize invocations
- * from the same client. No effect if there is no HttpSession.
+ * <td>是否应该围绕HttpSession同步对{@code handleRequestInternal}的调用, 以序列化来自同一客户端的调用.
+ * 如果没有HttpSession, 则无效.
  * </td>
  * </tr>
  * </table>
@@ -76,19 +65,15 @@ public abstract class AbstractController extends WebContentGenerator implements 
 
 
 	/**
-	 * Create a new AbstractController which supports
-	 * HTTP methods GET, HEAD and POST by default.
+	 * 默认支持HTTP方法GET, HEAD和POST.
 	 */
 	public AbstractController() {
 		this(true);
 	}
 
 	/**
-	 * Create a new AbstractController.
-	 * @param restrictDefaultSupportedMethods {@code true} if this
-	 * controller should support HTTP methods GET, HEAD and POST by default,
-	 * or {@code false} if it should be unrestricted
-	 * @since 4.3
+	 * @param restrictDefaultSupportedMethods {@code true} 如果此控制器默认支持HTTP方法GET, HEAD 和 POST,
+	 * 或{@code false} 如果它应该是不受限制的
 	 */
 	public AbstractController(boolean restrictDefaultSupportedMethods) {
 		super(restrictDefaultSupportedMethods);
@@ -96,30 +81,20 @@ public abstract class AbstractController extends WebContentGenerator implements 
 
 
 	/**
-	 * Set if controller execution should be synchronized on the session,
-	 * to serialize parallel invocations from the same client.
-	 * <p>More specifically, the execution of the {@code handleRequestInternal}
-	 * method will get synchronized if this flag is "true". The best available
-	 * session mutex will be used for the synchronization; ideally, this will
-	 * be a mutex exposed by HttpSessionMutexListener.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@code SESSION_MUTEX_ATTRIBUTE} constant. It serves as a
-	 * safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the HttpSession reference itself is a safe mutex
-	 * as well, since it will always be the same object reference for the
-	 * same active logical session. However, this is not guaranteed across
-	 * different servlet containers; the only 100% safe way is a session mutex.
-	 * @see AbstractController#handleRequestInternal
-	 * @see org.springframework.web.util.HttpSessionMutexListener
-	 * @see org.springframework.web.util.WebUtils#getSessionMutex(javax.servlet.http.HttpSession)
+	 * 设置是否应在会话上同步控制器执行, 以序列化来自同一客户端的并行调用.
+	 * <p>更具体地说, 如果此标志为"true", 则{@code handleRequestInternal}方法的执行将同步.
+	 * 最佳可用会话互斥锁将用于同步; 理想情况下, 这将是HttpSessionMutexListener公开的互斥锁.
+	 * <p>会话互斥锁在会话的整个生命周期内保证是同一个对象, 在{@code SESSION_MUTEX_ATTRIBUTE}常量定义的键下可用.
+	 * 它用作同步锁定当前会话的安全引用.
+	 * <p>在许多情况下, HttpSession引用本身也是一个安全的互斥锁, 因为它对于同一个活动的逻辑会话始终是相同的对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一100% 安全的方式是会话互斥.
 	 */
 	public final void setSynchronizeOnSession(boolean synchronizeOnSession) {
 		this.synchronizeOnSession = synchronizeOnSession;
 	}
 
 	/**
-	 * Return whether controller execution should be synchronized on the session.
+	 * 返回是否应在会话上同步控制器执行.
 	 */
 	public final boolean isSynchronizeOnSession() {
 		return this.synchronizeOnSession;
@@ -135,11 +110,11 @@ public abstract class AbstractController extends WebContentGenerator implements 
 			return null;
 		}
 
-		// Delegate to WebContentGenerator for checking and preparing.
+		// 委托给WebContentGenerator进行检查和准备.
 		checkRequest(request);
 		prepareResponse(response);
 
-		// Execute handleRequestInternal in synchronized block if required.
+		// 如果需要, 在synchronized块中执行handleRequestInternal.
 		if (this.synchronizeOnSession) {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
@@ -154,9 +129,8 @@ public abstract class AbstractController extends WebContentGenerator implements 
 	}
 
 	/**
-	 * Template method. Subclasses must implement this.
-	 * The contract is the same as for {@code handleRequest}.
-	 * @see #handleRequest
+	 * 模板方法. 子类必须实现这一点.
+	 * 与{@code handleRequest}的约定相同.
 	 */
 	protected abstract ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 			throws Exception;

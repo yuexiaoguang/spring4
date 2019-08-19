@@ -10,15 +10,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Contains and delegates calls to a {@link HandlerInterceptor} along with
- * include (and optionally exclude) path patterns to which the interceptor should apply.
- * Also provides matching logic to test if the interceptor applies to a given request path.
+ * 包含并委托调用给{@link HandlerInterceptor}, 以及拦截器应该应用的包含 (和可选地排除) 路径模式.
+ * 还提供匹配逻辑以测试拦截器是否适用于给定的请求路径.
  *
- * <p>A MappedInterceptor can be registered directly with any
- * {@link org.springframework.web.servlet.handler.AbstractHandlerMethodMapping}.
- * Furthermore, beans of type {@code MappedInterceptor} are automatically detected by
- * {@code AbstractHandlerMethodMapping} (including ancestor ApplicationContext's) which
- * effectively means the interceptor is registered "globally" with all handler mappings.
+ * <p>MappedInterceptor可以直接在
+ * {@link org.springframework.web.servlet.handler.AbstractHandlerMethodMapping}中注册.
+ * 此外, {@code MappedInterceptor}类型的bean由{@code AbstractHandlerMethodMapping} (包括祖先的ApplicationContext)自动检测,
+ * 这实际上意味着拦截器已"全局"注册到所有处理器映射.
  */
 public final class MappedInterceptor implements HandlerInterceptor {
 
@@ -32,19 +30,17 @@ public final class MappedInterceptor implements HandlerInterceptor {
 
 
 	/**
-	 * Create a new MappedInterceptor instance.
-	 * @param includePatterns the path patterns to map (empty for matching to all paths)
-	 * @param interceptor the HandlerInterceptor instance to map to the given patterns
+	 * @param includePatterns 要映射的路径模式 (空以匹配所有路径)
+	 * @param interceptor 映射到给定的模式的HandlerInterceptor实例
 	 */
 	public MappedInterceptor(String[] includePatterns, HandlerInterceptor interceptor) {
 		this(includePatterns, null, interceptor);
 	}
 
 	/**
-	 * Create a new MappedInterceptor instance.
-	 * @param includePatterns the path patterns to map (empty for matching to all paths)
-	 * @param excludePatterns the path patterns to exclude (empty for no specific excludes)
-	 * @param interceptor the HandlerInterceptor instance to map to the given patterns
+	 * @param includePatterns 要映射的路径模式 (空以匹配所有路径)
+	 * @param excludePatterns 要排除的路径模式 (为空表示没有特定的排除)
+	 * @param interceptor 映射到给定的模式的HandlerInterceptor实例
 	 */
 	public MappedInterceptor(String[] includePatterns, String[] excludePatterns, HandlerInterceptor interceptor) {
 		this.includePatterns = includePatterns;
@@ -54,19 +50,17 @@ public final class MappedInterceptor implements HandlerInterceptor {
 
 
 	/**
-	 * Create a new MappedInterceptor instance.
-	 * @param includePatterns the path patterns to map (empty for matching to all paths)
-	 * @param interceptor the WebRequestInterceptor instance to map to the given patterns
+	 * @param includePatterns 要映射的路径模式 (空以匹配所有路径)
+	 * @param interceptor 映射到给定的模式的WebRequestInterceptor实例
 	 */
 	public MappedInterceptor(String[] includePatterns, WebRequestInterceptor interceptor) {
 		this(includePatterns, null, interceptor);
 	}
 
 	/**
-	 * Create a new MappedInterceptor instance.
-	 * @param includePatterns the path patterns to map (empty for matching to all paths)
-	 * @param excludePatterns the path patterns to exclude (empty for no specific excludes)
-	 * @param interceptor the WebRequestInterceptor instance to map to the given patterns
+	 * @param includePatterns 要映射的路径模式 (空以匹配所有路径)
+	 * @param excludePatterns 要排除的路径模式 (为空表示没有特定的排除)
+	 * @param interceptor 映射到给定的模式的WebRequestInterceptor实例
 	 */
 	public MappedInterceptor(String[] includePatterns, String[] excludePatterns, WebRequestInterceptor interceptor) {
 		this(includePatterns, excludePatterns, new WebRequestHandlerInterceptorAdapter(interceptor));
@@ -74,32 +68,31 @@ public final class MappedInterceptor implements HandlerInterceptor {
 
 
 	/**
-	 * Configure a PathMatcher to use with this MappedInterceptor instead of the one passed
-	 * by default to the {@link #matches(String, org.springframework.util.PathMatcher)} method.
-	 * <p>This is an advanced property that is only required when using custom PathMatcher
-	 * implementations that support mapping metadata other than the Ant-style path patterns
-	 * supported by default.
+	 * 配置PathMatcher以与此MappedInterceptor一起使用,
+	 * 而不是默认传递给{@link #matches(String, org.springframework.util.PathMatcher)}方法的PathMatcher.
+	 * <p>这是一个高级属性, 仅在使用自定义PathMatcher实现时才需要,
+	 * 该实现支持除默认支持的Ant样式路径模式之外的映射元数据.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
 	}
 
 	/**
-	 * The configured PathMatcher, or {@code null} if none.
+	 * 配置的PathMatcher, 或{@code null}.
 	 */
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
 	}
 
 	/**
-	 * The path into the application the interceptor is mapped to.
+	 * 拦截器映射到应用程序的路径.
 	 */
 	public String[] getPathPatterns() {
 		return this.includePatterns;
 	}
 
 	/**
-	 * The actual {@link HandlerInterceptor} reference.
+	 * 实际的{@link HandlerInterceptor}引用.
 	 */
 	public HandlerInterceptor getInterceptor() {
 		return this.interceptor;
@@ -107,9 +100,10 @@ public final class MappedInterceptor implements HandlerInterceptor {
 
 
 	/**
-	 * Determine a match for the given lookup path.
-	 * @param lookupPath the current request path
-	 * @param pathMatcher a path matcher for path pattern matching
+	 * 确定给定查找路径的匹配项.
+	 * 
+	 * @param lookupPath 当前的请求路径
+	 * @param pathMatcher 路径模式匹配的路径匹配器
 	 */
 	public boolean matches(String lookupPath, PathMatcher pathMatcher) {
 		PathMatcher pathMatcherToUse = (this.pathMatcher != null ? this.pathMatcher : pathMatcher);

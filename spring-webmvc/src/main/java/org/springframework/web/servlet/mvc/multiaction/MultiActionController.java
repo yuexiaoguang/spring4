@@ -27,10 +27,9 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.mvc.LastModified;
 
 /**
- * {@link org.springframework.web.servlet.mvc.Controller Controller}
- * implementation that allows multiple request types to be handled by the same
- * class. Subclasses of this class can handle several different types of
- * request with methods of the form
+ * {@link org.springframework.web.servlet.mvc.Controller Controller}实现,
+ * 允许同一个类处理多个请求类型.
+ * 此类的子类可以使用表单的方法处理几种不同类型的请求
  *
  * <pre class="code">public (ModelAndView | Map | String | void) actionName(HttpServletRequest request, HttpServletResponse response, [,HttpSession] [,AnyObject]);</pre>
  *
@@ -100,7 +99,7 @@ import org.springframework.web.servlet.mvc.LastModified;
  * binder setup and usage, including the invocation of {@link Validator Validators}
  * and the subsequent evaluation of binding/validation errors.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public class MultiActionController extends AbstractController implements LastModified {

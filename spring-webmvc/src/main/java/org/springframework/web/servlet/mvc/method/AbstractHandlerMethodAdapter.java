@@ -10,8 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.WebContentGenerator;
 
 /**
- * Abstract base class for {@link HandlerAdapter} implementations that support
- * handlers of type {@link HandlerMethod}.
+ * {@link HandlerAdapter}实现的抽象基类, 支持{@link HandlerMethod}类型的处理器.
  */
 public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator implements HandlerAdapter, Ordered {
 
@@ -19,14 +18,14 @@ public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator i
 
 
 	public AbstractHandlerMethodAdapter() {
-		// no restriction of HTTP methods by default
+		// 默认不限制HTTP方法
 		super(false);
 	}
 
 
 	/**
-	 * Specify the order value for this HandlerAdapter bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
+	 * 指定此HandlerAdapter bean的顺序值.
+	 * <p>默认值为{@code Ordered.LOWEST_PRECEDENCE}, 表示无序.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -39,9 +38,11 @@ public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator i
 
 
 	/**
-	 * This implementation expects the handler to be an {@link HandlerMethod}.
-	 * @param handler the handler instance to check
-	 * @return whether or not this adapter can adapt the given handler
+	 * 这个实现期望处理器是{@link HandlerMethod}.
+	 * 
+	 * @param handler 要检查的处理器实例
+	 * 
+	 * @return 此适配器是否可以适配给定的处理器
 	 */
 	@Override
 	public final boolean supports(Object handler) {
@@ -49,14 +50,16 @@ public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator i
 	}
 
 	/**
-	 * Given a handler method, return whether or not this adapter can support it.
-	 * @param handlerMethod the handler method to check
-	 * @return whether or not this adapter can adapt the given method
+	 * 给定一个处理器方法, 返回此适配器是否可以支持它.
+	 * 
+	 * @param handlerMethod 要检查的处理器方法
+	 * 
+	 * @return 此适配器是否可以适配给定的方法
 	 */
 	protected abstract boolean supportsInternal(HandlerMethod handlerMethod);
 
 	/**
-	 * This implementation expects the handler to be an {@link HandlerMethod}.
+	 * 这个实现期望处理器是{@link HandlerMethod}.
 	 */
 	@Override
 	public final ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -66,20 +69,21 @@ public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator i
 	}
 
 	/**
-	 * Use the given handler method to handle the request.
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @param handlerMethod handler method to use. This object must have previously been passed to the
-	 * {@link #supportsInternal(HandlerMethod)} this interface, which must have returned {@code true}.
-	 * @return ModelAndView object with the name of the view and the required model data,
-	 * or {@code null} if the request has been handled directly
-	 * @throws Exception in case of errors
+	 * 使用给定的处理器方法来处理请求.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
+	 * @param handlerMethod 要使用的处理器方法.
+	 * 此对象必须先前已经过{@link #supportsInternal(HandlerMethod)}验证, 且必须返回{@code true}.
+	 * 
+	 * @return 包含视图名称和所需的模型数据的ModelAndView对象, 如果请求已直接处理, 则为{@code null}
+	 * @throws Exception
 	 */
 	protected abstract ModelAndView handleInternal(HttpServletRequest request,
 			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception;
 
 	/**
-	 * This implementation expects the handler to be an {@link HandlerMethod}.
+	 * 这个实现期望处理器是{@link HandlerMethod}.
 	 */
 	@Override
 	public final long getLastModified(HttpServletRequest request, Object handler) {
@@ -87,10 +91,12 @@ public abstract class AbstractHandlerMethodAdapter extends WebContentGenerator i
 	}
 
 	/**
-	 * Same contract as for {@link javax.servlet.http.HttpServlet#getLastModified(HttpServletRequest)}.
-	 * @param request current HTTP request
-	 * @param handlerMethod handler method to use
-	 * @return the lastModified value for the given handler
+	 * 与{@link javax.servlet.http.HttpServlet#getLastModified(HttpServletRequest)}相同的约定.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * @param handlerMethod 要使用的处理器方法
+	 * 
+	 * @return 给定处理器的lastModified值
 	 */
 	protected abstract long getLastModifiedInternal(HttpServletRequest request, HandlerMethod handlerMethod);
 

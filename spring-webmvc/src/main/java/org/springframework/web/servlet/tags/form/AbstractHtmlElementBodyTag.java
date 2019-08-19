@@ -8,9 +8,8 @@ import javax.servlet.jsp.tagext.BodyTag;
 import org.springframework.util.StringUtils;
 
 /**
- * Convenient super class for many html tags that render content using the databinding
- * features of the {@link AbstractHtmlElementTag AbstractHtmlElementTag}. The only thing
- * sub-tags need to do is override {@link #renderDefaultContent(TagWriter)}.
+ * 方便的超类, 用于许多html标签, 使用{@link AbstractHtmlElementTag AbstractHtmlElementTag}的数据绑定功能呈现内容.
+ * 子标签唯一需要做的是覆盖{@link #renderDefaultContent(TagWriter)}.
  */
 @SuppressWarnings("serial")
 public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag implements BodyTag {
@@ -34,10 +33,10 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	}
 
 	/**
-	 * If {@link #shouldRender rendering}, flush any buffered
-	 * {@link BodyContent} or, if no {@link BodyContent} is supplied,
-	 * {@link #renderDefaultContent render the default content}.
-	 * @return a {@link javax.servlet.jsp.tagext.Tag#EVAL_PAGE} result
+	 * 如果{@link #shouldRender 渲染}, 刷新所有缓冲的{@link BodyContent},
+	 * 如果没有提供{@link BodyContent}, 则{@link #renderDefaultContent 呈现默认内容}.
+	 * 
+	 * @return {@link javax.servlet.jsp.tagext.Tag#EVAL_PAGE}结果
 	 */
 	@Override
 	public int doEndTag() throws JspException {
@@ -53,17 +52,16 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	}
 
 	/**
-	 * Render the tag contents based on the supplied {@link BodyContent}.
-	 * <p>The default implementation simply {@link #flushBufferedBodyContent flushes}
-	 * the {@link BodyContent} directly to the output. Subclasses may choose to
-	 * override this to add additional content to the output.
+	 * 根据提供的{@link BodyContent}渲染标记内容.
+	 * <p>默认实现只是直接{@link #flushBufferedBodyContent 刷新} {@link BodyContent}到输出.
+	 * 子类可以选择覆盖它以向输出添加其他内容.
 	 */
 	protected void renderFromBodyContent(BodyContent bodyContent, TagWriter tagWriter) throws JspException {
 		flushBufferedBodyContent(bodyContent);
 	}
 
 	/**
-	 * Clean up any attributes and stored resources.
+	 * 清理任何属性和存储的资源.
 	 */
 	@Override
 	public void doFinally() {
@@ -79,38 +77,33 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	//---------------------------------------------------------------------
 
 	/**
-	 * Called at the start of {@link #writeTagContent} allowing subclasses to perform
-	 * any precondition checks or setup tasks that might be necessary.
+	 * 在{@link #writeTagContent}的开头调用, 允许子类执行任何必要的前置条件检查或设置任务.
 	 */
 	protected void onWriteTagContent() {
 	}
 
 	/**
-	 * Should rendering of this tag proceed at all. Returns '{@code true}' by default
-	 * causing rendering to occur always, Subclasses can override this if they
-	 * provide conditional rendering.
+	 * 是否应该继续呈现此标记.
+	 * 默认返回'{@code true}', 始终渲染, 如果子类提供条件渲染, 则可以覆盖它.
 	 */
 	protected boolean shouldRender() throws JspException {
 		return true;
 	}
 
 	/**
-	 * Called during {@link #writeTagContent} allowing subclasses to add any attributes to the
-	 * {@link javax.servlet.jsp.PageContext} as needed.
+	 * 在{@link #writeTagContent}期间调用, 允许子类根据需要向{@link javax.servlet.jsp.PageContext}添加任何属性.
 	 */
 	protected void exposeAttributes() throws JspException {
 	}
 
 	/**
-	 * Called by {@link #doFinally} allowing subclasses to remove any attributes from the
-	 * {@link javax.servlet.jsp.PageContext} as needed.
+	 * 由{@link #doFinally}调用, 允许子类根据需要从{@link javax.servlet.jsp.PageContext}中删除任何属性.
 	 */
 	protected void removeAttributes() {
 	}
 
 	/**
-	 * The user customised the output of the error messages - flush the
-	 * buffered content into the main {@link javax.servlet.jsp.JspWriter}.
+	 * 用户自定义错误消息的输出 - 将缓冲的内容刷新到主{@link javax.servlet.jsp.JspWriter}.
 	 */
 	protected void flushBufferedBodyContent(BodyContent bodyContent) throws JspException {
 		try {

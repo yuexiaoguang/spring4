@@ -11,16 +11,15 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.json.AbstractJackson2View;
 
 /**
- * Spring MVC {@link View} that renders XML content by serializing the model for the current request
- * using <a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2's</a> {@link XmlMapper}.
+ * Spring MVC {@link View}, 通过使用<a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2's</a> {@link XmlMapper}
+ * 序列化当前请求的模型来呈现XML内容.
  *
- * <p>The Object to be serialized is supplied as a parameter in the model. The first serializable
- * entry is used. Users can either specify a specific entry in the model via the
- * {@link #setModelKey(String) sourceKey} property.
+ * <p>要序列化的Object作为模型中的参数提供. 使用第一个可序列化条目.
+ * 用户可以通过{@link #setModelKey(String) sourceKey}属性在模型中指定特定条目.
  *
- * <p>The default constructor uses the default configuration provided by {@link Jackson2ObjectMapperBuilder}.
+ * <p>默认构造函数使用{@link Jackson2ObjectMapperBuilder}提供的默认配置.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 public class MappingJackson2XmlView extends AbstractJackson2View {
 
@@ -31,18 +30,14 @@ public class MappingJackson2XmlView extends AbstractJackson2View {
 
 
 	/**
-	 * Construct a new {@code MappingJackson2XmlView} using default configuration
-	 * provided by {@link Jackson2ObjectMapperBuilder} and setting the content type
-	 * to {@code application/xml}.
+	 * 使用{@link Jackson2ObjectMapperBuilder}提供的默认配置, 并将内容类型设置为{@code application/xml}.
 	 */
 	public MappingJackson2XmlView() {
 		super(Jackson2ObjectMapperBuilder.xml().build(), DEFAULT_CONTENT_TYPE);
 	}
 
 	/**
-	 * Construct a new {@code MappingJackson2XmlView} using the provided {@link XmlMapper}
-	 * and setting the content type to {@code application/xml}.
-	 * @since 4.2.1
+	 * 使用提供的{@link XmlMapper}, 并将内容类型设置为{@code application/xml}.
 	 */
 	public MappingJackson2XmlView(XmlMapper xmlMapper) {
 		super(xmlMapper, DEFAULT_CONTENT_TYPE);
@@ -57,10 +52,12 @@ public class MappingJackson2XmlView extends AbstractJackson2View {
 	}
 
 	/**
-	 * Filter out undesired attributes from the given model.
-	 * The return value can be either another {@link Map} or a single value object.
-	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @return the value to be rendered
+	 * 从给定模型中过滤掉不需要的属性.
+	 * 返回值可以是另一个{@link Map}或单个值对象.
+	 * 
+	 * @param model 模型, 传递给{@link #renderMergedOutputModel}
+	 * 
+	 * @return 要渲染的值
 	 */
 	@Override
 	protected Object filterModel(Map<String, Object> model) {
@@ -84,5 +81,4 @@ public class MappingJackson2XmlView extends AbstractJackson2View {
 		}
 		return value;
 	}
-
 }

@@ -28,15 +28,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Helper class to get information from the {@code HandlerMapping} that would
- * serve a specific request.
+ * 工具类, 用于从{@code HandlerMapping}获取可用于特定请求的信息.
  *
- * <p>Provides the following methods:
+ * <p>提供以下方法:
  * <ul>
- * <li>{@link #getMatchableHandlerMapping} &mdash; obtain a {@code HandlerMapping}
- * to check request-matching criteria against.
- * <li>{@link #getCorsConfiguration} &mdash; obtain the CORS configuration for the
- * request.
+ * <li>{@link #getMatchableHandlerMapping} &mdash; 获取{@code HandlerMapping}以检查请求匹配条件.
+ * <li>{@link #getCorsConfiguration} &mdash; 获取请求的CORS配置.
  * </ul>
  */
 public class HandlerMappingIntrospector
@@ -47,16 +44,13 @@ public class HandlerMappingIntrospector
 	private List<HandlerMapping> handlerMappings;
 
 
-	/**
-	 * Constructor for use with {@link ApplicationContextAware}.
-	 */
 	public HandlerMappingIntrospector() {
 	}
 
 	/**
-	 * Constructor that detects the configured {@code HandlerMapping}s in the
-	 * given {@code ApplicationContext} or falls back on
-	 * "DispatcherServlet.properties" like the {@code DispatcherServlet}.
+	 * 构造函数, 用于检测给定{@code ApplicationContext}中已配置的{@code HandlerMapping},
+	 * 或者回退到"DispatcherServlet.properties", 如{@code DispatcherServlet}.
+	 * 
 	 * @deprecated as of 4.3.12, in favor of {@link #setApplicationContext}
 	 */
 	@Deprecated
@@ -66,7 +60,7 @@ public class HandlerMappingIntrospector
 
 
 	/**
-	 * Return the configured HandlerMapping's.
+	 * 返回配置的HandlerMapping.
 	 */
 	public List<HandlerMapping> getHandlerMappings() {
 		return (this.handlerMappings != null ? this.handlerMappings : Collections.<HandlerMapping>emptyList());
@@ -88,14 +82,13 @@ public class HandlerMappingIntrospector
 
 
 	/**
-	 * Find the {@link HandlerMapping} that would handle the given request and
-	 * return it as a {@link MatchableHandlerMapping} that can be used to test
-	 * request-matching criteria.
-	 * <p>If the matching HandlerMapping is not an instance of
-	 * {@link MatchableHandlerMapping}, an IllegalStateException is raised.
-	 * @param request the current request
-	 * @return the resolved matcher, or {@code null}
-	 * @throws Exception if any of the HandlerMapping's raise an exception
+	 * 查找将处理给定请求的{@link HandlerMapping}, 并将其作为{@link MatchableHandlerMapping}返回, 可用于测试请求匹配条件.
+	 * <p>如果匹配的HandlerMapping不是{@link MatchableHandlerMapping}的实例, 则会引发 IllegalStateException.
+	 * 
+	 * @param request 当前的请求
+	 * 
+	 * @return 解析的匹配器, 或{@code null}
+	 * @throws Exception 如果任何HandlerMapping引发异常
 	 */
 	public MatchableHandlerMapping getMatchableHandlerMapping(HttpServletRequest request) throws Exception {
 		Assert.notNull(this.handlerMappings, "Handler mappings not initialized");
@@ -183,7 +176,7 @@ public class HandlerMappingIntrospector
 
 
 	/**
-	 * Request wrapper that ignores request attribute changes.
+	 * 忽略请求属性更改的请求包装器.
 	 */
 	private static class RequestAttributeChangeIgnoringWrapper extends HttpServletRequestWrapper {
 

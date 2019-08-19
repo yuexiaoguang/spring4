@@ -20,34 +20,30 @@ import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.UriUtils;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code form}' whose
- * inner elements are bound to properties on a <em>form object</em>.
+ * 用于呈现HTML '{@code form}'的数据绑定感知JSP标记, 其内部元素绑定到<em>表单对象</em>上的属性.
  *
- * <p>Users should place the form object into the
- * {@link org.springframework.web.servlet.ModelAndView ModelAndView} when
- * populating the data for their view. The name of this form object can be
- * configured using the {@link #setModelAttribute "modelAttribute"} property.
+ * <p>用户应在填充视图数据时将表单对象放入{@link org.springframework.web.servlet.ModelAndView ModelAndView}.
+ * 可以使用{@link #setModelAttribute "modelAttribute"}属性配置此表单对象的名称.
  */
 @SuppressWarnings("serial")
 public class FormTag extends AbstractHtmlElementTag {
 
-	/** The default HTTP method using which form values are sent to the server: "post" */
+	/** 发送表单值到服务器的默认HTTP方法: "post" */
 	private static final String DEFAULT_METHOD = "post";
 
-	/** The default attribute name: &quot;command&quot; */
+	/** 默认属性名称: &quot;command&quot; */
 	public static final String DEFAULT_COMMAND_NAME = "command";
 
-	/** The name of the '{@code modelAttribute}' setting */
+	/** '{@code modelAttribute}'设置的名称 */
 	private static final String MODEL_ATTRIBUTE = "modelAttribute";
 
 	/**
-	 * The name of the {@link javax.servlet.jsp.PageContext} attribute under which the
-	 * form object name is exposed.
+	 * 表单对象名称所在的{@link javax.servlet.jsp.PageContext}属性的名称.
 	 */
 	public static final String MODEL_ATTRIBUTE_VARIABLE_NAME =
 			Conventions.getQualifiedAttributeName(AbstractFormTag.class, MODEL_ATTRIBUTE);
 
-	/** Default method parameter, i.e. {@code _method}. */
+	/** 默认方法参数, i.e. {@code _method}. */
 	private static final String DEFAULT_METHOD_PARAM = "_method";
 
 	private static final String FORM_TAG = "form";
@@ -103,29 +99,28 @@ public class FormTag extends AbstractHtmlElementTag {
 
 	private String methodParam = DEFAULT_METHOD_PARAM;
 
-	/** Caching a previous nested path, so that it may be reset */
+	/** 缓存先前的嵌套路径, 以便可以重置它 */
 	private String previousNestedPath;
 
 
 	/**
-	 * Set the name of the form attribute in the model.
-	 * <p>May be a runtime expression.
+	 * 设置模型中表单属性的名称.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setModelAttribute(String modelAttribute) {
 		this.modelAttribute = modelAttribute;
 	}
 
 	/**
-	 * Get the name of the form attribute in the model.
+	 * 获取模型中表单属性的名称.
 	 */
 	protected String getModelAttribute() {
 		return this.modelAttribute;
 	}
 
 	/**
-	 * Set the name of the form attribute in the model.
-	 * <p>May be a runtime expression.
-	 * @see #setModelAttribute
+	 * 在模型中设置表单属性的名称.
+	 * <p>可能是运行时表达式.
 	 * @deprecated as of Spring 4.3, in favor of {@link #setModelAttribute}
 	 */
 	@Deprecated
@@ -134,8 +129,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Get the name of the form attribute in the model.
-	 * @see #getModelAttribute
+	 * 获取模型中表单属性的名称.
 	 * @deprecated as of Spring 4.3, in favor of {@link #getModelAttribute}
 	 */
 	@Deprecated
@@ -144,17 +138,16 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code name}' attribute.
-	 * <p>May be a runtime expression.
-	 * <p>Name is not a valid attribute for form on XHTML 1.0. However,
-	 * it is sometimes needed for backward compatibility.
+	 * 设置'{@code name}'属性的值.
+	 * <p>可能是运行时表达式.
+	 * <p>名称不是XHTML 1.0上表单的有效属性. 但是, 有时需要向后兼容.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Get the value of the '{@code name}' attribute.
+	 * 获取'{@code name}'属性的值.
 	 */
 	@Override
 	protected String getName() throws JspException {
@@ -162,153 +155,149 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code action}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code action}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setAction(String action) {
 		this.action = (action != null ? action : "");
 	}
 
 	/**
-	 * Get the value of the '{@code action}' attribute.
+	 * 获取'{@code action}'属性的值.
 	 */
 	protected String getAction() {
 		return this.action;
 	}
 
 	/**
-	 * Set the value of the '{@code action}' attribute through a value
-	 * that is to be appended to the current servlet path.
-	 * <p>May be a runtime expression.
-	 * @since 3.2.3
+	 * 设置'{@code action}'属性的值, 通过要附加到当前servlet路径的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setServletRelativeAction(String servletRelativeAction) {
 		this.servletRelativeAction = (servletRelativeAction != null ? servletRelativeAction : "");
 	}
 
 	/**
-	 * Get the servlet-relative value of the '{@code action}' attribute.
-	 * @since 3.2.3
+	 * 获取'{@code action}'属性的servlet相对值.
 	 */
 	protected String getServletRelativeAction() {
 		return this.servletRelativeAction;
 	}
 
 	/**
-	 * Set the value of the '{@code method}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code method}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setMethod(String method) {
 		this.method = method;
 	}
 
 	/**
-	 * Get the value of the '{@code method}' attribute.
+	 * 获取'{@code method}'属性的值.
 	 */
 	protected String getMethod() {
 		return this.method;
 	}
 
 	/**
-	 * Set the value of the '{@code target}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code target}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setTarget(String target) {
 		this.target = target;
 	}
 
 	/**
-	 * Get the value of the '{@code target}' attribute.
+	 * 获取'{@code target}'属性的值.
 	 */
 	public String getTarget() {
 		return this.target;
 	}
 
 	/**
-	 * Set the value of the '{@code enctype}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code enctype}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setEnctype(String enctype) {
 		this.enctype = enctype;
 	}
 
 	/**
-	 * Get the value of the '{@code enctype}' attribute.
+	 * 获取'{@code enctype}'属性的值.
 	 */
 	protected String getEnctype() {
 		return this.enctype;
 	}
 
 	/**
-	 * Set the value of the '{@code acceptCharset}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code acceptCharset}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setAcceptCharset(String acceptCharset) {
 		this.acceptCharset = acceptCharset;
 	}
 
 	/**
-	 * Get the value of the '{@code acceptCharset}' attribute.
+	 * 获取'{@code acceptCharset}'属性的值.
 	 */
 	protected String getAcceptCharset() {
 		return this.acceptCharset;
 	}
 
 	/**
-	 * Set the value of the '{@code onsubmit}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code onsubmit}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setOnsubmit(String onsubmit) {
 		this.onsubmit = onsubmit;
 	}
 
 	/**
-	 * Get the value of the '{@code onsubmit}' attribute.
+	 * 获取'{@code onsubmit}'属性的值.
 	 */
 	protected String getOnsubmit() {
 		return this.onsubmit;
 	}
 
 	/**
-	 * Set the value of the '{@code onreset}' attribute.
-	 * <p>May be a runtime expression.
+	 * 设置'{@code onreset}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setOnreset(String onreset) {
 		this.onreset = onreset;
 	}
 
 	/**
-	 * Get the value of the '{@code onreset}' attribute.
+	 * 获取'{@code onreset}'属性的值.
 	 */
 	protected String getOnreset() {
 		return this.onreset;
 	}
 
 	/**
-	 * Set the value of the '{@code autocomplete}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code autocomplete}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setAutocomplete(String autocomplete) {
 		this.autocomplete = autocomplete;
 	}
 
 	/**
-	 * Get the value of the '{@code autocomplete}' attribute.
+	 * 获取'{@code autocomplete}'属性的值.
 	 */
 	protected String getAutocomplete() {
 		return this.autocomplete;
 	}
 
 	/**
-	 * Set the name of the request param for non-browser supported HTTP methods.
+	 * 设置非浏览器支持的HTTP方法的请求参数的名称.
 	 */
 	public void setMethodParam(String methodParam) {
 		this.methodParam = methodParam;
 	}
 
 	/**
-	 * Get the name of the request param for non-browser supported HTTP methods.
-	 * @since 4.2.3
+	 * 获取非浏览器支持的HTTP方法的请求参数的名称.
 	 */
 	@SuppressWarnings("deprecation")
 	protected String getMethodParam() {
@@ -316,9 +305,9 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Get the name of the request param for non-browser supported HTTP methods.
-	 * @deprecated as of 4.2.3, in favor of {@link #getMethodParam()} which is
-	 * a proper pairing for {@link #setMethodParam(String)}
+	 * 获取非浏览器支持的HTTP方法的请求参数的名称.
+	 * 
+	 * @deprecated as of 4.2.3, in favor of {@link #getMethodParam()} which is a proper pairing for {@link #setMethodParam(String)}
 	 */
 	@Deprecated
 	protected String getMethodParameter() {
@@ -326,7 +315,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Determine if the HTTP method is supported by browsers (i.e. GET or POST).
+	 * 确定浏览器是否支持HTTP方法 (i.e. GET 或 POST).
 	 */
 	protected boolean isMethodBrowserSupported(String method) {
 		return ("get".equalsIgnoreCase(method) || "post".equalsIgnoreCase(method));
@@ -334,9 +323,10 @@ public class FormTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Writes the opening part of the block	'{@code form}' tag and exposes
-	 * the form object name in the {@link javax.servlet.jsp.PageContext}.
-	 * @param tagWriter the {@link TagWriter} to which the form content is to be written
+	 * 写入块'{@code form}'标记的开头部分, 并在{@link javax.servlet.jsp.PageContext}中公开表单对象名称.
+	 * 
+	 * @param tagWriter 表单内容要写入的{@link TagWriter}
+	 * 
 	 * @return {@link javax.servlet.jsp.tagext.Tag#EVAL_BODY_INCLUDE}
 	 */
 	@Override
@@ -367,12 +357,12 @@ public class FormTag extends AbstractHtmlElementTag {
 			tagWriter.endTag();
 		}
 
-		// Expose the form object name for nested tags...
+		// 公开嵌套标签的表单对象名称...
 		String modelAttribute = resolveModelAttribute();
 		this.pageContext.setAttribute(MODEL_ATTRIBUTE_VARIABLE_NAME, modelAttribute, PageContext.REQUEST_SCOPE);
 
-		// Save previous nestedPath value, build and expose current nestedPath value.
-		// Use request scope to expose nestedPath to included pages too.
+		// 保存以前的nestedPath值, 构建并公开当前的nestedPath值.
+		// 使用request范围也可以将nestedPath公开给包含的页面.
 		this.previousNestedPath =
 				(String) this.pageContext.getAttribute(NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 		this.pageContext.setAttribute(NESTED_PATH_VARIABLE_NAME,
@@ -395,7 +385,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Autogenerated IDs correspond to the form object name.
+	 * 自动生成的ID对应于表单对象名称.
 	 */
 	@Override
 	protected String autogenerateId() throws JspException {
@@ -403,8 +393,9 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * {@link #evaluate Resolves} and returns the name of the form object.
-	 * @throws IllegalArgumentException if the form object resolves to {@code null}
+	 * {@link #evaluate 解析}并返回表单对象的名称.
+	 * 
+	 * @throws IllegalArgumentException 如果表单对象解析为{@code null}
 	 */
 	protected String resolveModelAttribute() throws JspException {
 		Object resolvedModelAttribute = evaluate(MODEL_ATTRIBUTE, getModelAttribute());
@@ -415,14 +406,12 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Resolve the value of the '{@code action}' attribute.
-	 * <p>If the user configured an '{@code action}' value then the result of
-	 * evaluating this value is used. If the user configured an
-	 * '{@code servletRelativeAction}' value then the value is prepended
-	 * with the context and servlet paths, and the result is used. Otherwise, the
-	 * {@link org.springframework.web.servlet.support.RequestContext#getRequestUri()
-	 * originating URI} is used.
-	 * @return the value that is to be used for the '{@code action}' attribute
+	 * 解析'{@code action}'属性的值.
+	 * <p>如果用户配置了'{@code action}'值, 则使用评估此值的结果.
+	 * 如果用户配置了'{@code servletRelativeAction}'值, 则该值将附加上下文和servlet路径, 并使用结果.
+	 * 否则, 使用{@link org.springframework.web.servlet.support.RequestContext#getRequestUri() 原始URI}.
+	 * 
+	 * @return 用于'{@code action}'属性的值
 	 */
 	protected String resolveAction() throws JspException {
 		String action = getAction();
@@ -468,8 +457,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Process the action through a {@link RequestDataValueProcessor} instance
-	 * if one is configured or otherwise returns the action unmodified.
+	 * 如果已配置了一个实例, 则通过{@link RequestDataValueProcessor}实例处理该操作, 否则返回未修改的操作.
 	 */
 	private String processAction(String action) {
 		RequestDataValueProcessor processor = getRequestContext().getRequestDataValueProcessor();
@@ -481,8 +469,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Closes the '{@code form}' block tag and removes the form object name
-	 * from the {@link javax.servlet.jsp.PageContext}.
+	 * 关闭'{@code form}'块标记, 并从{@link javax.servlet.jsp.PageContext}中删除表单对象名称.
 	 */
 	@Override
 	public int doEndTag() throws JspException {
@@ -496,7 +483,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Writes the given values as hidden fields.
+	 * 将给定值写入为隐藏字段.
 	 */
 	private void writeHiddenFields(Map<String, String> hiddenFields) throws JspException {
 		if (!CollectionUtils.isEmpty(hiddenFields)) {
@@ -511,7 +498,7 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Clears the stored {@link TagWriter}.
+	 * 清除保存的{@link TagWriter}.
 	 */
 	@Override
 	public void doFinally() {
@@ -519,11 +506,11 @@ public class FormTag extends AbstractHtmlElementTag {
 
 		this.pageContext.removeAttribute(MODEL_ATTRIBUTE_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 		if (this.previousNestedPath != null) {
-			// Expose previous nestedPath value.
+			// 公开先前的nestedPath值.
 			this.pageContext.setAttribute(NESTED_PATH_VARIABLE_NAME, this.previousNestedPath, PageContext.REQUEST_SCOPE);
 		}
 		else {
-			// Remove exposed nestedPath value.
+			// 删除公开的nestedPath值.
 			this.pageContext.removeAttribute(NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 		}
 		this.tagWriter = null;
@@ -532,7 +519,7 @@ public class FormTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Override resolve CSS class since error class is not supported.
+	 * 覆盖解析CSS类, 因为不支持错误类.
 	 */
 	@Override
 	protected String resolveCssClass() throws JspException {
@@ -540,7 +527,8 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Unsupported for forms.
+	 * 不支持.
+	 * 
 	 * @throws UnsupportedOperationException always
 	 */
 	@Override
@@ -549,12 +537,12 @@ public class FormTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Unsupported for forms.
+	 * 不支持.
+	 * 
 	 * @throws UnsupportedOperationException always
 	 */
 	@Override
 	public void setCssErrorClass(String cssErrorClass) {
 		throw new UnsupportedOperationException("The 'cssErrorClass' attribute is not supported for forms");
 	}
-
 }

@@ -20,13 +20,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Resolves arguments of type {@link Map} annotated with {@link MatrixVariable @MatrixVariable}
- * where the annotation does not specify a name. In other words the purpose of this resolver
- * is to provide access to multiple matrix variables, either all or associated with a specific
- * path variable.
+ * 解析使用{@link MatrixVariable @MatrixVariable}注解的{@link Map}类型的参数, 其中注解未指定名称.
+ * 换句话说, 此解析器的目的是提供对多个矩阵变量的访问, 这些变量全部或与特定路径变量相关联.
  *
- * <p>When a name is specified, an argument of type Map is considered to be a single attribute
- * with a Map value, and is resolved by {@link MatrixVariableMethodArgumentResolver} instead.
+ * <p>指定名称时, 类型为Map的参数将被视为具有Map值的单个属性,
+ * 并由{@link MatrixVariableMethodArgumentResolver}解析.
  */
 public class MatrixVariableMapMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

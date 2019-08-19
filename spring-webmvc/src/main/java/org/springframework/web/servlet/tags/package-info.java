@@ -1,6 +1,6 @@
 /**
- * Spring's JSP standard tag library for JSP 2.0+.
- * Supports JSP view implementations within Spring's web MVC framework.
- * See {@code spring.tld} for descriptions of the various tags.
+ * JSP 2.0+的Spring的JSP标准标记库.
+ * 支持Spring的Web MVC框架中的JSP视图实现.
+ * 有关各种标签的说明, 请参阅{@code spring.tld}.
  */
 package org.springframework.web.servlet.tags;

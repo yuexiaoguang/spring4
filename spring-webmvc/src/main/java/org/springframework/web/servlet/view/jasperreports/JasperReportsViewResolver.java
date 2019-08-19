@@ -9,9 +9,8 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 /**
- * {@link org.springframework.web.servlet.ViewResolver} implementation that
- * resolves instances of {@link AbstractJasperReportsView} by translating
- * the supplied view name into the URL of the report file.
+ * {@link org.springframework.web.servlet.ViewResolver}实现,
+ * 通过将提供的视图名称转换为报告文件的URL来解析{@link AbstractJasperReportsView}的实例.
  */
 public class JasperReportsViewResolver extends UrlBasedViewResolver {
 
@@ -29,7 +28,7 @@ public class JasperReportsViewResolver extends UrlBasedViewResolver {
 
 
 	/**
-	 * Requires the view class to be a subclass of {@link AbstractJasperReportsView}.
+	 * 要求视图类是{@link AbstractJasperReportsView}的子类.
 	 */
 	@Override
 	protected Class<?> requiredViewClass() {
@@ -37,48 +36,42 @@ public class JasperReportsViewResolver extends UrlBasedViewResolver {
 	}
 
 	/**
-	 * Set the {@code reportDataKey} the view class should use.
-	 * @see AbstractJasperReportsView#setReportDataKey
+	 * 设置视图类应使用的{@code reportDataKey}.
 	 */
 	public void setReportDataKey(String reportDataKey) {
 		this.reportDataKey = reportDataKey;
 	}
 
 	/**
-	 * Set the {@code subReportUrls} the view class should use.
-	 * @see AbstractJasperReportsView#setSubReportUrls
+	 * 设置视图类应该使用的{@code subReportUrls}.
 	 */
 	public void setSubReportUrls(Properties subReportUrls) {
 		this.subReportUrls = subReportUrls;
 	}
 
 	/**
-	 * Set the {@code subReportDataKeys} the view class should use.
-	 * @see AbstractJasperReportsView#setSubReportDataKeys
+	 * 设置视图类应该使用的{@code subReportDataKeys}.
 	 */
 	public void setSubReportDataKeys(String... subReportDataKeys) {
 		this.subReportDataKeys = subReportDataKeys;
 	}
 
 	/**
-	 * Set the {@code headers} the view class should use.
-	 * @see AbstractJasperReportsView#setHeaders
+	 * 设置视图类应使用的{@code headers}.
 	 */
 	public void setHeaders(Properties headers) {
 		this.headers = headers;
 	}
 
 	/**
-	 * Set the {@code exporterParameters} the view class should use.
-	 * @see AbstractJasperReportsView#setExporterParameters
+	 * 设置视图类应使用的{@code exporterParameters}.
 	 */
 	public void setExporterParameters(Map<String, Object> exporterParameters) {
 		this.exporterParameters = exporterParameters;
 	}
 
 	/**
-	 * Set the {@link DataSource} the view class should use.
-	 * @see AbstractJasperReportsView#setJdbcDataSource
+	 * 设置视图类应该使用的{@link DataSource}.
 	 */
 	public void setJdbcDataSource(DataSource jdbcDataSource) {
 		this.jdbcDataSource = jdbcDataSource;

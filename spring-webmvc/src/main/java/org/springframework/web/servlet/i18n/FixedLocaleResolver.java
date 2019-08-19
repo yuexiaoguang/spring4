@@ -9,35 +9,31 @@ import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
 
 /**
- * {@link org.springframework.web.servlet.LocaleResolver} implementation
- * that always returns a fixed default locale and optionally time zone.
- * Default is the current JVM's default locale.
+ * {@link org.springframework.web.servlet.LocaleResolver}实现,
+ * 始终返回固定的默认语言环境和可选的时区.
+ * 默认是当前JVM的默认语言环境.
  *
- * <p>Note: Does not support {@code setLocale(Context)}, as the fixed
- * locale and time zone cannot be changed.
+ * <p>Note: 不支持{@code setLocale(Context)}, 因为无法更改固定的语言环境和时区.
  */
 public class FixedLocaleResolver extends AbstractLocaleContextResolver {
 
 	/**
-	 * Create a default FixedLocaleResolver, exposing a configured default
-	 * locale (or the JVM's default locale as fallback).
+	 * 公开配置的默认语言环境(或JVM的默认语言环境作为回退).
 	 */
 	public FixedLocaleResolver() {
 		setDefaultLocale(Locale.getDefault());
 	}
 
 	/**
-	 * Create a FixedLocaleResolver that exposes the given locale.
-	 * @param locale the locale to expose
+	 * @param locale 要公开的语言环境
 	 */
 	public FixedLocaleResolver(Locale locale) {
 		setDefaultLocale(locale);
 	}
 
 	/**
-	 * Create a FixedLocaleResolver that exposes the given locale and time zone.
-	 * @param locale the locale to expose
-	 * @param timeZone the time zone to expose
+	 * @param locale 要公开的语言环境
+	 * @param timeZone 要公开的时区
 	 */
 	public FixedLocaleResolver(Locale locale, TimeZone timeZone) {
 		setDefaultLocale(locale);

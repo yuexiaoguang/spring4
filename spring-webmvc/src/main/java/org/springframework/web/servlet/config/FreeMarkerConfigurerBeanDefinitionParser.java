@@ -13,8 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * Parse the <mvc:freemarker-configurer> MVC namespace element and register
- * FreeMarkerConfigurer bean
+ * 解析<mvc:freemarker-configurer> MVC命名空间元素并注册FreeMarkerConfigurer bean
  */
 public class FreeMarkerConfigurerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 

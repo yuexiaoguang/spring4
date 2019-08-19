@@ -17,10 +17,9 @@ import org.springframework.web.method.annotation.AbstractNamedValueMethodArgumen
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Resolves method arguments annotated with {@link MatrixVariable @MatrixVariable}.
+ * 解析使用{@link MatrixVariable @MatrixVariable}注解的方法参数.
  *
- * <p>If the method parameter is of type Map and no name is specified, then it will
- * by resolved by the {@link MatrixVariableMapMethodArgumentResolver} instead.
+ * <p>如果方法参数的类型为Map且未指定名称, 则它将由{@link MatrixVariableMapMethodArgumentResolver}解析.
  */
 public class MatrixVariableMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver {
 

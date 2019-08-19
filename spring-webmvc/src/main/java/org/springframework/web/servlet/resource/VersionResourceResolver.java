@@ -20,38 +20,32 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
 /**
- * Resolves request paths containing a version string that can be used as part
- * of an HTTP caching strategy in which a resource is cached with a date in the
- * distant future (e.g. 1 year) and cached until the version, and therefore the
- * URL, is changed.
+ * 解析包含版本字符串的请求路径, 该版本字符串可用作HTTP缓存策略的一部分,
+ * 其中资源将长期 (e.g. 1 年) 缓存, 直到版本(即URL)更改.
  *
- * <p>Different versioning strategies exist, and this resolver must be configured
- * with one or more such strategies along with path mappings to indicate which
- * strategy applies to which resources.
+ * <p>存在不同的版本控制策略, 并且必须使用一个或多个此类策略以及路径映射配置此解析器, 以指示哪个策略适用于哪些资源.
  *
- * <p>{@code ContentVersionStrategy} is a good default choice except in cases
- * where it cannot be used. Most notably the {@code ContentVersionStrategy}
- * cannot be combined with JavaScript module loaders. For such cases the
- * {@code FixedVersionStrategy} is a better choice.
+ * <p>{@code ContentVersionStrategy}是一个很好的默认选择, 除非它无法使用.
+ * 最值得注意的是, {@code ContentVersionStrategy}无法与JavaScript模块加载器结合使用.
+ * 对于这种情况, {@code FixedVersionStrategy}是更好的选择.
  *
- * <p>Note that using this resolver to serve CSS files means that the
- * {@link CssLinkResourceTransformer} should also be used in order to modify
- * links within CSS files to also contain the appropriate versions generated
- * by this resolver.
+ * <p>请注意, 使用此解析器提供CSS文件意味着还应使用{@link CssLinkResourceTransformer}来修改CSS文件中的链接,
+ * 以包含此解析器生成的相应版本.
  */
 public class VersionResourceResolver extends AbstractResourceResolver {
 
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-	/** Map from path pattern -> VersionStrategy */
+	/** 路径模式 -> VersionStrategy */
 	private final Map<String, VersionStrategy> versionStrategyMap = new LinkedHashMap<String, VersionStrategy>();
 
 
 	/**
-	 * Set a Map with URL paths as keys and {@code VersionStrategy} as values.
-	 * <p>Supports direct URL matches and Ant-style pattern matches. For syntax
-	 * details, see the {@link org.springframework.util.AntPathMatcher} javadoc.
-	 * @param map map with URLs as keys and version strategies as values
+	 * 将URL路径作为键, 将{@code VersionStrategy}作为值.
+	 * <p>支持直接URL匹配和Ant样式模式匹配.
+	 * 有关语法详细信息, 请参阅{@link org.springframework.util.AntPathMatcher} javadoc.
+	 * 
+	 * @param map 将URL作为键, 将版本策略作为值
 	 */
 	public void setStrategyMap(Map<String, VersionStrategy> map) {
 		this.versionStrategyMap.clear();
@@ -59,23 +53,21 @@ public class VersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Return the map with version strategies keyed by path pattern.
+	 * 路径模式作为键, 版本策略作为值.
 	 */
 	public Map<String, VersionStrategy> getStrategyMap() {
 		return this.versionStrategyMap;
 	}
 
 	/**
-	 * Insert a content-based version in resource URLs that match the given path
-	 * patterns. The version is computed from the content of the file, e.g.
-	 * {@code "css/main-e36d2e05253c6c7085a91522ce43a0b4.css"}. This is a good
-	 * default strategy to use except when it cannot be, for example when using
-	 * JavaScript module loaders, use {@link #addFixedVersionStrategy} instead
-	 * for serving JavaScript files.
-	 * @param pathPatterns one or more resource URL path patterns,
-	 * relative to the pattern configured with the resource handler
-	 * @return the current instance for chained method invocation
-	 * @see ContentVersionStrategy
+	 * 在与给定路径模式匹配的资源URL中插入基于内容的版本.
+	 * 版本是根据文件的内容计算的, e.g. {@code "css/main-e36d2e05253c6c7085a91522ce43a0b4.css"}.
+	 * 这是一个很好的默认策略, 除非它不能, 例如在使用JavaScript模块加载器时,
+	 * 使用{@link #addFixedVersionStrategy}代替服务JavaScript文件.
+	 * 
+	 * @param pathPatterns 一个或多个资源URL路径模式, 相对于使用资源处理器配置的模式
+	 * 
+	 * @return 链式方法调用的当前实例
 	 */
 	public VersionResourceResolver addContentVersionStrategy(String... pathPatterns) {
 		addVersionStrategy(new ContentVersionStrategy(), pathPatterns);
@@ -83,22 +75,18 @@ public class VersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Insert a fixed, prefix-based version in resource URLs that match the given
-	 * path patterns, for example: <code>"{version}/js/main.js"</code>. This is useful (vs.
-	 * content-based versions) when using JavaScript module loaders.
-	 * <p>The version may be a random number, the current date, or a value
-	 * fetched from a git commit sha, a property file, or environment variable
-	 * and set with SpEL expressions in the configuration (e.g. see {@code @Value}
-	 * in Java config).
-	 * <p>If not done already, variants of the given {@code pathPatterns}, prefixed with
-	 * the {@code version} will be also configured. For example, adding a {@code "/js/**"} path pattern
-	 * will also cofigure automatically a {@code "/v1.0.0/js/**"} with {@code "v1.0.0"} the
-	 * {@code version} String given as an argument.
-	 * @param version a version string
-	 * @param pathPatterns one or more resource URL path patterns,
-	 * relative to the pattern configured with the resource handler
-	 * @return the current instance for chained method invocation
-	 * @see FixedVersionStrategy
+	 * 与给定路径模式匹配的资源URL中插入固定的基于前缀的版本, 例如: <code>"{version}/js/main.js"</code>.
+	 * 使用JavaScript模块加载器时, 这很有用 (与基于内容的版本相比).
+	 * <p>版本可以是随机数, 当前日期, 或从git commit sha, 属性文件或环境变量获取的值,
+	 * 并在配置中使用SpEL表达式设置 (e.g. 请参阅Java配置中的{@code @Value}).
+	 * <p>如果尚未完成, 还将配置给定{@code pathPatterns}的变体, 前缀为{{@code version}.
+	 * 例如, 添加{@code "/js/**"}路径模式也会使用{@code "v1.0.0"}自动配置{@code "/v1.0.0/js/**"},
+	 * {@code version}字符串作为参数给出.
+	 * 
+	 * @param version 版本字符串
+	 * @param pathPatterns 一个或多个资源URL路径模式, 相对于使用资源处理器配置的模式
+	 * 
+	 * @return 链式方法调用的当前实例
 	 */
 	public VersionResourceResolver addFixedVersionStrategy(String version, String... pathPatterns) {
 		List<String> patternsList = Arrays.asList(pathPatterns);
@@ -114,13 +102,12 @@ public class VersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Register a custom VersionStrategy to apply to resource URLs that match the
-	 * given path patterns.
-	 * @param strategy the custom strategy
-	 * @param pathPatterns one or more resource URL path patterns,
-	 * relative to the pattern configured with the resource handler
-	 * @return the current instance for chained method invocation
-	 * @see VersionStrategy
+	 * 注册自定义VersionStrategy以应用于与给定路径模式匹配的资源URL.
+	 * 
+	 * @param strategy 自定义策略
+	 * @param pathPatterns 一个或多个资源URL路径模式, 相对于使用资源处理器配置的模式
+	 * 
+	 * @return 链式方法调用的当前实例
 	 */
 	public VersionResourceResolver addVersionStrategy(VersionStrategy strategy, String... pathPatterns) {
 		for (String pattern : pathPatterns) {
@@ -200,8 +187,9 @@ public class VersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Find a {@code VersionStrategy} for the request path of the requested resource.
-	 * @return an instance of a {@code VersionStrategy} or null if none matches that request path
+	 * 查找用于所请求资源的请求路径的{@code VersionStrategy}.
+	 * 
+	 * @return {@code VersionStrategy}的实例, 如果没有匹配该请求路径, 则返回null
 	 */
 	protected VersionStrategy getStrategyForPath(String requestPath) {
 		String path = "/".concat(requestPath);
@@ -296,5 +284,4 @@ public class VersionResourceResolver extends AbstractResourceResolver {
 			return this.version;
 		}
 	}
-
 }

@@ -21,11 +21,9 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A simple {@code ResourceResolver} that tries to find a resource under the given
- * locations matching to the request path.
+ * 一个简单的{@code ResourceResolver}, 它尝试在与请求路径匹配的给定位置下查找资源.
  *
- * <p>This resolver does not delegate to the {@code ResourceResolverChain} and is
- * expected to be configured at the end in a chain of resolvers.
+ * <p>此解析器不会委托给{@code ResourceResolverChain}, 并且预计将在解析器链中的最后配置.
  */
 public class PathResourceResolver extends AbstractResourceResolver {
 
@@ -40,20 +38,14 @@ public class PathResourceResolver extends AbstractResourceResolver {
 
 
 	/**
-	 * By default when a Resource is found, the path of the resolved resource is
-	 * compared to ensure it's under the input location where it was found.
-	 * However sometimes that may not be the case, e.g. when
+	 * 默认情况下, 在找到资源时, 会比较已解析的资源的路径, 以确保它位于找到资源的输入位置下.
+	 * 然而, 有时情况可能并非如此, e.g. 当
 	 * {@link org.springframework.web.servlet.resource.CssLinkResourceTransformer}
-	 * resolves public URLs of links it contains, the CSS file is the location
-	 * and the resources being resolved are css files, images, fonts and others
-	 * located in adjacent or parent directories.
-	 * <p>This property allows configuring a complete list of locations under
-	 * which resources must be so that if a resource is not under the location
-	 * relative to which it was found, this list may be checked as well.
-	 * <p>By default {@link ResourceHttpRequestHandler} initializes this property
-	 * to match its list of locations.
-	 * @param locations the list of allowed locations
-	 * @since 4.1.2
+	 * 解析它包含的链接的公共URL时, CSS文件就是位置, 正在解析的资源是css文件, 图像, 字体以及位于相邻或父目录中的其他文件.
+	 * <p>此属性允许配置资源必须在其下的完整位置列表, 以便如果资源不在相对于其找到的位置下, 则也可以检查此列表.
+	 * <p>默认情况下, {@link ResourceHttpRequestHandler}初始化此属性以匹配其位置列表.
+	 * 
+	 * @param locations 允许的位置列表
 	 */
 	public void setAllowedLocations(Resource... locations) {
 		this.allowedLocations = locations;
@@ -64,13 +56,10 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Configure charsets associated with locations. If a static resource is found
-	 * under a {@link org.springframework.core.io.UrlResource URL resource}
-	 * location the charset is used to encode the relative path
-	 * <p><strong>Note:</strong> the charset is used only if the
-	 * {@link #setUrlPathHelper urlPathHelper} property is also configured and
-	 * its {@code urlDecode} property is set to true.
-	 * @since 4.3.13
+	 * 配置与位置关联的字符集.
+	 * 如果在{@link org.springframework.core.io.UrlResource URL资源}位置下找到静态资源, 则使用charset对相对路径进行编码.
+	 * <p><strong>Note:</strong> 只有在配置了{@link #setUrlPathHelper urlPathHelper}属性,
+	 * 且其{@code urlDecode}属性设置为true时才使用charset.
 	 */
 	public void setLocationCharsets(Map<Resource, Charset> locationCharsets) {
 		this.locationCharsets.clear();
@@ -78,26 +67,22 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Return charsets associated with static resource locations.
-	 * @since 4.3.13
+	 * 返回与静态资源位置关联的字符集.
 	 */
 	public Map<Resource, Charset> getLocationCharsets() {
 		return Collections.unmodifiableMap(this.locationCharsets);
 	}
 
 	/**
-	 * Provide a reference to the {@link UrlPathHelper} used to map requests to
-	 * static resources. This helps to derive information about the lookup path
-	 * such as whether it is decoded or not.
-	 * @since 4.3.13
+	 * 提供对用于将请求映射到静态资源的{@link UrlPathHelper}的引用.
+	 * 这有助于获得有关查找路径的信息, 例如是否已解码.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
 	}
 
 	/**
-	 * The configured {@link UrlPathHelper}.
-	 * @since 4.3.13
+	 * 配置的{@link UrlPathHelper}.
 	 */
 	public UrlPathHelper getUrlPathHelper() {
 		return this.urlPathHelper;
@@ -147,12 +132,13 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Find the resource under the given location.
-	 * <p>The default implementation checks if there is a readable
-	 * {@code Resource} for the given path relative to the location.
-	 * @param resourcePath the path to the resource
-	 * @param location the location to check
-	 * @return the resource, or {@code null} if none found
+	 * 查找给定位置下的资源.
+	 * <p>默认实现检查相对于该位置的给定路径是否存在可读{@code Resource}.
+	 * 
+	 * @param resourcePath 资源的路径
+	 * @param location 要检查的位置
+	 * 
+	 * @return 资源, 或{@code null}
 	 */
 	protected Resource getResource(String resourcePath, Resource location) throws IOException {
 		Resource resource = location.createRelative(resourcePath);
@@ -172,14 +158,13 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Perform additional checks on a resolved resource beyond checking whether the
-	 * resources exists and is readable. The default implementation also verifies
-	 * the resource is either under the location relative to which it was found or
-	 * is under one of the {@link #setAllowedLocations allowed locations}.
-	 * @param resource the resource to check
-	 * @param location the location relative to which the resource was found
-	 * @return "true" if resource is in a valid location, "false" otherwise.
-	 * @since 4.1.2
+	 * 除了检查资源是否存在且可读之外, 还对已解析的资源执行其他检查.
+	 * 默认实现还验证资源是否位于相对于其找到的位置或位于{@link #setAllowedLocations 允许的位置}之一下.
+	 * 
+	 * @param resource 要检查的资源
+	 * @param location 找到资源的相对位置
+	 * 
+	 * @return "true" 如果资源位于有效位置, 否则为"false".
 	 */
 	protected boolean checkResource(Resource resource, Resource location) throws IOException {
 		if (isResourceUnderLocation(resource, location)) {
@@ -261,7 +246,7 @@ public class PathResourceResolver extends AbstractResourceResolver {
 
 	private boolean isInvalidEncodedPath(String resourcePath) {
 		if (resourcePath.contains("%")) {
-			// Use URLDecoder (vs UriUtils) to preserve potentially decoded UTF-8 chars...
+			// 使用URLDecoder (vs UriUtils) 来保留可能解码的UTF-8字符...
 			try {
 				String decodedPath = URLDecoder.decode(resourcePath, "UTF-8");
 				if (decodedPath.contains("../") || decodedPath.contains("..\\")) {

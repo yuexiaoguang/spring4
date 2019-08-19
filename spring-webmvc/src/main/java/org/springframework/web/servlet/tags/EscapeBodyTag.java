@@ -8,16 +8,12 @@ import javax.servlet.jsp.tagext.BodyTag;
 import org.springframework.web.util.JavaScriptUtils;
 
 /**
- * Custom JSP tag to escape its enclosed body content,
- * applying HTML escaping and/or JavaScript escaping.
+ * 自定义JSP标记, 以转义其封闭的正文内容, 应用HTML转义和/或JavaScript转义.
  *
- * <p>Provides a "htmlEscape" property for explicitly specifying whether to
- * apply HTML escaping. If not set, a page-level default (e.g. from the
- * HtmlEscapeTag) or an application-wide default (the "defaultHtmlEscape"
- * context-param in web.xml) is used.
+ * <p>提供"htmlEscape"属性, 用于显式指定是否应用HTML转义.
+ * 如果未设置, 则使用页面级默认值 (e.g. 来自 HtmlEscapeTag) 或应用程序范围的默认值 (web.xml中的"defaultHtmlEscape" context-param).
  *
- * <p>Provides a "javaScriptEscape" property for specifying whether to apply
- * JavaScript escaping. Can be combined with HTML escaping or used standalone.
+ * <p>提供"javaScriptEscape"属性, 用于指定是否应用JavaScript转义. 可以与HTML转义或独立使用相结合.
  */
 @SuppressWarnings("serial")
 public class EscapeBodyTag extends HtmlEscapingAwareTag implements BodyTag {
@@ -28,8 +24,8 @@ public class EscapeBodyTag extends HtmlEscapingAwareTag implements BodyTag {
 
 
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * 为此标记设置JavaScript转义.
+	 * 默认为"false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;
@@ -68,19 +64,23 @@ public class EscapeBodyTag extends HtmlEscapingAwareTag implements BodyTag {
 	}
 
 	/**
-	 * Read the unescaped body content from the page.
-	 * @return the original content
-	 * @throws IOException if reading failed
+	 * 从页面中读取未转义的正文内容.
+	 * 
+	 * @return 原始内容
+	 * 
+	 * @throws IOException 如果读取失败
 	 */
 	protected String readBodyContent() throws IOException {
 		return this.bodyContent.getString();
 	}
 
 	/**
-	 * Write the escaped body content to the page.
-	 * <p>Can be overridden in subclasses, e.g. for testing purposes.
-	 * @param content the content to write
-	 * @throws IOException if writing failed
+	 * 将转义的正文内容写入页面.
+	 * <p>可以在子类中重写, e.g. 用于测试.
+	 * 
+	 * @param content 要写入的内容
+	 * 
+	 * @throws IOException 如果写入失败
 	 */
 	protected void writeBodyContent(String content) throws IOException {
 		this.bodyContent.getEnclosingWriter().print(content);

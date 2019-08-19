@@ -4,24 +4,21 @@ import freemarker.ext.jsp.TaglibFactory;
 import freemarker.template.Configuration;
 
 /**
- * Interface to be implemented by objects that configure and manage a
- * FreeMarker Configuration object in a web environment. Detected and
- * used by {@link FreeMarkerView}.
+ * 由在Web环境中配置和管理FreeMarker配置对象的对象实现的接口.
+ * 由{@link FreeMarkerView}检测并使用.
  */
 public interface FreeMarkerConfig {
 
 	/**
-	 * Return the FreeMarker {@link Configuration} object for the current
-	 * web application context.
-	 * <p>A FreeMarker Configuration object may be used to set FreeMarker
-	 * properties and shared objects, and allows to retrieve templates.
-	 * @return the FreeMarker Configuration
+	 * 返回当前Web应用程序上下文的FreeMarker {@link Configuration}对象.
+	 * <p>FreeMarker配置对象可用于设置FreeMarker属性和共享对象, 并允许检索模板.
+	 * 
+	 * @return FreeMarker Configuration
 	 */
 	Configuration getConfiguration();
 
 	/**
-	 * Return the {@link TaglibFactory} used to enable JSP tags to be
-	 * accessed from FreeMarker templates.
+	 * 返回用于启用从FreeMarker模板访问JSP标记的{@link TaglibFactory}.
 	 */
 	TaglibFactory getTaglibFactory();
 

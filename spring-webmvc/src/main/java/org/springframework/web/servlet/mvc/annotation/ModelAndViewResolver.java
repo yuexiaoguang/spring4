@@ -7,11 +7,10 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * SPI for resolving custom return values from a specific handler method.
- * Typically implemented to detect special return types, resolving
- * well-known result values for them.
+ * 用于解析特定处理器方法的自定义返回值的SPI.
+ * 通常用于检测特殊返回类型, 为它们解析已知的结果值.
  *
- * <p>A typical implementation could look like as follows:
+ * <p>典型的实现可能如下所示:
  *
  * <pre class="code">
  * public class MyModelAndViewResolver implements ModelAndViewResolver {
@@ -28,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public interface ModelAndViewResolver {
 
 	/**
-	 * Marker to be returned when the resolver does not know how to handle the given method parameter.
+	 * 当解析器不知道如何处理给定的方法参数时, 返回的标记.
 	 */
 	ModelAndView UNRESOLVED = new ModelAndView();
 

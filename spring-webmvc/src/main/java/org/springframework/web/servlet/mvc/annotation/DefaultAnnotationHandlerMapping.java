@@ -21,16 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.handler.AbstractDetectingUrlHandlerMapping;
 
 /**
- * Implementation of the {@link org.springframework.web.servlet.HandlerMapping}
- * interface that maps handlers based on HTTP paths expressed through the
- * {@link RequestMapping} annotation at the type or method level.
+ * {@link org.springframework.web.servlet.HandlerMapping}接口的实现,
+ * 基于类型或方法级别的{@link RequestMapping}注解表示的HTTP路径映射处理器.
  *
- * <p>Registered by default in {@link org.springframework.web.servlet.DispatcherServlet}
- * on Java 5+. <b>NOTE:</b> If you define custom HandlerMapping beans in your
- * DispatcherServlet context, you need to add a DefaultAnnotationHandlerMapping bean
- * explicitly, since custom HandlerMapping beans replace the default mapping strategies.
- * Defining a DefaultAnnotationHandlerMapping also allows for registering custom
- * interceptors:
+ * <p>在Java 5+上默认注册在{@link org.springframework.web.servlet.DispatcherServlet}.
+ * <b>NOTE:</b> 如果在DispatcherServlet上下文中定义自定义HandlerMapping bean,
+ * 则需要显式添加DefaultAnnotationHandlerMapping bean, 因为自定义HandlerMapping bean会替换默认映射策略.
+ * 定义还允许注册自定义拦截器的DefaultAnnotationHandlerMapping:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"&gt;
@@ -39,23 +36,19 @@ import org.springframework.web.servlet.handler.AbstractDetectingUrlHandlerMappin
  *   &lt;/property&gt;
  * &lt;/bean&gt;</pre>
  *
- * Annotated controllers are usually marked with the {@link Controller} stereotype
- * at the type level. This is not strictly necessary when {@link RequestMapping} is
- * applied at the type level (since such a handler usually implements the
- * {@link org.springframework.web.servlet.mvc.Controller} interface). However,
- * {@link Controller} is required for detecting {@link RequestMapping} annotations
- * at the method level if {@link RequestMapping} is not present at the type level.
+ * 带注解的控制器通常在类型级别使用{@link Controller}标记.
+ * 当在类型级别应用{@link RequestMapping}时, 这不是绝对必要的
+ * (因为这样的处理器通常实现{@link org.springframework.web.servlet.mvc.Controller}接口).
+ * 但是, 如果{@link RequestMapping}在类型级别不存在,
+ * 则需要{@link Controller}来检测方法级别的{@link RequestMapping}注解.
  *
- * <p><b>NOTE:</b> Method-level mappings are only allowed to narrow the mapping
- * expressed at the class level (if any). HTTP paths need to uniquely map onto
- * specific handler beans, with any given HTTP path only allowed to be mapped
- * onto one specific handler bean (not spread across multiple handler beans).
- * It is strongly recommended to co-locate related handler methods into the same bean.
+ * <p><b>NOTE:</b> 方法级映射仅允许缩小在类级别表示的映射.
+ * HTTP路径需要唯一地映射到特定的处理器bean, 任何给定的HTTP路径只允许映射到一个特定的处理器bean (不分布在多个处理器bean中).
+ * 强烈建议将相关的处理器方法放在同一个bean中.
  *
- * <p>The {@link AnnotationMethodHandlerAdapter} is responsible for processing
- * annotated handler methods, as mapped by this HandlerMapping. For
- * {@link RequestMapping} at the type level, specific HandlerAdapters such as
- * {@link org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter} apply.
+ * <p>{@link AnnotationMethodHandlerAdapter}负责处理带注解的处理器方法, 由此HandlerMapping映射.
+ * 对于类型级别的{@link RequestMapping}, 特定的HandlerAdapter适用, 例如
+ * {@link org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter}.
  *
  * @deprecated as of Spring 3.2, in favor of
  * {@link org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping RequestMappingHandlerMapping}

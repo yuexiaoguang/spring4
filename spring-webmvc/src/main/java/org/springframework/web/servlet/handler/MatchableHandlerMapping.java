@@ -5,17 +5,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Additional interface that a {@link HandlerMapping} can implement to expose
- * a request matching API aligned with its internal request matching
- * configuration and implementation.
+ * {@link HandlerMapping}可以实现的其他接口, 用于公开与其内部请求匹配配置和实现对齐的请求匹配API.
  */
 public interface MatchableHandlerMapping extends HandlerMapping {
 
 	/**
-	 * Determine whether the given request matches the request criteria.
-	 * @param request the current request
-	 * @param pattern the pattern to match
-	 * @return the result from request matching, or {@code null} if none
+	 * 确定给定请求是否与请求条件匹配.
+	 * 
+	 * @param request 当前的请求
+	 * @param pattern 要匹配的模式
+	 * 
+	 * @return 请求匹配的结果, 或{@code null}
 	 */
 	RequestMatchResult match(HttpServletRequest request, String pattern);
 

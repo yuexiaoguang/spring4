@@ -10,8 +10,7 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Adapter that implements the Servlet HandlerInterceptor interface
- * and wraps an underlying WebRequestInterceptor.
+ * 实现Servlet HandlerInterceptor接口并包装底层WebRequestInterceptor的适配器.
  */
 public class WebRequestHandlerInterceptorAdapter implements AsyncHandlerInterceptor {
 
@@ -19,8 +18,7 @@ public class WebRequestHandlerInterceptorAdapter implements AsyncHandlerIntercep
 
 
 	/**
-	 * Create a new WebRequestHandlerInterceptorAdapter for the given WebRequestInterceptor.
-	 * @param requestInterceptor the WebRequestInterceptor to wrap
+	 * @param requestInterceptor 要包装的WebRequestInterceptor
 	 */
 	public WebRequestHandlerInterceptorAdapter(WebRequestInterceptor requestInterceptor) {
 		Assert.notNull(requestInterceptor, "WebRequestInterceptor must not be null");

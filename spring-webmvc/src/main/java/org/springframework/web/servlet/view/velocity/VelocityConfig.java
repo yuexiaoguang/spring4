@@ -3,11 +3,10 @@ package org.springframework.web.servlet.view.velocity;
 import org.apache.velocity.app.VelocityEngine;
 
 /**
- * Interface to be implemented by objects that configure and manage a
- * VelocityEngine for automatic lookup in a web environment. Detected
- * and used by VelocityView.
+ * 由配置和管理VelocityEngine以在Web环境中自动查找的对象实现的接口.
+ * 由VelocityView检测并使用.
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public interface VelocityConfig {

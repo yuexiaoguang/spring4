@@ -17,7 +17,7 @@ import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 
 /**
- * Assists with the registration of resource resolvers and transformers.
+ * 协助资源解析器和转换器的注册.
  */
 public class ResourceChainRegistration {
 
@@ -54,9 +54,11 @@ public class ResourceChainRegistration {
 
 
 	/**
-	 * Add a resource resolver to the chain.
-	 * @param resolver the resolver to add
-	 * @return the current instance for chained method invocation
+	 * 将资源解析器添加到链中.
+	 * 
+	 * @param resolver 要添加的解析器
+	 * 
+	 * @return 链式方法调用的当前实例
 	 */
 	public ResourceChainRegistration addResolver(ResourceResolver resolver) {
 		Assert.notNull(resolver, "The provided ResourceResolver should not be null");
@@ -74,9 +76,11 @@ public class ResourceChainRegistration {
 	}
 
 	/**
-	 * Add a resource transformer to the chain.
-	 * @param transformer the transformer to add
-	 * @return the current instance for chained method invocation
+	 * 将资源转换器添加到链中.
+	 * 
+	 * @param transformer 要添加的转换器
+	 * 
+	 * @return 链式方法调用的当前实例
 	 */
 	public ResourceChainRegistration addTransformer(ResourceTransformer transformer) {
 		Assert.notNull(transformer, "The provided ResourceTransformer should not be null");

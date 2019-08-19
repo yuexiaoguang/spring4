@@ -18,15 +18,11 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@link ResourceTransformer} implementation that modifies links in a CSS
- * file to match the public URL paths that should be exposed to clients (e.g.
- * with an MD5 content-based hash inserted in the URL).
+ * 一个{@link ResourceTransformer}实现, 它修改CSS文件中的链接以匹配应向客户端公开的公共URL路径 (e.g. 在URL中插入基于MD5内容的哈希).
  *
- * <p>The implementation looks for links in CSS {@code @import} statements and
- * also inside CSS {@code url()} functions. All links are then passed through the
- * {@link ResourceResolverChain} and resolved relative to the location of the
- * containing CSS file. If successfully resolved, the link is modified, otherwise
- * the original link is preserved.
+ * <p>该实现在CSS {@code @import}语句中以及CSS {@code url()}函数中查找链接.
+ * 然后所有链接都通过{@link ResourceResolverChain}传递, 并相对于包含CSS文件的位置进行解析.
+ * 如果成功解析, 则修改链接, 否则保留原始链接.
  */
 public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 
@@ -116,7 +112,7 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 	protected static abstract class AbstractCssLinkParser implements CssLinkParser {
 
 		/**
-		 * Return the keyword to use to search for links.
+		 * 返回用于搜索链接的关键字.
 		 */
 		protected abstract String getKeyword();
 
@@ -161,8 +157,7 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		}
 
 		/**
-		 * Invoked after a keyword match, after whitespaces removed, and when
-		 * the next char is neither a single nor double quote.
+		 * 在删除空格后, 并且下一个char既不是单引号也不是双引号时, 在关键字匹配后调用.
 		 */
 		protected abstract int extractLink(int index, String content, Set<CssLinkInfo> linkInfos);
 

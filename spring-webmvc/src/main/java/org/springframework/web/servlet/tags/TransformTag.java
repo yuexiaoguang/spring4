@@ -8,49 +8,42 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.springframework.web.util.TagUtils;
 
 /**
- * Tag for transforming reference data values from form controllers and
- * other objects inside a {@code spring:bind} tag (or a data-bound
- * form element tag from Spring's form tag library).
+ * 用于转换来自表单控制器和{@code spring:bind}标记内的其他对象 (或Spring的表单标记库中的data-bound表单元素标记)的引用数据值的标记.
  *
- * <p>The BindTag has a PropertyEditor that it uses to transform properties of
- * a bean to a String, usable in HTML forms. This tag uses that PropertyEditor
- * to transform objects passed into this tag.
+ * <p>BindTag有一个PropertyEditor, 用于将bean的属性转换为String, 可在HTML表单中使用.
+ * 此标记使用PropertyEditor来转换传递给此标记的对象.
  */
 @SuppressWarnings("serial")
 public class TransformTag extends HtmlEscapingAwareTag {
 
-	/** the value to transform using the appropriate property editor */
+	/** 要使用适当的属性编辑器进行转换的值 */
 	private Object value;
 
-	/** the variable to put the result in */
+	/** 将结果放入的变量 */
 	private String var;
 
-	/** the scope of the variable the result will be put in */
+	/** 要放入结果的变量的范围 */
 	private String scope = TagUtils.SCOPE_PAGE;
 
 
 	/**
-	 * Set the value to transform, using the appropriate PropertyEditor
-	 * from the enclosing BindTag.
-	 * <p>The value can either be a plain value to transform (a hard-coded String
-	 * value in a JSP or a JSP expression), or a JSP EL expression to be evaluated
-	 * (transforming the result of the expression).
+	 * 使用封闭BindTag中相应的PropertyEditor设置要转换的值.
+	 * <p>该值可以是要转换的普通值 (JSP或JSP表达式中的硬编码字符串值), 也可以是要计算的JSP EL表达式 (转换表达式的结果).
 	 */
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
-	 * Set PageContext attribute name under which to expose
-	 * a variable that contains the result of the transformation.
+	 * 设置PageContext属性名称, 在该名称下公开包含转换结果的变量.
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
 
 	/**
-	 * Set the scope to export the variable to.
-	 * Default is SCOPE_PAGE ("page").
+	 * 设置将变量导出到的范围.
+	 * 默认为 SCOPE_PAGE ("page").
 	 */
 	public void setScope(String scope) {
 		this.scope = scope;
@@ -60,7 +53,7 @@ public class TransformTag extends HtmlEscapingAwareTag {
 	@Override
 	protected final int doStartTagInternal() throws JspException {
 		if (this.value != null) {
-			// Find the containing EditorAwareTag (e.g. BindTag), if applicable.
+			// 如果适用, 查找包含 EditorAwareTag (e.g. BindTag).
 			EditorAwareTag tag = (EditorAwareTag) TagSupport.findAncestorWithClass(this, EditorAwareTag.class);
 			if (tag == null) {
 				throw new JspException("TransformTag can only be used within EditorAwareTag (e.g. BindTag)");
@@ -95,5 +88,4 @@ public class TransformTag extends HtmlEscapingAwareTag {
 
 		return SKIP_BODY;
 	}
-
 }

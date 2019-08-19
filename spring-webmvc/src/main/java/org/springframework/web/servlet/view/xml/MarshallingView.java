@@ -14,18 +14,15 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Spring-MVC {@link View} that allows for response context to be rendered as the result
- * of marshalling by a {@link Marshaller}.
+ * Spring-MVC {@link View}, 允许响应上下文作为{@link Marshaller}的编组结果呈现.
  *
- * <p>The Object to be marshalled is supplied as a parameter in the model and then
- * {@linkplain #locateToBeMarshalled(Map) detected} during response rendering. Users can
- * either specify a specific entry in the model via the {@link #setModelKey(String) sourceKey}
- * property or have Spring locate the Source object.
+ * <p>要编组的对象作为模型中的参数提供, 然后在响应呈现期间{@linkplain #locateToBeMarshalled(Map) 检测}.
+ * 用户可以通过{@link #setModelKey(String) sourceKey}属性在模型中指定特定条目, 或者让Spring找到Source对象.
  */
 public class MarshallingView extends AbstractView {
 
 	/**
-	 * Default content type. Overridable as bean property.
+	 * 默认内容类型. 作为bean属性可覆盖.
 	 */
 	public static final String DEFAULT_CONTENT_TYPE = "application/xml";
 
@@ -36,8 +33,8 @@ public class MarshallingView extends AbstractView {
 
 
 	/**
-	 * Construct a new {@code MarshallingView} with no {@link Marshaller} set.
-	 * The marshaller must be set after construction by invoking {@link #setMarshaller}.
+	 * 构建一个没有{@link Marshaller}的新{@code MarshallingView}.
+	 * 必须在构造后通过调用{@link #setMarshaller}来设置编组器.
 	 */
 	public MarshallingView() {
 		setContentType(DEFAULT_CONTENT_TYPE);
@@ -45,7 +42,7 @@ public class MarshallingView extends AbstractView {
 	}
 
 	/**
-	 * Constructs a new {@code MarshallingView} with the given {@link Marshaller} set.
+	 * 使用给定的{@link Marshaller}.
 	 */
 	public MarshallingView(Marshaller marshaller) {
 		this();
@@ -55,16 +52,15 @@ public class MarshallingView extends AbstractView {
 
 
 	/**
-	 * Set the {@link Marshaller} to be used by this view.
+	 * 设置此视图使用的{@link Marshaller}.
 	 */
 	public void setMarshaller(Marshaller marshaller) {
 		this.marshaller = marshaller;
 	}
 
 	/**
-	 * Set the name of the model key that represents the object to be marshalled.
-	 * If not specified, the model map will be searched for a supported value type.
-	 * @see Marshaller#supports(Class)
+	 * 设置表示要编组的对象的模型键的名称.
+	 * 如果未指定, 将搜索模型映射以获取支持的值类型.
 	 */
 	public void setModelKey(String modelKey) {
 		this.modelKey = modelKey;
@@ -93,15 +89,14 @@ public class MarshallingView extends AbstractView {
 	}
 
 	/**
-	 * Locate the object to be marshalled.
-	 * <p>The default implementation first attempts to look under the configured
-	 * {@linkplain #setModelKey(String) model key}, if any, before attempting to
-	 * locate an object of {@linkplain Marshaller#supports(Class) supported type}.
-	 * @param model the model Map
-	 * @return the Object to be marshalled (or {@code null} if none found)
-	 * @throws IllegalStateException if the model object specified by the
-	 * {@linkplain #setModelKey(String) model key} is not supported by the marshaller
-	 * @see #setModelKey(String)
+	 * 找到要编组的对象.
+	 * <p>在尝试查找{@linkplain Marshaller#supports(Class) 支持的类型}的对象之前,
+	 * 默认实现首先尝试查看配置的{@linkplain #setModelKey(String) 模型键}.
+	 * 
+	 * @param model 模型 Map
+	 * 
+	 * @return 要编组的Object (如果没有找到, 则为{@code null})
+	 * @throws IllegalStateException 如果编组器不支持{@linkplain #setModelKey(String) 模型键}指定的模型对象
 	 */
 	protected Object locateToBeMarshalled(Map<String, Object> model) throws IllegalStateException {
 		if (this.modelKey != null) {
@@ -126,14 +121,13 @@ public class MarshallingView extends AbstractView {
 	}
 
 	/**
-	 * Check whether the given value from the current view's model is eligible
-	 * for marshalling through the configured {@link Marshaller}.
-	 * <p>The default implementation calls {@link Marshaller#supports(Class)},
-	 * unwrapping a given {@link JAXBElement} first if applicable.
-	 * @param modelKey the value's key in the model (never {@code null})
-	 * @param value the value to check (never {@code null})
-	 * @return whether the given value is to be considered as eligible
-	 * @see Marshaller#supports(Class)
+	 * 检查当前视图模型中的给定值是否符合通过配置的{@link Marshaller}进行编组的条件.
+	 * <p>默认实现调用{@link Marshaller#supports(Class)}, 首先展开给定的{@link JAXBElement}.
+	 * 
+	 * @param modelKey 模型中值的键 (never {@code null})
+	 * @param value 要检查的值 (never {@code null})
+	 * 
+	 * @return 是否将该给定值视为合格
 	 */
 	protected boolean isEligibleForMarshalling(String modelKey, Object value) {
 		Class<?> classToCheck = value.getClass();

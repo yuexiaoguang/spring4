@@ -18,14 +18,12 @@ import org.springframework.web.servlet.support.WebContentGenerator;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Handler interceptor that checks the request and prepares the response.
- * Checks for supported methods and a required session, and applies the
- * specified {@link org.springframework.http.CacheControl} builder.
- * See superclass bean properties for configuration options.
+ * 处理器拦截器, 用于检查请求并准备响应.
+ * 检查支持的方法和必需的会话, 并应用指定的{@link org.springframework.http.CacheControl}构建器.
+ * 有关配置选项, 请参阅超类bean属性.
  *
- * <p>All the settings supported by this interceptor can also be set on
- * {@link AbstractController}. This interceptor is mainly intended for applying
- * checks and preparations to a set of controllers mapped by a HandlerMapping.
+ * <p>此拦截器支持的所有设置也可以在{@link AbstractController}上设置.
+ * 此拦截器主要用于对由HandlerMapping映射的一组控制器应用检查和准备.
  */
 public class WebContentInterceptor extends WebContentGenerator implements HandlerInterceptor {
 
@@ -39,47 +37,36 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 
 
 	public WebContentInterceptor() {
-		// No restriction of HTTP methods by default,
-		// in particular for use with annotated controllers...
+		// 默认不限制HTTP方法, 特别是与带注解的控制器一起使用时...
 		super(false);
 	}
 
 
 	/**
-	 * Set if URL lookup should always use full path within current servlet
-	 * context. Else, the path within the current servlet mapping is used
-	 * if applicable (i.e. in the case of a ".../*" servlet mapping in web.xml).
-	 * Default is "false".
-	 * <p>Only relevant for the "cacheMappings" setting.
-	 * @see #setCacheMappings
-	 * @see org.springframework.web.util.UrlPathHelper#setAlwaysUseFullPath
+	 * 设置URL查找是否应始终使用当前servlet上下文中的完整路径.
+	 * 否则, 如果适用, 则使用当前servlet映射中的路径 (i.e. 在web.xml中的".../*" servlet映射的情况下).
+	 * 默认为"false".
+	 * <p>仅与"cacheMappings"设置相关.
 	 */
 	public void setAlwaysUseFullPath(boolean alwaysUseFullPath) {
 		this.urlPathHelper.setAlwaysUseFullPath(alwaysUseFullPath);
 	}
 
 	/**
-	 * Set if context path and request URI should be URL-decoded.
-	 * Both are returned <i>undecoded</i> by the Servlet API,
-	 * in contrast to the servlet path.
-	 * <p>Uses either the request encoding or the default encoding according
-	 * to the Servlet spec (ISO-8859-1).
-	 * <p>Only relevant for the "cacheMappings" setting.
-	 * @see #setCacheMappings
-	 * @see org.springframework.web.util.UrlPathHelper#setUrlDecode
+	 * 设置是否应对上下文路径和请求URI进行URL解码.
+	 * 与servlet路径相比, Servlet API都返回<i>未解码</i>.
+	 * <p>根据Servlet规范 (ISO-8859-1)使用请求编码或默认编码.
+	 * <p>仅与"cacheMappings"设置相关.
 	 */
 	public void setUrlDecode(boolean urlDecode) {
 		this.urlPathHelper.setUrlDecode(urlDecode);
 	}
 
 	/**
-	 * Set the UrlPathHelper to use for resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass,
-	 * or to share common UrlPathHelper settings across multiple HandlerMappings
-	 * and MethodNameResolvers.
-	 * <p>Only relevant for the "cacheMappings" setting.
-	 * @see #setCacheMappings
-	 * @see org.springframework.web.servlet.handler.AbstractUrlHandlerMapping#setUrlPathHelper
+	 * 设置用于查找路径的解析的UrlPathHelper.
+	 * <p>使用此选项可以使用自定义子类覆盖默认的UrlPathHelper,
+	 * 或者在多个HandlerMappings和MethodNameResolvers之间共享常用的UrlPathHelper设置.
+	 * <p>仅与"cacheMappings"设置相关.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		Assert.notNull(urlPathHelper, "UrlPathHelper must not be null");
@@ -87,19 +74,14 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 	}
 
 	/**
-	 * Map specific URL paths to specific cache seconds.
-	 * <p>Overrides the default cache seconds setting of this interceptor.
-	 * Can specify "-1" to exclude a URL path from default caching.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and a various Ant-style pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the AntPathMatcher javadoc.
-	 * <p><b>NOTE:</b> Path patterns are not supposed to overlap. If a request
-	 * matches several mappings, it is effectively undefined which one will apply
-	 * (due to the lack of key ordering in {@code java.util.Properties}).
-	 * @param cacheMappings a mapping between URL paths (as keys) and
-	 * cache seconds (as values, need to be integer-parsable)
-	 * @see #setCacheSeconds
-	 * @see org.springframework.util.AntPathMatcher
+	 * 将特定URL路径映射到特定的缓存秒数.
+	 * <p>覆盖此拦截器的默认缓存秒设置. 可以指定 "-1"以从默认缓存中排除URL路径.
+	 * <p>支持直接匹配, e.g. 注册的"/test" 匹配 "/test", 以及各种Ant样式模式匹配, e.g. 注册的"/t*" 匹配 "/test" 和 "/team".
+	 * 有关详细信息, 请参阅AntPathMatcher javadoc.
+	 * <p><b>NOTE:</b> 路径模式不应该重叠.
+	 * 如果请求匹配多个映射, 则实际上未定义哪个将应用 (由于{@code java.util.Properties}中缺少键排序).
+	 * 
+	 * @param cacheMappings URL路径 (作为键) 和缓存秒数 (作为值, 需要是可解析的整数)之间的映射
 	 */
 	public void setCacheMappings(Properties cacheMappings) {
 		this.cacheMappings.clear();
@@ -112,21 +94,16 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 	}
 
 	/**
-	 * Map specific URL paths to a specific {@link org.springframework.http.CacheControl}.
-	 * <p>Overrides the default cache seconds setting of this interceptor.
-	 * Can specify a empty {@link org.springframework.http.CacheControl} instance
-	 * to exclude a URL path from default caching.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and a various Ant-style pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the AntPathMatcher javadoc.
-	 * <p><b>NOTE:</b> Path patterns are not supposed to overlap. If a request
-	 * matches several mappings, it is effectively undefined which one will apply
-	 * (due to the lack of key ordering in the underlying {@code java.util.HashMap}).
-	 * @param cacheControl the {@code CacheControl} to use
-	 * @param paths URL paths that will map to the given {@code CacheControl}
-	 * @since 4.2
-	 * @see #setCacheSeconds
-	 * @see org.springframework.util.AntPathMatcher
+	 * 将特定URL路径映射到特定的{@link org.springframework.http.CacheControl}.
+	 * <p>覆盖此拦截器的默认缓存秒数设置.
+	 * 可以指定一个空的{@link org.springframework.http.CacheControl}实例, 以从默认缓存中排除URL路径.
+	 * <p>支持直接匹配, e.g. 注册的"/test" 匹配 "/test", 以及各种Ant样式模式匹配, e.g. 注册的"/t*" 匹配 "/test" 和 "/team".
+	 * 有关详细信息, 请参阅AntPathMatcher javadoc.
+	 * <p><b>NOTE:</b> 路径模式不应该重叠.
+	 * 如果请求匹配多个映射, 则实际上未定义哪个将应用 (由于底层{@code java.util.HashMap}中缺少键排序).
+	 * 
+	 * @param cacheControl 要使用的{@code CacheControl}
+	 * @param paths 将映射到给定{@code CacheControl}的URL路径
 	 */
 	public void addCacheMapping(CacheControl cacheControl, String... paths) {
 		for (String path : paths) {
@@ -135,12 +112,8 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 	}
 
 	/**
-	 * Set the PathMatcher implementation to use for matching URL paths
-	 * against registered URL patterns, for determining cache mappings.
-	 * Default is AntPathMatcher.
-	 * @see #addCacheMapping
-	 * @see #setCacheMappings
-	 * @see org.springframework.util.AntPathMatcher
+	 * 设置用于使用注册的URL模式匹配URL路径的PathMatcher实现, 以确定缓存映射.
+	 * 默认为AntPathMatcher.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		Assert.notNull(pathMatcher, "PathMatcher must not be null");
@@ -184,13 +157,13 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 	}
 
 	/**
-	 * Look up a {@link org.springframework.http.CacheControl} instance for the given URL path.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and various Ant-style pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the AntPathMatcher class.
-	 * @param urlPath URL the bean is mapped to
-	 * @return the associated {@code CacheControl}, or {@code null} if not found
-	 * @see org.springframework.util.AntPathMatcher
+	 * 查找给定URL路径的{@link org.springframework.http.CacheControl}实例.
+	 * <p>支持直接匹配, e.g. 注册的"/test" 匹配 "/test", 以及各种Ant样式模式匹配, e.g. 注册的"/t*" 匹配 "/test" 和 "/team".
+	 * 有关详细信息, 请参阅AntPathMatcher javadoc.
+	 * 
+	 * @param urlPath bean映射到的URL
+	 * 
+	 * @return 关联的{@code CacheControl}, 或{@code null}
 	 */
 	protected CacheControl lookupCacheControl(String urlPath) {
 		// Direct match?
@@ -208,13 +181,13 @@ public class WebContentInterceptor extends WebContentGenerator implements Handle
 	}
 
 	/**
-	 * Look up a cacheSeconds integer value for the given URL path.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and various Ant-style pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the AntPathMatcher class.
-	 * @param urlPath URL the bean is mapped to
-	 * @return the cacheSeconds integer value, or {@code null} if not found
-	 * @see org.springframework.util.AntPathMatcher
+	 * 查找给定URL路径的cacheSeconds整数值.
+	 * <p>支持直接匹配, e.g. 注册的"/test" 匹配 "/test", 以及各种Ant样式模式匹配, e.g. 注册的"/t*" 匹配 "/test" 和 "/team".
+	 * 有关详细信息, 请参阅AntPathMatcher javadoc.
+	 * 
+	 * @param urlPath bean映射到的URL
+	 * 
+	 * @return cacheSeconds整数值, 或{@code null}
 	 */
 	protected Integer lookupCacheSeconds(String urlPath) {
 		// Direct match?

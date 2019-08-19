@@ -16,25 +16,20 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.View;
 
 /**
- * A {@link org.springframework.web.servlet.ViewResolver} implementation that uses
- * bean definitions in a dedicated XML file for view definitions, specified by
- * resource location. The file will typically be located in the WEB-INF directory;
- * the default is "/WEB-INF/views.xml".
+ * {@link org.springframework.web.servlet.ViewResolver}实现,
+ * 它在专用XML文件中使用bean定义进行视图定义, 由资源位置指定.
+ * 该文件通常位于WEB-INF目录中; 默认为"/WEB-INF/views.xml".
  *
- * <p>This {@code ViewResolver} does not support internationalization at the level
- * of its definition resources. Consider {@link ResourceBundleViewResolver} if you
- * need to apply different view resources per locale.
+ * <p>此{@code ViewResolver}不支持其定义资源级别的国际化.
+ * 如果需要为每个区域设置应用不同的视图资源, 请考虑{@link ResourceBundleViewResolver}.
  *
- * <p>Note: This {@code ViewResolver} implements the {@link Ordered} interface
- * in order to allow for flexible participation in {@code ViewResolver} chaining.
- * For example, some special views could be defined via this {@code ViewResolver}
- * (giving it 0 as "order" value), while all remaining views could be resolved by
- * a {@link UrlBasedViewResolver}.
+ * <p>Note: 这个{@code ViewResolver}实现了{@link Ordered}接口, 以便灵活地参与{@code ViewResolver}链接.
+ * 例如, 可以通过此{@code ViewResolver}定义一些特殊视图 (其"order"值为0), 而所有剩余视图可以通过{@link UrlBasedViewResolver}解析.
  */
 public class XmlViewResolver extends AbstractCachingViewResolver
 		implements Ordered, InitializingBean, DisposableBean {
 
-	/** Default if no other location is supplied */
+	/** 默认位置 */
 	public static final String DEFAULT_LOCATION = "/WEB-INF/views.xml";
 
 
@@ -46,18 +41,18 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 
 
 	/**
-	 * Set the location of the XML file that defines the view beans.
-	 * <p>The default is "/WEB-INF/views.xml".
-	 * @param location the location of the XML file.
+	 * 设置定义视图bean的XML文件的位置.
+	 * <p>默认为 "/WEB-INF/views.xml".
+	 * 
+	 * @param location XML文件的位置.
 	 */
 	public void setLocation(Resource location) {
 		this.location = location;
 	}
 
 	/**
-	 * Specify the order value for this ViewResolver bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
-	 * @see org.springframework.core.Ordered#getOrder()
+	 * 指定此ViewResolver bean的顺序值.
+	 * <p>默认值为{@code Ordered.LOWEST_PRECEDENCE}, 表示无序.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -69,8 +64,8 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 	}
 
 	/**
-	 * Pre-initialize the factory from the XML file.
-	 * Only effective if caching is enabled.
+	 * 从XML文件预初始化工厂.
+	 * 仅在启用缓存时才有效.
 	 */
 	@Override
 	public void afterPropertiesSet() throws BeansException {
@@ -81,8 +76,7 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 
 
 	/**
-	 * This implementation returns just the view name,
-	 * as XmlViewResolver doesn't support localized resolution.
+	 * 此实现仅返回视图名称, 因为XmlViewResolver不支持本地化解析.
 	 */
 	@Override
 	protected Object getCacheKey(String viewName, Locale locale) {
@@ -102,9 +96,10 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 	}
 
 	/**
-	 * Initialize the view bean factory from the XML file.
-	 * Synchronized because of access by parallel threads.
-	 * @throws BeansException in case of initialization errors
+	 * 从XML文件初始化视图bean工厂.
+	 * 由于并行线程的访问而同步.
+	 * 
+	 * @throws BeansException 初始化错误
 	 */
 	protected synchronized BeanFactory initFactory() throws BeansException {
 		if (this.cachedFactory != null) {
@@ -116,12 +111,12 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 			actualLocation = getApplicationContext().getResource(DEFAULT_LOCATION);
 		}
 
-		// Create child ApplicationContext for views.
+		// 为视图创建子级ApplicationContext.
 		GenericWebApplicationContext factory = new GenericWebApplicationContext();
 		factory.setParent(getApplicationContext());
 		factory.setServletContext(getServletContext());
 
-		// Load XML resource with context-aware entity resolver.
+		// 使用上下文感知实体解析器加载XML资源.
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
 		reader.setEnvironment(getApplicationContext().getEnvironment());
 		reader.setEntityResolver(new ResourceEntityResolver(getApplicationContext()));
@@ -137,7 +132,7 @@ public class XmlViewResolver extends AbstractCachingViewResolver
 
 
 	/**
-	 * Close the view bean factory on context shutdown.
+	 * 关闭上下文时关闭视图bean工厂.
 	 */
 	@Override
 	public void destroy() throws BeansException {

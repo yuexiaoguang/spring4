@@ -11,7 +11,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 /**
- * Encapsulates information required to create a resource handler.
+ * 封装创建资源处理器所需的信息.
  */
 public class ResourceHandlerRegistration {
 
@@ -27,8 +27,7 @@ public class ResourceHandlerRegistration {
 
 
 	/**
-	 * Create a {@link ResourceHandlerRegistration} instance.
-	 * @param pathPatterns one or more resource URL path patterns
+	 * @param pathPatterns 一个或多个资源URL路径模式
 	 */
 	public ResourceHandlerRegistration(String... pathPatterns) {
 		Assert.notEmpty(pathPatterns, "At least one path pattern is required for resource handling.");
@@ -37,22 +36,17 @@ public class ResourceHandlerRegistration {
 
 
 	/**
-	 * Add one or more resource locations from which to serve static content.
-	 * Each location must point to a valid directory. Multiple locations may
-	 * be specified as a comma-separated list, and the locations will be checked
-	 * for a given resource in the order specified.
-	 * <p>For example, {{@code "/"}, {@code "classpath:/META-INF/public-web-resources/"}}
-	 * allows resources to be served both from the web application root and
-	 * from any JAR on the classpath that contains a
-	 * {@code /META-INF/public-web-resources/} directory, with resources in the
-	 * web application root taking precedence.
-	 * <p>For {@link org.springframework.core.io.UrlResource URL-based resources}
-	 * (e.g. files, HTTP URLs, etc) this method supports a special prefix to
-	 * indicate the charset associated with the URL so that relative paths
-	 * appended to it can be encoded correctly, e.g.
-	 * {@code [charset=Windows-31J]http://example.org/path}.
-	 * @return the same {@link ResourceHandlerRegistration} instance, for
-	 * chained method invocation
+	 * 添加一个或多个资源位置以从中提供静态内容.
+	 * 每个位置都必须指向一个有效的目录.
+	 * 可以将多个位置指定为以逗号分隔的列表, 并按指定的顺序检查给定资源的位置.
+	 * <p>例如, {{@code "/"}, {@code "classpath:/META-INF/public-web-resources/"}}
+	 * 允许从Web应用程序根目录和类路径上的任何JAR提供资源,
+	 * 该JAR包含{@code /META-INF/public-web-resources/}目录, 其中Web应用程序根目录中的资源优先.
+	 * <p>对于{@link org.springframework.core.io.UrlResource 基于URL的资源} (e.g. files, HTTP URLs, etc),
+	 * 此方法支持一个特殊的前缀来指示与URL关联的字符集, 以便附加到它的相对路径可以正确编码,
+	 * e.g. {@code [charset=Windows-31J]http://example.org/path}.
+	 * 
+	 * @return 相同的{@link ResourceHandlerRegistration}实例, 用于链式方法调用
 	 */
 	public ResourceHandlerRegistration addResourceLocations(String... resourceLocations) {
 		this.locationValues.addAll(Arrays.asList(resourceLocations));
@@ -60,11 +54,13 @@ public class ResourceHandlerRegistration {
 	}
 
 	/**
-	 * Specify the cache period for the resources served by the resource handler, in seconds. The default is to not
-	 * send any cache headers but to rely on last-modified timestamps only. Set to 0 in order to send cache headers
-	 * that prevent caching, or to a positive number of seconds to send cache headers with the given max-age value.
-	 * @param cachePeriod the time to cache resources in seconds
-	 * @return the same {@link ResourceHandlerRegistration} instance, for chained method invocation
+	 * 指定资源处理器所服务资源的缓存周期, 以秒为单位.
+	 * 默认不发送任何缓存header, 而是仅依赖于last-modified时间戳.
+	 * 设置为0以发送禁止缓存的缓存header, 或设置为正数秒以发送具有给定max-age值的缓存header.
+	 * 
+	 * @param cachePeriod 缓存资源的时间, 以秒为单位
+	 * 
+	 * @return 相同的{@link ResourceHandlerRegistration}实例, 用于链式方法调用
 	 */
 	public ResourceHandlerRegistration setCachePeriod(Integer cachePeriod) {
 		this.cachePeriod = cachePeriod;
@@ -72,12 +68,12 @@ public class ResourceHandlerRegistration {
 	}
 
 	/**
-	 * Specify the {@link org.springframework.http.CacheControl} which should be used
-	 * by the resource handler.
-	 * <p>Setting a custom value here will override the configuration set with {@link #setCachePeriod}.
-	 * @param cacheControl the CacheControl configuration to use
-	 * @return the same {@link ResourceHandlerRegistration} instance, for chained method invocation
-	 * @since 4.2
+	 * 指定资源处理器应使用的{@link org.springframework.http.CacheControl}.
+	 * <p>在此处设置自定义值将覆盖{@link #setCachePeriod}的配置集.
+	 * 
+	 * @param cacheControl 要使用的CacheControl配置
+	 * 
+	 * @return 相同的{@link ResourceHandlerRegistration}实例, 用于链式方法调用
 	 */
 	public ResourceHandlerRegistration setCacheControl(CacheControl cacheControl) {
 		this.cacheControl = cacheControl;
@@ -85,16 +81,14 @@ public class ResourceHandlerRegistration {
 	}
 
 	/**
-	 * Configure a chain of resource resolvers and transformers to use. This
-	 * can be useful, for example, to apply a version strategy to resource URLs.
-	 * <p>If this method is not invoked, by default only a simple
-	 * {@link PathResourceResolver} is used in order to match URL paths to
-	 * resources under the configured locations.
-	 * @param cacheResources whether to cache the result of resource resolution;
-	 * setting this to "true" is recommended for production (and "false" for
-	 * development, especially when applying a version strategy)
-	 * @return the same {@link ResourceHandlerRegistration} instance, for chained method invocation
-	 * @since 4.1
+	 * 配置要使用的资源解析器和转换器链.
+	 * 例如, 这可以用于将版本策略应用于资源URL.
+	 * <p>如果未调用此方法, 则默认仅使用简单的{@link PathResourceResolver}以匹配配置位置下的资源的URL路径.
+	 * 
+	 * @param cacheResources 是否缓存资源解析的结果;
+	 * 建议生产环境中设置为"true" ("false"用于开发, 尤其是在应用版本策略时)
+	 * 
+	 * @return 相同的{@link ResourceHandlerRegistration}实例, 用于链式方法调用
 	 */
 	public ResourceChainRegistration resourceChain(boolean cacheResources) {
 		this.resourceChainRegistration = new ResourceChainRegistration(cacheResources);
@@ -102,21 +96,17 @@ public class ResourceHandlerRegistration {
 	}
 
 	/**
-	 * Configure a chain of resource resolvers and transformers to use. This
-	 * can be useful, for example, to apply a version strategy to resource URLs.
-	 * <p>If this method is not invoked, by default only a simple
-	 * {@link PathResourceResolver} is used in order to match URL paths to
-	 * resources under the configured locations.
-	 * @param cacheResources whether to cache the result of resource resolution;
-	 * setting this to "true" is recommended for production (and "false" for
-	 * development, especially when applying a version strategy
-	 * @param cache the cache to use for storing resolved and transformed resources;
-	 * by default a {@link org.springframework.cache.concurrent.ConcurrentMapCache}
-	 * is used. Since Resources aren't serializable and can be dependent on the
-	 * application host, one should not use a distributed cache but rather an
-	 * in-memory cache.
-	 * @return the same {@link ResourceHandlerRegistration} instance, for chained method invocation
-	 * @since 4.1
+	 * 配置要使用的资源解析器和转换器链.
+	 * 例如, 这可以用于将版本策略应用于资源URL.
+	 * <p>如果未调用此方法, 则默认情况下仅使用简单的{@link PathResourceResolver}以匹配配置位置下的资源的URL路径.
+	 * 
+	 * @param cacheResources 是否缓存资源解析的结果;
+	 * 建议生产环境中设置为"true" ("false"用于开发, 尤其是在应用版本策略时)
+	 * @param cache 用于存储已解析和已转换资源的缓存;
+	 * 默认使用{@link org.springframework.cache.concurrent.ConcurrentMapCache}.
+	 * 由于Resource不可序列化并且可以依赖于应用程序主机, 因此不应使用分布式缓存, 而应使用内存缓存.
+	 * 
+	 * @return 相同的{@link ResourceHandlerRegistration}实例, 用于链式方法调用
 	 */
 	public ResourceChainRegistration resourceChain(boolean cacheResources, Cache cache) {
 		this.resourceChainRegistration = new ResourceChainRegistration(cacheResources, cache);
@@ -125,14 +115,14 @@ public class ResourceHandlerRegistration {
 
 
 	/**
-	 * Return the URL path patterns for the resource handler.
+	 * 返回资源处理器的URL路径模式.
 	 */
 	protected String[] getPathPatterns() {
 		return this.pathPatterns;
 	}
 
 	/**
-	 * Return a {@link ResourceHttpRequestHandler} instance.
+	 * 返回{@link ResourceHttpRequestHandler}实例.
 	 */
 	protected ResourceHttpRequestHandler getRequestHandler() {
 		ResourceHttpRequestHandler handler = new ResourceHttpRequestHandler();

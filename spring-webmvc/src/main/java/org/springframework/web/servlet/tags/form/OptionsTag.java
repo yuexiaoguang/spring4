@@ -9,30 +9,25 @@ import org.springframework.web.servlet.support.BindStatus;
 import org.springframework.web.util.TagUtils;
 
 /**
- * Convenient tag that allows one to supply a collection of objects
- * that are to be rendered as '{@code option}' tags within a
- * '{@code select}' tag.
+ * 方便的标记, 允许用户提供要在'{@code select}'标记内呈现为'{@code option}'标记的对象集合.
  *
- * <p><i>Must</i> be used within a {@link SelectTag 'select' tag}.
+ * <p>必须在{@link SelectTag 'select'标记}中使用.
  */
 @SuppressWarnings("serial")
 public class OptionsTag extends AbstractHtmlElementTag {
 
 	/**
-	 * The {@link java.util.Collection}, {@link java.util.Map} or array of
-	 * objects used to generate the inner '{@code option}' tags.
+	 * 用于生成内部'{@code option}'标记的{@link java.util.Collection}, {@link java.util.Map}或对象数组.
 	 */
 	private Object items;
 
 	/**
-	 * The name of the property mapped to the '{@code value}' attribute
-	 * of the '{@code option}' tag.
+	 * 映射到'{@code option}'标记的'{@code value}'属性的属性名称.
 	 */
 	private String itemValue;
 
 	/**
-	 * The name of the property mapped to the inner text of the
-	 * '{@code option}' tag.
+	 * 映射到'{@code option}'标记内部文本的属性名称.
 	 */
 	private String itemLabel;
 
@@ -40,30 +35,25 @@ public class OptionsTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Set the {@link java.util.Collection}, {@link java.util.Map} or array
-	 * of objects used to generate the inner '{@code option}' tags.
-	 * <p>Required when wishing to render '{@code option}' tags from an
-	 * array, {@link java.util.Collection} or {@link java.util.Map}.
-	 * <p>Typically a runtime expression.
+	 * 设置用于生成内部'{@code option}'标记的{@link java.util.Collection}, {@link java.util.Map}或对象数组.
+	 * <p>希望从数组, {@link java.util.Collection} 或 {@link java.util.Map}呈现'{@code option}'标记时需要.
+	 * <p>通常是运行时表达式.
 	 */
 	public void setItems(Object items) {
 		this.items = items;
 	}
 
 	/**
-	 * Get the {@link java.util.Collection}, {@link java.util.Map} or array
-	 * of objects used to generate the inner '{@code option}' tags.
-	 * <p>Typically a runtime expression.
+	 * 获取用于生成内部'{@code option}'标记的{@link java.util.Collection}, {@link java.util.Map}或对象数组.
+	 * <p>通常是运行时表达式.
 	 */
 	protected Object getItems() {
 		return this.items;
 	}
 
 	/**
-	 * Set the name of the property mapped to the '{@code value}'
-	 * attribute of the '{@code option}' tag.
-	 * <p>Required when wishing to render '{@code option}' tags from
-	 * an array or {@link java.util.Collection}.
+	 * 设置映射到'{@code option}'标记的'{@code value}'属性的属性名称.
+	 * <p>希望从数组或{@link java.util.Collection}呈现'{@code option}'标记时需要.
 	 */
 	public void setItemValue(String itemValue) {
 		Assert.hasText(itemValue, "'itemValue' must not be empty");
@@ -71,16 +61,14 @@ public class OptionsTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Return the name of the property mapped to the '{@code value}'
-	 * attribute of the '{@code option}' tag.
+	 * 返回映射到'{@code option}'标记的'{@code value}'属性的属性名称.
 	 */
 	protected String getItemValue() {
 		return this.itemValue;
 	}
 
 	/**
-	 * Set the name of the property mapped to the label (inner text) of the
-	 * '{@code option}' tag.
+	 * 设置映射到'{@code option}'标记的标签(内部文本)的属性的名称.
 	 */
 	public void setItemLabel(String itemLabel) {
 		Assert.hasText(itemLabel, "'itemLabel' must not be empty");
@@ -88,22 +76,21 @@ public class OptionsTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Get the name of the property mapped to the label (inner text) of the
-	 * '{@code option}' tag.
+	 * 获取映射到'{@code option}'标记的标签(内部文本)的属性的名称.
 	 */
 	protected String getItemLabel() {
 		return this.itemLabel;
 	}
 
 	/**
-	 * Set the value of the '{@code disabled}' attribute.
+	 * 设置'{@code disabled}'属性的值.
 	 */
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
 	}
 
 	/**
-	 * Get the value of the '{@code disabled}' attribute.
+	 * 获取'{@code disabled}'属性的值.
 	 */
 	protected boolean isDisabled() {
 		return this.disabled;
@@ -139,8 +126,7 @@ public class OptionsTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Appends a counter to a specified id,
-	 * since we're dealing with multiple HTML elements.
+	 * 将计数器附加到指定的id, 因为正在处理多个HTML元素.
 	 */
 	@Override
 	protected String resolveId() throws JspException {
@@ -164,7 +150,7 @@ public class OptionsTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Inner class that adapts OptionWriter for multiple options to be rendered.
+	 * 内部类, 用于调整OptionWriter以呈现多个选项.
 	 */
 	private class OptionsWriter extends OptionWriter {
 
@@ -191,5 +177,4 @@ public class OptionsTag extends AbstractHtmlElementTag {
 			return processFieldValue(this.selectName, value, "option");
 		}
 	}
-
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Helper class for annotation-based request mapping.
+ * 用于基于注解的请求映射的Helper类.
  *
  * @deprecated as of Spring 3.2, together with {@link DefaultAnnotationHandlerMapping},
  * {@link AnnotationMethodHandlerAdapter}, and {@link AnnotationMethodHandlerExceptionResolver}.

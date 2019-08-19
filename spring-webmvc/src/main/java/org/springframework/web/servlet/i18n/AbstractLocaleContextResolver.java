@@ -9,11 +9,11 @@ import org.springframework.context.i18n.SimpleLocaleContext;
 import org.springframework.web.servlet.LocaleContextResolver;
 
 /**
- * Abstract base class for {@link LocaleContextResolver} implementations.
- * Provides support for a default locale and a default time zone.
+ * {@link LocaleContextResolver}实现的抽象基类.
+ * 提供对默认语言环境和默认时区的支持.
  *
- * <p>Also provides pre-implemented versions of {@link #resolveLocale} and {@link #setLocale},
- * delegating to {@link #resolveLocaleContext} and {@link #setLocaleContext}.
+ * <p>还提供{@link #resolveLocale}和{@link #setLocale}的预先实现版本,
+ * 委托给{@link #resolveLocaleContext}和{@link #setLocaleContext}.
  */
 public abstract class AbstractLocaleContextResolver extends AbstractLocaleResolver implements LocaleContextResolver {
 
@@ -21,14 +21,14 @@ public abstract class AbstractLocaleContextResolver extends AbstractLocaleResolv
 
 
 	/**
-	 * Set a default TimeZone that this resolver will return if no other time zone found.
+	 * 设置默认TimeZone.
 	 */
 	public void setDefaultTimeZone(TimeZone defaultTimeZone) {
 		this.defaultTimeZone = defaultTimeZone;
 	}
 
 	/**
-	 * Return the default TimeZone that this resolver is supposed to fall back to, if any.
+	 * 返回默认TimeZone.
 	 */
 	public TimeZone getDefaultTimeZone() {
 		return this.defaultTimeZone;

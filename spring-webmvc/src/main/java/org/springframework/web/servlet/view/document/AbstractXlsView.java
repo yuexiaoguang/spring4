@@ -13,8 +13,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Convenient superclass for Excel document views in traditional XLS format.
- * Compatible with Apache POI 3.5 and higher.
+ * 传统XLS格式的Excel文档视图的便捷超类.
+ * 与Apache POI 3.5及更高版本兼容.
  *
  * <p>For working with the workbook in the subclass, see
  * <a href="http://poi.apache.org">Apache's POI site</a>
@@ -22,8 +22,7 @@ import org.springframework.web.servlet.view.AbstractView;
 public abstract class AbstractXlsView extends AbstractView {
 
 	/**
-	 * Default Constructor.
-	 * Sets the content type of the view to "application/vnd.ms-excel".
+	 * 将视图的内容类型设置为"application/vnd.ms-excel".
 	 */
 	public AbstractXlsView() {
 		setContentType("application/vnd.ms-excel");
@@ -36,7 +35,7 @@ public abstract class AbstractXlsView extends AbstractView {
 	}
 
 	/**
-	 * Renders the Excel view, given the specified model.
+	 * 给定指定的模型, 呈现Excel视图.
 	 */
 	@Override
 	protected final void renderMergedOutputModel(
@@ -57,24 +56,26 @@ public abstract class AbstractXlsView extends AbstractView {
 
 
 	/**
-	 * Template method for creating the POI {@link Workbook} instance.
-	 * <p>The default implementation creates a traditional {@link HSSFWorkbook}.
-	 * Spring-provided subclasses are overriding this for the OOXML-based variants;
-	 * custom subclasses may override this for reading a workbook from a file.
-	 * @param model the model Map
-	 * @param request current HTTP request (for taking the URL or headers into account)
-	 * @return the new {@link Workbook} instance
+	 * 用于创建POI {@link Workbook}实例的模板方法.
+	 * <p>默认实现创建了一个传统的{@link HSSFWorkbook}.
+	 * 对于基于OOXML的变体, Spring提供的子类是重写的; 自定义子类可以覆盖它以从文件中读取工作簿.
+	 * 
+	 * @param model 模型Map
+	 * @param request 当前的HTTP请求 (用于考虑URL或header)
+	 * 
+	 * @return 新的{@link Workbook}实例
 	 */
 	protected Workbook createWorkbook(Map<String, Object> model, HttpServletRequest request) {
 		return new HSSFWorkbook();
 	}
 
 	/**
-	 * The actual render step: taking the POI {@link Workbook} and rendering
-	 * it to the given response.
-	 * @param workbook the POI Workbook to render
-	 * @param response current HTTP response
-	 * @throws IOException when thrown by I/O methods that we're delegating to
+	 * 实际的渲染步骤: 获取POI {@link Workbook}并将其渲染到给定的响应.
+	 * 
+	 * @param workbook 要呈现的POI工作簿
+	 * @param response 当前的HTTP响应
+	 * 
+	 * @throws IOException
 	 */
 	protected void renderWorkbook(Workbook workbook, HttpServletResponse response) throws IOException {
 		ServletOutputStream out = response.getOutputStream();
@@ -87,12 +88,12 @@ public abstract class AbstractXlsView extends AbstractView {
 	}
 
 	/**
-	 * Application-provided subclasses must implement this method to populate
-	 * the Excel workbook document, given the model.
-	 * @param model the model Map
-	 * @param workbook the Excel workbook to populate
-	 * @param request in case we need locale etc. Shouldn't look at attributes.
-	 * @param response in case we need to set cookies. Shouldn't write to it.
+	 * 在给定模型的情况下, 应用程序提供的子类必须实现此方法来填充Excel工作簿文档.
+	 * 
+	 * @param model 模型 Map
+	 * @param workbook 要填充的Excel工作簿
+	 * @param request 以防需要语言环境等. 不应该查看属性.
+	 * @param response 以防需要设置cookie. 不应该写入它.
 	 */
 	protected abstract void buildExcelDocument(
 			Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response)

@@ -1,11 +1,9 @@
 package org.springframework.web.servlet.tags;
 
 /**
- * Bean used to pass name-value pair parameters from a {@link ParamTag} to a
- * {@link ParamAware} tag.
+ * 用于将name-value对参数从{@link ParamTag}传递到{@link ParamAware}标记.
  *
- * <p>Attributes are the raw values passed to the spring:param tag and have not
- * been encoded or escaped.
+ * <p>属性是传递给 spring:param 标记的原始值, 尚未编码或转义.
  */
 public class Param {
 
@@ -15,28 +13,28 @@ public class Param {
 
 
 	/**
-	 * Set the raw name of the parameter.
+	 * 设置参数的原始名称.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Return the raw parameter name.
+	 * 返回原始参数名称.
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Set the raw value of the parameter.
+	 * 设置参数的原始值.
 	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
 
 	/**
-	 * Return the raw parameter value.
+	 * 返回原始参数值.
 	 */
 	public String getValue() {
 		return this.value;
@@ -47,5 +45,4 @@ public class Param {
 	public String toString() {
 		return "JSP Tag Param: name '" + this.name + "', value '" + this.value + "'";
 	}
-
 }

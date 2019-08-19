@@ -22,15 +22,14 @@ import org.springframework.web.util.JavaScriptUtils;
 import org.springframework.web.util.TagUtils;
 
 /**
- * JSP tag for evaluating expressions with the Spring Expression Language (SpEL).
- * Supports the standard JSP evaluation context consisting of implicit variables and scoped attributes.
+ * 用于使用Spring Expression Language (SpEL)计算表达式的JSP标记.
+ * 支持由隐式变量和范围属性组成的标准JSP评估上下文.
  */
 @SuppressWarnings("serial")
 public class EvalTag extends HtmlEscapingAwareTag {
 
 	/**
-	 * {@link javax.servlet.jsp.PageContext} attribute for the
-	 * page-level {@link EvaluationContext} instance.
+	 * 页面级{@link EvaluationContext}实例的{@link javax.servlet.jsp.PageContext}属性.
 	 */
 	private static final String EVALUATION_CONTEXT_PAGE_ATTRIBUTE =
 			"org.springframework.web.servlet.tags.EVALUATION_CONTEXT";
@@ -48,31 +47,31 @@ public class EvalTag extends HtmlEscapingAwareTag {
 
 
 	/**
-	 * Set the expression to evaluate.
+	 * 设置要评估的表达式.
 	 */
 	public void setExpression(String expression) {
 		this.expression = this.expressionParser.parseExpression(expression);
 	}
 
 	/**
-	 * Set the variable name to expose the evaluation result under.
-	 * Defaults to rendering the result to the current JspWriter.
+	 * 设置公开评估结果的变量名称.
+	 * 默认将结果呈现给当前的JspWriter.
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
 
 	/**
-	 * Set the scope to export the evaluation result to.
-	 * This attribute has no meaning unless var is also defined.
+	 * 设置将评估结果导出到的范围.
+	 * 除非还定义了var, 否则此属性没有意义.
 	 */
 	public void setScope(String scope) {
 		this.scope = TagUtils.getScope(scope);
 	}
 
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * 设置此标记的JavaScript转义.
+	 * 默认为"false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;

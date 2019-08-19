@@ -41,8 +41,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 /**
- * A base class for resolving method argument values by reading from the body of
- * a request with {@link HttpMessageConverter}s.
+ * 通过使用{@link HttpMessageConverter}读取请求正文来解析方法参数值的基类.
  */
 public abstract class AbstractMessageConverterMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -61,16 +60,12 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	private final RequestResponseBodyAdviceChain advice;
 
 
-	/**
-	 * Basic constructor with converters only.
-	 */
 	public AbstractMessageConverterMethodArgumentResolver(List<HttpMessageConverter<?>> converters) {
 		this(converters, null);
 	}
 
 	/**
-	 * Constructor with converters and {@code Request~} and {@code ResponseBodyAdvice}.
-	 * @since 4.2
+	 * 转换器和{@code Request~}和{@code ResponseBodyAdvice}.
 	 */
 	public AbstractMessageConverterMethodArgumentResolver(List<HttpMessageConverter<?>> converters,
 			List<Object> requestResponseBodyAdvice) {
@@ -83,8 +78,7 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 
 
 	/**
-	 * Return the media types supported by all provided message converters sorted
-	 * by specificity via {@link MediaType#sortBySpecificity(List)}.
+	 * 返回通过{@link MediaType#sortBySpecificity(List)}特定排序的所有提供的消息转换器支持的媒体类型.
 	 */
 	private static List<MediaType> getAllSupportedMediaTypes(List<HttpMessageConverter<?>> messageConverters) {
 		Set<MediaType> allSupportedMediaTypes = new LinkedHashSet<MediaType>();
@@ -98,8 +92,7 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 
 
 	/**
-	 * Return the configured {@link RequestBodyAdvice} and
-	 * {@link RequestBodyAdvice} where each instance may be wrapped as a
+	 * 返回配置的{@link RequestBodyAdvice}和{@link RequestBodyAdvice}, 其中每个实例都可以包装为
 	 * {@link org.springframework.web.method.ControllerAdviceBean ControllerAdviceBean}.
 	 */
 	protected RequestResponseBodyAdviceChain getAdvice() {
@@ -107,15 +100,16 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Create the method argument value of the expected parameter type by
-	 * reading from the given request.
-	 * @param <T> the expected type of the argument value to be created
-	 * @param webRequest the current request
-	 * @param parameter the method parameter descriptor (may be {@code null})
-	 * @param paramType the type of the argument value to be created
-	 * @return the created method argument value
-	 * @throws IOException if the reading from the request fails
-	 * @throws HttpMediaTypeNotSupportedException if no suitable message converter is found
+	 * 通过读取给定的请求来创建预期参数类型的方法参数值.
+	 * 
+	 * @param <T> 要创建的参数值的预期类型
+	 * @param webRequest 当前的请求
+	 * @param parameter 方法参数描述符 (may be {@code null})
+	 * @param paramType 要创建的参数值的类型
+	 * 
+	 * @return 创建的方法参数值
+	 * @throws IOException 如果读取请求失败
+	 * @throws HttpMediaTypeNotSupportedException 如果找不到合适的消息转换器
 	 */
 	protected <T> Object readWithMessageConverters(NativeWebRequest webRequest, MethodParameter parameter,
 			Type paramType) throws IOException, HttpMediaTypeNotSupportedException, HttpMessageNotReadableException {
@@ -125,16 +119,16 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Create the method argument value of the expected parameter type by reading
-	 * from the given HttpInputMessage.
-	 * @param <T> the expected type of the argument value to be created
-	 * @param inputMessage the HTTP input message representing the current request
-	 * @param parameter the method parameter descriptor (may be {@code null})
-	 * @param targetType the target type, not necessarily the same as the method
-	 * parameter type, e.g. for {@code HttpEntity<String>}.
-	 * @return the created method argument value
-	 * @throws IOException if the reading from the request fails
-	 * @throws HttpMediaTypeNotSupportedException if no suitable message converter is found
+	 * 通过读取给定的HttpInputMessage来创建预期参数类型的方法参数值.
+	 * 
+	 * @param <T> 要创建的参数值的预期类型
+	 * @param inputMessage 表示当前请求的HTTP输入消息
+	 * @param parameter 方法参数描述符 (may be {@code null})
+	 * @param targetType 目标类型, 不一定与方法参数类型相同, e.g. 用于{@code HttpEntity<String>}.
+	 * 
+	 * @return 创建的方法参数值
+	 * @throws IOException 如果读取请求失败
+	 * @throws HttpMediaTypeNotSupportedException 如果找不到合适的消息转换器
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> Object readWithMessageConverters(HttpInputMessage inputMessage, MethodParameter parameter,
@@ -220,9 +214,11 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Create a new {@link HttpInputMessage} from the given {@link NativeWebRequest}.
-	 * @param webRequest the web request to create an input message from
-	 * @return the input message
+	 * 从给定的{@link NativeWebRequest}创建一个新的{@link HttpInputMessage}.
+	 * 
+	 * @param webRequest 从中创建输入消息的Web请求
+	 * 
+	 * @return 输入消息
 	 */
 	protected ServletServerHttpRequest createInputMessage(NativeWebRequest webRequest) {
 		HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
@@ -230,14 +226,12 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Validate the binding target if applicable.
-	 * <p>The default implementation checks for {@code @javax.validation.Valid},
-	 * Spring's {@link org.springframework.validation.annotation.Validated},
-	 * and custom annotations whose name starts with "Valid".
-	 * @param binder the DataBinder to be used
-	 * @param parameter the method parameter descriptor
-	 * @since 4.1.5
-	 * @see #isBindExceptionRequired
+	 * 如果适用, 验证绑定目标.
+	 * <p>默认实现检查{@code @javax.validation.Valid},
+	 * Spring的{@link org.springframework.validation.annotation.Validated}, 以及名称以"Valid"开头的自定义注解.
+	 * 
+	 * @param binder 要使用的DataBinder
+	 * @param parameter 方法参数描述符
 	 */
 	protected void validateIfApplicable(WebDataBinder binder, MethodParameter parameter) {
 		Annotation[] annotations = parameter.getParameterAnnotations();
@@ -253,11 +247,12 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Whether to raise a fatal bind exception on validation errors.
-	 * @param binder the data binder used to perform data binding
-	 * @param parameter the method parameter descriptor
-	 * @return {@code true} if the next method argument is not of type {@link Errors}
-	 * @since 4.1.5
+	 * 是否在验证错误时引发致命的绑定异常.
+	 * 
+	 * @param binder 用于执行数据绑定的数据绑定器
+	 * @param parameter 方法参数描述符
+	 * 
+	 * @return {@code true} 如果下一个方法参数不是{@link Errors}类型
 	 */
 	protected boolean isBindExceptionRequired(WebDataBinder binder, MethodParameter parameter) {
 		int i = parameter.getParameterIndex();
@@ -267,11 +262,12 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	}
 
 	/**
-	 * Adapt the given argument against the method parameter, if necessary.
-	 * @param arg the resolved argument
-	 * @param parameter the method parameter descriptor
-	 * @return the adapted argument, or the original resolved argument as-is
-	 * @since 4.3.5
+	 * 如有必要, 根据方法参数适配给定参数.
+	 * 
+	 * @param arg 解析的参数
+	 * @param parameter 方法参数描述符
+	 * 
+	 * @return 适配的参数, 或解析的原始参数
 	 */
 	protected Object adaptArgumentIfNecessary(Object arg, MethodParameter parameter) {
 		return (parameter.isOptional() ? OptionalResolver.resolveValue(arg) : arg);
@@ -329,7 +325,7 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 
 
 	/**
-	 * Inner class to avoid hard-coded dependency on Java 8 Optional type...
+	 * 内部类, 以避免对Java 8的Optional类型的硬编码依赖性...
 	 */
 	@UsesJava8
 	private static class OptionalResolver {

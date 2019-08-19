@@ -16,10 +16,8 @@ import org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 /**
- * {@link BeanDefinitionParser} that parses a {@code default-servlet-handler} element to
- * register a {@link DefaultServletHttpRequestHandler}.  Will also register a
- * {@link SimpleUrlHandlerMapping} for mapping resource requests, and a
- * {@link HttpRequestHandlerAdapter}.
+ * {@link BeanDefinitionParser}解析{@code default-servlet-handler}元素以注册{@link DefaultServletHttpRequestHandler}.
+ * 还将注册{@link SimpleUrlHandlerMapping}以映射资源请求, 并注册{@link HttpRequestHandlerAdapter}.
  */
 class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser {
 

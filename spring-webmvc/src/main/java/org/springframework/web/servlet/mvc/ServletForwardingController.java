@@ -10,17 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Spring Controller implementation that forwards to a named servlet,
- * i.e. the "servlet-name" in web.xml rather than a URL path mapping.
- * A target servlet doesn't even need a "servlet-mapping" in web.xml
- * in the first place: A "servlet" declaration is sufficient.
+ * Spring Controller实现, 它转发到命名的servlet, i.e. web.xml中的"servlet-name", 而不是URL路径映射.
+ * 目标servlet首先在web.xml中甚至不需要"servlet-mapping": "servlet"声明就足够了.
  *
- * <p>Useful to invoke an existing servlet via Spring's dispatching infrastructure,
- * for example to apply Spring HandlerInterceptors to its requests. This will work
- * even in a minimal Servlet container that does not support Servlet filters.
+ * <p>用于通过Spring的调度基础结构调用现有的servlet, 例如将Spring HandlerInterceptors应用于其请求.
+ * 这甚至可以在不支持Servlet过滤器的最小Servlet容器中工作.
  *
- * <p><b>Example:</b> web.xml, mapping all "/myservlet" requests to a Spring dispatcher.
- * Also defines a custom "myServlet", but <i>without</i> servlet mapping.
+ * <p><b>Example:</b> web.xml, 映射所有"/myservlet"请求到Spring 分派器.
+ * 还定义了一个自定义的"myServlet", 但<i>没有</i> servlet映射.
  *
  * <pre class="code">
  * &lt;servlet&gt;
@@ -38,10 +35,9 @@ import org.springframework.web.util.WebUtils;
  *   &lt;url-pattern&gt;/myservlet&lt;/url-pattern&gt;
  * &lt;/servlet-mapping&gt;</pre>
  *
- * <b>Example:</b> myDispatcher-servlet.xml, in turn forwarding "/myservlet" to your
- * servlet (identified by servlet name). All such requests will go through the
- * configured HandlerInterceptor chain (e.g. an OpenSessionInViewInterceptor).
- * From the servlet point of view, everything will work as usual.
+ * <b>Example:</b> myDispatcher-servlet.xml, 反过来将"/myservlet"转发到servlet (由servlet名称标识).
+ * 所有这些请求都将通过配置的HandlerInterceptor链 (e.g. OpenSessionInViewInterceptor).
+ * 从servlet的角度来看, 一切都会像往常一样工作.
  *
  * <pre class="code">
  * &lt;bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"&gt;
@@ -74,9 +70,8 @@ public class ServletForwardingController extends AbstractController implements B
 
 
 	/**
-	 * Set the name of the servlet to forward to,
-	 * i.e. the "servlet-name" of the target servlet in web.xml.
-	 * <p>Default is the bean name of this controller.
+	 * 设置要转发到的servlet的名称, i.e. web.xml中目标servlet的"servlet-name".
+	 * <p>默认是此控制器的bean名称.
 	 */
 	public void setServletName(String servletName) {
 		this.servletName = servletName;
@@ -118,18 +113,14 @@ public class ServletForwardingController extends AbstractController implements B
 	}
 
 	/**
-	 * Determine whether to use RequestDispatcher's {@code include} or
-	 * {@code forward} method.
-	 * <p>Performs a check whether an include URI attribute is found in the request,
-	 * indicating an include request, and whether the response has already been committed.
-	 * In both cases, an include will be performed, as a forward is not possible anymore.
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @return {@code true} for include, {@code false} for forward
-	 * @see javax.servlet.RequestDispatcher#forward
-	 * @see javax.servlet.RequestDispatcher#include
-	 * @see javax.servlet.ServletResponse#isCommitted
-	 * @see org.springframework.web.util.WebUtils#isIncludeRequest
+	 * 确定是否使用RequestDispatcher的{@code include}或{@code forward}方法.
+	 * <p>执行检查是否在请求中找到include URI属性, 指示include请求以及响应是否已提交.
+	 * 在这两种情况下, 都将执行include, 因为不再可能进行转发.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
+	 * 
+	 * @return {@code true}用于include, {@code false}用于forward
 	 */
 	protected boolean useInclude(HttpServletRequest request, HttpServletResponse response) {
 		return (WebUtils.isIncludeRequest(request) || response.isCommitted());

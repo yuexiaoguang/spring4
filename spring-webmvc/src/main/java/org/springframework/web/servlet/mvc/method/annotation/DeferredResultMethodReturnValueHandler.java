@@ -18,9 +18,8 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handler for return values of type {@link DeferredResult}, {@link ListenableFuture},
- * {@link CompletionStage} and any other async type with a {@link #getAdapterMap()
- * registered adapter}.
+ * {@link DeferredResult}, {@link ListenableFuture}, {@link CompletionStage}类型,
+ * 以及带有{@link #getAdapterMap() 注册的适配器}的任何其他异步类型的返回值的处理器.
  */
 @SuppressWarnings("deprecation")
 public class DeferredResultMethodReturnValueHandler implements AsyncHandlerMethodReturnValueHandler {
@@ -39,10 +38,10 @@ public class DeferredResultMethodReturnValueHandler implements AsyncHandlerMetho
 
 
 	/**
-	 * Return the map with {@code DeferredResult} adapters.
-	 * <p>By default the map contains adapters for {@code DeferredResult}, which
-	 * simply downcasts, {@link ListenableFuture}, and {@link CompletionStage}.
-	 * @return the map of adapters
+	 * 返回使用{@code DeferredResult}适配器的Map.
+	 * <p>默认情况下，映射包含 {@code DeferredResult}的适配器, 它只是向下转型, {@link ListenableFuture}, 和{@link CompletionStage}.
+	 * 
+	 * @return 适配器的映射
 	 * @deprecated in 4.3.8, see comments on {@link DeferredResultAdapter}
 	 */
 	@Deprecated
@@ -90,7 +89,7 @@ public class DeferredResultMethodReturnValueHandler implements AsyncHandlerMetho
 
 
 	/**
-	 * Adapter for {@code DeferredResult} return values.
+	 * {@code DeferredResult}返回值的适配器.
 	 */
 	private static class SimpleDeferredResultAdapter implements DeferredResultAdapter {
 
@@ -103,7 +102,7 @@ public class DeferredResultMethodReturnValueHandler implements AsyncHandlerMetho
 
 
 	/**
-	 * Adapter for {@code ListenableFuture} return values.
+	 * {@code ListenableFuture}返回值的适配器.
 	 */
 	private static class ListenableFutureAdapter implements DeferredResultAdapter {
 
@@ -127,7 +126,7 @@ public class DeferredResultMethodReturnValueHandler implements AsyncHandlerMetho
 
 
 	/**
-	 * Adapter for {@code CompletionStage} return values.
+	 * {@code CompletionStage}返回值的适配器.
 	 */
 	@UsesJava8
 	private static class CompletionStageAdapter implements DeferredResultAdapter {

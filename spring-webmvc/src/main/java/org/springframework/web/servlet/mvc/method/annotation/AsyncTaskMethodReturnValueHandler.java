@@ -9,7 +9,7 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handles return values of type {@link WebAsyncTask}.
+ * 处理{@link WebAsyncTask}类型的返回值.
  */
 public class AsyncTaskMethodReturnValueHandler implements AsyncHandlerMethodReturnValueHandler {
 

@@ -58,10 +58,10 @@ import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Implementation of the {@link org.springframework.web.servlet.HandlerExceptionResolver} interface that handles
- * exceptions through the {@link ExceptionHandler} annotation.
+ * {@link org.springframework.web.servlet.HandlerExceptionResolver}接口的实现,
+ * 通过{@link ExceptionHandler}注解处理异常.
  *
- * <p>This exception resolver is enabled by default in the {@link org.springframework.web.servlet.DispatcherServlet}.
+ * <p>默认情况下, {@link org.springframework.web.servlet.DispatcherServlet}中启用了此异常解析器.
  *
  * @deprecated as of Spring 3.2, in favor of
  * {@link org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver ExceptionHandlerExceptionResolver}

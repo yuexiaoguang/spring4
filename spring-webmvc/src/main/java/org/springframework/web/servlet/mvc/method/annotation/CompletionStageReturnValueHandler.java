@@ -13,11 +13,9 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handles return values of type {@link CompletionStage} (implemented by
- * {@link java.util.concurrent.CompletableFuture} for example).
+ * 处理{@link CompletionStage}类型的返回值 (例如, 由{@link java.util.concurrent.CompletableFuture}实现).
  *
- * @deprecated as of 4.3 {@link DeferredResultMethodReturnValueHandler} supports
- * CompletionStage return values via an adapter mechanism.
+ * @deprecated 从4.3开始, {@link DeferredResultMethodReturnValueHandler}通过适配器机制支持CompletionStage返回值.
  */
 @Deprecated
 @UsesJava8

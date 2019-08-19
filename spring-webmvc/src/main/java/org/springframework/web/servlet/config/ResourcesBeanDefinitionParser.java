@@ -39,11 +39,10 @@ import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses a
- * {@code resources} element to register a {@link ResourceHttpRequestHandler} and
- * register a {@link SimpleUrlHandlerMapping} for mapping resource requests,
- * and a {@link HttpRequestHandlerAdapter}. Will also create a resource handling
- * chain with {@link ResourceResolver}s and {@link ResourceTransformer}s.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser}
+ * 解析{@code resources}元素以注册{@link ResourceHttpRequestHandler},
+ * 并注册{@link SimpleUrlHandlerMapping}以映射资源请求, 以及{@link HttpRequestHandlerAdapter}.
+ * 还将使用{@link ResourceResolver}和{@link ResourceTransformer}创建资源处理链.
  */
 class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 
@@ -92,7 +91,7 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		handlerMappingDef.getPropertyValues().add("pathMatcher", pathMatcherRef).add("urlPathHelper", pathHelperRef);
 
 		String orderValue = element.getAttribute("order");
-		// Use a default of near-lowest precedence, still allowing for even lower precedence in other mappings
+		// 使用默认值接近最低优先级, 仍允许其他映射中的优先级更低
 		Object order = StringUtils.hasText(orderValue) ? orderValue : Ordered.LOWEST_PRECEDENCE - 1;
 		handlerMappingDef.getPropertyValues().add("order", order);
 
@@ -103,8 +102,7 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		context.getRegistry().registerBeanDefinition(beanName, handlerMappingDef);
 		context.registerComponent(new BeanComponentDefinition(handlerMappingDef, beanName));
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
-		// Register HttpRequestHandlerAdapter
+		// 确保BeanNameUrlHandlerMapping (SPR-8289)和默认的HandlerAdapter没有"关闭" Register HttpRequestHandlerAdapter
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
 		return null;

@@ -11,11 +11,10 @@ import org.apache.tiles.request.servlet.ServletUtil;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Tiles LocaleResolver adapter that delegates to a Spring
- * {@link org.springframework.web.servlet.LocaleResolver}, exposing the
- * DispatcherServlet-managed locale.
+ * Tiles LocaleResolver适配器, 它委托给Spring {@link org.springframework.web.servlet.LocaleResolver},
+ * 公开DispatcherServlet管理的语言环境.
  *
- * <p>This adapter gets automatically registered by {@link TilesConfigurer}.
+ * <p>此适配器由{@link TilesConfigurer}自动注册.
  */
 public class SpringLocaleResolver extends DefaultLocaleResolver {
 

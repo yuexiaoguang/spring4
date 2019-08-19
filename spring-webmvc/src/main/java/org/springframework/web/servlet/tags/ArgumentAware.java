@@ -3,14 +3,14 @@ package org.springframework.web.servlet.tags;
 import javax.servlet.jsp.JspTagException;
 
 /**
- * Allows implementing tag to utilize nested {@code spring:argument} tags.
+ * 允许实现标记使用嵌套的{@code spring:argument}标记.
  */
 public interface ArgumentAware {
 
 	/**
-	 * Callback hook for nested spring:argument tags to pass their value
-	 * to the parent tag.
-	 * @param argument the result of the nested {@code spring:argument} tag
+	 * 嵌套的 spring:argument 标记的回调挂钩, 将其值传递给父标记.
+	 * 
+	 * @param argument 嵌套{@code spring:argument}标记的结果
 	 */
 	void addArgument(Object argument) throws JspTagException;
 

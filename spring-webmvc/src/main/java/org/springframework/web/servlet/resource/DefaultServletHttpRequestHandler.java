@@ -12,37 +12,33 @@ import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * An {@link HttpRequestHandler} for serving static files using the Servlet container's "default" Servlet.
+ * {@link HttpRequestHandler}, 用于使用Servlet容器的"default" Servlet提供静态文件.
  *
- * <p>This handler is intended to be used with a "/*" mapping when the
- * {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet}
- * is mapped to "/", thus  overriding the Servlet container's default handling of static resources.
- * The mapping to this handler should generally be ordered as the last in the chain so that it will
- * only execute when no other more specific mappings (i.e., to controllers) can be matched.
+ * <p>当{@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet}
+ * 映射到"/"时, 此处理程序旨在与"/*"映射一起使用, 从而覆盖Servlet容器对静态资源的默认处理.
+ * 通常应该将此处理器的映射排序为链中的最后一个, 以便只有在没有其他更具体的映射 (i.e., 到控制器)匹配时才会执行.
  *
- * <p>Requests are handled by forwarding through the {@link RequestDispatcher} obtained via the
- * name specified through the {@link #setDefaultServletName "defaultServletName" property}.
- * In most cases, the {@code defaultServletName} does not need to be set explicitly, as the
- * handler checks at initialization time for the presence of the default Servlet of well-known
- * containers such as Tomcat, Jetty, Resin, WebLogic and WebSphere. However, when running in a
- * container where the default Servlet's name is not known, or where it has been customized
- * via server configuration, the  {@code defaultServletName} will need to be set explicitly.
+ * <p>通过{@link RequestDispatcher}转发来处理请求, 该{@link RequestDispatcher}通过
+ * {@link #setDefaultServletName "defaultServletName" 属性}指定的名称获取.
+ * 在大多数情况下, {@code defaultServletName}不需要显式设置,
+ * 因为处理器在初始化时检查是否存在Tomcat, Jetty, Resin, WebLogic 和 WebSphere等知名容器的默认Servlet.
+ * 但是, 在默认Servlet名称未知的容器中运行, 或者通过服务器配置自定义的位置运行时, 需要明确设置{@code defaultServletName}.
  */
 public class DefaultServletHttpRequestHandler implements HttpRequestHandler, ServletContextAware {
 
-	/** Default Servlet name used by Tomcat, Jetty, JBoss, and GlassFish */
+	/** Tomcat, Jetty, JBoss, 和 GlassFish使用的默认Servlet名称 */
 	private static final String COMMON_DEFAULT_SERVLET_NAME = "default";
 
-	/** Default Servlet name used by Google App Engine */
+	/** Google App Engine使用的默认Servlet名称 */
 	private static final String GAE_DEFAULT_SERVLET_NAME = "_ah_default";
 
-	/** Default Servlet name used by Resin */
+	/** Resin使用的默认Servlet名称 */
 	private static final String RESIN_DEFAULT_SERVLET_NAME = "resin-file";
 
-	/** Default Servlet name used by WebLogic */
+	/** WebLogic使用的默认Servlet名称 */
 	private static final String WEBLOGIC_DEFAULT_SERVLET_NAME = "FileServlet";
 
-	/** Default Servlet name used by WebSphere */
+	/** WebSphere使用的默认Servlet名称 */
 	private static final String WEBSPHERE_DEFAULT_SERVLET_NAME = "SimpleFileServlet";
 
 
@@ -52,16 +48,14 @@ public class DefaultServletHttpRequestHandler implements HttpRequestHandler, Ser
 
 
 	/**
-	 * Set the name of the default Servlet to be forwarded to for static resource requests.
+	 * 为静态资源请求设置要转发的默认Servlet的名称.
 	 */
 	public void setDefaultServletName(String defaultServletName) {
 		this.defaultServletName = defaultServletName;
 	}
 
 	/**
-	 * If the {@code defaultServletName} property has not been explicitly set,
-	 * attempts to locate the default Servlet using the known common
-	 * container-specific names.
+	 * 如果未显式设置{@code defaultServletName}属性, 则尝试使用已知的常见容器特定名称来定位默认Servlet.
 	 */
 	@Override
 	public void setServletContext(ServletContext servletContext) {

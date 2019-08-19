@@ -12,8 +12,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Handler execution chain, consisting of handler object and any handler interceptors.
- * Returned by HandlerMapping's {@link HandlerMapping#getHandler} method.
+ * 处理器执行链, 由处理器对象和任何处理器拦截器组成.
+ * 由HandlerMapping的{@link HandlerMapping#getHandler}方法返回.
  */
 public class HandlerExecutionChain {
 
@@ -29,18 +29,15 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Create a new HandlerExecutionChain.
-	 * @param handler the handler object to execute
+	 * @param handler 要执行的处理器对象
 	 */
 	public HandlerExecutionChain(Object handler) {
 		this(handler, (HandlerInterceptor[]) null);
 	}
 
 	/**
-	 * Create a new HandlerExecutionChain.
-	 * @param handler the handler object to execute
-	 * @param interceptors the array of interceptors to apply
-	 * (in the given order) before the handler itself executes
+	 * @param handler 要执行的处理器对象
+	 * @param interceptors 要在处理器本身执行之前, (按给定顺序)应用的拦截器数组
 	 */
 	public HandlerExecutionChain(Object handler, HandlerInterceptor... interceptors) {
 		if (handler instanceof HandlerExecutionChain) {
@@ -58,8 +55,9 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Return the handler object to execute.
-	 * @return the handler object (may be {@code null})
+	 * 返回要执行的处理器对象.
+	 * 
+	 * @return 处理器对象 (may be {@code null})
 	 */
 	public Object getHandler() {
 		return this.handler;
@@ -79,7 +77,7 @@ public class HandlerExecutionChain {
 		if (this.interceptorList == null) {
 			this.interceptorList = new ArrayList<HandlerInterceptor>();
 			if (this.interceptors != null) {
-				// An interceptor array specified through the constructor
+				// 通过构造函数指定的拦截器数组
 				CollectionUtils.mergeArrayIntoCollection(this.interceptors, this.interceptorList);
 			}
 		}
@@ -88,8 +86,9 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Return the array of interceptors to apply (in the given order).
-	 * @return the array of HandlerInterceptors instances (may be {@code null})
+	 * 返回要应用的拦截器数组 (按给定顺序).
+	 * 
+	 * @return HandlerInterceptor实例数组 (may be {@code null})
 	 */
 	public HandlerInterceptor[] getInterceptors() {
 		if (this.interceptors == null && this.interceptorList != null) {
@@ -100,10 +99,10 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Apply preHandle methods of registered interceptors.
-	 * @return {@code true} if the execution chain should proceed with the
-	 * next interceptor or the handler itself. Else, DispatcherServlet assumes
-	 * that this interceptor has already dealt with the response itself.
+	 * 要应用的注册拦截器的preHandle方法.
+	 * 
+	 * @return {@code true} 如果执行链应该继续下一个拦截器或处理器本身.
+	 * 否则, DispatcherServlet假定这个拦截器已经处理了响应本身.
 	 */
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HandlerInterceptor[] interceptors = getInterceptors();
@@ -121,7 +120,7 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Apply postHandle methods of registered interceptors.
+	 * 应用注册的拦截器的postHandle方法.
 	 */
 	void applyPostHandle(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) throws Exception {
 		HandlerInterceptor[] interceptors = getInterceptors();
@@ -134,9 +133,8 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle invocation
-	 * has successfully completed and returned true.
+	 * 在映射的HandlerInterceptors上触发afterCompletion回调.
+	 * 只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion.
 	 */
 	void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, Exception ex)
 			throws Exception {
@@ -156,7 +154,7 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Apply afterConcurrentHandlerStarted callback on mapped AsyncHandlerInterceptors.
+	 * 在映射的AsyncHandlerInterceptors上应用afterConcurrentHandlerStarted回调.
 	 */
 	void applyAfterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response) {
 		HandlerInterceptor[] interceptors = getInterceptors();
@@ -177,7 +175,7 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Delegates to the handler's {@code toString()}.
+	 * 委托给处理器的{@code toString()}.
 	 */
 	@Override
 	public String toString() {

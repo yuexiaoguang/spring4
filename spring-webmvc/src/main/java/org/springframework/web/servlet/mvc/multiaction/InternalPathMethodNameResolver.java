@@ -6,18 +6,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Simple implementation of {@link MethodNameResolver} that maps URL to
- * method name. Although this is the default implementation used by the
- * {@link MultiActionController} class (because it requires no configuration),
- * it's bit naive for most applications. In particular, we don't usually
- * want to tie URL to implementation methods.
+ * {@link MethodNameResolver}的简单实现, 将URL映射到方法名称.
+ * 虽然这是{@link MultiActionController}类使用的默认实现 (因为它不需要配置), 但对于大多数应用程序来说它有点天真.
+ * 特别是, 通常不希望将URL与实现方法联系起来.
  *
  * <p>Maps the resource name after the last slash, ignoring an extension.
  * E.g. "/foo/bar/baz.html" to "baz", assuming a "/foo/bar/baz.html"
  * controller mapping to the corresponding MultiActionController handler.
  * method. Doesn't support wildcards.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public class InternalPathMethodNameResolver extends AbstractUrlMethodNameResolver {

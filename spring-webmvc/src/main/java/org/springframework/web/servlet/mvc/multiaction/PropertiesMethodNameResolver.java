@@ -9,10 +9,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.PathMatcher;
 
 /**
- * The most flexible out-of-the-box implementation of the {@link MethodNameResolver}
- * interface. Uses {@code java.util.Properties} to define the mapping
- * between the URL of incoming requests and the corresponding method name.
- * Such properties can be held in an XML document.
+ * {@link MethodNameResolver}接口最灵活的开箱即用实现.
+ * 使用{@code java.util.Properties}来定义传入请求的URL与相应的方法名称之间的映射.
+ * 这些属性可以保存在XML文档中.
  *
  * <p>Properties format is
  * {@code
@@ -25,7 +24,7 @@ import org.springframework.util.PathMatcher;
  * and a various Ant-style pattern matches, e.g. a registered "/t*" matches
  * both "/test" and "/team". For details, see the AntPathMatcher javadoc.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public class PropertiesMethodNameResolver extends AbstractUrlMethodNameResolver

@@ -16,9 +16,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Resolves {@link Map} method arguments annotated with an @{@link PathVariable}
- * where the annotation does not specify a path variable name. The created
- * {@link Map} contains all URI template name/value pairs.
+ * 解析使用 @{@link PathVariable}注解的{@link Map}方法参数, 其中注解未指定路径变量名称.
+ * 创建的{@link Map}包含所有URI模板名称/值对.
  */
 public class PathVariableMapMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -30,7 +29,7 @@ public class PathVariableMapMethodArgumentResolver implements HandlerMethodArgum
 	}
 
 	/**
-	 * Return a Map with all URI template variables or an empty map.
+	 * 返回包含所有URI模板变量或空映射的Map.
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,

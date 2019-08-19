@@ -3,7 +3,7 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code textarea}'.
+ * 用于呈现HTML '{@code textarea}'的数据绑定感知JSP标记.
  */
 @SuppressWarnings("serial")
 public class TextareaTag extends AbstractHtmlInputElementTag {
@@ -26,45 +26,45 @@ public class TextareaTag extends AbstractHtmlInputElementTag {
 
 
 	/**
-	 * Set the value of the '{@code rows}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code rows}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setRows(String rows) {
 		this.rows = rows;
 	}
 
 	/**
-	 * Get the value of the '{@code rows}' attribute.
+	 * 获取'{@code rows}'属性的值.
 	 */
 	protected String getRows() {
 		return this.rows;
 	}
 
 	/**
-	 * Set the value of the '{@code cols}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code cols}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setCols(String cols) {
 		this.cols = cols;
 	}
 
 	/**
-	 * Get the value of the '{@code cols}' attribute.
+	 * 获取'{@code cols}'属性的值.
 	 */
 	protected String getCols() {
 		return this.cols;
 	}
 
 	/**
-	 * Set the value of the '{@code onselect}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onselect}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnselect(String onselect) {
 		this.onselect = onselect;
 	}
 
 	/**
-	 * Get the value of the '{@code onselect}' attribute.
+	 * 获取'{@code onselect}'属性的值.
 	 */
 	protected String getOnselect() {
 		return this.onselect;

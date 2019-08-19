@@ -7,9 +7,8 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * A {@code VersionStrategy} that calculates an Hex MD5 hashes from the content
- * of the resource and appends it to the file name, e.g.
- * {@code "styles/main-e36d2e05253c6c7085a91522ce43a0b4.css"}.
+ * 一个{@code VersionStrategy}, 它根据资源的内容计算Hex MD5哈希并将其附加到文件名,
+ * e.g. {@code "styles/main-e36d2e05253c6c7085a91522ce43a0b4.css"}.
  */
 public class ContentVersionStrategy extends AbstractVersionStrategy {
 
@@ -27,5 +26,4 @@ public class ContentVersionStrategy extends AbstractVersionStrategy {
 			throw new IllegalStateException("Failed to calculate hash for " + resource, ex);
 		}
 	}
-
 }

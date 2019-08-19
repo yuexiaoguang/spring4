@@ -10,14 +10,11 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class for databinding-aware JSP tags that render HTML element. Provides
- * a set of properties corresponding to the set of HTML attributes that are common
- * across elements.
+ * 用于呈现HTML元素的数据绑定感知JSP标记的基类.
+ * 提供一组属性, 这些属性对应于元素间通用的HTML属性集.
  *
- * <p>Additionally, this base class allows for rendering non-standard attributes
- * as part of the tag's output.  These attributes are accessible to subclasses if
- * needed via the {@link AbstractHtmlElementTag#getDynamicAttributes() dynamicAttributes}
- * map.
+ * <p>此外, 此基类允许将非标准属性作为标记输出的一部分进行渲染.
+ * 如果需要, 可以通过{@link AbstractHtmlElementTag#getDynamicAttributes() dynamicAttributes}映射访问这些属性.
  */
 @SuppressWarnings("serial")
 public abstract class AbstractHtmlElementTag extends AbstractDataBoundFormElementTag implements DynamicAttributes {
@@ -93,278 +90,278 @@ public abstract class AbstractHtmlElementTag extends AbstractDataBoundFormElemen
 
 
 	/**
-	 * Set the value of the '{@code class}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code class}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
 	}
 
 	/**
-	 * Get the value of the '{@code class}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code class}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getCssClass() {
 		return this.cssClass;
 	}
 
 	/**
-	 * The CSS class to use when the field bound to a particular tag has errors.
-	 * May be a runtime expression.
+	 * 绑定到特定标记的字段有错误时使用的CSS类.
+	 * 可能是运行时表达式.
 	 */
 	public void setCssErrorClass(String cssErrorClass) {
 		this.cssErrorClass = cssErrorClass;
 	}
 
 	/**
-	 * The CSS class to use when the field bound to a particular tag has errors.
-	 * May be a runtime expression.
+	 * 绑定到特定标记的字段有错误时使用的CSS类.
+	 * 可能是运行时表达式.
 	 */
 	protected String getCssErrorClass() {
 		return this.cssErrorClass;
 	}
 
 	/**
-	 * Set the value of the '{@code style}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code style}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setCssStyle(String cssStyle) {
 		this.cssStyle = cssStyle;
 	}
 
 	/**
-	 * Get the value of the '{@code style}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code style}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getCssStyle() {
 		return this.cssStyle;
 	}
 
 	/**
-	 * Set the value of the '{@code lang}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code lang}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
 
 	/**
-	 * Get the value of the '{@code lang}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code lang}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getLang() {
 		return this.lang;
 	}
 
 	/**
-	 * Set the value of the '{@code title}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code title}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * Get the value of the '{@code title}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code title}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getTitle() {
 		return this.title;
 	}
 
 	/**
-	 * Set the value of the '{@code dir}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code dir}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setDir(String dir) {
 		this.dir = dir;
 	}
 
 	/**
-	 * Get the value of the '{@code dir}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code dir}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getDir() {
 		return this.dir;
 	}
 
 	/**
-	 * Set the value of the '{@code tabindex}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code tabindex}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setTabindex(String tabindex) {
 		this.tabindex = tabindex;
 	}
 
 	/**
-	 * Get the value of the '{@code tabindex}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code tabindex}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getTabindex() {
 		return this.tabindex;
 	}
 
 	/**
-	 * Set the value of the '{@code onclick}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onclick}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnclick(String onclick) {
 		this.onclick = onclick;
 	}
 
 	/**
-	 * Get the value of the '{@code onclick}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onclick}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnclick() {
 		return this.onclick;
 	}
 
 	/**
-	 * Set the value of the '{@code ondblclick}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code ondblclick}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOndblclick(String ondblclick) {
 		this.ondblclick = ondblclick;
 	}
 
 	/**
-	 * Get the value of the '{@code ondblclick}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code ondblclick}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOndblclick() {
 		return this.ondblclick;
 	}
 
 	/**
-	 * Set the value of the '{@code onmousedown}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onmousedown}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnmousedown(String onmousedown) {
 		this.onmousedown = onmousedown;
 	}
 
 	/**
-	 * Get the value of the '{@code onmousedown}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onmousedown}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnmousedown() {
 		return this.onmousedown;
 	}
 
 	/**
-	 * Set the value of the '{@code onmouseup}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onmouseup}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnmouseup(String onmouseup) {
 		this.onmouseup = onmouseup;
 	}
 
 	/**
-	 * Get the value of the '{@code onmouseup}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onmouseup}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnmouseup() {
 		return this.onmouseup;
 	}
 
 	/**
-	 * Set the value of the '{@code onmouseover}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onmouseover}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnmouseover(String onmouseover) {
 		this.onmouseover = onmouseover;
 	}
 
 	/**
-	 * Get the value of the '{@code onmouseover}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onmouseover}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnmouseover() {
 		return this.onmouseover;
 	}
 
 	/**
-	 * Set the value of the '{@code onmousemove}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onmousemove}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnmousemove(String onmousemove) {
 		this.onmousemove = onmousemove;
 	}
 
 	/**
-	 * Get the value of the '{@code onmousemove}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onmousemove}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnmousemove() {
 		return this.onmousemove;
 	}
 
 	/**
-	 * Set the value of the '{@code onmouseout}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onmouseout}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnmouseout(String onmouseout) {
 		this.onmouseout = onmouseout;
 	}
 	/**
-	 * Get the value of the '{@code onmouseout}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onmouseout}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnmouseout() {
 		return this.onmouseout;
 	}
 
 	/**
-	 * Set the value of the '{@code onkeypress}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onkeypress}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnkeypress(String onkeypress) {
 		this.onkeypress = onkeypress;
 	}
 
 	/**
-	 * Get the value of the '{@code onkeypress}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onkeypress}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnkeypress() {
 		return this.onkeypress;
 	}
 
 	/**
-	 * Set the value of the '{@code onkeyup}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onkeyup}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnkeyup(String onkeyup) {
 		this.onkeyup = onkeyup;
 	}
 
 	/**
-	 * Get the value of the '{@code onkeyup}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onkeyup}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnkeyup() {
 		return this.onkeyup;
 	}
 
 	/**
-	 * Set the value of the '{@code onkeydown}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onkeydown}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnkeydown(String onkeydown) {
 		this.onkeydown = onkeydown;
 	}
 
 	/**
-	 * Get the value of the '{@code onkeydown}' attribute.
-	 * May be a runtime expression.
+	 * 获取'{@code onkeydown}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	protected String getOnkeydown() {
 		return this.onkeydown;
 	}
 
 	/**
-	 * Get the map of dynamic attributes.
+	 * 获取动态属性.
 	 */
 	protected Map<String, Object> getDynamicAttributes() {
 		return this.dynamicAttributes;
@@ -386,15 +383,15 @@ public abstract class AbstractHtmlElementTag extends AbstractDataBoundFormElemen
 	}
 
 	/**
-	 * Whether the given name-value pair is a valid dynamic attribute.
+	 * 给定的 name-value对是否是有效的动态属性.
 	 */
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
 		return true;
 	}
 
 	/**
-	 * Writes the default attributes configured via this base class to the supplied {@link TagWriter}.
-	 * Subclasses should call this when they want the base attribute set to be written to the output.
+	 * 将通过此基类配置的默认属性写入提供的{@link TagWriter}.
+	 * 子类应该在希望将基本属性写入输出时调用它.
 	 */
 	@Override
 	protected void writeDefaultAttributes(TagWriter tagWriter) throws JspException {
@@ -403,9 +400,9 @@ public abstract class AbstractHtmlElementTag extends AbstractDataBoundFormElemen
 	}
 
 	/**
-	 * Writes the optional attributes configured via this base class to the supplied {@link TagWriter}.
-	 * The set of optional attributes that will be rendered includes any non-standard dynamic attributes.
-	 * Called by {@link #writeDefaultAttributes(TagWriter)}.
+	 * 将通过此基类配置的可选属性写入提供的{@link TagWriter}.
+	 * 将呈现的可选属性, 包括任何非标准动态属性.
+	 * 由{@link #writeDefaultAttributes(TagWriter)}调用.
 	 */
 	protected void writeOptionalAttributes(TagWriter tagWriter) throws JspException {
 		tagWriter.writeOptionalAttributeValue(CLASS_ATTRIBUTE, resolveCssClass());
@@ -434,8 +431,7 @@ public abstract class AbstractHtmlElementTag extends AbstractDataBoundFormElemen
 	}
 
 	/**
-	 * Gets the appropriate CSS class to use based on the state of the current
-	 * {@link org.springframework.web.servlet.support.BindStatus} object.
+	 * 根据当前{@link org.springframework.web.servlet.support.BindStatus}对象的状态获取要使用的相应CSS类.
 	 */
 	protected String resolveCssClass() throws JspException {
 		if (getBindStatus().isError() && StringUtils.hasText(getCssErrorClass())) {

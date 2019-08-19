@@ -4,10 +4,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
- * JSP tag for collecting arguments and passing them to an {@link ArgumentAware}
- * ancestor in the tag hierarchy.
+ * 用于收集参数并将其传递给标记层次结构中的{@link ArgumentAware}祖先的JSP标记.
  *
- * <p>This tag must be nested under an argument aware tag.
+ * <p>此标记必须嵌套在参数感知标记下.
  */
 @SuppressWarnings("serial")
 public class ArgumentTag extends BodyTagSupport {
@@ -18,9 +17,10 @@ public class ArgumentTag extends BodyTagSupport {
 
 
 	/**
-	 * Set the value of the argument (optional).
-	 * <pIf not set, the tag's body content will get evaluated.
-	 * @param value the parameter value
+	 * 设置参数的值 (可选).
+	 * <p>如果未设置, 将评估标签的正文内容.
+	 * 
+	 * @param value 参数值
 	 */
 	public void setValue(Object value) {
 		this.value = value;

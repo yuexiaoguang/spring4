@@ -5,66 +5,60 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * MVC View for a web interaction. Implementations are responsible for rendering
- * content, and exposing the model. A single view exposes multiple model attributes.
+ * 用于Web交互的MVC View.
+ * 实现负责呈现内容并公开模型. 单个视图公开多个模型属性.
  *
  * <p>This class and the MVC approach associated with it is discussed in Chapter 12 of
  * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0764543857/">Expert One-On-One J2EE Design and Development</a>
  * by Rod Johnson (Wrox, 2002).
  *
- * <p>View implementations may differ widely. An obvious implementation would be
- * JSP-based. Other implementations might be XSLT-based, or use an HTML generation library.
- * This interface is designed to avoid restricting the range of possible implementations.
+ * <p>视图实现可能有很大不同. 一个明显的实现是基于JSP的.
+ * 其他实现可能是基于XSLT的, 或使用HTML生成库.
+ * 此接口旨在避免限制可能的实现的范围.
  *
- * <p>Views should be beans. They are likely to be instantiated as beans by a ViewResolver.
- * As this interface is stateless, view implementations should be thread-safe.
+ * <p>View应该是bean. 它们很可能被ViewResolver实例化为bean.
+ * 由于此接口是无状态的, 因此视图实现应该是线程安全的.
  */
 public interface View {
 
 	/**
-	 * Name of the {@link HttpServletRequest} attribute that contains the response status code.
-	 * <p>Note: This attribute is not required to be supported by all View implementations.
-	 * @since 3.0
+	 * 包含响应状态码的{@link HttpServletRequest}属性的名称.
+	 * <p>Note: 所有View实现都不需要此属性.
 	 */
 	String RESPONSE_STATUS_ATTRIBUTE = View.class.getName() + ".responseStatus";
 
 	/**
-	 * Name of the {@link HttpServletRequest} attribute that contains a Map with path variables.
-	 * The map consists of String-based URI template variable names as keys and their corresponding
-	 * Object-based values -- extracted from segments of the URL and type converted.
-	 * <p>Note: This attribute is not required to be supported by all View implementations.
-	 * @since 3.1
+	 * 包含带路径变量的Map的{@link HttpServletRequest}属性的名称.
+	 * 该映射包含基于String的URI模板变量名称作为键及其对应的基于Object的值 -- 从URL的段中提取并转换的类型.
+	 * <p>Note: 所有View实现都不需要此属性.
 	 */
 	String PATH_VARIABLES = View.class.getName() + ".pathVariables";
 
 	/**
-	 * The {@link org.springframework.http.MediaType} selected during content negotiation,
-	 * which may be more specific than the one the View is configured with. For example:
-	 * "application/vnd.example-v1+xml" vs "application/*+xml".
-	 * @since 3.2
+	 * 在内容协商期间选择{@link org.springframework.http.MediaType}, 这可能比View配置的更具体.
+	 * 例如: "application/vnd.example-v1+xml" vs "application/*+xml".
 	 */
 	String SELECTED_CONTENT_TYPE = View.class.getName() + ".selectedContentType";
 
 
 	/**
-	 * Return the content type of the view, if predetermined.
-	 * <p>Can be used to check the view's content type upfront,
-	 * i.e. before an actual rendering attempt.
-	 * @return the content type String (optionally including a character set),
-	 * or {@code null} if not predetermined
+	 * 如果预先确定, 则返回视图的内容类型.
+	 * <p>可用于预先检查视图的内容类型, i.e. 在实际渲染尝试之前.
+	 * 
+	 * @return 内容类型字符串 (可选地包括字符集), 或{@code null} 如果不能预先确定
 	 */
 	String getContentType();
 
 	/**
-	 * Render the view given the specified model.
-	 * <p>The first step will be preparing the request: In the JSP case, this would mean
-	 * setting model objects as request attributes. The second step will be the actual
-	 * rendering of the view, for example including the JSP via a RequestDispatcher.
-	 * @param model Map with name Strings as keys and corresponding model
-	 * objects as values (Map can also be {@code null} in case of empty model)
-	 * @param request current HTTP request
-	 * @param response HTTP response we are building
-	 * @throws Exception if rendering failed
+	 * 渲染指定模型的视图.
+	 * <p>第一步是准备请求: 在JSP情况下, 这意味着将模型对象设置为请求属性.
+	 * 第二步是视图的实际呈现, 例如通过RequestDispatcher包含JSP.
+	 * 
+	 * @param model 名称字符串作为键, 相应的模型对象作为值的Map (对于空模型, Map也可以是{@code null})
+	 * @param request 当前的HTTP请求
+	 * @param response 正在构建的HTTP响应
+	 * 
+	 * @throws Exception 如果渲染失败
 	 */
 	void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception;
 

@@ -9,9 +9,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 
 /**
- * A convenient base class for {@code ResponseBodyAdvice} implementations
- * that customize the response before JSON serialization with
- * {@link AbstractJackson2HttpMessageConverter}'s concrete subclasses.
+ * {@code ResponseBodyAdvice}实现的便捷基类,
+ * 可以在使用{@link AbstractJackson2HttpMessageConverter}的具体子类进行JSON序列化之前自定义响应.
  */
 public abstract class AbstractMappingJacksonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
@@ -31,15 +30,14 @@ public abstract class AbstractMappingJacksonResponseBodyAdvice implements Respon
 	}
 
 	/**
-	 * Wrap the body in a {@link MappingJacksonValue} value container (for providing
-	 * additional serialization instructions) or simply cast it if already wrapped.
+	 * 将主体包装在{@link MappingJacksonValue}值容器中 (用于提供其他序列化指令), 或者只是在已经包装的情况下将其强制转换.
 	 */
 	protected MappingJacksonValue getOrCreateContainer(Object body) {
 		return (body instanceof MappingJacksonValue ? (MappingJacksonValue) body : new MappingJacksonValue(body));
 	}
 
 	/**
-	 * Invoked only if the converter type is {@code MappingJackson2HttpMessageConverter}.
+	 * 仅在转换器类型为{@code MappingJackson2HttpMessageConverter}时调用.
 	 */
 	protected abstract void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType contentType,
 			MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response);

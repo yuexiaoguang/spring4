@@ -14,12 +14,9 @@ import org.springframework.web.accept.ParameterContentNegotiationStrategy;
 import org.springframework.web.accept.PathExtensionContentNegotiationStrategy;
 
 /**
- * Creates a {@code ContentNegotiationManager} and configures it with
- * one or more {@link ContentNegotiationStrategy} instances.
+ * 创建{@code ContentNegotiationManager}并使用一个或多个{@link ContentNegotiationStrategy}实例对其进行配置.
  *
- * <p>As an alternative you can also rely on the set of defaults described below
- * which can be turned on or off or customized through the methods of this
- * builder:
+ * <p>作为替代方案, 还可以依赖下面描述的一组默认值, 这些默认值可以打开或关闭, 也可以通过此构建器的方法自定义:
  *
  * <table>
  * <tr>
@@ -29,22 +26,22 @@ import org.springframework.web.accept.PathExtensionContentNegotiationStrategy;
  * </tr>
  * <tr>
  * <td>{@link #favorPathExtension}</td>
- * <td>{@link PathExtensionContentNegotiationStrategy Path Extension strategy}</td>
+ * <td>{@link PathExtensionContentNegotiationStrategy 路径扩展策略}</td>
  * <td>On</td>
  * </tr>
  * <tr>
  * <td>{@link #favorParameter}</td>
- * <td>{@link ParameterContentNegotiationStrategy Parameter strategy}</td>
+ * <td>{@link ParameterContentNegotiationStrategy 参数策略}</td>
  * <td>Off</td>
  * </tr>
  * <tr>
  * <td>{@link #ignoreAcceptHeader}</td>
- * <td>{@link HeaderContentNegotiationStrategy Header strategy}</td>
+ * <td>{@link HeaderContentNegotiationStrategy Header策略}</td>
  * <td>On</td>
  * </tr>
  * <tr>
  * <td>{@link #defaultContentType}</td>
- * <td>{@link FixedContentNegotiationStrategy Fixed content strategy}</td>
+ * <td>{@link FixedContentNegotiationStrategy 固定内容策略}</td>
  * <td>Not set</td>
  * </tr>
  * <tr>
@@ -54,18 +51,13 @@ import org.springframework.web.accept.PathExtensionContentNegotiationStrategy;
  * </tr>
  * </table>
  *
- * <p>The order in which strategies are configured is fixed. You can only turn
- * them on or off.
+ * <p>策略配置的顺序是固定的. 只能打开或关闭它们.
  *
- * <p>For the path extension and parameter strategies you may explicitly add
- * {@link #mediaType MediaType mappings}. Those will be used to resolve path
- * extensions and/or a query parameter value such as "json" to a concrete media
- * type such as "application/json".
+ * <p>对于路径扩展和参数策略, 可以显式添加{@link #mediaType MediaType映射}.
+ * 这些将用于将路径扩展和/或查询参数值(如 "json")解析为具体的媒体类型, 例如"application/json".
  *
- * <p>The path extension strategy will also use {@link ServletContext#getMimeType}
- * and the Java Activation framework (JAF), if available, to resolve a path
- * extension to a MediaType. You may however {@link #useJaf suppress} the use
- * of JAF.
+ * <p>路径扩展策略还将使用{@link ServletContext#getMimeType}和Java Activation框架 (JAF), 来解析MediaType的路径扩展.
+ * 但是可以{@link #useJaf 禁止}使用JAF.
  */
 public class ContentNegotiationConfigurer {
 
@@ -74,20 +66,15 @@ public class ContentNegotiationConfigurer {
 	private final Map<String, MediaType> mediaTypes = new HashMap<String, MediaType>();
 
 
-	/**
-	 * Class constructor with {@link javax.servlet.ServletContext}.
-	 */
 	public ContentNegotiationConfigurer(ServletContext servletContext) {
 		this.factory.setServletContext(servletContext);
 	}
 
 
 	/**
-	 * Whether the path extension in the URL path should be used to determine
-	 * the requested media type.
-	 * <p>By default this is set to {@code true} in which case a request
-	 * for {@code /hotels.pdf} will be interpreted as a request for
-	 * {@code "application/pdf"} regardless of the 'Accept' header.
+	 * 是否应使用URL路径中的路径扩展来确定所请求的媒体类型.
+	 * <p>默认为{@code true}, 在这种情况下, {@code /hotels.pdf}的请求
+	 * 将被解释为{@code "application/pdf"}的请求, 而不管'Accept' header.
 	 */
 	public ContentNegotiationConfigurer favorPathExtension(boolean favorPathExtension) {
 		this.factory.setFavorPathExtension(favorPathExtension);
@@ -95,19 +82,15 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Add a mapping from a key, extracted from a path extension or a query
-	 * parameter, to a MediaType. This is required in order for the parameter
-	 * strategy to work. Any extensions explicitly registered here are also
-	 * whitelisted for the purpose of Reflected File Download attack detection
-	 * (see Spring Framework reference documentation for more details on RFD
-	 * attack protection).
-	 * <p>The path extension strategy will also try to use
-	 * {@link ServletContext#getMimeType} and JAF (if present) to resolve path
-	 * extensions. To change this behavior see the {@link #useJaf} property.
-	 * @param extension the key to look up
-	 * @param mediaType the media type
-	 * @see #mediaTypes(Map)
-	 * @see #replaceMediaTypes(Map)
+	 * 添加从路径扩展或查询参数中提取的键到MediaType的映射.
+	 * 这是参数策略所必需的.
+	 * 此处明确注册的任何扩展名也列入白名单, 以用于反射文件下载攻击检测
+	 * (有关RFD攻击保护的更多详细信息, 请参阅Spring Framework参考文档).
+	 * <p>路径扩展策略还将尝试使用{@link ServletContext#getMimeType}和JAF来解析路径扩展.
+	 * 要更改此行为, 请参阅{@link #useJaf}属性.
+	 * 
+	 * @param extension 要查找的键
+	 * @param mediaType 媒体类型
 	 */
 	public ContentNegotiationConfigurer mediaType(String extension, MediaType mediaType) {
 		this.mediaTypes.put(extension, mediaType);
@@ -115,9 +98,7 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * An alternative to {@link #mediaType}.
-	 * @see #mediaType(String, MediaType)
-	 * @see #replaceMediaTypes(Map)
+	 * {@link #mediaType}的替代方案.
 	 */
 	public ContentNegotiationConfigurer mediaTypes(Map<String, MediaType> mediaTypes) {
 		if (mediaTypes != null) {
@@ -127,9 +108,7 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Similar to {@link #mediaType} but for replacing existing mappings.
-	 * @see #mediaType(String, MediaType)
-	 * @see #mediaTypes(Map)
+	 * 类似于{@link #mediaType}, 但用于替换现有映射.
 	 */
 	public ContentNegotiationConfigurer replaceMediaTypes(Map<String, MediaType> mediaTypes) {
 		this.mediaTypes.clear();
@@ -138,10 +117,9 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Whether to ignore requests with path extension that cannot be resolved
-	 * to any media type. Setting this to {@code false} will result in an
-	 * {@code HttpMediaTypeNotAcceptableException} if there is no match.
-	 * <p>By default this is set to {@code true}.
+	 * 是否忽略无法解析为任何媒体类型的路径扩展请求.
+	 * 如果没有匹配, 将此设置为{@code false}将导致{@code HttpMediaTypeNotAcceptableException}.
+	 * <p>默认为{@code true}.
 	 */
 	public ContentNegotiationConfigurer ignoreUnknownPathExtensions(boolean ignore) {
 		this.factory.setIgnoreUnknownPathExtensions(ignore);
@@ -149,11 +127,9 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * When {@link #favorPathExtension} is set, this property determines whether
-	 * to allow use of JAF (Java Activation Framework) to resolve a path
-	 * extension to a specific MediaType.
-	 * <p>By default this is not set in which case
-	 * {@code PathExtensionContentNegotiationStrategy} will use JAF if available.
+	 * 设置{@link #favorPathExtension}时,
+	 * 此属性确定是否允许使用JAF (Java Activation Framework)来解析特定MediaType的路径扩展.
+	 * <p>默认未设置, {@code PathExtensionContentNegotiationStrategy}将使用JAF.
 	 */
 	public ContentNegotiationConfigurer useJaf(boolean useJaf) {
 		this.factory.setUseJaf(useJaf);
@@ -161,11 +137,9 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Whether a request parameter ("format" by default) should be used to
-	 * determine the requested media type. For this option to work you must
-	 * register {@link #mediaType(String, MediaType) media type mappings}.
-	 * <p>By default this is set to {@code false}.
-	 * @see #parameterName(String)
+	 * 是否应使用请求参数 (默认为"format")来确定所请求的媒体类型.
+	 * 要使此选项起作用, 必须注册{@link #mediaType(String, MediaType) 媒体类型映射}.
+	 * <p>默认为{@code false}.
 	 */
 	public ContentNegotiationConfigurer favorParameter(boolean favorParameter) {
 		this.factory.setFavorParameter(favorParameter);
@@ -173,8 +147,8 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Set the query parameter name to use when {@link #favorParameter} is on.
-	 * <p>The default parameter name is {@code "format"}.
+	 * 设置{@link #favorParameter}打开时要使用的查询参数名称.
+	 * <p>默认参数名称为{@code "format"}.
 	 */
 	public ContentNegotiationConfigurer parameterName(String parameterName) {
 		this.factory.setParameterName(parameterName);
@@ -182,8 +156,8 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Whether to disable checking the 'Accept' request header.
-	 * <p>By default this value is set to {@code false}.
+	 * 是否禁用检查'Accept'请求 header.
+	 * <p>默认为{@code false}.
 	 */
 	public ContentNegotiationConfigurer ignoreAcceptHeader(boolean ignoreAcceptHeader) {
 		this.factory.setIgnoreAcceptHeader(ignoreAcceptHeader);
@@ -191,9 +165,8 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Set the default content type to use when no content type is requested.
-	 * <p>By default this is not set.
-	 * @see #defaultContentTypeStrategy
+	 * 设置在未请求内容类型时使用的默认内容类型.
+	 * <p>默认未设置.
 	 */
 	public ContentNegotiationConfigurer defaultContentType(MediaType defaultContentType) {
 		this.factory.setDefaultContentType(defaultContentType);
@@ -201,11 +174,8 @@ public class ContentNegotiationConfigurer {
 	}
 
 	/**
-	 * Set a custom {@link ContentNegotiationStrategy} to use to determine
-	 * the content type to use when no content type is requested.
-	 * <p>By default this is not set.
-	 * @see #defaultContentType
-	 * @since 4.1.2
+	 * 设置自定义{@link ContentNegotiationStrategy}, 用于确定在未请求内容类型时要使用的内容类型.
+	 * <p>默认未设置.
 	 */
 	public ContentNegotiationConfigurer defaultContentTypeStrategy(ContentNegotiationStrategy defaultStrategy) {
 		this.factory.setDefaultContentTypeStrategy(defaultStrategy);
@@ -214,9 +184,7 @@ public class ContentNegotiationConfigurer {
 
 
 	/**
-	 * Build a {@link ContentNegotiationManager} based on this configurer's settings.
-	 * @since 4.3.12
-	 * @see ContentNegotiationManagerFactoryBean#getObject()
+	 * 根据此配置器的设置构建{@link ContentNegotiationManager}.
 	 */
 	protected ContentNegotiationManager buildContentNegotiationManager() {
 		this.factory.addMediaTypes(this.mediaTypes);

@@ -11,8 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Implementation of {@link MethodNameResolver} which supports several strategies
- * for mapping parameter values to the names of methods to invoke.
+ * {@link MethodNameResolver}的实现, 它支持将参数值映射到要调用的方法名称的几种策略.
  *
  * <p>The simplest strategy looks for a specific named parameter, whose value is
  * considered the name of the method to invoke. The name of the parameter may be
@@ -56,7 +55,7 @@ import org.springframework.web.util.WebUtils;
  * with a further mapping to a 'real' method name. As such, an optional
  * 'logical' mapping may be specified for this purpose.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public class ParameterMethodNameResolver implements MethodNameResolver {

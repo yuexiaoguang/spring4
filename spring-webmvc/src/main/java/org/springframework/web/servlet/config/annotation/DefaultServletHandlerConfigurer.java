@@ -10,14 +10,11 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 /**
- * Configures a request handler for serving static resources by forwarding
- * the request to the Servlet container's "default" Servlet. This is intended
- * to be used when the Spring MVC {@link DispatcherServlet} is mapped to "/"
- * thus overriding the Servlet container's default handling of static resources.
+ * 通过将请求转发到Servlet容器的"default" Servlet, 配置用于提供静态资源的请求处理器.
+ * 这是在Spring MVC {@link DispatcherServlet}映射到 "/"时使用, 从而覆盖Servlet容器对静态资源的默认处理.
  *
- * <p>Since this handler is configured at the lowest precedence, effectively
- * it allows all other handler mappings to handle the request, and if none
- * of them do, this handler can forward it to the "default" Servlet.
+ * <p>由于此处理器是以最低优先级配置的, 因此它实际上允许所有其他处理器映射来处理请求,
+ * 如果它们都不执行, 则此处理器可以将其转发到"默认" Servlet.
  */
 public class DefaultServletHandlerConfigurer {
 
@@ -26,10 +23,6 @@ public class DefaultServletHandlerConfigurer {
 	private DefaultServletHttpRequestHandler handler;
 
 
-	/**
-	 * Create a {@link DefaultServletHandlerConfigurer} instance.
-	 * @param servletContext the ServletContext to use.
-	 */
 	public DefaultServletHandlerConfigurer(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext is required");
 		this.servletContext = servletContext;
@@ -37,21 +30,17 @@ public class DefaultServletHandlerConfigurer {
 
 
 	/**
-	 * Enable forwarding to the "default" Servlet.
-	 * <p>When this method is used the {@link DefaultServletHttpRequestHandler}
-	 * will try to autodetect the "default" Servlet name. Alternatively, you can
-	 * specify the name of the default Servlet via {@link #enable(String)}.
-	 * @see DefaultServletHttpRequestHandler
+	 * 启用转发到"默认" Servlet.
+	 * <p>使用此方法时, {@link DefaultServletHttpRequestHandler}将尝试自动检测"默认" Servlet名称.
+	 * 或者, 可以通过{@link #enable(String)}指定默认Servlet的名称.
 	 */
 	public void enable() {
 		enable(null);
 	}
 
 	/**
-	 * Enable forwarding to the "default" Servlet identified by the given name.
-	 * <p>This is useful when the default Servlet cannot be autodetected,
-	 * for example when it has been manually configured.
-	 * @see DefaultServletHttpRequestHandler
+	 * 启用转发到由给定名称标识的"默认" Servlet.
+	 * <p>当无法自动检测默认Servlet时, 例如已经手动配置了它, 这非常有用.
 	 */
 	public void enable(String defaultServletName) {
 		this.handler = new DefaultServletHttpRequestHandler();
@@ -61,10 +50,9 @@ public class DefaultServletHandlerConfigurer {
 
 
 	/**
-	 * Return a handler mapping instance ordered at {@link Integer#MAX_VALUE} containing the
-	 * {@link DefaultServletHttpRequestHandler} instance mapped to {@code "/**"};
-	 * or {@code null} if default servlet handling was not been enabled.
-	 * @since 4.3.12
+	 * 返回在{@link Integer#MAX_VALUE}处排序的处理器映射实例,
+	 * 其中包含映射到{@code "/**"}的{@link DefaultServletHttpRequestHandler}实例;
+	 * 或{@code null}如果未启用默认servlet处理.
 	 */
 	protected SimpleUrlHandlerMapping buildHandlerMapping() {
 		if (this.handler == null) {

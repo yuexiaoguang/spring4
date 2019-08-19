@@ -8,27 +8,22 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.support.BindStatus;
 
 /**
- * Bind tag, supporting evaluation of binding errors for a certain
- * bean or bean property. Exposes a "status" variable of type
- * {@link org.springframework.web.servlet.support.BindStatus},
- * to both Java expressions and JSP EL expressions.
+ * 绑定标记, 支持评估某个bean或bean属性的绑定错误.
+ * 将{@link org.springframework.web.servlet.support.BindStatus}类型的"status"变量暴露给Java表达式和JSP EL表达式.
  *
- * <p>Can be used to bind to any bean or bean property in the model.
- * The specified path determines whether the tag exposes the status of the
- * bean itself (showing object-level errors), a specific bean property
- * (showing field errors), or a matching set of bean properties
- * (showing all corresponding field errors).
+ * <p>可用于绑定到模型中的任何bean或bean属性.
+ * 指定的路径确定标记是否公开bean本身的状态 (显示对象级错误), 特定的bean属性 (显示字段错误),
+ * 或匹配的bean属性集 (显示所有相应的字段错误).
  *
- * <p>The {@link org.springframework.validation.Errors} object that has
- * been bound using this tag is exposed to collaborating tags, as well
- * as the bean property that this errors object applies to. Nested tags
- * such as the {@link TransformTag} can access those exposed properties.
+ * <p>使用此标记绑定的{@link org.springframework.validation.Errors}对象暴露给协作标记,
+ * 以及此errors对象应用于的bean属性.
+ * 嵌套标记(例如 {@link TransformTag}) 可以访问这些公开的属性.
  */
 @SuppressWarnings("serial")
 public class BindTag extends HtmlEscapingAwareTag implements EditorAwareTag {
 
 	/**
-	 * Name of the exposed variable within the scope of this tag: "status".
+	 * 此标记范围内公开的变量的名称: "status".
 	 */
 	public static final String STATUS_VARIABLE_NAME = "status";
 
@@ -45,35 +40,32 @@ public class BindTag extends HtmlEscapingAwareTag implements EditorAwareTag {
 
 
 	/**
-	 * Set the path that this tag should apply. Can be a bean (e.g. "person")
-	 * to get global errors, or a bean property (e.g. "person.name") to get
-	 * field errors (also supporting nested fields and "person.na*" mappings).
-	 * "person.*" will return all errors for the specified bean, both global
-	 * and field errors.
-	 * @see org.springframework.validation.Errors#getGlobalErrors
-	 * @see org.springframework.validation.Errors#getFieldErrors
+	 * 设置此标记应应用的路径.
+	 * 可以是获取全局错误的bean (e.g. "person"), 或者是获取字段错误的bean属性 (e.g. "person.name")
+	 *  (也支持嵌套字段和"person.na*"映射).
+	 * "person.*" 将返回指定bean的所有错误, 包括全局错误和字段错误.
 	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 
 	/**
-	 * Return the path that this tag applies to.
+	 * 返回此标记适用的路径.
 	 */
 	public String getPath() {
 		return this.path;
 	}
 
 	/**
-	 * Set whether to ignore a nested path, if any.
-	 * Default is to not ignore.
+	 * 设置是否忽略嵌套路径.
+	 * 默认不忽略.
 	 */
 	public void setIgnoreNestedPath(boolean ignoreNestedPath) {
 	  this.ignoreNestedPath = ignoreNestedPath;
 	}
 
 	/**
-	 * Return whether to ignore a nested path, if any.
+	 * 返回是否忽略嵌套路径.
 	 */
 	public boolean isIgnoreNestedPath() {
 	  return this.ignoreNestedPath;
@@ -86,7 +78,7 @@ public class BindTag extends HtmlEscapingAwareTag implements EditorAwareTag {
 		if (!isIgnoreNestedPath()) {
 			String nestedPath = (String) pageContext.getAttribute(
 					NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
-			// only prepend if not already an absolute path
+			// 只有前置, 如果不是绝对路径
 			if (nestedPath != null && !resolvedPath.startsWith(nestedPath) &&
 					!resolvedPath.equals(nestedPath.substring(0, nestedPath.length() - 1))) {
 				resolvedPath = nestedPath + resolvedPath;
@@ -100,12 +92,11 @@ public class BindTag extends HtmlEscapingAwareTag implements EditorAwareTag {
 			throw new JspTagException(ex.getMessage());
 		}
 
-		// Save previous status values, for re-exposure at the end of this tag.
+		// 保存以前的状态值, 以便在此标记的末尾重新公开.
 		this.previousPageStatus = pageContext.getAttribute(STATUS_VARIABLE_NAME, PageContext.PAGE_SCOPE);
 		this.previousRequestStatus = pageContext.getAttribute(STATUS_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 
-		// Expose this tag's status object as PageContext attribute,
-		// making it available for JSP EL.
+		// 将此标记的状态对象公开为PageContext属性, 使其可用于JSP EL.
 		pageContext.removeAttribute(STATUS_VARIABLE_NAME, PageContext.PAGE_SCOPE);
 		pageContext.setAttribute(STATUS_VARIABLE_NAME, this.status, PageContext.REQUEST_SCOPE);
 
@@ -129,20 +120,20 @@ public class BindTag extends HtmlEscapingAwareTag implements EditorAwareTag {
 
 
 	/**
-	 * Retrieve the property that this tag is currently bound to,
-	 * or {@code null} if bound to an object rather than a specific property.
-	 * Intended for cooperating nesting tags.
-	 * @return the property that this tag is currently bound to,
-	 * or {@code null} if none
+	 * 检索此标记当前绑定的属性, 或{@code null} (如果绑定到对象而不是特定属性).
+	 * 用于协作嵌套标签.
+	 * 
+	 * @return 此标记当前绑定的属性, 或{@code null}
 	 */
 	public final String getProperty() {
 		return this.status.getExpression();
 	}
 
 	/**
-	 * Retrieve the Errors instance that this tag is currently bound to.
-	 * Intended for cooperating nesting tags.
-	 * @return the current Errors instance, or {@code null} if none
+	 * 检索此标记当前绑定的Errors实例.
+	 * 用于协作嵌套标签.
+	 * 
+	 * @return 当前的Errors实例, 或{@code null}
 	 */
 	public final Errors getErrors() {
 		return this.status.getErrors();

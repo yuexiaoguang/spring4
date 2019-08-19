@@ -8,10 +8,10 @@ import java.util.Set;
 import org.springframework.web.servlet.handler.AbstractDetectingUrlHandlerMapping;
 
 /**
- * Base class for {@link org.springframework.web.servlet.HandlerMapping} implementations
- * that derive URL paths according to conventions for specific controller types.
+ * {@link org.springframework.web.servlet.HandlerMapping}实现的基类,
+ * 根据特定控制器类型的约定派生URL路径.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public abstract class AbstractControllerUrlHandlerMapping extends AbstractDetectingUrlHandlerMapping  {

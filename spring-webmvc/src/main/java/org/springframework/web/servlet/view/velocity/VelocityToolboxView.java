@@ -15,8 +15,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link VelocityView} subclass which adds support for Velocity Tools toolboxes
- * and Velocity Tools ViewTool callbacks / Velocity Tools 1.3 init methods.
+ * {@link VelocityView}子类, 增加了对Velocity Tools工具箱和Velocity Tools ViewTool回调 / Velocity Tools 1.3初始化方法的支持.
  *
  * <p>Specify a "toolboxConfigLocation", for example "/WEB-INF/toolbox.xml",
  * to automatically load a Velocity Tools toolbox definition file and expose
@@ -40,7 +39,7 @@ import org.springframework.util.ReflectionUtils;
  * the view package of Velocity Tools in {@link VelocityView} itself.
  * As of Spring 3.0, this class requires Velocity Tools 1.3 or higher.
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public class VelocityToolboxView extends VelocityView {

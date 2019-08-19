@@ -5,10 +5,9 @@ import javax.servlet.jsp.JspException;
 import org.springframework.web.bind.WebDataBinder;
 
 /**
- * Databinding-aware JSP tag for rendering multiple HTML '{@code input}'
- * elements with a '{@code type}' of '{@code checkbox}'.
+ * 用于呈现多个HTML '{@code input}'元素的数据绑定感知JSP标记, 其中'{@code type}'为 '{@code checkbox}'.
  *
- * <p>Intended to be used with a Collection as the {@link #getItems()} bound value}.
+ * <p>打算与Collection一起用作 {@link #getItems()} 绑定值}.
  */
 @SuppressWarnings("serial")
 public class CheckboxesTag extends AbstractMultiCheckedElementTag {

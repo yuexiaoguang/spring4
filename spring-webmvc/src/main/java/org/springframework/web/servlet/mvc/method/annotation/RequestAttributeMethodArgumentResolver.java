@@ -11,7 +11,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver;
 
 /**
- * Resolves method arguments annotated with an @{@link RequestAttribute}.
+ * 解析使用 @{@link RequestAttribute}注解的方法参数.
  */
 public class RequestAttributeMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver {
 

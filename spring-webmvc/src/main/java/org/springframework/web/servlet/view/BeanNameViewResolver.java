@@ -10,24 +10,17 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
 /**
- * A simple implementation of {@link org.springframework.web.servlet.ViewResolver}
- * that interprets a view name as a bean name in the current application context,
- * i.e. typically in the XML file of the executing {@code DispatcherServlet}.
+ * {@link org.springframework.web.servlet.ViewResolver}的简单实现,
+ * 它将视图名称解释为当前应用程序上下文中的bean名称, i.e. 通常在执行{@code DispatcherServlet}的XML文件中.
  *
- * <p>This resolver can be handy for small applications, keeping all definitions
- * ranging from controllers to views in the same place. For larger applications,
- * {@link XmlViewResolver} will be the better choice, as it separates the XML
- * view bean definitions into a dedicated views file.
+ * <p>这个解析器对于小型应用程序很方便, 可以将从控制器到视图的所有定义保持在同一位置.
+ * 对于较大的应用程序, {@link XmlViewResolver}将是更好的选择, 因为它将XML视图bean定义分离到专用的视图文件.
  *
- * <p>Note: Neither this {@code ViewResolver} nor {@link XmlViewResolver} supports
- * internationalization. Consider {@link ResourceBundleViewResolver} if you need
- * to apply different view resources per locale.
+ * <p>Note: 这个{@code ViewResolver}和{@link XmlViewResolver}都不支持国际化.
+ * 如果需要为每个区域设置应用不同的视图资源, 请考虑{@link ResourceBundleViewResolver}.
  *
- * <p>Note: This {@code ViewResolver} implements the {@link Ordered} interface
- * in order to allow for flexible participation in {@code ViewResolver} chaining.
- * For example, some special views could be defined via this {@code ViewResolver}
- * (giving it 0 as "order" value), while all remaining views could be resolved by
- * a {@link UrlBasedViewResolver}.
+ * <p>Note: 这个{@code ViewResolver}实现了{@link Ordered}接口, 以便灵活地参与{@code ViewResolver}链接.
+ * 例如, 可以通过此{@code ViewResolver}定义一些特殊视图 (其"order"值为0), 而所有剩余视图可以通过{@link UrlBasedViewResolver}解析.
  */
 public class BeanNameViewResolver extends WebApplicationObjectSupport implements ViewResolver, Ordered {
 
@@ -35,8 +28,8 @@ public class BeanNameViewResolver extends WebApplicationObjectSupport implements
 
 
 	/**
-	 * Specify the order value for this ViewResolver bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
+	 * 指定此ViewResolver bean的顺序值.
+	 * <p>默认值为{@code Ordered.LOWEST_PRECEDENCE}, 表示无序.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -55,7 +48,7 @@ public class BeanNameViewResolver extends WebApplicationObjectSupport implements
 			if (logger.isDebugEnabled()) {
 				logger.debug("No matching bean found for view name '" + viewName + "'");
 			}
-			// Allow for ViewResolver chaining...
+			// 允许ViewResolver链接...
 			return null;
 		}
 		if (!context.isTypeMatch(viewName, View.class)) {
@@ -63,8 +56,7 @@ public class BeanNameViewResolver extends WebApplicationObjectSupport implements
 				logger.debug("Found matching bean for view name '" + viewName +
 						"' - to be ignored since it does not implement View");
 			}
-			// Since we're looking into the general ApplicationContext here,
-			// let's accept this as a non-match and allow for chaining as well...
+			// 由于在这里查看一般的ApplicationContext, 接受这个不匹配并允许链接...
 			return null;
 		}
 		return context.getBean(viewName, View.class);

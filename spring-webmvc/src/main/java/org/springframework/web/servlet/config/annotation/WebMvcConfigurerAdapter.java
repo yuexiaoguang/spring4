@@ -11,8 +11,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
- * An implementation of {@link WebMvcConfigurer} with empty methods allowing
- * subclasses to override only the methods they're interested in.
+ * 使用空方法实现{@link WebMvcConfigurer}, 允许子类仅覆盖他们感兴趣的方法.
  */
 public abstract class WebMvcConfigurerAdapter implements WebMvcConfigurer {
 

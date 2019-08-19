@@ -11,8 +11,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.core.NestedIOException;
 
 /**
- * VelocityLayoutView emulates the functionality offered by Velocity's
- * VelocityLayoutServlet to ease page composition from different templates.
+ * VelocityLayoutView模拟Velocity的VelocityLayoutServlet提供的功能, 以简化来自不同模板的页面组合.
  *
  * <p>The {@code url} property should be set to the content template
  * for the view, and the layout template location should be specified as
@@ -28,7 +27,7 @@ import org.springframework.core.NestedIOException;
  * VelocityContext variable (the default is "screen_content").
  * At runtime, this variable will contain the rendered content template.
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public class VelocityLayoutView extends VelocityToolboxView {

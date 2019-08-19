@@ -1,11 +1,9 @@
 package org.springframework.web.servlet.tags.form;
 
 /**
- * Databinding-aware JSP tag for rendering multiple HTML '{@code input}'
- * elements with a '{@code type}' of '{@code radio}'.
+ * 用于呈现多个'{@code type}'为'{@code radio}'的 HTML '{@code input}'元素的数据绑定感知JSP标记.
  *
- * <p>Rendered elements are marked as 'checked' if the configured
- * {@link #setItems(Object) value} matches the bound value.
+ * <p>如果配置的{@link #setItems(Object) 值}与绑定值匹配, 则渲染的元素将标记为'checked'.
  */
 @SuppressWarnings("serial")
 public class RadioButtonsTag extends AbstractMultiCheckedElementTag {

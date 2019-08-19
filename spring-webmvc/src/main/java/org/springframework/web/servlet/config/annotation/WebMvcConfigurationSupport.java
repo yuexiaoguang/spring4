@@ -81,68 +81,53 @@ import org.springframework.web.servlet.view.ViewResolverComposite;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * This is the main class providing the configuration behind the MVC Java config.
- * It is typically imported by adding {@link EnableWebMvc @EnableWebMvc} to an
- * application {@link Configuration @Configuration} class. An alternative more
- * advanced option is to extend directly from this class and override methods as
- * necessary, remembering to add {@link Configuration @Configuration} to the
- * subclass and {@link Bean @Bean} to overridden {@link Bean @Bean} methods.
- * For more details see the javadoc of {@link EnableWebMvc @EnableWebMvc}.
+ * 这是提供MVC Java配置之外的配置的主类.
+ * 通常通过将{@link EnableWebMvc @EnableWebMvc}添加到应用程序{@link Configuration @Configuration}类来导入它.
+ * 另一个更高级的选项是直接从这个类扩展并根据需要覆盖方法,
+ * 记住将{@link Configuration @Configuration}添加到子类和{@link Bean @Bean}以覆盖{@link Bean @Bean}方法.
+ * 有关更多详细信息, 请参阅{@link EnableWebMvc @EnableWebMvc}的javadoc.
  *
- * <p>This class registers the following {@link HandlerMapping HandlerMappings}:</p>
+ * <p>这个类注册了以下{@link HandlerMapping HandlerMappings}:</p>
  * <ul>
- * <li>{@link RequestMappingHandlerMapping}
- * ordered at 0 for mapping requests to annotated controller methods.
- * <li>{@link HandlerMapping}
- * ordered at 1 to map URL paths directly to view names.
- * <li>{@link BeanNameUrlHandlerMapping}
- * ordered at 2 to map URL paths to controller bean names.
- * <li>{@link HandlerMapping}
- * ordered at {@code Integer.MAX_VALUE-1} to serve static resource requests.
- * <li>{@link HandlerMapping}
- * ordered at {@code Integer.MAX_VALUE} to forward requests to the default servlet.
+ * <li>{@link RequestMappingHandlerMapping}在0处排序, 用于将请求映射到带注解的控制器方法.
+ * <li>{@link HandlerMapping}在1处排序, 将URL路径直接映射到视图名称.
+ * <li>{@link BeanNameUrlHandlerMapping}在2处排序, 将URL路径映射到控制器bean名称.
+ * <li>{@link HandlerMapping}在{@code Integer.MAX_VALUE-1}处排序, 提供静态资源请求.
+ * <li>{@link HandlerMapping}在{@code Integer.MAX_VALUE}处排序, 将请求转发到默认servlet.
  * </ul>
  *
- * <p>Registers these {@link HandlerAdapter HandlerAdapters}:
+ * <p>注册这些{@link HandlerAdapter HandlerAdapters}:
  * <ul>
- * <li>{@link RequestMappingHandlerAdapter}
- * for processing requests with annotated controller methods.
- * <li>{@link HttpRequestHandlerAdapter}
- * for processing requests with {@link HttpRequestHandler HttpRequestHandlers}.
- * <li>{@link SimpleControllerHandlerAdapter}
- * for processing requests with interface-based {@link Controller Controllers}.
+ * <li>{@link RequestMappingHandlerAdapter}用于使用带注解的控制器方法处理请求.
+ * <li>{@link HttpRequestHandlerAdapter}用于使用{@link HttpRequestHandler HttpRequestHandlers}处理请求.
+ * <li>{@link SimpleControllerHandlerAdapter}用于处理基于接口的{@link Controller Controllers}请求.
  * </ul>
  *
- * <p>Registers a {@link HandlerExceptionResolverComposite} with this chain of
- * exception resolvers:
+ * <p>使用此异常解析器链注册{@link HandlerExceptionResolverComposite}:
  * <ul>
- * <li>{@link ExceptionHandlerExceptionResolver} for handling exceptions through
- * {@link org.springframework.web.bind.annotation.ExceptionHandler} methods.
- * <li>{@link ResponseStatusExceptionResolver} for exceptions annotated with
- * {@link org.springframework.web.bind.annotation.ResponseStatus}.
- * <li>{@link DefaultHandlerExceptionResolver} for resolving known Spring
- * exception types
+ * <li>{@link ExceptionHandlerExceptionResolver}用于通过
+ * {@link org.springframework.web.bind.annotation.ExceptionHandler}方法处理异常.
+ * <li>{@link ResponseStatusExceptionResolver}用于
+ * 带{@link org.springframework.web.bind.annotation.ResponseStatus}注解的异常.
+ * <li>{@link DefaultHandlerExceptionResolver}用于解析已知的Spring异常类型
  * </ul>
  *
- * <p>Registers an {@link AntPathMatcher} and a {@link UrlPathHelper}
- * to be used by:
+ * <p>注册要使用的{@link AntPathMatcher}和{@link UrlPathHelper}:
  * <ul>
- * <li>the {@link RequestMappingHandlerMapping},
- * <li>the {@link HandlerMapping} for ViewControllers
- * <li>and the {@link HandlerMapping} for serving resources
+ * <li>{@link RequestMappingHandlerMapping},
+ * <li>{@link HandlerMapping}用于ViewController
+ * <li>{@link HandlerMapping}用于服务资源
  * </ul>
- * Note that those beans can be configured with a {@link PathMatchConfigurer}.
+ * 请注意, 可以使用{@link PathMatchConfigurer}配置这些bean.
  *
- * <p>Both the {@link RequestMappingHandlerAdapter} and the
- * {@link ExceptionHandlerExceptionResolver} are configured with default
- * instances of the following by default:
+ * <p>默认情况下, {@link RequestMappingHandlerAdapter}
+ * 和{@link ExceptionHandlerExceptionResolver}都配置了以下默认实例:
  * <ul>
- * <li>a {@link ContentNegotiationManager}
- * <li>a {@link DefaultFormattingConversionService}
- * <li>a {@link org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean}
- * if a JSR-303 implementation is available on the classpath
- * <li>a range of {@link HttpMessageConverter HttpMessageConverters} depending on the third-party
- * libraries available on the classpath.
+ * <li>{@link ContentNegotiationManager}
+ * <li>{@link DefaultFormattingConversionService}
+ * <li>{@link org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean},
+ * 如果类路径上有JSR-303实现可用
+ * <li>一系列{@link HttpMessageConverter HttpMessageConverters}, 取决于类路径上可用的第三方库.
  * </ul>
  */
 public class WebMvcConfigurationSupport implements ApplicationContextAware, ServletContextAware {
@@ -190,7 +175,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 
 
 	/**
-	 * Set the Spring {@link ApplicationContext}, e.g. for resource loading.
+	 * 设置Spring {@link ApplicationContext}, e.g. 用于资源加载.
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -198,16 +183,14 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return the associated Spring {@link ApplicationContext}.
-	 * @since 4.2
+	 * 返回关联的Spring {@link ApplicationContext}.
 	 */
 	public ApplicationContext getApplicationContext() {
 		return this.applicationContext;
 	}
 
 	/**
-	 * Set the {@link javax.servlet.ServletContext}, e.g. for resource handling,
-	 * looking up file extensions, etc.
+	 * 设置{@link javax.servlet.ServletContext}, e.g. 用于资源处理, 查找文件扩展名等.
 	 */
 	@Override
 	public void setServletContext(ServletContext servletContext) {
@@ -215,8 +198,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return the associated {@link javax.servlet.ServletContext}.
-	 * @since 4.2
+	 * 返回关联的{@link javax.servlet.ServletContext}.
 	 */
 	public ServletContext getServletContext() {
 		return this.servletContext;
@@ -224,8 +206,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 
 
 	/**
-	 * Return a {@link RequestMappingHandlerMapping} ordered at 0 for mapping
-	 * requests to annotated controllers.
+	 * 返回顺序值为0的{@link RequestMappingHandlerMapping}, 用于将请求映射到带注解的控制器.
 	 */
 	@Bean
 	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
@@ -263,18 +244,15 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Protected method for plugging in a custom subclass of
-	 * {@link RequestMappingHandlerMapping}.
-	 * @since 4.0
+	 * 用于插入{@link RequestMappingHandlerMapping}的自定义子类.
 	 */
 	protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
 		return new RequestMappingHandlerMapping();
 	}
 
 	/**
-	 * Provide access to the shared handler interceptors used to configure
-	 * {@link HandlerMapping} instances with.
-	 * <p>This method cannot be overridden; use {@link #addInterceptors} instead.
+	 * 提供对用于配置{@link HandlerMapping}实例的共享处理器拦截器的访问.
+	 * <p>这个方法不能被覆盖; 改用{@link #addInterceptors}.
 	 */
 	protected final Object[] getInterceptors() {
 		if (this.interceptors == null) {
@@ -288,17 +266,14 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to add Spring MVC interceptors for
-	 * pre- and post-processing of controller invocation.
-	 * @see InterceptorRegistry
+	 * 重写此方法以添加Spring MVC拦截器, 用于控制器调用的预处理和后处理.
 	 */
 	protected void addInterceptors(InterceptorRegistry registry) {
 	}
 
 	/**
-	 * Callback for building the {@link PathMatchConfigurer}.
-	 * Delegates to {@link #configurePathMatch}.
-	 * @since 4.1
+	 * 构建{@link PathMatchConfigurer}的回调.
+	 * 委托给{@link #configurePathMatch}.
 	 */
 	protected PathMatchConfigurer getPathMatchConfigurer() {
 		if (this.pathMatchConfigurer == null) {
@@ -309,19 +284,14 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure path matching options.
-	 * @since 4.0.3
-	 * @see PathMatchConfigurer
+	 * 重写此方法以配置路径匹配选项.
 	 */
 	protected void configurePathMatch(PathMatchConfigurer configurer) {
 	}
 
 	/**
-	 * Return a global {@link PathMatcher} instance for path matching
-	 * patterns in {@link HandlerMapping HandlerMappings}.
-	 * This instance can be configured using the {@link PathMatchConfigurer}
-	 * in {@link #configurePathMatch(PathMatchConfigurer)}.
-	 * @since 4.1
+	 * 返回全局{@link PathMatcher}实例, 用于{@link HandlerMapping HandlerMappings}中的路径匹配模式.
+	 * 可以使用{@link #configurePathMatch(PathMatchConfigurer)}中的{@link PathMatchConfigurer}配置此实例.
 	 */
 	@Bean
 	public PathMatcher mvcPathMatcher() {
@@ -330,11 +300,8 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return a global {@link UrlPathHelper} instance for path matching
-	 * patterns in {@link HandlerMapping HandlerMappings}.
-	 * This instance can be configured using the {@link PathMatchConfigurer}
-	 * in {@link #configurePathMatch(PathMatchConfigurer)}.
-	 * @since 4.1
+	 * 返回全局{@link UrlPathHelper}实例, 用于{@link HandlerMapping HandlerMappings}中的路径匹配模式.
+	 * 可以使用{@link #configurePathMatch(PathMatchConfigurer)}中的{@link PathMatchConfigurer}配置此实例.
 	 */
 	@Bean
 	public UrlPathHelper mvcUrlPathHelper() {
@@ -343,8 +310,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return a {@link ContentNegotiationManager} instance to use to determine
-	 * requested {@linkplain MediaType media types} in a given request.
+	 * 返回{@link ContentNegotiationManager}实例, 用于确定给定请求中所请求的{@linkplain MediaType 媒体类型}.
 	 */
 	@Bean
 	public ContentNegotiationManager mvcContentNegotiationManager() {
@@ -373,16 +339,14 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure content negotiation.
-	 * @see DefaultServletHandlerConfigurer
+	 * 重写此方法以配置内容协商.
 	 */
 	protected void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 	}
 
 	/**
-	 * Return a handler mapping ordered at 1 to map URL paths directly to
-	 * view names. To configure view controllers, override
-	 * {@link #addViewControllers}.
+	 * 返回在1处排序的处理器映射, 直接映射URL路径到视图名称.
+	 * 要配置视图控制器, 覆盖{@link #addViewControllers}.
 	 */
 	@Bean
 	public HandlerMapping viewControllerHandlerMapping() {
@@ -399,15 +363,13 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to add view controllers.
-	 * @see ViewControllerRegistry
+	 * 重写此方法以添加视图控制器.
 	 */
 	protected void addViewControllers(ViewControllerRegistry registry) {
 	}
 
 	/**
-	 * Return a {@link BeanNameUrlHandlerMapping} ordered at 2 to map URL
-	 * paths to controller bean names.
+	 * 返回在2处排序的{@link BeanNameUrlHandlerMapping}, 将URL路径映射到控制器bean名称.
 	 */
 	@Bean
 	public BeanNameUrlHandlerMapping beanNameHandlerMapping() {
@@ -419,9 +381,8 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return a handler mapping ordered at Integer.MAX_VALUE-1 with mapped
-	 * resource handlers. To configure resource handling, override
-	 * {@link #addResourceHandlers}.
+	 * 返回在 Integer.MAX_VALUE-1 处排序的处理器映射, 使用映射的资源处理器.
+	 * 要配置资源处理, 请覆盖{@link #addResourceHandlers}.
 	 */
 	@Bean
 	public HandlerMapping resourceHandlerMapping() {
@@ -446,15 +407,13 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to add resource handlers for serving static resources.
-	 * @see ResourceHandlerRegistry
+	 * 重写此方法, 添加用于提供静态资源的资源处理器.
 	 */
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 	}
 
 	/**
-	 * A {@link ResourceUrlProvider} bean for use with the MVC dispatcher.
-	 * @since 4.1
+	 * 用于MVC调度器的{@link ResourceUrlProvider} bean.
 	 */
 	@Bean
 	public ResourceUrlProvider mvcResourceUrlProvider() {
@@ -471,9 +430,8 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return a handler mapping ordered at Integer.MAX_VALUE with a mapped
-	 * default servlet handler. To configure "default" Servlet handling,
-	 * override {@link #configureDefaultServletHandling}.
+	 * 返回在 Integer.MAX_VALUE 处排序的处理器映射, 使用映射的默认servlet处理器.
+	 * 要配置"默认" Servlet处理, 请覆盖{@link #configureDefaultServletHandling}.
 	 */
 	@Bean
 	public HandlerMapping defaultServletHandlerMapping() {
@@ -485,20 +443,18 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure "default" Servlet handling.
-	 * @see DefaultServletHandlerConfigurer
+	 * 重写此方法以配置"默认" Servlet处理.
 	 */
 	protected void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 	}
 
 	/**
-	 * Returns a {@link RequestMappingHandlerAdapter} for processing requests
-	 * through annotated controller methods. Consider overriding one of these
-	 * other more fine-grained methods:
+	 * 返回{@link RequestMappingHandlerAdapter}, 用于通过带注解的控制器方法处理请求.
+	 * 考虑重写其他一些更细粒度的方法:
 	 * <ul>
-	 * <li>{@link #addArgumentResolvers} for adding custom argument resolvers.
-	 * <li>{@link #addReturnValueHandlers} for adding custom return value handlers.
-	 * <li>{@link #configureMessageConverters} for adding custom message converters.
+	 * <li>{@link #addArgumentResolvers} 用于添加自定义参数解析器.
+	 * <li>{@link #addReturnValueHandlers} 用于添加自定义返回值处理程序.
+	 * <li>{@link #configureMessageConverters} 用于添加自定义消息转换器.
 	 * </ul>
 	 */
 	@Bean
@@ -532,17 +488,14 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Protected method for plugging in a custom subclass of
-	 * {@link RequestMappingHandlerAdapter}.
-	 * @since 4.3
+	 * 用于插入{@link RequestMappingHandlerAdapter}的自定义子类.
 	 */
 	protected RequestMappingHandlerAdapter createRequestMappingHandlerAdapter() {
 		return new RequestMappingHandlerAdapter();
 	}
 
 	/**
-	 * Return the {@link ConfigurableWebBindingInitializer} to use for
-	 * initializing all {@link WebDataBinder} instances.
+	 * 返回{@link ConfigurableWebBindingInitializer}, 用于初始化所有{@link WebDataBinder}实例.
 	 */
 	protected ConfigurableWebBindingInitializer getConfigurableWebBindingInitializer() {
 		ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
@@ -553,22 +506,21 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to provide a custom {@link MessageCodesResolver}.
+	 * 重写此方法以提供自定义{@link MessageCodesResolver}.
 	 */
 	protected MessageCodesResolver getMessageCodesResolver() {
 		return null;
 	}
 
 	/**
-	 * Override this method to configure asynchronous request processing options.
-	 * @see AsyncSupportConfigurer
+	 * 重写此方法以配置异步请求处理选项.
 	 */
 	protected void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 	}
 
 	/**
-	 * Return a {@link FormattingConversionService} for use with annotated controllers.
-	 * <p>See {@link #addFormatters} as an alternative to overriding this method.
+	 * 返回和带注解的控制器一起使用的{@link FormattingConversionService}.
+	 * <p>请参阅{@link #addFormatters}作为替代此方法的替代方法.
 	 */
 	@Bean
 	public FormattingConversionService mvcConversionService() {
@@ -578,20 +530,16 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to add custom {@link Converter} and/or {@link Formatter}
-	 * delegates to the common {@link FormattingConversionService}.
-	 * @see #mvcConversionService()
+	 * 重写此方法, 将添加委托给公共{@link FormattingConversionService}的自定义{@link Converter}和/或{@link Formatter}.
 	 */
 	protected void addFormatters(FormatterRegistry registry) {
 	}
 
 	/**
-	 * Return a global {@link Validator} instance for example for validating
-	 * {@code @ModelAttribute} and {@code @RequestBody} method arguments.
-	 * Delegates to {@link #getValidator()} first and if that returns {@code null}
-	 * checks the classpath for the presence of a JSR-303 implementations
-	 * before creating a {@code OptionalValidatorFactoryBean}.If a JSR-303
-	 * implementation is not available, a no-op {@link Validator} is returned.
+	 * 返回全局{@link Validator}实例, 例如用于验证{@code @ModelAttribute} 和 {@code @RequestBody}方法参数.
+	 * 首先委托给{@link #getValidator()}, 如果返回{@code null},
+	 * 则在创建{@code OptionalValidatorFactoryBean}之前检查类路径是否存在JSR-303实现.
+	 * 如果JSR-303实现不可用, 则返回no-op {@link Validator}.
 	 */
 	@Bean
 	public Validator mvcValidator() {
@@ -619,17 +567,16 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to provide a custom {@link Validator}.
+	 * 重写此方法以提供自定义{@link Validator}.
 	 */
 	protected Validator getValidator() {
 		return null;
 	}
 
 	/**
-	 * Provide access to the shared custom argument resolvers used by the
-	 * {@link RequestMappingHandlerAdapter} and the {@link ExceptionHandlerExceptionResolver}.
-	 * <p>This method cannot be overridden; use {@link #addArgumentResolvers} instead.
-	 * @since 4.3
+	 * 提供对{@link RequestMappingHandlerAdapter}和{@link ExceptionHandlerExceptionResolver}
+	 * 使用的共享自定义参数解析器的访问.
+	 * <p>此方法不能被覆盖; 改用{@link #addArgumentResolvers}.
 	 */
 	protected final List<HandlerMethodArgumentResolver> getArgumentResolvers() {
 		if (this.argumentResolvers == null) {
@@ -640,22 +587,20 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Add custom {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}
-	 * to use in addition to the ones registered by default.
-	 * <p>Custom argument resolvers are invoked before built-in resolvers except for
-	 * those that rely on the presence of annotations (e.g. {@code @RequestParameter},
-	 * {@code @PathVariable}, etc). The latter can be customized by configuring the
-	 * {@link RequestMappingHandlerAdapter} directly.
-	 * @param argumentResolvers the list of custom converters (initially an empty list)
+	 * 添加自定义{@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * <p>自定义参数解析器在内置解析器之前被调用, 除了那些依赖于注解的解析器
+	 * (e.g. {@code @RequestParameter}, {@code @PathVariable}, etc).
+	 * 后者可以通过直接配置{@link RequestMappingHandlerAdapter}来自定义.
+	 * 
+	 * @param argumentResolvers 自定义转换器列表 (最初是一个空列表)
 	 */
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 	}
 
 	/**
-	 * Provide access to the shared return value handlers used by the
-	 * {@link RequestMappingHandlerAdapter} and the {@link ExceptionHandlerExceptionResolver}.
-	 * <p>This method cannot be overridden; use {@link #addReturnValueHandlers} instead.
-	 * @since 4.3
+	 * 提供对{@link RequestMappingHandlerAdapter}和{@link ExceptionHandlerExceptionResolver}
+	 * 使用的共享返回值处理器的访问.
+	 * <p>此方法不能被覆盖; 改用{@link #addReturnValueHandlers}.
 	 */
 	protected final List<HandlerMethodReturnValueHandler> getReturnValueHandlers() {
 		if (this.returnValueHandlers == null) {
@@ -666,23 +611,21 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Add custom {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}
-	 * in addition to the ones registered by default.
-	 * <p>Custom return value handlers are invoked before built-in ones except for
-	 * those that rely on the presence of annotations (e.g. {@code @ResponseBody},
-	 * {@code @ModelAttribute}, etc). The latter can be customized by configuring the
-	 * {@link RequestMappingHandlerAdapter} directly.
-	 * @param returnValueHandlers the list of custom handlers (initially an empty list)
+	 * 添加自定义{@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
+	 * <p>自定义返回值处理器在内置的依赖于注解的处理器之前调用
+	 * (e.g. {@code @ResponseBody}, {@code @ModelAttribute}, etc).
+	 * 后者可以通过直接配置{@link RequestMappingHandlerAdapter}来自定义.
+	 * 
+	 * @param returnValueHandlers 自定义处理器列表 (最初是一个空列表)
 	 */
 	protected void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 	}
 
 	/**
-	 * Provides access to the shared {@link HttpMessageConverter HttpMessageConverters}
-	 * used by the {@link RequestMappingHandlerAdapter} and the
-	 * {@link ExceptionHandlerExceptionResolver}.
-	 * <p>This method cannot be overridden; use {@link #configureMessageConverters} instead.
-	 * Also see {@link #addDefaultHttpMessageConverters} for adding default message converters.
+	 * 提供对{@link RequestMappingHandlerAdapter}和{@link ExceptionHandlerExceptionResolver}
+	 * 使用的共享{@link HttpMessageConverter HttpMessageConverters}的访问.
+	 * <p>此方法不能被覆盖; 改用{@link #configureMessageConverters}.
+	 * 另请参阅{@link #addDefaultHttpMessageConverters}以添加默认消息转换器.
 	 */
 	protected final List<HttpMessageConverter<?>> getMessageConverters() {
 		if (this.messageConverters == null) {
@@ -697,31 +640,30 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to add custom {@link HttpMessageConverter HttpMessageConverters}
-	 * to use with the {@link RequestMappingHandlerAdapter} and the
-	 * {@link ExceptionHandlerExceptionResolver}.
-	 * <p>Adding converters to the list turns off the default converters that would
-	 * otherwise be registered by default. Also see {@link #addDefaultHttpMessageConverters}
-	 * for adding default message converters.
-	 * @param converters a list to add message converters to (initially an empty list)
+	 * 重写此方法以添加自定义{@link HttpMessageConverter HttpMessageConverters}
+	 * 以与{@link RequestMappingHandlerAdapter}和{@link ExceptionHandlerExceptionResolver}一起使用.
+	 * <p>将转换器添加到列表会关闭默认注册的默认转换器.
+	 * 另请参阅{@link #addDefaultHttpMessageConverters}以添加默认消息转换器.
+	 * 
+	 * @param converters 用于添加消息转换器的列表 (最初是空列表)
 	 */
 	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 	}
 
 	/**
-	 * Override this method to extend or modify the list of converters after it has
-	 * been configured. This may be useful for example to allow default converters
-	 * to be registered and then insert a custom converter through this method.
-	 * @param converters the list of configured converters to extend
-	 * @since 4.1.3
+	 * 在配置转换器列表后, 重写此方法以扩展或修改转换器列表.
+	 * 例如, 这可能有用, 允许注册默认转换器, 然后通过此方法插入自定义转换器.
+	 * 
+	 * @param converters 要扩展的配置的转换器列表
 	 */
 	protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 	}
 
 	/**
-	 * Adds a set of default HttpMessageConverter instances to the given list.
-	 * Subclasses can call this method from {@link #configureMessageConverters}.
-	 * @param messageConverters the list to add the default message converters to
+	 * 将一组默认的HttpMessageConverter实例添加到给定列表中.
+	 * 子类可以从{@link #configureMessageConverters}调用此方法.
+	 * 
+	 * @param messageConverters 要添加默认消息转换器的列表
 	 */
 	protected final void addDefaultHttpMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
 		StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
@@ -756,9 +698,8 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Return an instance of {@link CompositeUriComponentsContributor} for use with
-	 * {@link org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder}.
-	 * @since 4.0
+	 * 返回{@link CompositeUriComponentsContributor}的实例, 以便与
+	 * {@link org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder}一起使用.
 	 */
 	@Bean
 	public CompositeUriComponentsContributor mvcUriComponentsContributor() {
@@ -767,8 +708,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Returns a {@link HttpRequestHandlerAdapter} for processing requests
-	 * with {@link HttpRequestHandler}s.
+	 * 返回{@link HttpRequestHandlerAdapter}, 用于使用{@link HttpRequestHandler}处理请求.
 	 */
 	@Bean
 	public HttpRequestHandlerAdapter httpRequestHandlerAdapter() {
@@ -776,8 +716,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Returns a {@link SimpleControllerHandlerAdapter} for processing requests
-	 * with interface-based controllers.
+	 * 返回{@link SimpleControllerHandlerAdapter}, 用于处理基于接口的控制器的请求.
 	 */
 	@Bean
 	public SimpleControllerHandlerAdapter simpleControllerHandlerAdapter() {
@@ -785,12 +724,11 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Returns a {@link HandlerExceptionResolverComposite} containing a list of exception
-	 * resolvers obtained either through {@link #configureHandlerExceptionResolvers} or
-	 * through {@link #addDefaultHandlerExceptionResolvers}.
-	 * <p><strong>Note:</strong> This method cannot be made final due to CGLIB constraints.
-	 * Rather than overriding it, consider overriding {@link #configureHandlerExceptionResolvers}
-	 * which allows for providing a list of resolvers.
+	 * 返回{@link HandlerExceptionResolverComposite}, 其中包含通过
+	 * {@link #configureHandlerExceptionResolvers}或{@link #addDefaultHandlerExceptionResolvers}
+	 * 获得的异常解析器列表.
+	 * <p><strong>Note:</strong> 由于CGLIB约束, 此方法无法成为final方法.
+	 * 考虑覆盖{@link #configureHandlerExceptionResolvers}而不是覆盖它, 允许提供一个解析器列表.
 	 */
 	@Bean
 	public HandlerExceptionResolver handlerExceptionResolver() {
@@ -807,37 +745,33 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure the list of
-	 * {@link HandlerExceptionResolver HandlerExceptionResolvers} to use.
-	 * <p>Adding resolvers to the list turns off the default resolvers that would otherwise
-	 * be registered by default. Also see {@link #addDefaultHandlerExceptionResolvers}
-	 * that can be used to add the default exception resolvers.
-	 * @param exceptionResolvers a list to add exception resolvers to (initially an empty list)
+	 * 重写此方法以配置要使用的{@link HandlerExceptionResolver HandlerExceptionResolvers}列表.
+	 * <p>将解析器添加到列表会关闭默认注册的默认解析器.
+	 * 另请参阅可用于添加默认异常解析器的{@link #addDefaultHandlerExceptionResolvers}.
+	 * 
+	 * @param exceptionResolvers 用于添加异常解析器的列表 (最初为空列表)
 	 */
 	protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 	}
 
 	/**
-	 * Override this method to extend or modify the list of
-	 * {@link HandlerExceptionResolver HandlerExceptionResolvers} after it has been configured.
-	 * <p>This may be useful for example to allow default resolvers to be registered
-	 * and then insert a custom one through this method.
-	 * @param exceptionResolvers the list of configured resolvers to extend.
-	 * @since 4.3
+	 * 在配置后, 重写此方法以扩展或修改{@link HandlerExceptionResolver HandlerExceptionResolvers}列表.
+	 * <p>这可能很有用, 例如允许注册默认解析器, 然后通过此方法插入自定义解析器.
+	 * 
+	 * @param exceptionResolvers 要扩展的配置的解析器列表
 	 */
 	protected void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 	}
 
 	/**
-	 * A method available to subclasses for adding default
-	 * {@link HandlerExceptionResolver HandlerExceptionResolvers}.
-	 * <p>Adds the following exception resolvers:
+	 * 可用于子类的方法, 用于添加默认{@link HandlerExceptionResolver HandlerExceptionResolvers}.
+	 * <p>添加以下异常解析器:
 	 * <ul>
-	 * <li>{@link ExceptionHandlerExceptionResolver} for handling exceptions through
-	 * {@link org.springframework.web.bind.annotation.ExceptionHandler} methods.
-	 * <li>{@link ResponseStatusExceptionResolver} for exceptions annotated with
-	 * {@link org.springframework.web.bind.annotation.ResponseStatus}.
-	 * <li>{@link DefaultHandlerExceptionResolver} for resolving known Spring exception types
+	 * <li>{@link ExceptionHandlerExceptionResolver}用于通过
+	 * {@link org.springframework.web.bind.annotation.ExceptionHandler}方法处理异常.
+	 * <li>{@link ResponseStatusExceptionResolver}用于
+	 * 带{@link org.springframework.web.bind.annotation.ResponseStatus}注解的异常.
+	 * <li>{@link DefaultHandlerExceptionResolver}用于解析已知的Spring异常类型
 	 * </ul>
 	 */
 	protected final void addDefaultHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
@@ -862,25 +796,18 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Protected method for plugging in a custom subclass of
-	 * {@link ExceptionHandlerExceptionResolver}.
-	 * @since 4.3
+	 * 用于插入{@link ExceptionHandlerExceptionResolver}的自定义子类.
 	 */
 	protected ExceptionHandlerExceptionResolver createExceptionHandlerExceptionResolver() {
 		return new ExceptionHandlerExceptionResolver();
 	}
 
 	/**
-	 * Register a {@link ViewResolverComposite} that contains a chain of view resolvers
-	 * to use for view resolution.
-	 * By default this resolver is ordered at 0 unless content negotiation view
-	 * resolution is used in which case the order is raised to
-	 * {@link org.springframework.core.Ordered#HIGHEST_PRECEDENCE
-	 * Ordered.HIGHEST_PRECEDENCE}.
-	 * <p>If no other resolvers are configured,
-	 * {@link ViewResolverComposite#resolveViewName(String, Locale)} returns null in order
-	 * to allow other potential {@link ViewResolver} beans to resolve views.
-	 * @since 4.1
+	 * 注册一个{@link ViewResolverComposite}, 其中包含一系列视图解析器.
+	 * 默认此解析器的排序为0, 除非使用内容协商视图解析, 在这种情况下顺序被提升为
+	 * {@link org.springframework.core.Ordered#HIGHEST_PRECEDENCE Ordered.HIGHEST_PRECEDENCE}.
+	 * <p>如果没有配置其他解析器, {@link ViewResolverComposite#resolveViewName(String, Locale)}将返回null,
+	 * 以允许其他潜在的{@link ViewResolver} bean解析视图.
 	 */
 	@Bean
 	public ViewResolver mvcViewResolver() {
@@ -905,16 +832,13 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure view resolution.
-	 * @see ViewResolverRegistry
+	 * 重写此方法以配置视图解析.
 	 */
 	protected void configureViewResolvers(ViewResolverRegistry registry) {
 	}
 
 	/**
-	 * Return the registered {@link CorsConfiguration} objects,
-	 * keyed by path pattern.
-	 * @since 4.2
+	 * 返回注册的{@link CorsConfiguration}对象, 由路径模式作为键.
 	 */
 	protected final Map<String, CorsConfiguration> getCorsConfigurations() {
 		if (this.corsConfigurations == null) {
@@ -926,9 +850,7 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 	}
 
 	/**
-	 * Override this method to configure cross origin requests processing.
-	 * @since 4.2
-	 * @see CorsRegistry
+	 * 重写此方法以配置跨源请求处理.
 	 */
 	protected void addCorsMappings(CorsRegistry registry) {
 	}
@@ -961,5 +883,4 @@ public class WebMvcConfigurationSupport implements ApplicationContextAware, Serv
 		public void validate(Object target, Errors errors) {
 		}
 	}
-
 }

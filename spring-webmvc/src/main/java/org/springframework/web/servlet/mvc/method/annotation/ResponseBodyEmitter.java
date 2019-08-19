@@ -9,16 +9,13 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.util.Assert;
 
 /**
- * A controller method return value type for asynchronous request processing
- * where one or more objects are written to the response.
+ * 用于异步请求处理的控制器方法返回值类型, 其中一个或多个对象被写入响应.
  *
- * <p>While {@link org.springframework.web.context.request.async.DeferredResult}
- * is used to produce a single result, a {@code ResponseBodyEmitter} can be used
- * to send multiple objects where each object is written with a compatible
- * {@link org.springframework.http.converter.HttpMessageConverter}.
+ * <p>虽然{@link org.springframework.web.context.request.async.DeferredResult}用于生成单个结果,
+ * 但{@code ResponseBodyEmitter}可用于发送多个对象, 其中每个对象都使用兼容的
+ * {@link org.springframework.http.converter.HttpMessageConverter}写入.
  *
- * <p>Supported as a return type on its own as well as within a
- * {@link org.springframework.http.ResponseEntity}.
+ * <p>作为返回类型支持, 并且在{@link org.springframework.http.ResponseEntity}内支持.
  *
  * <pre>
  * &#064;RequestMapping(value="/stream", method=RequestMethod.GET)
@@ -55,19 +52,15 @@ public class ResponseBodyEmitter {
 	private final DefaultCallback completionCallback = new DefaultCallback();
 
 
-	/**
-	 * Create a new ResponseBodyEmitter instance.
-	 */
 	public ResponseBodyEmitter() {
 		this.timeout = null;
 	}
 
 	/**
-	 * Create a ResponseBodyEmitter with a custom timeout value.
-	 * <p>By default not set in which case the default configured in the MVC
-	 * Java Config or the MVC namespace is used, or if that's not set, then the
-	 * timeout depends on the default of the underlying server.
-	 * @param timeout timeout value in milliseconds
+	 * <p>默认情况下不设置, 使用MVC Java Config或MVC命名空间中配置的默认值,
+	 * 或者如果未设置, 则超时取决于底层服务器的默认值.
+	 * 
+	 * @param timeout 超时值, 以毫秒为单位
 	 */
 	public ResponseBodyEmitter(Long timeout) {
 		this.timeout = timeout;
@@ -75,7 +68,7 @@ public class ResponseBodyEmitter {
 
 
 	/**
-	 * Return the configured timeout value, if any.
+	 * 返回配置的超时值.
 	 */
 	public Long getTimeout() {
 		return this.timeout;
@@ -105,34 +98,35 @@ public class ResponseBodyEmitter {
 	}
 
 	/**
-	 * Invoked after the response is updated with the status code and headers,
-	 * if the ResponseBodyEmitter is wrapped in a ResponseEntity, but before the
-	 * response is committed, i.e. before the response body has been written to.
-	 * <p>The default implementation is empty.
+	 * 使用状态码和header更新响应后调用, 如果ResponseBodyEmitter包含在ResponseEntity中,
+	 * 但在响应提交之前, i.e. 在响应主体写入之前.
+	 * <p>默认实现为空.
 	 */
 	protected void extendResponse(ServerHttpResponse outputMessage) {
 	}
 
 	/**
-	 * Write the given object to the response.
-	 * <p>If any exception occurs a dispatch is made back to the app server where
-	 * Spring MVC will pass the exception through its exception handling mechanism.
-	 * @param object the object to write
-	 * @throws IOException raised when an I/O error occurs
-	 * @throws java.lang.IllegalStateException wraps any other errors
+	 * 将给定对象写入响应.
+	 * <p>如果发生任何异常, 则会将调度返回到应用服务器, 其中Spring MVC将通过其异常处理机制传递异常.
+	 * 
+	 * @param object 要写入的对象
+	 * 
+	 * @throws IOException
+	 * @throws java.lang.IllegalStateException 用于包装其它错误
 	 */
 	public void send(Object object) throws IOException {
 		send(object, null);
 	}
 
 	/**
-	 * Write the given object to the response also using a MediaType hint.
-	 * <p>If any exception occurs a dispatch is made back to the app server where
-	 * Spring MVC will pass the exception through its exception handling mechanism.
-	 * @param object the object to write
-	 * @param mediaType a MediaType hint for selecting an HttpMessageConverter
-	 * @throws IOException raised when an I/O error occurs
-	 * @throws java.lang.IllegalStateException wraps any other errors
+	 * 使用MediaType提示将给定对象写入响应.
+	 * <p>如果发生任何异常, 则会将调度返回到应用服务器, 其中Spring MVC将通过其异常处理机制传递异常.
+	 * 
+	 * @param object 要写入的对象
+	 * @param mediaType 用于选择HttpMessageConverter的MediaType提示
+	 * 
+	 * @throws IOException
+	 * @throws java.lang.IllegalStateException 用于包装其它错误
 	 */
 	public synchronized void send(Object object, MediaType mediaType) throws IOException {
 		Assert.state(!this.complete, "ResponseBodyEmitter is already set complete");
@@ -159,13 +153,10 @@ public class ResponseBodyEmitter {
 	}
 
 	/**
-	 * Complete request processing.
-	 * <p>A dispatch is made into the app server where Spring MVC completes
-	 * asynchronous request processing.
-	 * <p><strong>Note:</strong> you do not need to call this method after an
-	 * {@link IOException} from any of the {@code send} methods. The Servlet
-	 * container will generate an error notification that Spring MVC will process
-	 * and handle through the exception resolver mechanism and then complete.
+	 * 完成请求处理.
+	 * <p>在Spring MVC完成异步请求处理的应用服务器中进行调度.
+	 * <p><strong>Note:</strong> 在任何{@code send}方法的{@link IOException}之后不需要调用此方法.
+	 * Servlet容器将生成一个错误通知, Spring MVC将通过异常解析器机制处理, 然后完成.
 	 */
 	public synchronized void complete() {
 		this.complete = true;
@@ -175,9 +166,8 @@ public class ResponseBodyEmitter {
 	}
 
 	/**
-	 * Complete request processing with an error.
-	 * <p>A dispatch is made into the app server where Spring MVC will pass the
-	 * exception through its exception handling mechanism.
+	 * 使用错误完成请求处理.
+	 * <p>调度进入应用服务器, Spring MVC将通过其异常处理机制传递异常.
 	 */
 	public synchronized void completeWithError(Throwable ex) {
 		this.complete = true;
@@ -188,18 +178,16 @@ public class ResponseBodyEmitter {
 	}
 
 	/**
-	 * Register code to invoke when the async request times out. This method is
-	 * called from a container thread when an async request times out.
+	 * 注册代码以在异步请求超时时调用. 当异步请求超时时, 从容器线程调用此方法.
 	 */
 	public synchronized void onTimeout(Runnable callback) {
 		this.timeoutCallback.setDelegate(callback);
 	}
 
 	/**
-	 * Register code to invoke when the async request completes. This method is
-	 * called from a container thread when an async request completed for any
-	 * reason including timeout and network error. This method is useful for
-	 * detecting that a {@code ResponseBodyEmitter} instance is no longer usable.
+	 * 注册代码以在异步请求完成时调用.
+	 * 当异步请求因任何原因(包括超时和网络错误)完成时, 将从容器线程调用此方法.
+	 * 此方法对于检测{@code ResponseBodyEmitter}实例不再可用非常有用.
 	 */
 	public synchronized void onCompletion(Runnable callback) {
 		this.completionCallback.setDelegate(callback);
@@ -207,7 +195,7 @@ public class ResponseBodyEmitter {
 
 
 	/**
-	 * Handle sent objects and complete request processing.
+	 * 处理发送的对象并完成请求处理.
 	 */
 	interface Handler {
 
@@ -224,8 +212,7 @@ public class ResponseBodyEmitter {
 
 
 	/**
-	 * A simple holder of data to be written along with a MediaType hint for
-	 * selecting a message converter to write with.
+	 * 要写入的数据的简单保存器, 以及用于选择消息转换器的MediaType提示.
 	 */
 	public static class DataWithMediaType {
 
@@ -264,5 +251,4 @@ public class ResponseBodyEmitter {
 			}
 		}
 	}
-
 }

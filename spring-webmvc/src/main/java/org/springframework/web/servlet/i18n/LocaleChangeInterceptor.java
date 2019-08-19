@@ -16,13 +16,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Interceptor that allows for changing the current locale on every request,
- * via a configurable request parameter (default parameter name: "locale").
+ * 允许通过可配置的请求参数(默认参数名称: "locale"), 更改每个请求的当前区域设置的拦截器.
  */
 public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 
 	/**
-	 * Default name of the locale specification parameter: "locale".
+	 * 语言环境规范参数的默认名称: "locale".
 	 */
 	public static final String DEFAULT_PARAM_NAME = "locale";
 
@@ -39,72 +38,60 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 
 
 	/**
-	 * Set the name of the parameter that contains a locale specification
-	 * in a locale change request. Default is "locale".
+	 * 设置区域设置更改请求中包含区域设置规范的参数的名称. 默认为"locale".
 	 */
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
 	}
 
 	/**
-	 * Return the name of the parameter that contains a locale specification
-	 * in a locale change request.
+	 * 返回区域设置更改请求中包含区域设置规范的参数的名称.
 	 */
 	public String getParamName() {
 		return this.paramName;
 	}
 
 	/**
-	 * Configure the HTTP method(s) over which the locale can be changed.
-	 * @param httpMethods the methods
-	 * @since 4.2
+	 * 配置可以更改语言环境的HTTP方法.
+	 * 
+	 * @param httpMethods 方法
 	 */
 	public void setHttpMethods(String... httpMethods) {
 		this.httpMethods = httpMethods;
 	}
 
 	/**
-	 * Return the configured HTTP methods.
-	 * @since 4.2
+	 * 返回配置的HTTP方法.
 	 */
 	public String[] getHttpMethods() {
 		return this.httpMethods;
 	}
 
 	/**
-	 * Set whether to ignore an invalid value for the locale parameter.
-	 * @since 4.2.2
+	 * 设置是否忽略locale参数的无效值.
 	 */
 	public void setIgnoreInvalidLocale(boolean ignoreInvalidLocale) {
 		this.ignoreInvalidLocale = ignoreInvalidLocale;
 	}
 
 	/**
-	 * Return whether to ignore an invalid value for the locale parameter.
-	 * @since 4.2.2
+	 * 返回是否忽略locale参数的无效值.
 	 */
 	public boolean isIgnoreInvalidLocale() {
 		return this.ignoreInvalidLocale;
 	}
 
 	/**
-	 * Specify whether to parse request parameter values as BCP 47 language tags
-	 * instead of Java's legacy locale specification format.
-	 * The default is {@code false}.
-	 * <p>Note: This mode requires JDK 7 or higher. Set this flag to {@code true}
-	 * for BCP 47 compliance on JDK 7+ only.
-	 * @since 4.3
-	 * @see Locale#forLanguageTag(String)
-	 * @see Locale#toLanguageTag()
+	 * 指定是否将请求参数值解析为BCP 47语言标记, 而不是Java的旧区域设置规范格式.
+	 * 默认为{@code false}.
+	 * <p>Note: 此模式需要JDK 7或更高版本. 设置为{@code true}, 仅适用于JDK 7+上的BCP 47合规性.
 	 */
 	public void setLanguageTagCompliant(boolean languageTagCompliant) {
 		this.languageTagCompliant = languageTagCompliant;
 	}
 
 	/**
-	 * Return whether to use BCP 47 language tags instead of Java's legacy
-	 * locale specification format.
-	 * @since 4.3
+	 * 返回是否使用BCP 47语言标记而不是Java旧的区域设置规范格式.
 	 */
 	public boolean isLanguageTagCompliant() {
 		return this.languageTagCompliant;
@@ -154,13 +141,13 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	/**
-	 * Parse the given locale value as coming from a request parameter.
-	 * <p>The default implementation calls {@link StringUtils#parseLocaleString(String)}
-	 * or JDK 7's {@link Locale#forLanguageTag(String)}, depending on the
-	 * {@link #setLanguageTagCompliant "languageTagCompliant"} configuration property.
-	 * @param locale the locale value to parse
-	 * @return the corresponding {@code Locale} instance
-	 * @since 4.3
+	 * 解析来自请求参数的给定的语言环境值.
+	 * <p>默认实现调用{@link StringUtils#parseLocaleString(String)}或JDK 7的{@link Locale#forLanguageTag(String)},
+	 * 具体取决于{@link #setLanguageTagCompliant "languageTagCompliant"}配置属性.
+	 * 
+	 * @param locale 要解析的语言环境值
+	 * 
+	 * @return 相应的{@code Locale}实例
 	 */
 	@UsesJava7
 	protected Locale parseLocaleValue(String locale) {

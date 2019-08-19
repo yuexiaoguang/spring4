@@ -4,16 +4,15 @@ import java.beans.PropertyEditor;
 import javax.servlet.jsp.JspException;
 
 /**
- * Interface to be implemented by JSP tags that expose a
- * PropertyEditor for a property that they are currently bound to.
+ * 由JSP标记实现的接口, 它为它们当前绑定的属性公开PropertyEditor.
  */
 public interface EditorAwareTag {
 
 	/**
-	 * Retrieve the PropertyEditor for the property that this tag is
-	 * currently bound to. Intended for cooperating nesting tags.
-	 * @return the current PropertyEditor, or {@code null} if none
-	 * @throws JspException if resolving the editor failed
+	 * 检索此标记当前绑定到的属性的PropertyEditor. 用于协作嵌套标签.
+	 * 
+	 * @return 当前的PropertyEditor, 或{@code null}
+	 * @throws JspException 如果解析编辑器失败
 	 */
 	PropertyEditor getEditor() throws JspException;
 

@@ -1,12 +1,9 @@
 package org.springframework.web.servlet.view;
 
 /**
- * Abstract base class for template view resolvers,
- * in particular for Velocity and FreeMarker views.
+ * 模板视图解析器的抽象基类, 特别是Velocity和FreeMarker视图.
  *
- * <p>Provides a convenient way to specify {@link AbstractTemplateView}'s
- * exposure flags for request attributes, session attributes,
- * and Spring's macro helpers.
+ * <p>提供一种方便的方法来为请求属性, 会话属性和Spring的宏助手指定{@link AbstractTemplateView}的公开标志.
  */
 public class AbstractTemplateViewResolver extends UrlBasedViewResolver {
 
@@ -27,44 +24,40 @@ public class AbstractTemplateViewResolver extends UrlBasedViewResolver {
 	}
 
 	/**
-	 * Set whether all request attributes should be added to the
-	 * model prior to merging with the template. Default is "false".
+	 * 设置是否应在与模板合并之前将所有请求属性添加到模型中.
+	 * 默认为"false".
 	 */
 	public void setExposeRequestAttributes(boolean exposeRequestAttributes) {
 		this.exposeRequestAttributes = exposeRequestAttributes;
 	}
 
 	/**
-	 * Set whether HttpServletRequest attributes are allowed to override (hide)
-	 * controller generated model attributes of the same name. Default is "false",
-	 * which causes an exception to be thrown if request attributes of the same
-	 * name as model attributes are found.
+	 * 设置是否允许HttpServletRequest属性覆盖 (隐藏) 控制器生成的同名模型属性.
+	 * 默认为"false", 如果找到与模型属性同名的请求属性, 则会引发异常.
 	 */
 	public void setAllowRequestOverride(boolean allowRequestOverride) {
 		this.allowRequestOverride = allowRequestOverride;
 	}
 
 	/**
-	 * Set whether all HttpSession attributes should be added to the
-	 * model prior to merging with the template. Default is "false".
+	 * 设置是否应在与模板合并之前将所有HttpSession属性添加到模型中.
+	 * 默认为"false".
 	 */
 	public void setExposeSessionAttributes(boolean exposeSessionAttributes) {
 		this.exposeSessionAttributes = exposeSessionAttributes;
 	}
 
 	/**
-	 * Set whether HttpSession attributes are allowed to override (hide)
-	 * controller generated model attributes of the same name. Default is "false",
-	 * which causes an exception to be thrown if session attributes of the same
-	 * name as model attributes are found.
+	 * 设置是否允许HttpSession属性覆盖(隐藏)控制器生成的同名模型属性.
+	 * 默认为"false", 如果找到与模型属性同名的会话属性, 则会引发异常.
 	 */
 	public void setAllowSessionOverride(boolean allowSessionOverride) {
 		this.allowSessionOverride = allowSessionOverride;
 	}
 
 	/**
-	 * Set whether to expose a RequestContext for use by Spring's macro library,
-	 * under the name "springMacroRequestContext". Default is "true".
+	 * 设置是否公开一个RequestContext供Spring的宏库使用, 名称为"springMacroRequestContext".
+	 * 默认为"true".
 	 */
 	public void setExposeSpringMacroHelpers(boolean exposeSpringMacroHelpers) {
 		this.exposeSpringMacroHelpers = exposeSpringMacroHelpers;

@@ -12,10 +12,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 /**
- * Resolvers argument values of type {@link UriComponentsBuilder}.
+ * {@link UriComponentsBuilder}类型的参数值的解析器.
  *
- * <p>The returned instance is initialized via
- * {@link ServletUriComponentsBuilder#fromServletMapping(HttpServletRequest)}.
+ * <p>返回的实例通过
+ * {@link ServletUriComponentsBuilder#fromServletMapping(HttpServletRequest)}初始化.
  */
 public class UriComponentsBuilderMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

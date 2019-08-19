@@ -27,9 +27,8 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 /**
- * Assist with the configuration of a chain of
- * {@link org.springframework.web.servlet.ViewResolver ViewResolver} instances.
- * This class is expected to be used via {@link WebMvcConfigurer#configureViewResolvers}.
+ * 协助配置{@link org.springframework.web.servlet.ViewResolver ViewResolver}实例链.
+ * 该类预计将通过{@link WebMvcConfigurer#configureViewResolvers}使用.
  */
 public class ViewResolverRegistry {
 
@@ -44,10 +43,6 @@ public class ViewResolverRegistry {
 	private Integer order;
 
 
-	/**
-	 * Class constructor with {@link ContentNegotiationManager} and {@link ApplicationContext}.
-	 * @since 4.3.12
-	 */
 	public ViewResolverRegistry(ContentNegotiationManager contentNegotiationManager, ApplicationContext context) {
 		this.contentNegotiationManager = contentNegotiationManager;
 		this.applicationContext = context;
@@ -59,31 +54,25 @@ public class ViewResolverRegistry {
 
 
 	/**
-	 * Whether any view resolvers have been registered.
+	 * 是否已注册视图解析器.
 	 */
 	public boolean hasRegistrations() {
 		return (this.contentNegotiatingResolver != null || !this.viewResolvers.isEmpty());
 	}
 
 	/**
-	 * Enable use of a {@link ContentNegotiatingViewResolver} to front all other
-	 * configured view resolvers and select among all selected Views based on
-	 * media types requested by the client (e.g. in the Accept header).
-	 * <p>If invoked multiple times the provided default views will be added to
-	 * any other default views that may have been configured already.
-	 * @see ContentNegotiatingViewResolver#setDefaultViews
+	 * 允许使用{@link ContentNegotiatingViewResolver}来显示所有其他已配置的视图解析器,
+	 * 并根据客户端请求的媒体类型在所有选定的视图中进行选择 (e.g. 在Accept header中).
+	 * <p>如果多次调用, 则提供的默认视图将添加到可能已配置的任何其他默认视图中.
 	 */
 	public void enableContentNegotiation(View... defaultViews) {
 		initContentNegotiatingViewResolver(defaultViews);
 	}
 
 	/**
-	 * Enable use of a {@link ContentNegotiatingViewResolver} to front all other
-	 * configured view resolvers and select among all selected Views based on
-	 * media types requested by the client (e.g. in the Accept header).
-	 * <p>If invoked multiple times the provided default views will be added to
-	 * any other default views that may have been configured already.
-	 * @see ContentNegotiatingViewResolver#setDefaultViews
+	 * 允许使用{@link ContentNegotiatingViewResolver}来显示所有其他已配置的视图解析器,
+	 * 并根据客户端请求的媒体类型在所有选定的视图中进行选择 (e.g. 在Accept header中).
+	 * <p>如果多次调用, 则提供的默认视图将添加到可能已配置的任何其他默认视图中.
 	 */
 	public void enableContentNegotiation(boolean useNotAcceptableStatus, View... defaultViews) {
 		initContentNegotiatingViewResolver(defaultViews);
@@ -91,7 +80,7 @@ public class ViewResolverRegistry {
 	}
 
 	private void initContentNegotiatingViewResolver(View[] defaultViews) {
-		// ContentNegotiatingResolver in the registry: elevate its precedence!
+		// 注册表中的ContentNegotiatingResolver: 提升其优先级!
 		this.order = (this.order != null ? this.order : Ordered.HIGHEST_PRECEDENCE);
 
 		if (this.contentNegotiatingResolver != null) {
@@ -112,25 +101,20 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register JSP view resolver using a default view name prefix of "/WEB-INF/"
-	 * and a default suffix of ".jsp".
-	 * <p>When this method is invoked more than once, each call will register a
-	 * new ViewResolver instance. Note that since it's not easy to determine
-	 * if a JSP exists without forwarding to it, using multiple JSP-based view
-	 * resolvers only makes sense in combination with the "viewNames" property
-	 * on the resolver indicating which view names are handled by which resolver.
+	 * 使用默认视图名称前缀"/WEB-INF/"和默认后缀".jsp"注册JSP视图解析器.
+	 * <p>当多次调用此方法时, 每次调用都将注册一个新的ViewResolver实例.
+	 * 请注意, 由于在不转发JSP的情况下确定JSP是否存在并不容易,
+	 * 因此使用多个基于JSP的视图解析器只能与解析器上的"viewNames"属性结合使用, 指示哪个视图名称由哪个解析器处理.
 	 */
 	public UrlBasedViewResolverRegistration jsp() {
 		return jsp("/WEB-INF/", ".jsp");
 	}
 
 	/**
-	 * Register JSP view resolver with the specified prefix and suffix.
-	 * <p>When this method is invoked more than once, each call will register a
-	 * new ViewResolver instance. Note that since it's not easy to determine
-	 * if a JSP exists without forwarding to it, using multiple JSP-based view
-	 * resolvers only makes sense in combination with the "viewNames" property
-	 * on the resolver indicating which view names are handled by which resolver.
+	 * 使用指定的前缀和后缀注册JSP视图解析器.
+	 * <p>当多次调用此方法时, 每次调用都将注册一个新的ViewResolver实例.
+	 * 请注意, 由于在不转发JSP的情况下确定JSP是否存在并不容易,
+	 * 因此使用多个基于JSP的视图解析器只能与解析器上的"viewNames"属性结合使用, 指示哪个视图名称由哪个解析器处理.
 	 */
 	public UrlBasedViewResolverRegistration jsp(String prefix, String suffix) {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -141,9 +125,9 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register Tiles 3.x view resolver.
-	 * <p><strong>Note</strong> that you must also configure Tiles by adding a
-	 * {@link org.springframework.web.servlet.view.tiles3.TilesConfigurer} bean.
+	 * 注册Tiles 3.x视图解析器.
+	 * <p><strong>Note</strong> 还必须通过添加
+	 * {@link org.springframework.web.servlet.view.tiles3.TilesConfigurer} bean来配置Tiles.
 	 */
 	public UrlBasedViewResolverRegistration tiles() {
 		if (!checkBeanOfType(TilesConfigurer.class)) {
@@ -157,10 +141,9 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a FreeMarker view resolver with an empty default view name
-	 * prefix and a default suffix of ".ftl".
-	 * <p><strong>Note</strong> that you must also configure FreeMarker by adding a
-	 * {@link org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer} bean.
+	 * 注册一个FreeMarker视图解析器, 其中包含一个空的默认视图名称前缀和一个默认后缀".ftl".
+	 * <p><strong>Note</strong> 还必须通过添加
+	 * {@link org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer} bean来配置FreeMarker.
 	 */
 	public UrlBasedViewResolverRegistration freeMarker() {
 		if (!checkBeanOfType(FreeMarkerConfigurer.class)) {
@@ -175,10 +158,10 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register Velocity view resolver with an empty default view name
-	 * prefix and a default suffix of ".vm".
-	 * <p><strong>Note</strong> that you must also configure Velocity by adding a
-	 * {@link org.springframework.web.servlet.view.velocity.VelocityConfigurer} bean.
+	 * 使用空的默认视图名称前缀和默认后缀".vm"注册Velocity视图解析器.
+	 * <p><strong>Note</strong>还必须通过添加
+	 * {@link org.springframework.web.servlet.view.velocity.VelocityConfigurer} bean来配置Velocity.
+	 * 
 	 * @deprecated as of Spring 4.3, in favor of FreeMarker
 	 */
 	@Deprecated
@@ -195,8 +178,7 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a Groovy markup view resolver with an empty default view name
-	 * prefix and a default suffix of ".tpl".
+	 * 使用空的默认视图名称前缀和默认后缀".tpl"注册Groovy标记视图解析器.
 	 */
 	public UrlBasedViewResolverRegistration groovy() {
 		if (!checkBeanOfType(GroovyMarkupConfigurer.class)) {
@@ -211,8 +193,7 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a script template view resolver with an empty default view name prefix and suffix.
-	 * @since 4.2
+	 * 使用空的默认视图名称前缀和后缀注册脚本模板视图解析器.
 	 */
 	public UrlBasedViewResolverRegistration scriptTemplate() {
 		if (!checkBeanOfType(ScriptTemplateConfigurer.class)) {
@@ -227,8 +208,7 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a bean name view resolver that interprets view names as the names
-	 * of {@link org.springframework.web.servlet.View} beans.
+	 * 注册一个bean名称视图解析器, 将视图名称解释为{@link org.springframework.web.servlet.View} bean的名称.
 	 */
 	public void beanName() {
 		BeanNameViewResolver resolver = new BeanNameViewResolver();
@@ -236,10 +216,9 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a {@link ViewResolver} bean instance. This may be useful to
-	 * configure a custom (or 3rd party) resolver implementation. It may also be
-	 * used as an alternative to other registration methods in this class when
-	 * they don't expose some more advanced property that needs to be set.
+	 * 注册{@link ViewResolver} bean实例.
+	 * 这可能对配置自定义 (或第三方) 解析器实现很有用.
+	 * 当它们不公开某些更高级的属性时, 它也可以用作此类中其他注册方法的替代方法.
 	 */
 	public void viewResolver(ViewResolver viewResolver) {
 		if (viewResolver instanceof ContentNegotiatingViewResolver) {
@@ -251,16 +230,12 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * ViewResolver's registered through this registry are encapsulated in an
-	 * instance of {@link org.springframework.web.servlet.view.ViewResolverComposite
-	 * ViewResolverComposite} and follow the order of registration.
-	 * This property determines the order of the ViewResolverComposite itself
-	 * relative to any additional ViewResolver's (not registered here) present in
-	 * the Spring configuration
-	 * <p>By default this property is not set, which means the resolver is ordered
-	 * at {@link Ordered#LOWEST_PRECEDENCE} unless content negotiation is enabled
-	 * in which case the order (if not set explicitly) is changed to
-	 * {@link Ordered#HIGHEST_PRECEDENCE}.
+	 * 通过此注册表注册的ViewResolver封装在
+	 * {@link org.springframework.web.servlet.view.ViewResolverComposite ViewResolverComposite}的实例中,
+	 * 并按照注册顺序进行.
+	 * 此属性确定ViewResolverComposite本身相对于Spring配置中其他ViewResolver(此处未注册)的顺序
+	 * <p>默认情况下, 此属性未设置, 这意味着解析器在{@link Ordered#LOWEST_PRECEDENCE}处排序,
+	 * 除非启用了内容协商, 在这种情况下, 顺序(如果未明确设置)更改为{@link Ordered#HIGHEST_PRECEDENCE}.
 	 */
 	public void order(int order) {
 		this.order = order;

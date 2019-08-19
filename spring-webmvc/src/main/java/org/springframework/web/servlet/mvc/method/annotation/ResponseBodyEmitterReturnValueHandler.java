@@ -29,9 +29,8 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handler for return values of type {@link ResponseBodyEmitter} (and the
- * {@code ResponseEntity<ResponseBodyEmitter>} sub-class) as well as any other
- * async type with a {@link #getAdapterMap() registered adapter}.
+ * {@link ResponseBodyEmitter} (以及{@code ResponseEntity<ResponseBodyEmitter>}子类)
+ * 以及带有{@link #getAdapterMap() 注册的适配器}的其他异步类型返回值的处理器.
  */
 @SuppressWarnings("deprecation")
 public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethodReturnValueHandler {
@@ -53,10 +52,10 @@ public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethod
 
 
 	/**
-	 * Return the map with {@code ResponseBodyEmitter} adapters.
-	 * By default the map contains a single adapter {@code ResponseBodyEmitter}
-	 * that simply downcasts the return value.
-	 * @return the map of adapters
+	 * 返回{@code ResponseBodyEmitter}适配器的Map.
+	 * 默认情况下, Map包含一个简单地向下转型返回值的适配器{@code ResponseBodyEmitter}.
+	 * 
+	 * @return 适配器的Map
 	 * @deprecated in 4.3.8, see comments on {@link ResponseBodyEmitterAdapter}
 	 */
 	@Deprecated
@@ -137,7 +136,7 @@ public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethod
 		ResponseBodyEmitter emitter = adapter.adaptToEmitter(returnValue, outputMessage);
 		emitter.extendResponse(outputMessage);
 
-		// Commit the response and wrap to ignore further header changes
+		// 提交响应并包装以忽略进一步的header更改
 		outputMessage.getBody();
 		outputMessage.flush();
 		outputMessage = new StreamingServletServerHttpResponse(outputMessage);
@@ -151,7 +150,7 @@ public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethod
 
 
 	/**
-	 * Adapter for {@code ResponseBodyEmitter} return values.
+	 * {@code ResponseBodyEmitter}返回值的适配器.
 	 */
 	private static class SimpleResponseBodyEmitterAdapter implements ResponseBodyEmitterAdapter {
 
@@ -163,7 +162,7 @@ public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethod
 	}
 
 	/**
-	 * ResponseBodyEmitter.Handler that writes with HttpMessageConverter's.
+	 * 使用HttpMessageConverter写入的ResponseBodyEmitter.Handler.
 	 */
 	private class HttpMessageConvertingHandler implements ResponseBodyEmitter.Handler {
 
@@ -219,8 +218,7 @@ public class ResponseBodyEmitterReturnValueHandler implements AsyncHandlerMethod
 
 
 	/**
-	 * Wrap to silently ignore header changes HttpMessageConverter's that would
-	 * otherwise cause HttpHeaders to raise exceptions.
+	 * 包装, 以静默方式忽略header更改HttpMessageConverter, 否则会导致HttpHeader引发异常.
 	 */
 	private static class StreamingServletServerHttpResponse implements ServerHttpResponse {
 

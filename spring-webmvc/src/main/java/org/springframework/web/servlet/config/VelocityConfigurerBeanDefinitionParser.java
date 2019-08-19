@@ -9,8 +9,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 
 
 /**
- * Parse the <mvc:velocity-configurer> MVC namespace element and register an
- * VelocityConfigurer bean
+ * 解析<mvc:velocity-configurer> MVC命名空间元素并注册VelocityConfigurer bean
  */
 public class VelocityConfigurerBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 

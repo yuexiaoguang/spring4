@@ -3,50 +3,48 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Abstract base class to provide common methods for implementing
- * databinding-aware JSP tags for rendering a <i>single</i>
- * HTML '{@code input}' element with a '{@code type}'
- * of '{@code checkbox}' or '{@code radio}'.
+ * 抽象基类, 提供实现数据绑定感知JSP标记的常用方法,
+ * 用于呈现'{@code type}'为'{@code checkbox}' 或 '{@code radio}'的 <i>单个</i> HTML '{@code input}'元素.
  */
 @SuppressWarnings("serial")
 public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedElementTag {
 
 	/**
-	 * The value of the '{@code value}' attribute.
+	 * '{@code value}'属性的值.
 	 */
 	private Object value;
 
 	/**
-	 * The value of the '{@code label}' attribute.
+	 * '{@code label}'属性的值.
 	 */
 	private Object label;
 
 
 	/**
-	 * Set the value of the '{@code value}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code value}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
-	 * Get the value of the '{@code value}' attribute.
+	 * 获取'{@code value}'属性的值.
 	 */
 	protected Object getValue() {
 		return this.value;
 	}
 
 	/**
-	 * Set the value of the '{@code label}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code label}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setLabel(Object label) {
 		this.label = label;
 	}
 
 	/**
-	 * Get the value of the '{@code label}' attribute.
+	 * 获取'{@code label}'属性的值.
 	 */
 	protected Object getLabel() {
 		return this.label;
@@ -54,9 +52,8 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 
 
 	/**
-	 * Renders the '{@code input(radio)}' element with the configured
-	 * {@link #setValue(Object) value}. Marks the element as checked if the
-	 * value matches the {@link #getValue bound value}.
+	 * 使用配置的{@link #setValue(Object) 值}渲染'{@code input(radio)}'元素.
+	 * 如果值与{@link #getValue 绑定的值}匹配, 则将元素标记为已选中.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
@@ -80,8 +77,7 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 	}
 
 	/**
-	 * Write the details for the given primary tag:
-	 * i.e. special attributes and the tag's value.
+	 * 写入给定主标记的详细信息: i.e. 特殊属性和标记的值.
 	 */
 	protected abstract void writeTagDetails(TagWriter tagWriter) throws JspException;
 

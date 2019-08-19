@@ -3,26 +3,21 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Abstract base class to provide common methods for
- * implementing databinding-aware JSP tags for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code checkbox}' or '{@code radio}'.
+ * 抽象基类, 提供实现数据绑定感知JSP标记的常用方法,
+ * 用于呈现'{@code type}'为'{@code checkbox}' 或 '{@code radio}'的 HTML '{@code input}'元素.
  */
 @SuppressWarnings("serial")
 public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElementTag {
 
 	/**
-	 * Render the '{@code input(checkbox)}' with the supplied value, marking the
-	 * '{@code input}' element as 'checked' if the supplied value matches the
-	 * bound value.
+	 * 使用提供的值渲染'{@code input(checkbox)}', 如果提供的值与绑定值匹配, 则将 '{@code input}'元素标记为'checked'.
 	 */
 	protected void renderFromValue(Object value, TagWriter tagWriter) throws JspException {
 		renderFromValue(value, value, tagWriter);
 	}
 
 	/**
-	 * Render the '{@code input(checkbox)}' with the supplied value, marking the
-	 * '{@code input}' element as 'checked' if the supplied value matches the
-	 * bound value.
+	 * 使用提供的值渲染'{@code input(checkbox)}', 如果提供的值与绑定值匹配, 则将 '{@code input}'元素标记为'checked'.
 	 */
 	protected void renderFromValue(Object item, Object value, TagWriter tagWriter) throws JspException {
 		String displayValue = convertToDisplayString(value);
@@ -33,17 +28,14 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 	}
 
 	/**
-	 * Determines whether the supplied value matched the selected value
-	 * through delegating to {@link SelectedValueComparator#isSelected}.
+	 * 通过委托给{@link SelectedValueComparator#isSelected}确定提供的值是否与所选值匹配.
 	 */
 	private boolean isOptionSelected(Object value) throws JspException {
 		return SelectedValueComparator.isSelected(getBindStatus(), value);
 	}
 
 	/**
-	 * Render the '{@code input(checkbox)}' with the supplied value, marking
-	 * the '{@code input}' element as 'checked' if the supplied Boolean is
-	 * {@code true}.
+	 * 使用提供的值渲染'{@code input(checkbox)}', 如果提供的布尔值为{@code true}, 则将'{@code input}'元素标记为'checked'.
 	 */
 	protected void renderFromBoolean(Boolean boundValue, TagWriter tagWriter) throws JspException {
 		tagWriter.writeAttribute("value", processFieldValue(getName(), "true", getInputType()));
@@ -53,7 +45,7 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 	}
 
 	/**
-	 * Return a unique ID for the bound name within the current PageContext.
+	 * 返回当前PageContext中绑定名称的唯一ID.
 	 */
 	@Override
 	protected String autogenerateId() throws JspException {
@@ -62,15 +54,13 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 
 
 	/**
-	 * Writes the '{@code input}' element to the supplied
-	 * {@link TagWriter},
-	 * marking it as 'checked' if appropriate.
+	 * 将'{@code input}'元素写入提供的{@link TagWriter}, 如果合适, 将其标记为'checked'.
 	 */
 	@Override
 	protected abstract int writeTagContent(TagWriter tagWriter) throws JspException;
 
 	/**
-	 * Flags "type" as an illegal dynamic attribute.
+	 * 标记"type"为非法动态属性.
 	 */
 	@Override
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
@@ -78,8 +68,7 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 	}
 
 	/**
-	 * Return the type of the HTML input element to generate:
-	 * "checkbox" or "radio".
+	 * 返回HTML输入元素的类型以生成: "checkbox" 或 "radio".
 	 */
 	protected abstract String getInputType();
 

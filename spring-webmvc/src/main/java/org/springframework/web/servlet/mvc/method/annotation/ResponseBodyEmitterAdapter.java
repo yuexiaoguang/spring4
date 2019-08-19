@@ -3,11 +3,10 @@ package org.springframework.web.servlet.mvc.method.annotation;
 import org.springframework.http.server.ServerHttpResponse;
 
 /**
- * Contract to adapt streaming async types to {@code ResponseBodyEmitter}.
+ * 将流式异步类型适配为{@code ResponseBodyEmitter}的约定.
  *
- * @deprecated in 4.3.8 since 5.0 adds first-class support for reactive type
- * return values from Spring MVC controller methods based on the pluggable
- * {@code ReactiveAdapterRegistry} mechanism.
+ * @deprecated 4.3.8自5.0以来, 基于可插入的{@code ReactiveAdapterRegistry}机制,
+ * 为Spring MVC控制器方法添加了对反应式返回值的一流支持.
  */
 @Deprecated
 public interface ResponseBodyEmitterAdapter {

@@ -14,14 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 /**
- * Resolves method arguments of type {@link RedirectAttributes}.
+ * 解析{@link RedirectAttributes}类型的方法参数.
  *
  * <p>This resolver must be listed ahead of
  * {@link org.springframework.web.method.annotation.ModelMethodProcessor} and
  * {@link org.springframework.web.method.annotation.MapMethodProcessor},
- * which support {@link Map} and {@link Model} arguments both of which are
- * "super" types of {@code RedirectAttributes} and would also attempt to
- * resolve a {@code RedirectAttributes} argument.
+ * 此解析器必须在ModelMethodProcessor之前列出, 它支持{@link Map}和{@link Model}参数,
+ * 这两个参数都是{@code RedirectAttributes}的"super"类型, 并且还会尝试解析{@code RedirectAttributes}参数.
  */
 public class RedirectAttributesMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

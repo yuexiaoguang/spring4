@@ -5,8 +5,8 @@ import java.util.Locale;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
- * Abstract base class for {@link LocaleResolver} implementations.
- * Provides support for a default locale.
+ * {@link LocaleResolver}实现的抽象基类.
+ * 提供对默认语言环境的支持.
  */
 public abstract class AbstractLocaleResolver implements LocaleResolver {
 
@@ -14,14 +14,14 @@ public abstract class AbstractLocaleResolver implements LocaleResolver {
 
 
 	/**
-	 * Set a default Locale that this resolver will return if no other locale found.
+	 * 设置默认区域设置.
 	 */
 	public void setDefaultLocale(Locale defaultLocale) {
 		this.defaultLocale = defaultLocale;
 	}
 
 	/**
-	 * Return the default Locale that this resolver is supposed to fall back to, if any.
+	 * 返回默认区域设置.
 	 */
 	protected Locale getDefaultLocale() {
 		return this.defaultLocale;

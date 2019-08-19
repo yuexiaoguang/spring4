@@ -9,12 +9,12 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.annotation.AbstractWebArgumentResolverAdapter;
 
 /**
- * A Servlet-specific {@link org.springframework.web.method.annotation.AbstractWebArgumentResolverAdapter} that creates a
- * {@link NativeWebRequest} from {@link ServletRequestAttributes}.
+ * 特定于Servlet的{@link org.springframework.web.method.annotation.AbstractWebArgumentResolverAdapter}
+ * 它从{@link ServletRequestAttributes}创建{@link NativeWebRequest}.
  *
- * <p><strong>Note:</strong> This class is provided for backwards compatibility.
- * However it is recommended to re-write a {@code WebArgumentResolver} as
- * {@code HandlerMethodArgumentResolver}. For more details see javadoc of
+ * <p><strong>Note:</strong> 提供此类是为了向后兼容.
+ * 但是建议重写{@code WebArgumentResolver}为{@code HandlerMethodArgumentResolver}.
+ * For more details see javadoc of
  * {@link org.springframework.web.method.annotation.AbstractWebArgumentResolverAdapter}.
  */
 public class ServletWebArgumentResolverAdapter extends AbstractWebArgumentResolverAdapter {

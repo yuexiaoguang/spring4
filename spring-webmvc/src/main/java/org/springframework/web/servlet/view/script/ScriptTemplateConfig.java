@@ -4,56 +4,53 @@ import java.nio.charset.Charset;
 import javax.script.ScriptEngine;
 
 /**
- * Interface to be implemented by objects that configure and manage a
- * JSR-223 {@link ScriptEngine} for automatic lookup in a web environment.
- * Detected and used by {@link ScriptTemplateView}.
+ * 由配置和管理JSR-223 {@link ScriptEngine}的对象实现的接口, 以便在Web环境中自动查找.
+ * 由{@link ScriptTemplateView}检测并使用.
  */
 public interface ScriptTemplateConfig {
 
 	/**
-	 * Return the {@link ScriptEngine} to use by the views.
+	 * 返回视图使用的{@link ScriptEngine}.
 	 */
 	ScriptEngine getEngine();
 
 	/**
-	 * Return the engine name that will be used to instantiate the {@link ScriptEngine}.
+	 * 返回将用于实例化{@link ScriptEngine}的引擎名称.
 	 */
 	String getEngineName();
 
 	/**
-	 * Return whether to use a shared engine for all threads or whether to create
-	 * thread-local engine instances for each thread.
+	 * 返回为所有线程使用共享引擎, 还是为每个线程创建线程本地引擎实例.
 	 */
 	Boolean isSharedEngine();
 
 	/**
-	 * Return the scripts to be loaded by the script engine (library or user provided).
+	 * 返回脚本引 (库或用户提供的)加载的脚本.
 	 */
 	String[] getScripts();
 
 	/**
-	 * Return the object where the render function belongs (optional).
+	 * 返回渲染函数所属的对象 (可选).
 	 */
 	String getRenderObject();
 
 	/**
-	 * Return the render function name (mandatory).
+	 * 返回渲染函数名称 (必填).
 	 */
 	String getRenderFunction();
 
 	/**
-	 * Return the content type to use for the response.
-	 * @since 4.2.1
+	 * 返回用于响应的内容类型.
 	 */
 	String getContentType();
 
 	/**
-	 * Return the charset used to read script and template files.
+	 * 返回用于读取脚本和模板文件的字符集.
 	 */
 	Charset getCharset();
 
 	/**
-	 * Return the resource loader path(s) via a Spring resource location.
+	 * 通过Spring资源位置返回资源加载器路径.
 	 */
 	String getResourceLoaderPath();
 

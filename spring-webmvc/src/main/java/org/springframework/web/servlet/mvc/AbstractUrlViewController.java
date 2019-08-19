@@ -9,12 +9,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Abstract base class for {@code Controllers} that return a view name
- * based on the request URL.
+ * {@code Controllers}的抽象基类, 它根据请求URL返回视图名称.
  *
- * <p>Provides infrastructure for determining view names from URLs and configurable
- * URL lookup. For information on the latter, see {@code alwaysUseFullPath}
- * and {@code urlDecode} properties.
+ * <p>提供用于从URL和可配置URL查找确定视图名称的基础结构.
+ * 有关后者的信息, 请参阅{@code alwaysUseFullPath}和{@code urlDecode}属性.
  */
 public abstract class AbstractUrlViewController extends AbstractController {
 
@@ -22,9 +20,8 @@ public abstract class AbstractUrlViewController extends AbstractController {
 
 
 	/**
-	 * Set if URL lookup should always use full path within current servlet
-	 * context. Else, the path within the current servlet mapping is used
-	 * if applicable (i.e. in the case of a ".../*" servlet mapping in web.xml).
+	 * 设置URL查找是否应始终使用当前servlet上下文中的完整路径.
+	 * 否则, 如果适用, 则使用当前servlet映射中的路径 (i.e. 在web.xml中的".../*" servlet映射的情况下).
 	 * Default is "false".
 	 */
 	public void setAlwaysUseFullPath(boolean alwaysUseFullPath) {
@@ -32,28 +29,25 @@ public abstract class AbstractUrlViewController extends AbstractController {
 	}
 
 	/**
-	 * Set if context path and request URI should be URL-decoded.
-	 * Both are returned <i>undecoded</i> by the Servlet API,
-	 * in contrast to the servlet path.
-	 * <p>Uses either the request encoding or the default encoding according
-	 * to the Servlet spec (ISO-8859-1).
+	 * 设置是否应对上下文路径和请求URI进行URL解码.
+	 * 与servlet路径相比, Servlet API都返回<i>未解码</i>.
+	 * <p>根据Servlet规范 (ISO-8859-1)使用请求编码或默认编码.
 	 */
 	public void setUrlDecode(boolean urlDecode) {
 		this.urlPathHelper.setUrlDecode(urlDecode);
 	}
 
 	/**
-	 * Set if ";" (semicolon) content should be stripped from the request URI.
+	 * 设置是否应从请求URI中删除";" (分号)内容.
 	 */
 	public void setRemoveSemicolonContent(boolean removeSemicolonContent) {
 		this.urlPathHelper.setRemoveSemicolonContent(removeSemicolonContent);
 	}
 
 	/**
-	 * Set the UrlPathHelper to use for the resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass,
-	 * or to share common UrlPathHelper settings across multiple MethodNameResolvers
-	 * and HandlerMappings.
+	 * 设置用于查找路径的解析的UrlPathHelper.
+	 * <p>使用此选项可以使用自定义子类覆盖默认的UrlPathHelper,
+	 * 或者在多个MethodNameResolvers和HandlerMappings之间共享常用的UrlPathHelper设置.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		Assert.notNull(urlPathHelper, "UrlPathHelper must not be null");
@@ -61,7 +55,7 @@ public abstract class AbstractUrlViewController extends AbstractController {
 	}
 
 	/**
-	 * Return the UrlPathHelper to use for the resolution of lookup paths.
+	 * 返回用于查找路径的解析的UrlPathHelper.
 	 */
 	protected UrlPathHelper getUrlPathHelper() {
 		return this.urlPathHelper;
@@ -69,9 +63,8 @@ public abstract class AbstractUrlViewController extends AbstractController {
 
 
 	/**
-	 * Retrieves the URL path to use for lookup and delegates to
-	 * {@link #getViewNameForRequest}. Also adds the content of
-	 * {@link RequestContextUtils#getInputFlashMap} to the model.
+	 * 检索用于查找和委托给{@link #getViewNameForRequest}的URL路径.
+	 * 还将{@link RequestContextUtils#getInputFlashMap}的内容添加到模型中.
 	 */
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
@@ -84,13 +77,11 @@ public abstract class AbstractUrlViewController extends AbstractController {
 	}
 
 	/**
-	 * Return the name of the view to render for this request, based on the
-	 * given lookup path. Called by {@link #handleRequestInternal}.
-	 * @param request current HTTP request
-	 * @return a view name for this request (never {@code null})
-	 * @see #handleRequestInternal
-	 * @see #setAlwaysUseFullPath
-	 * @see #setUrlDecode
+	 * 根据给定的查找路径, 返回要为此请求呈现的视图的名称. 由{@link #handleRequestInternal}调用.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * 
+	 * @return 请求的视图名称 (never {@code null})
 	 */
 	protected abstract String getViewNameForRequest(HttpServletRequest request);
 

@@ -9,7 +9,7 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handles return values of type {@link Callable}.
+ * 处理{@link Callable}类型的返回值.
  */
 public class CallableMethodReturnValueHandler implements AsyncHandlerMethodReturnValueHandler {
 

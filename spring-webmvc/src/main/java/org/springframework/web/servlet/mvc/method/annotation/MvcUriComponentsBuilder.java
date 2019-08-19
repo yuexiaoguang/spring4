@@ -51,33 +51,28 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Creates instances of {@link org.springframework.web.util.UriComponentsBuilder}
- * by pointing to {@code @RequestMapping} methods on Spring MVC controllers.
+ * 通过指向Spring MVC控制器上的{@code @RequestMapping}方法创建{@link org.springframework.web.util.UriComponentsBuilder}的实例.
  *
- * <p>There are several groups of methods:
+ * <p>有几组方法:
  * <ul>
- * <li>Static {@code fromXxx(...)} methods to prepare links using information
- * from the current request as determined by a call to
- * {@link org.springframework.web.servlet.support.ServletUriComponentsBuilder#fromCurrentServletMapping()}.
- * <li>Static {@code fromXxx(UriComponentsBuilder,...)} methods can be given
- * a baseUrl when operating outside the context of a request.
- * <li>Instance-based {@code withXxx(...)} methods where an instance of
- * MvcUriComponentsBuilder is created with a baseUrl via
- * {@link #relativeTo(org.springframework.web.util.UriComponentsBuilder)}.
+ * <li>静态{@code fromXxx(...)}方法使用来自当前请求的信息来准备链接, 这些信息是通过调用
+ * {@link org.springframework.web.servlet.support.ServletUriComponentsBuilder#fromCurrentServletMapping()}确定的.
+ * <li>在请求的上下文之外操作时, 静态{@code fromXxx(UriComponentsBuilder,...)}方法可以被赋予baseUrl.
+ * <li>基于实例的{@code withXxx(...)}方法, 其中MvcUriComponentsBuilder的实例是通过
+ * {@link #relativeTo(org.springframework.web.util.UriComponentsBuilder)}使用baseUrl创建的.
  * </ul>
  *
- * <p><strong>Note:</strong> This class uses values from "Forwarded"
+ * <p><strong>Note:</strong> 此类使用"Forwarded"
  * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
- * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
- * if present, in order to reflect the client-originated protocol and address.
- * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
- * central place whether to extract and use, or to discard such headers.
- * See the Spring Framework reference for more on this filter.
+ * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" header中的值,
+ * 以反映客户端发起的协议和地址.
+ * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此类 header.
+ * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
  */
 public class MvcUriComponentsBuilder {
 
 	/**
-	 * Well-known name for the {@link CompositeUriComponentsContributor} object in the bean factory.
+	 * bean工厂中{@link CompositeUriComponentsContributor}对象的众所周知的名称.
 	 */
 	public static final String MVC_URI_COMPONENTS_CONTRIBUTOR_BEAN_NAME = "mvcUriComponentsContributor";
 
@@ -100,14 +95,6 @@ public class MvcUriComponentsBuilder {
 	private final UriComponentsBuilder baseUrl;
 
 
-	/**
-	 * Default constructor. Protected to prevent direct instantiation.
-	 * @see #fromController(Class)
-	 * @see #fromMethodName(Class, String, Object...)
-	 * @see #fromMethodCall(Object)
-	 * @see #fromMappingName(String)
-	 * @see #fromMethod(Class, Method, Object...)
-	 */
 	protected MvcUriComponentsBuilder(UriComponentsBuilder baseUrl) {
 		Assert.notNull(baseUrl, "'baseUrl' is required");
 		this.baseUrl = baseUrl;
@@ -115,9 +102,8 @@ public class MvcUriComponentsBuilder {
 
 
 	/**
-	 * Create an instance of this class with a base URL. After that calls to one
-	 * of the instance based {@code withXxx(...}} methods will create URLs relative
-	 * to the given base URL.
+	 * 使用基本URL创建此类的实例.
+	 * 之后调用基于实例的{@code withXxx(...}}方法之一将创建相对于给定基本URL的URL.
 	 */
 	public static MvcUriComponentsBuilder relativeTo(UriComponentsBuilder baseUrl) {
 		return new MvcUriComponentsBuilder(baseUrl);
@@ -125,29 +111,27 @@ public class MvcUriComponentsBuilder {
 
 
 	/**
-	 * Create a {@link UriComponentsBuilder} from the mapping of a controller class
-	 * and current request information including Servlet mapping. If the controller
-	 * contains multiple mappings, only the first one is used.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param controllerType the controller to build a URI for
-	 * @return a UriComponentsBuilder instance (never {@code null})
+	 * 从控制器类的映射和包括Servlet映射的当前请求信息创建{@link UriComponentsBuilder}.
+	 * 如果控制器包含多个映射, 则仅使用第一个映射.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded" 和 "X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param controllerType 为其构建URI的控制器
+	 * 
+	 * @return UriComponentsBuilder实例 (never {@code null})
 	 */
 	public static UriComponentsBuilder fromController(Class<?> controllerType) {
 		return fromController(null, controllerType);
 	}
 
 	/**
-	 * An alternative to {@link #fromController(Class)} that accepts a
-	 * {@code UriComponentsBuilder} representing the base URL. This is useful
-	 * when using MvcUriComponentsBuilder outside the context of processing a
-	 * request or to apply a custom baseUrl not matching the current request.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param builder the builder for the base URL; the builder will be cloned
-	 * and therefore not modified and may be re-used for further calls.
-	 * @param controllerType the controller to build a URI for
-	 * @return a UriComponentsBuilder instance (never {@code null})
+	 * {@link #fromController(Class)}的替代方法, 它接受表示基本URL的{@code UriComponentsBuilder}.
+	 * 在处理请求的上下文之外使用MvcUriComponentsBuilder或应用与当前请求不匹配的自定义baseUrl时, 这很有用.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded" 和 "X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param builder 基本URL的构建器; 构建器将被克隆, 因此不会被修改, 可以重新用于进一步调用.
+	 * @param controllerType 为其构建URI的控制器
+	 * 
+	 * @return UriComponentsBuilder实例 (never {@code null})
 	 */
 	public static UriComponentsBuilder fromController(UriComponentsBuilder builder,
 			Class<?> controllerType) {
@@ -158,17 +142,16 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * Create a {@link UriComponentsBuilder} from the mapping of a controller
-	 * method and an array of method argument values. This method delegates
-	 * to {@link #fromMethod(Class, Method, Object...)}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param controllerType the controller
-	 * @param methodName the method name
-	 * @param args the argument values
-	 * @return a UriComponentsBuilder instance, never {@code null}
-	 * @throws IllegalArgumentException if there is no matching or
-	 * if there is more than one matching method
+	 * 从控制器方法和方法参数值数组的映射创建{@link UriComponentsBuilder}.
+	 * 此方法委托给{@link #fromMethod(Class, Method, Object...)}.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded" 和 "X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param controllerType 控制器
+	 * @param methodName 方法名称
+	 * @param args 参数值
+	 * 
+	 * @return UriComponentsBuilder实例, never {@code null}
+	 * @throws IllegalArgumentException 如果没有匹配或者有多个匹配方法
 	 */
 	public static UriComponentsBuilder fromMethodName(Class<?> controllerType,
 			String methodName, Object... args) {
@@ -178,20 +161,17 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * An alternative to {@link #fromMethodName(Class, String, Object...)} that
-	 * accepts a {@code UriComponentsBuilder} representing the base URL. This is
-	 * useful when using MvcUriComponentsBuilder outside the context of processing
-	 * a request or to apply a custom baseUrl not matching the current request.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param builder the builder for the base URL; the builder will be cloned
-	 * and therefore not modified and may be re-used for further calls.
-	 * @param controllerType the controller
-	 * @param methodName the method name
-	 * @param args the argument values
-	 * @return a UriComponentsBuilder instance, never {@code null}
-	 * @throws IllegalArgumentException if there is no matching or
-	 * if there is more than one matching method
+	 * {@link #fromMethodName(Class, String, Object...)}的替代方法, 它接受表示基本URL的{@code UriComponentsBuilder}.
+	 * 在处理请求的上下文之外使用MvcUriComponentsBuilder或应用与当前请求不匹配的自定义baseUrl时, 这很有用.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param builder 基本URL的构建器; 构建器将被克隆, 因此不会被修改, 可以重新用于进一步调用.
+	 * @param controllerType 控制器
+	 * @param methodName 方法名称
+	 * @param args 参数值
+	 * 
+	 * @return UriComponentsBuilder实例, never {@code null}
+	 * @throws IllegalArgumentException 如果没有匹配或者有多个匹配方法
 	 */
 	public static UriComponentsBuilder fromMethodName(UriComponentsBuilder builder,
 			Class<?> controllerType, String methodName, Object... args) {
@@ -201,10 +181,9 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * Create a {@link UriComponentsBuilder} by invoking a "mock" controller method.
-	 * The controller method and the supplied argument values are then used to
-	 * delegate to {@link #fromMethod(Class, Method, Object...)}.
-	 * <p>For example, given this controller:
+	 * 通过调用"mock"控制器方法创建{@link UriComponentsBuilder}.
+	 * 然后使用控制器方法和提供的参数值委托给{@link #fromMethod(Class, Method, Object...)}.
+	 * <p>例如, 给定此控制器:
 	 * <pre class="code">
 	 * &#064;RequestMapping("/people/{id}/addresses")
 	 * class AddressController {
@@ -216,7 +195,7 @@ public class MvcUriComponentsBuilder {
 	 *   public void addAddress(Address address) { ... }
 	 * }
 	 * </pre>
-	 * A UriComponentsBuilder can be created:
+	 * 可以创建UriComponentsBuilder:
 	 * <pre class="code">
 	 * // Inline style with static import of "MvcUriComponentsBuilder.on"
 	 *
@@ -231,11 +210,11 @@ public class MvcUriComponentsBuilder {
 	 * controller.getAddressesForCountry("US")
 	 * builder = MvcUriComponentsBuilder.fromMethodCall(controller);
 	 * </pre>
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param info either the value returned from a "mock" controller
-	 * invocation or the "mock" controller itself after an invocation
-	 * @return a UriComponents instance
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param info 调用之后从"mock"控制器调用返回的值或"mock"控制器本身
+	 * 
+	 * @return UriComponents实例
 	 */
 	public static UriComponentsBuilder fromMethodCall(Object info) {
 		Assert.isInstanceOf(MethodInvocationInfo.class, info, "MethodInvocationInfo required");
@@ -247,17 +226,14 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * An alternative to {@link #fromMethodCall(Object)} that accepts a
-	 * {@code UriComponentsBuilder} representing the base URL. This is useful
-	 * when using MvcUriComponentsBuilder outside the context of processing a
-	 * request or to apply a custom baseUrl not matching the current request.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param builder the builder for the base URL; the builder will be cloned
-	 * and therefore not modified and may be re-used for further calls.
-	 * @param info either the value returned from a "mock" controller
-	 * invocation or the "mock" controller itself after an invocation
-	 * @return a UriComponents instance
+	 * {@link #fromMethodCall(Object)}的替代方法, 它接受表示基本URL的{@code UriComponentsBuilder}.
+	 * 在处理请求的上下文之外使用MvcUriComponentsBuilder或应用与当前请求不匹配的自定义baseUrl时, 这很有用.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded" 和 "X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param builder 基本URL的构建器; 构建器将被克隆, 因此不会被修改, 可以重新用于进一步调用.
+	 * @param info 调用之后从"mock"控制器调用返回的值或"mock"控制器本身
+	 * 
+	 * @return UriComponents实例
 	 */
 	public static UriComponentsBuilder fromMethodCall(UriComponentsBuilder builder, Object info) {
 		Assert.isInstanceOf(MethodInvocationInfo.class, info, "MethodInvocationInfo required");
@@ -269,21 +245,16 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * Create a URL from the name of a Spring MVC controller method's request mapping.
-	 * <p>The configured
+	 * 从Spring MVC控制器方法的请求映射的名称创建URL.
+	 * <p>配置的
 	 * {@link org.springframework.web.servlet.handler.HandlerMethodMappingNamingStrategy
-	 * HandlerMethodMappingNamingStrategy} determines the names of controller
-	 * method request mappings at startup. By default all mappings are assigned
-	 * a name based on the capital letters of the class name, followed by "#" as
-	 * separator, and then the method name. For example "PC#getPerson"
-	 * for a class named PersonController with method getPerson. In case the
-	 * naming convention does not produce unique results, an explicit name may
-	 * be assigned through the name attribute of the {@code @RequestMapping}
-	 * annotation.
-	 * <p>This is aimed primarily for use in view rendering technologies and EL
-	 * expressions. The Spring URL tag library registers this method as a function
-	 * called "mvcUrl".
-	 * <p>For example, given this controller:
+	 * HandlerMethodMappingNamingStrategy}确定启动时控制器方法请求映射的名称.
+	 * 默认情况下, 所有映射都根据类名的大写字母分配名称, 后跟"#"作为分隔符, 然后是方法名称.
+	 * 例如, 对于名为PersonController的类, 使用方法getPerson的"PC#getPerson".
+	 * 如果命名约定不产生唯一结果, 则可以通过{@code @RequestMapping}注解的name属性指定显式名称.
+	 * <p>这主要用于视图渲染技术和EL表达式.
+	 * Spring URL标记库将此方法注册为名为"mvcUrl"的函数.
+	 * <p>例如, 给定此控制器:
 	 * <pre class="code">
 	 * &#064;RequestMapping("/people")
 	 * class PersonController {
@@ -294,43 +265,37 @@ public class MvcUriComponentsBuilder {
 	 * }
 	 * </pre>
 	 *
-	 * A JSP can prepare a URL to the controller method as follows:
+	 * JSP可以为控制器方法准备URL, 如下所示:
 	 *
 	 * <pre class="code">
 	 * <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 	 *
 	 * &lt;a href="${s:mvcUrl('PC#getPerson').arg(0,"123").build()}"&gt;Get Person&lt;/a&gt;
 	 * </pre>
-	 * <p>Note that it's not necessary to specify all arguments. Only the ones
-	 * required to prepare the URL, mainly {@code @RequestParam} and {@code @PathVariable}).
+	 * <p>请注意, 没有必要指定所有参数.
+	 * 只有准备URL所需的那些, 主要是{@code @RequestParam}和{@code @PathVariable}).
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * @param mappingName the mapping name
-	 * @return a builder to prepare the URI String
-	 * @throws IllegalArgumentException if the mapping name is not found or
-	 * if there is no unique match
-	 * @since 4.1
+	 * @param mappingName 映射名称
+	 * 
+	 * @return 用于准备URI字符串的构建器
+	 * @throws IllegalArgumentException 如果找不到映射名称或者没有唯一匹配
 	 */
 	public static MethodArgumentBuilder fromMappingName(String mappingName) {
 		return fromMappingName(null, mappingName);
 	}
 
 	/**
-	 * An alternative to {@link #fromMappingName(String)} that accepts a
-	 * {@code UriComponentsBuilder} representing the base URL. This is useful
-	 * when using MvcUriComponentsBuilder outside the context of processing a
-	 * request or to apply a custom baseUrl not matching the current request.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param builder the builder for the base URL; the builder will be cloned
-	 * and therefore not modified and may be re-used for further calls.
-	 * @param name the mapping name
-	 * @return a builder to prepare the URI String
-	 * @throws IllegalArgumentException if the mapping name is not found or
-	 * if there is no unique match
-	 * @since 4.2
+	 * {@link #fromMappingName(String)}的替代方法, 它接受表示基本URL的{@code UriComponentsBuilder}.
+	 * 在处理请求的上下文之外使用MvcUriComponentsBuilder或应用与当前请求不匹配的自定义baseUrl时, 这很有用.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param builder 基本URL的构建器; 构建器将被克隆, 因此不会被修改, 可以重新用于进一步调用.
+	 * @param name 映射名称
+	 * 
+	 * @return 用于准备URI字符串的构建器
+	 * @throws IllegalArgumentException 如果找不到映射名称或者没有唯一匹配
 	 */
 	public static MethodArgumentBuilder fromMappingName(UriComponentsBuilder builder, String name) {
 		RequestMappingInfoHandlerMapping handlerMapping = getRequestMappingInfoHandlerMapping();
@@ -349,40 +314,34 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * Create a {@link UriComponentsBuilder} from the mapping of a controller method
-	 * and an array of method argument values. The array of values  must match the
-	 * signature of the controller method. Values for {@code @RequestParam} and
-	 * {@code @PathVariable} are used for building the URI (via implementations of
-	 * {@link org.springframework.web.method.support.UriComponentsContributor
-	 * UriComponentsContributor}) while remaining argument values are ignored and
-	 * can be {@code null}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param controllerType the controller type
-	 * @param method the controller method
-	 * @param args argument values for the controller method
-	 * @return a UriComponentsBuilder instance, never {@code null}
-	 * @since 4.2
+	 * 从控制器方法和方法参数值数组的映射创建{@link UriComponentsBuilder}.
+	 * 值数组必须与控制器方法的签名匹配.
+	 * {@code @RequestParam}和{@code @PathVariable}的值用于构建URI
+	 * (通过{@link org.springframework.web.method.support.UriComponentsContributor
+	 * UriComponentsContributor}的实现), 而剩余的参数值被忽略, 可以是{@code null}.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param controllerType 控制器类型
+	 * @param method 控制器方法
+	 * @param args 控制器方法的参数值
+	 * 
+	 * @return UriComponentsBuilder实例, never {@code null}
 	 */
 	public static UriComponentsBuilder fromMethod(Class<?> controllerType, Method method, Object... args) {
 		return fromMethodInternal(null, controllerType, method, args);
 	}
 
 	/**
-	 * An alternative to {@link #fromMethod(Class, Method, Object...)}
-	 * that accepts a {@code UriComponentsBuilder} representing the base URL.
-	 * This is useful when using MvcUriComponentsBuilder outside the context of
-	 * processing a request or to apply a custom baseUrl not matching the
-	 * current request.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param baseUrl the builder for the base URL; the builder will be cloned
-	 * and therefore not modified and may be re-used for further calls.
-	 * @param controllerType the controller type
-	 * @param method the controller method
-	 * @param args argument values for the controller method
-	 * @return a UriComponentsBuilder instance (never {@code null})
-	 * @since 4.2
+	 * {@link #fromMethod(Class, Method, Object...)}的替代方法, 它接受表示基本URL的{@code UriComponentsBuilder}.
+	 * 在处理请求的上下文之外使用MvcUriComponentsBuilder或应用与当前请求不匹配的自定义baseUrl时, 这很有用.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded" 和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param baseUrl 基本URL的构建器; 构建器将被克隆, 因此不会被修改, 可以重新用于进一步调用.
+	 * @param controllerType 控制器类型
+	 * @param method 控制器方法
+	 * @param args 控制器方法的参数值
+	 * 
+	 * @return UriComponentsBuilder实例 (never {@code null})
 	 */
 	public static UriComponentsBuilder fromMethod(UriComponentsBuilder baseUrl,
 			Class<?> controllerType, Method method, Object... args) {
@@ -392,10 +351,7 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * @see #fromMethod(Class, Method, Object...)
-	 * @see #fromMethod(UriComponentsBuilder, Class, Method, Object...)
-	 * @deprecated as of 4.2, this is deprecated in favor of the overloaded
-	 * method that also accepts a controllerType argument
+	 * @deprecated 从4.2开始, 使用也接受controllerType参数的重载方法
 	 */
 	@Deprecated
 	public static UriComponentsBuilder fromMethod(Method method, Object... args) {
@@ -500,7 +456,7 @@ public class MvcUriComponentsBuilder {
 			contributor.contributeMethodArgument(param, args[i], builder, uriVars);
 		}
 
-		// We may not have all URI var values, expand only what we have
+		// 可能没有所有URI 变量值, 只扩展现在拥有的值
 		return builder.build().expand(new UriComponents.UriTemplateVariables() {
 			@Override
 			public Object getValue(String name) {
@@ -558,31 +514,26 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * Return a "mock" controller instance. When an {@code @RequestMapping} method
-	 * on the controller is invoked, the supplied argument values are remembered
-	 * and the result can then be used to create a {@code UriComponentsBuilder}
-	 * via {@link #fromMethodCall(Object)}.
-	 * <p>Note that this is a shorthand version of {@link #controller(Class)} intended
-	 * for inline use (with a static import), for example:
+	 * 返回"mock"控制器实例.
+	 * 当调用控制器上的{@code @RequestMapping}方法时, 会记住提供的参数值,
+	 * 然后可以使用结果通过{@link #fromMethodCall(Object)}创建{@code UriComponentsBuilder}.
+	 * <p>请注意, 这是{@link #controller(Class)}的简写版本, 用于内联使用 (使用静态导入), 例如:
 	 * <pre class="code">
 	 * MvcUriComponentsBuilder.fromMethodCall(on(FooController.class).getFoo(1)).build();
 	 * </pre>
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * @param controllerType the target controller
+	 * @param controllerType 目标控制器
 	 */
 	public static <T> T on(Class<T> controllerType) {
 		return controller(controllerType);
 	}
 
 	/**
-	 * Return a "mock" controller instance. When an {@code @RequestMapping} method
-	 * on the controller is invoked, the supplied argument values are remembered
-	 * and the result can then be used to create {@code UriComponentsBuilder} via
-	 * {@link #fromMethodCall(Object)}.
-	 * <p>This is a longer version of {@link #on(Class)}. It is needed with controller
-	 * methods returning void as well for repeated invocations.
+	 * 返回"mock"控制器实例.
+	 * 当调用控制器上的{@code @RequestMapping}方法时, 会记住提供的参数值,
+	 * 然后可以使用结果通过{@link #fromMethodCall(Object)}创建{@code UriComponentsBuilder}.
+	 * <p>这是{@link #on(Class)}的较长版本. 控制器方法需要返回void以及重复调用.
 	 * <pre class="code">
 	 * FooController fooController = controller(FooController.class);
 	 *
@@ -592,9 +543,9 @@ public class MvcUriComponentsBuilder {
 	 * fooController.saveFoo(2, null);
 	 * builder = MvcUriComponentsBuilder.fromMethodCall(fooController);
 	 * </pre>
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @param controllerType the target controller
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
+	 * 
+	 * @param controllerType 目标控制器
 	 */
 	public static <T> T controller(Class<T> controllerType) {
 		Assert.notNull(controllerType, "'controllerType' must not be null");
@@ -647,55 +598,40 @@ public class MvcUriComponentsBuilder {
 	}
 
 	/**
-	 * An alternative to {@link #fromController(Class)} for use with an instance
-	 * of this class created via a call to {@link #relativeTo}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @since 4.2
+	 * {@link #fromController(Class)}的替代方法, 用于通过调用{@link #relativeTo}创建的此类的实例.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public UriComponentsBuilder withController(Class<?> controllerType) {
 		return fromController(this.baseUrl, controllerType);
 	}
 
 	/**
-	 * An alternative to {@link #fromMethodName(Class, String, Object...)}} for
-	 * use with an instance of this class created via {@link #relativeTo}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @since 4.2
+	 * {@link #fromMethodName(Class, String, Object...)}}的替代方法, 用于通过调用{@link #relativeTo}创建的此类的实例.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public UriComponentsBuilder withMethodName(Class<?> controllerType, String methodName, Object... args) {
 		return fromMethodName(this.baseUrl, controllerType, methodName, args);
 	}
 
 	/**
-	 * An alternative to {@link #fromMethodCall(Object)} for use with an instance
-	 * of this class created via {@link #relativeTo}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @since 4.2
+	 * {@link #fromMethodCall(Object)}的替代方法, 用于通过调用{@link #relativeTo}创建的此类的实例.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public UriComponentsBuilder withMethodCall(Object invocationInfo) {
 		return fromMethodCall(this.baseUrl, invocationInfo);
 	}
 
 	/**
-	 * An alternative to {@link #fromMappingName(String)} for use with an instance
-	 * of this class created via {@link #relativeTo}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @since 4.2
+	 * {@link #fromMappingName(String)}的替代方法, 用于通过调用{@link #relativeTo}创建的此类的实例.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public MethodArgumentBuilder withMappingName(String mappingName) {
 		return fromMappingName(this.baseUrl, mappingName);
 	}
 
 	/**
-	 * An alternative to {@link #fromMethod(Class, Method, Object...)}
-	 * for use with an instance of this class created via {@link #relativeTo}.
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
-	 * @since 4.2
+	 * {@link #fromMethod(Class, Method, Object...)}的替代方法, 用于通过调用{@link #relativeTo}创建的此类的实例.
+	 * <p><strong>Note:</strong> 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public UriComponentsBuilder withMethod(Class<?> controllerType, Method method, Object... args) {
 		return fromMethod(this.baseUrl, controllerType, method, args);
@@ -779,16 +715,10 @@ public class MvcUriComponentsBuilder {
 
 		private final UriComponentsBuilder baseUrl;
 
-		/**
-		 * @since 4.2
-		 */
 		public MethodArgumentBuilder(Class<?> controllerType, Method method) {
 			this(null, controllerType, method);
 		}
 
-		/**
-		 * @since 4.2
-		 */
 		public MethodArgumentBuilder(UriComponentsBuilder baseUrl, Class<?> controllerType, Method method) {
 			Assert.notNull(controllerType, "'controllerType' is required");
 			Assert.notNull(method, "'method' is required");
@@ -802,8 +732,7 @@ public class MvcUriComponentsBuilder {
 		}
 
 		/**
-		 * @deprecated as of 4.2, this is deprecated in favor of alternative constructors
-		 * that accept a controllerType argument
+		 * @deprecated 从4.2开始, 使用接受controllerType参数的替代构造函数
 		 */
 		@Deprecated
 		public MethodArgumentBuilder(Method method) {
@@ -830,5 +759,4 @@ public class MvcUriComponentsBuilder {
 					this.argumentValues).build(false).expand(uriVars).encode().toString();
 		}
 	}
-
 }

@@ -13,14 +13,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Abstract base class for Atom and RSS Feed views, using the
- * <a href="https://github.com/rometools/rome">ROME</a> package.
+ * Atom和RSS Feed视图的抽象基类, 使用<a href="https://github.com/rometools/rome">ROME</a>包.
  *
- * <p>><b>NOTE: As of Spring 4.1, this is based on the {@code com.rometools}
- * variant of ROME, version 1.5. Please upgrade your build dependency.</b>
+ * <p>><b>NOTE: 从Spring 4.1开始, 这是基于ROME版本1.5的{@code com.rometools}变体. 请升级构建依赖项.</b>
  *
- * <p>Application-specific view classes will typically extend from either
- * {@link AbstractRssFeedView} or {@link AbstractAtomFeedView} instead of from this class.
+ * <p>特定于应用程序的视图类通常从{@link AbstractRssFeedView} 或 {@link AbstractAtomFeedView}扩展, 而不是从此类扩展.
  *
  * <p>Thanks to Jettro Coenradie and Sergio Bossa for the original feed view prototype!
  */
@@ -47,32 +44,34 @@ public abstract class AbstractFeedView<T extends WireFeed> extends AbstractView 
 	}
 
 	/**
-	 * Create a new feed to hold the entries.
-	 * @return the newly created Feed instance
+	 * 创建一个新的Feed实例来保存条目.
+	 * 
+	 * @return 新创建的Feed实例
 	 */
 	protected abstract T newFeed();
 
 	/**
-	 * Populate the feed metadata (title, link, description, etc.).
-	 * <p>Default is an empty implementation. Subclasses can override this method
-	 * to add meta fields such as title, link description, etc.
-	 * @param model the model, in case meta information must be populated from it
-	 * @param feed the feed being populated
-	 * @param request in case we need locale etc. Shouldn't look at attributes.
+	 * 填充Feed元数据 (title, link, description, etc.).
+	 * <p>默认是一个空实现. 子类可以重写此方法以添加元字段, 如标题, 链接描述等.
+	 * 
+	 * @param model 模型, 以防必须从中填充元信息
+	 * @param feed 正在填充的Feed
+	 * @param request 以防需要语言环境等. 不应该查看属性.
 	 */
 	protected void buildFeedMetadata(Map<String, Object> model, T feed, HttpServletRequest request) {
 	}
 
 	/**
-	 * Subclasses must implement this method to build feed entries, given the model.
-	 * <p>Note that the passed-in HTTP response is just supposed to be used for
-	 * setting cookies or other HTTP headers. The built feed itself will automatically
-	 * get written to the response after this method returns.
-	 * @param model the model Map
-	 * @param feed the feed to add entries to
-	 * @param request in case we need locale etc. Shouldn't look at attributes.
-	 * @param response in case we need to set cookies. Shouldn't write to it.
-	 * @throws Exception any exception that occurred during building
+	 * 在给定模型的情况下, 子类必须实现此方法来构建feed条目.
+	 * <p>请注意, 传入的HTTP响应应该用于设置cookie或其他 HTTP header.
+	 * 在此方法返回后, 构建的Feed本身将自动写入响应.
+	 * 
+	 * @param model 模型 Map
+	 * @param feed 要添加条目的Feed
+	 * @param request 以防需要语言环境等. 不应该查看属性.
+	 * @param response 以防需要设置cookie. 不应该写入它.
+	 * 
+	 * @throws Exception 构建期间发生的任何异常
 	 */
 	protected abstract void buildFeedEntries(Map<String, Object> model, T feed,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;

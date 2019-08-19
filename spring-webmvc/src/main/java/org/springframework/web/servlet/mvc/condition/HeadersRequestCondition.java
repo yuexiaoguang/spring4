@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * A logical conjunction (' && ') request condition that matches a request against
- * a set of header expressions with syntax defined in {@link RequestMapping#headers()}.
+ * 逻辑连接 (' && ') 请求条件, 它将请求与一组header表达式匹配, 并使用{@link RequestMapping#headers()}中定义的语法.
  *
- * <p>Expressions passed to the constructor with header names 'Accept' or
- * 'Content-Type' are ignored. See {@link ConsumesRequestCondition} and
- * {@link ProducesRequestCondition} for those.
+ * <p>传递给构造函数的表达式名称为'Accept' 或 'Content-Type'将被忽略.
+ * See {@link ConsumesRequestCondition} and {@link ProducesRequestCondition} for those.
  */
 public final class HeadersRequestCondition extends AbstractRequestCondition<HeadersRequestCondition> {
 
@@ -27,11 +25,10 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 
 
 	/**
-	 * Create a new instance from the given header expressions. Expressions with
-	 * header names 'Accept' or 'Content-Type' are ignored. See {@link ConsumesRequestCondition}
-	 * and {@link ProducesRequestCondition} for those.
-	 * @param headers media type expressions with syntax defined in {@link RequestMapping#headers()};
-	 * if 0, the condition will match to every request
+	 * header名称为'Accept' 或 'Content-Type'的表达式将被忽略.
+	 * 有关这些内容, 请参阅{@link ConsumesRequestCondition}和{@link ProducesRequestCondition}.
+	 * 
+	 * @param headers 在{@link RequestMapping#headers()}中定义语法的媒体类型表达式; 如果为0, 则条件将匹配每个请求
 	 */
 	public HeadersRequestCondition(String... headers) {
 		this(parseExpressions(headers));
@@ -57,7 +54,7 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Return the contained request header expressions.
+	 * 返回包含的请求header表达式.
 	 */
 	public Set<NameValueExpression<String>> getExpressions() {
 		return new LinkedHashSet<NameValueExpression<String>>(this.expressions);
@@ -74,8 +71,7 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Returns a new instance with the union of the header expressions
-	 * from "this" and the "other" instance.
+	 * 返回一个新实例, 其中包含"this"和"other"实例的header表达式的并集.
 	 */
 	@Override
 	public HeadersRequestCondition combine(HeadersRequestCondition other) {
@@ -85,8 +81,7 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Returns "this" instance if the request matches all expressions;
-	 * or {@code null} otherwise.
+	 * 如果请求匹配所有表达式, 则返回"this"实例; 或者{@code null}.
 	 */
 	@Override
 	public HeadersRequestCondition getMatchingCondition(HttpServletRequest request) {
@@ -102,15 +97,14 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Returns:
+	 * 返回:
 	 * <ul>
-	 * <li>0 if the two conditions have the same number of header expressions
-	 * <li>Less than 0 if "this" instance has more header expressions
-	 * <li>Greater than 0 if the "other" instance has more header expressions
+	 * <li>如果两个条件具有相同数量的header表达式, 则为0
+	 * <li>如果"this"实例具有更多header表达式, 则小于0
+	 * <li>如果"other"实例具有更多header表达式, 则大于0
 	 * </ul>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance
-	 * contains the matching header expression only or is otherwise empty.
+	 * <p>假设两个实例都是通过{@link #getMatchingCondition(HttpServletRequest)}获得的,
+	 * 并且每个实例仅包含匹配的header表达式, 否则为空.
 	 */
 	@Override
 	public int compareTo(HeadersRequestCondition other, HttpServletRequest request) {
@@ -119,7 +113,7 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 
 
 	/**
-	 * Parses and matches a single header expression to a request.
+	 * 将单个header表达式解析并匹配到请求.
 	 */
 	static class HeaderExpression extends AbstractNameValueExpression<String> {
 

@@ -12,24 +12,20 @@ import org.springframework.web.servlet.support.JspAwareRequestContext;
 import org.springframework.web.servlet.support.RequestContext;
 
 /**
- * Superclass for all tags that require a {@link RequestContext}.
+ * 所有需要{@link RequestContext}的标签的超类.
  *
- * <p>The {@code RequestContext} instance provides easy access
- * to current state like the
+ * <p>{@code RequestContext}实例提供了对
  * {@link org.springframework.web.context.WebApplicationContext},
- * the {@link java.util.Locale}, the
- * {@link org.springframework.ui.context.Theme}, etc.
+ * {@link java.util.Locale}, {@link org.springframework.ui.context.Theme}等当前状态的轻松访问.
  *
- * <p>Mainly intended for
- * {@link org.springframework.web.servlet.DispatcherServlet} requests;
- * will use fallbacks when used outside {@code DispatcherServlet}.
+ * <p>主要用于 {@link org.springframework.web.servlet.DispatcherServlet}请求;
+ * 在{@code DispatcherServlet}之外使用时将使用回退.
  */
 @SuppressWarnings("serial")
 public abstract class RequestContextAwareTag extends TagSupport implements TryCatchFinally {
 
 	/**
-	 * {@link javax.servlet.jsp.PageContext} attribute for the
-	 * page-level {@link RequestContext} instance.
+	 * 页面级{@link RequestContext}实例的{@link javax.servlet.jsp.PageContext}属性.
 	 */
 	public static final String REQUEST_CONTEXT_PAGE_ATTRIBUTE =
 			"org.springframework.web.servlet.tags.REQUEST_CONTEXT";
@@ -43,10 +39,7 @@ public abstract class RequestContextAwareTag extends TagSupport implements TryCa
 
 
 	/**
-	 * Create and expose the current RequestContext.
-	 * Delegates to {@link #doStartTagInternal()} for actual work.
-	 * @see #REQUEST_CONTEXT_PAGE_ATTRIBUTE
-	 * @see org.springframework.web.servlet.support.JspAwareRequestContext
+	 * 委托给{@link #doStartTagInternal()}进行实际的工作.
 	 */
 	@Override
 	public final int doStartTag() throws JspException {
@@ -73,18 +66,17 @@ public abstract class RequestContextAwareTag extends TagSupport implements TryCa
 	}
 
 	/**
-	 * Return the current RequestContext.
+	 * 返回当前的RequestContext.
 	 */
 	protected final RequestContext getRequestContext() {
 		return this.requestContext;
 	}
 
 	/**
-	 * Called by doStartTag to perform the actual work.
-	 * @return same as TagSupport.doStartTag
-	 * @throws Exception any exception, any checked one other than
-	 * a JspException gets wrapped in a JspException by doStartTag
-	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag
+	 * 由doStartTag调用以执行实际工作.
+	 * 
+	 * @return 和TagSupport.doStartTag一样
+	 * @throws Exception 任何异常, 除了JspException之外的任何受检异常都会被doStartTag包装在JspException中
 	 */
 	protected abstract int doStartTagInternal() throws Exception;
 

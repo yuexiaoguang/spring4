@@ -10,21 +10,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.support.RequestContext;
 
 /**
- * Adapter base class for template-based view technologies such as
- * Velocity and FreeMarker, with the ability to use request and session
- * attributes in their model and the option to expose helper objects
- * for Spring's Velocity/FreeMarker macro library.
+ * 适用于基于模板的视图技术(如Velocity和FreeMarker)的适配器基类, 能够在其模型中使用请求和会话属性,
+ * 以及为Spring的Velocity/FreeMarker宏库公开辅助对象的选项.
  *
- * <p>JSP/JSTL and other view technologies automatically have access to the
- * HttpServletRequest object and thereby the request/session attributes
- * for the current user. Furthermore, they are able to create and cache
- * helper objects as request attributes themselves.
+ * <p>JSP/JSTL和其他视图技术自动访问HttpServletRequest对象, 从而可以访问当前用户的请求/会话属性.
+ * 此外, 他们能够创建和缓存辅助对象作为请求属性本身.
  */
 public abstract class AbstractTemplateView extends AbstractUrlBasedView {
 
 	/**
-	 * Variable name of the RequestContext instance in the template model,
-	 * available to Spring's macros: e.g. for creating BindStatus objects.
+	 * 模板模型中RequestContext实例的变量名, 可用于Spring的宏: e.g. 用于创建BindStatus对象.
 	 */
 	public static final String SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE = "springMacroRequestContext";
 
@@ -41,48 +36,42 @@ public abstract class AbstractTemplateView extends AbstractUrlBasedView {
 
 
 	/**
-	 * Set whether all request attributes should be added to the
-	 * model prior to merging with the template. Default is "false".
+	 * 设置是否应在与模板合并之前将所有请求属性添加到模型中.
+	 * 默认为"false".
 	 */
 	public void setExposeRequestAttributes(boolean exposeRequestAttributes) {
 		this.exposeRequestAttributes = exposeRequestAttributes;
 	}
 
 	/**
-	 * Set whether HttpServletRequest attributes are allowed to override (hide)
-	 * controller generated model attributes of the same name. Default is "false",
-	 * which causes an exception to be thrown if request attributes of the same
-	 * name as model attributes are found.
+	 * 设置是否允许HttpServletRequest属性覆盖 (隐藏) 控制器生成的同名模型属性.
+	 * 默认为"false", 如果找到与模型属性同名的请求属性, 则会引发异常.
 	 */
 	public void setAllowRequestOverride(boolean allowRequestOverride) {
 		this.allowRequestOverride = allowRequestOverride;
 	}
 
 	/**
-	 * Set whether all HttpSession attributes should be added to the
-	 * model prior to merging with the template. Default is "false".
+	 * 设置是否应在与模板合并之前将所有HttpSession属性添加到模型中.
+	 * 默认为"false".
 	 */
 	public void setExposeSessionAttributes(boolean exposeSessionAttributes) {
 		this.exposeSessionAttributes = exposeSessionAttributes;
 	}
 
 	/**
-	 * Set whether HttpSession attributes are allowed to override (hide)
-	 * controller generated model attributes of the same name. Default is "false",
-	 * which causes an exception to be thrown if session attributes of the same
-	 * name as model attributes are found.
+	 * 设置是否允许HttpSession属性覆盖(隐藏)控制器生成的同名模型属性.
+	 * 默认为"false", 如果找到与模型属性同名的会话属性, 则会引发异常.
 	 */
 	public void setAllowSessionOverride(boolean allowSessionOverride) {
 		this.allowSessionOverride = allowSessionOverride;
 	}
 
 	/**
-	 * Set whether to expose a RequestContext for use by Spring's macro library,
-	 * under the name "springMacroRequestContext". Default is "true".
-	 * <p>Currently needed for Spring's Velocity and FreeMarker default macros.
-	 * Note that this is <i>not</i> required for templates that use HTML
-	 * forms <i>unless</i> you wish to take advantage of the Spring helper macros.
-	 * @see #SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE
+	 * 设置是否公开一个RequestContext供Spring的宏库使用, 名称为"springMacroRequestContext".
+	 * 默认为"true".
+	 * <p>目前需要Spring的Velocity和FreeMarker默认宏.
+	 * 请注意, 对于使用HTML表单的模板, 这是不需要的, 除非希望利用Spring助手宏.
 	 */
 	public void setExposeSpringMacroHelpers(boolean exposeSpringMacroHelpers) {
 		this.exposeSpringMacroHelpers = exposeSpringMacroHelpers;
@@ -134,7 +123,7 @@ public abstract class AbstractTemplateView extends AbstractUrlBasedView {
 						"Cannot expose bind macro helper '" + SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE +
 						"' because of an existing model object of the same name");
 			}
-			// Expose RequestContext instance for Spring macros.
+			// 公开Spring宏的RequestContext实例.
 			model.put(SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE,
 					new RequestContext(request, response, getServletContext(), model));
 		}
@@ -145,13 +134,11 @@ public abstract class AbstractTemplateView extends AbstractUrlBasedView {
 	}
 
 	/**
-	 * Apply this view's content type as specified in the "contentType"
-	 * bean property to the given response.
-	 * <p>Only applies the view's contentType if no content type has been
-	 * set on the response before. This allows handlers to override the
-	 * default content type beforehand.
-	 * @param response current HTTP response
-	 * @see #setContentType
+	 * 将此视图的"contentType" bean属性中指定的内容类型应用于给定的响应.
+	 * <p>如果之前没有在响应上设置内容类型, 则仅应用视图的contentType.
+	 * 这允许处理器预先覆盖默认内容类型.
+	 * 
+	 * @param response 当前的HTTP响应
 	 */
 	protected void applyContentType(HttpServletResponse response)	{
 		if (response.getContentType() == null) {
@@ -160,12 +147,13 @@ public abstract class AbstractTemplateView extends AbstractUrlBasedView {
 	}
 
 	/**
-	 * Subclasses must implement this method to actually render the view.
-	 * @param model combined output Map, with request attributes and
-	 * session attributes merged into it if required
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @throws Exception if rendering failed
+	 * 子类必须实现此方法才能实际呈现视图.
+	 * 
+	 * @param model 组合输出Map, 如果需要, 将请求属性和会话属性合并到其中
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
+	 * 
+	 * @throws Exception 如果渲染失败
 	 */
 	protected abstract void renderMergedTemplateModel(
 			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception;

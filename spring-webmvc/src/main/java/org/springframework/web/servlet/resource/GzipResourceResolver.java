@@ -12,11 +12,9 @@ import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 
 /**
- * A {@code ResourceResolver} that delegates to the chain to locate a resource
- * and then attempts to find a variation with the ".gz" extension.
+ * {@code ResourceResolver}, 它委托给链来查找资源, 然后尝试查找带有".gz"扩展名的变体.
  *
- * <p>The resolver gets involved only if the "Accept-Encoding" request header
- * contains the value "gzip" indicating the client accepts gzipped responses.
+ * <p>仅当"Accept-Encoding"请求 header包含值"gzip"表示客户端接受gzip压缩响应时, 解析器才会参与.
  */
 public class GzipResourceResolver extends AbstractResourceResolver {
 
@@ -131,5 +129,4 @@ public class GzipResourceResolver extends AbstractResourceResolver {
 			return "gzip";
 		}
 	}
-
 }

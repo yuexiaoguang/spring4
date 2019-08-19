@@ -8,8 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * A default implementation of {@link ResourceResolverChain} for invoking a list
- * of {@link ResourceResolver}s.
+ * {@link ResourceResolverChain}的默认实现, 用于调用{@link ResourceResolver}的列表.
  */
 class DefaultResourceResolverChain implements ResourceResolverChain {
 

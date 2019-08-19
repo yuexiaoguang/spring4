@@ -22,16 +22,12 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * Extends {@link InvocableHandlerMethod} with the ability to handle return
- * values through a registered {@link HandlerMethodReturnValueHandler} and
- * also supports setting the response status based on a method-level
- * {@code @ResponseStatus} annotation.
+ * 扩展{@link InvocableHandlerMethod}, 能够通过已注册的{@link HandlerMethodReturnValueHandler}处理返回值,
+ * 并且还支持根据方法级{@code @ResponseStatus}注解设置响应状态.
  *
- * <p>A {@code null} return value (including void) may be interpreted as the
- * end of request processing in combination with a {@code @ResponseStatus}
- * annotation, a not-modified check condition
- * (see {@link ServletWebRequest#checkNotModified(long)}), or
- * a method argument that provides access to the response stream.
+ * <p>{@code null}返回值 (包括void) 可以被解释为请求处理的结束与{@code @ResponseStatus}注解,
+ * 一个未修改的检查条件 (see {@link ServletWebRequest#checkNotModified(long)}),
+ * 或提供对响应流的访问的方法参数的组合.
  */
 public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 
@@ -40,24 +36,17 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 	private HandlerMethodReturnValueHandlerComposite returnValueHandlers;
 
 
-	/**
-	 * Creates an instance from the given handler and method.
-	 */
 	public ServletInvocableHandlerMethod(Object handler, Method method) {
 		super(handler, method);
 	}
 
-	/**
-	 * Create an instance from a {@code HandlerMethod}.
-	 */
 	public ServletInvocableHandlerMethod(HandlerMethod handlerMethod) {
 		super(handlerMethod);
 	}
 
 
 	/**
-	 * Register {@link HandlerMethodReturnValueHandler} instances to use to
-	 * handle return values.
+	 * 注册用于处理返回值的{@link HandlerMethodReturnValueHandler}实例.
 	 */
 	public void setHandlerMethodReturnValueHandlers(HandlerMethodReturnValueHandlerComposite returnValueHandlers) {
 		this.returnValueHandlers = returnValueHandlers;
@@ -65,11 +54,11 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 
 
 	/**
-	 * Invoke the method and handle the return value through one of the
-	 * configured {@link HandlerMethodReturnValueHandler}s.
-	 * @param webRequest the current request
-	 * @param mavContainer the ModelAndViewContainer for this request
-	 * @param providedArgs "given" arguments matched by type (not resolved)
+	 * 调用该方法并通过其中一个配置的{@link HandlerMethodReturnValueHandler}处理返回值.
+	 * 
+	 * @param webRequest 当前的请求
+	 * @param mavContainer 此请求的ModelAndViewContainer
+	 * @param providedArgs 按类型匹配的"given"参数 (未解析)
 	 */
 	public void invokeAndHandle(ServletWebRequest webRequest, ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
@@ -102,7 +91,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 	}
 
 	/**
-	 * Set the response status according to the {@link ResponseStatus} annotation.
+	 * 根据{@link ResponseStatus}注解设置响应状态.
 	 */
 	private void setResponseStatus(ServletWebRequest webRequest) throws IOException {
 		HttpStatus status = getResponseStatus();
@@ -118,14 +107,12 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 			webRequest.getResponse().setStatus(status.value());
 		}
 
-		// To be picked up by RedirectView
+		// 被RedirectView选中
 		webRequest.getRequest().setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, status);
 	}
 
 	/**
-	 * Does the given request qualify as "not modified"?
-	 * @see ServletWebRequest#checkNotModified(long)
-	 * @see ServletWebRequest#checkNotModified(String)
+	 * 给定的请求是否符合"未修改"的条件?
 	 */
 	private boolean isRequestNotModified(ServletWebRequest webRequest) {
 		return webRequest.isNotModified();
@@ -141,10 +128,8 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 	}
 
 	/**
-	 * Create a nested ServletInvocableHandlerMethod subclass that returns the
-	 * the given value (or raises an Exception if the value is one) rather than
-	 * actually invoking the controller method. This is useful when processing
-	 * async return values (e.g. Callable, DeferredResult, ListenableFuture).
+	 * 创建一个嵌套的ServletInvocableHandlerMethod子类, 它返回给定的值 (如果值为1则引发异常), 而不是实际调用控制器方法.
+	 * 处理异步返回值时很有用 (e.g. Callable, DeferredResult, ListenableFuture).
 	 */
 	ServletInvocableHandlerMethod wrapConcurrentResult(Object result) {
 		return new ConcurrentResultHandlerMethod(result, new ConcurrentResultMethodParameter(result));
@@ -152,10 +137,9 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 
 
 	/**
-	 * A nested subclass of {@code ServletInvocableHandlerMethod} that uses a
-	 * simple {@link Callable} instead of the original controller as the handler in
-	 * order to return the fixed (concurrent) result value given to it. Effectively
-	 * "resumes" processing with the asynchronously produced return value.
+	 * {@code ServletInvocableHandlerMethod}的嵌套子类, 它使用简单的{@link Callable}而不是原始控制器作为处理器,
+	 * 以便返回给定的固定 (并发) 结果值.
+	 * 使用异步生成的返回值有效地"恢复"处理.
 	 */
 	private class ConcurrentResultHandlerMethod extends ServletInvocableHandlerMethod {
 
@@ -180,7 +164,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 		}
 
 		/**
-		 * Bridge to actual controller type-level annotations.
+		 * 桥接到实际控制器类型级别注解.
 		 */
 		@Override
 		public Class<?> getBeanType() {
@@ -188,8 +172,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 		}
 
 		/**
-		 * Bridge to actual return value or generic type within the declared
-		 * async return type, e.g. Foo instead of {@code DeferredResult<Foo>}.
+		 * 桥接到声明的异步返回类型中的实际返回值或泛型类型, e.g. Foo 而不是 {@code DeferredResult<Foo>}.
 		 */
 		@Override
 		public MethodParameter getReturnValueType(Object returnValue) {
@@ -197,7 +180,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 		}
 
 		/**
-		 * Bridge to controller method-level annotations.
+		 * 桥接到控制器方法级别注解.
 		 */
 		@Override
 		public <A extends Annotation> A getMethodAnnotation(Class<A> annotationType) {
@@ -205,7 +188,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 		}
 
 		/**
-		 * Bridge to controller method-level annotations.
+		 * 桥接到控制器方法级别注解.
 		 */
 		@Override
 		public <A extends Annotation> boolean hasMethodAnnotation(Class<A> annotationType) {
@@ -215,9 +198,8 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 
 
 	/**
-	 * MethodParameter subclass based on the actual return value type or if
-	 * that's null falling back on the generic type within the declared async
-	 * return type, e.g. Foo instead of {@code DeferredResult<Foo>}.
+	 * MethodParameter子类, 基于实际的返回值类型, 或者如果是null, 返回到声明的异步返回类型中的泛型类型,
+	 * e.g. Foo 而不是 {@code DeferredResult<Foo>}.
 	 */
 	private class ConcurrentResultMethodParameter extends HandlerMethodParameter {
 

@@ -4,10 +4,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
- * JSP tag for collecting name-value parameters and passing them to a
- * {@link ParamAware} ancestor in the tag hierarchy.
+ * 用于收集 name-value参数并将其传递到标记层次结构中的{@link ParamAware}祖先的JSP标记.
  *
- * <p>This tag must be nested under a param aware tag.
+ * <p>此标记必须嵌套在param aware标记下.
  */
 @SuppressWarnings("serial")
 public class ParamTag extends BodyTagSupport {
@@ -20,14 +19,14 @@ public class ParamTag extends BodyTagSupport {
 
 
 	/**
-	 * Set the name of the parameter (required).
+	 * 设置参数的名称 (必需).
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Set the value of the parameter (optional).
+	 * 设置参数的值 (可选).
 	 */
 	public void setValue(String value) {
 		this.value = value;

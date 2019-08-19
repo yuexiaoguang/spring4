@@ -25,7 +25,7 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * View using the Velocity template engine.
+ * 使用Velocity模板引擎的视图.
  *
  * <p>Exposes the following JavaBean properties:
  * <ul>
@@ -56,7 +56,7 @@ import org.springframework.web.util.NestedServletException;
  * <p>Note: Spring 3.0's VelocityView requires Velocity 1.4 or higher, and optionally
  * Velocity Tools 1.1 or higher (depending on the use of DateTool and/or NumberTool).
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public class VelocityView extends AbstractTemplateView {

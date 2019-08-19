@@ -3,8 +3,7 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Data-binding-aware JSP tag for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code text}'.
+ * 数据绑定感知JSP标记, 用于呈现'{@code type}'为'{@code text}'的 HTML '{@code input}'元素.
  */
 @SuppressWarnings("serial")
 public class InputTag extends AbstractHtmlInputElementTag {
@@ -35,75 +34,75 @@ public class InputTag extends AbstractHtmlInputElementTag {
 
 
 	/**
-	 * Set the value of the '{@code size}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code size}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setSize(String size) {
 		this.size = size;
 	}
 
 	/**
-	 * Get the value of the '{@code size}' attribute.
+	 * 获取'{@code size}'属性的值.
 	 */
 	protected String getSize() {
 		return this.size;
 	}
 
 	/**
-	 * Set the value of the '{@code maxlength}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code maxlength}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setMaxlength(String maxlength) {
 		this.maxlength = maxlength;
 	}
 
 	/**
-	 * Get the value of the '{@code maxlength}' attribute.
+	 * 获取'{@code maxlength}'属性的值.
 	 */
 	protected String getMaxlength() {
 		return this.maxlength;
 	}
 
 	/**
-	 * Set the value of the '{@code alt}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code alt}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setAlt(String alt) {
 		this.alt = alt;
 	}
 
 	/**
-	 * Get the value of the '{@code alt}' attribute.
+	 * 获取'{@code alt}'属性的值.
 	 */
 	protected String getAlt() {
 		return this.alt;
 	}
 
 	/**
-	 * Set the value of the '{@code onselect}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onselect}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnselect(String onselect) {
 		this.onselect = onselect;
 	}
 
 	/**
-	 * Get the value of the '{@code onselect}' attribute.
+	 * 获取'{@code onselect}'属性的值.
 	 */
 	protected String getOnselect() {
 		return this.onselect;
 	}
 
 	/**
-	 * Set the value of the '{@code autocomplete}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code autocomplete}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setAutocomplete(String autocomplete) {
 		this.autocomplete = autocomplete;
 	}
 
 	/**
-	 * Get the value of the '{@code autocomplete}' attribute.
+	 * 获取'{@code autocomplete}'属性的值.
 	 */
 	protected String getAutocomplete() {
 		return this.autocomplete;
@@ -111,9 +110,8 @@ public class InputTag extends AbstractHtmlInputElementTag {
 
 
 	/**
-	 * Writes the '{@code input}' tag to the supplied {@link TagWriter}.
-	 * Uses the value returned by {@link #getType()} to determine which
-	 * type of '{@code input}' element to render.
+	 * 将'{@code input}'标记写入提供的{@link TagWriter}.
+	 * 使用{@link #getType()}返回的值来确定要呈现的'{@code input}'元素的类型.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
@@ -125,7 +123,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 		}
 		writeValue(tagWriter);
 
-		// custom optional attributes
+		// 自定义可选的属性
 		writeOptionalAttribute(tagWriter, SIZE_ATTRIBUTE, getSize());
 		writeOptionalAttribute(tagWriter, MAXLENGTH_ATTRIBUTE, getMaxlength());
 		writeOptionalAttribute(tagWriter, ALT_ATTRIBUTE, getAlt());
@@ -137,9 +135,8 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Writes the '{@code value}' attribute to the supplied {@link TagWriter}.
-	 * Subclasses may choose to override this implementation to control exactly
-	 * when the value is written.
+	 * 将'{@code value}'属性写入提供的{@link TagWriter}.
+	 * 子类可以选择覆盖此实现以精确控制何时写入值.
 	 */
 	protected void writeValue(TagWriter tagWriter) throws JspException {
 		String value = getDisplayString(getBoundValue(), getPropertyEditor());
@@ -152,8 +149,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Flags {@code type="checkbox"} and {@code type="radio"} as illegal
-	 * dynamic attributes.
+	 * 标志{@code type="checkbox"}和{@code type="radio"} 为非法动态属性.
 	 */
 	@Override
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
@@ -161,9 +157,9 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Get the value of the '{@code type}' attribute. Subclasses
-	 * can override this to change the type of '{@code input}' element
-	 * rendered. Default value is '{@code text}'.
+	 * 获取'{@code type}'属性的值.
+	 * 子类可以覆盖它以更改呈现的'{@code input}'元素的类型.
+	 * 默认为'{@code text}'.
 	 */
 	protected String getType() {
 		return "text";

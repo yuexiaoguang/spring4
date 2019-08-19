@@ -5,28 +5,26 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 /**
- * Base class for {@link org.springframework.web.WebApplicationInitializer}
- * implementations that register a
- * {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet}
- * configured with annotated classes, e.g. Spring's
+ * {@link org.springframework.web.WebApplicationInitializer}实现的基类,
+ * 用于注册使用带注解的类配置的
+ * {@link org.springframework.web.servlet.DispatcherServlet DispatcherServlet},
+ * e.g. Spring的
  * {@link org.springframework.context.annotation.Configuration @Configuration} classes.
  *
- * <p>Concrete implementations are required to implement {@link #getRootConfigClasses()}
- * and {@link #getServletConfigClasses()} as well as {@link #getServletMappings()}.
- * Further template and customization methods are provided by
- * {@link AbstractDispatcherServletInitializer}.
+ * <p>具体实现需要实现{@link #getRootConfigClasses()}
+ * 和{@link #getServletConfigClasses()}以及{@link #getServletMappings()}.
+ * {@link AbstractDispatcherServletInitializer}提供了更多模板和自定义方法.
  *
- * <p>This is the preferred approach for applications that use Java-based
- * Spring configuration.
+ * <p>对于使用基于Java的Spring配置的应用程序, 这是首选方法.
  */
 public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 		extends AbstractDispatcherServletInitializer {
 
 	/**
 	 * {@inheritDoc}
-	 * <p>This implementation creates an {@link AnnotationConfigWebApplicationContext},
-	 * providing it the annotated classes returned by {@link #getRootConfigClasses()}.
-	 * Returns {@code null} if {@link #getRootConfigClasses()} returns {@code null}.
+	 * <p>此实现创建一个{@link AnnotationConfigWebApplicationContext},
+	 * 为其提供{@link #getRootConfigClasses()}返回的带注解的类.
+	 * 如果{@link #getRootConfigClasses()}返回{@code null}, 则返回{@code null}.
 	 */
 	@Override
 	protected WebApplicationContext createRootApplicationContext() {
@@ -43,8 +41,8 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 
 	/**
 	 * {@inheritDoc}
-	 * <p>This implementation creates an {@link AnnotationConfigWebApplicationContext},
-	 * providing it the annotated classes returned by {@link #getServletConfigClasses()}.
+	 * <p>此实现创建一个{@link AnnotationConfigWebApplicationContext},
+	 * 为其提供由{@link #getServletConfigClasses()}返回的带注解的类.
 	 */
 	@Override
 	protected WebApplicationContext createServletApplicationContext() {
@@ -57,21 +55,20 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer
 	}
 
 	/**
-	 * Specify {@link org.springframework.context.annotation.Configuration @Configuration}
-	 * and/or {@link org.springframework.stereotype.Component @Component} classes to be
-	 * provided to the {@linkplain #createRootApplicationContext() root application context}.
-	 * @return the configuration classes for the root application context, or {@code null}
-	 * if creation and registration of a root context is not desired
+	 * 指定要提供给{@linkplain #createRootApplicationContext() 根应用程序上下文}的
+	 * {@link org.springframework.context.annotation.Configuration @Configuration}
+	 * 和/或{@link org.springframework.stereotype.Component @Component}类.
+	 * 
+	 * @return 根应用程序上下文的配置类, 如果不希望创建和注册根上下文, 则为{@code null}
 	 */
 	protected abstract Class<?>[] getRootConfigClasses();
 
 	/**
-	 * Specify {@link org.springframework.context.annotation.Configuration @Configuration}
-	 * and/or {@link org.springframework.stereotype.Component @Component} classes to be
-	 * provided to the {@linkplain #createServletApplicationContext() dispatcher servlet
-	 * application context}.
-	 * @return the configuration classes for the dispatcher servlet application context or
-	 * {@code null} if all configuration is specified through root config classes.
+	 * 指定要提供给{@linkplain #createServletApplicationContext() 调度器servlet应用程序上下文}的
+	 * {@link org.springframework.context.annotation.Configuration @Configuration}
+	 * 和/或{@link org.springframework.stereotype.Component @Component}类.
+	 * 
+	 * @return 调度器servlet应用程序上下文的配置类, 或{@code null} 如果通过根配置类指定了所有配置.
 	 */
 	protected abstract Class<?>[] getServletConfigClasses();
 

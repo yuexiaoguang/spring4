@@ -8,10 +8,9 @@ import org.springframework.core.style.StylerUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Exception thrown when there is no handler method ("action" method)
- * for a specific HTTP request.
+ * 当没有特定HTTP请求的处理器方法 ("action" 方法)时抛出的异常.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 @SuppressWarnings("serial")

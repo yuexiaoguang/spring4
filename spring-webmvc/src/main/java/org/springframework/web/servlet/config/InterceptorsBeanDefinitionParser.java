@@ -16,8 +16,8 @@ import org.springframework.util.xml.DomUtils;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses a
- * {@code interceptors} element to register a set of {@link MappedInterceptor} definitions.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser}
+ * 解析{@code interceptors}元素以注册一组{@link MappedInterceptor}定义.
  */
 class InterceptorsBeanDefinitionParser implements BeanDefinitionParser {
 

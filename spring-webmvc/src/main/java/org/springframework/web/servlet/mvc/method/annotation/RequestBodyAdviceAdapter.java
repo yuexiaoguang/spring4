@@ -8,17 +8,16 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 
 /**
- * A convenient starting point for implementing
+ * 使用默认方法实现实现
  * {@link org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
- * ResponseBodyAdvice} with default method implementations.
+ * ResponseBodyAdvice}的便捷起点.
  *
- * <p>Sub-classes are required to implement {@link #supports} to return true
- * depending on when the advice applies.
+ * <p>子类需要实现{@link #supports}以返回true, 具体取决于增强何时适用.
  */
 public abstract class RequestBodyAdviceAdapter implements RequestBodyAdvice {
 
 	/**
-	 * The default implementation returns the body that was passed in.
+	 * 默认实现返回传入的主体.
 	 */
 	@Override
 	public Object handleEmptyBody(Object body, HttpInputMessage inputMessage,
@@ -29,7 +28,7 @@ public abstract class RequestBodyAdviceAdapter implements RequestBodyAdvice {
 	}
 
 	/**
-	 * The default implementation returns the InputMessage that was passed in.
+	 * 默认实现返回传入的InputMessage.
 	 */
 	@Override
 	public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter,
@@ -40,7 +39,7 @@ public abstract class RequestBodyAdviceAdapter implements RequestBodyAdvice {
 	}
 
 	/**
-	 * The default implementation returns the body that was passed in.
+	 * 默认实现返回传入的主体.
 	 */
 	@Override
 	public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter,
@@ -48,5 +47,4 @@ public abstract class RequestBodyAdviceAdapter implements RequestBodyAdvice {
 
 		return body;
 	}
-
 }

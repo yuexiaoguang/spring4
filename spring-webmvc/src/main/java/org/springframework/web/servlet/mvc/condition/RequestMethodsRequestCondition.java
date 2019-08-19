@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * A logical disjunction (' || ') request condition that matches a request
- * against a set of {@link RequestMethod}s.
+ * 一个逻辑或 (' || ') 请求条件, 它匹配一组{@link RequestMethod}的请求.
  */
 public final class RequestMethodsRequestCondition extends AbstractRequestCondition<RequestMethodsRequestCondition> {
 
@@ -28,9 +27,7 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 
 
 	/**
-	 * Create a new instance with the given request methods.
-	 * @param requestMethods 0 or more HTTP request methods;
-	 * if, 0 the condition will match to every request
+	 * @param requestMethods 0个或更多HTTP请求方法; 0条件将匹配每个请求
 	 */
 	public RequestMethodsRequestCondition(RequestMethod... requestMethods) {
 		this(asList(requestMethods));
@@ -47,7 +44,7 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 
 
 	/**
-	 * Returns all {@link RequestMethod}s contained in this condition.
+	 * 返回此条件中包含的所有{@link RequestMethod}.
 	 */
 	public Set<RequestMethod> getMethods() {
 		return this.methods;
@@ -64,8 +61,7 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * Returns a new instance with a union of the HTTP request methods
-	 * from "this" and the "other" instance.
+	 * 返回一个新实例, 其中包含来自"this"和"other"实例的HTTP请求方法的并集.
 	 */
 	@Override
 	public RequestMethodsRequestCondition combine(RequestMethodsRequestCondition other) {
@@ -75,13 +71,12 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * Check if any of the HTTP request methods match the given request and
-	 * return an instance that contains the matching HTTP request method only.
-	 * @param request the current request
-	 * @return the same instance if the condition is empty (unless the request
-	 * method is HTTP OPTIONS), a new condition with the matched request method,
-	 * or {@code null} if there is no match or the condition is empty and the
-	 * request method is OPTIONS.
+	 * 检查是否有任何HTTP请求方法与给定请求匹配, 并返回仅包含匹配的HTTP请求方法的实例.
+	 * 
+	 * @param request 当前的请求
+	 * 
+	 * @return 如果条件为空(除非请求方法是 HTTP OPTIONS), 则使用匹配的请求方法的新条件,
+	 * 如果没有匹配或条件为空且请求方法为OPTIONS, 则为{@code null}.
 	 */
 	@Override
 	public RequestMethodsRequestCondition getMatchingCondition(HttpServletRequest request) {
@@ -102,9 +97,8 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * On a pre-flight request match to the would-be, actual request.
-	 * Hence empty conditions is a match, otherwise try to match to the HTTP
-	 * method in the "Access-Control-Request-Method" header.
+	 * 匹配pre-flight请求.
+	 * 因此, 空条件是匹配的, 否则尝试匹配"Access-Control-Request-Method" header中的HTTP方法.
 	 */
 	private RequestMethodsRequestCondition matchPreFlight(HttpServletRequest request) {
 		if (getMethods().isEmpty()) {
@@ -130,15 +124,14 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * Returns:
+	 * 返回:
 	 * <ul>
-	 * <li>0 if the two conditions contain the same number of HTTP request methods
-	 * <li>Less than 0 if "this" instance has an HTTP request method but "other" doesn't
-	 * <li>Greater than 0 "other" has an HTTP request method but "this" doesn't
+	 * <li>如果两个条件包含相同数量的HTTP请求方法, 则为0
+	 * <li>如果"this"实例具有的HTTP请求方法"other"不具有, 则小于0
+	 * <li>"other"具有的HTTP请求方法"this"不具有, 则大于0
 	 * </ul>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} and therefore each instance
-	 * contains the matching HTTP request method only or is otherwise empty.
+	 * <p>假设两个实例都是通过{@link #getMatchingCondition(HttpServletRequest)}获得的,
+	 * 因此每个实例仅包含匹配的HTTP请求方法, 否则为空.
 	 */
 	@Override
 	public int compareTo(RequestMethodsRequestCondition other, HttpServletRequest request) {

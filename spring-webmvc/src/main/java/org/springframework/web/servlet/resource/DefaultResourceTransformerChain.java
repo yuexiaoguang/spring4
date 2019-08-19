@@ -9,8 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * A default implementation of {@link ResourceTransformerChain} for invoking
- * a list of {@link ResourceTransformer}s.
+ * {@link ResourceTransformerChain}的默认实现, 用于调用{@link ResourceTransformer}的列表.
  */
 class DefaultResourceTransformerChain implements ResourceTransformerChain {
 

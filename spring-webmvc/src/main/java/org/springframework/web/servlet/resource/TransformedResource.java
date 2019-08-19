@@ -6,9 +6,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
 /**
- * An extension of {@link org.springframework.core.io.ByteArrayResource}
- * that a {@link ResourceTransformer} can use to represent an original
- * resource preserving all other information except the content.
+ * {@link org.springframework.core.io.ByteArrayResource}的扩展,
+ * {@link ResourceTransformer}可用于表示原始资源, 保留除内容之外的所有其他信息.
  */
 public class TransformedResource extends ByteArrayResource {
 

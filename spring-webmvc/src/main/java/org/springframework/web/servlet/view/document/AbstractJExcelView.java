@@ -15,11 +15,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Convenient superclass for Excel document views.
+ * 方便的Excel文档视图超类.
  *
- * <p>This class uses the <i>JExcelAPI</i> instead of <i>POI</i>.
- * More information on <i>JExcelAPI</i> can be found on their
- * <a href="http://www.andykhan.com/jexcelapi/" target="_blank">website</a>.
+ * <p>此类使用<i>JExcelAPI</i>而不是<i>POI</i>.
+ * More information on <i>JExcelAPI</i> can be found on their <a href="http://www.andykhan.com/jexcelapi/" target="_blank">website</a>.
  *
  * <p>Properties:
  * <ul>
@@ -53,11 +52,9 @@ import org.springframework.web.servlet.view.AbstractView;
  * 	 sheet.addCell(label);
  * }</pre>
  *
- * The use of this view is close to the {@link AbstractExcelView} class,
- * just using the JExcel API instead of the Apache POI API.
+ * The use of this view is close to the {@link AbstractExcelView} class, just using the JExcel API instead of the Apache POI API.
  *
- * @deprecated as of Spring 4.0, since JExcelAPI is an abandoned project
- * (no release since 2009, with serious bugs remaining)
+ * @deprecated 从Spring 4.0开始，因为JExcelAPI是一个废弃的项目 (自2009年以来没有发布, 还有严重的漏洞)
  */
 @Deprecated
 public abstract class AbstractJExcelView extends AbstractView {

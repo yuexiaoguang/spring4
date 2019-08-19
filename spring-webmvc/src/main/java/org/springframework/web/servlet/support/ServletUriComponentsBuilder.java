@@ -16,31 +16,27 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * UriComponentsBuilder with additional static factory methods to create links
- * based on the current HttpServletRequest.
+ * 具有额外的静态工厂方法的UriComponentsBuilder, 可以根据当前的HttpServletRequest创建链接.
  *
- * <p><strong>Note:</strong> This class uses values from "Forwarded"
+ * <p><strong>Note:</strong> 此类使用"Forwarded"
  * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
- * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
- * if present, in order to reflect the client-originated protocol and address.
- * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
- * central place whether to extract and use, or to discard such headers.
- * See the Spring Framework reference for more on this filter.
+ * "X-Forwarded-Host", "X-Forwarded-Port", 和"X-Forwarded-Proto" header中的值,
+ * 以反映客户端发起的协议和地址.
+ * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此类header.
+ * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
  */
 public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 
 	private String originalPath;
 
 
-	/**
-	 * Default constructor. Protected to prevent direct instantiation.
-	 */
 	protected ServletUriComponentsBuilder() {
 	}
 
 	/**
-	 * Create a deep copy of the given ServletUriComponentsBuilder.
-	 * @param other the other builder to copy from
+	 * 创建给定ServletUriComponentsBuilder的深层副本.
+	 * 
+	 * @param other 要复制的其他构建器
 	 */
 	protected ServletUriComponentsBuilder(ServletUriComponentsBuilder other) {
 		super(other);
@@ -51,15 +47,11 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	// Factory methods based on a HttpServletRequest
 
 	/**
-	 * Prepare a builder from the host, port, scheme, and context path of the
-	 * given HttpServletRequest.
+	 * 从给定HttpServletRequest的主机, 端口, scheme和上下文路径准备构建器.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromContextPath(HttpServletRequest request) {
 		ServletUriComponentsBuilder builder = initFromRequest(request);
@@ -69,19 +61,14 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	}
 
 	/**
-	 * Prepare a builder from the host, port, scheme, context path, and
-	 * servlet mapping of the given HttpServletRequest.
-	 * <p>If the servlet is mapped by name, e.g. {@code "/main/*"}, the path
-	 * will end with "/main". If the servlet is mapped otherwise, e.g.
-	 * {@code "/"} or {@code "*.do"}, the result will be the same as
-	 * if calling {@link #fromContextPath(HttpServletRequest)}.
+	 * 从给定HttpServletRequest的主机, 端口, scheme, 上下文路径和servlet映射准备构建器.
+	 * <p>如果servlet按名称映射, e.g. {@code "/main/*"}, 路径将以"/main"结尾.
+	 * 如果以其他方式映射servlet, e.g. {@code "/"}或{@code "*.do"},
+	 * 结果与调用{@link #fromContextPath(HttpServletRequest)}的结果相同.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromServletMapping(HttpServletRequest request) {
 		ServletUriComponentsBuilder builder = fromContextPath(request);
@@ -92,15 +79,11 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	}
 
 	/**
-	 * Prepare a builder from the host, port, scheme, and path (but not the query)
-	 * of the HttpServletRequest.
+	 * 从HttpServletRequest的主机, 端口, scheme和路径 (but not the query)准备构建器.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromRequestUri(HttpServletRequest request) {
 		ServletUriComponentsBuilder builder = initFromRequest(request);
@@ -109,15 +92,11 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	}
 
 	/**
-	 * Prepare a builder by copying the scheme, host, port, path, and
-	 * query string of an HttpServletRequest.
+	 * 通过复制HttpServletRequest的scheme, 主机, 端口, 路径和查询字符串来准备构建器.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromRequest(HttpServletRequest request) {
 		ServletUriComponentsBuilder builder = initFromRequest(request);
@@ -127,7 +106,7 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	}
 
 	/**
-	 * Initialize a builder with a scheme, host,and port (but not path and query).
+	 * 使用scheme, 主机和端口初始化构建器 (但不是路径和查询).
 	 */
 	private static ServletUriComponentsBuilder initFromRequest(HttpServletRequest request) {
 		HttpRequest httpRequest = new ServletServerHttpRequest(request);
@@ -179,63 +158,49 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	// Alternative methods relying on RequestContextHolder to find the request
 
 	/**
-	 * Same as {@link #fromContextPath(HttpServletRequest)} except the
-	 * request is obtained through {@link RequestContextHolder}.
+	 * 与{@link #fromContextPath(HttpServletRequest)}相同, 除了请求是通过{@link RequestContextHolder}获得的.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromCurrentContextPath() {
 		return fromContextPath(getCurrentRequest());
 	}
 
 	/**
-	 * Same as {@link #fromServletMapping(HttpServletRequest)} except the
-	 * request is obtained through {@link RequestContextHolder}.
+	 * 与{@link #fromServletMapping(HttpServletRequest)}相同, 除了请求是通过{@link RequestContextHolder}获得的.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 */
 	public static ServletUriComponentsBuilder fromCurrentServletMapping() {
 		return fromServletMapping(getCurrentRequest());
 	}
 
 	/**
-	 * Same as {@link #fromRequestUri(HttpServletRequest)} except the
-	 * request is obtained through {@link RequestContextHolder}.
+	 * 与{@link #fromRequestUri(HttpServletRequest)}相同, 除了请求是通过{@link RequestContextHolder}获得的.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromCurrentRequestUri() {
 		return fromRequestUri(getCurrentRequest());
 	}
 
 	/**
-	 * Same as {@link #fromRequest(HttpServletRequest)} except the
-	 * request is obtained through {@link RequestContextHolder}.
+	 * 与{@link #fromRequest(HttpServletRequest)}相同, 除了请求是通过{@link RequestContextHolder}获得的.
 	 *
-	 * <p><strong>Note:</strong> This method extracts values from "Forwarded"
-	 * and "X-Forwarded-*" headers if found. See class-level docs.
+	 * <p><strong>Note:</strong> 如果找到, 此方法从"Forwarded"和"X-Forwarded-*" header中提取值. 请参阅类级文档.
 	 *
-	 * <p>As of 4.3.15, this method replaces the contextPath with the value
-	 * of "X-Forwarded-Prefix" rather than prepending, thus aligning with
-	 * {@code ForwardedHeaderFiller}.
+	 * <p>从4.3.15开始, 此方法将contextPath替换为"X-Forwarded-Prefix", 而不是加前缀, 从而与{@code ForwardedHeaderFiller}对齐.
 	 */
 	public static ServletUriComponentsBuilder fromCurrentRequest() {
 		return fromRequest(getCurrentRequest());
 	}
 
 	/**
-	 * Obtain current request through {@link RequestContextHolder}.
+	 * 通过{@link RequestContextHolder}获取当前请求.
 	 */
 	protected static HttpServletRequest getCurrentRequest() {
 		RequestAttributes attrs = RequestContextHolder.getRequestAttributes();
@@ -250,9 +215,8 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	}
 
 	/**
-	 * Remove any path extension from the {@link HttpServletRequest#getRequestURI()
-	 * requestURI}. This method must be invoked before any calls to {@link #path(String)}
-	 * or {@link #pathSegment(String...)}.
+	 * 从{@link HttpServletRequest#getRequestURI() requestURI}中删除任何路径扩展名.
+	 * 必须在调用{@link #path(String)}或{@link #pathSegment(String...)}之前调用此方法.
 	 * <pre>
 	 * GET http://foo.com/rest/books/6.json
 	 *
@@ -261,8 +225,8 @@ public class ServletUriComponentsBuilder extends UriComponentsBuilder {
 	 * String uri = builder.path("/pages/1.{ext}").buildAndExpand(ext).toUriString();
 	 * assertEquals("http://foo.com/rest/books/6/pages/1.json", result);
 	 * </pre>
-	 * @return the removed path extension for possible re-use, or {@code null}
-	 * @since 4.0
+	 * 
+	 * @return 可能重复使用的删除的路径扩展名, 或{@code null}
 	 */
 	public String removePathExtension() {
 		String extension = null;

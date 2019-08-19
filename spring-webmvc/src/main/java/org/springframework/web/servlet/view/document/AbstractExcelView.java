@@ -17,24 +17,23 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Convenient superclass for Excel document views.
- * Compatible with Apache POI 3.5 and higher, as of Spring 4.0.
+ * 方便的Excel文档视图超类.
+ * 从Spring 4.0开始, 与Apache POI 3.5及更高版本兼容.
  *
- * <p>Properties:
+ * <p>属性:
  * <ul>
- * <li>url (optional): The url of an existing Excel document to pick as a starting point.
- * It is done without localization part nor the ".xls" extension.
+ * <li>url (可选): 要选择现有Excel文档的URL作为起点.
+ * 没有本地化部分也没有 ".xls"扩展名.
  * </ul>
  *
- * <p>The file will be searched with locations in the following order:
+ * <p>将按以下顺序使用位置搜索文件:
  * <ul>
  * <li>[url]_[language]_[country].xls
  * <li>[url]_[language].xls
  * <li>[url].xls
  * </ul>
  *
- * <p>For working with the workbook in the subclass, see
- * <a href="http://poi.apache.org">Apache's POI site</a>
+ * <p>For working with the workbook in the subclass, see <a href="http://poi.apache.org">Apache's POI site</a>
  *
  * <p>As an example, you can try this snippet:
  *
@@ -70,7 +69,7 @@ import org.springframework.web.servlet.view.AbstractView;
  *   }
  * }</pre>
  *
- * This class is similar to the AbstractPdfView class in usage style.
+ * 此类与使用样式中的AbstractPdfView类类似.
  *
  * @deprecated as of Spring 4.2, in favor of {@link AbstractXlsView} and its
  * {@link AbstractXlsxView} and {@link AbstractXlsxStreamingView} variants

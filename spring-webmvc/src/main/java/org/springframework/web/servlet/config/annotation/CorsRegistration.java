@@ -5,10 +5,9 @@ import java.util.Arrays;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
- * Assists with the creation of a {@link CorsConfiguration} instance mapped to
- * a path pattern. By default all origins, headers, and credentials for
- * {@code GET}, {@code HEAD}, and {@code POST} requests are allowed while the
- * max age is set to 30 minutes.
+ * 协助创建映射到路径模式的{@link CorsConfiguration}实例.
+ * 默认情况下, 允许{@code GET}, {@code HEAD}, 和{@code POST}请求的所有来源, header和凭据,
+ * 而最长期限设置为30分钟.
  */
 public class CorsRegistration {
 
@@ -18,31 +17,29 @@ public class CorsRegistration {
 
 
 	/**
-	 * Create a new {@link CorsRegistration} that allows all origins, headers, and
-	 * credentials for {@code GET}, {@code HEAD}, and {@code POST} requests with
-	 * max age set to 1800 seconds (30 minutes) for the specified path.
-	 * @param pathPattern the path that the CORS configuration should apply to;
-	 * exact path mapping URIs (such as {@code "/admin"}) are supported as well
-	 * as Ant-style path patterns (such as {@code "/admin/**"}).
+	 * 创建一个新的{@link CorsRegistration}, 允许指定路径的{@code GET}, {@code HEAD},
+	 * 和{@code POST}请求的所有来源, header和凭据, 最长期限设置为 1800 秒 (30 分钟).
+	 * 
+	 * @param pathPattern CORS配置应该应用的路径;
+	 * 支持精确路径映射URI (例如{@code "/admin"}) 以及Ant样式路径模式 (例如{@code "/admin/**"}).
 	 */
 	public CorsRegistration(String pathPattern) {
 		this.pathPattern = pathPattern;
-		// Same implicit default values as the @CrossOrigin annotation + allows simple methods
+		// 默认 @CrossOrigin 注解 + 允许简单方法
 		this.config = new CorsConfiguration().applyPermitDefaultValues();
 	}
 
 
 	/**
-	 * Set the origins to allow, e.g. {@code "http://domain1.com"}.
-	 * <p>The special value {@code "*"} allows all domains.
-	 * <p>By default, all origins are allowed.
-	 * <p><strong>Note:</strong> CORS checks use values from "Forwarded"
+	 * 设置允许的来源, e.g. {@code "http://domain1.com"}.
+	 * <p>特殊值 {@code "*"}允许所有域.
+	 * <p>默认允许所有来源.
+	 * <p><strong>Note:</strong> CORS检查使用"Forwarded"
 	 * (<a href="http://tools.ietf.org/html/rfc7239">RFC 7239</a>),
-	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
-	 * if present, in order to reflect the client-originated address.
-	 * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
-	 * central place whether to extract and use, or to discard such headers.
-	 * See the Spring Framework reference for more on this filter.
+	 * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" header中的值,
+	 * 以反映客户端发起的地址.
+	 * 考虑使用{@code ForwardedHeaderFilter}从中心位置选择是否提取和使用, 或丢弃此类header.
+	 * 有关此过滤器的更多信息, 请参阅Spring Framework参考.
 	 */
 	public CorsRegistration allowedOrigins(String... origins) {
 		this.config.setAllowedOrigins(Arrays.asList(origins));
@@ -51,10 +48,9 @@ public class CorsRegistration {
 
 
 	/**
-	 * Set the HTTP methods to allow, e.g. {@code "GET"}, {@code "POST"}, etc.
-	 * <p>The special value {@code "*"} allows all methods.
-	 * <p>By default "simple" methods {@code GET}, {@code HEAD}, and {@code POST}
-	 * are allowed.
+	 * 设置允许的HTTP方法, e.g. {@code "GET"}, {@code "POST"}, etc.
+	 * <p>特殊值{@code "*"}允许所有方法.
+	 * <p>默认允许"简单"方法 {@code GET}, {@code HEAD}, 和{@code POST}.
 	 */
 	public CorsRegistration allowedMethods(String... methods) {
 		this.config.setAllowedMethods(Arrays.asList(methods));
@@ -62,13 +58,12 @@ public class CorsRegistration {
 	}
 
 	/**
-	 * Set the list of headers that a pre-flight request can list as allowed
-	 * for use during an actual request.
-	 * <p>The special value {@code "*"} may be used to allow all headers.
-	 * <p>A header name is not required to be listed if it is one of:
-	 * {@code Cache-Control}, {@code Content-Language}, {@code Expires},
-	 * {@code Last-Modified}, or {@code Pragma} as per the CORS spec.
-	 * <p>By default all headers are allowed.
+	 * 设置在实际请求期间pre-flight请求列出的允许使用的header列表.
+	 * <p>特殊值{@code "*"} 可用于允许所有header.
+	 * <p>如果header名称是其中之一, 则不需要列出header名称:
+	 * 根据CORS规范, {@code Cache-Control}, {@code Content-Language}, {@code Expires},
+	 * {@code Last-Modified}, 或{@code Pragma}.
+	 * <p>默认允许所有header.
 	 */
 	public CorsRegistration allowedHeaders(String... headers) {
 		this.config.setAllowedHeaders(Arrays.asList(headers));
@@ -76,12 +71,11 @@ public class CorsRegistration {
 	}
 
 	/**
-	 * Set the list of response headers other than "simple" headers, i.e.
+	 * 设置"简单" header以外的响应header列表, i.e.
 	 * {@code Cache-Control}, {@code Content-Language}, {@code Content-Type},
-	 * {@code Expires}, {@code Last-Modified}, or {@code Pragma}, that an
-	 * actual response might have and can be exposed.
-	 * <p>Note that {@code "*"} is not supported on this property.
-	 * <p>By default this is not set.
+	 * {@code Expires}, {@code Last-Modified}, 或{@code Pragma}, 实际的反应可能会暴露出来.
+	 * <p>请注意, 此属性不支持{@code "*"}.
+	 * <p>默认未设置.
 	 */
 	public CorsRegistration exposedHeaders(String... headers) {
 		this.config.setExposedHeaders(Arrays.asList(headers));
@@ -89,9 +83,8 @@ public class CorsRegistration {
 	}
 
 	/**
-	 * Configure how long in seconds the response from a pre-flight request
-	 * can be cached by clients.
-	 * <p>By default this is set to 1800 seconds (30 minutes).
+	 * 配置客户端缓存来自pre-flight请求的响应的时间长度, 以秒为单位.
+	 * <p>默认为 1800 秒 (30 分钟).
 	 */
 	public CorsRegistration maxAge(long maxAge) {
 		this.config.setMaxAge(maxAge);
@@ -99,9 +92,8 @@ public class CorsRegistration {
 	}
 
 	/**
-	 * Whether user credentials are supported.
-	 * <p>By default this is set to {@code true} in which case user credentials
-	 * are supported.
+	 * 是否支持用户凭据.
+	 * <p>默认为{@code true}, 支持用户凭据.
 	 */
 	public CorsRegistration allowCredentials(boolean allowCredentials) {
 		this.config.setAllowCredentials(allowCredentials);
@@ -115,5 +107,4 @@ public class CorsRegistration {
 	protected CorsConfiguration getCorsConfiguration() {
 		return this.config;
 	}
-
 }

@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Resolves request-related method argument values of the following types:
+ * 解析以下类型的与请求相关的方法参数值:
  * <ul>
  * <li>{@link WebRequest}
  * <li>{@link ServletRequest}
@@ -31,10 +31,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
  * <li>{@link Principal}
  * <li>{@link InputStream}
  * <li>{@link Reader}
- * <li>{@link HttpMethod} (as of Spring 4.0)
+ * <li>{@link HttpMethod} (从Spring 4.0开始)
  * <li>{@link Locale}
- * <li>{@link TimeZone} (as of Spring 4.0)
- * <li>{@link java.time.ZoneId} (as of Spring 4.0 and Java 8)
+ * <li>{@link TimeZone} (从Spring 4.0开始)
+ * <li>{@link java.time.ZoneId} (从Spring 4.0和Java 8开始)
  * </ul>
  */
 public class ServletRequestMethodArgumentResolver implements HandlerMethodArgumentResolver {
@@ -131,7 +131,7 @@ public class ServletRequestMethodArgumentResolver implements HandlerMethodArgume
 
 
 	/**
-	 * Inner class to avoid a hard-coded dependency on Java 8's {@link java.time.ZoneId}.
+	 * 内部类, 以避免对Java 8 {@link java.time.ZoneId}的硬编码依赖.
 	 */
 	@UsesJava8
 	private static class ZoneIdResolver {
@@ -141,5 +141,4 @@ public class ServletRequestMethodArgumentResolver implements HandlerMethodArgume
 			return (timeZone != null ? timeZone.toZoneId() : ZoneId.systemDefault());
 		}
 	}
-
 }

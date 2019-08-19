@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 
 /**
- * Assists with the creation of a {@link MappedInterceptor}.
+ * 协助创建{@link MappedInterceptor}.
  */
 public class InterceptorRegistration {
 
@@ -24,9 +24,6 @@ public class InterceptorRegistration {
 	private PathMatcher pathMatcher;
 
 
-	/**
-	 * Create an {@link InterceptorRegistration} instance.
-	 */
 	public InterceptorRegistration(HandlerInterceptor interceptor) {
 		Assert.notNull(interceptor, "Interceptor is required");
 		this.interceptor = interceptor;
@@ -34,7 +31,7 @@ public class InterceptorRegistration {
 
 
 	/**
-	 * Add URL patterns to which the registered interceptor should apply to.
+	 * 添加已注册的拦截器应应用于的URL模式.
 	 */
 	public InterceptorRegistration addPathPatterns(String... patterns) {
 		this.includePatterns.addAll(Arrays.asList(patterns));
@@ -42,7 +39,7 @@ public class InterceptorRegistration {
 	}
 
 	/**
-	 * Add URL patterns to which the registered interceptor should not apply to.
+	 * 添加注册的拦截器不应该应用于的URL模式.
 	 */
 	public InterceptorRegistration excludePathPatterns(String... patterns) {
 		this.excludePatterns.addAll(Arrays.asList(patterns));
@@ -50,10 +47,8 @@ public class InterceptorRegistration {
 	}
 
 	/**
-	 * A PathMatcher implementation to use with this interceptor. This is an optional,
-	 * advanced property required only if using custom PathMatcher implementations
-	 * that support mapping metadata other than the Ant path patterns supported
-	 * by default.
+	 * 与此拦截器一起使用的PathMatcher实现.
+	 * 这是一个可选的高级属性, 仅当使用支持映射元数据的自定义PathMatcher实现时才需要, 而不是默认支持的Ant路径模式.
 	 */
 	public InterceptorRegistration pathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
@@ -61,8 +56,8 @@ public class InterceptorRegistration {
 	}
 
 	/**
-	 * Build the underlying interceptor. If URL patterns are provided, the returned
-	 * type is {@link MappedInterceptor}; otherwise {@link HandlerInterceptor}.
+	 * 构建底层拦截器.
+	 * 如果提供了URL模式, 则返回的类型为{@link MappedInterceptor}; 否则{@link HandlerInterceptor}.
 	 */
 	protected Object getInterceptor() {
 		if (this.includePatterns.isEmpty() && this.excludePatterns.isEmpty()) {

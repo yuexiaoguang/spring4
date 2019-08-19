@@ -27,9 +27,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 
 /**
- * Creates {@link RequestMappingInfo} instances from type and method-level
- * {@link RequestMapping @RequestMapping} annotations in
- * {@link Controller @Controller} classes.
+ * 从{@link Controller @Controller}类中的类型和方法级{@link RequestMapping @RequestMapping}注解创建{@link RequestMappingInfo}实例.
  */
 public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMapping
 		implements MatchableHandlerMapping, EmbeddedValueResolverAware {
@@ -48,22 +46,19 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 
 	/**
-	 * Whether to use suffix pattern match (".*") when matching patterns to
-	 * requests. If enabled a method mapped to "/users" also matches to "/users.*".
-	 * <p>The default value is {@code true}.
-	 * <p>Also see {@link #setUseRegisteredSuffixPatternMatch(boolean)} for
-	 * more fine-grained control over specific suffixes to allow.
+	 * 在将模式与请求匹配时是否使用后缀模式匹配 (".*").
+	 * 如果启用, 映射到"/users"的方法也匹配"/users.*".
+	 * <p>默认为{@code true}.
+	 * <p>另请参阅{@link #setUseRegisteredSuffixPatternMatch(boolean)}以获得对允许的特定后缀的更细粒度控制.
 	 */
 	public void setUseSuffixPatternMatch(boolean useSuffixPatternMatch) {
 		this.useSuffixPatternMatch = useSuffixPatternMatch;
 	}
 
 	/**
-	 * Whether suffix pattern matching should work only against path extensions
-	 * explicitly registered with the {@link ContentNegotiationManager}. This
-	 * is generally recommended to reduce ambiguity and to avoid issues such as
-	 * when a "." appears in the path for other reasons.
-	 * <p>By default this is set to "false".
+	 * 后缀模式匹配是否仅适用于在{@link ContentNegotiationManager}中明确注册的路径扩展.
+	 * 通常建议这样做以减少歧义, 并避免诸如路径中的 "."之类的问题.
+	 * <p>默认为"false".
 	 */
 	public void setUseRegisteredSuffixPatternMatch(boolean useRegisteredSuffixPatternMatch) {
 		this.useRegisteredSuffixPatternMatch = useRegisteredSuffixPatternMatch;
@@ -71,17 +66,17 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a method mapped to "/users" also matches to "/users/".
-	 * <p>The default value is {@code true}.
+	 * 是否匹配URL而不管是否存在尾部斜杠.
+	 * 如果启用, 映射到"/users"的方法也匹配"/users/".
+	 * <p>默认为{@code true}.
 	 */
 	public void setUseTrailingSlashMatch(boolean useTrailingSlashMatch) {
 		this.useTrailingSlashMatch = useTrailingSlashMatch;
 	}
 
 	/**
-	 * Set the {@link ContentNegotiationManager} to use to determine requested media types.
-	 * If not set, the default constructor is used.
+	 * 设置用于确定请求的媒体类型的{@link ContentNegotiationManager}.
+	 * 如果未设置, 则使用默认构造函数.
 	 */
 	public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
 		Assert.notNull(contentNegotiationManager, "ContentNegotiationManager must not be null");
@@ -89,7 +84,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Return the configured {@link ContentNegotiationManager}.
+	 * 返回配置的{@link ContentNegotiationManager}.
 	 */
 	public ContentNegotiationManager getContentNegotiationManager() {
 		return this.contentNegotiationManager;
@@ -115,28 +110,28 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 
 	/**
-	 * Whether to use suffix pattern matching.
+	 * 是否使用后缀模式匹配.
 	 */
 	public boolean useSuffixPatternMatch() {
 		return this.useSuffixPatternMatch;
 	}
 
 	/**
-	 * Whether to use registered suffixes for pattern matching.
+	 * 是否使用已注册的后缀进行模式匹配.
 	 */
 	public boolean useRegisteredSuffixPatternMatch() {
 		return this.useRegisteredSuffixPatternMatch;
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
+	 * 是否匹配URL而不管是否存在尾部斜杠.
 	 */
 	public boolean useTrailingSlashMatch() {
 		return this.useTrailingSlashMatch;
 	}
 
 	/**
-	 * Return the file extensions to use for suffix pattern matching.
+	 * 返回用于后缀模式匹配的文件扩展名.
 	 */
 	public List<String> getFileExtensions() {
 		return this.config.getFileExtensions();
@@ -145,8 +140,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Expects a handler to have either a type-level @{@link Controller}
-	 * annotation or a type-level @{@link RequestMapping} annotation.
+	 * <p>期望处理器具有类型级别 @{@link Controller}注解或类型级别 @{@link RequestMapping}注解.
 	 */
 	@Override
 	protected boolean isHandler(Class<?> beanType) {
@@ -155,12 +149,9 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Uses method and type-level @{@link RequestMapping} annotations to create
-	 * the RequestMappingInfo.
-	 * @return the created RequestMappingInfo, or {@code null} if the method
-	 * does not have a {@code @RequestMapping} annotation.
-	 * @see #getCustomMethodCondition(Method)
-	 * @see #getCustomTypeCondition(Class)
+	 * 使用方法和类型级别 @{@link RequestMapping}注解来创建RequestMappingInfo.
+	 * 
+	 * @return 创建的 RequestMappingInfo, 或{@code null} 如果方法没有{@code @RequestMapping}注解.
 	 */
 	@Override
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
@@ -175,11 +166,8 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Delegates to {@link #createRequestMappingInfo(RequestMapping, RequestCondition)},
-	 * supplying the appropriate custom {@link RequestCondition} depending on whether
-	 * the supplied {@code annotatedElement} is a class or method.
-	 * @see #getCustomTypeCondition(Class)
-	 * @see #getCustomMethodCondition(Method)
+	 * 委托给{@link #createRequestMappingInfo(RequestMapping, RequestCondition)},
+	 * 提供适当的自定义{@link RequestCondition}, 具体取决于提供的{@code annotatedElement}是否为类或方法.
 	 */
 	private RequestMappingInfo createRequestMappingInfo(AnnotatedElement element) {
 		RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(element, RequestMapping.class);
@@ -189,40 +177,38 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Provide a custom type-level request condition.
-	 * The custom {@link RequestCondition} can be of any type so long as the
-	 * same condition type is returned from all calls to this method in order
-	 * to ensure custom request conditions can be combined and compared.
-	 * <p>Consider extending {@link AbstractRequestCondition} for custom
-	 * condition types and using {@link CompositeRequestCondition} to provide
-	 * multiple custom conditions.
-	 * @param handlerType the handler type for which to create the condition
-	 * @return the condition, or {@code null}
+	 * 提供自定义类型级别请求条件.
+	 * 自定义的{@link RequestCondition}可以是任何类型,
+	 * 只要从对此方法的所有调用返回相同的条件类型, 以确保可以组合和比较自定义请求条件.
+	 * <p>考虑为自定义条件类型扩展{@link AbstractRequestCondition},
+	 * 并使用{@link CompositeRequestCondition}提供多个自定义条件.
+	 * 
+	 * @param handlerType 要为其创建条件的处理器类型
+	 * 
+	 * @return 条件, 或{@code null}
 	 */
 	protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) {
 		return null;
 	}
 
 	/**
-	 * Provide a custom method-level request condition.
-	 * The custom {@link RequestCondition} can be of any type so long as the
-	 * same condition type is returned from all calls to this method in order
-	 * to ensure custom request conditions can be combined and compared.
-	 * <p>Consider extending {@link AbstractRequestCondition} for custom
-	 * condition types and using {@link CompositeRequestCondition} to provide
-	 * multiple custom conditions.
-	 * @param method the handler method for which to create the condition
-	 * @return the condition, or {@code null}
+	 * 提供自定义方法级别请求条件.
+	 * 自定义的{@link RequestCondition}可以是任何类型,
+	 * 只要从对此方法的所有调用返回相同的条件类型, 以确保可以组合和比较自定义请求条件.
+	 * <p>考虑为自定义条件类型扩展{@link AbstractRequestCondition},
+	 * 并使用{@link CompositeRequestCondition}提供多个自定义条件.
+	 * 
+	 * @param method 要为其创建条件的处理器方法
+	 * 
+	 * @return 条件, 或{@code null}
 	 */
 	protected RequestCondition<?> getCustomMethodCondition(Method method) {
 		return null;
 	}
 
 	/**
-	 * Create a {@link RequestMappingInfo} from the supplied
-	 * {@link RequestMapping @RequestMapping} annotation, which is either
-	 * a directly declared annotation, a meta-annotation, or the synthesized
-	 * result of merging annotation attributes within an annotation hierarchy.
+	 * 从提供的{@link RequestMapping @RequestMapping}注解创建{@link RequestMappingInfo},
+	 * 注解可以是直接声明的注解, 元注解, 也可以是在注解层次结构中合并注解属性的综合结果.
 	 */
 	protected RequestMappingInfo createRequestMappingInfo(
 			RequestMapping requestMapping, RequestCondition<?> customCondition) {
@@ -241,8 +227,9 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Resolve placeholder values in the given array of patterns.
-	 * @return a new array with updated patterns
+	 * 解析给定的模式数组中占位符值.
+	 * 
+	 * @return 新的数组
 	 */
 	protected String[] resolveEmbeddedValuesInPatterns(String[] patterns) {
 		if (this.embeddedValueResolver == null) {

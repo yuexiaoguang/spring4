@@ -9,15 +9,13 @@ import org.springframework.web.servlet.SmartView;
 import org.springframework.web.servlet.View;
 
 /**
- * Handles return values that are of type {@link View}.
+ * 处理{@link View}类型的返回值.
  *
- * <p>A {@code null} return value is left as-is leaving it to the configured
- * {@link RequestToViewNameTranslator} to select a view name by convention.
+ * <p>{@code null}返回值保持原样, 将其留给配置的{@link RequestToViewNameTranslator}以按惯例选择视图名称.
  *
- * <p>A {@link View} return type has a set purpose. Therefore this handler
- * should be configured ahead of handlers that support any return value type
- * annotated with {@code @ModelAttribute} or {@code @ResponseBody} to ensure
- * they don't take over.
+ * <p>{@link View}返回类型具有设置目的.
+ * 因此, 应该在处理器之前配置此处理器, 该处理程序支持使用{@code @ModelAttribute}
+ * 或{@code @ResponseBody}注解的返回值类型, 以确保它们不会接管.
  */
 public class ViewMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 

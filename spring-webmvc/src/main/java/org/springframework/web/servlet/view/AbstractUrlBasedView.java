@@ -5,23 +5,19 @@ import java.util.Locale;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * Abstract base class for URL-based views. Provides a consistent way of
- * holding the URL that a View wraps, in the form of a "url" bean property.
+ * 基于URL的视图的抽象基类.
+ * 提供以"url" bean属性的形式保存View包装的URL的一致方法.
  */
 public abstract class AbstractUrlBasedView extends AbstractView implements InitializingBean {
 
 	private String url;
 
 
-	/**
-	 * Constructor for use as a bean.
-	 */
 	protected AbstractUrlBasedView() {
 	}
 
 	/**
-	 * Create a new AbstractUrlBasedView with the given URL.
-	 * @param url the URL to forward to
+	 * @param url 转发到的URL
 	 */
 	protected AbstractUrlBasedView(String url) {
 		this.url = url;
@@ -29,15 +25,15 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 
 
 	/**
-	 * Set the URL of the resource that this view wraps.
-	 * The URL must be appropriate for the concrete View implementation.
+	 * 设置此视图包装的资源的URL.
+	 * URL必须适合具体的View实现.
 	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
 	/**
-	 * Return the URL of the resource that this view wraps.
+	 * 返回此视图包装的资源的URL.
 	 */
 	public String getUrl() {
 		return this.url;
@@ -51,21 +47,21 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 	}
 
 	/**
-	 * Return whether the 'url' property is required.
-	 * <p>The default implementation returns {@code true}.
-	 * This can be overridden in subclasses.
+	 * 返回是否需要'url'属性.
+	 * <p>默认实现返回{@code true}.
+	 * 可以在子类中重写.
 	 */
 	protected boolean isUrlRequired() {
 		return true;
 	}
 
 	/**
-	 * Check whether the underlying resource that the configured URL points to
-	 * actually exists.
-	 * @param locale the desired Locale that we're looking for
-	 * @return {@code true} if the resource exists (or is assumed to exist);
-	 * {@code false} if we know that it does not exist
-	 * @throws Exception if the resource exists but is invalid (e.g. could not be parsed)
+	 * 检查配置的URL指向的底层资源是否实际存在.
+	 * 
+	 * @param locale 正在寻找的所需的区域设置
+	 * 
+	 * @return {@code true} 如果资源存在 (或假设存在); {@code false} 如果已知它不存在
+	 * @throws Exception 如果资源存在但无效 (e.g. 无法解析)
 	 */
 	public boolean checkResource(Locale locale) throws Exception {
 		return true;

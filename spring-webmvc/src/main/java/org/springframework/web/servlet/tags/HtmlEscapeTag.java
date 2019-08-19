@@ -3,11 +3,9 @@ package org.springframework.web.servlet.tags;
 import javax.servlet.jsp.JspException;
 
 /**
- * Sets default HTML escape value for the current page. The actual value
- * can be overridden by escaping-aware tags. The default is "false".
+ * 设置当前页面的默认HTML转义值. 转义识别标记可以覆盖实际值. 默认为"false".
  *
- * <p>Note: You can also set a "defaultHtmlEscape" web.xml context-param.
- * A page-level setting overrides a context-param.
+ * <p>Note: 还可以设置"defaultHtmlEscape" web.xml context-param. 页面级设置会覆盖context-param.
  */
 @SuppressWarnings("serial")
 public class HtmlEscapeTag extends RequestContextAwareTag {
@@ -16,8 +14,7 @@ public class HtmlEscapeTag extends RequestContextAwareTag {
 
 
 	/**
-	 * Set the default value for HTML escaping,
-	 * to be put into the current PageContext.
+	 * 设置HTML转义的默认值, 将其放入当前的PageContext中.
 	 */
 	public void setDefaultHtmlEscape(boolean defaultHtmlEscape) {
 		this.defaultHtmlEscape = defaultHtmlEscape;

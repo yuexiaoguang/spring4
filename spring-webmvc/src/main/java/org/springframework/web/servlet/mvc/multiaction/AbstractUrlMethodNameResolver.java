@@ -9,14 +9,14 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Abstract base class for URL-based {@link MethodNameResolver} implementations.
+ * 基于URL的{@link MethodNameResolver}实现的抽象基类.
  *
- * <p>Provides infrastructure for mapping handlers to URLs and configurable
- * URL lookup. For information on the latter, see the
+ * <p>提供将处理器映射到URL和可配置URL查找的基础结构.
+ * For information on the latter, see the
  * {@link #setAlwaysUseFullPath} "alwaysUseFullPath"}
  * and {@link #setUrlDecode "urlDecode"} properties.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public abstract class AbstractUrlMethodNameResolver implements MethodNameResolver {

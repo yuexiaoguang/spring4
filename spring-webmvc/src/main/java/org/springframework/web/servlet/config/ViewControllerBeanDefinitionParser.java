@@ -17,19 +17,17 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that
- * parses the following MVC namespace elements:
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser}解析以下MVC命名空间元素:
  * <ul>
  * <li>{@code <view-controller>}
  * <li>{@code <redirect-view-controller>}
  * <li>{@code <status-controller>}
  * </ul>
  *
- * <p>All elements result in the registration of a
- * {@link org.springframework.web.servlet.mvc.ParameterizableViewController
- * ParameterizableViewController} with all controllers mapped using in a single
- * {@link org.springframework.web.servlet.handler.SimpleUrlHandlerMapping
- * SimpleUrlHandlerMapping}.
+ * <p>所有元素都导致
+ * {@link org.springframework.web.servlet.mvc.ParameterizableViewController ParameterizableViewController}的注册,
+ * 所有控制器都使用单个
+ * {@link org.springframework.web.servlet.handler.SimpleUrlHandlerMapping SimpleUrlHandlerMapping}进行映射.
  */
 class ViewControllerBeanDefinitionParser implements BeanDefinitionParser {
 
@@ -42,13 +40,13 @@ class ViewControllerBeanDefinitionParser implements BeanDefinitionParser {
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 		Object source = parserContext.extractSource(element);
 
-		// Register SimpleUrlHandlerMapping for view controllers
+		// 为视图控制器注册SimpleUrlHandlerMapping
 		BeanDefinition hm = registerHandlerMapping(parserContext, source);
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// 确保BeanNameUrlHandlerMapping (SPR-8289) 和默认的HandlerAdapter没有"关闭"
 		MvcNamespaceUtils.registerDefaultComponents(parserContext, source);
 
-		// Create view controller bean definition
+		// 创建视图控制器bean定义
 		RootBeanDefinition controller = new RootBeanDefinition(ParameterizableViewController.class);
 		controller.setSource(source);
 

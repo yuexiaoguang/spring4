@@ -10,11 +10,9 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handles return values of type
- * {@link org.springframework.util.concurrent.ListenableFuture}.
+ * 处理{@link org.springframework.util.concurrent.ListenableFuture}类型的返回值.
  *
- * @deprecated as of 4.3 {@link DeferredResultMethodReturnValueHandler} supports
- * ListenableFuture return values via an adapter mechanism.
+ * @deprecated 从4.3开始, {@link DeferredResultMethodReturnValueHandler}通过适配器机制支持ListenableFuture返回值.
  */
 @Deprecated
 public class ListenableFutureReturnValueHandler implements AsyncHandlerMethodReturnValueHandler {

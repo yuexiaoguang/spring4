@@ -16,23 +16,22 @@ import org.springframework.web.util.JavaScriptUtils;
 import org.springframework.web.util.TagUtils;
 
 /**
- * Custom JSP tag to look up a message in the scope of this page. Messages are
- * resolved using the ApplicationContext and thus support internationalization.
+ * 自定义JSP标记, 用于在此页面的范围内查找消息.
+ * 使用ApplicationContext解析消息, 从而支持国际化.
  *
- * <p>Detects an HTML escaping setting, either on this tag instance, the page level,
- * or the {@code web.xml} level. Can also apply JavaScript escaping.
+ * <p>检测此标记实例, 页面级别或{@code web.xml}级别的HTML转义设置.
+ * 也可以应用JavaScript转义.
  *
- * <p>If "code" isn't set or cannot be resolved, "text" will be used as default
- * message. Thus, this tag can also be used for HTML escaping of any texts.
+ * <p>如果未设置或无法解析"code", 则"text"将用作默认消息.
+ * 因此, 此标记还可用于任何文本的HTML转义.
  *
- * <p>Message arguments can be specified via the {@link #setArguments(Object) arguments}
- * attribute or by using nested {@code <spring:argument>} tags.
+ * <p>可以通过{@link #setArguments(Object) arguments}属性或使用嵌套的{@code <spring:argument>}标记指定消息参数.
  */
 @SuppressWarnings("serial")
 public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 
 	/**
-	 * Default separator for splitting an arguments String: a comma (",")
+	 * 用于拆分参数String的默认分隔符: 逗号 (",")
 	 */
 	public static final String DEFAULT_ARGUMENT_SEPARATOR = ",";
 
@@ -57,34 +56,31 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 
 
 	/**
-	 * Set the MessageSourceResolvable for this tag.
-	 * <p>If a MessageSourceResolvable is specified, it effectively overrides
-	 * any code, arguments or text specified on this tag.
+	 * 设置此标记的MessageSourceResolvable.
+	 * <p>如果指定了MessageSourceResolvable, 它将有效地覆盖此标记上指定的任何代码, 参数或文本.
 	 */
 	public void setMessage(MessageSourceResolvable message) {
 		this.message = message;
 	}
 
 	/**
-	 * Set the message code for this tag.
+	 * 设置此标记的消息代码.
 	 */
 	public void setCode(String code) {
 		this.code = code;
 	}
 
 	/**
-	 * Set optional message arguments for this tag, as a comma-delimited
-	 * String (each String argument can contain JSP EL), an Object array
-	 * (used as argument array), or a single Object (used as single argument).
+	 * 设置此标记可选的消息参数, 以逗号分隔的String (每个String参数可以包含JSP EL),
+	 * Object数组 (用作参数数组), 或单个Object (用作单个参数).
 	 */
 	public void setArguments(Object arguments) {
 		this.arguments = arguments;
 	}
 
 	/**
-	 * Set the separator to use for splitting an arguments String.
-	 * Default is a comma (",").
-	 * @see #setArguments
+	 * 设置用于拆分参数String的分隔符.
+	 * 默认为逗号 (",").
 	 */
 	public void setArgumentSeparator(String argumentSeparator) {
 		this.argumentSeparator = argumentSeparator;
@@ -96,36 +92,30 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 	}
 
 	/**
-	 * Set the message text for this tag.
+	 * 设置此标记的消息文本.
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 
 	/**
-	 * Set PageContext attribute name under which to expose
-	 * a variable that contains the resolved message.
-	 * @see #setScope
-	 * @see javax.servlet.jsp.PageContext#setAttribute
+	 * 设置PageContext属性名称, 在该名称下公开包含已解析消息的变量.
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
 
 	/**
-	 * Set the scope to export the variable to.
-	 * Default is SCOPE_PAGE ("page").
-	 * @see #setVar
-	 * @see org.springframework.web.util.TagUtils#SCOPE_PAGE
-	 * @see javax.servlet.jsp.PageContext#setAttribute
+	 * 设置将变量导出到的范围.
+	 * 默认为 SCOPE_PAGE ("page").
 	 */
 	public void setScope(String scope) {
 		this.scope = scope;
 	}
 
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * 设置此标记的JavaScript转义.
+	 * 默认为 "false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;
@@ -139,12 +129,7 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 	}
 
 	/**
-	 * Resolves the message, escapes it if demanded,
-	 * and writes it to the page (or exposes it as variable).
-	 * @see #resolveMessage()
-	 * @see org.springframework.web.util.HtmlUtils#htmlEscape(String)
-	 * @see org.springframework.web.util.JavaScriptUtils#javaScriptEscape(String)
-	 * @see #writeMessage(String)
+	 * 解析消息, 在需要时将其转义, 并将其写入页面 (或将其作为变量公开).
 	 */
 	@Override
 	public int doEndTag() throws JspException {
@@ -181,8 +166,8 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 	}
 
 	/**
-	 * Resolve the specified message into a concrete message String.
-	 * The returned message String should be unescaped.
+	 * 将指定的消息解析为具体消息String.
+	 * 返回的消息String应该是未转义的.
 	 */
 	protected String resolveMessage() throws JspException, NoSuchMessageException {
 		MessageSource messageSource = getMessageSource();
@@ -190,14 +175,14 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 			throw new JspTagException("No corresponding MessageSource found");
 		}
 
-		// Evaluate the specified MessageSourceResolvable, if any.
+		// 评估指定的 MessageSourceResolvable.
 		if (this.message != null) {
 			// We have a given MessageSourceResolvable.
 			return messageSource.getMessage(this.message, getRequestContext().getLocale());
 		}
 
 		if (this.code != null || this.text != null) {
-			// We have a code or default text that we need to resolve.
+			// 需要解析代码或默认文本.
 			Object[] argumentsArray = resolveArguments(this.arguments);
 			if (!this.nestedArguments.isEmpty()) {
 				argumentsArray = appendArguments(argumentsArray, this.nestedArguments.toArray());
@@ -230,11 +215,12 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 	}
 
 	/**
-	 * Resolve the given arguments Object into an arguments array.
-	 * @param arguments the specified arguments Object
-	 * @return the resolved arguments as array
-	 * @throws JspException if argument conversion failed
-	 * @see #setArguments
+	 * 将给定的参数Object解析为参数数组.
+	 * 
+	 * @param arguments 指定的参数Object
+	 * 
+	 * @return 解析后的参数
+	 * @throws JspException 如果参数转换失败
 	 */
 	protected Object[] resolveArguments(Object arguments) throws JspException {
 		if (arguments instanceof String) {
@@ -269,24 +255,26 @@ public class MessageTag extends HtmlEscapingAwareTag implements ArgumentAware {
 	}
 
 	/**
-	 * Write the message to the page.
-	 * <p>Can be overridden in subclasses, e.g. for testing purposes.
-	 * @param msg the message to write
-	 * @throws IOException if writing failed
+	 * 将消息写入页面.
+	 * <p>可以在子类中重写, e.g. 用于测试.
+	 * 
+	 * @param msg 要写入的消息
+	 * 
+	 * @throws IOException 如果写入失败
 	 */
 	protected void writeMessage(String msg) throws IOException {
 		pageContext.getOut().write(String.valueOf(msg));
 	}
 
 	/**
-	 * Use the current RequestContext's application context as MessageSource.
+	 * 使用当前的RequestContext的应用程序上下文.
 	 */
 	protected MessageSource getMessageSource() {
 		return getRequestContext().getMessageSource();
 	}
 
 	/**
-	 * Return default exception message.
+	 * 返回默认异常消息.
 	 */
 	protected String getNoSuchMessageExceptionDescription(NoSuchMessageException ex) {
 		return ex.getMessage();

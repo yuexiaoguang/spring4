@@ -10,27 +10,27 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Utility class for writing HTML content to a {@link Writer} instance.
+ * 用于将HTML内容写入{@link Writer}实例的工具类.
  *
- * <p>Intended to support output from JSP tag libraries.
+ * <p>旨在支持JSP标记库的输出.
  */
 public class TagWriter {
 
 	/**
-	 * The {@link SafeWriter} to write to.
+	 * 要写入的{@link SafeWriter}.
 	 */
 	private final SafeWriter writer;
 
 	/**
-	 * Stores {@link TagStateEntry tag state}. Stack model naturally supports tag nesting.
+	 * 存储{@link TagStateEntry 标记状态}. 堆栈模型自然支持标记嵌套.
 	 */
 	private final Stack<TagStateEntry> tagState = new Stack<TagStateEntry>();
 
 
 	/**
-	 * Create a new instance of the {@link TagWriter} class that writes to
-	 * the supplied {@link PageContext}.
-	 * @param pageContext the JSP PageContext to obtain the {@link Writer} from
+	 * 创建一个{@link TagWriter}类的新实例, 该类写入提供的{@link PageContext}.
+	 * 
+	 * @param pageContext 从中获取{@link Writer}的JSP PageContext
 	 */
 	public TagWriter(PageContext pageContext) {
 		Assert.notNull(pageContext, "PageContext must not be null");
@@ -38,9 +38,9 @@ public class TagWriter {
 	}
 
 	/**
-	 * Create a new instance of the {@link TagWriter} class that writes to
-	 * the supplied {@link Writer}.
-	 * @param writer the {@link Writer} to write tag content to
+	 * 创建一个{@link TagWriter}类的新实例, 该类写入提供的{@link Writer}.
+	 * 
+	 * @param writer 要写入标记内容的{@link Writer}
 	 */
 	public TagWriter(Writer writer) {
 		Assert.notNull(writer, "Writer must not be null");
@@ -49,9 +49,8 @@ public class TagWriter {
 
 
 	/**
-	 * Start a new tag with the supplied name. Leaves the tag open so
-	 * that attributes, inner text or nested tags can be written into it.
-	 * @see #endTag()
+	 * 使用提供的名称启动新标记.
+	 * 使标记保持打开状态, 以便可以将属性, 内部文本或嵌套标记写入其中.
 	 */
 	public void startTag(String tagName) throws JspException {
 		if (inTag()) {
@@ -62,10 +61,10 @@ public class TagWriter {
 	}
 
 	/**
-	 * Write an HTML attribute with the specified name and value.
-	 * <p>Be sure to write all attributes <strong>before</strong> writing
-	 * any inner text or nested tags.
-	 * @throws IllegalStateException if the opening tag is closed
+	 * 写入具有指定名称和值的HTML属性.
+	 * <p>确保在写入任何内部文本或嵌套标记<strong>之前</strong>, 写入所有属性.
+	 * 
+	 * @throws IllegalStateException 如果开始标记已关闭
 	 */
 	public void writeAttribute(String attributeName, String attributeValue) throws JspException {
 		if (currentState().isBlockTag()) {
@@ -76,9 +75,7 @@ public class TagWriter {
 	}
 
 	/**
-	 * Write an HTML attribute if the supplied value is not {@code null}
-	 * or zero length.
-	 * @see #writeAttribute(String, String)
+	 * 如果提供的值不是{@code null}或零长度, 则写入HTML属性.
 	 */
 	public void writeOptionalAttributeValue(String attributeName, String attributeValue) throws JspException {
 		if (StringUtils.hasText(attributeValue)) {
@@ -87,9 +84,9 @@ public class TagWriter {
 	}
 
 	/**
-	 * Close the current opening tag (if necessary) and appends the
-	 * supplied value as inner text.
-	 * @throws IllegalStateException if no tag is open
+	 * 关闭当前的开始标记, 并将提供的值附加为内部文本.
+	 * 
+	 * @throws IllegalStateException 如果没有标记打开
 	 */
 	public void appendValue(String value) throws JspException {
 		if (!inTag()) {
@@ -101,33 +98,29 @@ public class TagWriter {
 
 
 	/**
-	 * Indicate that the currently open tag should be closed and marked
-	 * as a block level element.
-	 * <p>Useful when you plan to write additional content in the body
-	 * outside the context of the current {@link TagWriter}.
+	 * 指示应关闭当前打开的标记, 并将其标记为块级元素.
+	 * <p>当计划在当前{@link TagWriter}的上下文之外的正文中, 写入其他内容时很有用.
 	 */
 	public void forceBlock() throws JspException {
 		if (currentState().isBlockTag()) {
-			return; // just ignore since we are already in the block
+			return; // 只是忽略, 因为已经是块级
 		}
 		closeTagAndMarkAsBlock();
 	}
 
 	/**
-	 * Close the current tag.
-	 * <p>Correctly writes an empty tag if no inner text or nested tags
-	 * have been written.
+	 * 关闭当前的标记.
+	 * <p>如果没有写入内部文本或嵌套标记, 则正确写入空标记.
 	 */
 	public void endTag() throws JspException {
 		endTag(false);
 	}
 
 	/**
-	 * Close the current tag, allowing to enforce a full closing tag.
-	 * <p>Correctly writes an empty tag if no inner text or nested tags
-	 * have been written.
-	 * @param enforceClosingTag whether a full closing tag should be
-	 * rendered in any case, even in case of a non-block tag
+	 * 关闭当前标记, 允许强制执行完整的结束标记.
+	 * <p>如果没有写入内部文本或嵌套标记, 则正确写入空标记.
+	 * 
+	 * @param enforceClosingTag 是否应该在任何情况下呈现完整的结束标记, 即使在非块标记的情况下也是如此
 	 */
 	public void endTag(boolean enforceClosingTag) throws JspException {
 		if (!inTag()) {
@@ -135,7 +128,7 @@ public class TagWriter {
 		}
 		boolean renderClosingTag = true;
 		if (!currentState().isBlockTag()) {
-			// Opening tag still needs to be closed...
+			// 打开的标记仍需要关闭...
 			if (enforceClosingTag) {
 				this.writer.append(">");
 			}
@@ -152,14 +145,14 @@ public class TagWriter {
 
 
 	/**
-	 * Adds the supplied tag name to the {@link #tagState tag state}.
+	 * 将提供的标记名称添加到{@link #tagState 标记状态}.
 	 */
 	private void push(String tagName) {
 		this.tagState.push(new TagStateEntry(tagName));
 	}
 
 	/**
-	 * Closes the current opening tag and marks it as a block tag.
+	 * 关闭当前的开始标记, 并将其标记为块标记.
 	 */
 	private void closeTagAndMarkAsBlock() throws JspException {
 		if (!currentState().isBlockTag()) {
@@ -178,7 +171,7 @@ public class TagWriter {
 
 
 	/**
-	 * Holds state about a tag and its rendered behavior.
+	 * 保存有关标记及其呈现行为的状态.
 	 */
 	private static class TagStateEntry {
 
@@ -205,8 +198,7 @@ public class TagWriter {
 
 
 	/**
-	 * Simple {@link Writer} wrapper that wraps all
-	 * {@link IOException IOExceptions} in {@link JspException JspExceptions}.
+	 * 简单的{@link Writer}包装器, 包装{@link JspException JspExceptions}中的所有{@link IOException IOExceptions}.
 	 */
 	private static final class SafeWriter {
 

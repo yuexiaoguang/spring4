@@ -31,8 +31,7 @@ import org.springframework.web.servlet.mvc.condition.NameValueExpression;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Abstract base class for classes for which {@link RequestMappingInfo} defines
- * the mapping between a request and a handler method.
+ * {@link RequestMappingInfo}定义请求和处理器方法之间的映射.
  */
 public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMethodMapping<RequestMappingInfo> {
 
@@ -55,7 +54,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 
 
 	/**
-	 * Get the URL path patterns associated with this {@link RequestMappingInfo}.
+	 * 获取与此{@link RequestMappingInfo}关联的URL路径模式.
 	 */
 	@Override
 	protected Set<String> getMappingPathPatterns(RequestMappingInfo info) {
@@ -63,10 +62,10 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Check if the given RequestMappingInfo matches the current request and
-	 * return a (potentially new) instance with conditions that match the
-	 * current request -- for example with a subset of URL patterns.
-	 * @return an info in case of a match; or {@code null} otherwise.
+	 * 检查给定的RequestMappingInfo是否与当前请求匹配,
+	 * 并返回具有与当前请求匹配的条件的 (可能是新的)实例 -- 例如, 使用URL模式的子集.
+	 * 
+	 * @return 匹配时的信息; 或者{@code null}.
 	 */
 	@Override
 	protected RequestMappingInfo getMatchingMapping(RequestMappingInfo info, HttpServletRequest request) {
@@ -74,7 +73,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Provide a Comparator to sort RequestMappingInfos matched to a request.
+	 * 提供比较器以对与请求匹配的RequestMappingInfos进行排序.
 	 */
 	@Override
 	protected Comparator<RequestMappingInfo> getMappingComparator(final HttpServletRequest request) {
@@ -87,10 +86,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Expose URI template variables, matrix variables, and producible media types in the request.
-	 * @see HandlerMapping#URI_TEMPLATE_VARIABLES_ATTRIBUTE
-	 * @see HandlerMapping#MATRIX_VARIABLES_ATTRIBUTE
-	 * @see HandlerMapping#PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE
+	 * 在请求中公开URI模板变量, 矩阵变量, 和可生成的媒体类型.
 	 */
 	@Override
 	protected void handleMatch(RequestMappingInfo info, String lookupPath, HttpServletRequest request) {
@@ -160,12 +156,10 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Iterate all RequestMappingInfo's once again, look if any match by URL at
-	 * least and raise exceptions according to what doesn't match.
-	 * @throws HttpRequestMethodNotSupportedException if there are matches by URL
-	 * but not by HTTP method
-	 * @throws HttpMediaTypeNotAcceptableException if there are matches by URL
-	 * but not by consumable/producible media types
+	 * 再次迭代所有RequestMappingInfo, 查看按URL是否匹配, 并根据不匹配的内容引发异常.
+	 * 
+	 * @throws HttpRequestMethodNotSupportedException 如果有匹配的URL, 但HTTP方法不匹配
+	 * @throws HttpMediaTypeNotAcceptableException 如果有URL匹配, 但不符合消耗/生产的媒体类型
 	 */
 	@Override
 	protected HandlerMethod handleNoMatch(
@@ -214,7 +208,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 
 
 	/**
-	 * Aggregate all partial matches and expose methods checking across them.
+	 * 聚合所有部分匹配并公开检查它们的方法.
 	 */
 	private static class PartialMatchHelper {
 
@@ -229,14 +223,14 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Whether there any partial matches.
+		 * 是否有部分匹配.
 		 */
 		public boolean isEmpty() {
 			return this.partialMatches.isEmpty();
 		}
 
 		/**
-		 * Any partial matches for "methods"?
+		 * "methods"的任何部分匹配?
 		 */
 		public boolean hasMethodsMismatch() {
 			for (PartialMatch match : this.partialMatches) {
@@ -248,7 +242,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Any partial matches for "methods" and "consumes"?
+		 * "methods" 和 "consumes"的任何部分匹配?
 		 */
 		public boolean hasConsumesMismatch() {
 			for (PartialMatch match : this.partialMatches) {
@@ -260,7 +254,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Any partial matches for "methods", "consumes", and "produces"?
+		 * "methods", "consumes", 和 "produces"的任何部分匹配?
 		 */
 		public boolean hasProducesMismatch() {
 			for (PartialMatch match : this.partialMatches) {
@@ -272,7 +266,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Any partial matches for "methods", "consumes", "produces", and "params"?
+		 * "methods", "consumes", "produces", 和 "params"的任何部分匹配?
 		 */
 		public boolean hasParamsMismatch() {
 			for (PartialMatch match : this.partialMatches) {
@@ -284,7 +278,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared HTTP methods.
+		 * 返回声明的HTTP方法.
 		 */
 		public Set<String> getAllowedMethods() {
 			Set<String> result = new LinkedHashSet<String>();
@@ -297,8 +291,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "consumable" types but only among those that also
-		 * match the "methods" condition.
+		 * 返回声明的"consumable"类型, 但仅限于那些也符合"methods"条件的类型.
 		 */
 		public Set<MediaType> getConsumableMediaTypes() {
 			Set<MediaType> result = new LinkedHashSet<MediaType>();
@@ -311,8 +304,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "producible" types but only among those that also
-		 * match the "methods" and "consumes" conditions.
+		 * 返回声明的"producible"类型, 但仅限于那些也符合"methods" 和 "consumes"条件的类型.
 		 */
 		public Set<MediaType> getProducibleMediaTypes() {
 			Set<MediaType> result = new LinkedHashSet<MediaType>();
@@ -325,8 +317,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "params" conditions but only among those that also
-		 * match the "methods", "consumes", and "params" conditions.
+		 * 返回声明的"params"条件, 但仅限于那些也符合"methods", "consumes", 和"params"条件的条件.
 		 */
 		public List<String[]> getParamConditions() {
 			List<String[]> result = new ArrayList<String[]>();
@@ -348,7 +339,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 
 
 		/**
-		 * Container for a RequestMappingInfo that matches the URL path at least.
+		 * RequestMappingInfo的容器, 至少与URL路径匹配.
 		 */
 		private static class PartialMatch {
 
@@ -363,8 +354,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 			private final boolean paramsMatch;
 
 			/**
-			 * @param info RequestMappingInfo that matches the URL path.
-			 * @param request the current request
+			 * @param info 与URL路径匹配的RequestMappingInfo
+			 * @param request 当前的请求
 			 */
 			public PartialMatch(RequestMappingInfo info, HttpServletRequest request) {
 				this.info = info;
@@ -403,7 +394,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 
 
 	/**
-	 * Default handler for HTTP OPTIONS.
+	 * HTTP OPTIONS的默认处理器.
 	 */
 	private static class HttpOptionsHandler {
 
@@ -438,5 +429,4 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 			return this.headers;
 		}
 	}
-
 }

@@ -7,10 +7,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.DataBinder;
 
 /**
- * A {@link ModelMap} implementation of {@link RedirectAttributes} that formats
- * values as Strings using a {@link DataBinder}. Also provides a place to store
- * flash attributes so they can survive a redirect without the need to be
- * embedded in the redirect URL.
+ * {@link RedirectAttributes}的{@link ModelMap}实现, 使用{@link DataBinder}将值格式化为字符串.
+ * 还提供了存储Flash属性的位置, 以便它们可以在重定向中存活, 而无需嵌入到重定向URL中.
  */
 @SuppressWarnings("serial")
 public class RedirectAttributesModelMap extends ModelMap implements RedirectAttributes {
@@ -21,16 +19,14 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 
 	/**
-	 * Default constructor without a DataBinder.
-	 * Attribute values are converted to String via {@link #toString()}.
+	 * 属性值通过 {@link #toString()}转换为String.
 	 */
 	public RedirectAttributesModelMap() {
 		this(null);
 	}
 
 	/**
-	 * Constructor with a DataBinder.
-	 * @param dataBinder used to format attribute values as Strings
+	 * @param dataBinder 用于将属性值格式化为字符串
 	 */
 	public RedirectAttributesModelMap(DataBinder dataBinder) {
 		this.dataBinder = dataBinder;
@@ -38,7 +34,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 
 	/**
-	 * Return the attributes candidate for flash storage or an empty Map.
+	 * 返回flash存储的候选属性或空Map.
 	 */
 	@Override
 	public Map<String, ?> getFlashAttributes() {
@@ -47,7 +43,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Formats the attribute value as a String before adding it.
+	 * <p>在添加属性值之前将其格式化为String.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAttribute(String attributeName, Object attributeValue) {
@@ -64,7 +60,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Formats the attribute value as a String before adding it.
+	 * <p>在添加属性值之前将其格式化为String.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAttribute(Object attributeValue) {
@@ -74,7 +70,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being added.
+	 * <p>在添加之前, 每个属性值都被格式化为String.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAllAttributes(Collection<?> attributeValues) {
@@ -84,7 +80,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being added.
+	 * <p>在添加之前, 每个属性值都被格式化为String.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAllAttributes(Map<String, ?> attributes) {
@@ -98,7 +94,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being merged.
+	 * <p>在添加之前, 每个属性值都被格式化为String.
 	 */
 	@Override
 	public RedirectAttributesModelMap mergeAttributes(Map<String, ?> attributes) {
@@ -119,7 +115,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>The value is formatted as a String before being added.
+	 * <p>在添加之前, 该值被格式化为String.
 	 */
 	@Override
 	public Object put(String key, Object value) {
@@ -128,7 +124,7 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each value is formatted as a String before being added.
+	 * <p>在添加之前, 每个值都被格式化为String.
 	 */
 	@Override
 	public void putAll(Map<? extends String, ? extends Object> map) {

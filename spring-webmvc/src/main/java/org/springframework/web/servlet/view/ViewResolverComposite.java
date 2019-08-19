@@ -17,7 +17,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
 /**
- * A {@link org.springframework.web.servlet.ViewResolver} that delegates to others.
+ * 委托给其他的{@link org.springframework.web.servlet.ViewResolver}.
  */
 public class ViewResolverComposite implements ViewResolver, Ordered, InitializingBean,
 		ApplicationContextAware, ServletContextAware {
@@ -28,7 +28,7 @@ public class ViewResolverComposite implements ViewResolver, Ordered, Initializin
 
 
 	/**
-	 * Set the list of view viewResolvers to delegate to.
+	 * 设置要委托给的视图viewResolver列表.
 	 */
 	public void setViewResolvers(List<ViewResolver> viewResolvers) {
 		this.viewResolvers.clear();
@@ -38,7 +38,7 @@ public class ViewResolverComposite implements ViewResolver, Ordered, Initializin
 	}
 
 	/**
-	 * Return the list of view viewResolvers to delegate to.
+	 * 返回要委托给的视图viewResolver列表.
 	 */
 	public List<ViewResolver> getViewResolvers() {
 		return Collections.unmodifiableList(this.viewResolvers);

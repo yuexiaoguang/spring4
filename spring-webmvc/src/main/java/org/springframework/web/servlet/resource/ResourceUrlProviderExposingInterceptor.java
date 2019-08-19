@@ -7,13 +7,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * An interceptor that exposes the {@link ResourceUrlProvider} instance it
- * is configured with as a request attribute.
+ * 一个拦截器, 它公开了它配置的{@link ResourceUrlProvider}实例作为请求属性.
  */
 public class ResourceUrlProviderExposingInterceptor extends HandlerInterceptorAdapter {
 
 	/**
-	 * Name of the request attribute that holds the {@link ResourceUrlProvider}.
+	 * 包含{@link ResourceUrlProvider}的请求属性的名称.
 	 */
 	public static final String RESOURCE_URL_PROVIDER_ATTR = ResourceUrlProvider.class.getName();
 

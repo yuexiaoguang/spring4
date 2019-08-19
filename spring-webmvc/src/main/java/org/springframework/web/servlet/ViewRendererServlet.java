@@ -10,30 +10,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * ViewRendererServlet is a bridge servlet, mainly for the Portlet MVC support.
+ * ViewRendererServlet是一个桥接servlet, 主要用于Portlet MVC支持.
  *
- * <p>For usage with Portlets, this Servlet is necessary to force the portlet container
- * to convert the PortletRequest to a ServletRequest, which it has to do when
- * including a resource via the PortletRequestDispatcher. This allows for reuse
- * of the entire Servlet-based View support even in a Portlet environment.
+ * <p>对于Portlet的使用, 此Servlet是强制portlet容器将PortletRequest转换为ServletRequest所必需的,
+ * 当通过PortletRequestDispatcher包含资源时, 它必须执行此操作.
+ * 这样即使在Portlet环境中也可以重用整个基于Servlet的View支持.
  *
- * <p>The actual mapping of the bridge servlet is configurable in the DispatcherPortlet,
- * via a "viewRendererUrl" property. The default is "/WEB-INF/servlet/view", which is
- * just available for internal resource dispatching.
+ * <p>桥接servlet的实际映射可在DispatcherPortlet中通过"viewRendererUrl"属性进行配置.
+ * 默认为"/WEB-INF/servlet/view", 它仅适用于内部资源调度.
  */
 @SuppressWarnings("serial")
 public class ViewRendererServlet extends HttpServlet {
 
 	/**
-	 * Request attribute to hold current web application context.
-	 * Otherwise only the global web app context is obtainable by tags etc.
+	 * 保存当前Web应用程序上下文的请求属性.
+	 * 否则, 只有标签等可以获得全局Web应用程序上下文.
 	 */
 	public static final String WEB_APPLICATION_CONTEXT_ATTRIBUTE = DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE;
 
-	/** Name of request attribute that holds the View object */
+	/** 包含View对象的请求属性的名称 */
 	public static final String VIEW_ATTRIBUTE = ViewRendererServlet.class.getName() + ".VIEW";
 
-	/** Name of request attribute that holds the model Map */
+	/** 包含模型Map的请求属性的名称 */
 	public static final String MODEL_ATTRIBUTE = ViewRendererServlet.class.getName() + ".MODEL";
 
 
@@ -52,9 +50,8 @@ public class ViewRendererServlet extends HttpServlet {
 	}
 
 	/**
-	 * Process this request, handling exceptions.
-	 * The actually event handling is performed by the abstract
-	 * {@code renderView()} template method.
+	 * 处理此请求, 处理异常.
+	 * 实际的事件处理由抽象的{@code renderView()}模板方法执行.
 	 */
 	protected final void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -74,12 +71,12 @@ public class ViewRendererServlet extends HttpServlet {
 	}
 
 	/**
-	 * Retrieve the View instance and model Map to render
-	 * and trigger actual rendering.
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @throws Exception in case of any kind of processing failure
-	 * @see org.springframework.web.servlet.View#render
+	 * 检索View实例和模型Map以渲染并触发实际的渲染.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
+	 * 
+	 * @throws Exception 处理失败
 	 */
 	@SuppressWarnings("unchecked")
 	protected void renderView(HttpServletRequest request, HttpServletResponse response) throws Exception {

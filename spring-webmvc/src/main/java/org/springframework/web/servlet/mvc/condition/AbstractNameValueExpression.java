@@ -3,9 +3,9 @@ package org.springframework.web.servlet.mvc.condition;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Supports "name=value" style expressions as described in:
- * {@link org.springframework.web.bind.annotation.RequestMapping#params()} and
- * {@link org.springframework.web.bind.annotation.RequestMapping#headers()}.
+ * 支持"name=value"样式表达式, 如中所述:
+ * {@link org.springframework.web.bind.annotation.RequestMapping#params()}
+ * 和{@link org.springframework.web.bind.annotation.RequestMapping#headers()}.
  */
 abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> {
 
@@ -110,5 +110,4 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 		}
 		return builder.toString();
 	}
-
 }

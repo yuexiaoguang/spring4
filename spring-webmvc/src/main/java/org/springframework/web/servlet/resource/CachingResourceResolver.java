@@ -9,9 +9,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * A {@link org.springframework.web.servlet.resource.ResourceResolver} that
- * resolves resources from a {@link org.springframework.cache.Cache} or otherwise
- * delegates to the resolver chain and saves the result in the cache.
+ * {@link org.springframework.web.servlet.resource.ResourceResolver},
+ * 它解析来自{@link org.springframework.cache.Cache}的资源, 或以其他方式委托给解析器链并将结果保存到缓存中.
  */
 public class CachingResourceResolver extends AbstractResourceResolver {
 
@@ -34,7 +33,7 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 
 
 	/**
-	 * Return the configured {@code Cache}.
+	 * 返回配置的{@code Cache}.
 	 */
 	public Cache getCache() {
 		return this.cache;

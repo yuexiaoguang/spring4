@@ -23,28 +23,28 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.View;
 
 /**
- * Spring MVC {@link View} that renders JSON content by serializing the model for the current request
- * using <a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2's</a> {@link ObjectMapper}.
+ * Spring MVC {@link View}, 通过使用<a href="http://wiki.fasterxml.com/JacksonHome">Jackson 2's</a> {@link ObjectMapper}
+ * 序列化当前请求的模型来呈现JSON内容.
  *
- * <p>By default, the entire contents of the model map (with the exception of framework-specific classes)
- * will be encoded as JSON. If the model contains only one key, you can have it extracted encoded as JSON
- * alone via  {@link #setExtractValueFromSingleKeyModel}.
+ * <p>默认情况下, 模型Map的全部内容 (特定于框架的类除外) 将编码为JSON.
+ * 如果模型只包含一个键, 则可以通过{@link #setExtractValueFromSingleKeyModel}将其解压缩为单独的JSON编码.
  *
- * <p>The default constructor uses the default configuration provided by {@link Jackson2ObjectMapperBuilder}.
+ * <p>默认构造函数使用{@link Jackson2ObjectMapperBuilder}提供的默认配置.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 @SuppressWarnings("deprecation")
 public class MappingJackson2JsonView extends AbstractJackson2View {
 
 	/**
-	 * Default content type: "application/json".
-	 * Overridable through {@link #setContentType}.
+	 * 默认内容类型: "application/json".
+	 * 通过{@link #setContentType}重写.
 	 */
 	public static final String DEFAULT_CONTENT_TYPE = "application/json";
 
 	/**
-	 * Default content type for JSONP: "application/javascript".
+	 * JSONP的默认内容类型: "application/javascript".
+	 * 
 	 * @deprecated Will be removed as of Spring Framework 5.1, use
 	 * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
 	 */
@@ -52,7 +52,7 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 	public static final String DEFAULT_JSONP_CONTENT_TYPE = "application/javascript";
 
 	/**
-	 * Pattern for validating jsonp callback parameter values.
+	 * 用于验证jsonp回调参数值的模式.
 	 */
 	private static final Pattern CALLBACK_PARAM_PATTERN = Pattern.compile("[0-9A-Za-z_\\.]*");
 
@@ -67,18 +67,14 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 
 
 	/**
-	 * Construct a new {@code MappingJackson2JsonView} using default configuration
-	 * provided by {@link Jackson2ObjectMapperBuilder} and setting the content type
-	 * to {@code application/json}.
+	 * 使用{@link Jackson2ObjectMapperBuilder}提供的默认配置, 并将内容类型设置为{@code application/json}.
 	 */
 	public MappingJackson2JsonView() {
 		super(Jackson2ObjectMapperBuilder.json().build(), DEFAULT_CONTENT_TYPE);
 	}
 
 	/**
-	 * Construct a new {@code MappingJackson2JsonView} using the provided
-	 * {@link ObjectMapper} and setting the content type to {@code application/json}.
-	 * @since 4.2.1
+	 * 使用提供的{@link ObjectMapper}, 并将内容类型设置为{@code application/json}.
 	 */
 	public MappingJackson2JsonView(ObjectMapper objectMapper) {
 		super(objectMapper, DEFAULT_CONTENT_TYPE);
@@ -86,21 +82,19 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 
 
 	/**
-	 * Specify a custom prefix to use for this view's JSON output.
-	 * Default is none.
-	 * @see #setPrefixJson
+	 * 指定用于此视图的JSON输出的自定义前缀.
+	 * 默认无.
 	 */
 	public void setJsonPrefix(String jsonPrefix) {
 		this.jsonPrefix = jsonPrefix;
 	}
 
 	/**
-	 * Indicates whether the JSON output by this view should be prefixed with <tt>")]}', "</tt>.
-	 * Default is {@code false}.
-	 * <p>Prefixing the JSON string in this manner is used to help prevent JSON Hijacking.
-	 * The prefix renders the string syntactically invalid as a script so that it cannot be hijacked.
-	 * This prefix should be stripped before parsing the string as JSON.
-	 * @see #setJsonPrefix
+	 * 指示此视图的JSON输出是否应以<tt>")]}', "</tt>为前缀.
+	 * 默认为 {@code false}.
+	 * <p>以这种方式对JSON字符串添加前缀用于防止JSON劫持.
+	 * 前缀使字符串在语法上为无效脚本, 因此无法被劫持.
+	 * 在将字符串解析为JSON之前, 应该删除此前缀.
 	 */
 	public void setPrefixJson(boolean prefixJson) {
 		this.jsonPrefix = (prefixJson ? ")]}', " : null);
@@ -115,38 +109,34 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 	}
 
 	/**
-	 * Set the attributes in the model that should be rendered by this view.
-	 * When set, all other model attributes will be ignored.
+	 * 设置应由此视图呈现的模型中的属性.
+	 * 设置后, 将忽略所有其他模型属性.
 	 */
 	public void setModelKeys(Set<String> modelKeys) {
 		this.modelKeys = modelKeys;
 	}
 
 	/**
-	 * Return the attributes in the model that should be rendered by this view.
+	 * 返回应由此视图呈现的模型中的属性.
 	 */
 	public final Set<String> getModelKeys() {
 		return this.modelKeys;
 	}
 
 	/**
-	 * Set whether to serialize models containing a single attribute as a map or
-	 * whether to extract the single value from the model and serialize it directly.
-	 * <p>The effect of setting this flag is similar to using
-	 * {@code MappingJackson2HttpMessageConverter} with an {@code @ResponseBody}
-	 * request-handling method.
-	 * <p>Default is {@code false}.
+	 * 设置是否将包含单个属性的模型序列化为Map, 或者是否从模型中提取单个值并直接对其进行序列化.
+	 * <p>设置此标志的效果类似于使用{@code MappingJackson2HttpMessageConverter}和{@code @ResponseBody}请求处理方法.
+	 * <p>默认为{@code false}.
 	 */
 	public void setExtractValueFromSingleKeyModel(boolean extractValueFromSingleKeyModel) {
 		this.extractValueFromSingleKeyModel = extractValueFromSingleKeyModel;
 	}
 
 	/**
-	 * Set JSONP request parameter names. Each time a request has one of those
-	 * parameters, the resulting JSON will be wrapped into a function named as
-	 * specified by the JSONP request parameter value.
-	 * <p>The parameter names configured by default are "jsonp" and "callback".
-	 * @since 4.1
+	 * 设置JSONP请求参数名称.
+	 * 每次请求具有其中一个参数时, 生成的JSON将被包装到由JSONP请求参数值指定名称的函数中.
+	 * <p>默认配置的参数名称是"jsonp" 和 "callback".
+	 * 
 	 * @see <a href="http://en.wikipedia.org/wiki/JSONP">JSONP Wikipedia article</a>
 	 * @deprecated Will be removed as of Spring Framework 5.1, use
 	 * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
@@ -176,11 +166,11 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 	}
 
 	/**
-	 * Validate the jsonp query parameter value. The default implementation
-	 * returns true if it consists of digits, letters, or "_" and ".".
-	 * Invalid parameter values are ignored.
-	 * @param value the query param value, never {@code null}
-	 * @since 4.1.8
+	 * 验证jsonp查询参数值. 如果默认实现由数字, 字母, 或"_" 和 "."组成, 则返回true.
+	 * 无效的参数值将被忽略.
+	 * 
+	 * @param value 查询参数值, never {@code null}
+	 * 
 	 * @deprecated Will be removed as of Spring Framework 5.1, use
 	 * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
 	 */
@@ -190,12 +180,13 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 	}
 
 	/**
-	 * Filter out undesired attributes from the given model.
-	 * The return value can be either another {@link Map} or a single value object.
-	 * <p>The default implementation removes {@link BindingResult} instances and entries
-	 * not included in the {@link #setModelKeys renderedAttributes} property.
-	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @return the value to be rendered
+	 * 从给定模型中过滤掉不需要的属性.
+	 * 返回值可以是另一个{@link Map}或单个值对象.
+	 * <p>默认实现删除{@link #setModelKeys renderedAttributes}属性中未包含的{@link BindingResult}实例和条目.
+	 * 
+	 * @param model 模型, 传递给{@link #renderMergedOutputModel}
+	 * 
+	 * @return 要呈现的值
 	 */
 	@Override
 	protected Object filterModel(Map<String, Object> model) {
@@ -264,5 +255,4 @@ public class MappingJackson2JsonView extends AbstractJackson2View {
 			super.setResponseContentType(request, response);
 		}
 	}
-
 }

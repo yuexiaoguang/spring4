@@ -19,20 +19,16 @@ import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * A Servlet-specific {@link ModelAttributeMethodProcessor} that applies data
- * binding through a WebDataBinder of type {@link ServletRequestDataBinder}.
+ * 特定于Servlet的{@link ModelAttributeMethodProcessor},
+ * 它通过类型为{@link ServletRequestDataBinder}的WebDataBinder应用数据绑定.
  *
- * <p>Also adds a fall-back strategy to instantiate the model attribute from a
- * URI template variable or from a request parameter if the name matches the
- * model attribute name and there is an appropriate type conversion strategy.
+ * <p>如果名称与模型属性名称匹配并且存在适当的类型转换策略,
+ * 还会添加后退策略, 以从URI模板变量或请求参数实例化模型属性.
  */
 public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodProcessor {
 
 	/**
-	 * Class constructor.
-	 * @param annotationNotRequired if "true", non-simple method arguments and
-	 * return values are considered model attributes with or without a
-	 * {@code @ModelAttribute} annotation
+	 * @param annotationNotRequired 如果为"true", 则非简单方法参数和返回值被视为具有或不具有{@code @ModelAttribute}注解的模型属性
 	 */
 	public ServletModelAttributeMethodProcessor(boolean annotationNotRequired) {
 		super(annotationNotRequired);
@@ -40,10 +36,9 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 
 
 	/**
-	 * Instantiate the model attribute from a URI template variable or from a
-	 * request parameter if the name matches to the model attribute name and
-	 * if there is an appropriate type conversion strategy. If none of these
-	 * are true delegate back to the base class.
+	 * 如果名称与模型属性名称匹配并且存在适当的类型转换策略,
+	 * 则从URI模板变量或请求参数实例化模型属性.
+	 * 如果这些都不是true, 委托回基类.
 	 */
 	@Override
 	protected final Object createAttribute(String attributeName, MethodParameter parameter,
@@ -62,13 +57,13 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 	}
 
 	/**
-	 * Obtain a value from the request that may be used to instantiate the
-	 * model attribute through type conversion from String to the target type.
-	 * <p>The default implementation looks for the attribute name to match
-	 * a URI variable first and then a request parameter.
-	 * @param attributeName the model attribute name
-	 * @param request the current request
-	 * @return the request value to try to convert, or {@code null} if none
+	 * 从请求中获取一个值, 该值可用于通过从String到目标类型的类型转换来实例化model属性.
+	 * <p>默认实现首先查找属性名称以匹配URI变量, 然后查找请求参数.
+	 * 
+	 * @param attributeName 模型属性名称
+	 * @param request 当前的请求
+	 * 
+	 * @return 尝试转换的请求值, 或{@code null}
 	 */
 	protected String getRequestValueForAttribute(String attributeName, NativeWebRequest request) {
 		Map<String, String> variables = getUriTemplateVariables(request);
@@ -91,17 +86,16 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 	}
 
 	/**
-	 * Create a model attribute from a String request value (e.g. URI template
-	 * variable, request parameter) using type conversion.
-	 * <p>The default implementation converts only if there a registered
-	 * {@link Converter} that can perform the conversion.
-	 * @param sourceValue the source value to create the model attribute from
-	 * @param attributeName the name of the attribute (never {@code null})
-	 * @param parameter the method parameter
-	 * @param binderFactory for creating WebDataBinder instance
-	 * @param request the current request
-	 * @return the created model attribute, or {@code null} if no suitable
-	 * conversion found
+	 * 使用类型转换从String请求值 (e.g. URI模板变量, 请求参数) 创建模型属性.
+	 * <p>仅当存在可以执行转换的已注册{@link Converter}时, 默认实现才会转换.
+	 * 
+	 * @param sourceValue 从中创建模型属性的源值
+	 * @param attributeName 属性名称 (never {@code null})
+	 * @param parameter 方法参数
+	 * @param binderFactory 用于创建WebDataBinder实例
+	 * @param request 当前的请求
+	 * 
+	 * @return 创建的模型属性, 或{@code null} 如果找不到合适的转换
 	 */
 	protected Object createAttributeFromRequestValue(String sourceValue, String attributeName,
 			MethodParameter parameter, WebDataBinderFactory binderFactory, NativeWebRequest request)
@@ -120,9 +114,7 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 	}
 
 	/**
-	 * This implementation downcasts {@link WebDataBinder} to
-	 * {@link ServletRequestDataBinder} before binding.
-	 * @see ServletRequestDataBinderFactory
+	 * 此实现在绑定之前将{@link WebDataBinder}向下转型为{@link ServletRequestDataBinder}.
 	 */
 	@Override
 	protected void bindRequestParameters(WebDataBinder binder, NativeWebRequest request) {

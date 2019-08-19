@@ -6,11 +6,9 @@ import org.apache.tiles.preparer.ViewPreparer;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Tiles {@link org.apache.tiles.preparer.PreparerFactory} implementation
- * that expects preparer bean names and obtains preparer beans from the
- * Spring ApplicationContext. The full bean creation process will be in
- * the control of the Spring application context in this case, allowing
- * for the use of scoped beans etc.
+ * Tiles {@link org.apache.tiles.preparer.PreparerFactory}实现,
+ * 使用preparer bean名称, 并从Spring ApplicationContext获取 preparer bean.
+ * 在这种情况下, 完整的bean创建过程将控制在Spring应用程序上下文中, 允许使用scoped bean等.
  */
 public class SpringBeanPreparerFactory extends AbstractSpringPreparerFactory {
 

@@ -7,9 +7,8 @@ import javax.servlet.jsp.PageContext;
 import org.springframework.validation.Errors;
 
 /**
- * JSP tag that evaluates content if there are binding errors
- * for a certain bean. Exports an "errors" variable of type
- * {@link org.springframework.validation.Errors} for the given bean.
+ * JSP标记, 用于在某个bean存在绑定错误时评估内容.
+ * 为给定的bean导出{@link org.springframework.validation.Errors}类型的"errors"变量.
  */
 @SuppressWarnings("serial")
 public class BindErrorsTag extends HtmlEscapingAwareTag {
@@ -23,14 +22,14 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 
 
 	/**
-	 * Set the name of the bean that this tag should check.
+	 * 设置此标记应检查的bean的名称.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Return the name of the bean that this tag checks.
+	 * 返回此标记检查的bean的名称.
 	 */
 	public String getName() {
 		return this.name;
@@ -56,8 +55,8 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Retrieve the Errors instance that this tag is currently bound to.
-	 * <p>Intended for cooperating nesting tags.
+	 * 检索此标记当前绑定的Errors实例.
+	 * <p>用于协作嵌套标签.
 	 */
 	public final Errors getErrors() {
 		return this.errors;
@@ -69,5 +68,4 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 		super.doFinally();
 		this.errors = null;
 	}
-
 }

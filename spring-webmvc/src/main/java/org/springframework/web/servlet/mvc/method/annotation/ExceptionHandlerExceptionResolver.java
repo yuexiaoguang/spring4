@@ -45,13 +45,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * An {@link AbstractHandlerMethodExceptionResolver} that resolves exceptions
- * through {@code @ExceptionHandler} methods.
+ * 通过{@code @ExceptionHandler}方法解析异常的{@link AbstractHandlerMethodExceptionResolver}.
  *
- * <p>Support for custom argument and return value types can be added via
- * {@link #setCustomArgumentResolvers} and {@link #setCustomReturnValueHandlers}.
- * Or alternatively to re-configure all argument and return value types use
- * {@link #setArgumentResolvers} and {@link #setReturnValueHandlers(List)}.
+ * <p>可以通过{@link #setCustomArgumentResolvers} 和 {@link #setCustomReturnValueHandlers}
+ * 添加对自定义参数和返回值类型的支持.
+ * 或者, 使用{@link #setArgumentResolvers} 和 {@link #setReturnValueHandlers(List)}
+ * 重新配置所有参数和返回值类型.
  */
 public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExceptionResolver
 		implements ApplicationContextAware, InitializingBean {
@@ -92,24 +91,23 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 
 
 	/**
-	 * Provide resolvers for custom argument types. Custom resolvers are ordered
-	 * after built-in ones. To override the built-in support for argument
-	 * resolution use {@link #setArgumentResolvers} instead.
+	 * 提供自定义参数类型的解析器.
+	 * 在内置的解析器之后排序自定义解析器.
+	 * 要覆盖对参数解析的内置支持, 改用{@link #setArgumentResolvers}.
 	 */
 	public void setCustomArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		this.customArgumentResolvers= argumentResolvers;
 	}
 
 	/**
-	 * Return the custom argument resolvers, or {@code null}.
+	 * 返回自定义参数解析器, 或{@code null}.
 	 */
 	public List<HandlerMethodArgumentResolver> getCustomArgumentResolvers() {
 		return this.customArgumentResolvers;
 	}
 
 	/**
-	 * Configure the complete list of supported argument types thus overriding
-	 * the resolvers that would otherwise be configured by default.
+	 * 配置支持的参数类型的完整列表, 从而覆盖默认配置的解析器.
 	 */
 	public void setArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		if (argumentResolvers == null) {
@@ -122,32 +120,29 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	}
 
 	/**
-	 * Return the configured argument resolvers, or possibly {@code null} if
-	 * not initialized yet via {@link #afterPropertiesSet()}.
+	 * 返回已配置的参数解析器, 如果尚未通过{@link #afterPropertiesSet()}初始化, 则可能返回{@code null}.
 	 */
 	public HandlerMethodArgumentResolverComposite getArgumentResolvers() {
 		return this.argumentResolvers;
 	}
 
 	/**
-	 * Provide handlers for custom return value types. Custom handlers are
-	 * ordered after built-in ones. To override the built-in support for
-	 * return value handling use {@link #setReturnValueHandlers}.
+	 * 提供自定义返回值类型的处理器. 自定义处理器在内置处理器之后排序.
+	 * 要覆盖对返回值处理的内置支持, 请使用{@link #setReturnValueHandlers}.
 	 */
 	public void setCustomReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		this.customReturnValueHandlers = returnValueHandlers;
 	}
 
 	/**
-	 * Return the custom return value handlers, or {@code null}.
+	 * 返回自定义返回值处理器, 或{@code null}.
 	 */
 	public List<HandlerMethodReturnValueHandler> getCustomReturnValueHandlers() {
 		return this.customReturnValueHandlers;
 	}
 
 	/**
-	 * Configure the complete list of supported return value types thus
-	 * overriding handlers that would otherwise be configured by default.
+	 * 配置支持的返回值类型的完整列表, 从而覆盖默认配置的处理器.
 	 */
 	public void setReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		if (returnValueHandlers == null) {
@@ -160,48 +155,45 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	}
 
 	/**
-	 * Return the configured handlers, or possibly {@code null} if not
-	 * initialized yet via {@link #afterPropertiesSet()}.
+	 * 返回配置的处理器, 如果尚未通过{@link #afterPropertiesSet()}初始化, 则可能返回{@code null}.
 	 */
 	public HandlerMethodReturnValueHandlerComposite getReturnValueHandlers() {
 		return this.returnValueHandlers;
 	}
 
 	/**
-	 * Set the message body converters to use.
-	 * <p>These converters are used to convert from and to HTTP requests and responses.
+	 * 设置要使用的消息正文转换器.
+	 * <p>这些转换器用于转换HTTP请求和响应.
 	 */
 	public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
 		this.messageConverters = messageConverters;
 	}
 
 	/**
-	 * Return the configured message body converters.
+	 * 返回配置的消息正文转换器.
 	 */
 	public List<HttpMessageConverter<?>> getMessageConverters() {
 		return this.messageConverters;
 	}
 
 	/**
-	 * Set the {@link ContentNegotiationManager} to use to determine requested media types.
-	 * If not set, the default constructor is used.
+	 * 设置用于确定请求的媒体类型的{@link ContentNegotiationManager}.
+	 * 如果未设置, 则使用默认构造函数.
 	 */
 	public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
 		this.contentNegotiationManager = contentNegotiationManager;
 	}
 
 	/**
-	 * Return the configured {@link ContentNegotiationManager}.
+	 * 返回配置的{@link ContentNegotiationManager}.
 	 */
 	public ContentNegotiationManager getContentNegotiationManager() {
 		return this.contentNegotiationManager;
 	}
 
 	/**
-	 * Add one or more components to be invoked after the execution of a controller
-	 * method annotated with {@code @ResponseBody} or returning {@code ResponseEntity}
-	 * but before the body is written to the response with the selected
-	 * {@code HttpMessageConverter}.
+	 * 在执行使用{@code @ResponseBody}注解的控制器方法或返回{@code ResponseEntity}之后,
+	 * 但在使用所选{@code HttpMessageConverter}将主体写入响应之前, 添加一个或多个要调用的组件.
 	 */
 	public void setResponseBodyAdvice(List<ResponseBodyAdvice<?>> responseBodyAdvice) {
 		this.responseBodyAdvice.clear();
@@ -222,7 +214,7 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 
 	@Override
 	public void afterPropertiesSet() {
-		// Do this first, it may add ResponseBodyAdvice beans
+		// 首先执行此操作, 它可能会添加 ResponseBodyAdvice beans
 		initExceptionHandlerAdviceCache();
 
 		if (this.argumentResolvers == null) {
@@ -264,33 +256,30 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	}
 
 	/**
-	 * Return an unmodifiable Map with the {@link ControllerAdvice @ControllerAdvice}
-	 * beans discovered in the ApplicationContext. The returned map will be empty if
-	 * the method is invoked before the bean has been initialized via
-	 * {@link #afterPropertiesSet()}.
+	 * 使用ApplicationContext中发现的{@link ControllerAdvice @ControllerAdvice} bean返回不可修改的Map.
+	 * 如果在通过{@link #afterPropertiesSet()}初始化bean之前调用该方法, 则返回的Map将为空.
 	 */
 	public Map<ControllerAdviceBean, ExceptionHandlerMethodResolver> getExceptionHandlerAdviceCache() {
 		return Collections.unmodifiableMap(this.exceptionHandlerAdviceCache);
 	}
 
 	/**
-	 * Return the list of argument resolvers to use including built-in resolvers
-	 * and custom resolvers provided via {@link #setCustomArgumentResolvers}.
+	 * 返回要使用的参数解析器列表, 包括通过{@link #setCustomArgumentResolvers}提供的内置解析器和自定义解析器.
 	 */
 	protected List<HandlerMethodArgumentResolver> getDefaultArgumentResolvers() {
 		List<HandlerMethodArgumentResolver> resolvers = new ArrayList<HandlerMethodArgumentResolver>();
 
-		// Annotation-based argument resolution
+		// 基于注解的参数解析
 		resolvers.add(new SessionAttributeMethodArgumentResolver());
 		resolvers.add(new RequestAttributeMethodArgumentResolver());
 
-		// Type-based argument resolution
+		// 基于类型的参数解析
 		resolvers.add(new ServletRequestMethodArgumentResolver());
 		resolvers.add(new ServletResponseMethodArgumentResolver());
 		resolvers.add(new RedirectAttributesMethodArgumentResolver());
 		resolvers.add(new ModelMethodProcessor());
 
-		// Custom arguments
+		// 自定义参数
 		if (getCustomArgumentResolvers() != null) {
 			resolvers.addAll(getCustomArgumentResolvers());
 		}
@@ -299,29 +288,28 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	}
 
 	/**
-	 * Return the list of return value handlers to use including built-in and
-	 * custom handlers provided via {@link #setReturnValueHandlers}.
+	 * 返回要使用的返回值处理器列表, 包括通过{@link #setReturnValueHandlers}提供的内置和自定义处理器.
 	 */
 	protected List<HandlerMethodReturnValueHandler> getDefaultReturnValueHandlers() {
 		List<HandlerMethodReturnValueHandler> handlers = new ArrayList<HandlerMethodReturnValueHandler>();
 
-		// Single-purpose return value types
+		// 单用途返回值类型
 		handlers.add(new ModelAndViewMethodReturnValueHandler());
 		handlers.add(new ModelMethodProcessor());
 		handlers.add(new ViewMethodReturnValueHandler());
 		handlers.add(new HttpEntityMethodProcessor(
 				getMessageConverters(), this.contentNegotiationManager, this.responseBodyAdvice));
 
-		// Annotation-based return value types
+		// 基于注解的返回值类型
 		handlers.add(new ModelAttributeMethodProcessor(false));
 		handlers.add(new RequestResponseBodyMethodProcessor(
 				getMessageConverters(), this.contentNegotiationManager, this.responseBodyAdvice));
 
-		// Multi-purpose return value types
+		// 多用途返回值类型
 		handlers.add(new ViewNameMethodReturnValueHandler());
 		handlers.add(new MapMethodProcessor());
 
-		// Custom return value types
+		// 自定义返回值类型
 		if (getCustomReturnValueHandlers() != null) {
 			handlers.addAll(getCustomReturnValueHandlers());
 		}
@@ -334,7 +322,7 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 
 
 	/**
-	 * Find an {@code @ExceptionHandler} method and invoke it to handle the raised exception.
+	 * 查找{@code @ExceptionHandler}方法并调用它来处理引发的异常.
 	 */
 	@Override
 	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request,
@@ -366,12 +354,11 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 			}
 		}
 		catch (Throwable invocationEx) {
-			// Any other than the original exception is unintended here,
-			// probably an accident (e.g. failed assertion or the like).
+			// 除了原始异常以外的任何其他内容都是无意的, 可能是意外 (e.g. 断言失败等).
 			if (invocationEx != exception && logger.isWarnEnabled()) {
 				logger.warn("Failed to invoke @ExceptionHandler method: " + exceptionHandlerMethod, invocationEx);
 			}
-			// Continue with default processing of the original exception...
+			// 继续默认处理原始异常...
 			return null;
 		}
 
@@ -395,21 +382,21 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 	}
 
 	/**
-	 * Find an {@code @ExceptionHandler} method for the given exception. The default
-	 * implementation searches methods in the class hierarchy of the controller first
-	 * and if not found, it continues searching for additional {@code @ExceptionHandler}
-	 * methods assuming some {@linkplain ControllerAdvice @ControllerAdvice}
-	 * Spring-managed beans were detected.
-	 * @param handlerMethod the method where the exception was raised (may be {@code null})
-	 * @param exception the raised exception
-	 * @return a method to handle the exception, or {@code null} if none
+	 * 查找给定异常的{@code @ExceptionHandler}方法.
+	 * 默认实现首先搜索控制器的类层次结构中的方法, 如果没有找到, 它会继续搜索其他{@code @ExceptionHandler}方法,
+	 * 假设有一些{@linkplain ControllerAdvice @ControllerAdvice}检测到Spring管理的bean.
+	 * 
+	 * @param handlerMethod 引发异常的方法 (may be {@code null})
+	 * @param exception 引发的异常
+	 * 
+	 * @return 要处理异常的方法, 或{@code null}
 	 */
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
 		Class<?> handlerType = null;
 
 		if (handlerMethod != null) {
-			// Local exception handler methods on the controller class itself.
-			// To be invoked through the proxy, even in case of an interface-based proxy.
+			// 控制器类本身的本地异常处理器方法.
+			// 即使在基于接口的代理的情况下, 也要通过代理调用.
 			handlerType = handlerMethod.getBeanType();
 			ExceptionHandlerMethodResolver resolver = this.exceptionHandlerCache.get(handlerType);
 			if (resolver == null) {
@@ -420,8 +407,7 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 			if (method != null) {
 				return new ServletInvocableHandlerMethod(handlerMethod.getBean(), method);
 			}
-			// For advice applicability check below (involving base packages, assignable types
-			// and annotation presence), use target class instead of interface-based proxy.
+			// 对于下面的增强适用性检查 (涉及基础包, 可分配类型和注解的存在), 使用目标类而不是基于接口的代理.
 			if (Proxy.isProxyClass(handlerType)) {
 				handlerType = AopUtils.getTargetClass(handlerMethod.getBean());
 			}
@@ -440,5 +426,4 @@ public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExce
 
 		return null;
 	}
-
 }

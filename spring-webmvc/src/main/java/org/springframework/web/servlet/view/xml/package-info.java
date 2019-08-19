@@ -1,4 +1,4 @@
 /**
- * Support classes for providing a View implementation based on XML Marshalling.
+ * 用于提供基于XML编组的View实现.
  */
 package org.springframework.web.servlet.view.xml;

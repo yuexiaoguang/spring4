@@ -9,25 +9,22 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Subclass of {@link ServletRequestDataBinder} that adds URI template variables
- * to the values used for data binding.
+ * {@link ServletRequestDataBinder}的子类, 它将URI模板变量添加到用于数据绑定的值.
  */
 public class ExtendedServletRequestDataBinder extends ServletRequestDataBinder {
 
 	/**
-	 * Create a new instance, with default object name.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
+	 * 使用默认的对象名称.
+	 * 
+	 * @param target 绑定到的目标对象 (如果绑定器仅用于转换普通参数值, 则为{@code null})
 	 */
 	public ExtendedServletRequestDataBinder(Object target) {
 		super(target);
 	}
 
 	/**
-	 * Create a new instance.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
-	 * @param objectName the name of the target object
+	 * @param target 绑定到的目标对象 (如果绑定器仅用于转换普通参数值, 则为{@code null})
+	 * @param objectName 目标对象的名称
 	 */
 	public ExtendedServletRequestDataBinder(Object target, String objectName) {
 		super(target, objectName);
@@ -35,7 +32,7 @@ public class ExtendedServletRequestDataBinder extends ServletRequestDataBinder {
 
 
 	/**
-	 * Merge URI variables into the property values to use for data binding.
+	 * 将URI变量合并到属性值中以用于数据绑定.
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

@@ -9,12 +9,11 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.util.Assert;
 
 /**
- * Interceptor that places the configured {@link ConversionService} in request scope
- * so it's available during request processing. The request attribute name is
- * "org.springframework.core.convert.ConversionService", the value of
- * {@code ConversionService.class.getName()}.
+ * 拦截器, 将已配置的{@link ConversionService}置于请求范围内, 以便在请求处理期间可用.
+ * 请求属性名称是"org.springframework.core.convert.ConversionService", 
+ * {@code ConversionService.class.getName()}的值.
  *
- * <p>Mainly for use within JSP tags such as the spring:eval tag.
+ * <p>主要用于JSP标签, 例如 spring:eval 标签.
  */
 public class ConversionServiceExposingInterceptor extends HandlerInterceptorAdapter {
 
@@ -22,8 +21,7 @@ public class ConversionServiceExposingInterceptor extends HandlerInterceptorAdap
 
 
 	/**
-	 * Creates a new {@link ConversionServiceExposingInterceptor}.
-	 * @param conversionService the conversion service to export to request scope when this interceptor is invoked
+	 * @param conversionService 调用此拦截器时要转换为请求范围的转换服务
 	 */
 	public ConversionServiceExposingInterceptor(ConversionService conversionService) {
 		Assert.notNull(conversionService, "The ConversionService may not be null");

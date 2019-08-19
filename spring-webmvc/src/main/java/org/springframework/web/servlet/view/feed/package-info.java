@@ -1,5 +1,5 @@
 /**
- * Support classes for feed generation, providing View implementations for Atom and RSS.
- * Based on the <a href="https://github.com/rometools/rome">ROME tools</a> project.
+ * 用于生成Feed的类, 为Atom和RSS提供View实现.
+ * 基于<a href="https://github.com/rometools/rome">ROME tools</a>项目.
  */
 package org.springframework.web.servlet.view.feed;

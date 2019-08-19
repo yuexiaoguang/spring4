@@ -22,12 +22,10 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A central component to use to obtain the public URL path that clients should
- * use to access a static resource.
+ * 获取客户端用于访问静态资源的公共URL路径的中心组件.
  *
- * <p>This class is aware of Spring MVC handler mappings used to serve static
- * resources and uses the {@code ResourceResolver} chains of the configured
- * {@code ResourceHttpRequestHandler}s to make its decisions.
+ * <p>此类了解用于提供静态资源的Spring MVC处理器映射,
+ * 并使用配置的{@code ResourceHttpRequestHandler}的{@code ResourceResolver}链做出决策.
  */
 public class ResourceUrlProvider implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -43,17 +41,15 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 
 
 	/**
-	 * Configure a {@code UrlPathHelper} to use in
-	 * {@link #getForRequestUrl(javax.servlet.http.HttpServletRequest, String)}
-	 * in order to derive the lookup path for a target request URL path.
+	 * 配置{@code UrlPathHelper}以在{@link #getForRequestUrl(javax.servlet.http.HttpServletRequest, String)}中使用,
+	 * 以便为目标请求URL路径派生查找路径.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
 	}
 
 	/**
-	 * Return the configured {@code UrlPathHelper}.
-	 * @since 4.2.8
+	 * 返回配置的{@code UrlPathHelper}.
 	 */
 	public UrlPathHelper getUrlPathHelper() {
 		return this.urlPathHelper;
@@ -68,25 +64,23 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Configure a {@code PathMatcher} to use when comparing target lookup path
-	 * against resource mappings.
+	 * 配置{@code PathMatcher}以在将目标查找路径与资源映射进行比较时使用.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
 	}
 
 	/**
-	 * Return the configured {@code PathMatcher}.
+	 * 返回配置的{@code PathMatcher}.
 	 */
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
 	}
 
 	/**
-	 * Manually configure the resource mappings.
-	 * <p><strong>Note:</strong> by default resource mappings are auto-detected
-	 * from the Spring {@code ApplicationContext}. However if this property is
-	 * used, the auto-detection is turned off.
+	 * 手动配置资源映射.
+	 * <p><strong>Note:</strong> 默认情况下, 资源映射是从Spring {@code ApplicationContext}自动检测的.
+	 * 但是, 如果使用此属性, 则会关闭自动检测.
 	 */
 	public void setHandlerMap(Map<String, ResourceHttpRequestHandler> handlerMap) {
 		if (handlerMap != null) {
@@ -97,16 +91,14 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Return the resource mappings, either manually configured or auto-detected
-	 * when the Spring {@code ApplicationContext} is refreshed.
+	 * 返回资源映射, 手动配置的或在刷新Spring {@code ApplicationContext}时自动检测的.
 	 */
 	public Map<String, ResourceHttpRequestHandler> getHandlerMap() {
 		return this.handlerMap;
 	}
 
 	/**
-	 * Return {@code false} if resource mappings were manually configured,
-	 * {@code true} otherwise.
+	 * 如果手动配置了资源映射, 则返回{@code false}, 否则返回{@code true}.
 	 */
 	public boolean isAutodetect() {
 		return this.autodetect;
@@ -151,12 +143,13 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * A variation on {@link #getForLookupPath(String)} that accepts a full request
-	 * URL path (i.e. including context and servlet path) and returns the full request
-	 * URL path to expose for public use.
-	 * @param request the current request
-	 * @param requestUrl the request URL path to resolve
-	 * @return the resolved public URL path, or {@code null} if unresolved
+	 * {@link #getForLookupPath(String)}的变体, 它接受完整的请求URL路径 (i.e. 包括上下文和servlet路径),
+	 * 并返回完整的请求URL路径以公开.
+	 * 
+	 * @param request 当前的请求
+	 * @param requestUrl 要解析的请求URL路径
+	 * 
+	 * @return 已解析的公用URL路径, 或{@code null}
 	 */
 	public final String getForRequestUrl(HttpServletRequest request, String requestUrl) {
 		if (logger.isTraceEnabled()) {
@@ -195,16 +188,14 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Compare the given path against configured resource handler mappings and
-	 * if a match is found use the {@code ResourceResolver} chain of the matched
-	 * {@code ResourceHttpRequestHandler} to resolve the URL path to expose for
-	 * public use.
-	 * <p>It is expected that the given path is what Spring MVC would use for
-	 * request mapping purposes, i.e. excluding context and servlet path portions.
-	 * <p>If several handler mappings match, the handler used will be the one
-	 * configured with the most specific pattern.
-	 * @param lookupPath the lookup path to check
-	 * @return the resolved public URL path, or {@code null} if unresolved
+	 * 将给定路径与已配置的资源处理器映射进行比较, 如果找到匹配项,
+	 * 使用匹配的{@code ResourceHttpRequestHandler}的{@code ResourceResolver}链解析要公开的URL路径.
+	 * <p>期望给定路径将用于Spring MVC请求映射, i.e. 排除上下文和servlet路径部分.
+	 * <p>如果多个处理器映射匹配, 则使用的处理器将是配置了最具体模式的处理器.
+	 * 
+	 * @param lookupPath 要检查的查找路径
+	 * 
+	 * @return 已解析的公用URL路径, 或{@code null}
 	 */
 	public final String getForLookupPath(String lookupPath) {
 		if (logger.isTraceEnabled()) {

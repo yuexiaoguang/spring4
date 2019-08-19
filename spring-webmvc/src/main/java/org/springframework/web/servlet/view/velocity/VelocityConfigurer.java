@@ -12,10 +12,8 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * JavaBean to configure Velocity for web usage, via the "configLocation"
- * and/or "velocityProperties" and/or "resourceLoaderPath" bean properties.
- * The simplest way to use this class is to specify just a "resourceLoaderPath";
- * you do not need any further configuration then.
+ * 通过"configLocation"和/或"velocityProperties"和/或"resourceLoaderPath" bean属性为Web使用配置Velocity的JavaBean.
+ * 使用此类的最简单方法是仅指定"resourceLoaderPath"; 不需要任何进一步的配置.
  *
  * <pre class="code">
  * &lt;bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"&gt;
@@ -44,7 +42,7 @@ import org.springframework.web.context.ServletContextAware;
  * #springBind("person.age")
  * age is ${status.value}</pre>
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public class VelocityConfigurer extends org.springframework.ui.velocity.VelocityEngineFactory

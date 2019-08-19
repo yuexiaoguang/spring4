@@ -4,7 +4,7 @@ import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * {@link NamespaceHandler} for Spring MVC configuration namespace.
+ * 用于Spring MVC配置命名空间的{@link NamespaceHandler}.
  */
 public class MvcNamespaceHandler extends NamespaceHandlerSupport {
 

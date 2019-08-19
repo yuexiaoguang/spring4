@@ -36,13 +36,13 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Extends {@link AbstractMessageConverterMethodArgumentResolver} with the ability to handle
- * method return values by writing to the response with {@link HttpMessageConverter}s.
+ * 通过使用{@link HttpMessageConverter}写入响应来
+ * 扩展{@link AbstractMessageConverterMethodArgumentResolver}以处理方法返回值.
  */
 public abstract class AbstractMessageConverterMethodProcessor extends AbstractMessageConverterMethodArgumentResolver
 		implements HandlerMethodReturnValueHandler {
 
-	/* Extensions associated with the built-in message converters */
+	/* 与内置消息转换器关联的扩展名 */
 	private static final Set<String> WHITELISTED_EXTENSIONS = new HashSet<String>(Arrays.asList(
 			"txt", "text", "yml", "properties", "csv",
 			"json", "xml", "atom", "rss",
@@ -70,16 +70,10 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	private final Set<String> safeExtensions = new HashSet<String>();
 
 
-	/**
-	 * Constructor with list of converters only.
-	 */
 	protected AbstractMessageConverterMethodProcessor(List<HttpMessageConverter<?>> converters) {
 		this(converters, null);
 	}
 
-	/**
-	 * Constructor with list of converters and ContentNegotiationManager.
-	 */
 	protected AbstractMessageConverterMethodProcessor(List<HttpMessageConverter<?>> converters,
 			ContentNegotiationManager contentNegotiationManager) {
 
@@ -87,8 +81,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Constructor with list of converters and ContentNegotiationManager as well
-	 * as request/response body advice instances.
+	 * 请求/响应主体增强实例.
 	 */
 	protected AbstractMessageConverterMethodProcessor(List<HttpMessageConverter<?>> converters,
 			ContentNegotiationManager manager, List<Object> requestResponseBodyAdvice) {
@@ -108,9 +101,11 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 
 
 	/**
-	 * Creates a new {@link HttpOutputMessage} from the given {@link NativeWebRequest}.
-	 * @param webRequest the web request to create an output message from
-	 * @return the output message
+	 * 从给定的{@link NativeWebRequest}创建一个新的{@link HttpOutputMessage}.
+	 * 
+	 * @param webRequest 从中创建输出消息的Web请求
+	 * 
+	 * @return 输出消息
 	 */
 	protected ServletServerHttpResponse createOutputMessage(NativeWebRequest webRequest) {
 		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
@@ -118,7 +113,8 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Writes the given return value to the given web request. Delegates to
+	 * 将给定的返回值写入给定的Web请求.
+	 * 委托给
 	 * {@link #writeWithMessageConverters(Object, MethodParameter, ServletServerHttpRequest, ServletServerHttpResponse)}
 	 */
 	protected <T> void writeWithMessageConverters(T value, MethodParameter returnType, NativeWebRequest webRequest)
@@ -130,14 +126,15 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Writes the given return type to the given output message.
-	 * @param value the value to write to the output message
-	 * @param returnType the type of the value
-	 * @param inputMessage the input messages. Used to inspect the {@code Accept} header.
-	 * @param outputMessage the output message to write to
-	 * @throws IOException thrown in case of I/O errors
-	 * @throws HttpMediaTypeNotAcceptableException thrown when the conditions indicated
-	 * by the {@code Accept} header on the request cannot be met by the message converters
+	 * 将给定的返回类型写入给定的输出消息.
+	 * 
+	 * @param value 要写入输出消息的值
+	 * @param returnType 值的类型
+	 * @param inputMessage 输入消息. 用于检查{@code Accept} header.
+	 * @param outputMessage 要写入的输出消息
+	 * 
+	 * @throws IOException
+	 * @throws HttpMediaTypeNotAcceptableException 当消息转换器无法满足请求上的{@code Accept} header指示的条件时抛出
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> void writeWithMessageConverters(T value, MethodParameter returnType,
@@ -241,9 +238,8 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Return the type of the value to be written to the response. Typically this is
-	 * a simple check via getClass on the value but if the value is null, then the
-	 * return type needs to be examined possibly including generic type determination
+	 * 返回要写入响应的值的类型.
+	 * 通常这是通过getClass对值进行的简单检查, 但如果值为null, 则需要检查返回类型, 可能包括泛型类型确定
 	 * (e.g. {@code ResponseEntity<T>}).
 	 */
 	protected Class<?> getReturnValueType(Object value, MethodParameter returnType) {
@@ -251,8 +247,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Return the generic type of the {@code returnType} (or of the nested type
-	 * if it is an {@link HttpEntity}).
+	 * 返回{@code returnType}的泛型类型 (如果它是{@link HttpEntity}, 则返回嵌套类型的泛型类型).
 	 */
 	private Type getGenericType(MethodParameter returnType) {
 		if (HttpEntity.class.isAssignableFrom(returnType.getParameterType())) {
@@ -263,22 +258,18 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 		}
 	}
 
-	/**
-	 * @see #getProducibleMediaTypes(HttpServletRequest, Class, Type)
-	 */
 	@SuppressWarnings({"unchecked", "unused"})
 	protected List<MediaType> getProducibleMediaTypes(HttpServletRequest request, Class<?> valueClass) {
 		return getProducibleMediaTypes(request, valueClass, null);
 	}
 
 	/**
-	 * Returns the media types that can be produced:
+	 * 返回可以生成的媒体类型:
 	 * <ul>
-	 * <li>The producible media types specified in the request mappings, or
-	 * <li>Media types of configured converters that can write the specific return value, or
+	 * <li>请求映射中指定的可生成媒体类型, 或
+	 * <li>配置的转换器的媒体类型, 可以写入特定的返回值, 或
 	 * <li>{@link MediaType#ALL}
 	 * </ul>
-	 * @since 4.2
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<MediaType> getProducibleMediaTypes(HttpServletRequest request, Class<?> valueClass, Type declaredType) {
@@ -311,8 +302,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Return the more specific of the acceptable and the producible media types
-	 * with the q-value of the former.
+	 * 使用前者的q值返回更具体的可接受和可生成的媒体类型.
 	 */
 	private MediaType getMostSpecificMediaType(MediaType acceptType, MediaType produceType) {
 		MediaType produceTypeToUse = produceType.copyQualityValue(acceptType);
@@ -320,12 +310,9 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	}
 
 	/**
-	 * Check if the path has a file extension and whether the extension is
-	 * either {@link #WHITELISTED_EXTENSIONS whitelisted} or explicitly
-	 * {@link ContentNegotiationManager#getAllFileExtensions() registered}.
-	 * If not, and the status is in the 2xx range, a 'Content-Disposition'
-	 * header with a safe attachment file name ("f.txt") is added to prevent
-	 * RFD exploits.
+	 * 检查路径是否具有文件扩展名以及扩展名是{@link #WHITELISTED_EXTENSIONS 白名单}还是显式
+	 * {@link ContentNegotiationManager#getAllFileExtensions() 注册}.
+	 * 如果没有, 并且状态在2xx范围内, 则添加带有安全附件文件名("f.txt")的'Content-Disposition' header以防止RFD攻击.
 	 */
 	private void addContentDispositionHeader(ServletServerHttpRequest request, ServletServerHttpResponse response) {
 		HttpHeaders headers = response.getHeaders();

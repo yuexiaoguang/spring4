@@ -9,18 +9,15 @@ import org.webjars.WebJarAssetLocator;
 import org.springframework.core.io.Resource;
 
 /**
- * A {@code ResourceResolver} that delegates to the chain to locate a resource and then
- * attempts to find a matching versioned resource contained in a WebJar JAR file.
+ * {@code ResourceResolver}, 它委托给链来查找资源, 然后尝试查找WebJar JAR文件中包含的匹配版本的资源.
  *
- * <p>This allows WebJars.org users to write version agnostic paths in their templates,
- * like {@code <script src="/jquery/jquery.min.js"/>}.
- * This path will be resolved to the unique version {@code <script src="/jquery/1.2.0/jquery.min.js"/>},
- * which is a better fit for HTTP caching and version management in applications.
+ * <p>这允许WebJars.org用户在其模板中写入与版本无关的路径, 例如{@code <script src="/jquery/jquery.min.js"/>}.
+ * 此路径将解析为唯一版本 {@code <script src="/jquery/1.2.0/jquery.min.js"/>},
+ * 这更适合应用程序中的HTTP缓存和版本管理.
  *
- * <p>This also resolves resources for version agnostic HTTP requests {@code "GET /jquery/jquery.min.js"}.
+ * <p>这也解析了与版本无关的HTTP请求 {@code "GET /jquery/jquery.min.js"}的资源.
  *
- * <p>This resolver requires the "org.webjars:webjars-locator" library on classpath,
- * and is automatically registered if that library is present.
+ * <p>此解析器需要类路径上的 "org.webjars:webjars-locator"库, 并且如果该库存在则会自动注册.
  */
 public class WebJarsResourceResolver extends AbstractResourceResolver {
 
@@ -33,16 +30,14 @@ public class WebJarsResourceResolver extends AbstractResourceResolver {
 
 
 	/**
-	 * Create a {@code WebJarsResourceResolver} with a default {@code WebJarAssetLocator} instance.
+	 * 使用默认的{@code WebJarAssetLocator}实例创建{@code WebJarsResourceResolver}.
 	 */
 	public WebJarsResourceResolver() {
 		this(new WebJarAssetLocator());
 	}
 
 	/**
-	 * Create a {@code WebJarsResourceResolver} with a custom {@code WebJarAssetLocator} instance,
-	 * e.g. with a custom index.
-	 * @since 4.3
+	 * 使用自定义{@code WebJarAssetLocator}实例创建{@code WebJarsResourceResolver}, e.g. 使用自定义索引.
 	 */
 	public WebJarsResourceResolver(WebJarAssetLocator webJarAssetLocator) {
 		this.webJarAssetLocator = webJarAssetLocator;

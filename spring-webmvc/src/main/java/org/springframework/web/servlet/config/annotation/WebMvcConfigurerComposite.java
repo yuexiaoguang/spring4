@@ -13,7 +13,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
- * A {@link WebMvcConfigurer} that delegates to one or more others.
+ * 委托给一个或多个其他WebMvcConfigurer实例的{@link WebMvcConfigurer}.
  */
 class WebMvcConfigurerComposite implements WebMvcConfigurer {
 

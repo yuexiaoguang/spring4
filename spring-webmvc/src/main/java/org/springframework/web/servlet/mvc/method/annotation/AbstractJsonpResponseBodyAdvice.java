@@ -16,19 +16,17 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A convenient base class for a {@code ResponseBodyAdvice} to instruct the
+ * {@code ResponseBodyAdvice}的便捷基类, 用于指示
  * {@link org.springframework.http.converter.json.MappingJackson2HttpMessageConverter}
- * to serialize with JSONP formatting.
+ * 使用JSONP格式进行序列化.
  *
- * <p>Sub-classes must specify the query parameter name(s) to check for the name
- * of the JSONP callback function.
+ * <p>子类必须指定查询参数名称以检查JSONP回调函数的名称.
  *
- * <p>Sub-classes are likely to be annotated with the {@code @ControllerAdvice}
- * annotation and auto-detected or otherwise must be registered directly with the
- * {@code RequestMappingHandlerAdapter} and {@code ExceptionHandlerExceptionResolver}.
+ * <p>子类很可能使用{@code @ControllerAdvice}注解并自动检测, 或者必须直接使用
+ * {@code RequestMappingHandlerAdapter} and {@code ExceptionHandlerExceptionResolver}注册.
  *
- * @deprecated Will be removed as of Spring Framework 5.1, use
- * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a> instead.
+ * @deprecated 将从Spring Framework 5.1中删除, 改用
+ * <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/cors.html">CORS</a>.
  */
 @Deprecated
 public abstract class AbstractJsonpResponseBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice {

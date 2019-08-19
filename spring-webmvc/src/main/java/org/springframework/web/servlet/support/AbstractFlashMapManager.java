@@ -19,7 +19,7 @@ import org.springframework.web.servlet.FlashMapManager;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A base class for {@link FlashMapManager} implementations.
+ * {@link FlashMapManager}实现的基类.
  */
 public abstract class AbstractFlashMapManager implements FlashMapManager {
 
@@ -34,23 +34,22 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 
 
 	/**
-	 * Set the amount of time in seconds after a {@link FlashMap} is saved
-	 * (at request completion) and before it expires.
-	 * <p>The default value is 180 seconds.
+	 * 设置保存{@link FlashMap} (请求完成后)的过期时间, 以秒为单位.
+	 * <p>默认为 180 秒.
 	 */
 	public void setFlashMapTimeout(int flashMapTimeout) {
 		this.flashMapTimeout = flashMapTimeout;
 	}
 
 	/**
-	 * Return the amount of time in seconds before a FlashMap expires.
+	 * 返回FlashMap过期前的秒数.
 	 */
 	public int getFlashMapTimeout() {
 		return this.flashMapTimeout;
 	}
 
 	/**
-	 * Set the UrlPathHelper to use to match FlashMap instances to requests.
+	 * 设置UrlPathHelper以将FlashMap实例与请求进行匹配.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		Assert.notNull(urlPathHelper, "UrlPathHelper must not be null");
@@ -58,7 +57,7 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Return the UrlPathHelper implementation to use.
+	 * 返回要使用的UrlPathHelper实现.
 	 */
 	public UrlPathHelper getUrlPathHelper() {
 		return this.urlPathHelper;
@@ -105,7 +104,7 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Return a list of expired FlashMap instances contained in the given list.
+	 * 返回给定列表中包含的过期FlashMap实例列表.
 	 */
 	private List<FlashMap> getExpiredFlashMaps(List<FlashMap> allMaps) {
 		List<FlashMap> result = new LinkedList<FlashMap>();
@@ -118,8 +117,9 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Return a FlashMap contained in the given list that matches the request.
-	 * @return a matching FlashMap or {@code null}
+	 * 返回给定列表中包含的与请求匹配的FlashMap.
+	 * 
+	 * @return 匹配的FlashMap 或{@code null}
 	 */
 	private FlashMap getMatchingFlashMap(List<FlashMap> allMaps, HttpServletRequest request) {
 		List<FlashMap> result = new LinkedList<FlashMap>();
@@ -139,8 +139,8 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Whether the given FlashMap matches the current request.
-	 * Uses the expected request path and query parameters saved in the FlashMap.
+	 * 给定的FlashMap是否与当前请求匹配.
+	 * 使用FlashMap中保存的预期请求路径和查询参数.
 	 */
 	protected boolean isFlashMapForRequest(FlashMap flashMap, HttpServletRequest request) {
 		String expectedPath = flashMap.getTargetRequestPath();
@@ -215,33 +215,34 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Retrieve saved FlashMap instances from the underlying storage.
-	 * @param request the current request
-	 * @return a List with FlashMap instances, or {@code null} if none found
+	 * 从底层存储中检索已保存的FlashMap实例.
+	 * 
+	 * @param request 当前的请求
+	 * 
+	 * @return FlashMap实例的列表, 或{@code null}
 	 */
 	protected abstract List<FlashMap> retrieveFlashMaps(HttpServletRequest request);
 
 	/**
-	 * Update the FlashMap instances in the underlying storage.
-	 * @param flashMaps a (potentially empty) list of FlashMap instances to save
-	 * @param request the current request
-	 * @param response the current response
+	 * 更新底层存储中的FlashMap实例.
+	 * 
+	 * @param flashMaps 要保存的FlashMap实例的(可能为空)列表
+	 * @param request 当前的请求
+	 * @param response 当前的响应
 	 */
 	protected abstract void updateFlashMaps(
 			List<FlashMap> flashMaps, HttpServletRequest request, HttpServletResponse response);
 
 	/**
-	 * Obtain a mutex for modifying the FlashMap List as handled by
-	 * {@link #retrieveFlashMaps} and {@link #updateFlashMaps},
-	 * <p>The default implementation returns a shared static mutex.
-	 * Subclasses are encouraged to return a more specific mutex, or
-	 * {@code null} to indicate that no synchronization is necessary.
-	 * @param request the current request
-	 * @return the mutex to use (may be {@code null} if none applicable)
-	 * @since 4.0.3
+	 * 获取由{@link #retrieveFlashMaps}和{@link #updateFlashMaps}处理的用于修改FlashMap列表的互斥锁.
+	 * <p>默认实现返回共享静态互斥锁.
+	 * 鼓励子类返回更具体的互斥锁, 或{@code null}以指示不需要同步.
+	 * 
+	 * @param request 当前的请求
+	 * 
+	 * @return 要使用的互斥锁 (可能是{@code null})
 	 */
 	protected Object getFlashMapsMutex(HttpServletRequest request) {
 		return DEFAULT_FLASH_MAPS_MUTEX;
 	}
-
 }

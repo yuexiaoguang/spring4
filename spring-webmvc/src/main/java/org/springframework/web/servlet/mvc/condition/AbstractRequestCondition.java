@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A base class for {@link RequestCondition} types providing implementations of
- * {@link #equals(Object)}, {@link #hashCode()}, and {@link #toString()}.
+ * {@link RequestCondition}类型的基类, 提供{@link #equals(Object)}, {@link #hashCode()}, 和{@link #toString()}的实现.
  */
 public abstract class AbstractRequestCondition<T extends AbstractRequestCondition<T>> implements RequestCondition<T> {
 
@@ -41,9 +40,9 @@ public abstract class AbstractRequestCondition<T extends AbstractRequestConditio
 	}
 
 	/**
-	 * Indicates whether this condition is empty, i.e. whether or not it
-	 * contains any discrete items.
-	 * @return {@code true} if empty; {@code false} otherwise
+	 * 指示此条件是否为空, i.e. 它是否包含任何离散项.
+	 * 
+	 * @return {@code true} 如果为空; 否则{@code false}
 	 */
 	public boolean isEmpty() {
 		return getContent().isEmpty();
@@ -51,16 +50,16 @@ public abstract class AbstractRequestCondition<T extends AbstractRequestConditio
 
 
 	/**
-	 * Return the discrete items a request condition is composed of.
-	 * <p>For example URL patterns, HTTP request methods, param expressions, etc.
-	 * @return a collection of objects, never {@code null}
+	 * 返回由请求条件组成的离散项.
+	 * <p>例如URL模式, HTTP请求方法, param表达式等.
+	 * 
+	 * @return 对象集合, 不能是{@code null}
 	 */
 	protected abstract Collection<?> getContent();
 
 	/**
-	 * The notation to use when printing discrete items of content.
-	 * <p>For example {@code " || "} for URL patterns or {@code " && "}
-	 * for param expressions.
+	 * 打印离散内容项时使用的表示法.
+	 * <p>例如, {@code " || "} 表示URL模式, 或{@code " && "}表示param表达式.
 	 */
 	protected abstract String getToStringInfix();
 

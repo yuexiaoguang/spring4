@@ -3,41 +3,40 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Base class for databinding-aware JSP tags that render HTML form input element.
+ * 用于呈现HTML表单输入元素的数据绑定感知JSP标记的基类.
  *
- * <p>Provides a set of properties corresponding to the set of HTML attributes
- * that are common across form input elements.
+ * <p>提供一组属性, 这些属性对应于表单输入元素中通用的HTML属性集.
  */
 @SuppressWarnings("serial")
 public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag {
 
 	/**
-	 * The name of the '{@code onfocus}' attribute.
+	 * '{@code onfocus}'属性的名称.
 	 */
 	public static final String ONFOCUS_ATTRIBUTE = "onfocus";
 
 	/**
-	 * The name of the '{@code onblur}' attribute.
+	 * '{@code onblur}'属性的名称.
 	 */
 	public static final String ONBLUR_ATTRIBUTE = "onblur";
 
 	/**
-	 * The name of the '{@code onchange}' attribute.
+	 * '{@code onchange}'属性的名称.
 	 */
 	public static final String ONCHANGE_ATTRIBUTE = "onchange";
 
 	/**
-	 * The name of the '{@code accesskey}' attribute.
+	 * '{@code accesskey}'属性的名称.
 	 */
 	public static final String ACCESSKEY_ATTRIBUTE = "accesskey";
 
 	/**
-	 * The name of the '{@code disabled}' attribute.
+	 * '{@code disabled}'属性的名称.
 	 */
 	public static final String DISABLED_ATTRIBUTE = "disabled";
 
 	/**
-	 * The name of the '{@code readonly}' attribute.
+	 * '{@code readonly}'属性的名称.
 	 */
 	public static final String READONLY_ATTRIBUTE = "readonly";
 
@@ -56,88 +55,88 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 
 
 	/**
-	 * Set the value of the '{@code onfocus}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onfocus}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnfocus(String onfocus) {
 		this.onfocus = onfocus;
 	}
 
 	/**
-	 * Get the value of the '{@code onfocus}' attribute.
+	 * 获取'{@code onfocus}'属性的值.
 	 */
 	protected String getOnfocus() {
 		return this.onfocus;
 	}
 
 	/**
-	 * Set the value of the '{@code onblur}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onblur}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnblur(String onblur) {
 		this.onblur = onblur;
 	}
 
 	/**
-	 * Get the value of the '{@code onblur}' attribute.
+	 * 获取'{@code onblur}'属性的值.
 	 */
 	protected String getOnblur() {
 		return this.onblur;
 	}
 
 	/**
-	 * Set the value of the '{@code onchange}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code onchange}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setOnchange(String onchange) {
 		this.onchange = onchange;
 	}
 
 	/**
-	 * Get the value of the '{@code onchange}' attribute.
+	 * 获取'{@code onchange}'属性的值.
 	 */
 	protected String getOnchange() {
 		return this.onchange;
 	}
 
 	/**
-	 * Set the value of the '{@code accesskey}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code accesskey}'属性的值.
+	 * 可能是运行时表达式.
 	 */
 	public void setAccesskey(String accesskey) {
 		this.accesskey = accesskey;
 	}
 
 	/**
-	 * Get the value of the '{@code accesskey}' attribute.
+	 * 获取'{@code accesskey}'属性的值.
 	 */
 	protected String getAccesskey() {
 		return this.accesskey;
 	}
 
 	/**
-	 * Set the value of the '{@code disabled}' attribute.
+	 * 设置'{@code disabled}'属性的值.
 	 */
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
 	}
 
 	/**
-	 * Get the value of the '{@code disabled}' attribute.
+	 * 获取'{@code disabled}'属性的值.
 	 */
 	protected boolean isDisabled() {
 		return this.disabled;
 	}
 
 	/**
-	 * Sets the value of the '{@code readonly}' attribute.
+	 * 设置'{@code readonly}'属性的值.
 	 */
 	public void setReadonly(boolean readonly) {
 		this.readonly = readonly;
 	}
 
 	/**
-	 * Gets the value of the '{@code readonly}' attribute.
+	 * 获取'{@code readonly}'属性的值.
 	 */
 	protected boolean isReadonly() {
 		return this.readonly;
@@ -145,7 +144,7 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 
 
 	/**
-	 * Adds input-specific optional attributes as defined by this base class.
+	 * 添加此基类定义的特定于输入的可选属性.
 	 */
 	@Override
 	protected void writeOptionalAttributes(TagWriter tagWriter) throws JspException {

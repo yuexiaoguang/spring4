@@ -9,151 +9,135 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.support.BindStatus;
 
 /**
- * Databinding-aware JSP tag that renders an HTML '{@code select}'
- * element.
+ * 渲染HTML '{@code select}'元素的数据绑定感知JSP标记.
  *
- * <p>Inner '{@code option}' tags can be rendered using one of the
- * approaches supported by the OptionWriter class.
+ * <p>可以使用OptionWriter类支持的方法之一渲染内部'{@code option}'标记.
  *
- * <p>Also supports the use of nested {@link OptionTag OptionTags} or
- * (typically one) nested {@link OptionsTag}.
+ * <p>还支持使用嵌套的{@link OptionTag OptionTags}或 (通常一个) 嵌套的{@link OptionsTag}.
  */
 @SuppressWarnings("serial")
 public class SelectTag extends AbstractHtmlInputElementTag {
 
 	/**
-	 * The {@link javax.servlet.jsp.PageContext} attribute under
-	 * which the bound value is exposed to inner {@link OptionTag OptionTags}.
+	 * {@link javax.servlet.jsp.PageContext}属性, 在该属性下绑定的值将暴露给内部{@link OptionTag OptionTags}.
 	 */
 	public static final String LIST_VALUE_PAGE_ATTRIBUTE =
 			"org.springframework.web.servlet.tags.form.SelectTag.listValue";
 
 	/**
-	 * Marker object for items that have been specified but resolve to null.
-	 * Allows to differentiate between 'set but null' and 'not set at all'.
+	 * 已指定但已解析为null的条目的标记对象.
+	 * 允许区分'set but null'和'not set at all'.
 	 */
 	private static final Object EMPTY = new Object();
 
 
 	/**
-	 * The {@link Collection}, {@link Map} or array of objects used to generate
-	 * the inner '{@code option}' tags.
+	 * {@link Collection}, {@link Map}或对象数组, 用于生成内部'{@code option}'标记.
 	 */
 	private Object items;
 
 	/**
-	 * The name of the property mapped to the '{@code value}' attribute
-	 * of the '{@code option}' tag.
+	 * 映射到'{@code option}'标记的'{@code value}'属性的属性名称.
 	 */
 	private String itemValue;
 
 	/**
-	 * The name of the property mapped to the inner text of the
-	 * '{@code option}' tag.
+	 * 映射到'{@code option}'标记的内部文本的属性名称.
 	 */
 	private String itemLabel;
 
 	/**
-	 * The value of the HTML '{@code size}' attribute rendered
-	 * on the final '{@code select}' element.
+	 * 在最终的'{@code select}'元素上呈现的HTML '{@code size}'属性的值.
 	 */
 	private String size;
 
 	/**
-	 * Indicates whether or not the '{@code select}' tag allows
-	 * multiple-selections.
+	 * 指示'{@code select}'标记是否允许多项选择.
 	 */
 	private Object multiple;
 
 	/**
-	 * The {@link TagWriter} instance that the output is being written.
-	 * <p>Only used in conjunction with nested {@link OptionTag OptionTags}.
+	 * 正在写入输出的{@link TagWriter}实例.
+	 * <p>仅与嵌套的{@link OptionTag OptionTags}一起使用.
 	 */
 	private TagWriter tagWriter;
 
 
 	/**
-	 * Set the {@link Collection}, {@link Map} or array of objects used to
-	 * generate the inner '{@code option}' tags.
-	 * <p>Required when wishing to render '{@code option}' tags from
-	 * an array, {@link Collection} or {@link Map}.
-	 * <p>Typically a runtime expression.
-	 * @param items the items that comprise the options of this selection
+	 * 设置用于生成内部'{@code option}'标签的{@link Collection}, {@link Map}或对象数组.
+	 * <p>希望从数组, {@link Collection} 或 {@link Map}呈现'{@code option}'标记时需要.
+	 * <p>通常是运行时表达式.
+	 * 
+	 * @param items 包含此选择选项的条目
 	 */
 	public void setItems(Object items) {
 		this.items = (items != null ? items : EMPTY);
 	}
 
 	/**
-	 * Get the value of the '{@code items}' attribute.
-	 * <p>May be a runtime expression.
+	 * 获取'{@code items}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	protected Object getItems() {
 		return this.items;
 	}
 
 	/**
-	 * Set the name of the property mapped to the '{@code value}'
-	 * attribute of the '{@code option}' tag.
-	 * <p>Required when wishing to render '{@code option}' tags from
-	 * an array or {@link Collection}.
-	 * <p>May be a runtime expression.
+	 * 设置映射到'{@code option}'标记的'{@code value}'属性的属性名称.
+	 * <p>希望从数组或{@link Collection}呈现'{@code option}'标记时需要.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setItemValue(String itemValue) {
 		this.itemValue = itemValue;
 	}
 
 	/**
-	 * Get the value of the '{@code itemValue}' attribute.
-	 * <p>May be a runtime expression.
+	 * 获取'{@code itemValue}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	protected String getItemValue() {
 		return this.itemValue;
 	}
 
 	/**
-	 * Set the name of the property mapped to the label (inner text) of the
-	 * '{@code option}' tag.
-	 * <p>May be a runtime expression.
+	 * 设置映射到'{@code option}'标记的标签(内部文本)的属性的名称.
+	 * <p>可能是运行时表达式.
 	 */
 	public void setItemLabel(String itemLabel) {
 		this.itemLabel = itemLabel;
 	}
 
 	/**
-	 * Get the value of the '{@code itemLabel}' attribute.
-	 * <p>May be a runtime expression.
+	 * 获取'{@code itemLabel}'属性的值.
+	 * <p>可能是运行时表达式.
 	 */
 	protected String getItemLabel() {
 		return this.itemLabel;
 	}
 
 	/**
-	 * Set the value of the HTML '{@code size}' attribute rendered
-	 * on the final '{@code select}' element.
+	 * 设置在最终'{@code select}'元素上呈现的HTML '{@code size}'属性的值.
 	 */
 	public void setSize(String size) {
 		this.size = size;
 	}
 
 	/**
-	 * Get the value of the '{@code size}' attribute.
+	 * 获取'{@code size}'属性的值.
 	 */
 	protected String getSize() {
 		return this.size;
 	}
 
 	/**
-	 * Set the value of the HTML '{@code multiple}' attribute rendered
-	 * on the final '{@code select}' element.
+	 * 设置在最终'{@code select}'元素上呈现的HTML '{@code multiple}'属性的值.
 	 */
 	public void setMultiple(Object multiple) {
 		this.multiple = multiple;
 	}
 
 	/**
-	 * Get the value of the HTML '{@code multiple}' attribute rendered
-	 * on the final '{@code select}' element.
+	 * 获取在最终'{@code select}'元素上呈现的HTML '{@code multiple}'属性的值.
 	 */
 	protected Object getMultiple() {
 		return this.multiple;
@@ -161,11 +145,9 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 
 
 	/**
-	 * Renders the HTML '{@code select}' tag to the supplied
-	 * {@link TagWriter}.
-	 * <p>Renders nested '{@code option}' tags if the
-	 * {@link #setItems items} property is set, otherwise exposes the
-	 * bound value for the nested {@link OptionTag OptionTags}.
+	 * 将HTML '{@code select}'标记呈现给提供的{@link TagWriter}.
+	 * <p>如果设置了{@link #setItems items}属性，则呈现嵌套的'{@code option}'标记,
+	 * 否则呈现嵌套{@link OptionTag OptionTags}的绑定值.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
@@ -202,7 +184,7 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 			return SKIP_BODY;
 		}
 		else {
-			// Using nested <form:option/> tags, so just expose the value in the PageContext...
+			// 使用嵌套的<form:option/>标记, 只需公开PageContext中的值即可...
 			tagWriter.forceBlock();
 			this.tagWriter = tagWriter;
 			this.pageContext.setAttribute(LIST_VALUE_PAGE_ATTRIBUTE, getBindStatus());
@@ -211,9 +193,7 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * If using a multi-select, a hidden element is needed to make sure all
-	 * items are correctly unselected on the server-side in response to a
-	 * {@code null} post.
+	 * 如果使用多选, 则需要一个隐藏的元素以确保在服务器端正确取消选择所有条目, 以响应{@code null} post.
 	 */
 	private void writeHiddenTagIfNecessary(TagWriter tagWriter) throws JspException {
 		if (isMultiple()) {
@@ -236,8 +216,7 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Returns '{@code true}' if the bound value requires the
-	 * resultant '{@code select}' tag to be multi-select.
+	 * 如果绑定值需要生成的'{@code select}' 标记为多选, 则返回'{@code true}'.
 	 */
 	private boolean forceMultiple() throws JspException {
 		BindStatus bindStatus = getBindStatus();
@@ -255,16 +234,14 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Returns '{@code true}' for arrays, {@link Collection Collections}
-	 * and {@link Map Maps}.
+	 * 返回'{@code true}', 如果是数组, {@link Collection Collections} 和 {@link Map Maps}.
 	 */
 	private static boolean typeRequiresMultiple(Class<?> type) {
 		return (type.isArray() || Collection.class.isAssignableFrom(type) || Map.class.isAssignableFrom(type));
 	}
 
 	/**
-	 * Closes any block tag that might have been opened when using
-	 * nested {@link OptionTag options}.
+	 * 关闭使用嵌套{@link OptionTag options}时可能已打开的任何块标记.
 	 */
 	@Override
 	public int doEndTag() throws JspException {
@@ -276,8 +253,7 @@ public class SelectTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Clears the {@link TagWriter} that might have been left over when using
-	 * nested {@link OptionTag options}.
+	 * 清除使用嵌套的{@link OptionTag options}时可能遗留的{@link TagWriter}.
 	 */
 	@Override
 	public void doFinally() {

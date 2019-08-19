@@ -3,30 +3,28 @@ package org.springframework.web.servlet.mvc;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Supports last-modified HTTP requests to facilitate content caching.
- * Same contract as for the Servlet API's {@code getLastModified} method.
+ * 支持last-modified HTTP请求以方便内容缓存.
+ * 与Servlet API的{@code getLastModified}方法相同的约定.
  *
- * <p>Delegated to by a {@link org.springframework.web.servlet.HandlerAdapter#getLastModified}
- * implementation. By default, any Controller or HttpRequestHandler within Spring's
- * default framework can implement this interface to enable last-modified checking.
+ * <p>由{@link org.springframework.web.servlet.HandlerAdapter#getLastModified}实现委托.
+ * Spring默认框架中的任何Controller或HttpRequestHandler都可以实现此接口以启用last-modified的检查.
  *
- * <p><b>Note:</b> Alternative handler implementation approaches have different
- * last-modified handling styles. For example, Spring 2.5's annotated controller
- * approach (using {@code @RequestMapping}) provides last-modified support
- * through the {@link org.springframework.web.context.request.WebRequest#checkNotModified}
- * method, allowing for last-modified checking within the main handler method.
+ * <p><b>Note:</b> 替代处理器实现方法具有不同的last-modified处理样式.
+ * 例如, Spring 2.5的带注解的控制器方法 (使用{@code @RequestMapping})
+ * 通过{@link org.springframework.web.context.request.WebRequest#checkNotModified}方法提供last-modified的支持,
+ * 允许在主处理器方法中检查last-modified.
  */
 public interface LastModified {
 
 	/**
-	 * Same contract as for HttpServlet's {@code getLastModified} method.
-	 * Invoked <b>before</b> request processing.
-	 * <p>The return value will be sent to the HTTP client as Last-Modified header,
-	 * and compared with If-Modified-Since headers that the client sends back.
-	 * The content will only get regenerated if there has been a modification.
-	 * @param request current HTTP request
-	 * @return the time the underlying resource was last modified, or -1
-	 * meaning that the content must always be regenerated
+	 * 与HttpServlet的{@code getLastModified}方法相同的约定.
+	 * 在请求处理<b>之前</b>调用.
+	 * <p>返回值将作为Last-Modified header发送到HTTP客户端, 并与客户端发回的If-Modified-Since header进行比较.
+	 * 只有在进行修改后才会重新生成内容.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * 
+	 * @return 上次修改底层资源的时间, 或-1表示必须始终重新生成内容
 	 */
 	long getLastModified(HttpServletRequest request);
 

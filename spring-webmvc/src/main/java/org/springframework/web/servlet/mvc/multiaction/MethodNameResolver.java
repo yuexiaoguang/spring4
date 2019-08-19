@@ -3,14 +3,12 @@ package org.springframework.web.servlet.mvc.multiaction;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Interface that parameterizes the MultiActionController class
- * using the <b>Strategy</b> GoF Design pattern, allowing
- * the mapping from incoming request to handler method name
- * to be varied without affecting other application code.
+ * 使用<b>策略</b> GoF设计模式参数化MultiActionController类的接口,
+ * 允许在不影响其他应用程序代码的情况下改变从传入请求到处理器方法名称的映射.
  *
- * <p>Illustrates how delegation can be more flexible than subclassing.
+ * <p>说明委托如何比子类化更灵活.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public interface MethodNameResolver {

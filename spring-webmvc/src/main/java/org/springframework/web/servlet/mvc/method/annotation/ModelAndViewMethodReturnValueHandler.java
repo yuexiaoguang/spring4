@@ -10,17 +10,14 @@ import org.springframework.web.servlet.SmartView;
 import org.springframework.web.servlet.View;
 
 /**
- * Handles return values of type {@link ModelAndView} copying view and model
- * information to the {@link ModelAndViewContainer}.
+ * 处理{@link ModelAndView}类型的返回值, 将视图和模型信息复制到{@link ModelAndViewContainer}.
  *
- * <p>If the return value is {@code null}, the
- * {@link ModelAndViewContainer#setRequestHandled(boolean)} flag is set to
- * {@code true} to indicate the request was handled directly.
+ * <p>如果返回值为{@code null}, {@link ModelAndViewContainer#setRequestHandled(boolean)}标志设置为{@code true},
+ * 以指示请求已直接处理.
  *
- * <p>A {@link ModelAndView} return type has a set purpose. Therefore this
- * handler should be configured ahead of handlers that support any return
- * value type annotated with {@code @ModelAttribute} or {@code @ResponseBody}
- * to ensure they don't take over.
+ * <p>{@link ModelAndView}返回类型具有设置目的.
+ * 因此, 应该在处理器之前配置此处理器, 该处理器支持使用{@code @ModelAttribute}
+ * 或{@code @ResponseBody}注解的返回值类型, 以确保它们不会接管.
  */
 public class ModelAndViewMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
@@ -28,19 +25,17 @@ public class ModelAndViewMethodReturnValueHandler implements HandlerMethodReturn
 
 
 	/**
-	 * Configure one more simple patterns (as described in {@link PatternMatchUtils#simpleMatch})
-	 * to use in order to recognize custom redirect prefixes in addition to "redirect:".
-	 * <p>Note that simply configuring this property will not make a custom redirect prefix work.
-	 * There must be a custom {@link View} that recognizes the prefix as well.
-	 * @since 4.1
+	 * 配置一个更简单的模式 (如{@link PatternMatchUtils#simpleMatch}中所述),
+	 * 以便识别除"redirect:"之外的自定义重定向前缀.
+	 * <p>请注意, 仅配置此属性不会使自定义重定向前缀起作用.
+	 * 必须有一个自定义{@link View}来识别前缀.
 	 */
 	public void setRedirectPatterns(String... redirectPatterns) {
 		this.redirectPatterns = redirectPatterns;
 	}
 
 	/**
-	 * Return the configured redirect patterns, if any.
-	 * @since 4.1
+	 * 返回配置的重定向模式.
 	 */
 	public String[] getRedirectPatterns() {
 		return this.redirectPatterns;
@@ -83,12 +78,12 @@ public class ModelAndViewMethodReturnValueHandler implements HandlerMethodReturn
 	}
 
 	/**
-	 * Whether the given view name is a redirect view reference.
-	 * The default implementation checks the configured redirect patterns and
-	 * also if the view name starts with the "redirect:" prefix.
-	 * @param viewName the view name to check, never {@code null}
-	 * @return "true" if the given view name is recognized as a redirect view
-	 * reference; "false" otherwise.
+	 * 给定的视图名称是否为重定向视图引用.
+	 * 默认实现检查配置的重定向模式, 以及视图名称是否以"redirect:"前缀开头.
+	 * 
+	 * @param viewName 要检查的视图名称, never {@code null}
+	 * 
+	 * @return "true" 如果给定的视图名称被识别为重定向视图引用; 否则"false"
 	 */
 	protected boolean isRedirectViewName(String viewName) {
 		if (PatternMatchUtils.simpleMatch(this.redirectPatterns, viewName)) {

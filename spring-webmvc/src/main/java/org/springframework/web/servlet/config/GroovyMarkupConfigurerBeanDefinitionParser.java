@@ -7,8 +7,7 @@ import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 
 /**
- * Parse the <mvc:groovy-configurer> MVC namespace element and register a
- * GroovyConfigurer bean
+ * 解析<mvc:groovy-configurer> MVC命名空间元素并注册GroovyConfigurer bean
  */
 public class GroovyMarkupConfigurerBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 

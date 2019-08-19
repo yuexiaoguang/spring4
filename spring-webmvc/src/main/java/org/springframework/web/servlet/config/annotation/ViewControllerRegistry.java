@@ -11,8 +11,7 @@ import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
 /**
- * Assists with the registration of simple automated controllers pre-configured
- * with status code and/or a view.
+ * 协助注册预先配置了状态码和/或视图的简单自动控制器.
  */
 public class ViewControllerRegistry {
 
@@ -26,10 +25,6 @@ public class ViewControllerRegistry {
 	private int order = 1;
 
 
-	/**
-	 * Class constructor with {@link ApplicationContext}.
-	 * @since 4.3.12
-	 */
 	public ViewControllerRegistry(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
@@ -40,11 +35,9 @@ public class ViewControllerRegistry {
 
 
 	/**
-	 * Map a view controller to the given URL path (or pattern) in order to render
-	 * a response with a pre-configured status code and view.
-	 * <p>Patterns like {@code "/admin/**"} or {@code "/articles/{articlename:\\w+}"}
-	 * are allowed. See {@link org.springframework.util.AntPathMatcher} for more details on the
-	 * syntax.
+	 * 将视图控制器映射到给定的URL路径 (或模式), 以便使用预先配置的状态码和视图呈现响应.
+	 * <p>允许使用{@code "/admin/**"} 或 {@code "/articles/{articlename:\\w+}"}等模式.
+	 * 有关语法的更多详细信息, 请参阅{@link org.springframework.util.AntPathMatcher}.
 	 */
 	public ViewControllerRegistration addViewController(String urlPath) {
 		ViewControllerRegistration registration = new ViewControllerRegistration(urlPath);
@@ -54,10 +47,8 @@ public class ViewControllerRegistry {
 	}
 
 	/**
-	 * Map a view controller to the given URL path (or pattern) in order to redirect
-	 * to another URL. By default the redirect URL is expected to be relative to
-	 * the current ServletContext, i.e. as relative to the web application root.
-	 * @since 4.1
+	 * 将视图控制器映射到给定的URL路径 (或模式), 以便重定向到另一个URL.
+	 * 默认情况下, 重定向URL应该相对于当前的ServletContext, i.e. 相对于Web应用程序根目录.
 	 */
 	public RedirectViewControllerRegistration addRedirectViewController(String urlPath, String redirectUrl) {
 		RedirectViewControllerRegistration registration = new RedirectViewControllerRegistration(urlPath, redirectUrl);
@@ -67,9 +58,7 @@ public class ViewControllerRegistry {
 	}
 
 	/**
-	 * Map a simple controller to the given URL path (or pattern) in order to
-	 * set the response status to the given code without rendering a body.
-	 * @since 4.1
+	 * 将一个简单的控制器映射到给定的URL路径 (或模式), 以便将响应状态设置为给定的代码, 而不渲染正文.
 	 */
 	public void addStatusController(String urlPath, HttpStatus statusCode) {
 		ViewControllerRegistration registration = new ViewControllerRegistration(urlPath);
@@ -80,10 +69,8 @@ public class ViewControllerRegistry {
 	}
 
 	/**
-	 * Specify the order to use for the {@code HandlerMapping} used to map view
-	 * controllers relative to other handler mappings configured in Spring MVC.
-	 * <p>By default this is set to 1, i.e. right after annotated controllers,
-	 * which are ordered at 0.
+	 * 指定用于映射视图控制器的{@code HandlerMapping}的顺序, 相对于Spring MVC中配置的其他处理器映射.
+	 * <p>默认为1, i.e. 在带注解的按0排序的控制器之后.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -91,9 +78,7 @@ public class ViewControllerRegistry {
 
 
 	/**
-	 * Return the {@code HandlerMapping} that contains the registered view
-	 * controller mappings, or {@code null} for no registrations.
-	 * @since 4.3.12
+	 * 返回包含已注册的视图控制器映射的{@code HandlerMapping}, 或者{@code null}表示没有注册.
 	 */
 	protected SimpleUrlHandlerMapping buildHandlerMapping() {
 		if (this.registrations.isEmpty() && this.redirectRegistrations.isEmpty()) {

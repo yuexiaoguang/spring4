@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Convenience methods for use in MVC namespace BeanDefinitionParsers.
+ * 在MVC命名空间BeanDefinitionParsers中使用的便捷方法.
  */
 public abstract class MvcNamespaceUtils {
 
@@ -48,9 +48,9 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Adds an alias to an existing well-known name or registers a new instance of a {@link UrlPathHelper}
-	 * under that well-known name, unless already registered.
-	 * @return a RuntimeBeanReference to this {@link UrlPathHelper} instance
+	 * 除非已经注册, 否则在现有的已知名称中添加别名, 或在该已知名称下注册{@link UrlPathHelper}的新实例.
+	 * 
+	 * @return 此{@link UrlPathHelper}实例的RuntimeBeanReference
 	 */
 	public static RuntimeBeanReference registerUrlPathHelper(
 			RuntimeBeanReference urlPathHelperRef, ParserContext parserContext, Object source) {
@@ -73,9 +73,9 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Adds an alias to an existing well-known name or registers a new instance of a {@link PathMatcher}
-	 * under that well-known name, unless already registered.
-	 * @return a RuntimeBeanReference to this {@link PathMatcher} instance
+	 * 除非已经注册, 否则在现有的已知名称中添加别名, 或在该已知名称下注册{@link PathMatcher}的新实例.
+	 * 
+	 * @return 此{@link PathMatcher}实例的RuntimeBeanReference
 	 */
 	public static RuntimeBeanReference registerPathMatcher(
 			RuntimeBeanReference pathMatcherRef, ParserContext parserContext, Object source) {
@@ -98,8 +98,7 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HttpRequestHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * 除非已经注册, 否则使用已知名称注册{@link HttpRequestHandlerAdapter}.
 	 */
 	private static void registerBeanNameUrlHandlerMapping(ParserContext context, Object source) {
 		if (!context.getRegistry().containsBeanDefinition(BEAN_NAME_URL_HANDLER_MAPPING_BEAN_NAME)){
@@ -115,8 +114,7 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HttpRequestHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * 除非已经注册, 否则使用已知名称注册{@link HttpRequestHandlerAdapter}.
 	 */
 	private static void registerHttpRequestHandlerAdapter(ParserContext context, Object source) {
 		if (!context.getRegistry().containsBeanDefinition(HTTP_REQUEST_HANDLER_ADAPTER_BEAN_NAME)) {
@@ -129,8 +127,7 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers a {@link SimpleControllerHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * 除非已经注册, 否则使用已知名称注册{@link SimpleControllerHandlerAdapter}.
 	 */
 	private static void registerSimpleControllerHandlerAdapter(ParserContext context, Object source) {
 		if (!context.getRegistry().containsBeanDefinition(SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME)) {
@@ -143,10 +140,10 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers a {@code Map<String, CorsConfiguration>} (mapped {@code CorsConfiguration}s)
-	 * under a well-known name unless already registered. The bean definition may be updated
-	 * if a non-null CORS configuration is provided.
-	 * @return a RuntimeBeanReference to this {@code Map<String, CorsConfiguration>} instance
+	 * 除非已经注册, 否则使用已知名称注册{@code Map<String, CorsConfiguration>} (映射的{@code CorsConfiguration}s).
+	 * 如果提供了非null CORS配置, 则可以更新bean定义.
+	 * 
+	 * @return 此{@code Map<String, CorsConfiguration>}实例的RuntimeBeanReference
 	 */
 	public static RuntimeBeanReference registerCorsConfigurations(
 			Map<String, CorsConfiguration> corsConfigurations, ParserContext context, Object source) {
@@ -169,8 +166,7 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HandlerMappingIntrospector} under a well-known name
-	 * unless already registered.
+	 * 除非已经注册, 否则使用已知名称注册{@link HandlerMappingIntrospector}.
 	 */
 	private static void registerHandlerMappingIntrospector(ParserContext parserContext, Object source) {
 		if (!parserContext.getRegistry().containsBeanDefinition(HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME)){
@@ -184,9 +180,9 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Find the {@code ContentNegotiationManager} bean created by or registered
-	 * with the {@code annotation-driven} element.
-	 * @return a bean definition, bean reference, or {@code null} if none defined
+	 * 查找由{@code annotation-driven}元素创建或注册的{@code ContentNegotiationManager} bean.
+	 * 
+	 * @return bean定义, bean引用或{@code null}
 	 */
 	public static Object getContentNegotiationManager(ParserContext context) {
 		String name = AnnotationDrivenBeanDefinitionParser.HANDLER_MAPPING_BEAN_NAME;
@@ -200,5 +196,4 @@ public abstract class MvcNamespaceUtils {
 		}
 		return null;
 	}
-
 }

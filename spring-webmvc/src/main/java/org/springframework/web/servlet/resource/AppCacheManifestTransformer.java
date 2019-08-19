@@ -19,22 +19,18 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@link ResourceTransformer} implementation that helps handling resources
- * within HTML5 AppCache manifests for HTML5 offline applications.
+ * {@link ResourceTransformer}实现, 有助于处理HTML5 AppCache清单中的资源, 用于HTML5离线应用程序.
  *
- * <p>This transformer:
+ * <p>此转换器:
  * <ul>
- * <li>modifies links to match the public URL paths that should be exposed to clients,
- * using configured {@code ResourceResolver} strategies
- * <li>appends a comment in the manifest, containing a Hash (e.g. "# Hash: 9de0f09ed7caf84e885f1f0f11c7e326"),
- * thus changing the content of the manifest in order to trigger an appcache reload in the browser.
+ * <li>使用已配置的{@code ResourceResolver}策略修改链接以匹配应向客户端公开的公共URL路径
+ * <li>在清单中附加注释, 包含哈希 (e.g. "# Hash: 9de0f09ed7caf84e885f1f0f11c7e326"),
+ * 从而更改清单的内容以便在浏览器中触发appcache重新加载.
  * </ul>
  *
- * All files that have the ".manifest" file extension, or the extension given in the constructor,
- * will be transformed by this class.
+ * 具有".manifest"文件扩展名或构造函数中给出的扩展名的所有文件将由此类转换.
  *
- * <p>This hash is computed using the content of the appcache manifest and the content of the linked resources;
- * so changing a resource linked in the manifest or the manifest itself should invalidate the browser cache.
+ * <p>使用appcache清单的内容和链接资源的内容计算此哈希值; 因此, 更改清单中链接的资源或清单本身应使浏览器缓存无效.
  */
 public class AppCacheManifestTransformer extends ResourceTransformerSupport {
 
@@ -51,15 +47,14 @@ public class AppCacheManifestTransformer extends ResourceTransformerSupport {
 
 
 	/**
-	 * Create an AppCacheResourceTransformer that transforms files with extension ".manifest".
+	 * 用于转换扩展名为".manifest"的文件.
 	 */
 	public AppCacheManifestTransformer() {
 		this("manifest");
 	}
 
 	/**
-	 * Create an AppCacheResourceTransformer that transforms files with the extension
-	 * given as a parameter.
+	 * 使用给定的扩展名转换文件.
 	 */
 	public AppCacheManifestTransformer(String fileExtension) {
 		this.fileExtension = fileExtension;
@@ -126,9 +121,8 @@ public class AppCacheManifestTransformer extends ResourceTransformerSupport {
 	private static interface SectionTransformer {
 
 		/**
-		 * Transforms a line in a section of the manifest.
-		 * <p>The actual transformation depends on the chosen transformation strategy
-		 * for the current manifest section (CACHE, NETWORK, FALLBACK, etc).
+		 * 转换清单一部分中的一行.
+		 * <p>实际转换取决于当前清单部分选择的转换策略 (CACHE, NETWORK, FALLBACK, etc).
 		 */
 		String transform(String line, HashBuilder builder, Resource resource,
 				ResourceTransformerChain transformerChain, HttpServletRequest request) throws IOException;
@@ -201,5 +195,4 @@ public class AppCacheManifestTransformer extends ResourceTransformerSupport {
 			return DigestUtils.md5DigestAsHex(this.baos.toByteArray());
 		}
 	}
-
 }

@@ -16,10 +16,8 @@ import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A filter that wraps the {@link HttpServletResponse} and overrides its
- * {@link HttpServletResponse#encodeURL(String) encodeURL} method in order to
- * translate internal resource request URLs into public URL paths for external
- * use.
+ * 一个包装{@link HttpServletResponse}并覆盖其{@link HttpServletResponse#encodeURL(String) encodeURL}方法的过滤器,
+ * 以便将内部资源请求URL转换为公共URL路径以供外部使用.
  */
 public class ResourceUrlEncodingFilter extends GenericFilterBean {
 
@@ -42,7 +40,7 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 
 		private final HttpServletRequest request;
 
-		/* Cache the index and prefix of the path within the DispatcherServlet mapping */
+		/* 在DispatcherServlet映射中缓存路径的索引和前缀 */
 		private Integer indexLookupPath;
 
 		private String prefixLookupPath;

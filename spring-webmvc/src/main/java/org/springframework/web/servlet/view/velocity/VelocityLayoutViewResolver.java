@@ -3,12 +3,11 @@ package org.springframework.web.servlet.view.velocity;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * Convenience subclass of VelocityViewResolver, adding support
- * for VelocityLayoutView and its properties.
+ * VelocityViewResolver的便捷子类, 添加了对VelocityLayoutView及其属性的支持.
  *
  * <p>See VelocityViewResolver's javadoc for general usage info.
  *
- * @deprecated as of Spring 4.3, in favor of FreeMarker
+ * @deprecated 从Spring 4.3开始, 支持FreeMarker
  */
 @Deprecated
 public class VelocityLayoutViewResolver extends VelocityViewResolver {

@@ -3,14 +3,11 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code radio}'.
+ * 用于呈现'{@code type}'为'{@code radio}'的HTML '{@code input}'元素的数据绑定感知JSP标记.
  *
- * <p>Rendered elements are marked as 'checked' if the configured
- * {@link #setValue(Object) value} matches the {@link #getValue bound value}.
+ * <p>如果配置的{@link #setValue(Object) 值}与{@link #getValue 绑定的值}匹配, 则渲染元素将标记为'checked'.
  *
- * <p>A typical usage pattern will involved multiple tag instances bound
- * to the same property but with different values.
+ * <p>典型的使用模式将涉及绑定到同一属性但具有不同值的多个标记实例.
  */
 @SuppressWarnings("serial")
 public class RadioButtonTag extends AbstractSingleCheckedElementTag {

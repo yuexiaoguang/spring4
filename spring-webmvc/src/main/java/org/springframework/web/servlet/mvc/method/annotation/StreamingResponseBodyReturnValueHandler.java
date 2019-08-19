@@ -18,9 +18,8 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Supports return values of type
- * {@link org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody}
- * and also {@code ResponseEntity<StreamingResponseBody>}.
+ * 支持{@link org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody}类型
+ * 以及{@code ResponseEntity<StreamingResponseBody>}类型的返回值.
  */
 public class StreamingResponseBodyReturnValueHandler implements HandlerMethodReturnValueHandler {
 

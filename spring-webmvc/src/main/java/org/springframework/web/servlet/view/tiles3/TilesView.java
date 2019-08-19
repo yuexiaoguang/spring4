@@ -24,9 +24,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * {@link org.springframework.web.servlet.View} implementation that renders
- * through the Tiles Request API. The "url" property is interpreted as name of a
- * Tiles definition.
+ * 通过Tiles Request API呈现的{@link org.springframework.web.servlet.View}实现.
+ * "url"属性被解释为Tiles定义的名称.
  */
 public class TilesView extends AbstractUrlBasedView {
 
@@ -40,27 +39,23 @@ public class TilesView extends AbstractUrlBasedView {
 
 
 	/**
-	 * Set the {@link Renderer} to use.
-	 * If not set, by default {@link DefinitionRenderer} is used.
+	 * 设置要使用的{@link Renderer}.
+	 * 如果未设置, 则默认使用{@link DefinitionRenderer}.
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.renderer = renderer;
 	}
 
 	/**
-	 * Whether to expose JSTL attributes. By default set to {@code true}.
-	 * @see JstlUtils#exposeLocalizationContext(RequestContext)
+	 * 是否公开JSTL属性. 默认为{@code true}.
 	 */
 	protected void setExposeJstlAttributes(boolean exposeJstlAttributes) {
 		this.exposeJstlAttributes = exposeJstlAttributes;
 	}
 
 	/**
-	 * Specify whether to always include the view rather than forward to it.
-	 * <p>Default is "false". Switch this flag on to enforce the use of a
-	 * Servlet include, even if a forward would be possible.
-	 * @since 4.1.2
-	 * @see TilesViewResolver#setAlwaysInclude
+	 * 指定是始终包含视图, 还是转发.
+	 * <p>默认为"false". 切换此标志以强制使用Servlet包含, 即使可以转发.
 	 */
 	public void setAlwaysInclude(boolean alwaysInclude) {
 		this.alwaysInclude = alwaysInclude;
@@ -111,11 +106,13 @@ public class TilesView extends AbstractUrlBasedView {
 	}
 
 	/**
-	 * Create a Tiles {@link Request}.
-	 * <p>This implementation creates a {@link ServletRequest}.
-	 * @param request the current request
-	 * @param response the current response
-	 * @return the Tiles request
+	 * 创建Tiles {@link Request}.
+	 * <p>此实现创建{@link ServletRequest}.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * 
+	 * @return Tiles请求
 	 */
 	protected Request createTilesRequest(final HttpServletRequest request, HttpServletResponse response) {
 		return new ServletRequest(this.applicationContext, request, response) {

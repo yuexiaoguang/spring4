@@ -4,10 +4,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Implementation of {@link org.springframework.web.servlet.HandlerMapping} that
- * follows a simple convention for generating URL path mappings from the <i>class names</i>
- * of registered {@link org.springframework.web.servlet.mvc.Controller} beans
- * as well as {@code @Controller} annotated beans.
+ * {@link org.springframework.web.servlet.HandlerMapping}的实现遵循一个简单的约定,
+ * 用于从已注册的{@link org.springframework.web.servlet.mvc.Controller} bean
+ * 以及带{@code @Controller}注解的bean的<i>类名</i>生成URL路径映射.
  *
  * <p>For simple {@link org.springframework.web.servlet.mvc.Controller} implementations
  * (those that handle a single request type), the convention is to take the
@@ -34,7 +33,7 @@ import org.springframework.util.StringUtils;
  * <p>Thanks to Warren Oliver for suggesting the "caseSensitive", "pathPrefix"
  * and "basePackage" properties which have been added in Spring 2.5.
  *
- * @deprecated as of 4.3, in favor of annotation-driven handler methods
+ * @deprecated 从4.3开始, 使用注解驱动的处理器方法
  */
 @Deprecated
 public class ControllerClassNameHandlerMapping extends AbstractControllerUrlHandlerMapping {

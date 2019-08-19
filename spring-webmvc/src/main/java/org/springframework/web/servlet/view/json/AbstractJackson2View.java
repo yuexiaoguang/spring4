@@ -19,10 +19,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Abstract base class for Jackson based and content type independent
- * {@link AbstractView} implementations.
+ * 基于Jackson和内容类型独立{@link AbstractView}实现的抽象基类.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>从Spring 4.3开始, 与Jackson 2.6及更高版本兼容.
  */
 public abstract class AbstractJackson2View extends AbstractView {
 
@@ -44,11 +43,10 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Set the {@code ObjectMapper} for this view.
-	 * If not set, a default {@link ObjectMapper#ObjectMapper() ObjectMapper} will be used.
-	 * <p>Setting a custom-configured {@code ObjectMapper} is one way to take further control of
-	 * the JSON serialization process. The other option is to use Jackson's provided annotations
-	 * on the types to be serialized, in which case a custom-configured ObjectMapper is unnecessary.
+	 * 设置此视图的{@code ObjectMapper}.
+	 * 如果未设置, 将使用默认的{@link ObjectMapper#ObjectMapper() ObjectMapper}.
+	 * <p>设置自定义配置的{@code ObjectMapper}是进一步控制JSON序列化过程的一种方法.
+	 * 另一种选择是使用Jackson提供的关于要序列化的类型的注解, 在这种情况下, 不需要自定义配置的ObjectMapper.
 	 */
 	public void setObjectMapper(ObjectMapper objectMapper) {
 		Assert.notNull(objectMapper, "'objectMapper' must not be null");
@@ -57,15 +55,15 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Return the {@code ObjectMapper} for this view.
+	 * 返回此视图的{@code ObjectMapper}.
 	 */
 	public final ObjectMapper getObjectMapper() {
 		return this.objectMapper;
 	}
 
 	/**
-	 * Set the {@code JsonEncoding} for this view.
-	 * By default, {@linkplain JsonEncoding#UTF8 UTF-8} is used.
+	 * 设置此视图的{@code JsonEncoding}.
+	 * 默认使用{@linkplain JsonEncoding#UTF8 UTF-8}.
 	 */
 	public void setEncoding(JsonEncoding encoding) {
 		Assert.notNull(encoding, "'encoding' must not be null");
@@ -73,20 +71,20 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Return the {@code JsonEncoding} for this view.
+	 * 返回此视图的{@code JsonEncoding}.
 	 */
 	public final JsonEncoding getEncoding() {
 		return this.encoding;
 	}
 
 	/**
-	 * Whether to use the default pretty printer when writing the output.
-	 * This is a shortcut for setting up an {@code ObjectMapper} as follows:
+	 * 在写入输出时是否使用默认的格式化打印器.
+	 * 这是设置{@code ObjectMapper}的快捷方式, 如下所示:
 	 * <pre class="code">
 	 * ObjectMapper mapper = new ObjectMapper();
 	 * mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 	 * </pre>
-	 * <p>The default value is {@code false}.
+	 * <p>默认值为{@code false}.
 	 */
 	public void setPrettyPrint(boolean prettyPrint) {
 		this.prettyPrint = prettyPrint;
@@ -100,18 +98,17 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Disables caching of the generated JSON.
-	 * <p>Default is {@code true}, which will prevent the client from caching the generated JSON.
+	 * 禁用生成的JSON的缓存.
+	 * <p>默认为{@code true}, 这将阻止客户端缓存生成的JSON.
 	 */
 	public void setDisableCaching(boolean disableCaching) {
 		this.disableCaching = disableCaching;
 	}
 
 	/**
-	 * Whether to update the 'Content-Length' header of the response. When set to
-	 * {@code true}, the response is buffered in order to determine the content
-	 * length and set the 'Content-Length' header of the response.
-	 * <p>The default setting is {@code false}.
+	 * 是否更新响应的'Content-Length' header.
+	 * 设置为{@code true}时, 响应被缓冲以确定内容长度并设置响应的'Content-Length' header.
+	 * <p>默认设置为{@code false}.
 	 */
 	public void setUpdateContentLength(boolean updateContentLength) {
 		this.updateContentLength = updateContentLength;
@@ -140,10 +137,12 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Filter and optionally wrap the model in {@link MappingJacksonValue} container.
-	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @param request current HTTP request
-	 * @return the wrapped or unwrapped value to be rendered
+	 * 过滤并将模型包装在{@link MappingJacksonValue}容器中.
+	 * 
+	 * @param model 模型, 传递给{@link #renderMergedOutputModel}
+	 * @param request 当前的HTTP请求
+	 * 
+	 * @return 要呈现的包装或未包装的值
 	 */
 	protected Object filterAndWrapModel(Map<String, Object> model, HttpServletRequest request) {
 		Object value = filterModel(model);
@@ -159,10 +158,12 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Write the actual JSON content to the stream.
-	 * @param stream the output stream to use
-	 * @param object the value to be rendered, as returned from {@link #filterModel}
-	 * @throws IOException if writing failed
+	 * 将实际的JSON内容写入流.
+	 * 
+	 * @param stream 要使用的输出流
+	 * @param object 要呈现的值, 从{@link #filterModel}返回
+	 * 
+	 * @throws IOException 如果写入失败
 	 */
 	protected void writeContent(OutputStream stream, Object object) throws IOException {
 		JsonGenerator generator = this.objectMapper.getFactory().createGenerator(stream, this.encoding);
@@ -193,31 +194,35 @@ public abstract class AbstractJackson2View extends AbstractView {
 
 
 	/**
-	 * Set the attribute in the model that should be rendered by this view.
-	 * When set, all other model attributes will be ignored.
+	 * 在模型中设置应由此视图呈现的属性.
+	 * 设置后, 将忽略所有其他模型属性.
 	 */
 	public abstract void setModelKey(String modelKey);
 
 	/**
-	 * Filter out undesired attributes from the given model.
-	 * The return value can be either another {@link Map} or a single value object.
-	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
-	 * @return the value to be rendered
+	 * 从给定模型中过滤掉不需要的属性.
+	 * 返回值可以是另一个{@link Map}或单个值对象.
+	 * 
+	 * @param model 模型, 传递给{@link #renderMergedOutputModel}
+	 * 
+	 * @return 要呈现的值
 	 */
 	protected abstract Object filterModel(Map<String, Object> model);
 
 	/**
-	 * Write a prefix before the main content.
-	 * @param generator the generator to use for writing content.
-	 * @param object the object to write to the output message.
+	 * 在主要内容之前写入一个前缀.
+	 * 
+	 * @param generator 用于写入内容的生成器
+	 * @param object 要写入输出消息的对象
 	 */
 	protected void writePrefix(JsonGenerator generator, Object object) throws IOException {
 	}
 
 	/**
-	 * Write a suffix after the main content.
-	 * @param generator the generator to use for writing content.
-	 * @param object the object to write to the output message.
+	 * 在主要内容后面写入一个后缀.
+	 * 
+	 * @param generator 用于写入内容的生成器
+	 * @param object 要写入输出消息的对象
 	 */
 	protected void writeSuffix(JsonGenerator generator, Object object) throws IOException {
 	}

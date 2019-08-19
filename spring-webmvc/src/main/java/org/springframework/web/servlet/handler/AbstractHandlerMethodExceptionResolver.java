@@ -7,16 +7,15 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Abstract base class for
- * {@link org.springframework.web.servlet.HandlerExceptionResolver HandlerExceptionResolver}
- * implementations that support handling exceptions from handlers of type {@link HandlerMethod}.
+ * {@link org.springframework.web.servlet.HandlerExceptionResolver HandlerExceptionResolver}实现的抽象基类,
+ * 支持处理类型为{@link HandlerMethod}的处理器的异常.
  */
 public abstract class AbstractHandlerMethodExceptionResolver extends AbstractHandlerExceptionResolver {
 
 	/**
-	 * Checks if the handler is a {@link HandlerMethod} and then delegates to the
-	 * base class implementation of {@code #shouldApplyTo(HttpServletRequest, Object)}
-	 * passing the bean of the {@code HandlerMethod}. Otherwise returns {@code false}.
+	 * 检查处理器是否为{@link HandlerMethod},
+	 * 然后委托给{@code #shouldApplyTo(HttpServletRequest, Object)}的基类实现传递{@code HandlerMethod}的bean.
+	 * 否则返回{@code false}.
 	 */
 	@Override
 	protected boolean shouldApplyTo(HttpServletRequest request, Object handler) {
@@ -41,18 +40,17 @@ public abstract class AbstractHandlerMethodExceptionResolver extends AbstractHan
 	}
 
 	/**
-	 * Actually resolve the given exception that got thrown during on handler execution,
-	 * returning a ModelAndView that represents a specific error page if appropriate.
-	 * <p>May be overridden in subclasses, in order to apply specific exception checks.
-	 * Note that this template method will be invoked <i>after</i> checking whether this
-	 * resolved applies ("mappedHandlers" etc), so an implementation may simply proceed
-	 * with its actual exception handling.
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @param handlerMethod the executed handler method, or {@code null} if none chosen at the time
-	 * of the exception (for example, if multipart resolution failed)
-	 * @param ex the exception that got thrown during handler execution
-	 * @return a corresponding ModelAndView to forward to, or {@code null} for default processing
+	 * 实际解析在处理器执行期间抛出的给定异常, 返回表示特定错误页面的ModelAndView.
+	 * <p>可以在子类中重写, 以便应用特定的异常检查.
+	 * 请注意, 在检查此解析是否适用("mappedHandlers" etc)<i>后</i>, 将调用此模板方法,
+	 * 因此实现可能只是继续其实际的异常处理.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * @param response 当前的HTTP响应
+	 * @param handlerMethod 执行的处理器方法, 或{@code null}, 如果在异常时没有选择 (例如, 如果multipart解析失败)
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 转发到的响应ModelAndView, 或{@code null}进行默认处理
 	 */
 	protected abstract ModelAndView doResolveHandlerMethodException(
 			HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, Exception ex);

@@ -3,8 +3,7 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code password}'.
+ * 用于呈现'{@code type}'为'{@code password}'的 HTML '{@code input}'元素的数据绑定感知JSP标记.
  */
 @SuppressWarnings("serial")
 public class PasswordInputTag extends InputTag {
@@ -13,16 +12,18 @@ public class PasswordInputTag extends InputTag {
 
 
 	/**
-	 * Is the password value to be rendered?
-	 * @param showPassword {@code true} if the password value is to be rendered
+	 * 是否呈现的密码值?
+	 * 
+	 * @param showPassword {@code true} 如果要呈现密码值
 	 */
 	public void setShowPassword(boolean showPassword) {
 		this.showPassword = showPassword;
 	}
 
 	/**
-	 * Is the password value to be rendered?
-	 * @return {@code true} if the password value to be rendered
+	 * 是否呈现的密码值?
+	 * 
+	 * @return {@code true} 如果要呈现密码值
 	 */
 	public boolean isShowPassword() {
 		return this.showPassword;
@@ -30,7 +31,7 @@ public class PasswordInputTag extends InputTag {
 
 
 	/**
-	 * Flags "type" as an illegal dynamic attribute.
+	 * 标记"type"为非法动态属性.
 	 */
 	@Override
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
@@ -38,8 +39,7 @@ public class PasswordInputTag extends InputTag {
 	}
 
 	/**
-	 * Return '{@code password}' causing the rendered HTML '{@code input}'
-	 * element to have a '{@code type}' of '{@code password}'.
+	 * 返回'{@code password}', 使呈现的HTML '{@code input}'元素具有'{@code password}'的'{@code type}'.
 	 */
 	@Override
 	protected String getType() {
@@ -47,9 +47,8 @@ public class PasswordInputTag extends InputTag {
 	}
 
 	/**
-	 * The {@link PasswordInputTag} only writes it's value if the
-	 * {@link #setShowPassword(boolean) 'showPassword'} property value is
-	 * {@link Boolean#TRUE true}.
+	 * 如果{@link #setShowPassword(boolean) 'showPassword'}属性值为{@link Boolean#TRUE true},
+	 * {@link PasswordInputTag}只会写入它的值.
 	 */
 	@Override
 	protected void writeValue(TagWriter tagWriter) throws JspException {

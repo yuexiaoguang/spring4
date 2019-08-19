@@ -11,15 +11,13 @@ import com.rometools.rome.feed.rss.Item;
 import org.springframework.http.MediaType;
 
 /**
- * Abstract superclass for RSS Feed views, using the
- * <a href="https://github.com/rometools/rome">ROME</a> package.
+ * RSS Feed视图的抽象超类, 使用<a href="https://github.com/rometools/rome">ROME</a>包.
  *
- * <p>><b>NOTE: As of Spring 4.1, this is based on the {@code com.rometools}
- * variant of ROME, version 1.5. Please upgrade your build dependency.</b>
+ * <p>><b>NOTE: 从Spring 4.1开始, 这是基于ROME版本1.5的{@code com.rometools}变体. 请升级构建依赖项.</b>
  *
- * <p>Application-specific view classes will extend this class.
- * The view will be held in the subclass itself, not in a template.
- * Main entry points are the {@link #buildFeedMetadata} and {@link #buildFeedItems}.
+ * <p>特定于应用程序的视图类将扩展此类.
+ * 视图将保留在子类本身中, 而不是模板中.
+ * 主要入口点是{@link #buildFeedMetadata}和{@link #buildFeedItems}.
  *
  * <p>Thanks to Jettro Coenradie and Sergio Bossa for the original feed view prototype!
  */
@@ -31,8 +29,8 @@ public abstract class AbstractRssFeedView extends AbstractFeedView<Channel> {
 
 
 	/**
-	 * Create a new Channel instance to hold the entries.
-	 * <p>By default returns an RSS 2.0 channel, but the subclass can specify any channel.
+	 * 创建一个新的Channel实例来保存条目.
+	 * <p>默认返回RSS 2.0 channel, 但子类可以指定任何channel.
 	 */
 	@Override
 	protected Channel newFeed() {
@@ -40,8 +38,7 @@ public abstract class AbstractRssFeedView extends AbstractFeedView<Channel> {
 	}
 
 	/**
-	 * Invokes {@link #buildFeedItems(Map, HttpServletRequest, HttpServletResponse)}
-	 * to get a list of feed items.
+	 * 调用{@link #buildFeedItems(Map, HttpServletRequest, HttpServletResponse)}以获取feed条目列表.
 	 */
 	@Override
 	protected final void buildFeedEntries(Map<String, Object> model, Channel channel,
@@ -52,16 +49,16 @@ public abstract class AbstractRssFeedView extends AbstractFeedView<Channel> {
 	}
 
 	/**
-	 * Subclasses must implement this method to build feed items, given the model.
-	 * <p>Note that the passed-in HTTP response is just supposed to be used for
-	 * setting cookies or other HTTP headers. The built feed itself will automatically
-	 * get written to the response after this method returns.
-	 * @param model	the model Map
-	 * @param request  in case we need locale etc. Shouldn't look at attributes.
-	 * @param response in case we need to set cookies. Shouldn't write to it.
-	 * @return the feed items to be added to the feed
-	 * @throws Exception any exception that occurred during document building
-	 * @see Item
+	 * 在给定模型的情况下, 子类必须实现此方法来构建feed条目.
+	 * <p>请注意, 传入的HTTP响应应该用于设置cookie或其他 HTTP header.
+	 * 在此方法返回后, 构建的Feed本身将自动写入响应.
+	 * 
+	 * @param model	模型 Map
+	 * @param request  以防需要语言环境等. 不应该查看属性.
+	 * @param response 以防需要设置cookie. 不应该写入它.
+	 * 
+	 * @return 要添加到Feed的Feed条目
+	 * @throws Exception 文档构建期间发生的任何异常
 	 */
 	protected abstract List<Item> buildFeedItems(
 			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)

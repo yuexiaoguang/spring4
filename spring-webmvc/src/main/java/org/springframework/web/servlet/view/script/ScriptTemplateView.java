@@ -32,16 +32,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * An {@link AbstractUrlBasedView} subclass designed to run any template library
- * based on a JSR-223 script engine.
+ * 一个{@link AbstractUrlBasedView}子类, 用于运行基于JSR-223脚本引擎的任何模板库.
  *
- * <p>If not set, each property is auto-detected by looking up a single
- * {@link ScriptTemplateConfig} bean in the web application context and using
- * it to obtain the configured properties.
+ * <p>如果未设置, 则通过在Web应用程序上下文中查找单个{@link ScriptTemplateConfig} bean,
+ * 并使用它以获取配置的属性来自动检测每个属性.
  *
- * <p>The Nashorn JavaScript engine requires Java 8+ and may require setting the
- * {@code sharedEngine} property to {@code false} in order to run properly. See
- * {@link ScriptTemplateConfigurer#setSharedEngine(Boolean)} for more details.
+ * <p>Nashorn JavaScript引擎需要Java 8+, 并且可能需要将{@code sharedEngine}属性设置为{@code false}才能正常运行.
+ * See {@link ScriptTemplateConfigurer#setSharedEngine(Boolean)} for more details.
  */
 public class ScriptTemplateView extends AbstractUrlBasedView {
 
@@ -77,18 +74,10 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 	private volatile ScriptEngineManager scriptEngineManager;
 
 
-	/**
-	 * Constructor for use as a bean.
-	 * @see #setUrl
-	 */
 	public ScriptTemplateView() {
 		setContentType(null);
 	}
 
-	/**
-	 * Create a new ScriptTemplateView with the given URL.
-	 * @since 4.2.1
-	 */
 	public ScriptTemplateView(String url) {
 		super(url);
 		setContentType(null);
@@ -140,7 +129,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 
 	/**
 	 * See {@link ScriptTemplateConfigurer#setContentType(String)}} documentation.
-	 * @since 4.2.1
 	 */
 	@Override
 	public void setContentType(String contentType) {
@@ -350,9 +338,8 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 
 
 	/**
-	 * Key class for the {@code enginesHolder ThreadLocal}.
-	 * Only used if scripts have been specified; otherwise, the
-	 * {@code engineName String} will be used as cache key directly.
+	 * {@code enginesHolder ThreadLocal}的键类.
+	 * 仅在指定了脚本时使用; 否则, {@code engineName String}将直接用作缓存键.
 	 */
 	private static class EngineKey {
 

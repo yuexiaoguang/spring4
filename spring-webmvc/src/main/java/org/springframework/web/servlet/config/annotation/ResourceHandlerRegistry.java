@@ -20,16 +20,15 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Stores registrations of resource handlers for serving static resources such as images, css files and others
- * through Spring MVC including setting cache headers optimized for efficient loading in a web browser.
- * Resources can be served out of locations under web application root, from the classpath, and others.
+ * 存储资源处理器的注册, 以通过Spring MVC提供静态资源(如图像, css文件等), 包括设置缓存header以优化Web浏览器的高效加载.
+ * 可以在Web应用程序根目录下的位置, 从类路径和其他位置提供资源.
  *
- * <p>To create a resource handler, use {@link #addResourceHandler(String...)} providing the URL path patterns
- * for which the handler should be invoked to serve static resources (e.g. {@code "/resources/**"}).
+ * <p>要创建资源处理器, 使用{@link #addResourceHandler(String...)},
+ * 提供应调用处理器以提供静态资源的URL路径模式 (e.g. {@code "/resources/**"}).
  *
- * <p>Then use additional methods on the returned {@link ResourceHandlerRegistration} to add one or more
- * locations from which to serve static content from (e.g. {{@code "/"},
- * {@code "classpath:/META-INF/public-web-resources/"}}) or to specify a cache period for served resources.
+ * <p>然后在返回的{@link ResourceHandlerRegistration}上使用其他方法添加一个或多个位置,
+ * 以从中提供静态内容 (e.g. {{@code "/"}, {@code "classpath:/META-INF/public-web-resources/"}})
+ * 或指定服务资源的缓存周期.
  */
 public class ResourceHandlerRegistry {
 
@@ -47,20 +46,17 @@ public class ResourceHandlerRegistry {
 
 
 	/**
-	 * Create a new resource handler registry for the given application context.
-	 * @param applicationContext the Spring application context
-	 * @param servletContext the corresponding Servlet context
+	 * @param applicationContext Spring应用程序上下文
+	 * @param servletContext 相应的Servlet上下文
 	 */
 	public ResourceHandlerRegistry(ApplicationContext applicationContext, ServletContext servletContext) {
 		this(applicationContext, servletContext, null);
 	}
 
 	/**
-	 * Create a new resource handler registry for the given application context.
-	 * @param applicationContext the Spring application context
-	 * @param servletContext the corresponding Servlet context
-	 * @param contentNegotiationManager the content negotiation manager to use
-	 * @since 4.3
+	 * @param applicationContext Spring应用程序上下文
+	 * @param servletContext 相应的Servlet上下文
+	 * @param contentNegotiationManager 要使用的内容协商管理器
 	 */
 	public ResourceHandlerRegistry(ApplicationContext applicationContext, ServletContext servletContext,
 			ContentNegotiationManager contentNegotiationManager) {
@@ -69,10 +65,8 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * A variant of
-	 * {@link #ResourceHandlerRegistry(ApplicationContext, ServletContext, ContentNegotiationManager)}
-	 * that also accepts the {@link UrlPathHelper} used for mapping requests to static resources.
-	 * @since 4.3.13
+	 * {@link #ResourceHandlerRegistry(ApplicationContext, ServletContext, ContentNegotiationManager)}的变体,
+	 * 它还接受用于将请求映射到静态资源的{@link UrlPathHelper}.
 	 */
 	public ResourceHandlerRegistry(ApplicationContext applicationContext, ServletContext servletContext,
 			ContentNegotiationManager contentNegotiationManager, UrlPathHelper pathHelper) {
@@ -86,13 +80,12 @@ public class ResourceHandlerRegistry {
 
 
 	/**
-	 * Add a resource handler for serving static resources based on the specified URL path patterns.
-	 * The handler will be invoked for every incoming request that matches to one of the specified
-	 * path patterns.
-	 * <p>Patterns like {@code "/static/**"} or {@code "/css/{filename:\\w+\\.css}"} are allowed.
-	 * See {@link org.springframework.util.AntPathMatcher} for more details on the syntax.
-	 * @return a {@link ResourceHandlerRegistration} to use to further configure the
-	 * registered resource handler
+	 * 根据指定的URL路径模式添加用于提供静态资源的资源处理器.
+	 * 将为每个与指定路径模式之一匹配的传入请求调用该处理器.
+	 * <p>允许使用{@code "/static/**"} 或 {@code "/css/{filename:\\w+\\.css}"}等模式.
+	 * 有关语法的更多详细信息, 请参阅{@link org.springframework.util.AntPathMatcher}.
+	 * 
+	 * @return 用于进一步配置注册的资源处理器的{@link ResourceHandlerRegistration}
 	 */
 	public ResourceHandlerRegistration addResourceHandler(String... pathPatterns) {
 		ResourceHandlerRegistration registration = new ResourceHandlerRegistration(pathPatterns);
@@ -101,7 +94,7 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * Whether a resource handler has already been registered for the given path pattern.
+	 * 是否已为给定路径模式注册了资源处理器.
 	 */
 	public boolean hasMappingForPattern(String pathPattern) {
 		for (ResourceHandlerRegistration registration : this.registrations) {
@@ -113,9 +106,8 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * Specify the order to use for resource handling relative to other {@link HandlerMapping}s
-	 * configured in the Spring MVC application context.
-	 * <p>The default value used is {@code Integer.MAX_VALUE-1}.
+	 * 指定相对于在Spring MVC应用程序上下文中配置的其他{@link HandlerMapping}进行资源处理的顺序.
+	 * <p>默认为{@code Integer.MAX_VALUE-1}.
 	 */
 	public ResourceHandlerRegistry setOrder(int order) {
 		this.order = order;
@@ -123,8 +115,7 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * Return a handler mapping with the mapped resource handlers; or {@code null} in case
-	 * of no registrations.
+	 * 返回映射的资源处理器的处理器映射; 如果没有注册, 则为{@code null}.
 	 */
 	protected AbstractHandlerMapping getHandlerMapping() {
 		if (this.registrations.isEmpty()) {

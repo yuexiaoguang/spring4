@@ -13,24 +13,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
 
 /**
- * This return value handler is intended to be ordered after all others as it
- * attempts to handle _any_ return value type (i.e. returns {@code true} for
- * all return types).
+ * 此返回值处理器旨在在所有其他处理器之后进行排序, 因为它尝试处理 _any_ 返回值类型 (i.e. 为所有返回类型返回{@code true}).
  *
- * <p>The return value is handled either with a {@link ModelAndViewResolver}
- * or otherwise by regarding it as a model attribute if it is a non-simple
- * type. If neither of these succeeds (essentially simple type other than
- * String), {@link UnsupportedOperationException} is raised.
+ * <p>返回值可以使用{@link ModelAndViewResolver}处理, 也可以通过将其视为模型属性(如果它是非简单类型)来处理.
+ * 如果这些都没有成功 (基本上是除String之外的简单类型), 则会引发{@link UnsupportedOperationException}.
  *
- * <p><strong>Note:</strong> This class is primarily needed to support
- * {@link ModelAndViewResolver}, which unfortunately cannot be properly
- * adapted to the {@link HandlerMethodReturnValueHandler} contract since the
- * {@link HandlerMethodReturnValueHandler#supportsReturnType} method
- * cannot be implemented. Hence {@code ModelAndViewResolver}s are limited
- * to always being invoked at the end after all other return value
- * handlers have been given a chance. It is recommended to re-implement
- * a {@code ModelAndViewResolver} as {@code HandlerMethodReturnValueHandler},
- * which also provides better access to the return type and method information.
+ * <p><strong>Note:</strong> 这个类主要用于支持{@link ModelAndViewResolver},
+ * 遗憾的是, 由于无法实现{@link HandlerMethodReturnValueHandler#supportsReturnType}方法,
+ * 因此无法正确地适配{@link HandlerMethodReturnValueHandler}约定.
+ * 因此, {@code ModelAndViewResolver}仅限于在所有其他返回值处理器之后在最后调用.
+ * 建议将{@code ModelAndViewResolver}重新实现为{@code HandlerMethodReturnValueHandler},
+ * 它还可以更好地访问返回类型和方法信息.
  */
 public class ModelAndViewResolverMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
@@ -39,9 +32,6 @@ public class ModelAndViewResolverMethodReturnValueHandler implements HandlerMeth
 	private final ModelAttributeMethodProcessor modelAttributeProcessor = new ModelAttributeMethodProcessor(true);
 
 
-	/**
-	 * Create a new instance.
-	 */
 	public ModelAndViewResolverMethodReturnValueHandler(List<ModelAndViewResolver> mavResolvers) {
 		this.mavResolvers = mavResolvers;
 	}

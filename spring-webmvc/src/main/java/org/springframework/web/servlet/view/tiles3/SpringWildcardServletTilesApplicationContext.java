@@ -19,7 +19,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.support.ServletContextResourcePatternResolver;
 
 /**
- * Spring-specific subclass of the Tiles ServletApplicationContext.
+ * Tiles ServletApplicationContext的特定于Spring的子类.
  */
 public class SpringWildcardServletTilesApplicationContext extends ServletApplicationContext {
 

@@ -9,8 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
- * Base class for {@link org.springframework.web.servlet.resource.ResourceResolver}
- * implementations. Provides consistent logging.
+ * {@link org.springframework.web.servlet.resource.ResourceResolver}实现的基类. 提供一致的记录.
  */
 public abstract class AbstractResourceResolver implements ResourceResolver {
 

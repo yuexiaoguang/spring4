@@ -3,10 +3,9 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * Data-binding aware JSP tag for rendering a hidden HTML '{@code input}' field
- * containing the databound value.
+ * 数据绑定感知JSP标记, 用于呈现包含数据绑定值的隐藏HTML '{@code input}'字段.
  *
- * <p>Example (binding to 'name' property of form backing object):
+ * <p>示例 (绑定到表单后备对象的'name'属性):
  * <pre class="code>
  * &lt;form:hidden path=&quot;name&quot;/&gt;
  * </pre>
@@ -15,7 +14,7 @@ import javax.servlet.jsp.JspException;
 public class HiddenInputTag extends AbstractHtmlElementTag {
 
 	/**
-	 * The name of the '{@code disabled}' attribute.
+	 * '{@code disabled}'属性的名称.
 	 */
 	public static final String DISABLED_ATTRIBUTE = "disabled";
 
@@ -23,15 +22,15 @@ public class HiddenInputTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Set the value of the '{@code disabled}' attribute.
-	 * May be a runtime expression.
+	 * 设置'{@code disabled}'属性的名称.
+	 * 可能是运行时表达式.
 	 */
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
 	}
 
 	/**
-	 * Get the value of the '{@code disabled}' attribute.
+	 * 获取'{@code disabled}'属性的名称.
 	 */
 	public boolean isDisabled() {
 		return this.disabled;
@@ -39,7 +38,7 @@ public class HiddenInputTag extends AbstractHtmlElementTag {
 
 
 	/**
-	 * Flags "type" as an illegal dynamic attribute.
+	 * 标志"type"为非法动态属性.
 	 */
 	@Override
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
@@ -47,8 +46,7 @@ public class HiddenInputTag extends AbstractHtmlElementTag {
 	}
 
 	/**
-	 * Writes the HTML '{@code input}' tag to the supplied {@link TagWriter} including the
-	 * databound value.
+	 * 将HTML '{@code input}'标记写入提供的{@link TagWriter}, 包括数据绑定值.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {

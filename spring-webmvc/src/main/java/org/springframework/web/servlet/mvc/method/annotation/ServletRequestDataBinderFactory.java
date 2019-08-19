@@ -9,21 +9,20 @@ import org.springframework.web.method.annotation.InitBinderDataBinderFactory;
 import org.springframework.web.method.support.InvocableHandlerMethod;
 
 /**
- * Creates a {@code ServletRequestDataBinder}.
+ * 创建{@code ServletRequestDataBinder}.
  */
 public class ServletRequestDataBinderFactory extends InitBinderDataBinderFactory {
 
 	/**
-	 * Create a new instance.
-	 * @param binderMethods one or more {@code @InitBinder} methods
-	 * @param initializer provides global data binder initialization
+	 * @param binderMethods 一个或多个{@code @InitBinder}方法
+	 * @param initializer 提供全局数据绑定器初始化
 	 */
 	public ServletRequestDataBinderFactory(List<InvocableHandlerMethod> binderMethods, WebBindingInitializer initializer) {
 		super(binderMethods, initializer);
 	}
 
 	/**
-	 * Returns an instance of {@link ExtendedServletRequestDataBinder}.
+	 * 返回{@link ExtendedServletRequestDataBinder}的实例.
 	 */
 	@Override
 	protected ServletRequestDataBinder createBinderInstance(Object target, String objectName, NativeWebRequest request) {

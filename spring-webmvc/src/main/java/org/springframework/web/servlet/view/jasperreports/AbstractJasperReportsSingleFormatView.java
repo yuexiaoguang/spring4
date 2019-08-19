@@ -11,16 +11,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Extends {@code AbstractJasperReportsView} to provide basic rendering logic
- * for views that use a fixed format, e.g. always PDF or always HTML.
+ * 扩展{@code AbstractJasperReportsView}, 为使用固定格式的视图提供基本的渲染逻辑, e.g. 始终是PDF或始终是HTML.
  *
- * <p>Subclasses need to implement two template methods: {@code createExporter}
- * to create a JasperReports exporter for a specific output format, and
- * {@code useWriter} to determine whether to write text or binary content.
+ * <p>子类需要实现两个模板方法: {@code createExporter} 为特定输出格式创建JasperReports导出器,
+ * 和{@code useWriter}来确定是写入文本还是二进制内容.
  *
- * <p><b>This class is compatible with classic JasperReports releases back until 2.x.</b>
- * As a consequence, it keeps using the {@link net.sf.jasperreports.engine.JRExporter}
- * API which got deprecated as of JasperReports 5.5.2 (early 2014).
+ * <p><b>这个类与经典的JasperReports版本兼容, 直到2.x..</b>
+ * 因此, 它继续使用{@link net.sf.jasperreports.engine.JRExporter} API, 该API自JasperReports 5.5.2 (2014年初)起已弃用.
  */
 @SuppressWarnings({"deprecation", "rawtypes"})
 public abstract class AbstractJasperReportsSingleFormatView extends AbstractJasperReportsView {
@@ -31,8 +28,7 @@ public abstract class AbstractJasperReportsSingleFormatView extends AbstractJasp
 	}
 
 	/**
-	 * Perform rendering for a single Jasper Reports exporter, that is,
-	 * for a pre-defined output format.
+	 * 对单个Jasper Report导出器执行渲染, 即对于预定义的输出格式.
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -55,41 +51,45 @@ public abstract class AbstractJasperReportsSingleFormatView extends AbstractJasp
 	}
 
 	/**
-	 * We need to write text to the response Writer.
-	 * @param exporter the JasperReports exporter to use
-	 * @param populatedReport the populated {@code JasperPrint} to render
-	 * @param response the HTTP response the report should be rendered to
-	 * @throws Exception if rendering failed
+	 * 需要将文本写入响应Writer.
+	 * 
+	 * @param exporter 要使用的JasperReport导出器
+	 * @param populatedReport 要渲染的已填充的{@code JasperPrint}
+	 * @param response 应该渲染报告的HTTP响应
+	 * 
+	 * @throws Exception 如果渲染失败
 	 */
 	protected void renderReportUsingWriter(net.sf.jasperreports.engine.JRExporter exporter,
 			JasperPrint populatedReport, HttpServletResponse response) throws Exception {
 
-		// Copy the encoding configured for the report into the response.
+		// 将为报告配置的编码复制到响应中.
 		String contentType = getContentType();
 		String encoding = (String) exporter.getParameter(net.sf.jasperreports.engine.JRExporterParameter.CHARACTER_ENCODING);
 		if (encoding != null) {
-			// Only apply encoding if content type is specified but does not contain charset clause already.
+			// 仅在指定了内容类型但不包含charset子句时才应用编码.
 			if (contentType != null && !contentType.toLowerCase().contains(WebUtils.CONTENT_TYPE_CHARSET_PREFIX)) {
 				contentType = contentType + WebUtils.CONTENT_TYPE_CHARSET_PREFIX + encoding;
 			}
 		}
 		response.setContentType(contentType);
 
-		// Render report into HttpServletResponse's Writer.
+		// 渲染报告到HttpServletResponse的 Writer.
 		JasperReportsUtils.render(exporter, populatedReport, response.getWriter());
 	}
 
 	/**
-	 * We need to write binary output to the response OutputStream.
-	 * @param exporter the JasperReports exporter to use
-	 * @param populatedReport the populated {@code JasperPrint} to render
-	 * @param response the HTTP response the report should be rendered to
-	 * @throws Exception if rendering failed
+	 * 需要将二进制输出写入响应OutputStream.
+	 * 
+	 * @param exporter 要使用的JasperReport导出器
+	 * @param populatedReport 要渲染的已填充的{@code JasperPrint}
+	 * @param response 应该渲染报告的HTTP响应
+	 * 
+	 * @throws Exception 如果渲染失败
 	 */
 	protected void renderReportUsingOutputStream(net.sf.jasperreports.engine.JRExporter exporter,
 			JasperPrint populatedReport, HttpServletResponse response) throws Exception {
 
-		// IE workaround: write into byte array first.
+		// IE workaround: 首先写入字节数组.
 		ByteArrayOutputStream baos = createTemporaryOutputStream();
 		JasperReportsUtils.render(exporter, populatedReport, baos);
 		writeToResponse(response, baos);
@@ -97,20 +97,14 @@ public abstract class AbstractJasperReportsSingleFormatView extends AbstractJasp
 
 
 	/**
-	 * Create a JasperReports exporter for a specific output format,
-	 * which will be used to render the report to the HTTP response.
-	 * <p>The {@code useWriter} method determines whether the
-	 * output will be written as text or as binary content.
-	 * @see #useWriter()
+	 * 为特定输出格式创建JasperReport导出器, 该输出格式将用于将报告渲染给HTTP响应.
+	 * <p>{@code useWriter}方法确定输出是以文本还是以二进制内容形式写入.
 	 */
 	protected abstract net.sf.jasperreports.engine.JRExporter createExporter();
 
 	/**
-	 * Return whether to use a {@code java.io.Writer} to write text content
-	 * to the HTTP response. Else, a {@code java.io.OutputStream} will be used,
-	 * to write binary content to the response.
-	 * @see javax.servlet.ServletResponse#getWriter()
-	 * @see javax.servlet.ServletResponse#getOutputStream()
+	 * 返回是否使用{@code java.io.Writer}将文本内容写入HTTP响应.
+	 * 否则, 将使用{@code java.io.OutputStream}将二进制内容写入响应.
 	 */
 	protected abstract boolean useWriter();
 

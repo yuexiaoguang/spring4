@@ -9,8 +9,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
- * Abstract implementation of the Tiles {@link org.apache.tiles.preparer.PreparerFactory}
- * interface, obtaining the current Spring WebApplicationContext and delegating to
+ * Tiles {@link org.apache.tiles.preparer.PreparerFactory}接口的抽象实现,
+ * 获取当前的Spring WebApplicationContext, 并委托给
  * {@link #getPreparer(String, org.springframework.web.context.WebApplicationContext)}.
  */
 public abstract class AbstractSpringPreparerFactory implements PreparerFactory {
@@ -30,12 +30,13 @@ public abstract class AbstractSpringPreparerFactory implements PreparerFactory {
 	}
 
 	/**
-	 * Obtain a preparer instance for the given preparer name,
-	 * based on the given Spring WebApplicationContext.
-	 * @param name the name of the preparer
-	 * @param context the current Spring WebApplicationContext
-	 * @return the preparer instance
-	 * @throws TilesException in case of failure
+	 * 根据给定的Spring WebApplicationContext, 获取给定的preparer名称的preparer实例.
+	 * 
+	 * @param name preparer的名字
+	 * @param context 当前的Spring WebApplicationContext
+	 * 
+	 * @return preparer实例
+	 * @throws TilesException
 	 */
 	protected abstract ViewPreparer getPreparer(String name, WebApplicationContext context) throws TilesException;
 

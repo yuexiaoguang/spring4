@@ -5,8 +5,7 @@ import org.apache.tiles.request.render.Renderer;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 /**
- * Convenience subclass of {@link UrlBasedViewResolver} that supports
- * {@link TilesView} (i.e. Tiles definitions) and custom subclasses of it.
+ * {@link UrlBasedViewResolver}的便捷子类, 支持{@link TilesView} (i.e. Tiles定义)及其自定义子类.
  */
 public class TilesViewResolver extends UrlBasedViewResolver {
 
@@ -21,7 +20,7 @@ public class TilesViewResolver extends UrlBasedViewResolver {
 
 
 	/**
-	 * This resolver requires {@link TilesView}.
+	 * 此解析器需要{@link TilesView}.
 	 */
 	@Override
 	protected Class<?> requiredViewClass() {
@@ -29,20 +28,16 @@ public class TilesViewResolver extends UrlBasedViewResolver {
 	}
 
 	/**
-	 * Set the {@link Renderer} to use. If not specified, a default
-	 * {@link org.apache.tiles.renderer.DefinitionRenderer} will be used.
-	 * @see TilesView#setRenderer(Renderer)
+	 * 设置要使用的{@link Renderer}.
+	 * 如果未指定, 将使用默认的{@link org.apache.tiles.renderer.DefinitionRenderer}.
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.renderer = renderer;
 	}
 
 	/**
-	 * Specify whether to always include the view rather than forward to it.
-	 * <p>Default is "false". Switch this flag on to enforce the use of a
-	 * Servlet include, even if a forward would be possible.
-	 * @since 4.1.2
-	 * @see TilesView#setAlwaysInclude
+	 * 指定是始终包含视图, 还是转发.
+	 * <p>默认为"false". 切换此标志以强制使用Servlet包含, 即使可以转发.
 	 */
 	public void setAlwaysInclude(Boolean alwaysInclude) {
 		this.alwaysInclude = alwaysInclude;

@@ -63,61 +63,50 @@ import org.springframework.web.servlet.mvc.method.annotation.ServletWebArgumentR
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 /**
- * A {@link BeanDefinitionParser} that provides the configuration for the
- * {@code <annotation-driven/>} MVC namespace element.
+ * {@link BeanDefinitionParser}, 它为{@code <annotation-driven/>} MVC命名空间元素提供配置.
  *
- * <p>This class registers the following {@link HandlerMapping}s:</p>
+ * <p>该类注册以下{@link HandlerMapping}:</p>
  * <ul>
- * <li>{@link RequestMappingHandlerMapping}
- * ordered at 0 for mapping requests to annotated controller methods.
- * <li>{@link BeanNameUrlHandlerMapping}
- * ordered at 2 to map URL paths to controller bean names.
+ * <li>{@link RequestMappingHandlerMapping}在0处排序, 用于将请求映射到带注解的控制器方法.
+ * <li>{@link BeanNameUrlHandlerMapping}在2处排序, 将URL路径映射到控制器bean名称.
  * </ul>
  *
- * <p><strong>Note:</strong> Additional HandlerMappings may be registered
- * as a result of using the {@code <view-controller>} or the
- * {@code <resources>} MVC namespace elements.
+ * <p><strong>Note:</strong> 由于使用{@code <view-controller>}或{@code <resources>} MVC命名空间元素,
+ * 可能会注册其他HandlerMapping.
  *
- * <p>This class registers the following {@link HandlerAdapter}s:
+ * <p>该类注册以下{@link HandlerAdapter}:
  * <ul>
- * <li>{@link RequestMappingHandlerAdapter}
- * for processing requests with annotated controller methods.
- * <li>{@link HttpRequestHandlerAdapter}
- * for processing requests with {@link HttpRequestHandler}s.
- * <li>{@link SimpleControllerHandlerAdapter}
- * for processing requests with interface-based {@link Controller}s.
+ * <li>{@link RequestMappingHandlerAdapter}用于使用带注解的控制器方法处理请求.
+ * <li>{@link HttpRequestHandlerAdapter}用于使用{@link HttpRequestHandler}处理请求.
+ * <li>{@link SimpleControllerHandlerAdapter}用于处理基于接口的{@link Controller}的请求.
  * </ul>
  *
- * <p>This class registers the following {@link HandlerExceptionResolver}s:
+ * <p>该类注册以下{@link HandlerExceptionResolver}:
  * <ul>
- * <li>{@link ExceptionHandlerExceptionResolver} for handling exceptions through
- * {@link org.springframework.web.bind.annotation.ExceptionHandler} methods.
- * <li>{@link ResponseStatusExceptionResolver} for exceptions annotated
- * with {@link org.springframework.web.bind.annotation.ResponseStatus}.
- * <li>{@link DefaultHandlerExceptionResolver} for resolving known Spring
- * exception types
+ * <li>{@link ExceptionHandlerExceptionResolver}用于通过
+ * {@link org.springframework.web.bind.annotation.ExceptionHandler}方法处理异常.
+ * <li>{@link ResponseStatusExceptionResolver}用于带
+ * {@link org.springframework.web.bind.annotation.ResponseStatus}注解的异常.
+ * <li>{@link DefaultHandlerExceptionResolver}用于解析已知的Spring异常类型
  * </ul>
  *
- * <p>This class registers an {@link org.springframework.util.AntPathMatcher}
- * and a {@link org.springframework.web.util.UrlPathHelper} to be used by:
+ * <p>此类注册要使用的{@link org.springframework.util.AntPathMatcher}
+ * 和{@link org.springframework.web.util.UrlPathHelper}:
  * <ul>
- * <li>the {@link RequestMappingHandlerMapping},
- * <li>the {@link HandlerMapping} for ViewControllers
- * <li>and the {@link HandlerMapping} for serving resources
+ * <li>{@link RequestMappingHandlerMapping},
+ * <li>{@link HandlerMapping}用于ViewControllers
+ * <li>{@link HandlerMapping}用于服务资源
  * </ul>
- * Note that those beans can be configured by using the {@code path-matching}
- * MVC namespace element.
+ * 请注意, 可以使用{@code path-matching} MVC命名空间元素配置这些bean.
  *
- * <p>Both the {@link RequestMappingHandlerAdapter} and the
- * {@link ExceptionHandlerExceptionResolver} are configured with instances of
- * the following by default:
+ * <p>默认情况下, {@link RequestMappingHandlerAdapter}
+ * 和{@link ExceptionHandlerExceptionResolver}都配置了以下实例:
  * <ul>
- * <li>A {@link ContentNegotiationManager}
- * <li>A {@link DefaultFormattingConversionService}
- * <li>A {@link org.springframework.validation.beanvalidation.LocalValidatorFactoryBean}
- * if a JSR-303 implementation is available on the classpath
- * <li>A range of {@link HttpMessageConverter}s depending on which third-party
- * libraries are available on the classpath.
+ * <li>{@link ContentNegotiationManager}
+ * <li>{@link DefaultFormattingConversionService}
+ * <li>{@link org.springframework.validation.beanvalidation.LocalValidatorFactoryBean},
+ * 如果类路径上有JSR-303实现可用
+ * <li>一系列{@link HttpMessageConverter}, 取决于类路径上可用的第三方库.
  * </ul>
  */
 class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
@@ -591,9 +580,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 
 
 	/**
-	 * A FactoryBean for a CompositeUriComponentsContributor that obtains the
-	 * HandlerMethodArgumentResolver's configured in RequestMappingHandlerAdapter
-	 * after it is fully initialized.
+	 * CompositeUriComponentsContributor的FactoryBean,
+	 * 它在完全初始化后获取在RequestMappingHandlerAdapter中配置的HandlerMethodArgumentResolver.
 	 */
 	static class CompositeUriComponentsContributorFactoryBean
 			implements FactoryBean<CompositeUriComponentsContributor>, InitializingBean {
@@ -633,5 +621,4 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 			return true;
 		}
 	}
-
 }

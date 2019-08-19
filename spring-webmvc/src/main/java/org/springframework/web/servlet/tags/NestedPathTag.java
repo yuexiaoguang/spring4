@@ -8,15 +8,12 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 import org.springframework.beans.PropertyAccessor;
 
 /**
- * <p>Nested-path tag, to support and assist with nested beans or bean properties
- * in the model. Exports a "nestedPath" variable of type String in request scope,
- * visible to the current page and also included pages, if any.
+ * <p>嵌套路径标记, 用于支持和协助模型中的嵌套bean或bean属性.
+ * 在请求范围中导出String类型的"nestedPath"变量, 对当前页面可见, 并且还包括页面.
  *
- * <p>The BindTag will auto-detect the current nested path and automatically
- * prepend it to its own path to form a complete path to the bean or bean property.
+ * <p>BindTag将自动检测当前的嵌套路径, 并自动将其添加到自己的路径, 以形成bean或bean属性的完整路径.
  *
- * <p>This tag will also prepend any existing nested path that is currently set.
- * Thus, you can nest multiple nested-path tags.
+ * <p>此标记还将添加当前设置的任何现有嵌套路径. 因此, 可以嵌套多个nested-path标记.
  *
  * <p>Thanks to Seth Ladd for the suggestion and the original implementation!
  */
@@ -24,22 +21,20 @@ import org.springframework.beans.PropertyAccessor;
 public class NestedPathTag extends TagSupport implements TryCatchFinally {
 
 	/**
-	 * Name of the exposed variable within the scope of this tag: "nestedPath".
+	 * 此标记范围内的公开变量的名称: "nestedPath".
 	 */
 	public static final String NESTED_PATH_VARIABLE_NAME = "nestedPath";
 
 
 	private String path;
 
-	/** Caching a previous nested path, so that it may be reset */
+	/** 缓存先前的嵌套路径, 以便可以重置它 */
 	private String previousNestedPath;
 
 
 	/**
-	 * Set the path that this tag should apply.
-	 * <p>E.g. "customer" to allow bind paths like "address.street"
-	 * rather than "customer.address.street".
-	 * @see BindTag#setPath
+	 * 设置此标记应应用的路径.
+	 * <p>E.g. "customer"允许绑定路径, 如"address.street"而不是"customer.address.street".
 	 */
 	public void setPath(String path) {
 		if (path == null) {
@@ -52,7 +47,7 @@ public class NestedPathTag extends TagSupport implements TryCatchFinally {
 	}
 
 	/**
-	 * Return the path that this tag applies to.
+	 * 返回此标记适用的路径.
 	 */
 	public String getPath() {
 		return this.path;
@@ -61,8 +56,8 @@ public class NestedPathTag extends TagSupport implements TryCatchFinally {
 
 	@Override
 	public int doStartTag() throws JspException {
-		// Save previous nestedPath value, build and expose current nestedPath value.
-		// Use request scope to expose nestedPath to included pages too.
+		// 保存以前的nestedPath值, 构建并公开当前的nestedPath值.
+		// 使用请求范围也可以将nestedPath公开给包含的页面.
 		this.previousNestedPath =
 				(String) pageContext.getAttribute(NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 		String nestedPath =
@@ -73,16 +68,16 @@ public class NestedPathTag extends TagSupport implements TryCatchFinally {
 	}
 
 	/**
-	 * Reset any previous nestedPath value.
+	 * 重置以前的任何nestedPath值.
 	 */
 	@Override
 	public int doEndTag() {
 		if (this.previousNestedPath != null) {
-			// Expose previous nestedPath value.
+			// 公开先前的nestedPath值.
 			pageContext.setAttribute(NESTED_PATH_VARIABLE_NAME, this.previousNestedPath, PageContext.REQUEST_SCOPE);
 		}
 		else {
-			// Remove exposed nestedPath value.
+			// 删除公开的nestedPath值.
 			pageContext.removeAttribute(NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
 		}
 

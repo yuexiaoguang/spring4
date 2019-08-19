@@ -4,10 +4,9 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Helps with configuring HandlerMappings path matching options such as trailing
- * slash match, suffix registration, path matcher and path helper.
+ * 帮助配置HandlerMappings路径匹配选项, 例如尾部斜杠匹配, 后缀注册, 路径匹配器和路径帮助器.
  *
- * <p>Configured path matcher and path helper instances are shared for:
+ * <p>共享配置的路径匹配器和路径帮助器实例:
  * <ul>
  * <li>RequestMappings</li>
  * <li>ViewControllerMappings</li>
@@ -28,9 +27,9 @@ public class PathMatchConfigurer {
 
 
 	/**
-	 * Whether to use suffix pattern match (".*") when matching patterns to
-	 * requests. If enabled a method mapped to "/users" also matches to "/users.*".
-	 * <p>By default this is set to {@code true}.
+	 * 在将模式与请求匹配时是否使用后缀模式匹配 (".*").
+	 * 如果启用, 映射到"/users"的方法也匹配"/users.*".
+	 * <p>默认为{@code true}.
 	 */
 	public PathMatchConfigurer setUseSuffixPatternMatch(Boolean suffixPatternMatch) {
 		this.suffixPatternMatch = suffixPatternMatch;
@@ -38,9 +37,9 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a method mapped to "/users" also matches to "/users/".
-	 * <p>The default value is {@code true}.
+	 * 是否匹配URL而不管是否存在尾部斜杠.
+	 * 如果启用, 映射到"/users"的方法也匹配"/users/".
+	 * <p>默认为{@code true}.
 	 */
 	public PathMatchConfigurer setUseTrailingSlashMatch(Boolean trailingSlashMatch) {
 		this.trailingSlashMatch = trailingSlashMatch;
@@ -48,13 +47,10 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Whether suffix pattern matching should work only against path extensions
-	 * explicitly registered when you
-	 * {@link WebMvcConfigurer#configureContentNegotiation configure content
-	 * negotiation}. This is generally recommended to reduce ambiguity and to
-	 * avoid issues such as when a "." appears in the path for other reasons.
-	 * <p>By default this is set to "false".
-	 * @see WebMvcConfigurer#configureContentNegotiation
+	 * 后缀模式匹配是否仅适用于
+	 * {@link WebMvcConfigurer#configureContentNegotiation 配置内容协商}时显式注册的路径扩展.
+	 * 通常建议这样做以减少歧义, 并避免诸如路径中的"."之类的问题.
+	 * <p>默认为"false".
 	 */
 	public PathMatchConfigurer setUseRegisteredSuffixPatternMatch(Boolean registeredSuffixPatternMatch) {
 		this.registeredSuffixPatternMatch = registeredSuffixPatternMatch;
@@ -62,10 +58,9 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Set the UrlPathHelper to use for resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass,
-	 * or to share common UrlPathHelper settings across multiple HandlerMappings
-	 * and MethodNameResolvers.
+	 * 设置用于查找路径的解析的UrlPathHelper.
+	 * <p>使用此选项可以使用自定义子类覆盖默认的UrlPathHelper,
+	 * 或者在多个HandlerMappings和MethodNameResolvers之间共享常用的UrlPathHelper设置.
 	 */
 	public PathMatchConfigurer setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
@@ -73,9 +68,7 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Set the PathMatcher implementation to use for matching URL paths
-	 * against registered URL patterns. Default is AntPathMatcher.
-	 * @see org.springframework.util.AntPathMatcher
+	 * 设置PathMatcher实现, 用于使用注册的URL模式匹配URL路径. 默认为AntPathMatcher.
 	 */
 	public PathMatchConfigurer setPathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
@@ -102,5 +95,4 @@ public class PathMatchConfigurer {
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
 	}
-
 }

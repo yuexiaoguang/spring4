@@ -10,9 +10,8 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Trivial controller that always returns a pre-configured view and optionally
- * sets the response status code. The view and status can be configured using
- * the provided configuration properties.
+ * 简单的控制器, 它总是返回预先配置的视图, 并可选择设置响应状态码.
+ * 可以使用提供的配置属性配置视图和状态.
  */
 public class ParameterizableViewController extends AbstractController {
 
@@ -29,58 +28,48 @@ public class ParameterizableViewController extends AbstractController {
 	}
 
 	/**
-	 * Set a view name for the ModelAndView to return, to be resolved by the
-	 * DispatcherServlet via a ViewResolver. Will override any pre-existing
-	 * view name or View.
+	 * 设置要返回的ModelAndView的视图名称, 由DispatcherServlet通过ViewResolver解析.
+	 * 将覆盖任何预先存在的视图名称或View.
 	 */
 	public void setViewName(String viewName) {
 		this.view = viewName;
 	}
 
 	/**
-	 * Return the name of the view to delegate to, or {@code null} if using a
-	 * View instance.
+	 * 返回要委托给的视图的名称, 或{@code null} 如果使用View实例.
 	 */
 	public String getViewName() {
 		return (this.view instanceof String ? (String) this.view : null);
 	}
 
 	/**
-	 * Set a View object for the ModelAndView to return.
-	 * Will override any pre-existing view name or View.
-	 * @since 4.1
+	 * 设置要返回的ModelAndView的View对象.
+	 * 将覆盖任何预先存在的视图名称或View.
 	 */
 	public void setView(View view) {
 		this.view = view;
 	}
 
 	/**
-	 * Return the View object, or {@code null} if we are using a view name
-	 * to be resolved by the DispatcherServlet via a ViewResolver.
-	 * @since 4.1
+	 * 返回View对象, 或{@code null}, 如果使用视图名称由DispatcherServlet通过ViewResolver解析.
 	 */
 	public View getView() {
 		return (this.view instanceof View ? (View) this.view : null);
 	}
 
 	/**
-	 * Configure the HTTP status code that this controller should set on the
-	 * response.
-	 * <p>When a "redirect:" prefixed view name is configured, there is no need
-	 * to set this property since RedirectView will do that. However this property
-	 * may still be used to override the 3xx status code of {@code RedirectView}.
-	 * For full control over redirecting provide a {@code RedirectView} instance.
-	 * <p>If the status code is 204 and no view is configured, the request is
-	 * fully handled within the controller.
-	 * @since 4.1
+	 * 配置此控制器应在响应上设置的HTTP状态码.
+	 * <p>当配置"redirect:"前缀的视图名称时, 不需要设置此属性, 因为RedirectView将执行此操作.
+	 * 但是, 此属性仍可用于覆盖{@code RedirectView}的3xx状态代码.
+	 * 要完全控制重定向, 提供{@code RedirectView}实例.
+	 * <p>如果状态码为204且未配置视图, 则在控制器内完全处理请求.
 	 */
 	public void setStatusCode(HttpStatus statusCode) {
 		this.statusCode = statusCode;
 	}
 
 	/**
-	 * Return the configured HTTP status code or {@code null}.
-	 * @since 4.1
+	 * 返回配置的HTTP状态代码或{@code null}.
 	 */
 	public HttpStatus getStatusCode() {
 		return this.statusCode;
@@ -88,18 +77,16 @@ public class ParameterizableViewController extends AbstractController {
 
 
 	/**
-	 * The property can be used to indicate the request is considered fully
-	 * handled within the controller and that no view should be used for rendering.
-	 * Useful in combination with {@link #setStatusCode}.
-	 * <p>By default this is set to {@code false}.
-	 * @since 4.1
+	 * 该属性可用于指示请求是在控制器内完全处理的, 并且不应使用任何视图进行渲染.
+	 * 与{@link #setStatusCode}结合使用.
+	 * <p>默认为 {@code false}.
 	 */
 	public void setStatusOnly(boolean statusOnly) {
 		this.statusOnly = statusOnly;
 	}
 
 	/**
-	 * Whether the request is fully handled within the controller.
+	 * 请求是否在控制器内完全处理.
 	 */
 	public boolean isStatusOnly() {
 		return this.statusOnly;
@@ -107,10 +94,8 @@ public class ParameterizableViewController extends AbstractController {
 
 
 	/**
-	 * Return a ModelAndView object with the specified view name.
-	 * <p>The content of the {@link RequestContextUtils#getInputFlashMap
-	 * "input" FlashMap} is also added to the model.
-	 * @see #getViewName()
+	 * 返回具有指定视图名称的ModelAndView对象.
+	 * <p>{@link RequestContextUtils#getInputFlashMap "input" FlashMap}的内容也添加到模型中.
 	 */
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)

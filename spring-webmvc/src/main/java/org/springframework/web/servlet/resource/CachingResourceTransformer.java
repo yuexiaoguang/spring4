@@ -12,10 +12,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * A {@link org.springframework.web.servlet.resource.ResourceTransformer} that checks a
- * {@link org.springframework.cache.Cache} to see if a previously transformed resource
- * exists in the cache and returns it if found, and otherwise delegates to the resolver
- * chain and saves the result in the cache.
+ * {@link org.springframework.web.servlet.resource.ResourceTransformer},
+ * 它检查{@link org.springframework.cache.Cache}以查看先前转换的资源是否存在于缓存中, 如果找到就返回它,
+ * 否则委托给解析器链并将结果保存在缓存中.
  */
 public class CachingResourceTransformer implements ResourceTransformer {
 
@@ -35,7 +34,7 @@ public class CachingResourceTransformer implements ResourceTransformer {
 
 
 	/**
-	 * Return the configured {@code Cache}.
+	 * 返回配置的{@code Cache}.
 	 */
 	public Cache getCache() {
 		return this.cache;
@@ -63,5 +62,4 @@ public class CachingResourceTransformer implements ResourceTransformer {
 
 		return transformed;
 	}
-
 }

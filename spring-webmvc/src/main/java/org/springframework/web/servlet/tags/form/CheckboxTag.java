@@ -6,23 +6,19 @@ import javax.servlet.jsp.JspException;
 import org.springframework.web.bind.WebDataBinder;
 
 /**
- * Databinding-aware JSP tag for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code checkbox}'.
+ * 用于呈现HTML '{@code input}'元素的数据绑定感知JSP标记, 其中 '{@code type}'为'{@code checkbox}'.
  *
- * <p>May be used in one of three different approaches depending on the
- * type of the {@link #getValue bound value}.
+ * <p>根据{@link #getValue 绑定值}的类型, 可以使用三种不同的方法之一.
  *
- * <h3>Approach One</h3>
- * When the bound value is of type {@link Boolean} then the '{@code input(checkbox)}'
- * is marked as 'checked' if the bound value is {@code true}. The '{@code value}'
- * attribute corresponds to the resolved value of the {@link #setValue(Object) value} property.
- * <h3>Approach Two</h3>
- * When the bound value is of type {@link Collection} then the '{@code input(checkbox)}'
- * is marked as 'checked' if the configured {@link #setValue(Object) value} is present in
- * the bound {@link Collection}.
- * <h3>Approach Three</h3>
- * For any other bound value type, the '{@code input(checkbox)}' is marked as 'checked'
- * if the configured {@link #setValue(Object) value} is equal to the bound value.
+ * <h3>方法一</h3>
+ * 当绑定值的类型为{@link Boolean}时, 如果绑定值为{@code true}, 则'{@code input(checkbox)}'被标记为 'checked'.
+ * '{@code value}'属性对应于{@link #setValue(Object) value}属性的解析后的值.
+ * <h3>方法二</h3>
+ * 当绑定值的类型为{@link Collection}时, 如果配置的{@link #setValue(Object) 值}存在,
+ * 则'{@code input(checkbox)}'被标记为'checked'.
+ * <h3>方法三</h3>
+ * 对于任何其他绑定值类型，如果配置的{@link #setValue(Object) 值}等于绑定值,
+ * 则'{@code input(checkbox)}'被标记为'checked'.
  */
 @SuppressWarnings("serial")
 public class CheckboxTag extends AbstractSingleCheckedElementTag {

@@ -19,11 +19,10 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition.HeaderExpression;
 
 /**
- * A logical disjunction (' || ') request condition to match a request's 'Accept' header
- * to a list of media type expressions. Two kinds of media type expressions are
- * supported, which are described in {@link RequestMapping#produces()} and
- * {@link RequestMapping#headers()} where the header name is 'Accept'.
- * Regardless of which syntax is used, the semantics are the same.
+ * 逻辑或 (' || ') 请求条件, 用于将请求的'Accept' header与媒体类型表达式列表进行匹配.
+ * 支持两种媒体类型表达式, 在{@link RequestMapping#produces()}
+ * 和{@link RequestMapping#headers()}中描述, 其中header名称为'Accept'.
+ * 无论使用哪种语法, 语义都是相同的.
  */
 public final class ProducesRequestCondition extends AbstractRequestCondition<ProducesRequestCondition> {
 
@@ -41,32 +40,31 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 
 
 	/**
-	 * Creates a new instance from "produces" expressions. If 0 expressions
-	 * are provided in total, this condition will match to any request.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
+	 * 如果总共提供0个表达式, 则此条件将与任何请求匹配.
+	 * 
+	 * @param produces 语法由{@link RequestMapping#produces()}定义的表达式
 	 */
 	public ProducesRequestCondition(String... produces) {
 		this(produces, null, null);
 	}
 
 	/**
-	 * Creates a new instance with "produces" and "header" expressions. "Header"
-	 * expressions where the header name is not 'Accept' or have no header value
-	 * defined are ignored. If 0 expressions are provided in total, this condition
-	 * will match to any request.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
-	 * @param headers expressions with syntax defined by {@link RequestMapping#headers()}
+	 * header名称不是'Accept'或没有定义header值的"Header"表达式将被忽略.
+	 * 如果总共提供0个表达式, 则此条件将与任何请求匹配.
+	 * 
+	 * @param produces 语法由{@link RequestMapping#produces()}定义的表达式
+	 * @param headers 语法由{@link RequestMapping#headers()}定义的表达式
 	 */
 	public ProducesRequestCondition(String[] produces, String[] headers) {
 		this(produces, headers, null);
 	}
 
 	/**
-	 * Same as {@link #ProducesRequestCondition(String[], String[])} but also
-	 * accepting a {@link ContentNegotiationManager}.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
-	 * @param headers expressions with syntax defined by {@link RequestMapping#headers()}
-	 * @param manager used to determine requested media types
+	 * 与{@link #ProducesRequestCondition(String[], String[])}相同, 但也接受{@link ContentNegotiationManager}.
+	 * 
+	 * @param produces 语法由{@link RequestMapping#produces()}定义的表达式
+	 * @param headers 语法由{@link RequestMapping#headers()}定义的表达式
+	 * @param manager 用于确定请求的媒体类型
 	 */
 	public ProducesRequestCondition(String[] produces, String[] headers, ContentNegotiationManager manager) {
 		this.expressions = new ArrayList<ProduceMediaTypeExpression>(parseExpressions(produces, headers));
@@ -75,7 +73,7 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Private constructor with already parsed media type expressions.
+	 * 具有已解析的媒体类型表达式.
 	 */
 	private ProducesRequestCondition(Collection<ProduceMediaTypeExpression> expressions, ContentNegotiationManager manager) {
 		this.expressions = new ArrayList<ProduceMediaTypeExpression>(expressions);
@@ -105,14 +103,14 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Return the contained "produces" expressions.
+	 * 返回包含的"produces"表达式.
 	 */
 	public Set<MediaTypeExpression> getExpressions() {
 		return new LinkedHashSet<MediaTypeExpression>(this.expressions);
 	}
 
 	/**
-	 * Return the contained producible media types excluding negated expressions.
+	 * 返回包含的可生成的媒体类型, 不包括否定表达式.
 	 */
 	public Set<MediaType> getProducibleMediaTypes() {
 		Set<MediaType> result = new LinkedHashSet<MediaType>();
@@ -125,7 +123,7 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Whether the condition has any media type expressions.
+	 * 条件是否具有任何媒体类型表达式.
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -143,9 +141,8 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Returns the "other" instance if it has any expressions; returns "this"
-	 * instance otherwise. Practically that means a method-level "produces"
-	 * overrides a type-level "produces" condition.
+	 * 如果它有任何表达式, 则返回"other"实例; 否则返回"this"实例.
+	 * 实际上, 这意味着方法级"produces"会覆盖类型级"produces"条件.
 	 */
 	@Override
 	public ProducesRequestCondition combine(ProducesRequestCondition other) {
@@ -153,14 +150,13 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Checks if any of the contained media type expressions match the given
-	 * request 'Content-Type' header and returns an instance that is guaranteed
-	 * to contain matching expressions only. The match is performed via
-	 * {@link MediaType#isCompatibleWith(MediaType)}.
-	 * @param request the current request
-	 * @return the same instance if there are no expressions;
-	 * or a new condition with matching expressions;
-	 * or {@code null} if no expressions match.
+	 * 检查是否有任何包含的媒体类型表达式与给定的请求'Content-Type' header匹配, 并返回一个保证仅包含匹配表达式的实例.
+	 * 匹配通过{@link MediaType#isCompatibleWith(MediaType)}执行.
+	 * 
+	 * @param request 当前的请求
+	 * 
+	 * @return 如果没有表达式, 则为同一实例;
+	 * 或具有匹配表达式的新条件; 如果没有表达式匹配, 则为{@code null}.
 	 */
 	@Override
 	public ProducesRequestCondition getMatchingCondition(HttpServletRequest request) {
@@ -198,21 +194,16 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Compares this and another "produces" condition as follows:
+	 * 比较这个和另一个"produces"条件如下:
 	 * <ol>
-	 * <li>Sort 'Accept' header media types by quality value via
-	 * {@link MediaType#sortByQualityValue(List)} and iterate the list.
-	 * <li>Get the first index of matching media types in each "produces"
-	 * condition first matching with {@link MediaType#equals(Object)} and
-	 * then with {@link MediaType#includes(MediaType)}.
-	 * <li>If a lower index is found, the condition at that index wins.
-	 * <li>If both indexes are equal, the media types at the index are
-	 * compared further with {@link MediaType#SPECIFICITY_COMPARATOR}.
+	 * <li>通过{@link MediaType#sortByQualityValue(List)}按质量值排序'Accept' header媒体类型, 并迭代列表.
+	 * <li>获取每个"produces"条件中匹配媒体类型的第一个索引, 首先与{@link MediaType#equals(Object)}匹配,
+	 * 然后使用{@link MediaType#includes(MediaType)}.
+	 * <li>如果找到较低的索引, 则该索引处的条件获胜.
+	 * <li>如果两个索引相等, 则索引中的媒体类型将与{@link MediaType#SPECIFICITY_COMPARATOR}进一步比较.
 	 * </ol>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance
-	 * contains the matching producible media type expression only or
-	 * is otherwise empty.
+	 * <p>假设两个实例都是通过{@link #getMatchingCondition(HttpServletRequest)}获得的,
+	 * 并且每个实例仅包含匹配的可生成媒体类型表达式, 否则为空.
 	 */
 	@Override
 	public int compareTo(ProducesRequestCondition other, HttpServletRequest request) {
@@ -282,8 +273,7 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Return the contained "produces" expressions or if that's empty, a list
-	 * with a {@code MediaType_ALL} expression.
+	 * 返回包含的"produces"表达式, 如果该表达式为空, 则返回带有{@code MediaType_ALL}表达式的列表.
 	 */
 	private List<ProduceMediaTypeExpression> getExpressionsToCompare() {
 		return (this.expressions.isEmpty() ? MEDIA_TYPE_ALL_LIST : this.expressions);
@@ -291,7 +281,7 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 
 
 	/**
-	 * Parses and matches a single media type expression to a request's 'Accept' header.
+	 * 将单个媒体类型表达式解析并匹配到请求的'Accept' header.
 	 */
 	static class ProduceMediaTypeExpression extends AbstractMediaTypeExpression {
 
