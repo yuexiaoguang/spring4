@@ -15,12 +15,10 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Wraps another {@link org.springframework.web.socket.WebSocketSession} instance
- * and delegates to it.
+ * 包装另一个{@link org.springframework.web.socket.WebSocketSession}实例并委托给它.
  *
- * <p>Also provides a {@link #getDelegate()} method to return the decorated session
- * as well as a {@link #getLastSession()} method to go through all nested delegates
- * and return the "last" session.
+ * <p>还提供了一个{@link #getDelegate()}方法来返回装饰的会话,
+ * 以及一个{@link #getLastSession()}方法来遍历所有嵌套委托并返回"最后"的会话.
  */
 public class WebSocketSessionDecorator implements WebSocketSession {
 

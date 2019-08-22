@@ -5,20 +5,16 @@ import java.security.Principal;
 import org.springframework.messaging.Message;
 
 /**
- * Event raised when a new WebSocket client using a Simple Messaging Protocol
- * (e.g. STOMP) as the WebSocket sub-protocol issues a connect request.
+ * 使用简单消息传递协议 (e.g. STOMP) 作为WebSocket子协议的新WebSocket客户端发出连接请求时引发的事件.
  *
- * <p>Note that this is not the same as the WebSocket session getting established
- * but rather the client's first attempt to connect within the sub-protocol,
- * for example sending the STOMP CONNECT frame.
+ * <p>请注意, 这与建立的WebSocket会话不同, 而是客户端首次尝试在子协议内进行连接, 例如发送STOMP CONNECT帧.
  */
 @SuppressWarnings("serial")
 public class SessionConnectEvent extends AbstractSubProtocolEvent {
 
 	/**
-	 * Create a new SessionConnectEvent.
-	 * @param source the component that published the event (never {@code null})
-	 * @param message the connect message
+	 * @param source 发布事件的组件 (never {@code null})
+	 * @param message 连接消息
 	 */
 	public SessionConnectEvent(Object source, Message<byte[]> message) {
 		super(source, message);

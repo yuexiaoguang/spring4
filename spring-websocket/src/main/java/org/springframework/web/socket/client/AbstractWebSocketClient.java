@@ -20,7 +20,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Abstract base class for {@link WebSocketClient} implementations.
+ * {@link WebSocketClient}实现的抽象基类.
  */
 public abstract class AbstractWebSocketClient implements WebSocketClient {
 
@@ -90,16 +90,16 @@ public abstract class AbstractWebSocketClient implements WebSocketClient {
 	}
 
 	/**
-	 * Perform the actual handshake to establish a connection to the server.
-	 * @param webSocketHandler the client-side handler for WebSocket messages
-	 * @param headers HTTP headers to use for the handshake, with unwanted (forbidden)
-	 * headers filtered out, never {@code null}
-	 * @param uri the target URI for the handshake, never {@code null}
-	 * @param subProtocols requested sub-protocols, or an empty list
-	 * @param extensions requested WebSocket extensions, or an empty list
-	 * @param attributes attributes to associate with the WebSocketSession, i.e. via
-	 * {@link WebSocketSession#getAttributes()}; currently always an empty map.
-	 * @return the established WebSocket session wrapped in a ListenableFuture.
+	 * 执行实际的握手以建立与服务器的连接.
+	 * 
+	 * @param webSocketHandler WebSocket消息的客户端处理器
+	 * @param headers 用于握手的HTTP header, 过滤掉不需要的(禁止的) header, never {@code null}
+	 * @param uri 握手的目标URI, never {@code null}
+	 * @param subProtocols 请求的子协议, 或空列表
+	 * @param extensions 请求的WebSocket扩展, 或空列表
+	 * @param attributes 与WebSocketSession关联的属性, i.e. 通过{@link WebSocketSession#getAttributes()}; 目前总是空Map.
+	 * 
+	 * @return 包装在ListenableFuture中的已建立的 WebSocket会话.
 	 */
 	protected abstract ListenableFuture<WebSocketSession> doHandshakeInternal(WebSocketHandler webSocketHandler,
 			HttpHeaders headers, URI uri, List<String> subProtocols, List<WebSocketExtension> extensions,

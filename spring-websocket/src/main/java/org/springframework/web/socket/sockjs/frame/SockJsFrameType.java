@@ -1,7 +1,7 @@
 package org.springframework.web.socket.sockjs.frame;
 
 /**
- * SockJS frame types.
+ * SockJS帧类型.
  */
 public enum SockJsFrameType {
 

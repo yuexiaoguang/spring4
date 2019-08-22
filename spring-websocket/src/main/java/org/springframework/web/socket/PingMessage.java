@@ -3,20 +3,19 @@ package org.springframework.web.socket;
 import java.nio.ByteBuffer;
 
 /**
- * A WebSocket ping message.
+ * WebSocket ping消息.
  */
 public final class PingMessage extends AbstractWebSocketMessage<ByteBuffer> {
 
 	/**
-	 * Create a new ping message with an empty payload.
+	 * 使用空有效负载创建新的ping消息.
 	 */
 	public PingMessage() {
 		super(ByteBuffer.allocate(0));
 	}
 
 	/**
-	 * Create a new ping message with the given ByteBuffer payload.
-	 * @param payload the non-null payload
+	 * @param payload 非null有效负载
 	 */
 	public PingMessage(ByteBuffer payload) {
 		super(payload);

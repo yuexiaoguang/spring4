@@ -37,8 +37,8 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.RequestUpgradeStrategy;
 
 /**
- * A {@link RequestUpgradeStrategy} for use with Jetty 9.1-9.4. Based on
- * Jetty's internal {@code org.eclipse.jetty.websocket.server.WebSocketHandler} class.
+ * 用于Jetty 9.1-9.4的{@link RequestUpgradeStrategy}.
+ * 基于Jetty的内部{@code org.eclipse.jetty.websocket.server.WebSocketHandler}类.
  */
 public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, ServletContextAware, Lifecycle {
 
@@ -46,8 +46,8 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Serv
 			new NamedThreadLocal<WebSocketHandlerContainer>("WebSocketHandlerContainer");
 
 
-	// Configurable factory adapter due to Jetty 9.3.15+ API differences:
-	// using WebSocketServerFactory(ServletContext) as a version indicator
+	// 由于Jetty 9.3.15+ API差异, 可配置的工厂适配器:
+	// 使用 WebSocketServerFactory(ServletContext) 作为版本指示符
 	private final WebSocketServerFactoryAdapter factoryAdapter =
 			(ClassUtils.hasConstructor(WebSocketServerFactory.class, ServletContext.class) ?
 					new ModernJettyWebSocketServerFactoryAdapter() : new LegacyJettyWebSocketServerFactoryAdapter());
@@ -60,18 +60,16 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Serv
 
 
 	/**
-	 * Default constructor that creates {@link WebSocketServerFactory} through
-	 * its default constructor thus using a default {@link WebSocketPolicy}.
+	 * 默认构造函数, 通过其默认构造函数创建{@link WebSocketServerFactory}, 从而使用默认的{@link WebSocketPolicy}.
 	 */
 	public JettyRequestUpgradeStrategy() {
 		this.factoryAdapter.setPolicy(WebSocketPolicy.newServerPolicy());
 	}
 
 	/**
-	 * A constructor accepting a {@link WebSocketPolicy} to be used when
-	 * creating the {@link WebSocketServerFactory} instance.
-	 * @param policy the policy to use
-	 * @since 4.3.5
+	 * 接受在创建{@link WebSocketServerFactory}实例时使用的{@link WebSocketPolicy}的构造函数.
+	 * 
+	 * @param policy 要使用的策略
 	 */
 	public JettyRequestUpgradeStrategy(WebSocketPolicy policy) {
 		Assert.notNull(policy, "WebSocketPolicy must not be null");
@@ -79,8 +77,9 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Serv
 	}
 
 	/**
-	 * A constructor accepting a {@link WebSocketServerFactory}.
-	 * @param factory the pre-configured factory to use
+	 * 接受{@link WebSocketServerFactory}.
+	 * 
+	 * @param factory 要使用的预配置的工厂
 	 */
 	public JettyRequestUpgradeStrategy(WebSocketServerFactory factory) {
 		Assert.notNull(factory, "WebSocketServerFactory must not be null");

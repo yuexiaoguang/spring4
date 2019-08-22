@@ -19,8 +19,7 @@ import org.springframework.web.socket.sockjs.SockJsService;
 import org.springframework.web.socket.sockjs.transport.handler.WebSocketTransportHandler;
 
 /**
- * Base class for {@link WebSocketHandlerRegistration}s that gathers all the configuration
- * options but allows sub-classes to put together the actual HTTP request mappings.
+ * {@link WebSocketHandlerRegistration}的基类, 它收集所有配置选项, 但允许子类将实际的HTTP请求映射放在一起.
  */
 public abstract class AbstractWebSocketHandlerRegistration<M> implements WebSocketHandlerRegistration {
 

@@ -3,12 +3,10 @@ package org.springframework.web.socket.sockjs;
 import java.util.List;
 
 /**
- * An exception thrown when a message frame was successfully received over an HTTP POST
- * and parsed but one or more of the messages it contained could not be delivered to the
- * WebSocketHandler either because the handler failed or because the connection got
- * closed.
+ * 通过HTTP POST成功接收并解析的消息帧, 由于处理器失败或连接已关闭,
+ * 而无法将其包含的一条或多条消息传递给WebSocketHandler时引发的异常.
  *
- * <p>The SockJS session is not automatically closed after this exception.
+ * <p>此异常后SockJS会话不会自动关闭.
  */
 @SuppressWarnings("serial")
 public class SockJsMessageDeliveryException extends SockJsException {

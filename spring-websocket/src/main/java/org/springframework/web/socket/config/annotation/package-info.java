@@ -1,4 +1,4 @@
 /**
- * Support for annotation-based WebSocket setup in configuration classes.
+ * 配置类中基于注解的WebSocket设置.
  */
 package org.springframework.web.socket.config.annotation;

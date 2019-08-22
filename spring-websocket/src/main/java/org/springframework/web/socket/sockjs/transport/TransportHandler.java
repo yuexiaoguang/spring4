@@ -7,41 +7,39 @@ import org.springframework.web.socket.sockjs.SockJsException;
 import org.springframework.web.socket.sockjs.SockJsService;
 
 /**
- * Handle a SockJS session URL, i.e. transport-specific request.
+ * 处理SockJS会话URL, i.e. 特定于传输的请求.
  */
 public interface TransportHandler {
 
 	/**
-	 * Initialize this handler with the given configuration.
-	 * @param serviceConfig the configuration as defined by the containing
-	 * {@link org.springframework.web.socket.sockjs.SockJsService}
+	 * 使用给定的配置初始化此处理器.
+	 * 
+	 * @param serviceConfig 包含
+	 * {@link org.springframework.web.socket.sockjs.SockJsService}定义的配置
 	 */
 	void initialize(SockJsServiceConfig serviceConfig);
 
 	/**
-	 * Return the transport type supported by this handler.
+	 * 返回此处理器支持的传输类型.
 	 */
 	TransportType getTransportType();
 
 	/**
-	 * Check whether the type of the given session matches the transport type
-	 * of this {@code TransportHandler} where session id and the transport type
-	 * are extracted from the SockJS URL.
-	 * @return {@code true} if the session matches (and would therefore get
-	 * accepted by {@link #handleRequest}), or {@code false} otherwise
-	 * @since 4.3.4
+	 * 检查给定会话的类型是否与此{@code TransportHandler}的传输类型匹配, 其中会话ID和传输类型是从SockJS URL中提取的.
+	 * 
+	 * @return {@code true} 如果会话匹配 (因此会被{@link #handleRequest}接受), 否则{@code false}
 	 */
 	boolean checkSessionType(SockJsSession session);
 
 	/**
-	 * Handle the given request and delegate messages to the provided
-	 * {@link WebSocketHandler}.
-	 * @param request the current request
-	 * @param response the current response
-	 * @param handler the target WebSocketHandler (never {@code null})
-	 * @param session the SockJS session (never {@code null})
-	 * @throws SockJsException raised when request processing fails as
-	 * explained in {@link SockJsService}
+	 * 处理给定的请求并将消息委托给提供的{@link WebSocketHandler}.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * @param handler 目标WebSocketHandler (never {@code null})
+	 * @param session SockJS会话 (never {@code null})
+	 * 
+	 * @throws SockJsException 请求处理失败时引发, 如{@link SockJsService}中所述
 	 */
 	void handleRequest(ServerHttpRequest request, ServerHttpResponse response,
 			WebSocketHandler handler, SockJsSession session) throws SockJsException;

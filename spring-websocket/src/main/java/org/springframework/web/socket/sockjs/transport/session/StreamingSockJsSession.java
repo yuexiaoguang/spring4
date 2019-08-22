@@ -13,7 +13,7 @@ import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
 
 /**
- * A SockJS session for use with streaming HTTP transports.
+ * 用于流式HTTP传输的SockJS会话.
  */
 public abstract class StreamingSockJsSession extends AbstractHttpSockJsSession {
 
@@ -37,8 +37,7 @@ public abstract class StreamingSockJsSession extends AbstractHttpSockJsSession {
 	}
 
 	/**
-	 * Get the prelude to write to the response before any other data.
-	 * @since 4.2
+	 * 获取在任何其他数据之前写入响应的前缀.
 	 */
 	protected abstract byte[] getPrelude(ServerHttpRequest request);
 

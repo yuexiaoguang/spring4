@@ -23,8 +23,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.sockjs.transport.TransportType;
 
 /**
- * A SockJS {@link Transport} that uses a
- * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}.
+ * SockJS {@link Transport}, 使用{@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}.
  */
 public class WebSocketTransport implements Transport, Lifecycle {
 
@@ -42,7 +41,7 @@ public class WebSocketTransport implements Transport, Lifecycle {
 
 
 	/**
-	 * Return the configured {@code WebSocketClient}.
+	 * 返回配置的{@code WebSocketClient}.
 	 */
 	public WebSocketClient getWebSocketClient() {
 		return this.webSocketClient;

@@ -5,17 +5,19 @@ import java.util.Map;
 import org.springframework.web.socket.WebSocketHandler;
 
 /**
- * A factory for creating a SockJS session. {@link TransportHandler}s typically also serve
- * as SockJS session factories.
+ * 用于创建SockJS会话的工厂.
+ * {@link TransportHandler}通常也用作SockJS会话工厂.
  */
 public interface SockJsSessionFactory {
 
 	/**
-	 * Create a new SockJS session.
-	 * @param sessionId the ID of the session
-	 * @param handler the underlying {@link WebSocketHandler}
-	 * @param attributes handshake request specific attributes
-	 * @return a new session, never {@code null}
+	 * 创建一个新的SockJS会话.
+	 * 
+	 * @param sessionId 会话的ID
+	 * @param handler 底层{@link WebSocketHandler}
+	 * @param attributes 握手请求特定属性
+	 * 
+	 * @return 新的会话, never {@code null}
 	 */
 	SockJsSession createSession(String sessionId, WebSocketHandler handler, Map<String, Object> attributes);
 

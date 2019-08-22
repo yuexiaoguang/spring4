@@ -3,8 +3,7 @@ package org.springframework.web.socket.handler;
 import org.springframework.web.socket.CloseStatus;
 
 /**
- * Raised when a WebSocket session has exceeded limits it has been configured
- * for, e.g. timeout, buffer size, etc.
+ * 当WebSocket会话超出已配置的限制时引发, e.g. 超时, 缓冲区大小等.
  */
 @SuppressWarnings("serial")
 public class SessionLimitExceededException extends RuntimeException {

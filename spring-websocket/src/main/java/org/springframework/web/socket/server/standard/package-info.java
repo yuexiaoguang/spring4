@@ -1,4 +1,4 @@
 /**
- * Server-side classes for use with standard JSR-356 WebSocket endpoints.
+ * 用于标准JSR-356 WebSocket端点的服务器端类.
  */
 package org.springframework.web.socket.server.standard;

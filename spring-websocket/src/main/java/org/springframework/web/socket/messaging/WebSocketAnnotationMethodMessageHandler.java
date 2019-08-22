@@ -14,9 +14,8 @@ import org.springframework.messaging.simp.annotation.support.SimpAnnotationMetho
 import org.springframework.web.method.ControllerAdviceBean;
 
 /**
- * A sub-class of {@link SimpAnnotationMethodMessageHandler} to provide support
- * for {@link org.springframework.web.bind.annotation.ControllerAdvice
- * ControllerAdvice} with global {@code @MessageExceptionHandler} methods.
+ * {@link SimpAnnotationMethodMessageHandler}的子类, 通过全局{@code @MessageExceptionHandler}方法
+ * 为{@link org.springframework.web.bind.annotation.ControllerAdvice ControllerAdvice}提供支持.
  */
 public class WebSocketAnnotationMethodMessageHandler extends SimpAnnotationMethodMessageHandler {
 
@@ -64,7 +63,7 @@ public class WebSocketAnnotationMethodMessageHandler extends SimpAnnotationMetho
 
 
 	/**
-	 * Adapt ControllerAdviceBean to MessagingAdviceBean.
+	 * 将ControllerAdviceBean适配为MessagingAdviceBean.
 	 */
 	private static class MessagingControllerAdviceBean implements MessagingAdviceBean {
 

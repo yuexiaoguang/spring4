@@ -13,19 +13,19 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.util.StringUtils;
 
 /**
- * Represents a WebSocket extension as defined in the RFC 6455.
- * WebSocket extensions add protocol features to the WebSocket protocol. The extensions
- * used within a session are negotiated during the handshake phase as follows:
+ * 表示RFC 6455中定义的WebSocket扩展.
+ * WebSocket扩展为WebSocket协议添加了协议功能.
+ * 会话中使用的扩展在握手阶段协商如下:
  * <ul>
- * <li>the client may ask for specific extensions in the HTTP handshake request</li>
- * <li>the server responds with the final list of extensions to use in the current session</li>
+ * <li>客户端可能会要求HTTP握手请求中的特定扩展</li>
+ * <li>服务器使用当前会话中使用的最终扩展列表进行响应</li>
  * </ul>
  *
- * <p>WebSocket Extension HTTP headers may include parameters and follow
+ * <p>WebSocket Extension HTTP header可能包含参数并遵循
  * <a href="http://tools.ietf.org/html/rfc7230#section-3.2">RFC 7230 section 3.2</a></p>
  *
- * <p>Note that the order of extensions in HTTP headers defines their order of execution,
- * e.g. extensions "foo, bar" will be executed as "bar(foo(message))".</p>
+ * <p>请注意, HTTP header中的扩展顺序定义了它们的执行顺序,
+ * e.g. 扩展"foo, bar" 将被执行为"bar(foo(message))".</p>
  */
 public class WebSocketExtension {
 
@@ -35,17 +35,15 @@ public class WebSocketExtension {
 
 
 	/**
-	 * Create a WebSocketExtension with the given name.
-	 * @param name the name of the extension
+	 * @param name 扩展的名称
 	 */
 	public WebSocketExtension(String name) {
 		this(name, null);
 	}
 
 	/**
-	 * Create a WebSocketExtension with the given name and parameters.
-	 * @param name the name of the extension
-	 * @param parameters the parameters
+	 * @param name 扩展的名称
+	 * @param parameters 参数
 	 */
 	public WebSocketExtension(String name, Map<String, String> parameters) {
 		Assert.hasLength(name, "Extension name must not be empty");
@@ -62,14 +60,14 @@ public class WebSocketExtension {
 
 
 	/**
-	 * Return the name of the extension (never {@code null) or empty}.
+	 * 返回扩展的名称 (never {@code null) or empty}.
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * Return the parameters of the extension (never {@code null}).
+	 * 返回扩展的参数 (never {@code null}).
 	 */
 	public Map<String, String> getParameters() {
 		return this.parameters;
@@ -108,11 +106,13 @@ public class WebSocketExtension {
 
 
 	/**
-	 * Parse the given, comma-separated string into a list of {@code WebSocketExtension} objects.
-	 * <p>This method can be used to parse a "Sec-WebSocket-Extension" header.
-	 * @param extensions the string to parse
-	 * @return the list of extensions
-	 * @throws IllegalArgumentException if the string cannot be parsed
+	 * 将给定的逗号分隔的字符串解析为{@code WebSocketExtension}对象列表.
+	 * <p>此方法可用于解析"Sec-WebSocket-Extension" header.
+	 * 
+	 * @param extensions 要解析的字符串
+	 * 
+	 * @return 扩展列表
+	 * @throws IllegalArgumentException 如果字符串无法解析
 	 */
 	public static List<WebSocketExtension> parseExtensions(String extensions) {
 		if (StringUtils.hasText(extensions)) {

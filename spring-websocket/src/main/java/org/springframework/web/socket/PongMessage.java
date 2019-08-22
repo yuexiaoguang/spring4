@@ -3,20 +3,19 @@ package org.springframework.web.socket;
 import java.nio.ByteBuffer;
 
 /**
- * A WebSocket pong message.
+ * WebSocket pong消息.
  */
 public final class PongMessage extends AbstractWebSocketMessage<ByteBuffer> {
 
 	/**
-	 * Create a new pong message with an empty payload.
+	 * 使用空有效负载创建新的pong消息.
 	 */
 	public PongMessage() {
 		super(ByteBuffer.allocate(0));
 	}
 
 	/**
-	 * Create a new pong message with the given ByteBuffer payload.
-	 * @param payload the non-null payload
+	 * @param payload 非null有效负载
 	 */
 	public PongMessage(ByteBuffer payload) {
 		super(payload);

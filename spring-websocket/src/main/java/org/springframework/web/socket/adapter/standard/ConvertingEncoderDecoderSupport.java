@@ -20,34 +20,27 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.ContextLoader;
 
 /**
- * Base class that can be used to implement a standard {@link javax.websocket.Encoder}
- * and/or {@link javax.websocket.Decoder}. It provides encode and decode method
- * implementations that delegate to a Spring {@link ConversionService}.
+ * 可用于实现标准{@link javax.websocket.Encoder}和/或{@link javax.websocket.Decoder}的基类.
+ * 它提供了委托给Spring {@link ConversionService}的编码和解码方法实现.
  *
- * <p>By default, this class looks up a {@link ConversionService} registered in the
- * {@link #getApplicationContext() active ApplicationContext} under
- * the name {@code 'webSocketConversionService'}. This works fine for both client
- * and server endpoints, in a Servlet container environment. If not running in a
- * Servlet container, subclasses will need to override the
- * {@link #getConversionService()} method to provide an alternative lookup strategy.
+ * <p>默认情况下, 此类在名称为{@code 'webSocketConversionService'}的
+ * {@link #getApplicationContext() 活动的ApplicationContext}中查找{@link ConversionService}.
+ * 这适用于Servlet容器环境中的客户端和服务器端点.
+ * 如果没有在Servlet容器中运行, 子类将需要覆盖{@link #getConversionService()}方法以提供替代查找策略.
  *
- * <p>Subclasses can extend this class and should also implement one or
- * both of {@link javax.websocket.Encoder} and {@link javax.websocket.Decoder}.
- * For convenience {@link ConvertingEncoderDecoderSupport.BinaryEncoder},
+ * <p>子类可以扩展这个类, 还应该实现{@link javax.websocket.Encoder}和{@link javax.websocket.Decoder}中的一个或两个.
+ * 为方便起见, 提供了{@link ConvertingEncoderDecoderSupport.BinaryEncoder},
  * {@link ConvertingEncoderDecoderSupport.BinaryDecoder},
- * {@link ConvertingEncoderDecoderSupport.TextEncoder} and
- * {@link ConvertingEncoderDecoderSupport.TextDecoder} subclasses are provided.
+ * {@link ConvertingEncoderDecoderSupport.TextEncoder}
+ * 和{@link ConvertingEncoderDecoderSupport.TextDecoder}子类.
  *
- * <p>Since JSR-356 only allows Encoder/Decoder to be registered by type, instances
- * of this class are therefore managed by the WebSocket runtime, and do not need to
- * be registered as Spring Beans. They can, however, by injected with Spring-managed
- * dependencies via {@link Autowired @Autowire}.
+ * <p>由于JSR-356只允许按类型注册编码器/解码器, 因此该类的实例由WebSocket运行时管理, 不需要注册为Spring Bean.
+ * 但是, 他们可以通过{@link Autowired @Autowire}注入Spring管理的依赖项.
  *
- * <p>Converters to convert between the {@link #getType() type} and {@code String} or
- * {@code ByteBuffer} should be registered.
+ * <p>要在{@link #getType() type}和{@code String}或{@code ByteBuffer}之间进行转换的转换器应该注册.
  *
- * @param <T> the type being converted to (for Encoder) or from (for Decoder)
- * @param <M> the WebSocket message type ({@link String} or {@link ByteBuffer})
+ * @param <T> 要在Encoder和Decoder之间转换的类型
+ * @param <M> WebSocket消息类型 ({@link String} 或 {@link ByteBuffer})
  */
 public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
@@ -67,10 +60,11 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 	}
 
 	/**
-	 * Strategy method used to obtain the {@link ConversionService}. By default this
-	 * method expects a bean named {@code 'webSocketConversionService'} in the
-	 * {@link #getApplicationContext() active ApplicationContext}.
-	 * @return the {@link ConversionService} (never null)
+	 * 用于获取{@link ConversionService}的策略方法.
+	 * 默认情况下, 此方法需要{@link #getApplicationContext() 活动的ApplicationContext}中
+	 * 名为{@code 'webSocketConversionService'}的bean.
+	 * 
+	 * @return {@link ConversionService} (never null)
 	 */
 	protected ConversionService getConversionService() {
 		ApplicationContext applicationContext = getApplicationContext();
@@ -85,28 +79,28 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 	}
 
 	/**
-	 * Returns the active {@link ApplicationContext}. Be default this method obtains
-	 * the context via {@link ContextLoader#getCurrentWebApplicationContext()}, which
-	 * finds the ApplicationContext loaded via {@link ContextLoader} typically in a
-	 * Servlet container environment. When not running in a Servlet container and
-	 * not using {@link ContextLoader}, this method should be overridden.
-	 * @return the {@link ApplicationContext} or {@code null}
+	 * 返回活动的{@link ApplicationContext}.
+	 * 默认情况下, 此方法通过{@link ContextLoader#getCurrentWebApplicationContext()}获取上下文,
+	 * 该文件通常在Servlet容器环境中查找通过{@link ContextLoader}加载的ApplicationContext.
+	 * 如果没有在Servlet容器中运行且不使用{@link ContextLoader}, 则应该重写此方法.
+	 * 
+	 * @return {@link ApplicationContext} 或 {@code null}
 	 */
 	protected ApplicationContext getApplicationContext() {
 		return ContextLoader.getCurrentWebApplicationContext();
 	}
 
 	/**
-	 * Returns the type being converted. By default the type is resolved using
-	 * the generic arguments of the class.
+	 * 返回要转换的类型.
+	 * 默认使用类的泛型参数解析类型.
 	 */
 	protected TypeDescriptor getType() {
 		return TypeDescriptor.valueOf(resolveTypeArguments()[0]);
 	}
 
 	/**
-	 * Returns the websocket message type. By default the type is resolved using
-	 * the generic arguments of the class.
+	 * 返回websocket消息类型.
+	 * 默认使用类的泛型参数解析类型.
 	 */
 	protected TypeDescriptor getMessageType() {
 		return TypeDescriptor.valueOf(resolveTypeArguments()[1]);
@@ -121,10 +115,6 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 		return resolved;
 	}
 
-	/**
-	 * @see javax.websocket.Encoder.Text#encode(Object)
-	 * @see javax.websocket.Encoder.Binary#encode(Object)
-	 */
 	@SuppressWarnings("unchecked")
 	public M encode(T object) throws EncodeException {
 		try {
@@ -135,18 +125,10 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 		}
 	}
 
-	/**
-	 * @see javax.websocket.Decoder.Text#willDecode(String)
-	 * @see javax.websocket.Decoder.Binary#willDecode(ByteBuffer)
-	 */
 	public boolean willDecode(M bytes) {
 		return getConversionService().canConvert(getType(), getMessageType());
 	}
 
-	/**
-	 * @see javax.websocket.Decoder.Text#decode(String)
-	 * @see javax.websocket.Decoder.Binary#decode(ByteBuffer)
-	 */
 	@SuppressWarnings("unchecked")
 	public T decode(M message) throws DecodeException {
 		try {
@@ -167,9 +149,10 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
 
 	/**
-	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
-	 * @param <T> the type that this Encoder can convert to
+	 * 委托给Spring转换服务的二进制{@link javax.websocket.Encoder.Binary javax.websocket.Encoder}.
+	 * See {@link ConvertingEncoderDecoderSupport} for details.
+	 * 
+	 * @param <T> 此编码器可以转换为的类型
 	 */
 	public static abstract class BinaryEncoder<T> extends ConvertingEncoderDecoderSupport<T, ByteBuffer>
 			implements Encoder.Binary<T> {
@@ -177,9 +160,10 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
 
 	/**
-	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
-	 * @param <T> the type that this Decoder can convert from
+	 * 委托给Spring转换服务的二进制{@link javax.websocket.Encoder.Binary javax.websocket.Encoder}.
+	 * See {@link ConvertingEncoderDecoderSupport} for details.
+	 * 
+	 * @param <T> 此解码器可以转换的类型
 	 */
 	public static abstract class BinaryDecoder<T> extends ConvertingEncoderDecoderSupport<T, ByteBuffer>
 			implements Decoder.Binary<T> {
@@ -187,10 +171,10 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
 
 	/**
-	 * A text {@link javax.websocket.Encoder.Text javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for
-	 * details.
-	 * @param <T> the type that this Encoder can convert to
+	 * 委托给Spring转换服务的文本{@link javax.websocket.Encoder.Text javax.websocket.Encoder}.
+	 * See {@link ConvertingEncoderDecoderSupport} for details.
+	 * 
+	 * @param <T> 此编码器可以转换为的类型
 	 */
 	public static abstract class TextEncoder<T> extends ConvertingEncoderDecoderSupport<T, String>
 			implements Encoder.Text<T> {
@@ -198,9 +182,10 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
 
 	/**
-	 * A Text {@link javax.websocket.Encoder.Text javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
-	 * @param <T> the type that this Decoder can convert from
+	 * 委托给Spring转换服务的文本{@link javax.websocket.Encoder.Text javax.websocket.Encoder}.
+	 * See {@link ConvertingEncoderDecoderSupport} for details.
+	 * 
+	 * @param <T> 此解码器可以转换的类型
 	 */
 	public static abstract class TextDecoder<T> extends ConvertingEncoderDecoderSupport<T, String>
 			implements Decoder.Text<T> {

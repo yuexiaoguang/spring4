@@ -7,8 +7,7 @@ import org.springframework.messaging.Message;
 import org.springframework.util.Assert;
 
 /**
- * A base class for events for a message received from a WebSocket client and
- * parsed into a higher-level sub-protocol (e.g. STOMP).
+ * 从WebSocket客户端接收并解析为更高级别子协议的消息的事件的基类 (e.g. STOMP).
  */
 @SuppressWarnings("serial")
 public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
@@ -19,9 +18,8 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 
 
 	/**
-	 * Create a new AbstractSubProtocolEvent.
-	 * @param source the component that published the event (never {@code null})
-	 * @param message the incoming message
+	 * @param source 发布事件的组件 (never {@code null})
+	 * @param message 传入的消息
 	 */
 	protected AbstractSubProtocolEvent(Object source, Message<byte[]> message) {
 		super(source);
@@ -31,9 +29,8 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 	}
 
 	/**
-	 * Create a new AbstractSubProtocolEvent.
-	 * @param source the component that published the event (never {@code null})
-	 * @param message the incoming message
+	 * @param source 发布事件的组件 (never {@code null})
+	 * @param message 传入的消息
 	 */
 	protected AbstractSubProtocolEvent(Object source, Message<byte[]> message, Principal user) {
 		super(source);
@@ -44,9 +41,8 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 
 
 	/**
-	 * Return the Message associated with the event. Here is an example of
-	 * obtaining information about the session id or any headers in the
-	 * message:
+	 * 返回与事件关联的消息.
+	 * 以下是获取有关会话ID或消息中任何header的信息的示例:
 	 * <pre class="code">
 	 * StompHeaderAccessor headers = StompHeaderAccessor.wrap(message);
 	 * headers.getSessionId();
@@ -59,7 +55,7 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 	}
 
 	/**
-	 * Return the user for the session associated with the event.
+	 * 返回与该事件关联的会话的用户.
 	 */
 	public Principal getUser() {
 		return this.user;
@@ -69,5 +65,4 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 	public String toString() {
 		return getClass().getSimpleName() + "[" + this.message + "]";
 	}
-
 }

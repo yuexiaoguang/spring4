@@ -3,20 +3,20 @@ package org.springframework.web.socket.handler;
 import org.springframework.web.socket.WebSocketHandler;
 
 /**
- * A factory for applying decorators to a WebSocketHandler.
+ * 用于将装饰器应用于WebSocketHandler的工厂.
  *
- * <p>Decoration should be done through sub-classing
- * {@link org.springframework.web.socket.handler.WebSocketHandlerDecorator
- * WebSocketHandlerDecorator} to allow any code to traverse decorators and/or
- * unwrap the original handler when necessary .
+ * <p>装饰应该通过对
+ * {@link org.springframework.web.socket.handler.WebSocketHandlerDecorator WebSocketHandlerDecorator}
+ * 进行子类化来完成，以允许任何代码遍历装饰器和/或解包原始处理器.
  */
 public interface WebSocketHandlerDecoratorFactory {
 
 	/**
-	 * Decorate the given WebSocketHandler.
-	 * @param handler the handler to be decorated.
-	 * @return the same handler or the handler wrapped with a sub-class of
-	 * {@code WebSocketHandlerDecorator}.
+	 * 装饰给定的WebSocketHandler.
+	 * 
+	 * @param handler 要装饰的处理器
+	 * 
+	 * @return 相同的处理器, 或使用{@code WebSocketHandlerDecorator}的子类包装的处理器.
 	 */
 	WebSocketHandler decorate(WebSocketHandler handler);
 

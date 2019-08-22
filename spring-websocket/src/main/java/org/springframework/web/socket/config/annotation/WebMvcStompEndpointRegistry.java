@@ -20,8 +20,7 @@ import org.springframework.web.socket.server.support.WebSocketHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A registry for STOMP over WebSocket endpoints that maps the endpoints with a
- * {@link org.springframework.web.servlet.HandlerMapping} for use in Spring MVC.
+ * WebSocket端点的STOMP注册表, 使用{@link org.springframework.web.servlet.HandlerMapping}映射端点, 以便在Spring MVC中使用.
  */
 public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 
@@ -89,10 +88,9 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 	}
 
 	/**
-	 * Set the order for the resulting
-	 * {@link org.springframework.web.servlet.HandlerMapping}
-	 * relative to other handler mappings configured in Spring MVC.
-	 * <p>The default value is 1.
+	 * 设置生成的{@link org.springframework.web.servlet.HandlerMapping}的顺序,
+	 * 相对于Spring MVC中配置的其他处理器映射.
+	 * <p>默认值为 1.
 	 */
 	@Override
 	public void setOrder(int order) {
@@ -104,8 +102,7 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 	}
 
 	/**
-	 * Set the UrlPathHelper to configure on the {@code HandlerMapping}
-	 * used to map handshake requests.
+	 * 设置用于映射握手请求的{@code HandlerMapping}上配置的UrlPathHelper.
 	 */
 	@Override
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
@@ -127,7 +124,7 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 	}
 
 	/**
-	 * Return a handler mapping with the mapped ViewControllers.
+	 * 返回映射的ViewControllers的处理器映射.
 	 */
 	public AbstractHandlerMapping getHandlerMapping() {
 		Map<String, Object> urlMap = new LinkedHashMap<String, Object>();

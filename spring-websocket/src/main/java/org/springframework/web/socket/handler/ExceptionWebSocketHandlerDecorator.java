@@ -9,9 +9,8 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * An exception handling {@link WebSocketHandlerDecorator}.
- * Traps all {@link Throwable} instances that escape from the decorated
- * handler and closes the session with {@link CloseStatus#SERVER_ERROR}.
+ * 异常处理{@link WebSocketHandlerDecorator}.
+ * 捕获从装饰处理器中逃脱的所有{@link Throwable}实例, 并使用{@link CloseStatus#SERVER_ERROR}关闭会话.
  */
 public class ExceptionWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
 

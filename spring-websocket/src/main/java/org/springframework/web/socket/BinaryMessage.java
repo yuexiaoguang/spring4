@@ -3,59 +3,55 @@ package org.springframework.web.socket;
 import java.nio.ByteBuffer;
 
 /**
- * A binary WebSocket message.
+ * 二进制WebSocket消息.
  */
 public final class BinaryMessage extends AbstractWebSocketMessage<ByteBuffer> {
 
 	/**
-	 * Create a new binary WebSocket message with the given ByteBuffer payload.
-	 * @param payload the non-null payload
+	 * @param payload 非null有效负载
 	 */
 	public BinaryMessage(ByteBuffer payload) {
 		super(payload, true);
 	}
 
 	/**
-	 * Create a new binary WebSocket message with the given payload representing the
-	 * full or partial message content. When the {@code isLast} boolean flag is set
-	 * to {@code false} the message is sent as partial content and more partial
-	 * messages will be expected until the boolean flag is set to {@code true}.
-	 * @param payload the non-null payload
-	 * @param isLast if the message is the last of a series of partial messages
+	 * 创建一个新的二进制WebSocket消息, 其中给定的有效负载表示完整或部分消息内容.
+	 * 当{@code isLast} boolean标志设置为{@code false}时, 消息将作为部分内容发送,
+	 * 并且在设置为{@code true}之前, 将会出现更多部分消息.
+	 * 
+	 * @param payload 非null有效负载
+	 * @param isLast 消息是否是一系列部分消息中的最后一个消息
 	 */
 	public BinaryMessage(ByteBuffer payload, boolean isLast) {
 		super(payload, isLast);
 	}
 
 	/**
-	 * Create a new binary WebSocket message with the given byte[] payload.
-	 * @param payload a non-null payload; note that this value is not copied so care
-	 * must be taken not to modify the array.
+	 * @param payload 非null有效负载; 请注意, 不会复制此值, 因此必须小心不要修改数组.
 	 */
 	public BinaryMessage(byte[] payload) {
 		this(payload, true);
 	}
 
 	/**
-	 * Create a new binary WebSocket message with the given byte[] payload representing
-	 * the full or partial message content. When the {@code isLast} boolean flag is set
-	 * to {@code false} the message is sent as partial content and more partial
-	 * messages will be expected until the boolean flag is set to {@code true}.
-	 * @param payload a non-null payload; note that this value is not copied so care
-	 * must be taken not to modify the array.
-	 * @param isLast if the message is the last of a series of partial messages
+	 * 使用给定的 byte[]有效负载创建一个新的二进制WebSocket消息, 该有效负载表示完整或部分消息内容.
+	 * 当{@code isLast} boolean标志设置为{@code false}时, 消息将作为部分内容发送,
+	 * 并且在设置为{@code true}之前, 将会出现更多部分消息.
+	 * 
+	 * @param payload 非null有效负载; 请注意, 不会复制此值, 因此必须小心不要修改数组.
+	 * @param isLast 消息是否是一系列部分消息中的最后一个消息
 	 */
 	public BinaryMessage(byte[] payload, boolean isLast) {
 		this(payload, 0, ((payload == null) ? 0 : payload.length), isLast);
 	}
 
 	/**
-	 * Create a new binary WebSocket message by wrapping an existing byte array.
-	 * @param payload a non-null payload; note that this value is not copied so care
-	 * must be taken not to modify the array.
-	 * @param offset the offset into the array where the payload starts
-	 * @param length the length of the array considered for the payload
-	 * @param isLast if the message is the last of a series of partial messages
+	 * 通过包装现有的字节数组来创建新的二进制WebSocket消息.
+	 * 
+	 * @param payload 非null有效负载; 请注意, 不会复制此值, 因此必须小心不要修改数组.
+	 * @param offset 有效载荷开始的数组的偏移量
+	 * @param length 有效载荷的长度
+	 * @param isLast 消息是否是一系列部分消息中的最后一个消息
 	 */
 	public BinaryMessage(byte[] payload, int offset, int length, boolean isLast) {
 		super(payload != null ? ByteBuffer.wrap(payload, offset, length) : null, isLast);

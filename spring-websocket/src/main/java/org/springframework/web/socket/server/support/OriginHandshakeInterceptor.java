@@ -18,8 +18,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import org.springframework.web.util.WebUtils;
 
 /**
- * An interceptor to check request {@code Origin} header value against a
- * collection of allowed origins.
+ * 一个拦截器, 用于检查请求{@code Origin} header值, 和一组允许的来源比较.
  */
 public class OriginHandshakeInterceptor implements HandshakeInterceptor {
 
@@ -29,13 +28,13 @@ public class OriginHandshakeInterceptor implements HandshakeInterceptor {
 
 
 	/**
-	 * Default constructor with only same origin requests allowed.
+	 * 只允许相同来源的请求的默认构造函数.
 	 */
 	public OriginHandshakeInterceptor() {
 	}
 
 	/**
-	 * Constructor using the specified allowed origin values.
+	 * 使用指定的允许来源值.
 	 */
 	public OriginHandshakeInterceptor(Collection<String> allowedOrigins) {
 		setAllowedOrigins(allowedOrigins);
@@ -43,12 +42,11 @@ public class OriginHandshakeInterceptor implements HandshakeInterceptor {
 
 
 	/**
-	 * Configure allowed {@code Origin} header values. This check is mostly
-	 * designed for browsers. There is nothing preventing other types of client
-	 * to modify the {@code Origin} header value.
-	 * <p>Each provided allowed origin must have a scheme, and optionally a port
-	 * (e.g. "http://example.org", "http://example.org:9090"). An allowed origin
-	 * string may also be "*" in which case all origins are allowed.
+	 * 配置允许的{@code Origin} header值.
+	 * 此检查主要是为浏览器设计的. 没有什么可以阻止其他类型的客户端修改{@code Origin} header值.
+	 * <p>每个提供的允许来源必须具有方案, 并且可选地具有端口
+	 * (e.g. "http://example.org", "http://example.org:9090").
+	 * 允许的原始字符串也可以是"*", 允许所有来源.
 	 */
 	public void setAllowedOrigins(Collection<String> allowedOrigins) {
 		Assert.notNull(allowedOrigins, "Allowed origins Collection must not be null");

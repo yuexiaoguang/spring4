@@ -21,16 +21,14 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.util.Assert;
 
 /**
- * A default implementation of {@link SimpUserRegistry} that relies on
- * {@link AbstractSubProtocolEvent} application context events to keep track of
- * connected users and their subscriptions.
+ * {@link SimpUserRegistry}的默认实现, 它依赖于{@link AbstractSubProtocolEvent}应用程序上下文事件来跟踪已连接的用户及其订阅.
  */
 public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicationListener {
 
-	/* Primary lookup that holds all users and their sessions */
+	/* 包含所有用户及其会话的主查找 */
 	private final Map<String, LocalSimpUser> users = new ConcurrentHashMap<String, LocalSimpUser>();
 
-	/* Secondary lookup across all sessions by id */
+	/* 通过id在所有会话中进行辅助查找 */
 	private final Map<String, LocalSimpSession> sessions = new ConcurrentHashMap<String, LocalSimpSession>();
 
 	private final Object sessionLock = new Object();

@@ -8,9 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 /**
- * A variation of {@link WebSocketConfigurationSupport} that detects implementations of
- * {@link WebSocketConfigurer} in Spring configuration and invokes them in order to
- * configure WebSocket request handling.
+ * {@link WebSocketConfigurationSupport}的变体,
+ * 用于检测Spring配置中{@link WebSocketConfigurer}的实现, 并调用它们以配置WebSocket请求处理.
  */
 @Configuration
 public class DelegatingWebSocketConfiguration extends WebSocketConfigurationSupport {

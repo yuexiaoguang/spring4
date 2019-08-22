@@ -18,18 +18,15 @@ import org.springframework.util.Assert;
 import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
 
 /**
- * An implementation of {@link javax.websocket.server.ServerEndpointConfig} for use in
- * Spring-based applications. A {@link ServerEndpointRegistration} bean is detected by
- * {@link ServerEndpointExporter} and registered with a Java WebSocket runtime at startup.
+ * 用于基于Spring的应用程序的{@link javax.websocket.server.ServerEndpointConfig}的实现.
+ * {@link ServerEndpointExporter}检测{@link ServerEndpointRegistration} bean,
+ * 并在启动时使用Java WebSocket运行时注册.
  *
- * <p>Class constructors accept a singleton {@link javax.websocket.Endpoint} instance
- * or an Endpoint specified by type {@link Class}. When specified by type, the endpoint
- * will be instantiated and initialized through the Spring ApplicationContext before
- * each client WebSocket connection.
+ * <p>类构造函数接受单个{@link javax.websocket.Endpoint}实例或类型{@link Class}指定的端点.
+ * 当按类型指定时, 端点将在每个客户端WebSocket连接之前通过Spring ApplicationContext进行实例化和初始化.
  *
- * <p>This class also extends
- * {@link javax.websocket.server.ServerEndpointConfig.Configurator} to make it easier
- * to override methods for customizing the handshake process.
+ * <p>此类还扩展了{@link javax.websocket.server.ServerEndpointConfig.Configurator},
+ * 以便更轻松地覆盖自定义握手过程的方法.
  */
 public class ServerEndpointRegistration extends ServerEndpointConfig.Configurator
 		implements ServerEndpointConfig, BeanFactoryAware {
@@ -52,10 +49,8 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 
 
 	/**
-	 * Create a new {@link ServerEndpointRegistration} instance from an
-	 * {@code javax.websocket.Endpoint} instance.
-	 * @param path the endpoint path
-	 * @param endpoint the endpoint instance
+	 * @param path 端点路径
+	 * @param endpoint 端点实例
 	 */
 	public ServerEndpointRegistration(String path, Endpoint endpoint) {
 		Assert.hasText(path, "Path must not be empty");
@@ -66,10 +61,8 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 	}
 
 	/**
-	 * Create a new {@link ServerEndpointRegistration} instance from an
-	 * {@code javax.websocket.Endpoint} class.
-	 * @param path the endpoint path
-	 * @param endpointClass the endpoint class
+	 * @param path 端点路径
+	 * @param endpointClass 端点类
 	 */
 	public ServerEndpointRegistration(String path, Class<? extends Endpoint> endpointClass) {
 		Assert.hasText(path, "Path must not be empty");

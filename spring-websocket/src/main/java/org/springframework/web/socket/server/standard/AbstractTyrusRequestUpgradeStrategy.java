@@ -40,11 +40,9 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import static org.glassfish.tyrus.spi.WebSocketEngine.UpgradeStatus.*;
 
 /**
- * A base class for {@code RequestUpgradeStrategy} implementations on top of
- * JSR-356 based servers which include Tyrus as their WebSocket engine.
+ * 基于JSR-356的服务器上的{@code RequestUpgradeStrategy}实现的基类, 其中包括Tyrus作为其WebSocket引擎.
  *
- * <p>Works with Tyrus 1.3.5 (WebLogic 12.1.3), Tyrus 1.7 (GlassFish 4.1.0),
- * Tyrus 1.11 (WebLogic 12.2.1), and Tyrus 1.12 (GlassFish 4.1.1).
+ * <p>适用于Tyrus 1.3.5 (WebLogic 12.1.3), Tyrus 1.7 (GlassFish 4.1.0), Tyrus 1.11 (WebLogic 12.2.1), 和Tyrus 1.12 (GlassFish 4.1.1).
  */
 public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStandardUpgradeStrategy {
 
@@ -82,7 +80,7 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 		boolean success;
 
 		try {
-			// Shouldn't matter for processing but must be unique
+			// 处理无关紧要但必须是唯一的
 			String path = "/" + random.nextLong();
 			tyrusEndpoint = createTyrusEndpoint(endpoint, path, selectedProtocol, extensions, serverContainer, engine);
 			getEndpointHelper().register(engine, tyrusEndpoint);
@@ -152,7 +150,7 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 
 
 	/**
-	 * Helps with the creation, registration, and un-registration of endpoints.
+	 * 帮助创建, 注册和取消注册端点.
 	 */
 	protected interface TyrusEndpointHelper {
 

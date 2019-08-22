@@ -15,9 +15,8 @@ import org.springframework.web.socket.sockjs.transport.TransportHandlingSockJsSe
 import org.springframework.web.socket.sockjs.transport.handler.DefaultSockJsService;
 
 /**
- * A helper class for configuring SockJS fallback options for use with an
- * {@link org.springframework.web.socket.config.annotation.EnableWebSocket} and
- * {@link WebSocketConfigurer} setup.
+ * 用于配置SockJS回退选项的辅助类, 用于
+ * {@link org.springframework.web.socket.config.annotation.EnableWebSocket}和{@link WebSocketConfigurer}设置.
  */
 public class SockJsServiceRegistration {
 
@@ -61,20 +60,15 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * Transports with no native cross-domain communication (e.g. "eventsource",
-	 * "htmlfile") must get a simple page from the "foreign" domain in an invisible
-	 * iframe so that code in the iframe can run from  a domain local to the SockJS
-	 * server. Since the iframe needs to load the SockJS javascript client library,
-	 * this property allows specifying where to load it from.
-	 * <p>By default this is set to point to
-	 * "https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js". However it can
-	 * also be set to point to a URL served by the application.
-	 * <p>Note that it's possible to specify a relative URL in which case the URL
-	 * must be relative to the iframe URL. For example assuming a SockJS endpoint
-	 * mapped to "/sockjs", and resulting iframe URL "/sockjs/iframe.html", then the
-	 * the relative URL must start with "../../" to traverse up to the location
-	 * above the SockJS mapping. In case of a prefix-based Servlet mapping one more
-	 * traversal may be needed.
+	 * 没有本机跨域通信的传输 (e.g. "eventsource", "htmlfile") 必须从不可见iframe中的"foreign"域获取一个简单页面,
+	 * 以便iframe中的代码可以从本地域运行到SockJS服务器.
+	 * 由于iframe需要加载SockJS javascript客户端库, 因此该属性允许指定从何处加载它.
+	 * <p>默认指向"https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js".
+	 * 但是, 它也可以设置为指向应用程序提供的URL.
+	 * <p>请注意, 可以指定相对URL, 在这种情况下, URL必须相对于iframe URL.
+	 * 例如, 假设SockJS端点映射到"/sockjs", 并生成iframe URL "/sockjs/iframe.html",
+	 * 则相对URL必须以"../../"开头, 以遍历到SockJS映射上方的位置.
+	 * 在基于前缀的Servlet映射的情况下, 可能需要再遍历一次.
 	 */
 	public SockJsServiceRegistration setClientLibraryUrl(String clientLibraryUrl) {
 		this.clientLibraryUrl = clientLibraryUrl;
@@ -82,14 +76,12 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * Streaming transports save responses on the client side and don't free
-	 * memory used by delivered messages. Such transports need to recycle the
-	 * connection once in a while. This property sets a minimum number of bytes
-	 * that can be send over a single HTTP streaming request before it will be
-	 * closed. After that client will open a new request. Setting this value to
-	 * one effectively disables streaming and will make streaming transports to
-	 * behave like polling transports.
-	 * <p>The default value is 128K (i.e. 128 * 1024).
+	 * 流传输在客户端保存响应, 不释放传递的消息使用的内存.
+	 * 这种传输需要偶尔回收连接.
+	 * 此属性设置在关闭之前可通过单个HTTP流式传输请求发送的最小字节数.
+	 * 之后客户端将打开一个新请求.
+	 * 将此值设置为1可以有效地禁用流式传输, 并使流式传输的行为类似于轮询传输.
+	 * <p>默认为 128K (i.e. 128 * 1024).
 	 */
 	public SockJsServiceRegistration setStreamBytesLimit(int streamBytesLimit) {
 		this.streamBytesLimit = streamBytesLimit;
@@ -97,20 +89,14 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * The SockJS protocol requires a server to respond to the initial "/info" request
-	 * from clients with a "cookie_needed" boolean property that indicates whether the use
-	 * of a JSESSIONID cookie is required for the application to function correctly, e.g.
-	 * for load balancing or in Java Servlet containers for the use of an HTTP session.
+	 * SockJS协议要求服务器响应来自客户端的初始"/info"请求, 其具有"cookie_needed" boolean属性,
+	 * 该属性指示是否需要使用JSESSIONID cookie以使应用程序正常运行, e.g. 用于负载平衡或用于Java Servlet容器以使用HTTP会话.
 	 *
-	 * <p>This is especially important for IE 8,9 that support XDomainRequest -- a modified
-	 * AJAX/XHR -- that can do requests across domains but does not send any cookies. In
-	 * those cases, the SockJS client prefers the "iframe-htmlfile" transport over
-	 * "xdr-streaming" in order to be able to send cookies.
+	 * <p>这对于支持XDomainRequest的IE 8,9尤其重要 -- XDomainRequest是一个经过修改的AJAX/XHR, 它可以跨域执行请求但不发送任何cookie.
+	 * 在这些情况下, SockJS客户端更喜欢"xdr-streaming"上的"iframe-htmlfile"传输, 以便能够发送cookie.
 	 *
-	 * <p>The default value is "true" to maximize the chance for applications to work
-	 * correctly in IE 8,9 with support for cookies (and the JSESSIONID cookie in
-	 * particular). However, an application can choose to set this to "false" if the use
-	 * of cookies (and HTTP session) is not required.
+	 * <p>默认值为"true", 以最大限度地提高应用程序在IE 8,9中正常工作的机会，并支持cookie (特别是JSESSIONID cookie).
+	 * 但是, 如果不需要使用cookie (和HTTP会话), 应用程序可以选择将其设置为"false".
 	 */
 	public SockJsServiceRegistration setSessionCookieNeeded(boolean sessionCookieNeeded) {
 		this.sessionCookieNeeded = sessionCookieNeeded;
@@ -118,10 +104,8 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * The amount of time in milliseconds when the server has not sent any
-	 * messages and after which the server should send a heartbeat frame to the
-	 * client in order to keep the connection from breaking.
-	 * <p>The default value is 25,000 (25 seconds).
+	 * 服务器未发送任何消息的最大时间(以毫秒为单位), 之后服务器应将心跳帧发送到客户端以防止连接中断.
+	 * <p>默认为 25,000 (25 秒).
 	 */
 	public SockJsServiceRegistration setHeartbeatTime(long heartbeatTime) {
 		this.heartbeatTime = heartbeatTime;
@@ -129,10 +113,8 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * The amount of time in milliseconds before a client is considered
-	 * disconnected after not having a receiving connection, i.e. an active
-	 * connection over which the server can send data to the client.
-	 * <p>The default value is 5000.
+	 * 在没有接收连接之后, 但在客户端视为断开连接之前的最大时间(以毫秒为单位), i.e. 服务器可以将数据发送到客户端的活动连接.
+	 * <p>默认为 5000.
 	 */
 	public SockJsServiceRegistration setDisconnectDelay(long disconnectDelay) {
 		this.disconnectDelay = disconnectDelay;
@@ -140,13 +122,10 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * The number of server-to-client messages that a session can cache while waiting for
-	 * the next HTTP polling request from the client. All HTTP transports use this
-	 * property since even streaming transports recycle HTTP requests periodically.
-	 * <p>The amount of time between HTTP requests should be relatively brief and will not
-	 * exceed the allows disconnect delay (see
-	 * {@link #setDisconnectDelay(long)}), 5 seconds by default.
-	 * <p>The default size is 100.
+	 * 在等待来自客户端的下一个HTTP轮询请求时, 会话可以缓存的服务器到客户端消息的数量.
+	 * 所有HTTP传输都使用此属性, 因为即使是流传输也会定期回收HTTP请求.
+	 * <p>HTTP请求之间的时间量应该相对较短, 并且不会超过允许断开连接延迟 (see {@link #setDisconnectDelay(long)}), 默认为5秒.
+	 * <p>默认为 100.
 	 */
 	public SockJsServiceRegistration setHttpMessageCacheSize(int httpMessageCacheSize) {
 		this.httpMessageCacheSize = httpMessageCacheSize;
@@ -154,9 +133,9 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * Some load balancers don't support WebSocket. This option can be used to
-	 * disable the WebSocket transport on the server side.
-	 * <p>The default value is "true".
+	 * 某些负载平衡器不支持WebSocket.
+	 * 此选项可用于禁用服务器端的WebSocket传输.
+	 * <p>默认为 "true".
 	 */
 	public SockJsServiceRegistration setWebSocketEnabled(boolean webSocketEnabled) {
 		this.webSocketEnabled = webSocketEnabled;
@@ -187,9 +166,6 @@ public class SockJsServiceRegistration {
 		return this;
 	}
 
-	/**
-	 * @since 4.1.2
-	 */
 	protected SockJsServiceRegistration setAllowedOrigins(String... allowedOrigins) {
 		this.allowedOrigins.clear();
 		if (!ObjectUtils.isEmpty(allowedOrigins)) {
@@ -199,10 +175,8 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * This option can be used to disable automatic addition of CORS headers for
-	 * SockJS requests.
-	 * <p>The default value is "false".
-	 * @since 4.1.2
+	 * 此选项可用于禁用为SockJS请求自动添加的CORS header.
+	 * <p>默认为 "false".
 	 */
 	public SockJsServiceRegistration setSupressCors(boolean suppressCors) {
 		this.suppressCors = suppressCors;
@@ -210,11 +184,10 @@ public class SockJsServiceRegistration {
 	}
 
 	/**
-	 * The codec to use for encoding and decoding SockJS messages.
-	 * <p>By default {@code Jackson2SockJsMessageCodec} is used requiring the
-	 * Jackson library to be present on the classpath.
-	 * @param codec the codec to use.
-	 * @since 4.1
+	 * 用于编码和解码SockJS消息的编解码器.
+	 * <p>默认使用{@code Jackson2SockJsMessageCodec}, 要求Jackson库存在于类路径中.
+	 * 
+	 * @param codec 要使用的编解码器
 	 */
 	public SockJsServiceRegistration setMessageCodec(SockJsMessageCodec codec) {
 		this.messageCodec = codec;
@@ -266,5 +239,4 @@ public class SockJsServiceRegistration {
 			return new DefaultSockJsService(this.taskScheduler, this.transportHandlerOverrides);
 		}
 	}
-
 }

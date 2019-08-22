@@ -7,12 +7,10 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Wraps another {@link org.springframework.web.socket.WebSocketHandler}
- * instance and delegates to it.
+ * 包装另一个{@link org.springframework.web.socket.WebSocketHandler}实例并委托给它.
  *
- * <p>Also provides a {@link #getDelegate()} method to return the decorated
- * handler as well as a {@link #getLastHandler()} method to go through all nested
- * delegates and return the "last" handler.
+ * <p>还提供了一个{@link #getDelegate()}方法来返回修饰的处理器,
+ * 以及一个{@link #getLastHandler()}方法来遍历所有嵌套的委托并返回"最后"的处理器.
  */
 public class WebSocketHandlerDecorator implements WebSocketHandler {
 

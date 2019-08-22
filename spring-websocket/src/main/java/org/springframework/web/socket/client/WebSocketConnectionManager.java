@@ -12,10 +12,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.LoggingWebSocketHandlerDecorator;
 
 /**
- * A WebSocket connection manager that is given a URI, a {@link WebSocketClient}, and a
- * {@link WebSocketHandler}, connects to a WebSocket server through {@link #start()} and
- * {@link #stop()} methods. If {@link #setAutoStartup(boolean)} is set to {@code true}
- * this will be done automatically when the Spring ApplicationContext is refreshed.
+ * 给定URI, {@link WebSocketClient}, 和{@link WebSocketHandler}的WebSocket连接管理器,
+ * 通过{@link #start()} 和 {@link #stop()}方法连接到WebSocket服务器.
+ * 如果{@link #setAutoStartup(boolean)}设置为{@code true}, 那么当Spring ApplicationContext刷新时, 这将自动完成.
  */
 public class WebSocketConnectionManager extends ConnectionManagerSupport {
 
@@ -38,46 +37,45 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 
 
 	/**
-	 * Decorate the WebSocketHandler provided to the class constructor.
-	 * <p>By default {@link LoggingWebSocketHandlerDecorator} is added.
+	 * 装饰提供给类构造函数的WebSocketHandler.
+	 * <p>默认添加{@link LoggingWebSocketHandlerDecorator}.
 	 */
 	protected WebSocketHandler decorateWebSocketHandler(WebSocketHandler handler) {
 		return new LoggingWebSocketHandlerDecorator(handler);
 	}
 
 	/**
-	 * Set the sub-protocols to use. If configured, specified sub-protocols will be
-	 * requested in the handshake through the {@code Sec-WebSocket-Protocol} header. The
-	 * resulting WebSocket session will contain the protocol accepted by the server, if
-	 * any.
+	 * 设置要使用的子协议.
+	 * 如果配置, 将通过{@code Sec-WebSocket-Protocol} header在握手中请求指定的子协议.
+	 * 生成的WebSocket会话将包含服务器接受的协议.
 	 */
 	public void setSubProtocols(List<String> protocols) {
 		this.headers.setSecWebSocketProtocol(protocols);
 	}
 
 	/**
-	 * Return the configured sub-protocols to use.
+	 * 返回要使用的配置的子协议.
 	 */
 	public List<String> getSubProtocols() {
 		return this.headers.getSecWebSocketProtocol();
 	}
 
 	/**
-	 * Set the origin to use.
+	 * 设置要使用的原点.
 	 */
 	public void setOrigin(String origin) {
 		this.headers.setOrigin(origin);
 	}
 
 	/**
-	 * Return the configured origin.
+	 * 返回配置的原点.
 	 */
 	public String getOrigin() {
 		return this.headers.getOrigin();
 	}
 
 	/**
-	 * Provide default headers to add to the WebSocket handshake request.
+	 * 提供要添加到WebSocket握手请求的默认header.
 	 */
 	public void setHeaders(HttpHeaders headers) {
 		this.headers.clear();
@@ -85,7 +83,7 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 	}
 
 	/**
-	 * Return the default headers for the WebSocket handshake request.
+	 * 返回WebSocket握手请求的默认header.
 	 */
 	public HttpHeaders getHeaders() {
 		return this.headers;

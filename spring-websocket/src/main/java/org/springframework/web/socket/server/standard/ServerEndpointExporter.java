@@ -18,15 +18,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 
 /**
- * Detects beans of type {@link javax.websocket.server.ServerEndpointConfig} and registers
- * with the standard Java WebSocket runtime. Also detects beans annotated with
- * {@link ServerEndpoint} and registers them as well. Although not required, it is likely
- * annotated endpoints should have their {@code configurator} property set to
- * {@link SpringConfigurator}.
+ * 检测{@link javax.websocket.server.ServerEndpointConfig}类型的bean, 并使用标准Java WebSocket运行时注册.
+ * 还检测带{@link ServerEndpoint}注解的bean并注册它们.
+ * 虽然不是必需的, 但带注解的端点可能应将其{@code configurator}属性设置为{@link SpringConfigurator}.
  *
- * <p>When this class is used, by declaring it in Spring configuration, it should be
- * possible to turn off a Servlet container's scan for WebSocket endpoints. This can be
- * done with the help of the {@code <absolute-ordering>} element in {@code web.xml}.
+ * <p>使用此类时, 通过在Spring配置中声明它, 应该可以关闭Servlet容器对WebSocket端点的扫描.
+ * 这可以在{@code web.xml}中{@code <absolute-ordering>}元素的帮助下完成.
  */
 public class ServerEndpointExporter extends WebApplicationObjectSupport
 		implements InitializingBean, SmartInitializingSingleton {
@@ -37,25 +34,25 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 
 
 	/**
-	 * Explicitly list annotated endpoint types that should be registered on startup. This
-	 * can be done if you wish to turn off a Servlet container's scan for endpoints, which
-	 * goes through all 3rd party jars in the, and rely on Spring configuration instead.
-	 * @param annotatedEndpointClasses {@link ServerEndpoint}-annotated types
+	 * 显式列出应在启动时注册的带注解的端点类型.
+	 * 如果要关闭一个Servlet容器的端点扫描, 这个端点通过所有第三方jar, 并依赖Spring配置, 那么就可以这样做了.
+	 * 
+	 * @param annotatedEndpointClasses 带{@link ServerEndpoint}注解的类型
 	 */
 	public void setAnnotatedEndpointClasses(Class<?>... annotatedEndpointClasses) {
 		this.annotatedEndpointClasses = Arrays.asList(annotatedEndpointClasses);
 	}
 
 	/**
-	 * Set the JSR-356 {@link ServerContainer} to use for endpoint registration.
-	 * If not set, the container is going to be retrieved via the {@code ServletContext}.
+	 * 设置用于端点注册的JSR-356 {@link ServerContainer}.
+	 * 如果没有设置, 将通过{@code ServletContext}检索容器.
 	 */
 	public void setServerContainer(ServerContainer serverContainer) {
 		this.serverContainer = serverContainer;
 	}
 
 	/**
-	 * Return the JSR-356 {@link ServerContainer} to use for endpoint registration.
+	 * 返回用于端点注册的JSR-356 {@link ServerContainer}.
 	 */
 	protected ServerContainer getServerContainer() {
 		return this.serverContainer;
@@ -86,7 +83,7 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 
 
 	/**
-	 * Actually register the endpoints. Called by {@link #afterSingletonsInstantiated()}.
+	 * 实际注册端点. 由{@link #afterSingletonsInstantiated()}调用.
 	 */
 	protected void registerEndpoints() {
 		Set<Class<?>> endpointClasses = new LinkedHashSet<Class<?>>();

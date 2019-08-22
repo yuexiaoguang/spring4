@@ -5,8 +5,7 @@ import java.security.Principal;
 import org.springframework.messaging.Message;
 
 /**
- * Event raised when a new WebSocket client using a Simple Messaging Protocol
- * (e.g. STOMP) sends a subscription request.
+ * 当使用简单消息传递协议(e.g. STOMP) 的新WebSocket客户端发送订阅请求时引发的事件.
  */
 @SuppressWarnings("serial")
 public class SessionSubscribeEvent extends AbstractSubProtocolEvent {

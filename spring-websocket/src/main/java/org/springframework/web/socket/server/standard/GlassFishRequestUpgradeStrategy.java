@@ -18,7 +18,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.server.HandshakeFailureException;
 
 /**
- * A WebSocket {@code RequestUpgradeStrategy} for Oracle's GlassFish 4.1 and higher.
+ * 适用于Oracle GlassFish 4.1及更高版本的WebSocket {@code RequestUpgradeStrategy}.
  */
 public class GlassFishRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeStrategy {
 
@@ -49,7 +49,7 @@ public class GlassFishRequestUpgradeStrategy extends AbstractTyrusRequestUpgrade
 
 
 	/**
-	 * Helps to create and invoke {@code org.glassfish.tyrus.servlet.TyrusServletWriter}.
+	 * 帮助创建和调用{@code org.glassfish.tyrus.servlet.TyrusServletWriter}.
 	 */
 	private static class GlassFishServletWriterHelper {
 

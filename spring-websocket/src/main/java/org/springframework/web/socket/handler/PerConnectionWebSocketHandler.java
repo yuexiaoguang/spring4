@@ -14,17 +14,14 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A {@link WebSocketHandler} that initializes and destroys a {@link WebSocketHandler}
- * instance for each WebSocket connection and delegates all other methods to it.
+ * {@link WebSocketHandler}, 它为每个WebSocket连接初始化并销毁{@link WebSocketHandler}实例, 并将所有其他方法委托给它.
  *
- * <p>Essentially create an instance of this class once, providing the type of
- * {@link WebSocketHandler} class to create for each connection, and then pass it to any
- * API method that expects a {@link WebSocketHandler}.
+ * <p>基本上创建此类的一个实例, 提供为每个连接创建的{@link WebSocketHandler}类的类型,
+ * 然后将其传递给任何需要{@link WebSocketHandler}的API方法.
  *
- * <p>If initializing the target {@link WebSocketHandler} type requires a Spring
- * BeanFctory, then the {@link #setBeanFactory(BeanFactory)} property accordingly. Simply
- * declaring this class as a Spring bean will do that. Otherwise, {@link WebSocketHandler}
- * instances of the target type will be created using the default constructor.
+ * <p>如果初始化目标{@link WebSocketHandler}类型需要Spring BeanFctory, 则相应地设置{@link #setBeanFactory(BeanFactory)}属性.
+ * 简单地将此类声明为Spring bean就可以做到这一点.
+ * 否则, 将使用默认构造函数创建目标类型的{@link WebSocketHandler}实例.
  */
 public class PerConnectionWebSocketHandler implements WebSocketHandler, BeanFactoryAware {
 

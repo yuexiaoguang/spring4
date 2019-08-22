@@ -20,13 +20,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 /**
- * Base class for HTTP transport handlers that push messages to connected clients.
+ * HTTP传输处理器的基类, 用于将消息推送到连接的客户端.
  */
 public abstract class AbstractHttpSendingTransportHandler extends AbstractTransportHandler
 		implements SockJsSessionFactory {
 
 	/**
-	 * Pattern for validating jsonp callback parameter values.
+	 * 用于验证jsonp回调参数值的模式.
 	 */
 	private static final Pattern CALLBACK_PARAM_PATTERN = Pattern.compile("[0-9A-Za-z_\\.]*");
 
@@ -40,7 +40,7 @@ public abstract class AbstractHttpSendingTransportHandler extends AbstractTransp
 		String protocol = null;  // https://github.com/sockjs/sockjs-client/issues/130
 		sockJsSession.setAcceptedProtocol(protocol);
 
-		// Set content type before writing
+		// 写入前设置内容类型
 		response.getHeaders().setContentType(getContentType());
 
 		handleRequestInternal(request, response, sockJsSession);

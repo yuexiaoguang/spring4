@@ -25,7 +25,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.adapter.AbstractWebSocketSession;
 
 /**
- * A {@link WebSocketSession} for use with the standard WebSocket for Java API.
+ * {@link WebSocketSession}, 用于Java API标准的WebSocket.
  */
 public class StandardWebSocketSession extends AbstractWebSocketSession<Session> {
 
@@ -47,12 +47,10 @@ public class StandardWebSocketSession extends AbstractWebSocketSession<Session> 
 
 
 	/**
-	 * Constructor for a standard WebSocket session.
-	 * @param headers the headers of the handshake request
-	 * @param attributes attributes from the HTTP handshake to associate with the WebSocket
-	 * session; the provided attributes are copied, the original map is not used.
-	 * @param localAddress the address on which the request was received
-	 * @param remoteAddress the address of the remote client
+	 * @param headers 握手请求的header
+	 * @param attributes 来自HTTP握手的属性, 将与WebSocket会话关联; 复制提供的属性, 不使用原始Map.
+	 * @param localAddress 接收请求的地址
+	 * @param remoteAddress 远程客户端的地址
 	 */
 	public StandardWebSocketSession(HttpHeaders headers, Map<String, Object> attributes,
 			InetSocketAddress localAddress, InetSocketAddress remoteAddress) {
@@ -61,13 +59,11 @@ public class StandardWebSocketSession extends AbstractWebSocketSession<Session> 
 	}
 
 	/**
-	 * Constructor that associates a user with the WebSocket session.
-	 * @param headers the headers of the handshake request
-	 * @param attributes attributes from the HTTP handshake to associate with the WebSocket session
-	 * @param localAddress the address on which the request was received
-	 * @param remoteAddress the address of the remote client
-	 * @param user the user associated with the session; if {@code null} we'll
-	 * 	fallback on the user available in the underlying WebSocket session
+	 * @param headers 握手请求的header
+	 * @param attributes 来自HTTP握手的属性, 将与WebSocket会话关联
+	 * @param localAddress 接收请求的地址
+	 * @param remoteAddress 远程客户端的地址
+	 * @param user 与会话关联的用户; 如果是{@code null}, 将回退到底层WebSocket会话中的可用用户
 	 */
 	public StandardWebSocketSession(HttpHeaders headers, Map<String, Object> attributes,
 			InetSocketAddress localAddress, InetSocketAddress remoteAddress, Principal user) {

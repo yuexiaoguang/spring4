@@ -11,8 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 
 /**
- * An {@link org.springframework.http.HttpHeaders} variant that adds support for
- * the HTTP headers defined by the WebSocket specification RFC 6455.
+ * {@link org.springframework.http.HttpHeaders}变体, 它增加了对WebSocket规范 RFC 6455定义的HTTP header的支持.
  */
 public class WebSocketHttpHeaders extends HttpHeaders {
 
@@ -32,31 +31,28 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	private final HttpHeaders headers;
 
 
-	/**
-	 * Create a new instance.
-	 */
 	public WebSocketHttpHeaders() {
 		this(new HttpHeaders(), false);
 	}
 
 	/**
-	 * Create an instance that wraps the given pre-existing HttpHeaders and also
-	 * propagate all changes to it.
-	 * @param headers the HTTP headers to wrap
+	 * 创建一个包装给定的预先存在的HttpHeaders的实例, 并将所有更改传播给它.
+	 * 
+	 * @param headers 要包装的HTTP header
 	 */
 	public WebSocketHttpHeaders(HttpHeaders headers) {
 		this(headers, false);
 	}
 
 	/**
-	 * Private constructor that can create read-only {@code WebSocketHttpHeader} instances.
+	 * 创建只读{@code WebSocketHttpHeader}实例.
 	 */
 	private WebSocketHttpHeaders(HttpHeaders headers, boolean readOnly) {
 		this.headers = readOnly ? HttpHeaders.readOnlyHttpHeaders(headers) : headers;
 	}
 
 	/**
-	 * Returns {@code WebSocketHttpHeaders} object that can only be read, not written to.
+	 * 返回只能读取而不能写入的{@code WebSocketHttpHeaders}对象.
 	 */
 	public static WebSocketHttpHeaders readOnlyWebSocketHttpHeaders(WebSocketHttpHeaders headers) {
 		return new WebSocketHttpHeaders(headers, true);
@@ -64,24 +60,27 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 
 
 	/**
-	 * Sets the (new) value of the {@code Sec-WebSocket-Accept} header.
-	 * @param secWebSocketAccept the value of the header
+	 * 设置{@code Sec-WebSocket-Accept} header的值.
+	 * 
+	 * @param secWebSocketAccept header的值
 	 */
 	public void setSecWebSocketAccept(String secWebSocketAccept) {
 		set(SEC_WEBSOCKET_ACCEPT, secWebSocketAccept);
 	}
 
 	/**
-	 * Returns the value of the {@code Sec-WebSocket-Accept} header.
-	 * @return the value of the header
+	 * 返回{@code Sec-WebSocket-Accept} header的值.
+	 * 
+	 * @return header的值
 	 */
 	public String getSecWebSocketAccept() {
 		return getFirst(SEC_WEBSOCKET_ACCEPT);
 	}
 
 	/**
-	 * Returns the value of the {@code Sec-WebSocket-Extensions} header.
-	 * @return the value of the header
+	 * 返回{@code Sec-WebSocket-Extensions} header的值.
+	 * 
+	 * @return header的值
 	 */
 	public List<WebSocketExtension> getSecWebSocketExtensions() {
 		List<String> values = get(SEC_WEBSOCKET_EXTENSIONS);
@@ -98,8 +97,9 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Sets the (new) value(s) of the {@code Sec-WebSocket-Extensions} header.
-	 * @param extensions the values for the header
+	 * 设置{@code Sec-WebSocket-Extensions} header的值.
+	 * 
+	 * @param extensions header的值
 	 */
 	public void setSecWebSocketExtensions(List<WebSocketExtension> extensions) {
 		List<String> result = new ArrayList<String>(extensions.size());
@@ -110,24 +110,27 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Sets the (new) value of the {@code Sec-WebSocket-Key} header.
-	 * @param secWebSocketKey the value of the header
+	 * 设置{@code Sec-WebSocket-Key} header的值.
+	 * 
+	 * @param secWebSocketKey header的值
 	 */
 	public void setSecWebSocketKey(String secWebSocketKey) {
 		set(SEC_WEBSOCKET_KEY, secWebSocketKey);
 	}
 
 	/**
-	 * Returns the value of the {@code Sec-WebSocket-Key} header.
-	 * @return the value of the header
+	 * 返回{@code Sec-WebSocket-Key} header的值.
+	 * 
+	 * @return header的值
 	 */
 	public String getSecWebSocketKey() {
 		return getFirst(SEC_WEBSOCKET_KEY);
 	}
 
 	/**
-	 * Sets the (new) value of the {@code Sec-WebSocket-Protocol} header.
-	 * @param secWebSocketProtocol the value of the header
+	 * 设置{@code Sec-WebSocket-Protocol} header的值.
+	 * 
+	 * @param secWebSocketProtocol header的值
 	 */
 	public void setSecWebSocketProtocol(String secWebSocketProtocol) {
 		if (secWebSocketProtocol != null) {
@@ -136,16 +139,18 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Sets the (new) value of the {@code Sec-WebSocket-Protocol} header.
-	 * @param secWebSocketProtocols the value of the header
+	 * 设置{@code Sec-WebSocket-Protocol} header的值.
+	 * 
+	 * @param secWebSocketProtocols header的值
 	 */
 	public void setSecWebSocketProtocol(List<String> secWebSocketProtocols) {
 		set(SEC_WEBSOCKET_PROTOCOL, toCommaDelimitedString(secWebSocketProtocols));
 	}
 
 	/**
-	 * Returns the value of the {@code Sec-WebSocket-Key} header.
-	 * @return the value of the header
+	 * 返回{@code Sec-WebSocket-Key} header的值.
+	 * 
+	 * @return header的值
 	 */
 	public List<String> getSecWebSocketProtocol() {
 		List<String> values = get(SEC_WEBSOCKET_PROTOCOL);
@@ -161,16 +166,18 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Sets the (new) value of the {@code Sec-WebSocket-Version} header.
-	 * @param secWebSocketVersion the value of the header
+	 * 设置{@code Sec-WebSocket-Version} header的值.
+	 * 
+	 * @param secWebSocketVersion header的值
 	 */
 	public void setSecWebSocketVersion(String secWebSocketVersion) {
 		set(SEC_WEBSOCKET_VERSION, secWebSocketVersion);
 	}
 
 	/**
-	 * Returns the value of the {@code Sec-WebSocket-Version} header.
-	 * @return the value of the header
+	 * 返回{@code Sec-WebSocket-Version} header的值.
+	 * 
+	 * @return header的值
 	 */
 	public String getSecWebSocketVersion() {
 		return getFirst(SEC_WEBSOCKET_VERSION);
@@ -180,9 +187,11 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	// Single string methods
 
 	/**
-	 * Return the first header value for the given header name, if any.
-	 * @param headerName the header name
-	 * @return the first header value; or {@code null}
+	 * 返回给定header名称的第一个header值.
+	 * 
+	 * @param headerName header名称
+	 * 
+	 * @return 第一个header值; 或{@code null}
 	 */
 	@Override
 	public String getFirst(String headerName) {
@@ -190,12 +199,12 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Add the given, single header value under the given name.
-	 * @param headerName  the header name
-	 * @param headerValue the header value
-	 * @throws UnsupportedOperationException if adding headers is not supported
-	 * @see #put(String, List)
-	 * @see #set(String, String)
+	 * 在给定名称下添加给定的单个header值.
+	 * 
+	 * @param headerName  header名称
+	 * @param headerValue header的值
+	 * 
+	 * @throws UnsupportedOperationException 如果不支持添加header
 	 */
 	@Override
 	public void add(String headerName, String headerValue) {
@@ -203,12 +212,12 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Set the given, single header value under the given name.
-	 * @param headerName  the header name
-	 * @param headerValue the header value
-	 * @throws UnsupportedOperationException if adding headers is not supported
-	 * @see #put(String, List)
-	 * @see #add(String, String)
+	 * 在给定名称下设置给定的单个header值.
+	 * 
+	 * @param headerName  header名称
+	 * @param headerValue header的值
+	 * 
+	 * @throws UnsupportedOperationException 如果不支持添加header
 	 */
 	@Override
 	public void set(String headerName, String headerValue) {

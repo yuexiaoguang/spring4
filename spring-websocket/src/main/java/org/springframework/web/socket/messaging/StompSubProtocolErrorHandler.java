@@ -8,7 +8,7 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.util.Assert;
 
 /**
- * A {@link SubProtocolErrorHandler} for use with STOMP.
+ * 用于STOMP的{@link SubProtocolErrorHandler}.
  */
 public class StompSubProtocolErrorHandler implements SubProtocolErrorHandler<byte[]> {
 

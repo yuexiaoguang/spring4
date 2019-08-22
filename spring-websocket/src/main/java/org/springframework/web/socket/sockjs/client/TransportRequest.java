@@ -7,52 +7,46 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 
 /**
- * Exposes information, typically to {@link Transport} and
- * {@link AbstractClientSockJsSession session} implementations, about a request
- * to connect to a SockJS server endpoint over a given transport.
+ * 通常向{@link Transport} 和 {@link AbstractClientSockJsSession session}实现,
+ * 公开有关通过给定传输连接到SockJS服务器端点的请求的信息.
  *
- * <p>Note that a single request to connect via {@link SockJsClient} may result
- * in multiple instances of {@link TransportRequest}, one for each transport
- * before a connection is successfully established.
+ * <p>请注意, 通过{@link SockJsClient}连接的单个请求可能会导致{@link TransportRequest}的多个实例, 在成功建立连接之前每个传输一个.
  */
 public interface TransportRequest {
 
 	/**
-	 * Return information about the SockJS URL including server and session ID.
+	 * 返回有关SockJS URL的信息, 包括服务器和会话ID.
 	 */
 	SockJsUrlInfo getSockJsUrlInfo();
 
 	/**
-	 * Return the headers to send with the connect request.
+	 * 返回与连接请求一起发送的header.
 	 */
 	HttpHeaders getHandshakeHeaders();
 
 	/**
-	 * Return the headers to add to all other HTTP requests besides the handshake
-	 * request such as XHR receive and send requests.
-	 * @since 4.2
+	 * 返回添加到除握手请求之外的所有其他HTTP请求的header, 例如XHR接收和发送请求.
 	 */
 	HttpHeaders getHttpRequestHeaders();
 
 	/**
-	 * Return the transport URL for the given transport.
-	 * <p>For an {@link XhrTransport} this is the URL for receiving messages.
+	 * 返回给定传输的传输URL.
+	 * <p>对于{@link XhrTransport}, 这是用于接收消息的URL.
 	 */
 	URI getTransportUrl();
 
 	/**
-	 * Return the user associated with the request, if any.
+	 * 返回与请求关联的用户.
 	 */
 	Principal getUser();
 
 	/**
-	 * Return the message codec to use for encoding SockJS messages.
+	 * 返回用于编码SockJS消息的消息编解码器.
 	 */
 	SockJsMessageCodec getMessageCodec();
 
 	/**
-	 * Register a timeout cleanup task to invoke if the SockJS session is not
-	 * fully established within the calculated retransmission timeout period.
+	 * 如果在计算的重新传输超时期限内未完全建立SockJS会话, 则注册超时清除任务以调用.
 	 */
 	void addTimeoutTask(Runnable runnable);
 

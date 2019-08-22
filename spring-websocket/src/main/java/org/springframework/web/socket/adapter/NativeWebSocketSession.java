@@ -3,21 +3,21 @@ package org.springframework.web.socket.adapter;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A {@link WebSocketSession} that exposes the underlying, native WebSocketSession
- * through a getter.
+ * 一个{@link WebSocketSession}, 通过getter公开底层的本机WebSocketSession.
  */
 public interface NativeWebSocketSession extends WebSocketSession {
 
 	/**
-	 * Return the underlying native WebSocketSession.
+	 * 返回底层本机WebSocketSession.
 	 */
 	Object getNativeSession();
 
 	/**
-	 * Return the underlying native WebSocketSession, if available.
-	 * @param requiredType the required type of the session
-	 * @return the native session of the required type,
-	 * or {@code null} if not available
+	 * 返回底层本机WebSocketSession.
+	 * 
+	 * @param requiredType 所需的会话类型
+	 * 
+	 * @return 所需类型的本机会话, 或{@code null}
 	 */
 	<T> T getNativeSession(Class<T> requiredType);
 

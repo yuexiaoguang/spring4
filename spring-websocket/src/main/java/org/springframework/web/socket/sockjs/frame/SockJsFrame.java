@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import org.springframework.util.Assert;
 
 /**
- * Represents a SockJS frame. Provides factory methods to create SockJS frames.
+ * 表示SockJS帧. 提供工厂方法来创建SockJS帧.
  */
 public class SockJsFrame {
 
@@ -27,8 +27,7 @@ public class SockJsFrame {
 
 
 	/**
-	 * Create a new instance frame with the given frame content.
-	 * @param content the content (must be a non-empty and represent a valid SockJS frame)
+	 * @param content 内容 (必须是非空的, 并代表有效的SockJS帧)
 	 */
 	public SockJsFrame(String content) {
 		Assert.hasText(content, "Content must not be empty");
@@ -59,30 +58,29 @@ public class SockJsFrame {
 
 
 	/**
-	 * Return the SockJS frame type.
+	 * 返回SockJS帧类型.
 	 */
 	public SockJsFrameType getType() {
 		return this.type;
 	}
 
 	/**
-	 * Return the SockJS frame content (never {@code null}).
+	 * 返回SockJS帧内容 (never {@code null}).
 	 */
 	public String getContent() {
 		return this.content;
 	}
 
 	/**
-	 * Return the SockJS frame content as a byte array.
+	 * 返回SockJS帧内容.
 	 */
 	public byte[] getContentBytes() {
 		return this.content.getBytes(CHARSET);
 	}
 
 	/**
-	 * Return data contained in a SockJS "message" and "close" frames. Otherwise
-	 * for SockJS "open" and "close" frames, which do not contain data, return
-	 * {@code null}.
+	 * 返回SockJS "message" 和 "close"帧中包含的数据.
+	 * 否则, 对于不包含数据的SockJS "open"和"close"帧, 返回{@code null}.
 	 */
 	public String getFrameData() {
 		if (getType() == SockJsFrameType.OPEN || getType() == SockJsFrameType.HEARTBEAT) {

@@ -55,26 +55,26 @@ import org.springframework.web.socket.server.support.WebSocketHttpRequestHandler
 import org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler;
 
 /**
- * A {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that provides
- * the configuration for the {@code <websocket:message-broker/>} XML namespace element.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser},
+ * 它提供{@code <websocket:message-broker/>} XML命名空间元素的配置.
  *
- * <p>Registers a Spring MVC {@link org.springframework.web.servlet.HandlerMapping}
- * with order 1 to map HTTP WebSocket handshake requests from STOMP/WebSocket clients.
+ * <p>使用顺序1注册Spring MVC {@link org.springframework.web.servlet.HandlerMapping},
+ * 以映射来自STOMP/WebSocket 客户端的HTTP WebSocket握手请求.
  *
- * <p>Registers the following {@link org.springframework.messaging.MessageChannel}s:
+ * <p>注册以下{@link org.springframework.messaging.MessageChannel}:
  * <ul>
- * <li>"clientInboundChannel" for receiving messages from clients (e.g. WebSocket clients)
- * <li>"clientOutboundChannel" for sending messages to clients (e.g. WebSocket clients)
- * <li>"brokerChannel" for sending messages from within the application to the message broker
+ * <li>"clientInboundChannel" 用于从客户端接收消息(e.g. WebSocket 客户端)
+ * <li>"clientOutboundChannel" 用于向客户端发送消息 (e.g. WebSocket 客户端)
+ * <li>"brokerChannel" 用于将消息从应用程序内部发送到消息代理
  * </ul>
  *
- * <p>Registers one of the following based on the selected message broker options:
+ * <p>根据选定的消息代理选项注册以下其中一项:
  * <ul>
- * <li>a {@link SimpleBrokerMessageHandler} if the <simple-broker/> is used
- * <li>a {@link StompBrokerRelayMessageHandler} if the <stomp-broker-relay/> is used
+ * <li>如果使用<simple-broker/>, 则为{@link SimpleBrokerMessageHandler}
+ * <li>如果使用<stomp-broker-relay/>, 则为{@link StompBrokerRelayMessageHandler}
  * </ul>
  *
- * <p>Registers a {@link UserDestinationMessageHandler} for handling user destinations.
+ * <p>注册{@link UserDestinationMessageHandler}以处理用户目标.
  */
 class MessageBrokerBeanDefinitionParser implements BeanDefinitionParser {
 

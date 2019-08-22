@@ -7,8 +7,8 @@ import javax.websocket.Extension;
 import org.springframework.web.socket.WebSocketExtension;
 
 /**
- * Adapt an instance of {@link org.springframework.web.socket.WebSocketExtension} to
- * the {@link javax.websocket.Extension} interface.
+ * 将{@link org.springframework.web.socket.WebSocketExtension}的实例
+ * 适配为{@link javax.websocket.Extension}接口.
  */
 public class WebSocketToStandardExtensionAdapter implements Extension {
 

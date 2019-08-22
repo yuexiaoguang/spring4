@@ -15,8 +15,7 @@ import org.springframework.web.socket.sockjs.SockJsService;
 import org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler;
 
 /**
- * A helper class for configuring {@link WebSocketHandler} request handling
- * including SockJS fallback options.
+ * 用于配置{@link WebSocketHandler}请求处理的辅助类, 包括SockJS回退选项.
  */
 public class ServletWebSocketHandlerRegistration
 		extends AbstractWebSocketHandlerRegistration<MultiValueMap<HttpRequestHandler, String>> {

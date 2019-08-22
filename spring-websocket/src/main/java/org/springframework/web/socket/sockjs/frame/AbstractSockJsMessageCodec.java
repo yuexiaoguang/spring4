@@ -3,8 +3,7 @@ package org.springframework.web.socket.sockjs.frame;
 import org.springframework.util.Assert;
 
 /**
- * An base class for SockJS message codec that provides an implementation of
- * {@link #encode(String[])}.
+ * SockJS消息编解码器的基类, 提供{@link #encode(String[])}的实现.
  */
 public abstract class AbstractSockJsMessageCodec implements SockJsMessageCodec {
 
@@ -27,7 +26,7 @@ public abstract class AbstractSockJsMessageCodec implements SockJsMessageCodec {
 	}
 
 	/**
-	 * Apply standard JSON string quoting (see http://www.json.org/).
+	 * 应用标准JSON字符串引用 (see http://www.json.org/).
 	 */
 	protected abstract char[] applyJsonQuoting(String content);
 

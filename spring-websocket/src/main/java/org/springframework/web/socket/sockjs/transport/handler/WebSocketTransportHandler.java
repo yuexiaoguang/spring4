@@ -22,11 +22,10 @@ import org.springframework.web.socket.sockjs.transport.session.AbstractSockJsSes
 import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSockJsSession;
 
 /**
- * WebSocket-based {@link TransportHandler}. Uses {@link SockJsWebSocketHandler} and
- * {@link WebSocketServerSockJsSession} to add SockJS processing.
+ * 基于WebSocket的{@link TransportHandler}.
+ * 使用{@link SockJsWebSocketHandler}和{@link WebSocketServerSockJsSession}添加SockJS处理.
  *
- * <p>Also implements {@link HandshakeHandler} to support raw WebSocket communication at
- * SockJS URL "/websocket".
+ * <p>同时实现{@link HandshakeHandler}以支持SockJS URL "/websocket"上的原始WebSocket通信.
  */
 public class WebSocketTransportHandler extends AbstractTransportHandler
 		implements SockJsSessionFactory, HandshakeHandler, Lifecycle, ServletContextAware {

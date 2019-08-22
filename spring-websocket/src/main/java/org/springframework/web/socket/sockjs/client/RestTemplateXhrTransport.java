@@ -29,8 +29,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 
 /**
- * An {@code XhrTransport} implementation that uses a
- * {@link org.springframework.web.client.RestTemplate RestTemplate}.
+ * {@code XhrTransport}实现, 使用{@link org.springframework.web.client.RestTemplate RestTemplate}.
  */
 public class RestTemplateXhrTransport extends AbstractXhrTransport {
 
@@ -50,17 +49,16 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 
 
 	/**
-	 * Return the configured {@code RestTemplate}.
+	 * 返回配置的{@code RestTemplate}.
 	 */
 	public RestOperations getRestTemplate() {
 		return this.restTemplate;
 	}
 
 	/**
-	 * Configure the {@code TaskExecutor} to use to execute XHR receive requests.
-	 * <p>By default {@link org.springframework.core.task.SimpleAsyncTaskExecutor
-	 * SimpleAsyncTaskExecutor} is configured which creates a new thread every
-	 * time the transports connects.
+	 * 配置用于执行XHR接收请求的{@code TaskExecutor}.
+	 * <p>默认配置{@link org.springframework.core.task.SimpleAsyncTaskExecutor SimpleAsyncTaskExecutor},
+	 * 每次传输连接时都会创建一个新线程.
 	 */
 	public void setTaskExecutor(TaskExecutor taskExecutor) {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
@@ -68,7 +66,7 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 	}
 
 	/**
-	 * Return the configured {@code TaskExecutor}.
+	 * 返回配置的{@code TaskExecutor}.
 	 */
 	public TaskExecutor getTaskExecutor() {
 		return this.taskExecutor;
@@ -128,7 +126,7 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 
 
 	/**
-	 * A simple ResponseExtractor that reads the body into a String.
+	 * 一个简单的ResponseExtractor, 它将主体读入String.
 	 */
 	private final static ResponseExtractor<ResponseEntity<String>> textResponseExtractor =
 			new ResponseExtractor<ResponseEntity<String>>() {
@@ -145,7 +143,7 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 			};
 
 	/**
-	 * A RequestCallback to add the headers and (optionally) String content.
+	 * RequestCallback, 用于添加header和 (可选) String内容.
 	 */
 	private static class XhrRequestCallback implements RequestCallback {
 
@@ -174,8 +172,7 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 	}
 
 	/**
-	 * Splits the body of an HTTP response into SockJS frames and delegates those
-	 * to an {@link XhrClientSockJsSession}.
+	 * 将HTTP响应的主体拆分为SockJS帧, 并将其委托给{@link XhrClientSockJsSession}.
 	 */
 	private class XhrReceiveExtractor implements ResponseExtractor<Object> {
 

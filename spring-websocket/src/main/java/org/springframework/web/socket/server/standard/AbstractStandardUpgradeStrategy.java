@@ -32,8 +32,7 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.RequestUpgradeStrategy;
 
 /**
- * A base class for {@link RequestUpgradeStrategy} implementations that build
- * on the standard WebSocket API for Java (JSR-356).
+ * {@link RequestUpgradeStrategy}实现的基类, 构建在Java (JSR-356)的标准WebSocket API上.
  */
 public abstract class AbstractStandardUpgradeStrategy implements RequestUpgradeStrategy {
 

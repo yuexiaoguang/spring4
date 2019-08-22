@@ -12,16 +12,15 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.util.Assert;
 
 /**
- * A Jackson 2.6+ codec for encoding and decoding SockJS messages.
+ * 用于编码和解码SockJS消息的Jackson 2.6+编解码器.
  *
- * <p>It customizes Jackson's default properties with the following ones:
+ * <p>它通过以下方式定制Jackson的默认属性:
  * <ul>
- * <li>{@link MapperFeature#DEFAULT_VIEW_INCLUSION} is disabled</li>
- * <li>{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} is disabled</li>
+ * <li>禁用{@link MapperFeature#DEFAULT_VIEW_INCLUSION}</li>
+ * <li>禁用{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES}</li>
  * </ul>
  *
- * <p>Note that Jackson's JSR-310 and Joda-Time support modules will be registered automatically
- * when available (and when Java 8 and Joda-Time themselves are available, respectively).
+ * <p>请注意，Jackson的JSR-310和Joda-Time支持模块将在可用时自动注册 (当Java 8和Joda-Time本身可用时).
  */
 public class Jackson2SockJsMessageCodec extends AbstractSockJsMessageCodec {
 

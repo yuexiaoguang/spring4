@@ -23,7 +23,7 @@ import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
 
 /**
- * A SockJS session for use with the WebSocket transport.
+ * 用于WebSocket传输的SockJS会话.
  */
 public class WebSocketServerSockJsSession extends AbstractSockJsSession implements NativeWebSocketSession {
 
@@ -134,11 +134,11 @@ public class WebSocketServerSockJsSession extends AbstractSockJsSession implemen
 		synchronized (this.initSessionLock) {
 			this.webSocketSession = session;
 			try {
-				// Let "our" handler know before sending the open frame to the remote handler
+				// 在将open帧发送到远程处理器之前, 让“我们的”处理器知道
 				delegateConnectionEstablished();
 				this.webSocketSession.sendMessage(new TextMessage(SockJsFrame.openFrame().getContent()));
 
-				// Flush any messages cached in the mean time
+				// 刷新同时缓存的所有消息
 				while (!this.initSessionCache.isEmpty()) {
 					writeFrame(SockJsFrame.messageFrame(getMessageCodec(), this.initSessionCache.poll()));
 				}
@@ -177,8 +177,8 @@ public class WebSocketServerSockJsSession extends AbstractSockJsSession implemen
 
 	@Override
 	public void sendMessageInternal(String message) throws SockJsTransportFailureException {
-		// Open frame not sent yet?
-		// If in the session initialization thread, then cache, otherwise wait.
+		// 尚未发送的Open帧?
+		// 如果在会话初始化线程中, 则缓存, 否则等待.
 		if (!this.openFrameSent) {
 			synchronized (this.initSessionLock) {
 				if (!this.openFrameSent) {
@@ -215,5 +215,4 @@ public class WebSocketServerSockJsSession extends AbstractSockJsSession implemen
 			}
 		}
 	}
-
 }

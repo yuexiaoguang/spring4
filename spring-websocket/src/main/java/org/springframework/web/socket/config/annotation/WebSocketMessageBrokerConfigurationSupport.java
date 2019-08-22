@@ -20,12 +20,9 @@ import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
 import org.springframework.web.socket.messaging.WebSocketAnnotationMethodMessageHandler;
 
 /**
- * Extends {@link AbstractMessageBrokerConfiguration} and adds configuration for
- * receiving and responding to STOMP messages from WebSocket clients.
+ * 扩展{@link AbstractMessageBrokerConfiguration}, 并添加用于从WebSocket客户端接收和响应STOMP消息的配置.
  *
- * <p>Typically used in conjunction with
- * {@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker} but can
- * also be extended directly.
+ * <p>通常与{@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker}一起使用, 但也可以直接扩展.
  */
 public abstract class WebSocketMessageBrokerConfigurationSupport extends AbstractMessageBrokerConfiguration {
 
@@ -97,7 +94,7 @@ public abstract class WebSocketMessageBrokerConfigurationSupport extends Abstrac
 		StompBrokerRelayMessageHandler brokerRelay = (relayBean instanceof StompBrokerRelayMessageHandler ?
 				(StompBrokerRelayMessageHandler) relayBean : null);
 
-		// Ensure STOMP endpoints are registered
+		// 确保已注册STOMP端点
 		stompWebSocketHandlerMapping();
 
 		WebSocketMessageBrokerStats stats = new WebSocketMessageBrokerStats();
@@ -112,7 +109,7 @@ public abstract class WebSocketMessageBrokerConfigurationSupport extends Abstrac
 	@Override
 	protected MappingJackson2MessageConverter createJacksonConverter() {
 		MappingJackson2MessageConverter messageConverter = super.createJacksonConverter();
-		// Use Jackson builder in order to have JSR-310 and Joda-Time modules registered automatically
+		// 使用Jackson构建器以自动注册JSR-310和Joda-Time模块
 		messageConverter.setObjectMapper(Jackson2ObjectMapperBuilder.json()
 				.applicationContext(getApplicationContext()).build());
 		return messageConverter;

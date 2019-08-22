@@ -8,7 +8,7 @@ import org.springframework.web.socket.sockjs.transport.TransportHandler;
 import org.springframework.web.socket.sockjs.transport.TransportType;
 
 /**
- * A {@link TransportHandler} that receives messages over HTTP.
+ * 通过HTTP接收消息的{@link TransportHandler}.
  */
 public class XhrReceivingTransportHandler extends AbstractHttpReceivingTransportHandler {
 

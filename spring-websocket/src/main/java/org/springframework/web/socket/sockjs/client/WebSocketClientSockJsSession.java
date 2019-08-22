@@ -14,8 +14,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.adapter.NativeWebSocketSession;
 
 /**
- * An extension of {@link AbstractClientSockJsSession} wrapping and delegating
- * to an actual WebSocket session.
+ * {@link AbstractClientSockJsSession}的扩展, 包装和委托给实际的WebSocket会话.
  */
 public class WebSocketClientSockJsSession extends AbstractClientSockJsSession implements NativeWebSocketSession {
 

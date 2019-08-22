@@ -1,59 +1,50 @@
 package org.springframework.web.socket;
 
 /**
- * A handler for WebSocket messages and lifecycle events.
+ * WebSocket消息和生命周期事件的处理器.
  *
- * <p>Implementations of this interface are encouraged to handle exceptions locally where
- * it makes sense or alternatively let the exception bubble up in which case by default
- * the exception is logged and the session closed with
- * {@link CloseStatus#SERVER_ERROR SERVER_ERROR(1011)}. The exception handling
- * strategy is provided by
+ * <p>鼓励此接口的实现在本地处理异常, 或者让异常冒泡, 在这种情况下, 默认会记录异常,
+ * 并使用 {@link CloseStatus#SERVER_ERROR SERVER_ERROR(1011)}关闭会话.
+ * 异常处理策略由
  * {@link org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator
- * ExceptionWebSocketHandlerDecorator} and it can be customized or replaced by decorating
- * the {@link WebSocketHandler} with a different decorator.
+ * ExceptionWebSocketHandlerDecorator}提供, 可以通过使用不同的装饰器装饰{@link WebSocketHandler}来定制或替换它.
  */
 public interface WebSocketHandler {
 
 	/**
-	 * Invoked after WebSocket negotiation has succeeded and the WebSocket connection is
-	 * opened and ready for use.
-	 * @throws Exception this method can handle or propagate exceptions; see class-level
-	 * Javadoc for details.
+	 * 在WebSocket协商成功并且WebSocket连接打开并准备好使用后调用.
+	 * 
+	 * @throws Exception 此方法可以处理或传播异常; 有关详细信息, 请参阅类级Javadoc.
 	 */
 	void afterConnectionEstablished(WebSocketSession session) throws Exception;
 
 	/**
-	 * Invoked when a new WebSocket message arrives.
-	 * @throws Exception this method can handle or propagate exceptions; see class-level
-	 * Javadoc for details.
+	 * 在新的WebSocket消息到达时调用.
+	 * 
+	 * @throws Exception 此方法可以处理或传播异常; 有关详细信息, 请参阅类级Javadoc.
 	 */
 	void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception;
 
 	/**
-	 * Handle an error from the underlying WebSocket message transport.
-	 * @throws Exception this method can handle or propagate exceptions; see class-level
-	 * Javadoc for details.
+	 * 处理底层WebSocket消息传输中的错误.
+	 * 
+	 * @throws Exception 此方法可以处理或传播异常; 有关详细信息, 请参阅类级Javadoc.
 	 */
 	void handleTransportError(WebSocketSession session, Throwable exception) throws Exception;
 
 	/**
-	 * Invoked after the WebSocket connection has been closed by either side, or after a
-	 * transport error has occurred. Although the session may technically still be open,
-	 * depending on the underlying implementation, sending messages at this point is
-	 * discouraged and most likely will not succeed.
-	 * @throws Exception this method can handle or propagate exceptions; see class-level
-	 * Javadoc for details.
+	 * WebSocket连接被任何一方关闭后, 或者在发生传输错误后调用.
+	 * 虽然会话在技术上可能仍然是打开的, 但取决于底层实现, 此时不鼓励发送消息, 并且很可能不会成功.
+	 * 
+	 * @throws Exception 此方法可以处理或传播异常; 有关详细信息, 请参阅类级Javadoc.
 	 */
 	void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception;
 
 	/**
-	 * Whether the WebSocketHandler handles partial messages. If this flag is set to
-	 * {@code true} and the underlying WebSocket server supports partial messages,
-	 * then a large WebSocket message, or one of an unknown size may be split and
-	 * maybe received over multiple calls to
-	 * {@link #handleMessage(WebSocketSession, WebSocketMessage)}. The flag
-	 * {@link org.springframework.web.socket.WebSocketMessage#isLast()} indicates if
-	 * the message is partial and whether it is the last part.
+	 * WebSocketHandler是否处理部分消息.
+	 * 如果此标志设置为{@code true}且底层WebSocket服务器支持部分消息, 则可能会拆分大型WebSocket消息或未知大小的消息,
+	 * 并且可能通过多次调用{@link #handleMessage(WebSocketSession, WebSocketMessage)}接收.
+	 * 标志{@link org.springframework.web.socket.WebSocketMessage#isLast()指示消息是否是部分消息以及它是否是最后一部分.
 	 */
 	boolean supportsPartialMessages();
 

@@ -28,7 +28,7 @@ import org.springframework.web.socket.sockjs.frame.SockJsFrameFormat;
 import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
 
 /**
- * An abstract base class for use with HTTP transport SockJS sessions.
+ * 用于HTTP传输SockJS会话的抽象基类.
  */
 public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 
@@ -89,27 +89,25 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Unlike WebSocket where sub-protocol negotiation is part of the initial
-	 * handshake, in HTTP transports the same negotiation must be emulated and
-	 * the selected protocol set through this setter.
-	 * @param protocol the sub-protocol to set
+	 * 与子协议协商是初始握手的一部分的WebSocket不同,
+	 * 在HTTP传输中, 必须模拟相同的协商并通过此setter设置所选协议.
+	 * 
+	 * @param protocol 要设置的子协议
 	 */
 	public void setAcceptedProtocol(String protocol) {
 		this.acceptedProtocol = protocol;
 	}
 
 	/**
-	 * Return the selected sub-protocol to use.
+	 * 返回要使用的选择的子协议.
 	 */
 	public String getAcceptedProtocol() {
 		return this.acceptedProtocol;
 	}
 
 	/**
-	 * Return the SockJS buffer for messages stored transparently between polling
-	 * requests. If the polling request takes longer than 5 seconds, the session
-	 * is closed.
-	 * @see org.springframework.web.socket.sockjs.transport.TransportHandlingSockJsService
+	 * 返回SockJS缓冲区, 以便在轮询请求之间透明地存储消息.
+	 * 如果轮询请求的时间超过5秒, 则会话将关闭.
 	 */
 	protected Queue<String> getMessageCache() {
 		return this.messageCache;
@@ -154,16 +152,14 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 
 
 	/**
-	 * Handle the first request for receiving messages on a SockJS HTTP transport
-	 * based session.
-	 * <p>Long polling-based transports (e.g. "xhr", "jsonp") complete the request
-	 * after writing the open frame. Streaming-based transports ("xhr_streaming",
-	 * "eventsource", and "htmlfile") leave the response open longer for further
-	 * streaming of message frames but will also close it eventually after some
-	 * amount of data has been sent.
-	 * @param request the current request
-	 * @param response the current response
-	 * @param frameFormat the transport-specific SocksJS frame format to use
+	 * 处理在基于SockJS HTTP传输的会话上接收消息的第一个请求.
+	 * <p>基于长轮询的传输 (e.g. "xhr", "jsonp") 在写入open帧之后完成请求.
+	 * 基于流的传输 ("xhr_streaming", "eventsource", 和"htmlfile")使响应打开的时间更长,
+	 * 以便进一步传输消息帧, 但最终也会在发送一些数据后关闭它.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * @param frameFormat 要使用的特定于传输的SocksJS帧格式
 	 */
 	public void handleInitialRequest(ServerHttpRequest request, ServerHttpResponse response,
 			SockJsFrameFormat frameFormat) throws SockJsException {
@@ -191,10 +187,10 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 				this.asyncRequestControl = request.getAsyncRequestControl(response);
 				this.asyncRequestControl.start(-1);
 				disableShallowEtagHeaderFilter(request);
-				// Let "our" handler know before sending the open frame to the remote handler
+				// 在将open帧发送到远程处理器之前, 让“我们的”处理器知道
 				delegateConnectionEstablished();
 				handleRequestInternal(request, response, true);
-				// Request might have been reset (e.g. polling sessions do after writing)
+				// 请求可能已被重置 (e.g. 写入后的轮询会话)
 				this.readyToSend = isActive();
 			}
 			catch (Throwable ex) {
@@ -205,16 +201,14 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Handle all requests, except the first one, to receive messages on a SockJS
-	 * HTTP transport based session.
-	 * <p>Long polling-based transports (e.g. "xhr", "jsonp") complete the request
-	 * after writing any buffered message frames (or the next one). Streaming-based
-	 * transports ("xhr_streaming", "eventsource", and "htmlfile") leave the
-	 * response open longer for further streaming of message frames but will also
-	 * close it eventually after some amount of data has been sent.
-	 * @param request the current request
-	 * @param response the current response
-	 * @param frameFormat the transport-specific SocksJS frame format to use
+	 * 处理除第一个请求之外的所有请求, 以在基于SockJS HTTP传输的会话上接收消息.
+	 * <p>基于长轮询的传输 (e.g. "xhr", "jsonp") 在写入任何缓冲的消息帧 (或下一个)之后完成请求.
+	 * 基于流的传输 ("xhr_streaming", "eventsource", 和"htmlfile") 使响应打开的时间更长,
+	 * 以便进一步传输消息帧, 但最终也会在发送一些数据后关闭它.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * @param frameFormat 要使用的特定于传输的SocksJS帧格式
 	 */
 	public void handleSuccessiveRequest(ServerHttpRequest request, ServerHttpResponse response,
 			SockJsFrameFormat frameFormat) throws SockJsException {
@@ -248,10 +242,11 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Invoked when a SockJS transport request is received.
-	 * @param request the current request
-	 * @param response the current response
-	 * @param initialRequest whether it is the first request for the session
+	 * 收到SockJS传输请求时调用.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * @param initialRequest 是否是会话的第一个请求
 	 */
 	protected abstract void handleRequestInternal(ServerHttpRequest request, ServerHttpResponse response,
 			boolean initialRequest) throws IOException;
@@ -279,16 +274,15 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Called when the connection is active and ready to write to the response.
-	 * Subclasses should only call this method from a method where the
-	 * "responseLock" is acquired.
+	 * 在连接处于活动状态并准备写入响应时调用.
+	 * 子类只应从获取"responseLock"的方法中调用此方法.
 	 */
 	protected abstract void flushCache() throws SockJsTransportFailureException;
 
 
 	/**
-	 * @deprecated as of 4.2 this method is deprecated since the prelude is written
-	 * in {@link #handleRequestInternal} of the StreamingSockJsSession subclass.
+	 * @deprecated 从4.2开始, 不推荐使用此方法,
+	 * 因为前缀是在StreamingSockJsSession子类的{@link #handleRequestInternal}中写入的.
 	 */
 	@Deprecated
 	protected void writePrelude(ServerHttpRequest request, ServerHttpResponse response) throws IOException {
@@ -312,7 +306,7 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 						control.complete();
 					}
 					catch (Throwable ex) {
-						// Could be part of normal workflow (e.g. browser tab closed)
+						// 可以成为正常工作流程的一部分 (e.g. 浏览器标签页已关闭)
 						logger.debug("Failed to complete request: " + ex.getMessage());
 					}
 				}
@@ -331,5 +325,4 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 			this.response.flush();
 		}
 	}
-
 }

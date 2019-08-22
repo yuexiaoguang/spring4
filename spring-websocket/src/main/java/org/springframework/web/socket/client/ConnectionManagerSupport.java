@@ -9,11 +9,10 @@ import org.springframework.context.SmartLifecycle;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * A base class for WebSocket connection managers. Provides a declarative style of
- * connecting to a WebSocket server given a URI to connect to. The connection occurs when
- * the Spring ApplicationContext is refreshed, if the {@link #autoStartup} property is set
- * to {@code true}, or if set to {@code false}, the {@link #start()} and #stop methods can
- * be invoked manually.
+ * WebSocket连接管理器的基类.
+ * 给定要连接的URI, 提供连接到WebSocket服务器的声明式样式.
+ * 如果{@link #autoStartup}属性设置为{@code true}, 刷新Spring ApplicationContext时发生连接,
+ * 或者设置为{@code false}, 手动调用{@link #start()} 和 {@link #stop()}方法.
  */
 public abstract class ConnectionManagerSupport implements SmartLifecycle {
 
@@ -41,18 +40,16 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	}
 
 	/**
-	 * Set whether to auto-connect to the remote endpoint after this connection manager
-	 * has been initialized and the Spring context has been refreshed.
-	 * <p>Default is "false".
+	 * 设置在初始化此连接管理器并刷新Spring上下文后, 是否自动连接到远程端点.
+	 * <p>默认为"false".
 	 */
 	public void setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;
 	}
 
 	/**
-	 * Return the value for the 'autoStartup' property. If "true", this endpoint
-	 * connection manager will connect to the remote endpoint upon a
-	 * ContextRefreshedEvent.
+	 * 返回'autoStartup'属性的值.
+	 * 如果为"true", 则此端点连接管理器将在ContextRefreshedEvent上连接到远程端点.
 	 */
 	@Override
 	public boolean isAutoStartup() {
@@ -60,19 +57,16 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	}
 
 	/**
-	 * Specify the phase in which a connection should be established to the remote
-	 * endpoint and subsequently closed. The startup order proceeds from lowest to
-	 * highest, and the shutdown order is the reverse of that. By default this value is
-	 * Integer.MAX_VALUE meaning that this endpoint connection factory connects as late as
-	 * possible and is closed as soon as possible.
+	 * 指定应建立与远程端点的连接并随后关闭的阶段.
+	 * 启动顺序从最低到最高, 关闭顺序与此相反.
+	 * 默认为Integer.MAX_VALUE, 表示此端点连接工厂尽可能晚地连接并尽快关闭.
 	 */
 	public void setPhase(int phase) {
 		this.phase = phase;
 	}
 
 	/**
-	 * Return the phase in which this endpoint connection factory will be auto-connected
-	 * and stopped.
+	 * 返回此端点连接工厂将自动连接并停止的阶段.
 	 */
 	@Override
 	public int getPhase() {
@@ -81,7 +75,7 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 
 
 	/**
-	 * Start the WebSocket connection. If already connected, the method has no impact.
+	 * 启动WebSocket连接. 如果已连接, 则该方法无影响.
 	 */
 	@Override
 	public final void start() {
@@ -137,7 +131,7 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	}
 
 	/**
-	 * Return whether this ConnectionManager has been started.
+	 * 返回此ConnectionManager是否已启动.
 	 */
 	@Override
 	public boolean isRunning() {

@@ -30,13 +30,11 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * A SockJS implementation of
- * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}
- * with fallback alternatives that simulate a WebSocket interaction through plain
- * HTTP streaming and long polling techniques..
+ * 具有回退替代方案的
+ * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}的SockJS实现,
+ * 通过普通HTTP流和长轮询技术模拟WebSocket交互.
  *
- * <p>Implements {@link Lifecycle} in order to propagate lifecycle events to
- * the transports it is configured with.
+ * <p>实现{@link Lifecycle}, 以便将生命周期事件传播到它配置的传输.
  */
 public class SockJsClient implements WebSocketClient, Lifecycle {
 
@@ -71,12 +69,12 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 
 
 	/**
-	 * Create a {@code SockJsClient} with the given transports.
-	 * <p>If the list includes an {@link XhrTransport} (or more specifically an
-	 * implementation of {@link InfoReceiver}) the instance is used to initialize
-	 * the {@link #setInfoReceiver(InfoReceiver) infoReceiver} property, or
-	 * otherwise is defaulted to {@link RestTemplateXhrTransport}.
-	 * @param transports the (non-empty) list of transports to use
+	 * 使用给定的传输创建{@code SockJsClient}.
+	 * <p>如果列表包含{@link XhrTransport} (或更具体地说是{@link InfoReceiver}的实现),
+	 * 则该实例用于初始化{@link #setInfoReceiver(InfoReceiver) infoReceiver}属性,
+	 * 否则默认为{@link RestTemplateXhrTransport}.
+	 * 
+	 * @param transports 要使用的(非空)传输列表
 	 */
 	public SockJsClient(List<Transport> transports) {
 		Assert.notEmpty(transports, "No transports provided");
@@ -98,37 +96,33 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 
 
 	/**
-	 * The names of HTTP headers that should be copied from the handshake headers
-	 * of each call to {@link SockJsClient#doHandshake(WebSocketHandler, WebSocketHttpHeaders, URI)}
-	 * and also used with other HTTP requests issued as part of that SockJS
-	 * connection, e.g. the initial info request, XHR send or receive requests.
+	 * 应该从每次调用
+	 * {@link SockJsClient#doHandshake(WebSocketHandler, WebSocketHttpHeaders, URI)}
+	 * 的握手header中复制的HTTP header的名称,
+	 * 并且还与作为该SockJS连接的一部分发出的其他HTTP请求一起使用, e.g. 初始信息请求, XHR发送或接收请求.
 	 *
-	 * <p>By default if this property is not set, all handshake headers are also
-	 * used for other HTTP requests. Set it if you want only a subset of handshake
-	 * headers (e.g. auth headers) to be used for other HTTP requests.
+	 * <p>默认情况下, 如果未设置此属性, 则所有握手header也将用于其他HTTP请求.
+	 * 如果只想将一部分握手header (e.g. auth headers)用于其他HTTP请求, 设置它.
 	 *
-	 * @param httpHeaderNames HTTP header names
+	 * @param httpHeaderNames HTTP header名称
 	 */
 	public void setHttpHeaderNames(String... httpHeaderNames) {
 		this.httpHeaderNames = httpHeaderNames;
 	}
 
 	/**
-	 * The configured HTTP header names to be copied from the handshake
-	 * headers and also included in other HTTP requests.
+	 * 配置的HTTP header名称要从握手 header中复制, 也包含在其他HTTP请求中.
 	 */
 	public String[] getHttpHeaderNames() {
 		return this.httpHeaderNames;
 	}
 
 	/**
-	 * Configure the {@code InfoReceiver} to use to perform the SockJS "Info"
-	 * request before the SockJS session starts.
-	 * <p>If the list of transports provided to the constructor contained an
-	 * {@link XhrTransport} or an implementation of {@link InfoReceiver} that
-	 * instance would have been used to initialize this property, or otherwise
-	 * it defaults to {@link RestTemplateXhrTransport}.
-	 * @param infoReceiver the transport to use for the SockJS "Info" request
+	 * 在SockJS会话开始之前配置{@code InfoReceiver}以用于执行SockJS "Info"请求.
+	 * <p>如果提供给构造函数的传输的列表包含{@link XhrTransport}或{@link InfoReceiver}的实现,
+	 * 该实例将用于初始化此属性, 否则默认为{@link RestTemplateXhrTransport}.
+	 * 
+	 * @param infoReceiver 用于SockJS "Info"请求的传输
 	 */
 	public void setInfoReceiver(InfoReceiver infoReceiver) {
 		Assert.notNull(infoReceiver, "InfoReceiver is required");
@@ -136,16 +130,16 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 	}
 
 	/**
-	 * Return the configured {@code InfoReceiver} (never {@code null}).
+	 * 返回配置的{@code InfoReceiver} (never {@code null}).
 	 */
 	public InfoReceiver getInfoReceiver() {
 		return this.infoReceiver;
 	}
 
 	/**
-	 * Set the SockJsMessageCodec to use.
-	 * <p>By default {@link org.springframework.web.socket.sockjs.frame.Jackson2SockJsMessageCodec
-	 * Jackson2SockJsMessageCodec} is used if Jackson is on the classpath.
+	 * 设置要使用的SockJsMessageCodec.
+	 * <p>默认情况下, 如果在类路径上有Jackson, 则使用
+	 * {@link org.springframework.web.socket.sockjs.frame.Jackson2SockJsMessageCodec Jackson2SockJsMessageCodec}.
 	 */
 	public void setMessageCodec(SockJsMessageCodec messageCodec) {
 		Assert.notNull(messageCodec, "'messageCodec' is required");
@@ -153,19 +147,18 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 	}
 
 	/**
-	 * Return the SockJsMessageCodec to use.
+	 * 返回要使用的SockJsMessageCodec.
 	 */
 	public SockJsMessageCodec getMessageCodec() {
 		return this.messageCodec;
 	}
 
 	/**
-	 * Configure a {@code TaskScheduler} for scheduling a connect timeout task
-	 * where the timeout value is calculated based on the duration of the initial
-	 * SockJS "Info" request. The connect timeout task ensures a more timely
-	 * fallback but is otherwise entirely optional.
-	 * <p>By default this is not configured in which case a fallback may take longer.
-	 * @param connectTimeoutScheduler the task scheduler to use
+	 * 配置{@code TaskScheduler}以安排连接超时任务, 其中根据初始SockJS "Info"请求的持续时间计算超时值.
+	 * 连接超时任务确保更及时的回退, 但在其他方面完全是可选的.
+	 * <p>默认未配置, 在这种情况下, 后备可能需要更长时间.
+	 * 
+	 * @param connectTimeoutScheduler 要使用的任务定时器
 	 */
 	public void setConnectTimeoutScheduler(TaskScheduler connectTimeoutScheduler) {
 		this.connectTimeoutScheduler = connectTimeoutScheduler;
@@ -297,20 +290,18 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 	}
 
 	/**
-	 * Return the user to associate with the SockJS session and make available via
-	 * {@link org.springframework.web.socket.WebSocketSession#getPrincipal()}.
-	 * <p>By default this method returns {@code null}.
-	 * @return the user to associate with the session (possibly {@code null})
+	 * 返回与SockJS会话关联的用户, 并通过{@link org.springframework.web.socket.WebSocketSession#getPrincipal()}提供.
+	 * <p>默认返回{@code null}.
+	 * 
+	 * @return 要与会话关联的用户 (possibly {@code null})
 	 */
 	protected Principal getUser() {
 		return null;
 	}
 
 	/**
-	 * By default the result of a SockJS "Info" request, including whether the
-	 * server has WebSocket disabled and how long the request took (used for
-	 * calculating transport timeout time) is cached. This method can be used to
-	 * clear that cache hence causing it to re-populate.
+	 * 默认情况下, SockJS "Info"请求的结果, 包括服务器是否已禁用WebSocket以及请求所用的时间 (用于计算传输超时时间)都会被缓存.
+	 * 此方法可用于清除缓存, 从而导致重新填充.
 	 */
 	public void clearServerInfoCache() {
 		this.serverInfoCache.clear();
@@ -318,7 +309,7 @@ public class SockJsClient implements WebSocketClient, Lifecycle {
 
 
 	/**
-	 * A simple value object holding the result from a SockJS "Info" request.
+	 * 一个简单的值对象, 用于保存SockJS "Info"请求的结果.
 	 */
 	private static class ServerInfo {
 

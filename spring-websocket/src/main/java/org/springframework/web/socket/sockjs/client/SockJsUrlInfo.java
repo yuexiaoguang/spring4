@@ -9,9 +9,8 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Container for the base URL of a SockJS endpoint with additional helper methods
- * to derive related SockJS URLs as the {@link #getInfoUrl() info} URL and
- * {@link #getTransportUrl(TransportType) transport} URLs.
+ * SockJS端点的基本URL的容器, 使用其他方法将相关的SockJS URL派生为{@link #getInfoUrl() info} URL
+ * 和{@link #getTransportUrl(TransportType) transport} URL.
  */
 public class SockJsUrlInfo {
 

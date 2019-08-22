@@ -29,12 +29,12 @@ import org.springframework.web.socket.server.HandshakeHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**
- * A {@link HttpRequestHandler} for processing WebSocket handshake requests.
+ * 用于处理WebSocket握手请求的{@link HttpRequestHandler}.
  *
- * <p>This is the main class to use when configuring a server WebSocket at a specific URL.
- * It is a very thin wrapper around a {@link WebSocketHandler} and a {@link HandshakeHandler},
- * also adapting the {@link HttpServletRequest} and {@link HttpServletResponse} to
- * {@link ServerHttpRequest} and {@link ServerHttpResponse}, respectively.
+ * <p>这是在特定URL上配置服务器WebSocket时使用的主类.
+ * 它是{@link WebSocketHandler} 和 {@link HandshakeHandler}的一个非常轻量级的包装器,
+ * 也分别将{@link HttpServletRequest}和{@link HttpServletResponse}
+ * 适配为{@link ServerHttpRequest}和{@link ServerHttpResponse}.
  */
 public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycle, ServletContextAware {
 
@@ -61,22 +61,16 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 	}
 
 
-	/**
-	 * Return the WebSocketHandler.
-	 */
 	public WebSocketHandler getWebSocketHandler() {
 		return this.wsHandler;
 	}
 
-	/**
-	 * Return the HandshakeHandler.
-	 */
 	public HandshakeHandler getHandshakeHandler() {
 		return this.handshakeHandler;
 	}
 
 	/**
-	 * Configure one or more WebSocket handshake request interceptors.
+	 * 配置一个或多个WebSocket握手请求拦截器.
 	 */
 	public void setHandshakeInterceptors(List<HandshakeInterceptor> interceptors) {
 		this.interceptors.clear();
@@ -86,7 +80,7 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 	}
 
 	/**
-	 * Return the configured WebSocket handshake request interceptors.
+	 * 返回配置的WebSocket握手请求拦截器.
 	 */
 	public List<HandshakeInterceptor> getHandshakeInterceptors() {
 		return this.interceptors;

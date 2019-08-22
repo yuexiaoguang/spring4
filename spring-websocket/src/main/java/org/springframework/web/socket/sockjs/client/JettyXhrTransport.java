@@ -31,11 +31,10 @@ import org.springframework.web.socket.sockjs.SockJsTransportFailureException;
 import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 
 /**
- * An XHR transport based on Jetty's {@link org.eclipse.jetty.client.HttpClient}.
+ * 基于Jetty的{@link org.eclipse.jetty.client.HttpClient}的XHR传输.
  *
- * <p>When used for testing purposes (e.g. load testing) the {@code HttpClient}
- * properties must be set to allow a larger than usual number of connections and
- * threads. For example:
+ * <p>当用于测试 (e.g. 负载测试) 时, 必须将{@code HttpClient}属性设置为允许比通常更多的连接和线程.
+ * 例如:
  *
  * <pre class="code">
  * HttpClient httpClient = new HttpClient();
@@ -162,9 +161,8 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 
 
 	/**
-	 * Jetty client {@link org.eclipse.jetty.client.api.Response.Listener Response
-	 * Listener} that splits the body of the response into SockJS frames and
-	 * delegates them to the {@link XhrClientSockJsSession}.
+	 * Jetty客户端 {@link org.eclipse.jetty.client.api.Response.Listener 响应监听器},
+	 * 它将响应的主体拆分为SockJS帧并将它们委托给{@link XhrClientSockJsSession}.
 	 */
 	private class SockJsResponseListener extends Response.Listener.Adapter {
 

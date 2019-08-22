@@ -9,8 +9,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.web.socket.WebSocketExtension;
 
 /**
- * A sub-class of {@link org.springframework.web.socket.WebSocketExtension} that
- * can be constructed from an {@link javax.websocket.Extension}.
+ * {@link org.springframework.web.socket.WebSocketExtension}的子类, 可以从{@link javax.websocket.Extension}构造.
  */
 public class StandardToWebSocketExtensionAdapter extends WebSocketExtension {
 

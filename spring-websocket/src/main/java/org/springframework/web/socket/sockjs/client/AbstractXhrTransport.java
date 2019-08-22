@@ -21,7 +21,7 @@ import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 import org.springframework.web.socket.sockjs.transport.TransportType;
 
 /**
- * Abstract base class for XHR transport implementations to extend.
+ * 用于扩展的XHR传输实现的抽象基类.
  */
 public abstract class AbstractXhrTransport implements XhrTransport {
 
@@ -50,29 +50,28 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 	}
 
 	/**
-	 * An {@code XhrTransport} can support both the "xhr_streaming" and "xhr"
-	 * SockJS server transports. From a client perspective there is no
-	 * implementation difference.
-	 * <p>Typically an {@code XhrTransport} is used as "XHR streaming" first and
-	 * then, if that fails, as "XHR". In some cases however it may be helpful to
-	 * suppress XHR streaming so that only XHR is attempted.
-	 * <p>By default this property is set to {@code false} which means both
-	 * "XHR streaming" and "XHR" apply.
+	 * {@code XhrTransport}可以支持 "xhr_streaming" 和 "xhr" SockJS服务器传输.
+	 * 从客户的角度来看, 没有实现差异.
+	 * <p>通常, {@code XhrTransport}首先用作"XHR 流", 然后如果失败则用作"XHR".
+	 * 但是, 在某些情况下, 抑制XHR流可能有助于仅尝试XHR.
+	 * <p>默认为{@code false}, 意味着"XHR 流" 和 "XHR"都适用.
 	 */
 	public void setXhrStreamingDisabled(boolean disabled) {
 		this.xhrStreamingDisabled = disabled;
 	}
 
 	/**
-	 * Whether XHR streaming is disabled or not.
+	 * XHR流是否被禁用.
 	 */
 	public boolean isXhrStreamingDisabled() {
 		return this.xhrStreamingDisabled;
 	}
 
 	/**
-	 * Configure headers to be added to every executed HTTP request.
-	 * @param requestHeaders the headers to add to requests
+	 * 配置要添加到每个已执行的HTTP请求的header.
+	 * 
+	 * @param requestHeaders 要添加到请求的header
+	 * 
 	 * @deprecated as of 4.2 in favor of {@link SockJsClient#setHttpHeaderNames}.
 	 */
 	@Deprecated

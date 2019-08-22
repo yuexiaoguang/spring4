@@ -17,8 +17,7 @@ import org.springframework.web.socket.server.support.WebSocketHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A {@link WebSocketHandlerRegistry} that maps {@link WebSocketHandler}s to URLs for use
- * in a Servlet container.
+ * {@link WebSocketHandlerRegistry}, 它将{@link WebSocketHandler}映射到用于Servlet容器的URL.
  */
 public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry {
 
@@ -46,9 +45,8 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	}
 
 	/**
-	 * Set the order for the resulting {@link SimpleUrlHandlerMapping} relative to
-	 * other handler mappings configured in Spring MVC.
-	 * <p>The default value is 1.
+	 * 设置生成的{@link SimpleUrlHandlerMapping}的顺序, 相对于Spring MVC中配置的其他处理器映射.
+	 * <p>默认为 1.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -59,8 +57,7 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	}
 
 	/**
-	 * Set the UrlPathHelper to configure on the {@code SimpleUrlHandlerMapping}
-	 * used to map handshake requests.
+	 * 设置在用于映射握手请求的{@code SimpleUrlHandlerMapping}上配置的UrlPathHelper.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
@@ -71,7 +68,7 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	}
 
 	/**
-	 * Return a {@link HandlerMapping} with mapped {@link HttpRequestHandler}s.
+	 * 返回映射的{@link HttpRequestHandler}的{@link HandlerMapping}.
 	 */
 	public AbstractHandlerMapping getHandlerMapping() {
 		Map<String, Object> urlMap = new LinkedHashMap<String, Object>();

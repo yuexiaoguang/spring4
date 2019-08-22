@@ -5,8 +5,7 @@ import java.security.Principal;
 import org.springframework.messaging.Message;
 
 /**
- * Event raised when a new WebSocket client using a Simple Messaging Protocol
- * (e.g. STOMP) sends a request to remove a subscription.
+ * 当使用简单消息传递协议(e.g. STOMP) 的新WebSocket客户端发送删除订阅的请求时引发的事件.
  */
 @SuppressWarnings("serial")
 public class SessionUnsubscribeEvent extends AbstractSubProtocolEvent {

@@ -3,9 +3,8 @@ package org.springframework.web.socket.sockjs.frame;
 import org.springframework.util.Assert;
 
 /**
- * A default implementation of
- * {@link org.springframework.web.socket.sockjs.frame.SockJsFrameFormat} that relies
- * on {@link java.lang.String#format(String, Object...)}..
+ * {@link org.springframework.web.socket.sockjs.frame.SockJsFrameFormat}的默认实现,
+ * 依赖于{@link java.lang.String#format(String, Object...)}.
  */
 public class DefaultSockJsFrameFormat implements SockJsFrameFormat {
 
@@ -26,5 +25,4 @@ public class DefaultSockJsFrameFormat implements SockJsFrameFormat {
 	protected String preProcessContent(String content) {
 		return content;
 	}
-
 }

@@ -1,4 +1,4 @@
 /**
- * Adapter classes for the standard Java WebSocket API.
+ * 标准Java WebSocket API的适配器类.
  */
 package org.springframework.web.socket.adapter.standard;

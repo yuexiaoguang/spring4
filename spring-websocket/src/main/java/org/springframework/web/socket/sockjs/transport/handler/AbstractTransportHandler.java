@@ -9,7 +9,7 @@ import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
 import org.springframework.web.socket.sockjs.transport.TransportHandler;
 
 /**
- * Common base class for {@link TransportHandler} implementations.
+ * {@link TransportHandler}实现的通用基类.
  */
 public abstract class AbstractTransportHandler implements TransportHandler {
 

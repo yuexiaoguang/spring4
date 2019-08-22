@@ -15,13 +15,11 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Wrap a {@link org.springframework.web.socket.WebSocketSession WebSocketSession}
- * to guarantee only one thread can send messages at a time.
+ * 包装{@link org.springframework.web.socket.WebSocketSession WebSocketSession},
+ * 以确保一次只有一个线程可以发送消息.
  *
- * <p>If a send is slow, subsequent attempts to send more messages from other threads
- * will not be able to acquire the flush lock and messages will be buffered instead.
- * At that time, the specified buffer-size limit and send-time limit will be checked
- * and the session will be closed if the limits are exceeded.
+ * <p>如果发送速度很慢, 后续其他线程尝试发送更多消息将无法获取刷新锁定, 转而将缓冲消息.
+ * 此时, 将检查指定的缓冲区大小限制和发送时间限制, 如果超出限制, 将关闭会话.
  */
 public class ConcurrentWebSocketSessionDecorator extends WebSocketSessionDecorator {
 
@@ -48,10 +46,9 @@ public class ConcurrentWebSocketSessionDecorator extends WebSocketSessionDecorat
 
 
 	/**
-	 * Create a new {@code ConcurrentWebSocketSessionDecorator}.
-	 * @param delegate the {@code WebSocketSession} to delegate to
-	 * @param sendTimeLimit the send-time limit (milliseconds)
-	 * @param bufferSizeLimit the buffer-size limit (number of bytes)
+	 * @param delegate 要委托给的{@code WebSocketSession}
+	 * @param sendTimeLimit 发送时间限制 (毫秒)
+	 * @param bufferSizeLimit 缓冲区大小限制 (字节数)
 	 */
 	public ConcurrentWebSocketSessionDecorator(WebSocketSession delegate, int sendTimeLimit, int bufferSizeLimit) {
 		super(delegate);
@@ -61,31 +58,28 @@ public class ConcurrentWebSocketSessionDecorator extends WebSocketSessionDecorat
 
 
 	/**
-	 * Return the configured send-time limit (milliseconds).
-	 * @since 4.3.13
+	 * 返回配置的发送时间限制 (毫秒).
 	 */
 	public int getSendTimeLimit() {
 		return this.sendTimeLimit;
 	}
 
 	/**
-	 * Return the configured buffer-size limit (number of bytes).
-	 * @since 4.3.13
+	 * 返回配置的缓冲区大小限制 (字节数).
 	 */
 	public int getBufferSizeLimit() {
 		return this.bufferSizeLimit;
 	}
 
 	/**
-	 * Return the current buffer size (number of bytes).
+	 * 返回当前缓冲区大小 (字节数).
 	 */
 	public int getBufferSize() {
 		return this.bufferSize.get();
 	}
 
 	/**
-	 * Return the time (milliseconds) since the current send started,
-	 * or 0 if no send is currently in progress.
+	 * 返回自当前发送开始以来的时间 (毫秒), 如果当前没有发送, 则返回0.
 	 */
 	public long getTimeSinceSendStarted() {
 		long start = this.sendStartTime;

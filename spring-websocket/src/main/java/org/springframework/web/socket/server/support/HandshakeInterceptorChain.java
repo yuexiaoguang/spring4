@@ -13,7 +13,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**
- * A helper class that assists with invoking a list of handshake interceptors.
+ * 辅助类, 可帮助调用握手拦截器列表.
  */
 public class HandshakeInterceptorChain {
 

@@ -44,10 +44,9 @@ import org.springframework.web.socket.sockjs.transport.SockJsSession;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * A STOMP over WebSocket client that connects using an implementation of
- * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}
- * including {@link org.springframework.web.socket.sockjs.client.SockJsClient
- * SockJsClient}.
+ * WebSocket客户端上的STOMP, 它使用包含
+ * {@link org.springframework.web.socket.sockjs.client.SockJsClient SockJsClient}
+ * 的{@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}实现进行连接.
  */
 public class WebSocketStompClient extends StompClientSupport implements SmartLifecycle {
 
@@ -65,10 +64,9 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 
 	/**
-	 * Class constructor. Sets {@link #setDefaultHeartbeat} to "0,0" but will
-	 * reset it back to the preferred "10000,10000" when a
-	 * {@link #setTaskScheduler} is configured.
-	 * @param webSocketClient the WebSocket client to connect with
+	 * 将{@link #setDefaultHeartbeat}设置为"0,0", 但在配置{@link #setTaskScheduler}时将其重置为首选"10000,10000".
+	 * 
+	 * @param webSocketClient 要连接的WebSocket客户端
 	 */
 	public WebSocketStompClient(WebSocketClient webSocketClient) {
 		Assert.notNull(webSocketClient, "WebSocketClient is required");
@@ -78,7 +76,7 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 
 	/**
-	 * Return the configured WebSocketClient.
+	 * 返回配置的WebSocketClient.
 	 */
 	public WebSocketClient getWebSocketClient() {
 		return this.webSocketClient;
@@ -86,8 +84,7 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Also automatically sets the {@link #setDefaultHeartbeat defaultHeartbeat}
-	 * property to "10000,10000" if it is currently set to "0,0".
+	 * <p>如果当前设置为"0,0", 还会自动将{@link #setDefaultHeartbeat defaultHeartbeat}属性设置为"10000,10000".
 	 */
 	@Override
 	public void setTaskScheduler(TaskScheduler taskScheduler) {
@@ -98,35 +95,32 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * Configure the maximum size allowed for inbound STOMP message.
-	 * Since a STOMP message can be received in multiple WebSocket messages,
-	 * buffering may be required and this property determines the maximum buffer
-	 * size per message.
-	 * <p>By default this is set to 64 * 1024 (64K).
+	 * 配置入站STOMP消息允许的最大大小.
+	 * 由于可以在多个WebSocket消息中接收STOMP消息, 因此可能需要缓冲, 并且此属性确定每条消息的最大缓冲区大小.
+	 * <p>默认为 64 * 1024 (64K).
 	 */
 	public void setInboundMessageSizeLimit(int inboundMessageSizeLimit) {
 		this.inboundMessageSizeLimit = inboundMessageSizeLimit;
 	}
 
 	/**
-	 * Get the configured inbound message buffer size in bytes.
+	 * 获取配置的入站消息缓冲区大小, 以字节为单位.
 	 */
 	public int getInboundMessageSizeLimit() {
 		return this.inboundMessageSizeLimit;
 	}
 
 	/**
-	 * Set whether to auto-start the contained WebSocketClient when the Spring
-	 * context has been refreshed.
-	 * <p>Default is "true".
+	 * 设置是否在刷新Spring上下文时自动启动包含的WebSocketClient.
+	 * <p>默认为 "true".
 	 */
 	public void setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;
 	}
 
 	/**
-	 * Return the value for the 'autoStartup' property. If "true", this client
-	 * will automatically start and stop the contained WebSocketClient.
+	 * 返回'autoStartup'属性的值.
+	 * 如果为"true", 则此客户端将自动启动和停止包含的WebSocketClient.
 	 */
 	@Override
 	public boolean isAutoStartup() {
@@ -134,18 +128,16 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * Specify the phase in which the WebSocket client should be started and
-	 * subsequently closed. The startup order proceeds from lowest to highest,
-	 * and the shutdown order is the reverse of that.
-	 * <p>By default this is Integer.MAX_VALUE meaning that the WebSocket client
-	 * is started as late as possible and stopped as soon as possible.
+	 * 指定应启动WebSocket客户端并随后关闭的阶段.
+	 * 启动顺序从最低到最高, 关闭顺序与此相反.
+	 * <p>默认为 Integer.MAX_VALUE, 这意味着WebSocket客户端尽可能晚启动并尽快停止.
 	 */
 	public void setPhase(int phase) {
 		this.phase = phase;
 	}
 
 	/**
-	 * Return the configured phase.
+	 * 返回配置的阶段.
 	 */
 	@Override
 	public int getPhase() {
@@ -187,27 +179,28 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 
 	/**
-	 * Connect to the given WebSocket URL and notify the given
-	 * {@link org.springframework.messaging.simp.stomp.StompSessionHandler}
-	 * when connected on the STOMP level after the CONNECTED frame is received.
-	 * @param url the url to connect to
-	 * @param handler the session handler
-	 * @param uriVars URI variables to expand into the URL
-	 * @return ListenableFuture for access to the session when ready for use
+	 * 连接到给定的WebSocket URL, 并在STOMP级别连接且收到CONNECTED帧后通知给定的
+	 * {@link org.springframework.messaging.simp.stomp.StompSessionHandler}.
+	 * 
+	 * @param url 要连接的url
+	 * @param handler 会话处理器
+	 * @param uriVars 要扩展到URL的URI变量
+	 * 
+	 * @return 在准备使用时用于访问会话的ListenableFuture
 	 */
 	public ListenableFuture<StompSession> connect(String url, StompSessionHandler handler, Object... uriVars) {
 		return connect(url, null, handler, uriVars);
 	}
 
 	/**
-	 * An overloaded version of
-	 * {@link #connect(String, StompSessionHandler, Object...)} that also
-	 * accepts {@link WebSocketHttpHeaders} to use for the WebSocket handshake.
-	 * @param url the url to connect to
-	 * @param handshakeHeaders the headers for the WebSocket handshake
-	 * @param handler the session handler
-	 * @param uriVariables URI variables to expand into the URL
-	 * @return ListenableFuture for access to the session when ready for use
+	 * {@link #connect(String, StompSessionHandler, Object...)}的重载版本, 也接受{@link WebSocketHttpHeaders}用于WebSocket握手.
+	 * 
+	 * @param url 要连接的url
+	 * @param handshakeHeaders WebSocket握手的header
+	 * @param handler 会话处理器
+	 * @param uriVariables 要扩展到URL的URI变量
+	 * 
+	 * @return 在准备使用时用于访问会话的ListenableFuture
 	 */
 	public ListenableFuture<StompSession> connect(String url, WebSocketHttpHeaders handshakeHeaders,
 			StompSessionHandler handler, Object... uriVariables) {
@@ -216,16 +209,16 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * An overloaded version of
-	 * {@link #connect(String, StompSessionHandler, Object...)} that also accepts
-	 * {@link WebSocketHttpHeaders} to use for the WebSocket handshake and
-	 * {@link StompHeaders} for the STOMP CONNECT frame.
-	 * @param url the url to connect to
-	 * @param handshakeHeaders headers for the WebSocket handshake
-	 * @param connectHeaders headers for the STOMP CONNECT frame
-	 * @param handler the session handler
-	 * @param uriVariables URI variables to expand into the URL
-	 * @return ListenableFuture for access to the session when ready for use
+	 * {@link #connect(String, StompSessionHandler, Object...)}的重载版本,
+	 * 也接受用于WebSocket握手的{@link WebSocketHttpHeaders}, 以及用于STOMP CONNECT帧的{@link StompHeaders}.
+	 * 
+	 * @param url 要连接的url
+	 * @param handshakeHeaders WebSocket握手的header
+	 * @param connectHeaders STOMP CONNECT帧的header
+	 * @param handler 会话处理器
+	 * @param uriVariables 要扩展到URL的URI变量
+	 * 
+	 * @return 在准备使用时用于访问会话的ListenableFuture
 	 */
 	public ListenableFuture<StompSession> connect(String url, WebSocketHttpHeaders handshakeHeaders,
 			StompHeaders connectHeaders, StompSessionHandler handler, Object... uriVariables) {
@@ -236,14 +229,15 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * An overloaded version of
-	 * {@link #connect(String, WebSocketHttpHeaders, StompSessionHandler, Object...)}
-	 * that accepts a fully prepared {@link java.net.URI}.
-	 * @param url the url to connect to
-	 * @param handshakeHeaders the headers for the WebSocket handshake
-	 * @param connectHeaders headers for the STOMP CONNECT frame
-	 * @param sessionHandler the STOMP session handler
-	 * @return ListenableFuture for access to the session when ready for use
+	 * {@link #connect(String, WebSocketHttpHeaders, StompSessionHandler, Object...)}的重载版本,
+	 * 接受完全准备的{@link java.net.URI}.
+	 * 
+	 * @param url 要连接的url
+	 * @param handshakeHeaders WebSocket握手的header
+	 * @param connectHeaders STOMP CONNECT帧的header
+	 * @param sessionHandler STOMP会话处理器
+	 * 
+	 * @return 在准备使用时用于访问会话的ListenableFuture
 	 */
 	public ListenableFuture<StompSession> connect(URI url, WebSocketHttpHeaders handshakeHeaders,
 			StompHeaders connectHeaders, StompSessionHandler sessionHandler) {
@@ -266,7 +260,7 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 
 	/**
-	 * Adapt WebSocket to the TcpConnectionHandler and TcpConnection contracts.
+	 * 使WebSocket适配TcpConnectionHandler和TcpConnection约定.
 	 */
 	private class WebSocketTcpConnectionHandlerAdapter implements ListenableFutureCallback<WebSocketSession>,
 			WebSocketHandler, TcpConnection<byte[]> {
@@ -433,7 +427,7 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 
 	/**
-	 * Encode and decode STOMP WebSocket messages.
+	 * 编码和解码STOMP WebSocket消息.
 	 */
 	private static class StompWebSocketMessageCodec {
 

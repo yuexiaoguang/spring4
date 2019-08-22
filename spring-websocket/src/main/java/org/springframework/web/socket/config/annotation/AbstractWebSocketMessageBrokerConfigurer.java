@@ -9,8 +9,7 @@ import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 
 /**
- * A convenient abstract base class for {@link WebSocketMessageBrokerConfigurer}
- * implementations providing empty method implementations for optional methods.
+ * {@link WebSocketMessageBrokerConfigurer}实现的便捷抽象基类, 提供空方法实现.
  */
 public abstract class AbstractWebSocketMessageBrokerConfigurer implements WebSocketMessageBrokerConfigurer {
 

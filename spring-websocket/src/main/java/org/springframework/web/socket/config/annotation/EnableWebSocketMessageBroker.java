@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * Add this annotation to an {@code @Configuration} class to enable broker-backed
- * messaging over WebSocket using a higher-level messaging sub-protocol.
+ * 将此注解添加到{@code @Configuration}类, 以使用更高级别的消息传递子协议在WebSocket上启用支持代理的消息传递.
  *
  * <pre class="code">
  * &#064;Configuration
@@ -20,9 +19,8 @@ import org.springframework.context.annotation.Import;
  * }
  * </pre>
  *
- * <p>Customize the imported configuration by implementing the
- * {@link WebSocketMessageBrokerConfigurer} interface or more likely extend the
- * convenient base class {@link AbstractWebSocketMessageBrokerConfigurer}:
+ * <p>通过实现{@link WebSocketMessageBrokerConfigurer}接口自定义导入的配置,
+ * 或者更可能扩展方便的基类{@link AbstractWebSocketMessageBrokerConfigurer}:
  *
  * <pre class="code">
  * &#064;Configuration

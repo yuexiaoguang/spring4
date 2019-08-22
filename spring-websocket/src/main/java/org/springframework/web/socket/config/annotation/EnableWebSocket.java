@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * Add this annotation to an {@code @Configuration} class to configure
- * processing WebSocket requests:
+ * 将此注解添加到{@code @Configuration}类以配置处理WebSocket请求:
  *
  * <pre class="code">
  * &#064;Configuration
@@ -20,8 +19,7 @@ import org.springframework.context.annotation.Import;
  * }
  * </pre>
  *
- * <p>Customize the imported configuration by implementing the
- * {@link WebSocketConfigurer} interface:
+ * <p>通过实现{@link WebSocketConfigurer}接口自定义导入的配置:
  *
  * <pre class="code">
  * &#064;Configuration

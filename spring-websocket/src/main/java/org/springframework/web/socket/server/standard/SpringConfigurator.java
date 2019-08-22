@@ -17,8 +17,8 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * A {@link javax.websocket.server.ServerEndpointConfig.Configurator} for initializing
- * {@link ServerEndpoint}-annotated classes through Spring.
+ * {@link javax.websocket.server.ServerEndpointConfig.Configurator},
+ * 用于通过Spring初始化带{@link ServerEndpoint}注解的类.
  *
  * <p>
  * <pre class="code">

@@ -13,7 +13,7 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.socket.sockjs.transport.session.StreamingSockJsSession;
 
 /**
- * A TransportHandler for sending messages via Server-Sent events:
+ * TransportHandler, 用于通过Server-Sent事件发送消息:
  * <a href="http://dev.w3.org/html5/eventsource/">http://dev.w3.org/html5/eventsource/</a>.
  */
 public class EventSourceTransportHandler extends AbstractHttpSendingTransportHandler {

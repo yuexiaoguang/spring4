@@ -10,36 +10,35 @@ import org.springframework.web.socket.WebSocketExtension;
 import org.springframework.web.socket.WebSocketHandler;
 
 /**
- * A server-specific strategy for performing the actual upgrade to a WebSocket exchange.
+ * 用于执行实际升级到WebSocket交换的特定于服务器的策略.
  */
 public interface RequestUpgradeStrategy {
 
 	/**
-	 * Return the supported WebSocket protocol versions.
+	 * 返回支持的WebSocket协议版本.
 	 */
 	String[] getSupportedVersions();
 
 	/**
-	 * Return the WebSocket protocol extensions supported by the underlying WebSocket server.
+	 * 返回底层WebSocket服务器支持的WebSocket协议扩展.
 	 */
 	List<WebSocketExtension> getSupportedExtensions(ServerHttpRequest request);
 
 	/**
-	 * Perform runtime specific steps to complete the upgrade. Invoked after successful
-	 * negotiation of the handshake request.
-	 * @param request the current request
-	 * @param response the current response
-	 * @param selectedProtocol the selected sub-protocol, if any
-	 * @param selectedExtensions the selected WebSocket protocol extensions
-	 * @param user the user to associate with the WebSocket session
-	 * @param wsHandler the handler for WebSocket messages
-	 * @param attributes handshake request specific attributes to be set on the WebSocket
-	 * session via {@link org.springframework.web.socket.server.HandshakeInterceptor} and
-	 * thus made available to the {@link org.springframework.web.socket.WebSocketHandler}
-	 * @throws HandshakeFailureException thrown when handshake processing failed to
-	 * complete due to an internal, unrecoverable error, i.e. a server error as
-	 * opposed to a failure to successfully negotiate the requirements of the
-	 * handshake request.
+	 * 执行特定于运行时的步骤以完成升级.
+	 * 成功协商握手请求后调用.
+	 * 
+	 * @param request 当前的请求
+	 * @param response 当前的响应
+	 * @param selectedProtocol 选定的子协议
+	 * @param selectedExtensions 选定的WebSocket协议扩展
+	 * @param user 要与WebSocket会话关联的用户
+	 * @param wsHandler WebSocket消息的处理器
+	 * @param attributes 握手请求通过{@link org.springframework.web.socket.server.HandshakeInterceptor}
+	 * 在WebSocket会话上设置的特定属性, 从而可用于{@link org.springframework.web.socket.WebSocketHandler}
+	 * 
+	 * @throws HandshakeFailureException 由于内部不可恢复的错误, 握手处理未能完成时抛出,
+	 * i.e. 服务器错误, 而不是协商握手请求的要求的失败.
 	 */
 	void upgrade(ServerHttpRequest request, ServerHttpResponse response,
 			String selectedProtocol, List<WebSocketExtension> selectedExtensions, Principal user,

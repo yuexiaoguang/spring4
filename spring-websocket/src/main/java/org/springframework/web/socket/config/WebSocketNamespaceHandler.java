@@ -4,8 +4,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.NamespaceHandler} for Spring WebSocket
- * configuration namespace.
+ * {@link org.springframework.beans.factory.xml.NamespaceHandler}, 用于Spring WebSocket配置命名空间.
  */
 public class WebSocketNamespaceHandler extends NamespaceHandlerSupport {
 
@@ -20,5 +19,4 @@ public class WebSocketNamespaceHandler extends NamespaceHandlerSupport {
 			registerBeanDefinitionParser("message-broker", new MessageBrokerBeanDefinitionParser());
 		}
 	}
-
 }

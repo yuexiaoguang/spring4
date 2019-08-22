@@ -21,7 +21,7 @@ import org.springframework.web.socket.sockjs.transport.handler.DefaultSockJsServ
 import org.springframework.web.socket.sockjs.transport.handler.WebSocketTransportHandler;
 
 /**
- * Provides utility methods for parsing common WebSocket XML namespace elements.
+ * 提供用于解析常见WebSocket XML命名空间元素的工具方法.
  */
 abstract class WebSocketNamespaceUtils {
 

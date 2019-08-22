@@ -3,33 +3,30 @@ package org.springframework.web.socket.messaging;
 import org.springframework.messaging.Message;
 
 /**
- * A contract for handling sub-protocol errors sent to clients.
+ * 处理发送给客户端的子协议错误的约定.
  */
 public interface SubProtocolErrorHandler<P> {
 
 	/**
-	 * Handle errors thrown while processing client messages providing an
-	 * opportunity to prepare the error message or to prevent one from being sent.
-	 * <p>Note that the STOMP protocol requires a server to close the connection
-	 * after sending an ERROR frame. To prevent an ERROR frame from being sent,
-	 * a handler could return {@code null} and send a notification message
-	 * through the broker instead, e.g. via a user destination.
-	 * @param clientMessage the client message related to the error, possibly
-	 * {@code null} if error occurred while parsing a WebSocket message
-	 * @param ex the cause for the error, never {@code null}
-	 * @return the error message to send to the client, or {@code null} in which
-	 * case no message will be sent.
+	 * 处理在处理客户端消息时抛出的错误, 准备错误消息或阻止发送错误消息.
+	 * <p>请注意, STOMP协议要求服务器在发送ERROR帧后关闭连接.
+	 * 为了防止发送ERROR帧, 处理器可以返回{@code null}并通过代理发送通知消息, e.g. 通过用户目标.
+	 * 
+	 * @param clientMessage 与错误相关的客户端消息, 如果在解析WebSocket消息时发生错误, 可能是{@code null}
+	 * @param ex 错误的原因, never {@code null}
+	 * 
+	 * @return 要发送给客户端的错误消息, 或{@code null}在这种情况下不会发送任何消息
 	 */
 	Message<P> handleClientMessageProcessingError(Message<P> clientMessage, Throwable ex);
 
 	/**
-	 * Handle errors sent from the server side to clients, e.g. errors from the
-	 * {@link org.springframework.messaging.simp.stomp.StompBrokerRelayMessageHandler
-	 * "broke relay"} because connectivity failed or the external broker sent an
-	 * error message, etc.
-	 * @param errorMessage the error message, never {@code null}
-	 * @return the error message to send to the client, or {@code null} in which
-	 * case no message will be sent.
+	 * 处理从服务器端发送到客户端的错误, e.g. 来自
+	 * {@link org.springframework.messaging.simp.stomp.StompBrokerRelayMessageHandler "broke relay"}的错误,
+	 * 因为连接失败或外部代理发送了错误消息等.
+	 * 
+	 * @param errorMessage 错误消息, never {@code null}
+	 * 
+	 * @return 要发送给客户端的错误消息, 或{@code null}在这种情况下不会发送任何消息
 	 */
 	Message<P> handleErrorMessageToClient(Message<P> errorMessage);
 

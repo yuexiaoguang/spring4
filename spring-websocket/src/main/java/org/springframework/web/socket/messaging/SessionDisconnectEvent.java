@@ -7,11 +7,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.socket.CloseStatus;
 
 /**
- * Event raised when the session of a WebSocket client using a Simple Messaging
- * Protocol (e.g. STOMP) as the WebSocket sub-protocol is closed.
+ * 使用简单消息传递协议 (e.g. STOMP)作为WebSocket子协议的WebSocket客户端会话关闭时引发的事件.
  *
- * <p>Note that this event may be raised more than once for a single session and
- * therefore event consumers should be idempotent and ignore a duplicate event.
+ * <p>请注意, 对于单个会话, 此事件可能会多次引发, 因此事件使用者应该是幂等的并忽略重复事件.
  */
 @SuppressWarnings("serial")
 public class SessionDisconnectEvent extends AbstractSubProtocolEvent {
@@ -22,11 +20,10 @@ public class SessionDisconnectEvent extends AbstractSubProtocolEvent {
 
 
 	/**
-	 * Create a new SessionDisconnectEvent.
-	 * @param source the component that published the event (never {@code null})
-	 * @param message the message
-	 * @param sessionId the disconnect message
-	 * @param closeStatus the status object
+	 * @param source 发布事件的组件 (never {@code null})
+	 * @param message 消息
+	 * @param sessionId 断开连接的消息
+	 * @param closeStatus 状态对象
 	 */
 	public SessionDisconnectEvent(Object source, Message<byte[]> message, String sessionId,
 			CloseStatus closeStatus) {
@@ -35,12 +32,11 @@ public class SessionDisconnectEvent extends AbstractSubProtocolEvent {
 	}
 
 	/**
-	 * Create a new SessionDisconnectEvent.
-	 * @param source the component that published the event (never {@code null})
-	 * @param message the message
-	 * @param sessionId the disconnect message
-	 * @param closeStatus the status object
-	 * @param user the current session user
+	 * @param source 发布事件的组件 (never {@code null})
+	 * @param message 消息
+	 * @param sessionId 断开连接的消息
+	 * @param closeStatus 状态对象
+	 * @param user 当前会话用户
 	 */
 	public SessionDisconnectEvent(Object source, Message<byte[]> message, String sessionId,
 			CloseStatus closeStatus, Principal user) {
@@ -53,14 +49,14 @@ public class SessionDisconnectEvent extends AbstractSubProtocolEvent {
 
 
 	/**
-	 * Return the session id.
+	 * 返回会话id.
 	 */
 	public String getSessionId() {
 		return this.sessionId;
 	}
 
 	/**
-	 * Return the status with which the session was closed.
+	 * 返回会话关闭的状态.
 	 */
 	public CloseStatus getCloseStatus() {
 		return this.status;
@@ -72,5 +68,4 @@ public class SessionDisconnectEvent extends AbstractSubProtocolEvent {
 		return "SessionDisconnectEvent[sessionId=" + this.sessionId + ", " +
 				(this.status != null ? this.status.toString() : "closeStatus=null") + "]";
 	}
-
 }

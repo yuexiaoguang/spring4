@@ -9,9 +9,9 @@ import java.util.Map;
 import org.springframework.http.HttpMethod;
 
 /**
- * SockJS transport types.
+ * SockJS运输类型.
  *
- * <p>JSONP support will be removed as of Spring Framework 5.1, use others transports instead.
+ * <p>从Spring Framework 5.1开始, JSONP支持将被删除, 而是使用其他传输.
  */
 public enum TransportType {
 

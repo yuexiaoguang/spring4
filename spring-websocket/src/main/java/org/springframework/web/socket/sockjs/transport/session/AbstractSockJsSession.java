@@ -28,7 +28,7 @@ import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
 import org.springframework.web.socket.sockjs.transport.SockJsSession;
 
 /**
- * An abstract base class for SockJS sessions implementing {@link SockJsSession}.
+ * 实现{@link SockJsSession}的SockJS会话的抽象基类.
  */
 public abstract class AbstractSockJsSession implements SockJsSession {
 
@@ -36,20 +36,18 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 
 
 	/**
-	 * Log category to use on network IO exceptions after a client has gone away.
-	 * <p>The Servlet API does not provide notifications when a client disconnects;
+	 * 客户端离开后用于网络IO异常的日志类别.
+	 * <p>当客户端断开连接时, Servlet API不会提供通知;
 	 * see <a href="https://java.net/jira/browse/SERVLET_SPEC-44">SERVLET_SPEC-44</a>.
-	 * Therefore network IO failures may occur simply because a client has gone away,
-	 * and that can fill the logs with unnecessary stack traces.
-	 * <p>We make a best effort to identify such network failures, on a per-server
-	 * basis, and log them under a separate log category. A simple one-line message
-	 * is logged at DEBUG level, while a full stack trace is shown at TRACE level.
+	 * 因此, 网络IO故障可能仅仅因为客户端已经消失, 并且可以用不必要的堆栈跟踪填充日志.
+	 * <p>尽最大努力在每个服务器的基础上识别此类网络故障, 并将它们记录在单独的日志类别下.
+	 * 在DEBUG级别记录一个简单的单行消息, 而在TRACE级别显示完整的堆栈跟踪.
 	 */
 	public static final String DISCONNECTED_CLIENT_LOG_CATEGORY =
 			"org.springframework.web.socket.sockjs.DisconnectedClient";
 
 	/**
-	 * Tomcat: ClientAbortException or EOFException
+	 * Tomcat: ClientAbortException 或 EOFException
 	 * Jetty: EofException
 	 * WildFly, GlassFish: java.io.IOException "Broken pipe" (already covered)
 	 */
@@ -58,7 +56,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 
 
 	/**
-	 * Separate logger to use on network IO failure after a client has gone away.
+	 * 在客户端离开后, 用于网络IO故障的单独的记录器.
 	 */
 	protected static final Log disconnectedClientLogger = LogFactory.getLog(DISCONNECTED_CLIENT_LOG_CATEGORY);
 
@@ -88,12 +86,10 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 
 
 	/**
-	 * Create a new instance.
-	 * @param id the session ID
-	 * @param config SockJS service configuration options
-	 * @param handler the recipient of SockJS messages
-	 * @param attributes attributes from the HTTP handshake to associate with the WebSocket
-	 * session; the provided attributes are copied, the original map is not used.
+	 * @param id 会话 ID
+	 * @param config SockJS服务配置选项
+	 * @param handler SockJS消息的接收者
+	 * @param attributes 来自HTTP握手的属性, 要与WebSocket会话关联; 复制提供的属性, 不使用原始Map.
 	 */
 	public AbstractSockJsSession(String id, SockJsServiceConfig config, WebSocketHandler handler,
 			Map<String, Object> attributes) {
@@ -158,7 +154,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Performs cleanup and notify the {@link WebSocketHandler}.
+	 * 执行清理并通知{@link WebSocketHandler}.
 	 */
 	@Override
 	public final void close() throws IOException {
@@ -166,7 +162,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Performs cleanup and notify the {@link WebSocketHandler}.
+	 * 执行清理并通知{@link WebSocketHandler}.
 	 */
 	@Override
 	public final void close(CloseStatus status) throws IOException {
@@ -210,7 +206,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Should be invoked whenever the session becomes inactive.
+	 * 只要会话变为非活动状态, 就应该调用它.
 	 */
 	protected void updateLastActiveTime() {
 		this.timeLastActive = System.currentTimeMillis();
@@ -266,17 +262,14 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Polling and Streaming sessions periodically close the current HTTP request and
-	 * wait for the next request to come through. During this "downtime" the session is
-	 * still open but inactive and unable to send messages and therefore has to buffer
-	 * them temporarily. A WebSocket session by contrast is stateful and remain active
-	 * until closed.
+	 * 轮询和流式会话定期关闭当前的HTTP请求, 并等待下一个请求到来.
+	 * 在此"downtime"期间, 会话仍处于打开状态, 但处于非活动状态, 且无法发送消息, 因此必须暂时缓冲它们.
+	 * 相比之下, WebSocket会话是有状态的, 并且在关闭之前保持活动状态.
 	 */
 	public abstract boolean isActive();
 
 	/**
-	 * Actually close the underlying WebSocket session or in the case of HTTP
-	 * transports complete the underlying request.
+	 * 实际关闭底层WebSocket会话, 或在HTTP传输的情况下完成底层请求.
 	 */
 	protected abstract void disconnect(CloseStatus status) throws IOException;
 
@@ -284,8 +277,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	// Frame writing
 
 	/**
-	 * For internal use within a TransportHandler and the (TransportHandler-specific)
-	 * session class.
+	 * 用于TransportHandler和 (特定于TransportHandler)会话类中的内部使用.
 	 */
 	protected void writeFrame(SockJsFrame frame) throws SockJsTransportFailureException {
 		if (logger.isTraceEnabled()) {
@@ -297,7 +289,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 		catch (Throwable ex) {
 			logWriteFrameFailure(ex);
 			try {
-				// Force disconnect (so we won't try to send close frame)
+				// 强制断开连接 (所以不会尝试发送close帧)
 				disconnect(CloseStatus.SERVER_ERROR);
 			}
 			catch (Throwable disconnectFailure) {
@@ -365,13 +357,13 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Invoked when the underlying connection is closed.
+	 * 关闭底层连接时调用.
 	 */
 	public final void delegateConnectionClosed(CloseStatus status) throws Exception {
 		if (!isClosed()) {
 			try {
 				updateLastActiveTime();
-				// Avoid cancelHeartbeat() and responseLock within server "close" callback
+				// 避免服务器"close"回调中的 cancelHeartbeat() 和responseLock
 				ScheduledFuture<?> future = this.heartbeatFuture;
 				if (future != null) {
 					this.heartbeatFuture = null;
@@ -386,7 +378,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Close due to error arising from SockJS transport handling.
+	 * 由于SockJS运输处理引起的错误而关闭.
 	 */
 	public void tryCloseWithSockJsTransportError(Throwable error, CloseStatus closeStatus) {
 		if (logger.isDebugEnabled()) {

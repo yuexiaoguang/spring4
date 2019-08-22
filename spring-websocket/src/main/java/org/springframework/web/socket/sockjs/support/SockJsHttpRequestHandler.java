@@ -24,13 +24,12 @@ import org.springframework.web.socket.sockjs.SockJsException;
 import org.springframework.web.socket.sockjs.SockJsService;
 
 /**
- * An {@link HttpRequestHandler} that allows mapping a {@link SockJsService} to requests
- * in a Servlet container.
+ * 一个{@link HttpRequestHandler}, 它允许将{@link SockJsService}映射到Servlet容器中的请求.
  */
 public class SockJsHttpRequestHandler
 		implements HttpRequestHandler, CorsConfigurationSource, Lifecycle, ServletContextAware {
 
-	// No logging: HTTP transports too verbose and we don't know enough to log anything of value
+	// No logging: HTTP传输过于冗长, 不知道记录哪些有价值的内容
 
 	private final SockJsService sockJsService;
 
@@ -40,9 +39,8 @@ public class SockJsHttpRequestHandler
 
 
 	/**
-	 * Create a new SockJsHttpRequestHandler.
-	 * @param sockJsService the SockJS service
-	 * @param webSocketHandler the websocket handler
+	 * @param sockJsService SockJS服务
+	 * @param webSocketHandler websocket处理器
 	 */
 	public SockJsHttpRequestHandler(SockJsService sockJsService, WebSocketHandler webSocketHandler) {
 		Assert.notNull(sockJsService, "SockJsService must not be null");
@@ -53,16 +51,10 @@ public class SockJsHttpRequestHandler
 	}
 
 
-	/**
-	 * Return the {@link SockJsService}.
-	 */
 	public SockJsService getSockJsService() {
 		return this.sockJsService;
 	}
 
-	/**
-	 * Return the {@link WebSocketHandler}.
-	 */
 	public WebSocketHandler getWebSocketHandler() {
 		return this.webSocketHandler;
 	}

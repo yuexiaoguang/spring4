@@ -16,14 +16,12 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.server.HandshakeFailureException;
 
 /**
- * WebSphere support for upgrading an {@link HttpServletRequest} during a
- * WebSocket handshake. To modify properties of the underlying
- * {@link javax.websocket.server.ServerContainer} you can use
- * {@link ServletServerContainerFactoryBean} in XML configuration or, when using
- * Java configuration, access the container instance through the
- * "javax.websocket.server.ServerContainer" ServletContext attribute.
+ * WebSphere支持在WebSocket握手期间升级{@link HttpServletRequest}.
+ * 要修改底层{@link javax.websocket.server.ServerContainer}的属性,
+ * 可以在XML配置中使用{@link ServletServerContainerFactoryBean}, 或者在使用Java配置时,
+ * 通过"javax.websocket.server.ServerContainer" ServletContext属性访问容器实例.
  *
- * <p>Tested with WAS Liberty beta (August 2015) for the upcoming 8.5.5.7 release.
+ * <p>为即将发布的8.5.5.7版本测试了WAS Liberty beta (August 2015).
  */
 public class WebSphereRequestUpgradeStrategy extends AbstractStandardUpgradeStrategy {
 

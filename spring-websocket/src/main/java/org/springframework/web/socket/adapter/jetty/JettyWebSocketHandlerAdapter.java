@@ -23,7 +23,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator;
 
 /**
- * Adapts {@link WebSocketHandler} to the Jetty 9 WebSocket API.
+ * 使{@link WebSocketHandler}适配Jetty 9 WebSocket API.
  */
 @WebSocket
 public class JettyWebSocketHandlerAdapter {

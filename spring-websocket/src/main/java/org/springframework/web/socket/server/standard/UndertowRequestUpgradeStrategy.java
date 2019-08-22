@@ -45,11 +45,10 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.server.HandshakeFailureException;
 
 /**
- * A WebSocket {@code RequestUpgradeStrategy} for WildFly and its underlying
- * Undertow web server. Also compatible with embedded Undertow usage.
+ * WildFly及其底层Undertow Web服务器的WebSocket {@code RequestUpgradeStrategy}.
+ * 还兼容嵌入式Undertow用法.
  *
- * <p>Designed for Undertow 1.3.5+ as of Spring Framework 4.3, with a fallback
- * strategy for Undertow 1.0 to 1.3 - as included in WildFly 8.x, 9 and 10.
+ * <p>适用于Spring Framework 4.3中的Undertow 1.3.5+, 以及Undertow 1.0到1.3的后备策略 - 包含在WildFly 8.x, 9和10中.
  */
 public class UndertowRequestUpgradeStrategy extends AbstractStandardUpgradeStrategy {
 
@@ -111,8 +110,7 @@ public class UndertowRequestUpgradeStrategy extends AbstractStandardUpgradeStrat
 
 
 	/**
-	 * Strategy for use with Undertow 1.0 to 1.3 before there was a public API
-	 * to perform a WebSocket upgrade.
+	 * 在有公共API执行WebSocket升级之前, 使用Undertow 1.0到1.3的策略.
 	 */
 	private static class FallbackStrategy extends AbstractStandardUpgradeStrategy {
 
@@ -165,7 +163,7 @@ public class UndertowRequestUpgradeStrategy extends AbstractStandardUpgradeStrat
 					endpointConstructorWithEndpointFactory = false;
 				}
 
-				// Adapting between different Pool API types in Undertow 1.0-1.2 vs 1.3
+				// 在Undertow 1.0-1.2与1.3中的不同Pool API类型之间进行适配
 				getBufferPoolMethod = WebSocketHttpExchange.class.getMethod("getBufferPool");
 				createChannelMethod = ReflectionUtils.findMethod(Handshake.class, "createChannel", (Class<?>[]) null);
 			}

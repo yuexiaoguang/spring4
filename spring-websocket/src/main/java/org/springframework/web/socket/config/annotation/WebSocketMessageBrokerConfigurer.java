@@ -9,76 +9,66 @@ import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 
 /**
- * Defines methods for configuring message handling with simple messaging
- * protocols (e.g. STOMP) from WebSocket clients.
+ * 定义使用来自WebSocket客户端的简单消息协议 (e.g. STOMP) 配置消息处理的方法.
  *
- * <p>Typically used to customize the configuration provided via
- * {@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker}.
+ * <p>通常用于自定义通过{@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker}提供的配置.
  */
 public interface WebSocketMessageBrokerConfigurer {
 
 	/**
-	 * Register STOMP endpoints mapping each to a specific URL and (optionally)
-	 * enabling and configuring SockJS fallback options.
+	 * 注册STOMP端点, 将每个端点映射到特定URL, 并(可选地)启用和配置SockJS后备选项.
 	 */
 	void registerStompEndpoints(StompEndpointRegistry registry);
 
 	/**
-	 * Configure options related to the processing of messages received from and
-	 * sent to WebSocket clients.
+	 * 配置与从WebSocket客户端接收和发送到WebSocket客户端的消息的处理相关的选项.
 	 */
 	void configureWebSocketTransport(WebSocketTransportRegistration registry);
 
 	/**
-	 * Configure the {@link org.springframework.messaging.MessageChannel} used for
-	 * incoming messages from WebSocket clients. By default the channel is backed
-	 * by a thread pool of size 1. It is recommended to customize thread pool
-	 * settings for production use.
+	 * 配置用于来自WebSocket客户端的传入消息的{@link org.springframework.messaging.MessageChannel}.
+	 * 默认情况下, Channel由大小为1的线程池支持.
+	 * 建议自定义线程池设置以供生产使用.
 	 */
 	void configureClientInboundChannel(ChannelRegistration registration);
 
 	/**
-	 * Configure the {@link org.springframework.messaging.MessageChannel} used for
-	 * outbound messages to WebSocket clients. By default the channel is backed
-	 * by a thread pool of size 1. It is recommended to customize thread pool
-	 * settings for production use.
+	 * 配置用于发送到WebSocket客户端的出站消息的{@link org.springframework.messaging.MessageChannel}.
+	 * 默认情况下, Channel由大小为1的线程池支持.
+	 * 建议自定义线程池设置以供生产使用.
 	 */
 	void configureClientOutboundChannel(ChannelRegistration registration);
 
 	/**
-	 * Add resolvers to support custom controller method argument types.
-	 * <p>This does not override the built-in support for resolving handler
-	 * method arguments. To customize the built-in support for argument
-	 * resolution, configure {@code SimpAnnotationMethodMessageHandler} directly.
-	 * @param argumentResolvers the resolvers to register (initially an empty list)
-	 * @since 4.1.1
+	 * 添加解析器以支持自定义控制器方法参数类型.
+	 * <p>这不会覆盖对解析处理器方法参数的内置支持.
+	 * 要自定义内置的参数解析的支持, 直接配置{@code SimpAnnotationMethodMessageHandler}.
+	 * 
+	 * @param argumentResolvers 要注册的解析器 (最初为空列表)
 	 */
 	void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers);
 
 	/**
-	 * Add handlers to support custom controller method return value types.
-	 * <p>Using this option does not override the built-in support for handling
-	 * return values. To customize the built-in support for handling return
-	 * values, configure  {@code SimpAnnotationMethodMessageHandler} directly.
-	 * @param returnValueHandlers the handlers to register (initially an empty list)
-	 * @since 4.1.1
+	 * 添加处理器以支持自定义控制器方法返回值类型.
+	 * <p>使用此选项不会覆盖处理返回值的内置支持.
+	 * 要自定义处理返回值的内置支持, 直接配置{@code SimpAnnotationMethodMessageHandler}.
+	 * 
+	 * @param returnValueHandlers 要注册的处理器 (最初是一个空列表)
 	 */
 	void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers);
 
 	/**
-	 * Configure the message converters to use when extracting the payload of
-	 * messages in annotated methods and when sending messages (e.g. through the
-	 * "broker" SimpMessagingTemplate).
-	 * <p>The provided list, initially empty, can be used to add message converters
-	 * while the boolean return value is used to determine if default message should
-	 * be added as well.
-	 * @param messageConverters the converters to configure (initially an empty list)
-	 * @return whether to also add default converter or not
+	 * 配置在注解方法中提取消息的有效负载时以及在发送消息时使用的消息转换器 (e.g. 通过"broker" SimpMessagingTemplate).
+	 * <p>提供的列表, 最初为空, 可用于添加消息转换器, 而boolean返回值用于确定是否还应添加默认消息转换器.
+	 * 
+	 * @param messageConverters 要配置的转换器 (最初是一个空列表)
+	 * 
+	 * @return 是否还要添加默认转换器
 	 */
 	boolean configureMessageConverters(List<MessageConverter> messageConverters);
 
 	/**
-	 * Configure message broker options.
+	 * 配置消息代理选项.
 	 */
 	void configureMessageBroker(MessageBrokerRegistry registry);
 

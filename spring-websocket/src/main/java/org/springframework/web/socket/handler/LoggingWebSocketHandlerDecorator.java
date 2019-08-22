@@ -9,7 +9,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A {@link WebSocketHandlerDecorator} that adds logging to WebSocket lifecycle events.
+ * {@link WebSocketHandlerDecorator}, 它将日志记录添加到WebSocket生命周期事件中.
  */
 public class LoggingWebSocketHandlerDecorator extends WebSocketHandlerDecorator {
 

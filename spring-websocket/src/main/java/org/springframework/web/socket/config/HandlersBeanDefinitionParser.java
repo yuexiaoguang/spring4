@@ -23,10 +23,9 @@ import org.springframework.web.socket.server.support.WebSocketHttpRequestHandler
 import org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler;
 
 /**
- * Parses the configuration for the {@code <websocket:handlers/>} namespace element.
- * Registers a Spring MVC {@code SimpleUrlHandlerMapping} to map HTTP WebSocket
- * handshake (or SockJS) requests to
- * {@link org.springframework.web.socket.WebSocketHandler WebSocketHandler}s.
+ * 解析{@code <websocket:handlers/>}命名空间元素的配置.
+ * 注册Spring MVC {@code SimpleUrlHandlerMapping}以将HTTP WebSocket握手 (或SockJS)请求映射到
+ * {@link org.springframework.web.socket.WebSocketHandler WebSocketHandler}.
  */
 class HandlersBeanDefinitionParser implements BeanDefinitionParser {
 

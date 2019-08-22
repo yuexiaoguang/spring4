@@ -3,7 +3,7 @@ package org.springframework.web.socket.sockjs;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * Base class for exceptions raised while processing SockJS HTTP requests.
+ * 处理SockJS HTTP请求时引发的异常的基类.
  */
 @SuppressWarnings("serial")
 public class SockJsException extends NestedRuntimeException {
@@ -11,21 +11,10 @@ public class SockJsException extends NestedRuntimeException {
 	private final String sessionId;
 
 
-	/**
-	 * Constructor for SockJsException.
-	 * @param message the exception message
-	 * @param cause the root cause
-	 */
 	public SockJsException(String message, Throwable cause) {
 		this(message, null, cause);
 	}
 
-	/**
-	 * Constructor for SockJsException.
-	 * @param message the exception message
-	 * @param sessionId the SockJS session id
-	 * @param cause the root cause
-	 */
 	public SockJsException(String message, String sessionId, Throwable cause) {
 		super(message, cause);
 		this.sessionId = sessionId;
@@ -33,7 +22,7 @@ public class SockJsException extends NestedRuntimeException {
 
 
 	/**
-	 * Return the SockJS session id.
+	 * 返回SockJS会话ID.
 	 */
 	public String getSockJsSessionId() {
 		return this.sessionId;

@@ -20,9 +20,9 @@ import org.springframework.web.socket.sockjs.transport.session.PollingSockJsSess
 import org.springframework.web.util.JavaScriptUtils;
 
 /**
- * A TransportHandler that sends messages via JSONP polling.
+ * 通过JSONP轮询发送消息的TransportHandler.
  *
- * @deprecated Will be removed as of Spring Framework 5.1, use others transports instead.
+ * @deprecated 将从Spring Framework 5.1中删除, 改为使用其他传输.
  */
 @Deprecated
 public class JsonpPollingTransportHandler extends AbstractHttpSendingTransportHandler {

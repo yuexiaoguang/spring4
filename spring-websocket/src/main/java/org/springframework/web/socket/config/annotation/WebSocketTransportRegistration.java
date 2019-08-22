@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
 /**
- * Configure the processing of messages received from and sent to WebSocket clients.
+ * 配置WebSocket客户端接收和发送的消息的处理.
  */
 public class WebSocketTransportRegistration {
 
@@ -22,20 +22,16 @@ public class WebSocketTransportRegistration {
 
 
 	/**
-	 * Configure the maximum size for an incoming sub-protocol message.
-	 * For example a STOMP message may be received as multiple WebSocket messages
-	 * or multiple HTTP POST requests when SockJS fallback options are in use.
-	 * <p>In theory a WebSocket message can be almost unlimited in size.
-	 * In practice WebSocket servers impose limits on incoming message size.
-	 * STOMP clients for example tend to split large messages around 16K
-	 * boundaries. Therefore a server must be able to buffer partial content
-	 * and decode when enough data is received. Use this property to configure
-	 * the max size of the buffer to use.
-	 * <p>The default value is 64K (i.e. 64 * 1024).
-	 * <p><strong>NOTE</strong> that the current version 1.2 of the STOMP spec
-	 * does not specifically discuss how to send STOMP messages over WebSocket.
-	 * Version 2 of the spec will but in the mean time existing client libraries
-	 * have already established a practice that servers must handle.
+	 * 配置传入子协议消息的最大大小.
+	 * 例如, 当使用SockJS后备选项时, 可以将STOMP消息作为多个WebSocket消息或多个HTTP POST请求接收.
+	 * <p>从理论上讲, WebSocket消息的大小几乎是无限的.
+	 * 实际上, WebSocket服务器对传入的消息大小施加了限制.
+	 * 例如, STOMP客户端倾向于在16K边界左右分割大型消息.
+	 * 因此, 服务器必须能够缓冲部分内容, 并在接收到足够数据时进行解码.
+	 * 使用此属性配置要使用的缓冲区的最大大小.
+	 * <p>默认为 64K (i.e. 64 * 1024).
+	 * <p><strong>NOTE</strong> STOMP规范的当前版本 1.2 没有具体讨论如何通过WebSocket发送STOMP消息.
+	 * 规范的第2版将会有, 但同时现有的客户端库已经建立了服务器必须处理的实践.
 	 */
 	public WebSocketTransportRegistration setMessageSizeLimit(int messageSizeLimit) {
 		this.messageSizeLimit = messageSizeLimit;
@@ -43,40 +39,28 @@ public class WebSocketTransportRegistration {
 	}
 
 	/**
-	 * Protected accessor for internal use.
+	 * 供内部使用的访问器.
 	 */
 	protected Integer getMessageSizeLimit() {
 		return this.messageSizeLimit;
 	}
 
 	/**
-	 * Configure a time limit (in milliseconds) for the maximum amount of a time
-	 * allowed when sending messages to a WebSocket session or writing to an
-	 * HTTP response when SockJS fallback option are in use.
-	 * <p>In general WebSocket servers expect that messages to a single WebSocket
-	 * session are sent from a single thread at a time. This is automatically
-	 * guaranteed when using {@code @EnableWebSocketMessageBroker} configuration.
-	 * If message sending is slow, or at least slower than rate of messages sending,
-	 * subsequent messages are buffered until either the {@code sendTimeLimit}
-	 * or the {@code sendBufferSizeLimit} are reached at which point the session
-	 * state is cleared and an attempt is made to close the session.
-	 * <p><strong>NOTE</strong> that the session time limit is checked only
-	 * on attempts to send additional messages. So if only a single message is
-	 * sent and it hangs, the session will not time out until another message is
-	 * sent or the underlying physical socket times out. So this is not a
-	 * replacement for WebSocket server or HTTP connection timeout but is rather
-	 * intended to control the extent of buffering of unsent messages.
-	 * <p><strong>NOTE</strong> that closing the session may not succeed in
-	 * actually closing the physical socket and may also hang. This is true
-	 * especially when using blocking IO such as the BIO connector in Tomcat
-	 * that is used by default on Tomcat 7. Therefore it is recommended to ensure
-	 * the server is using non-blocking IO such as Tomcat's NIO connector that
-	 * is used by default on Tomcat 8. If you must use blocking IO consider
-	 * customizing OS-level TCP settings, for example
-	 * {@code /proc/sys/net/ipv4/tcp_retries2} on Linux.
-	 * <p>The default value is 10 seconds (i.e. 10 * 10000).
-	 * @param timeLimit the timeout value in milliseconds; the value must be
-	 * greater than 0, otherwise it is ignored.
+	 * 配置在向WebSocket会话发送消息或在使用SockJS后备选项写入HTTP响应时允许的最大时间, 以毫秒为单位.
+	 * <p>通常, WebSocket服务器期望一次从单个线程发送到单个WebSocket会话的消息.
+	 * 使用 {@code @EnableWebSocketMessageBroker}配置时, 会自动保证这一点.
+	 * 如果消息发送速度很慢, 或者至少比发送消息的速率慢, 则后续消息将被缓冲,
+	 * 直到达到{@code sendTimeLimit}或{@code sendBufferSizeLimit}, 此时会话状态被清除并尝试关闭会话.
+	 * <p><strong>NOTE</strong> 只有在尝试发送其他消息时才会检查会话时间限制.
+	 * 因此, 如果只发送一条消息并且它挂起, 则在发送另一条消息或底层物理套接字超时之前, 会话不会超时.
+	 * 所以这不是WebSocket服务器或HTTP连接超时的替代品, 而是旨在控制未发送消息的缓冲程度.
+	 * <p><strong>NOTE</strong> 关闭会话可能无法成功实际关闭物理套接字, 也可能挂起.
+	 * 特别是当使用阻塞IO时, 例如Tomcat 7中默认使用的BIO连接器.
+	 * 因此, 建议确保服务器使用非阻塞IO, 例如Tomcat 8上默认使用的NIO连接器.
+	 * 如果必须使用阻塞IO, 考虑自定义操作系统级别的TCP设置, 例如Linux上的{@code /proc/sys/net/ipv4/tcp_retries2}.
+	 * <p>默认为 10 秒 (i.e. 10 * 10000).
+	 * 
+	 * @param timeLimit 超时值, 以毫秒为单位; 该值必须大于0, 否则将被忽略.
 	 */
 	public WebSocketTransportRegistration setSendTimeLimit(int timeLimit) {
 		this.sendTimeLimit = timeLimit;
@@ -84,35 +68,25 @@ public class WebSocketTransportRegistration {
 	}
 
 	/**
-	 * Protected accessor for internal use.
+	 * 供内部使用的访问器.
 	 */
 	protected Integer getSendTimeLimit() {
 		return this.sendTimeLimit;
 	}
 
 	/**
-	 * Configure the maximum amount of data to buffer when sending messages
-	 * to a WebSocket session, or an HTTP response when SockJS fallback
-	 * option are in use.
-	 * <p>In general WebSocket servers expect that messages to a single WebSocket
-	 * session are sent from a single thread at a time. This is automatically
-	 * guaranteed when using {@code @EnableWebSocketMessageBroker} configuration.
-	 * If message sending is slow, or at least slower than rate of messages sending,
-	 * subsequent messages are buffered until either the {@code sendTimeLimit}
-	 * or the {@code sendBufferSizeLimit} are reached at which point the session
-	 * state is cleared and an attempt is made to close the session.
-	 * <p><strong>NOTE</strong> that closing the session may not succeed in
-	 * actually closing the physical socket and may also hang. This is true
-	 * especially when using blocking IO such as the BIO connector in Tomcat
-	 * configured by default on Tomcat 7. Therefore it is recommended to ensure
-	 * the server is using non-blocking IO such as Tomcat's NIO connector used
-	 * by default on Tomcat 8. If you must use blocking IO consider customizing
-	 * OS-level TCP settings, for example {@code /proc/sys/net/ipv4/tcp_retries2}
-	 * on Linux.
-	 * <p>The default value is 512K (i.e. 512 * 1024).
-	 * @param sendBufferSizeLimit the maximum number of bytes to buffer when
-	 * sending messages; if the value is less than or equal to 0 then buffering
-	 * is effectively disabled.
+	 * 配置在向WebSocket会话发送消息时, 或在使用SockJS后备选项时的HTTP响应, 要缓冲的最大数据量.
+	 * <p>通常, WebSocket服务器期望一次从单个线程发送到单个WebSocket会话的消息.
+	 * 使用{@code @EnableWebSocketMessageBroker}配置时, 会自动保证这一点.
+	 * 如果消息发送速度很慢, 或者至少比发送消息的速率慢, 则后续消息将被缓冲,
+	 * 直到达到{@code sendTimeLimit}或{@code sendBufferSizeLimit}, 此时会话状态被清除并尝试关闭会话.
+	 * <p><strong>NOTE</strong> 关闭会话可能无法成功实际关闭物理套接字, 也可能挂起.
+	 * 特别是当使用阻塞IO时, 例如Tomcat 7中默认使用的BIO连接器.
+	 * 因此, 建议确保服务器使用非阻塞IO, 例如Tomcat 8上默认使用的NIO连接器.
+	 * 如果必须使用阻塞IO, 考虑自定义操作系统级别的TCP设置, 例如Linux上的{@code /proc/sys/net/ipv4/tcp_retries2}.
+	 * <p>默认为 512K (i.e. 512 * 1024).
+	 * 
+	 * @param sendBufferSizeLimit 发送消息时缓冲的最大字节数; 如果该值小于或等于0, 则有效地禁用缓冲.
 	 */
 	public WebSocketTransportRegistration setSendBufferSizeLimit(int sendBufferSizeLimit) {
 		this.sendBufferSizeLimit = sendBufferSizeLimit;
@@ -120,18 +94,15 @@ public class WebSocketTransportRegistration {
 	}
 
 	/**
-	 * Protected accessor for internal use.
+	 * 供内部使用的访问器.
 	 */
 	protected Integer getSendBufferSizeLimit() {
 		return this.sendBufferSizeLimit;
 	}
 
 	/**
-	 * Configure one or more factories to decorate the handler used to process
-	 * WebSocket messages. This may be useful in some advanced use cases, for
-	 * example to allow Spring Security to forcibly close the WebSocket session
-	 * when the corresponding HTTP session expires.
-	 * @since 4.1.2
+	 * 配置一个或多个工厂以装饰用于处理WebSocket消息的处理器.
+	 * 这在某些高级用例中可能很有用, 例如, 允许Spring Security在相应的HTTP会话到期时强制关闭WebSocket会话.
 	 */
 	public WebSocketTransportRegistration setDecoratorFactories(WebSocketHandlerDecoratorFactory... factories) {
 		if (factories != null) {
@@ -141,11 +112,8 @@ public class WebSocketTransportRegistration {
 	}
 
 	/**
-	 * Add a factory that to decorate the handler used to process WebSocket
-	 * messages. This may be useful for some advanced use cases, for example
-	 * to allow Spring Security to forcibly close the WebSocket session when
-	 * the corresponding HTTP session expires.
-	 * @since 4.1.2
+	 * 添加一个工厂来装饰用于处理WebSocket消息的处理器.
+	 * 这对于某些高级用例可能很有用, 例如, 允许Spring Security在相应的HTTP会话到期时强制关闭WebSocket会话.
 	 */
 	public WebSocketTransportRegistration addDecoratorFactory(WebSocketHandlerDecoratorFactory factory) {
 		this.decoratorFactories.add(factory);
@@ -155,5 +123,4 @@ public class WebSocketTransportRegistration {
 	protected List<WebSocketHandlerDecoratorFactory> getDecoratorFactories() {
 		return this.decoratorFactories;
 	}
-
 }

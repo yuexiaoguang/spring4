@@ -8,11 +8,10 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A convenient base class for {@link WebSocketHandler} implementations
- * that process binary messages only.
+ * {@link WebSocketHandler}实现的便捷基类, 仅用于处理二进制消息.
  *
- * <p>Text messages are rejected with {@link CloseStatus#NOT_ACCEPTABLE}.
- * All other methods have empty implementations.
+ * <p>使用{@link CloseStatus#NOT_ACCEPTABLE}拒绝文本消息.
+ * 所有其他方法都有空实现.
  */
 public class BinaryWebSocketHandler extends AbstractWebSocketHandler {
 

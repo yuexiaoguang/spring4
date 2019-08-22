@@ -31,11 +31,11 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.adapter.AbstractWebSocketSession;
 
 /**
- * A {@link WebSocketSession} for use with the Jetty 9.3/9.4 WebSocket API.
+ * 用于Jetty 9.3/9.4 WebSocket API的{@link WebSocketSession}.
  */
 public class JettyWebSocketSession extends AbstractWebSocketSession<Session> {
 
-	// As of Jetty 9.4, UpgradeRequest and UpgradeResponse are interfaces instead of classes
+	// 从Jetty 9.4开始, UpgradeRequest和UpgradeResponse是接口而不是类
 	private static final boolean directInterfaceCalls;
 
 	private static Method getUpgradeRequest;
@@ -79,19 +79,16 @@ public class JettyWebSocketSession extends AbstractWebSocketSession<Session> {
 
 
 	/**
-	 * Create a new {@link JettyWebSocketSession} instance.
-	 * @param attributes attributes from the HTTP handshake to associate with the WebSocket session
+	 * @param attributes 来自HTTP握手的属性, 将与WebSocket会话关联
 	 */
 	public JettyWebSocketSession(Map<String, Object> attributes) {
 		this(attributes, null);
 	}
 
 	/**
-	 * Create a new {@link JettyWebSocketSession} instance associated with the given user.
-	 * @param attributes attributes from the HTTP handshake to associate with the WebSocket
-	 * session; the provided attributes are copied, the original map is not used.
-	 * @param user the user associated with the session; if {@code null} we'll fallback on the
-	 * user available via {@link org.eclipse.jetty.websocket.api.Session#getUpgradeRequest()}
+	 * @param attributes 来自HTTP握手的属性, 将与WebSocket会话关联; 复制提供的属性, 不使用原始Map.
+	 * @param user 与会话关联的用户; 如果是{@code null},
+	 * 将通过{@link org.eclipse.jetty.websocket.api.Session#getUpgradeRequest()}回退用户
 	 */
 	public JettyWebSocketSession(Map<String, Object> attributes, Principal user) {
 		super(attributes);

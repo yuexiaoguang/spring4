@@ -5,7 +5,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Configuration support for WebSocket request handling.
+ * WebSocket请求处理的配置支持.
  */
 public class WebSocketConfigurationSupport {
 
@@ -20,8 +20,7 @@ public class WebSocketConfigurationSupport {
 	}
 
 	/**
-	 * The default TaskScheduler to use if none is configured via
-	 * {@link SockJsServiceRegistration#setTaskScheduler}, i.e.
+	 * 如果没有通过{@link SockJsServiceRegistration#setTaskScheduler}配置, 则使用默认的TaskScheduler, i.e.
 	 * <pre class="code">
 	 * &#064;Configuration
 	 * &#064;EnableWebSocket

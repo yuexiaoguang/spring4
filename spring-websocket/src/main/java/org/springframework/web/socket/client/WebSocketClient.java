@@ -8,9 +8,8 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Contract for initiating a WebSocket request. As an alternative considering using the
- * declarative style {@link WebSocketConnectionManager} that starts a WebSocket connection
- * to a pre-configured URI when the application starts.
+ * 启动WebSocket请求的约定.
+ * 考虑使用声明式{@link WebSocketConnectionManager}作为替代方案, 它在应用程序启动时启动WebSocket连接到预先配置的URI.
  */
 public interface WebSocketClient {
 

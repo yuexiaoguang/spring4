@@ -1,5 +1,4 @@
 /**
- * Support classes for creating SockJS frames including the encoding and decoding
- * of SockJS message frames.
+ * 支持用于创建SockJS帧的类, 包括SockJS消息帧的编码和解码.
  */
 package org.springframework.web.socket.sockjs.frame;

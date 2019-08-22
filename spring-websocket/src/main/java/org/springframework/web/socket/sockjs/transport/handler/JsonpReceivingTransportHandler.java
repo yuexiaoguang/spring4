@@ -17,9 +17,9 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.socket.sockjs.transport.session.AbstractHttpSockJsSession;
 
 /**
- * A {@link TransportHandler} that receives messages over HTTP.
+ * 通过HTTP接收消息的{@link TransportHandler}.
  *
- * @deprecated Will be removed as of Spring Framework 5.1, use others transports instead.
+ * @deprecated 将从Spring Framework 5.1中删除, 改为使用其他传输.
  */
 @Deprecated
 public class JsonpReceivingTransportHandler extends AbstractHttpReceivingTransportHandler {

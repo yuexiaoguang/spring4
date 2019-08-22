@@ -21,10 +21,8 @@ import org.springframework.web.socket.client.ConnectionManagerSupport;
 import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
 
 /**
- * A WebSocket connection manager that is given a URI, an {@link Endpoint}, connects to a
- * WebSocket server through the {@link #start()} and {@link #stop()} methods. If
- * {@link #setAutoStartup(boolean)} is set to {@code true} this will be done automatically
- * when the Spring ApplicationContext is refreshed.
+ * 给定URI, {@link Endpoint}的WebSocket连接管理器, 通过{@link #start()}和{@link #stop()}方法连接到WebSocket服务器.
+ * 如果{@link #setAutoStartup(boolean)}设置为{@code true}, 那么当Spring ApplicationContext刷新时, 这将自动完成.
  */
 public class EndpointConnectionManager extends ConnectionManagerSupport implements BeanFactoryAware {
 
@@ -92,8 +90,8 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 	}
 
 	/**
-	 * Set a {@link TaskExecutor} to use to open connections.
-	 * By default {@link SimpleAsyncTaskExecutor} is used.
+	 * 设置{@link TaskExecutor}以用于打开连接.
+	 * 默认使用{@link SimpleAsyncTaskExecutor}.
 	 */
 	public void setTaskExecutor(TaskExecutor taskExecutor) {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
@@ -101,7 +99,7 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 	}
 
 	/**
-	 * Return the configured {@link TaskExecutor}.
+	 * 返回配置的{@link TaskExecutor}.
 	 */
 	public TaskExecutor getTaskExecutor() {
 		return this.taskExecutor;

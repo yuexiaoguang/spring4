@@ -15,7 +15,7 @@ import org.springframework.web.socket.sockjs.transport.session.PollingSockJsSess
 import org.springframework.web.socket.sockjs.transport.session.StreamingSockJsSession;
 
 /**
- * A {@link TransportHandler} that sends messages over an HTTP streaming request.
+ * 通过HTTP流请求发送消息的{@link TransportHandler}.
  */
 public class XhrStreamingTransportHandler extends AbstractHttpSendingTransportHandler {
 

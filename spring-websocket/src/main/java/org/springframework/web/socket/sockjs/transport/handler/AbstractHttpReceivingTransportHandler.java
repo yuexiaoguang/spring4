@@ -14,7 +14,7 @@ import org.springframework.web.socket.sockjs.transport.SockJsSession;
 import org.springframework.web.socket.sockjs.transport.session.AbstractHttpSockJsSession;
 
 /**
- * Base class for HTTP transport handlers that receive messages via HTTP POST.
+ * 通过HTTP POST接收消息的HTTP传输处理器的基类.
  */
 public abstract class AbstractHttpReceivingTransportHandler extends AbstractTransportHandler {
 

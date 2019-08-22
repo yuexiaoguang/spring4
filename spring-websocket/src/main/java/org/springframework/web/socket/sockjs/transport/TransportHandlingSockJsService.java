@@ -32,13 +32,12 @@ import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 import org.springframework.web.socket.sockjs.support.AbstractSockJsService;
 
 /**
- * A basic implementation of {@link org.springframework.web.socket.sockjs.SockJsService}
- * with support for SPI-based transport handling and session management.
+ * {@link org.springframework.web.socket.sockjs.SockJsService}的基本实现, 支持基于SPI的传输处理和会话管理.
  *
- * <p>Based on the {@link TransportHandler} SPI. {@link TransportHandler}s may additionally
- * implement the {@link SockJsSessionFactory} and {@link HandshakeHandler} interfaces.
+ * <p>基于{@link TransportHandler} SPI.
+ * {@link TransportHandler}可以另外实现{@link SockJsSessionFactory}和{@link HandshakeHandler}接口.
  *
- * <p>See the {@link AbstractSockJsService} base class for important details on request mapping.
+ * <p>有关请求映射的重要详细信息, 请参阅{@link AbstractSockJsService}基类.
  */
 public class TransportHandlingSockJsService extends AbstractSockJsService implements SockJsServiceConfig, Lifecycle {
 
@@ -61,22 +60,18 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 
 
 	/**
-	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler} types.
-	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out sessions;
-	 * the provided TaskScheduler should be declared as a Spring bean to ensure it gets
-	 * initialized at start-up and shuts down when the application stops
-	 * @param handlers one or more {@link TransportHandler} implementations to use
+	 * @param scheduler 用于心跳消息和删除超时会话的任务调度器;
+	 * 应该将提供的TaskScheduler声明为Spring bean, 以确保它在启动时初始化, 并在应用程序停止时关闭
+	 * @param handlers 要使用的一个或多个{@link TransportHandler}实现
 	 */
 	public TransportHandlingSockJsService(TaskScheduler scheduler, TransportHandler... handlers) {
 		this(scheduler, Arrays.asList(handlers));
 	}
 
 	/**
-	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler} types.
-	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out sessions;
-	 * the provided TaskScheduler should be declared as a Spring bean to ensure it gets
-	 * initialized at start-up and shuts down when the application stops
-	 * @param handlers one or more {@link TransportHandler} implementations to use
+	 * @param scheduler 用于心跳消息和删除超时会话的任务调度器;
+	 * 应该将提供的TaskScheduler声明为Spring bean, 以确保它在启动时初始化, 并在应用程序停止时关闭
+	 * @param handlers 要使用的一个或多个{@link TransportHandler}实现
 	 */
 	public TransportHandlingSockJsService(TaskScheduler scheduler, Collection<TransportHandler> handlers) {
 		super(scheduler);
@@ -98,14 +93,14 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 
 
 	/**
-	 * Return the registered handlers per transport type.
+	 * 返回每种传输类型的注册的处理器.
 	 */
 	public Map<TransportType, TransportHandler> getTransportHandlers() {
 		return Collections.unmodifiableMap(this.handlers);
 	}
 
 	/**
-	 * The codec to use for encoding and decoding SockJS messages.
+	 * 用于编码和解码SockJS消息的编解码器.
 	 */
 	public void setMessageCodec(SockJsMessageCodec messageCodec) {
 		this.messageCodec = messageCodec;
@@ -118,7 +113,7 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 	}
 
 	/**
-	 * Configure one or more WebSocket handshake request interceptors.
+	 * 配置一个或多个WebSocket握手请求拦截器.
 	 */
 	public void setHandshakeInterceptors(List<HandshakeInterceptor> interceptors) {
 		this.interceptors.clear();
@@ -128,7 +123,7 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 	}
 
 	/**
-	 * Return the configured WebSocket handshake request interceptors.
+	 * 返回配置的WebSocket握手请求拦截器.
 	 */
 	public List<HandshakeInterceptor> getHandshakeInterceptors() {
 		return this.interceptors;
@@ -361,7 +356,7 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 							}
 						}
 						catch (Throwable ex) {
-							// Could be part of normal workflow (e.g. browser tab closed)
+							// 可以成为正常工作流程的一部分 (e.g. 浏览器标签页已关闭)
 							logger.debug("Failed to close " + session, ex);
 						}
 					}

@@ -9,7 +9,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A convenient base class for {@link WebSocketHandler} implementation with empty methods.
+ * {@link WebSocketHandler}的便捷基类, 使用空方法实现.
  */
 public abstract class AbstractWebSocketHandler implements WebSocketHandler {
 
