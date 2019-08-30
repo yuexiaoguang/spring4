@@ -16,8 +16,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Default implementation of the {@link MultipartActionRequest} interface.
- * Provides management of pre-generated parameter values.
+ * {@link MultipartActionRequest}接口的默认实现.
+ * 提供对预生成的参数值的管理.
  */
 public class DefaultMultipartActionRequest extends ActionRequestWrapper implements MultipartActionRequest {
 
@@ -29,11 +29,11 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 
 
 	/**
-	 * Wrap the given Portlet ActionRequest in a MultipartActionRequest.
-	 * @param request the request to wrap
-	 * @param mpFiles a map of the multipart files
-	 * @param mpParams a map of the parameters to expose,
-	 * with Strings as keys and String arrays as values
+	 * 将给定的Portlet ActionRequest包装在MultipartActionRequest中.
+	 * 
+	 * @param request 要包装的请求
+	 * @param mpFiles multipart文件的Map
+	 * @param mpParams 要公开的参数
 	 */
 	public DefaultMultipartActionRequest(ActionRequest request, MultiValueMap<String, MultipartFile> mpFiles,
 			Map<String, String[]> mpParams, Map<String, String> mpParamContentTypes) {
@@ -45,8 +45,9 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 	}
 
 	/**
-	 * Wrap the given Portlet ActionRequest in a MultipartActionRequest.
-	 * @param request the request to wrap
+	 * 将给定的Portlet ActionRequest包装在MultipartActionRequest中.
+	 * 
+	 * @param request 要包装的请求
 	 */
 	protected DefaultMultipartActionRequest(ActionRequest request) {
 		super(request);
@@ -135,8 +136,8 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 
 
 	/**
-	 * Set a Map with parameter names as keys and list of MultipartFile objects as values.
-	 * To be invoked by subclasses on initialization.
+	 * 设置Map, 将参数名称作为键, 将MultipartFile对象列表作为值.
+	 * 在初始化时由子类调用.
 	 */
 	protected final void setMultipartFiles(MultiValueMap<String, MultipartFile> multipartFiles) {
 		this.multipartFiles =
@@ -144,9 +145,7 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 	}
 
 	/**
-	 * Obtain the MultipartFile Map for retrieval,
-	 * lazily initializing it if necessary.
-	 * @see #initializeMultipart()
+	 * 获取要进行检索的MultipartFile Map, 如有必要, 可以延迟地初始化它.
 	 */
 	protected MultiValueMap<String, MultipartFile> getMultipartFiles() {
 		if (this.multipartFiles == null) {
@@ -156,17 +155,15 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 	}
 
 	/**
-	 * Set a Map with parameter names as keys and String array objects as values.
-	 * To be invoked by subclasses on initialization.
+	 * 设置Map, 将参数名称作为键, 将String数组对象作为值.
+	 * 在初始化时由子类调用.
 	 */
 	protected final void setMultipartParameters(Map<String, String[]> multipartParameters) {
 		this.multipartParameters = multipartParameters;
 	}
 
 	/**
-	 * Obtain the multipart parameter Map for retrieval,
-	 * lazily initializing it if necessary.
-	 * @see #initializeMultipart()
+	 * 获取用于检索的multipart参数Map, 如有必要, 可以延迟地初始化它.
 	 */
 	protected Map<String, String[]> getMultipartParameters() {
 		if (this.multipartParameters == null) {
@@ -176,17 +173,15 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 	}
 
 	/**
-	 * Set a Map with parameter names as keys and content type Strings as values.
-	 * To be invoked by subclasses on initialization.
+	 * 设置Map, 将参数名称作为键, 将内容类型String作为值.
+	 * 在初始化时由子类调用.
 	 */
 	protected final void setMultipartParameterContentTypes(Map<String, String> multipartParameterContentTypes) {
 		this.multipartParameterContentTypes = multipartParameterContentTypes;
 	}
 
 	/**
-	 * Obtain the multipart parameter content type Map for retrieval,
-	 * lazily initializing it if necessary.
-	 * @see #initializeMultipart()
+	 * 获取用于检索的multipart参数内容类型Map, 如有必要, 可以延迟地初始化它.
 	 */
 	protected Map<String, String> getMultipartParameterContentTypes() {
 		if (this.multipartParameterContentTypes == null) {
@@ -197,8 +192,8 @@ public class DefaultMultipartActionRequest extends ActionRequestWrapper implemen
 
 
 	/**
-	 * Lazily initialize the multipart request, if possible.
-	 * Only called if not already eagerly initialized.
+	 * 延迟地初始化multipart请求.
+	 * 只有在尚未实时初始化的情况下才会调用.
 	 */
 	protected void initializeMultipart() {
 		throw new IllegalStateException("Multipart request not initialized");

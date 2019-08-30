@@ -84,18 +84,15 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
 
 /**
- * Implementation of the {@link org.springframework.web.portlet.HandlerAdapter}
- * interface that maps handler methods based on portlet modes, action/render phases
- * and request parameters expressed through the {@link RequestMapping} annotation.
+ * {@link org.springframework.web.portlet.HandlerAdapter}接口的实现,
+ * 根据通过{@link RequestMapping}注解表示的portlet模式, 操作/渲染阶段, 和请求参数来映射处理器方法.
  *
- * <p>Supports request parameter binding through the {@link RequestParam} annotation.
- * Also supports the {@link ModelAttribute} annotation for exposing model attribute
- * values to the view, as well as {@link InitBinder} for binder initialization methods
- * and {@link SessionAttributes} for automatic session management of specific attributes.
+ * <p>通过{@link RequestParam}注解支持请求参数绑定.
+ * 还支持用于将模型属性值公开给视图的{@link ModelAttribute}注解, 以及用于绑定器初始化方法的{@link InitBinder},
+ * 和用于特定属性的自动会话管理的{@link SessionAttributes}.
  *
- * <p>This adapter can be customized through various bean properties.
- * A common use case is to apply shared binder initialization logic through
- * a custom {@link #setWebBindingInitializer WebBindingInitializer}.
+ * <p>可以通过各种bean属性自定义此适配器.
+ * 一个常见的用例是通过自定义{@link #setWebBindingInitializer WebBindingInitializer}应用共享绑定器初始化逻辑.
  */
 public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 		implements HandlerAdapter, Ordered, BeanFactoryAware {
@@ -131,18 +128,16 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 
 
 	/**
-	 * Specify a WebBindingInitializer which will apply pre-configured
-	 * configuration to every DataBinder that this controller uses.
+	 * 指定一个WebBindingInitializer, 它将预配置的配置应用于此控制器使用的每个DataBinder.
 	 */
 	public void setWebBindingInitializer(WebBindingInitializer webBindingInitializer) {
 		this.webBindingInitializer = webBindingInitializer;
 	}
 
 	/**
-	 * Specify the strategy to store session attributes with.
-	 * <p>Default is {@link org.springframework.web.bind.support.DefaultSessionAttributeStore},
-	 * storing session attributes in the PortletSession, using the same
-	 * attribute name as in the model.
+	 * 指定存储会话属性的策略.
+	 * <p>默认为{@link org.springframework.web.bind.support.DefaultSessionAttributeStore},
+	 * 使用与模型中相同的属性名称在PortletSession中存储会话属性.
 	 */
 	public void setSessionAttributeStore(SessionAttributeStore sessionAttributeStore) {
 		Assert.notNull(sessionAttributeStore, "SessionAttributeStore must not be null");
@@ -150,90 +145,71 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 	}
 
 	/**
-	 * Cache content produced by {@code @SessionAttributes} annotated handlers
-	 * for the given number of seconds. Default is 0, preventing caching completely.
-	 * <p>In contrast to the "cacheSeconds" property which will apply to all general
-	 * handlers (but not to {@code @SessionAttributes} annotated handlers), this
-	 * setting will apply to {@code @SessionAttributes} annotated handlers only.
-	 * @see #setCacheSeconds
-	 * @see org.springframework.web.bind.annotation.SessionAttributes
+	 * 缓存由带{@code @SessionAttributes}注解的处理器生成的内容给定的秒数.
+	 * 默认为0, 完全阻止缓存.
+	 * <p>与将适用于所有常规处理器(但不适用于带{@code @SessionAttributes}注解的处理器)的"cacheSeconds"属性相反,
+	 * 此设置仅适用于带{@code @SessionAttributes}注解的处理器.
 	 */
 	public void setCacheSecondsForSessionAttributeHandlers(int cacheSecondsForSessionAttributeHandlers) {
 		this.cacheSecondsForSessionAttributeHandlers = cacheSecondsForSessionAttributeHandlers;
 	}
 
 	/**
-	 * Set if controller execution should be synchronized on the session,
-	 * to serialize parallel invocations from the same client.
-	 * <p>More specifically, the execution of each handler method will get
-	 * synchronized if this flag is "true". The best available session mutex
-	 * will be used for the synchronization; ideally, this will be a mutex
-	 * exposed by HttpSessionMutexListener.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@code SESSION_MUTEX_ATTRIBUTE} constant. It serves as a
-	 * safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the PortletSession reference itself is a safe mutex
-	 * as well, since it will always be the same object reference for the
-	 * same active logical session. However, this is not guaranteed across
-	 * different servlet containers; the only 100% safe way is a session mutex.
-	 * @see org.springframework.web.util.HttpSessionMutexListener
-	 * @see org.springframework.web.portlet.util.PortletUtils#getSessionMutex(javax.portlet.PortletSession)
+	 * 设置是否应在会话上同步控制器执行, 以序列化来自同一客户端的并行调用.
+	 * <p>更具体地说, 如果此标志为"true", 则每个处理器方法的执行将同步.
+	 * 最佳可用会话互斥锁将用于同步; 理想情况下, 这将是HttpSessionMutexListener公开的互斥锁.
+	 * <p>会话互斥锁在会话的整个生命周期内保证是同一个对象, 在{@code SESSION_MUTEX_ATTRIBUTE}常量定义的键下可用.
+	 * 它用作锁定当前会话的同步的安全引用.
+	 * <p>在许多情况下, PortletSession引用本身也是一个安全的互斥锁, 因为它始终是同一个活动逻辑会话的相同对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一 100% 安全的方式是会话互斥.
 	 */
 	public void setSynchronizeOnSession(boolean synchronizeOnSession) {
 		this.synchronizeOnSession = synchronizeOnSession;
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer to use for resolving method parameter
-	 * names if needed (e.g. for default attribute names).
-	 * <p>Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
+	 * 设置为用于解析方法参数名称的ParameterNameDiscoverer (e.g. 对于默认属性名称).
+	 * <p>默认为{@link org.springframework.core.DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
 	}
 
 	/**
-	 * Set a custom WebArgumentResolver to use for special method parameter types.
-	 * Such a custom WebArgumentResolver will kick in first, having a chance to
-	 * resolve an argument value before the standard argument handling kicks in.
+	 * 设置用于特殊方法参数类型的自定义WebArgumentResolver.
+	 * 这样的自定义WebArgumentResolver将首先启动, 有机会在标准参数处理开始之前解析参数值.
 	 */
 	public void setCustomArgumentResolver(WebArgumentResolver argumentResolver) {
 		this.customArgumentResolvers = new WebArgumentResolver[] {argumentResolver};
 	}
 
 	/**
-	 * Set one or more custom WebArgumentResolvers to use for special method
-	 * parameter types. Any such custom WebArgumentResolver will kick in first,
-	 * having a chance to resolve an argument value before the standard
-	 * argument handling kicks in.
+	 * 设置用于特殊方法参数类型的一个或多个自定义WebArgumentResolvers.
+	 * 任何这样的自定义WebArgumentResolver都将首先启动, 有机会在标准参数处理开始之前解析参数值.
 	 */
 	public void setCustomArgumentResolvers(WebArgumentResolver... argumentResolvers) {
 		this.customArgumentResolvers = argumentResolvers;
 	}
 
 	/**
-	 * Set a custom ModelAndViewResolvers to use for special method return types.
-	 * Such a custom ModelAndViewResolver will kick in first, having a chance to
-	 * resolve an return value before the standard ModelAndView handling kicks in.
+	 * 设置用于特殊方法返回类型的自定义ModelAndViewResolvers.
+	 * 这样的自定义ModelAndViewResolver将首先启动, 有机会在标准ModelAndView处理启动之前解析返回值.
 	 */
 	public void setCustomModelAndViewResolver(ModelAndViewResolver customModelAndViewResolver) {
 		this.customModelAndViewResolvers = new ModelAndViewResolver[]{customModelAndViewResolver};
 	}
 
 	/**
-	 * Set one or more custom ModelAndViewResolvers to use for special method return types.
-	 * Any such custom ModelAndViewResolver will kick in first, having a chance to
-	 * resolve an return value before the standard ModelAndView handling kicks in.
+	 * 设置用于特殊方法返回类型的一个或多个自定义ModelAndViewResolvers.
+	 * 任何这样的自定义ModelAndViewResolver都将首先启动, 有机会在标准ModelAndView处理开始之前解析返回值.
 	 */
 	public void setCustomModelAndViewResolvers(ModelAndViewResolver... customModelAndViewResolvers) {
 		this.customModelAndViewResolvers = customModelAndViewResolvers;
 	}
 
 	/**
-	 * Specify the order value for this HandlerAdapter bean.
-	 * <p>Default value is {@code Integer.MAX_VALUE}, meaning that it's non-ordered.
-	 * @see org.springframework.core.Ordered#getOrder()
+	 * 指定此HandlerAdapter bean的顺序值.
+	 * <p>默认为{@code Integer.MAX_VALUE}, 表示它是非有序的.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -292,7 +268,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 
 		if (response instanceof MimeResponse) {
 			MimeResponse mimeResponse = (MimeResponse) response;
-			// Detect implicit model from associated action phase.
+			// 从关联的操作阶段检测隐式模型.
 			if (response instanceof RenderResponse) {
 				PortletSession session = request.getPortletSession(false);
 				if (session != null) {
@@ -305,11 +281,11 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 				}
 			}
 			if (handler.getClass().getAnnotation(SessionAttributes.class) != null) {
-				// Always prevent caching in case of session attribute management.
+				// 在会话属性管理的情况下始终阻止缓存.
 				checkAndPrepare(request, mimeResponse, this.cacheSecondsForSessionAttributeHandlers);
 			}
 			else {
-				// Uses configured default cacheSeconds setting.
+				// 使用配置的默认cacheSeconds设置.
 				checkAndPrepare(request, mimeResponse);
 			}
 		}
@@ -318,7 +294,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 			implicitModel = new BindingAwareModelMap();
 		}
 
-		// Execute invokeHandlerMethod in synchronized block if required.
+		// 如果需要, 在synchronized块中执行invokeHandlerMethod.
 		if (this.synchronizeOnSession) {
 			PortletSession session = request.getPortletSession(false);
 			if (session != null) {
@@ -348,15 +324,14 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 		methodInvoker.updateModelAttributes(
 				handler, (mav != null ? mav.getModel() : null), implicitModel, webRequest);
 
-		// Expose implicit model for subsequent render phase.
+		// 为后续渲染阶段公开隐式模型.
 		if (response instanceof StateAwareResponse && !implicitModel.isEmpty()) {
 			StateAwareResponse stateResponse = (StateAwareResponse) response;
 			Map<?, ?> modelToStore = implicitModel;
 			try {
 				stateResponse.setRenderParameter(IMPLICIT_MODEL_RENDER_PARAMETER, Boolean.TRUE.toString());
 				if (response instanceof EventResponse) {
-					// Update the existing model, if any, when responding to an event -
-					// whereas we're replacing the model in case of an action response.
+					// 在响应事件时更新现有模型 - 而我们在操作响应时替换模型.
 					Map<String, Object> existingModel = (Map<String, Object>)
 							request.getPortletSession().getAttribute(IMPLICIT_MODEL_SESSION_ATTRIBUTE);
 					if (existingModel != null) {
@@ -367,7 +342,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 				request.getPortletSession().setAttribute(IMPLICIT_MODEL_SESSION_ATTRIBUTE, modelToStore);
 			}
 			catch (IllegalStateException ex) {
-				// Probably sendRedirect called... no need to expose model to render phase.
+				// 可能sendRedirect被调用... 不需要将模型暴露给渲染阶段.
 			}
 		}
 
@@ -375,7 +350,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 	}
 
 	/**
-	 * Build a HandlerMethodResolver for the given handler type.
+	 * 为给定的处理器类型构建HandlerMethodResolver.
 	 */
 	private PortletHandlerMethodResolver getMethodResolver(Object handler) {
 		Class<?> handlerClass = ClassUtils.getUserClass(handler);
@@ -393,16 +368,16 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 	}
 
 	/**
-	 * Template method for creating a new PortletRequestDataBinder instance.
-	 * <p>The default implementation creates a standard PortletRequestDataBinder.
-	 * This can be overridden for custom PortletRequestDataBinder subclasses.
-	 * @param request current portlet request
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
-	 * @param objectName the objectName of the target object
-	 * @return the PortletRequestDataBinder instance to use
-	 * @throws Exception in case of invalid state or arguments
-	 * @see PortletRequestDataBinder#bind(javax.portlet.PortletRequest)
+	 * 用于创建新PortletRequestDataBinder实例的模板方法.
+	 * <p>默认实现创建标准PortletRequestDataBinder.
+	 * 可以为自定义PortletRequestDataBinder子类重写此项.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param target 绑定到的目标对象 (如果绑定器仅用于转换普通参数值, 则为{@code null})
+	 * @param objectName 目标对象的objectName
+	 * 
+	 * @return 要使用的PortletRequestDataBinder实例
+	 * @throws Exception 如果状态或参数无效
 	 */
 	protected PortletRequestDataBinder createBinder(PortletRequest request, Object target, String objectName) throws Exception {
 		return new PortletRequestDataBinder(target, objectName);
@@ -410,7 +385,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 
 
 	/**
-	 * Portlet-specific subclass of {@code HandlerMethodResolver}.
+	 * {@code HandlerMethodResolver}的特定于Portlet的子类.
 	 */
 	@SuppressWarnings("deprecation")
 	private static class PortletHandlerMethodResolver extends org.springframework.web.bind.annotation.support.HandlerMethodResolver {
@@ -522,7 +497,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 
 
 	/**
-	 * Portlet-specific subclass of {@code HandlerMethodInvoker}.
+	 * {@code HandlerMethodInvoker}的特定于Portlet的子类.
 	 */
 	@SuppressWarnings("deprecation")
 	private class PortletHandlerMethodInvoker extends org.springframework.web.bind.annotation.support.HandlerMethodInvoker {
@@ -726,7 +701,7 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 
 
 	/**
-	 * Holder for request mapping metadata. Allows for finding a best matching candidate.
+	 * 请求映射元数据的保存器. 允许查找最佳匹配候选者.
 	 */
 	private static class RequestMappingInfo {
 
@@ -820,5 +795,4 @@ public class AnnotationMethodHandlerAdapter extends PortletContentGenerator
 			return (ObjectUtils.nullSafeHashCode(this.modes) * 29 + this.phase.hashCode());
 		}
 	}
-
 }

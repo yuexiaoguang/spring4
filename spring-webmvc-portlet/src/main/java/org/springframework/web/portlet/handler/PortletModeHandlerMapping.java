@@ -11,10 +11,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Implementation of the {@link org.springframework.web.portlet.HandlerMapping}
- * interface to map from the current PortletMode to request handler beans.
+ * {@link org.springframework.web.portlet.HandlerMapping}接口的实现, 从当前的PortletMode映射到请求处理器bean.
  *
- * <p>The bean configuration for this mapping will look something like this:
+ * <p>此映射的bean配置看起来像这样:
  * <pre class="code">
  * 	&lt;bean id="portletModeHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeHandlerMapping"&gt;
  * 		&lt;property name="portletModeMap"&gt;
@@ -33,17 +32,19 @@ public class PortletModeHandlerMapping extends AbstractMapBasedHandlerMapping<Po
 
 
 	/**
-	 * Set PortletMode to handler bean name mappings from a Properties object.
-	 * @param mappings properties with PortletMode names as keys and bean names as values
+	 * 设置PortletMode到处理器bean名称的映射.
+	 * 
+	 * @param mappings 将PortletMode名称作为键, 将bean名称作为值
 	 */
 	public void setMappings(Properties mappings) {
 		CollectionUtils.mergePropertiesIntoMap(mappings, this.portletModeMap);
 	}
 
 	/**
-	 * Set a Map with PortletModes as keys and handler beans as values.
-	 * Convenient for population with bean references.
-	 * @param portletModeMap map with PortletMode names as keys and beans or bean names as values
+	 * 设置Map, 将PortletModes作为键, 将处理器bean作为值.
+	 * 方便填充bean 引用.
+	 * 
+	 * @param portletModeMap 将PortletMode名称作为键, 将bean或bean名称作为值
 	 */
 	public void setPortletModeMap(Map<String, ?> portletModeMap) {
 		this.portletModeMap.putAll(portletModeMap);
@@ -51,9 +52,7 @@ public class PortletModeHandlerMapping extends AbstractMapBasedHandlerMapping<Po
 
 
 	/**
-	 * Calls the {@code registerHandlers} method in addition
-	 * to the superclass's initialization.
-	 * @see #registerHandlers
+	 * 除了超类的初始化之外, 还调用{@code registerHandlers}方法.
 	 */
 	@Override
 	public void initApplicationContext() throws BeansException {
@@ -62,8 +61,9 @@ public class PortletModeHandlerMapping extends AbstractMapBasedHandlerMapping<Po
 	}
 
 	/**
-	 * Register all handlers specified in the Portlet mode map for the corresponding modes.
-	 * @param portletModeMap Map with mode names as keys and handler beans or bean names as values
+	 * 注册Portlet模式映射中为相应模式指定的所有处理器.
+	 * 
+	 * @param portletModeMap 将模式名称作为键, 将处理器bean或bean名称作为值
 	 */
 	protected void registerHandlersByMode(Map<String, Object> portletModeMap) {
 		Assert.notNull(portletModeMap, "'portletModeMap' must not be null");
@@ -74,7 +74,7 @@ public class PortletModeHandlerMapping extends AbstractMapBasedHandlerMapping<Po
 
 
 	/**
-	 * Uses the current PortletMode as lookup key.
+	 * 使用当前的PortletMode作为查找键.
 	 */
 	@Override
 	protected PortletMode getLookupKey(PortletRequest request) throws Exception {

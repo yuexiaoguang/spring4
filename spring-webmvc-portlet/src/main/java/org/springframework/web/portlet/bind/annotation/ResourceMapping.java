@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.web.bind.annotation.Mapping;
 
 /**
- * Annotation for mapping Portlet resource requests onto handler methods.
+ * 用于将Portlet资源请求映射到处理器方法的注解.
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.Mapping;
 public @interface ResourceMapping {
 
 	/**
-	 * The id of the resource to be handled.
-	 * This id uniquely identifies a resource within a portlet mode.
-	 * <p>If not specified, the handler method will be invoked for any
-	 * resource request within its general mapping.
+	 * 要处理的资源的ID.
+	 * 此id唯一标识portlet模式中的资源.
+	 * <p>如果未指定, 将在其常规映射中为任何资源请求调用处理器方法.
 	 */
 	String value() default "";
 

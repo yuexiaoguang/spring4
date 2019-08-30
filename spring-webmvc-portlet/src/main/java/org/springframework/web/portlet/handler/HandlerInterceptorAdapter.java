@@ -15,13 +15,12 @@ import org.springframework.web.portlet.HandlerInterceptor;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * Abstract adapter class for the {@link HandlerInterceptor} interface,
- * for simplified implementation of pre-only/post-only interceptors.
+ * {@link HandlerInterceptor}接口的抽象适配器类, 用于简化pre-only/post-only拦截器的实现.
  */
 public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 
 	/**
-	 * This implementation delegates to {@link #preHandle}.
+	 * 此实现委托给{@link #preHandle}.
 	 */
 	@Override
 	public boolean preHandleAction(ActionRequest request, ActionResponse response, Object handler)
@@ -31,7 +30,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation delegates to {@link #afterCompletion}.
+	 * 此实现委托给{@link #afterCompletion}.
 	 */
 	@Override
 	public void afterActionCompletion(
@@ -43,7 +42,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 
 
 	/**
-	 * This implementation delegates to {@link #preHandle}.
+	 * 此实现委托给{@link #preHandle}.
 	 */
 	@Override
 	public boolean preHandleRender(RenderRequest request, RenderResponse response, Object handler)
@@ -53,7 +52,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation is empty.
+	 * 此实现为空.
 	 */
 	@Override
 	public void postHandleRender(
@@ -62,7 +61,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation delegates to {@link #afterCompletion}.
+	 * 此实现委托给{@link #afterCompletion}.
 	 */
 	@Override
 	public void afterRenderCompletion(
@@ -74,7 +73,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 
 
 	/**
-	 * This implementation delegates to {@link #preHandle}.
+	 * 此实现委托给{@link #preHandle}.
 	 */
 	@Override
 	public boolean preHandleResource(ResourceRequest request, ResourceResponse response, Object handler)
@@ -84,7 +83,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation is empty.
+	 * 此实现为空.
 	 */
 	@Override
 	public void postHandleResource(
@@ -93,7 +92,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation delegates to {@link #afterCompletion}.
+	 * 此实现委托给{@link #afterCompletion}.
 	 */
 	@Override
 	public void afterResourceCompletion(
@@ -105,7 +104,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 
 
 	/**
-	 * This implementation delegates to {@link #preHandle}.
+	 * 此实现委托给{@link #preHandle}.
 	 */
 	@Override
 	public boolean preHandleEvent(EventRequest request, EventResponse response, Object handler)
@@ -115,7 +114,7 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * This implementation delegates to {@link #afterCompletion}.
+	 * 此实现委托给{@link #afterCompletion}.
 	 */
 	@Override
 	public void afterEventCompletion(
@@ -127,8 +126,8 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 
 
 	/**
-	 * Default callback that all "pre*" methods delegate to.
-	 * <p>This implementation always returns {@code true}.
+	 * 所有"pre*"方法委托的默认回调.
+	 * <p>此实现始终返回{@code true}.
 	 */
 	protected boolean preHandle(PortletRequest request, PortletResponse response, Object handler)
 			throws Exception {
@@ -137,13 +136,12 @@ public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {
 	}
 
 	/**
-	 * Default callback that all "after*" methods delegate to.
-	 * <p>This implementation is empty.
+	 * 所有"after*"方法委托的默认回调.
+	 * <p>此实现为空.
 	 */
 	protected void afterCompletion(
 			PortletRequest request, PortletResponse response, Object handler, Exception ex)
 			throws Exception {
 
 	}
-
 }

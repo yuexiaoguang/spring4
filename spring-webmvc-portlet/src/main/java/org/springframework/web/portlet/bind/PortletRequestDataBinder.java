@@ -9,17 +9,13 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Special {@link org.springframework.validation.DataBinder} to perform data binding
- * from portlet request parameters to JavaBeans, including support for multipart files.
+ * 特殊{@link org.springframework.validation.DataBinder},
+ * 用于执行从portlet请求参数到JavaBeans的数据绑定, 包括对multipart文件的支持.
  *
- * <p>See the DataBinder/WebDataBinder superclasses for customization options,
- * which include specifying allowed/required fields, and registering custom
- * property editors.
+ * <p>有关自定义选项, 请参阅DataBinder/WebDataBinder超类, 其中包括指定允许/必需的字段以及注册自定义属性编辑器.
  *
- * <p>Can also be used for manual data binding in custom web controllers:
- * for example, in a plain Portlet Controller implementation. Simply instantiate
- * a PortletRequestDataBinder for each binding process, and invoke {@code bind}
- * with the current PortletRequest as argument:
+ * <p>也可用于自定义Web控制器中的手动数据绑定: 例如, 在一个普通的Portlet控制器实现中.
+ * 只需为每个绑定过程实例化一个PortletRequestDataBinder, 并以当前的PortletRequest作为参数调用{@code bind}:
  *
  * <pre class="code">
  * MyBean myBean = new MyBean();
@@ -36,19 +32,17 @@ import org.springframework.web.portlet.util.PortletUtils;
 public class PortletRequestDataBinder extends WebDataBinder {
 
 	/**
-	 * Create a new PortletRequestDataBinder instance, with default object name.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
+	 * 使用默认对象名称.
+	 * 
+	 * @param target 绑定到的目标对象 (如果绑定器仅用于转换普通参数值, 则为{@code null})
 	 */
 	public PortletRequestDataBinder(Object target) {
 		super(target);
 	}
 
 	/**
-	 * Create a new PortletRequestDataBinder instance.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
-	 * @param objectName the name of the target object
+	 * @param target 绑定到的目标对象 (如果绑定器仅用于转换普通参数值, 则为{@code null})
+	 * @param objectName 目标对象的名称
 	 */
 	public PortletRequestDataBinder(Object target, String objectName) {
 		super(target, objectName);
@@ -56,18 +50,15 @@ public class PortletRequestDataBinder extends WebDataBinder {
 
 
 	/**
-	 * Bind the parameters of the given request to this binder's target,
-	 * also binding multipart files in case of a multipart request.
-	 * <p>This call can create field errors, representing basic binding
-	 * errors like a required field (code "required"), or type mismatch
-	 * between value and bean property (code "typeMismatch").
-	 * <p>Multipart files are bound via their parameter name, just like normal
-	 * HTTP parameters: i.e. "uploadedFile" to an "uploadedFile" bean property,
-	 * invoking a "setUploadedFile" setter method.
-	 * <p>The type of the target property for a multipart file can be MultipartFile,
-	 * byte[], or String. The latter two receive the contents of the uploaded file;
-	 * all metadata like original file name, content type, etc are lost in those cases.
-	 * @param request request with parameters to bind (can be multipart)
+	 * 将给定请求的参数绑定到此绑定器的目标, 并在multipart请求的情况下绑定multipart文件.
+	 * <p>此调用可以创建字段错误, 表示基本绑定错误, 如必填字段 (code "required"),
+	 * 或者值和bean属性之间的类型不匹配 (code "typeMismatch").
+	 * <p>Multipart文件通过其参数名称绑定, 就像普通的HTTP参数一样:
+	 * i.e. "uploadedFile"到"uploadedFile" bean属性, 调用"setUploadedFile" setter方法.
+	 * <p>multipart文件的目标属性的类型可以是 MultipartFile, byte[], or String.
+	 * 后两者接收上传文件的内容; 在这些情况下, 所有元数据(如原始文件名, 内容类型等)都将丢失.
+	 * 
+	 * @param request 要绑定参数的请求 (可以是 multipart)
 	 */
 	public void bind(PortletRequest request) {
 		MutablePropertyValues mpvs = new PortletRequestParameterPropertyValues(request);
@@ -79,10 +70,11 @@ public class PortletRequestDataBinder extends WebDataBinder {
 	}
 
 	/**
-	 * Treats errors as fatal.
-	 * <p>Use this method only if it's an error if the input isn't valid.
-	 * This might be appropriate if all input is from dropdowns, for example.
-	 * @throws PortletRequestBindingException subclass of PortletException on any binding problem
+	 * 将错误视为致命错误.
+	 * <p>仅当输入无效时才使用此方法.
+	 * 例如, 如果所有输入都来自下拉列表, 则这可能是合适的.
+	 * 
+	 * @throws PortletRequestBindingException 任何绑定问题的PortletException的子类
 	 */
 	public void closeNoCatch() throws PortletRequestBindingException {
 		if (getBindingResult().hasErrors()) {
@@ -91,5 +83,4 @@ public class PortletRequestDataBinder extends WebDataBinder {
 					new BindException(getBindingResult()));
 		}
 	}
-
 }

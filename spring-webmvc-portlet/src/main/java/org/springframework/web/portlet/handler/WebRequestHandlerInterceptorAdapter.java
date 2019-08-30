@@ -16,15 +16,11 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.context.PortletWebRequest;
 
 /**
- * Adapter that implements the Portlet HandlerInterceptor interface
- * and wraps an underlying WebRequestInterceptor.
+ * 现Portlet HandlerInterceptor接口并包装底层WebRequestInterceptor的适配器.
  *
- * <p><b>NOTE:</b> The WebRequestInterceptor is by default only applied to the Portlet
- * <b>render</b> phase, which is dealing with preparing and rendering a Portlet view.
- * The Portlet action phase will only be intercepted with WebRequestInterceptor calls
- * if the {@code renderPhaseOnly} flag is explicitly set to {@code false}.
- * In general, it is recommended to use the Portlet-specific HandlerInterceptor
- * mechanism for differentiating between action and render interception.
+ * <p><b>NOTE:</b> 默认情况下, WebRequestInterceptor仅应用于Portlet <b>渲染</b>阶段, 该阶段准备和渲染Portlet视图.
+ * 如果{@code renderPhaseOnly}标志显式设置为{@code false}, 则只会使用WebRequestInterceptor调用拦截Portlet操作阶段.
+ * 通常, 建议使用特定于Portlet的HandlerInterceptor机制来区分操作和渲染拦截.
  */
 public class WebRequestHandlerInterceptorAdapter implements HandlerInterceptor {
 
@@ -34,19 +30,17 @@ public class WebRequestHandlerInterceptorAdapter implements HandlerInterceptor {
 
 
 	/**
-	 * Create a new WebRequestHandlerInterceptorAdapter for the given WebRequestInterceptor,
-	 * applying to the render phase only.
-	 * @param requestInterceptor the WebRequestInterceptor to wrap
+	 * 仅适用于渲染阶段.
+	 * 
+	 * @param requestInterceptor 要包装的WebRequestInterceptor
 	 */
 	public WebRequestHandlerInterceptorAdapter(WebRequestInterceptor requestInterceptor) {
 		this(requestInterceptor, true);
 	}
 
 	/**
-	 * Create a new WebRequestHandlerInterceptorAdapter for the given WebRequestInterceptor.
-	 * @param requestInterceptor the WebRequestInterceptor to wrap
-	 * @param renderPhaseOnly whether to apply to the render phase only ({@code true})
-	 * or to the action phase as well ({@code false})
+	 * @param requestInterceptor 要包装的WebRequestInterceptor
+	 * @param renderPhaseOnly 是否仅应用于渲染阶段 ({@code true}) 或操作阶段 ({@code false})
 	 */
 	public WebRequestHandlerInterceptorAdapter(WebRequestInterceptor requestInterceptor, boolean renderPhaseOnly) {
 		Assert.notNull(requestInterceptor, "WebRequestInterceptor must not be null");

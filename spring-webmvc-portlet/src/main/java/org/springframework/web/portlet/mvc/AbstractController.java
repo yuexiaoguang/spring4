@@ -13,41 +13,31 @@ import org.springframework.web.portlet.handler.PortletContentGenerator;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Convenient superclass for controller implementations, using the Template
- * Method design pattern.
+ * 控制器实现的便捷超类, 使用模板方法设计模式.
  *
- * <p>As stated in the {@link Controller Controller}
- * interface, a lot of functionality is already provided by certain abstract
- * base controllers. The AbstractController is one of the most important
- * abstract base controller providing basic features such controlling if a
- * session is required and render caching.
+ * <p>如{@link Controller Controller}接口中所述, 某些抽象基本控制器已经提供了许多功能.
+ * AbstractController是最重要的抽象基础控制器之一, 提供基本功能, 如控制是否需要会话和渲染缓存.
  *
- * <p><b><a name="workflow">Workflow
- * (<a href="Controller.html#workflow">and that defined by interface</a>):</b><br>
+ * <p><b><a name="workflow">Workflow (<a href="Controller.html#workflow">和接口定义的那些</a>):</b><br>
  * <ol>
- * <li>If this is an action request, {@link #handleActionRequest handleActionRequest}
- * will be called by the DispatcherPortlet once to perform the action defined by this
- * controller.</li>
- * <li>If a session is required, try to get it (PortletException if not found).</li>
- * <li>Call method {@link #handleActionRequestInternal handleActionRequestInternal},
- * (optionally synchronizing around the call on the PortletSession),
- * which should be overridden by extending classes to provide actual functionality to
- * perform the desired action of the controller.  This will be executed only once.</li>
- * <li>For a straight render request, or the render phase of an action request (assuming the
- * same controller is called for the render phase -- see tip below),
- * {@link #handleRenderRequest handleRenderRequest} will be called by the DispatcherPortlet
- * repeatedly to render the display defined by this controller.</li>
- * <li>If a session is required, try to get it (PortletException if none found).</li>
- * <li>It will control caching as defined by the cacheSeconds property.</li>
- * <li>Call method {@link #handleRenderRequestInternal handleRenderRequestInternal},
- * (optionally synchronizing around the call on the PortletSession),
- * which should be overridden by extending classes to provide actual functionality to
- * return {@link org.springframework.web.portlet.ModelAndView ModelAndView} objects.
- * This will be executed repeatedly as the portal updates the current displayed page.</li>
+ * <li>如果这是一个操作请求, DispatcherPortlet将调用{@link #handleActionRequest handleActionRequest}一次,
+ * 以执行此控制器定义的动作.</li>
+ * <li>如果需要会话, 尝试获取它 (如果未找到则抛出PortletException).</li>
+ * <li>调用方法{@link #handleActionRequestInternal handleActionRequestInternal},
+ * (可选地围绕PortletSession上的调用进行同步), 这应该通过扩展类来覆盖, 以提供执行控制器所需操作的实际功能.
+ * 这只会执行一次.</li>
+ * <li>对于直接渲染请求或操作请求的渲染阶段 (假设渲染阶段调用相同的控制器 -- 请参阅下面的提示),
+ * DispatcherPortlet将重复调用{@link #handleRenderRequest handleRenderRequest}, 以渲染此控制器定义的显示.</li>
+ * <li>如果需要会话, 请尝试获取它 (如果没有找到则抛出PortletException).</li>
+ * <li>它将控制cacheSeconds属性定义的缓存.</li>
+ * <li>调用方法{@link #handleRenderRequestInternal handleRenderRequestInternal},
+ * (可选地围绕PortletSession上的调用进行同步), 应该通过扩展类来覆盖,
+ * 以提供返回{@link org.springframework.web.portlet.ModelAndView ModelAndView}对象的实际功能.
+ * 当portal更新当前显示的页面时, 这将重复执行.</li>
  * </ol>
  *
- * <p><b><a name="config">Exposed configuration properties</a>
- * (<a href="Controller.html#config">and those defined by interface</a>):</b><br>
+ * <p><b><a name="config">暴露的配置属性</a>
+ * (<a href="Controller.html#config">和接口定义的属性</a>):</b><br>
  * <table border="1">
  * <tr>
  * <td><b>name</b></th>
@@ -57,49 +47,36 @@ import org.springframework.web.portlet.util.PortletUtils;
  * <tr>
  * <td>requireSession</td>
  * <td>false</td>
- * <td>whether a session should be required for requests to be able to
- * be handled by this controller. This ensures, derived controller
- * can - without fear of Nullpointers - call request.getSession() to
- * retrieve a session. If no session can be found while processing
- * the request, a PortletException will be thrown</td>
+ * <td>此控制器是否需要会话才能处理请求.
+ * 这确保了派生控制器可以 - 无需担心Nullpointers - 调用 request.getSession()来检索会话.
+ * 如果在处理请求时找不到会话, 则将抛出PortletException</td>
  * </tr>
  * <tr>
  * <td>synchronizeOnSession</td>
  * <td>false</td>
- * <td>whether the calls to {@code handleRenderRequestInternal} and
- * {@code handleRenderRequestInternal} should be synchronized around
- * the PortletSession, to serialize invocations from the same client.
- * No effect if there is no PortletSession.
+ * <td>是否应该围绕PortletSession同步对{@code handleRenderRequestInternal}
+ * 和{@code handleRenderRequestInternal}的调用, 以序列化来自同一客户端的调用.
+ * 如果没有PortletSession, 则无效.
  * </td>
  * </tr>
  * <tr>
  * <td>cacheSeconds</td>
  * <td>-1</td>
- * <td>indicates the amount of seconds to specify caching is allowed in
- * the render response generatedby  this request. 0 (zero) will indicate
- * no caching is allowed at all, -1 (the default) will not override the
- * portlet configuration and any positive number will cause the render
- * response to declare the amount indicated as seconds to cache the content</td>
+ * <td>表示在此请求生成的渲染响应中允许指定缓存的秒数.
+ * 0 (零) 表示根本不允许缓存, -1 (默认值) 不会覆盖portlet配置, 任何正数都会导致渲染响应声明缓存内容指定的秒数</td>
  * </tr>
  * <tr>
  * <td>renderWhenMinimized</td>
  * <td>false</td>
- * <td>whether should be rendered when the portlet is in a minimized state --
- * will return null for the ModelandView when the portlet is minimized
- * and this is false</td>
+ * <td>在portlet处于最小化状态时是否应该渲染 -- 如果为false, 当portlet最小化时将为ModelandView返回null</td>
  * </tr>
  * </table>
  *
- * <p><b>TIP:</b> The controller mapping will be run twice by the PortletDispatcher for
- * action requests -- once for the action phase and again for the render phase.  You can
- * reach the render phase of a different controller by simply changing the values for the
- * criteria your mapping is using, such as portlet mode or a request parameter, during the
- * action phase of your controller.  This is very handy since redirects within the portlet
- * are apparently impossible.  Before doing this, it is usually wise to call
- * {@code clearAllRenderParameters} and then explicitly set all the parameters that
- * you want the new controller to see.  This avoids unexpected parameters from being passed
- * to the render phase of the second controller, such as the parameter indicating a form
- * submit ocurred in an {@code AbstractFormController}.
+ * <p><b>TIP:</b> 控制器映射将由PortletDispatcher运行两次以执行操作请求 -- 一次用于操作阶段, 另一次用于渲染阶段.
+ * 只需在控制器的操作阶段更改映射使用的条件的值(例如portlet模式或请求参数), 即可到达不同控制器的渲染阶段.
+ * 这非常方便, 因为在portlet中重定向显然是不可能的.
+ * 在执行此操作之前, 通常明智的做法是调用{@code clearAllRenderParameters}, 然后显式设置希望新控制器看到的所有参数.
+ * 这可以避免意外的参数传递到第二个控制器的渲染阶段, 例如指示{@code AbstractFormController}中出现的表单提交的参数.
  *
  * <p>Thanks to Rainer Schmitz and Nick Lothian for their suggestions!
  */
@@ -111,42 +88,34 @@ public abstract class AbstractController extends PortletContentGenerator impleme
 
 
 	/**
-	 * Set if controller execution should be synchronized on the session,
-	 * to serialize parallel invocations from the same client.
-	 * <p>More specifically, the execution of the {@code handleActionRequestInternal}
-	 * method will get synchronized if this flag is "true". The best available
-	 * session mutex will be used for the synchronization; ideally, this will
-	 * be a mutex exposed by HttpSessionMutexListener.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@code SESSION_MUTEX_ATTRIBUTE} constant. It serves as a
-	 * safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the PortletSession reference itself is a safe mutex
-	 * as well, since it will always be the same object reference for the
-	 * same active logical session. However, this is not guaranteed across
-	 * different servlet containers; the only 100% safe way is a session mutex.
+	 * 设置是否应在会话上同步控制器执行, 以序列化来自同一客户端的并行调用.
+	 * <p>更具体地说, 如果此标志为"true", 则{@code handleActionRequestInternal}方法的执行将同步.
+	 * 最佳可用会话互斥锁将用于同步; 理想情况下, 这将是HttpSessionMutexListener公开的互斥锁.
+	 * <p>会话互斥锁在会话的整个生命周期内保证是同一个对象, 在{@code SESSION_MUTEX_ATTRIBUTE}常量定义的键下可用.
+	 * 它用作锁定当前会话的同步的安全引用.
+	 * <p>在许多情况下, PortletSession引用本身也是一个安全的互斥锁, 因为它始终是同一个活动逻辑会话的相同对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一 100% 安全的方式是会话互斥.
 	 */
 	public final void setSynchronizeOnSession(boolean synchronizeOnSession) {
 		this.synchronizeOnSession = synchronizeOnSession;
 	}
 
 	/**
-	 * Return whether controller execution should be synchronized on the session.
+	 * 返回是否应在会话上同步控制器执行.
 	 */
 	public final boolean isSynchronizeOnSession() {
 		return this.synchronizeOnSession;
 	}
 
 	/**
-	 * Set if the controller should render an view when the portlet is in
-	 * a minimized window.  The default is false.
+	 * 设置控制器是否应在portlet处于最小化窗口时渲染视图. 默认为false.
 	 */
 	public final void setRenderWhenMinimized(boolean renderWhenMinimized) {
 		this.renderWhenMinimized = renderWhenMinimized;
 	}
 
 	/**
-	 * Return whether controller will render when portlet is minimized.
+	 * 返回当portlet最小化时控制器是否渲染.
 	 */
 	public final boolean isRenderWhenMinimized() {
 		return this.renderWhenMinimized;
@@ -155,10 +124,10 @@ public abstract class AbstractController extends PortletContentGenerator impleme
 
 	@Override
 	public void handleActionRequest(ActionRequest request, ActionResponse response) throws Exception {
-		// Delegate to PortletContentGenerator for checking and preparing.
+		// 委派给PortletContentGenerator进行检查和准备.
 		check(request, response);
 
-		// Execute in synchronized block if required.
+		// 如果需要, 在synchronized块中执行.
 		if (this.synchronizeOnSession) {
 			PortletSession session = request.getPortletSession(false);
 			if (session != null) {
@@ -175,15 +144,15 @@ public abstract class AbstractController extends PortletContentGenerator impleme
 
 	@Override
 	public ModelAndView handleRenderRequest(RenderRequest request, RenderResponse response) throws Exception {
-		// If the portlet is minimized and we don't want to render then return null.
+		// 如果portlet最小化, 不想渲染, 则返回null.
 		if (WindowState.MINIMIZED.equals(request.getWindowState()) && !this.renderWhenMinimized) {
 			return null;
 		}
 
-		// Delegate to PortletContentGenerator for checking and preparing.
+		// 委派给PortletContentGenerator进行检查和准备.
 		checkAndPrepare(request, response);
 
-		// Execute in synchronized block if required.
+		// 如果需要, 在synchronized块中执行.
 		if (this.synchronizeOnSession) {
 			PortletSession session = request.getPortletSession(false);
 			if (session != null) {
@@ -199,12 +168,9 @@ public abstract class AbstractController extends PortletContentGenerator impleme
 
 
 	/**
-	 * Subclasses are meant to override this method if the controller
-	 * is expected to handle action requests. The contract is the same as
-	 * for {@code handleActionRequest}.
-	 * <p>The default implementation throws a PortletException.
-	 * @see #handleActionRequest
-	 * @see #handleRenderRequestInternal
+	 * 如果希望控制器处理操作请求, 则意味着子类重写此方法.
+	 * 约定与{@code handleActionRequest}的约定相同.
+	 * <p>默认实现抛出PortletException.
 	 */
 	protected void handleActionRequestInternal(ActionRequest request, ActionResponse response)
 			throws Exception {
@@ -213,17 +179,13 @@ public abstract class AbstractController extends PortletContentGenerator impleme
 	}
 
 	/**
-	 * Subclasses are meant to override this method if the controller
-	 * is expected to handle render requests. The contract is the same as
-	 * for {@code handleRenderRequest}.
-	 * <p>The default implementation throws a PortletException.
-	 * @see #handleRenderRequest
-	 * @see #handleActionRequestInternal
+	 * 如果希望控制器处理渲染请求, 则意味着子类重写此方法.
+	 * 约定与{@code handleRenderRequest}的约定相同.
+	 * <p>默认实现抛出PortletException.
 	 */
 	protected ModelAndView handleRenderRequestInternal(RenderRequest request, RenderResponse response)
 			throws Exception {
 
 		throw new PortletException("[" + getClass().getName() + "] does not handle render requests");
 	}
-
 }

@@ -26,21 +26,19 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * Convenience methods for retrieving the root {@link WebApplicationContext} for
- * a given {@link PortletContext}. This is useful for programmatically accessing
- * a Spring application context from within custom Portlet implementations.
+ * 检索给定{@link PortletContext}的根{@link WebApplicationContext}的便捷方法.
+ * 这对于从自定义Portlet实现中以编程方式访问Spring应用程序上下文非常有用.
  */
 public abstract class PortletApplicationContextUtils {
 
 	/**
-	 * Find the root {@link WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param pc PortletContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app, or {@code null} if none
-	 * (typed to ApplicationContext to avoid a Servlet API dependency; can usually
-	 * be casted to WebApplicationContext, but there shouldn't be a need to)
+	 * 查找此Web应用程序的根{@link WebApplicationContext}, 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param pc 用于查找Web应用程序上下文的PortletContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext, 或{@code null}
+	 * (转换为ApplicationContext以避免Servlet API依赖; 通常可以转换为WebApplicationContext, 但不需要)
 	 */
 	public static ApplicationContext getWebApplicationContext(PortletContext pc) {
 		Assert.notNull(pc, "PortletContext must not be null");
@@ -61,15 +59,14 @@ public abstract class PortletApplicationContextUtils {
 	}
 
 	/**
-	 * Find the root {@link WebApplicationContext} for this web app, typically
-	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
-	 * <p>Will rethrow an exception that happened on root context startup,
-	 * to differentiate between a failed context startup and no context at all.
-	 * @param pc PortletContext to find the web application context for
-	 * @return the root WebApplicationContext for this web app
-	 * (typed to ApplicationContext to avoid a Servlet API dependency; can usually
-	 * be casted to WebApplicationContext, but there shouldn't be a need to)
-	 * @throws IllegalStateException if the root WebApplicationContext could not be found
+	 * 查找此Web应用程序的根{@link WebApplicationContext}, 通常通过{@link org.springframework.web.context.ContextLoaderListener}加载.
+	 * <p>将重新抛出在根上下文启动时发生的异常, 以区分失败的上下文启动和根本没有上下文.
+	 * 
+	 * @param pc 用于查找Web应用程序上下文的PortletContext
+	 * 
+	 * @return 此Web应用程序的根WebApplicationContext
+	 * (转换为ApplicationContext以避免Servlet API依赖; 通常可以转换为WebApplicationContext, 但不需要)
+	 * @throws IllegalStateException 如果找不到根WebApplicationContext
 	 */
 	public static ApplicationContext getRequiredWebApplicationContext(PortletContext pc) throws IllegalStateException {
 		ApplicationContext wac = getWebApplicationContext(pc);
@@ -81,10 +78,10 @@ public abstract class PortletApplicationContextUtils {
 
 
 	/**
-	 * Register web-specific scopes ("request", "session", "globalSession")
-	 * with the given BeanFactory, as used by the Portlet ApplicationContext.
-	 * @param bf the BeanFactory to configure
-	 * @param pc the PortletContext that we're running within
+	 * 使用的给定BeanFactory注册特定于Web的作用域 ("request", "session", "globalSession"), 由Portlet ApplicationContext使用.
+	 * 
+	 * @param bf 要配置的BeanFactory
+	 * @param pc 正在运行的PortletContext
 	 */
 	static void registerPortletApplicationScopes(ConfigurableListableBeanFactory bf, PortletContext pc) {
 		bf.registerScope(WebApplicationContext.SCOPE_REQUEST, new RequestScope());
@@ -93,7 +90,7 @@ public abstract class PortletApplicationContextUtils {
 		if (pc != null) {
 			PortletContextScope appScope = new PortletContextScope(pc);
 			bf.registerScope(WebApplicationContext.SCOPE_APPLICATION, appScope);
-			// Register as PortletContext attribute, for ContextCleanupListener to detect it.
+			// 注册为PortletContext属性, 以便ContextCleanupListener检测它.
 			pc.setAttribute(PortletContextScope.class.getName(), appScope);
 		}
 
@@ -104,12 +101,13 @@ public abstract class PortletApplicationContextUtils {
 	}
 
 	/**
-	 * Register web-specific environment beans ("contextParameters", "contextAttributes")
-	 * with the given BeanFactory, as used by the Portlet ApplicationContext.
-	 * @param bf the BeanFactory to configure
-	 * @param servletContext the ServletContext that we're running within
-	 * @param portletContext the PortletContext that we're running within
-	 * @param portletConfig the PortletConfig of the containing Portlet
+	 * 使用给定BeanFactory注册特定于Web的环境bean ("contextParameters", "contextAttributes"),
+	 * 由Portlet ApplicationContext使用.
+	 * 
+	 * @param bf 要配置的BeanFactory
+	 * @param servletContext 正在运行的ServletContext
+	 * @param portletContext 正在运行的PortletContext
+	 * @param portletConfig 包含Portlet的PortletConfig
 	 */
 	static void registerEnvironmentBeans(ConfigurableListableBeanFactory bf, ServletContext servletContext,
 			PortletContext portletContext, PortletConfig portletConfig) {
@@ -161,26 +159,21 @@ public abstract class PortletApplicationContextUtils {
 	}
 
 	/**
-	 * Replace {@code Servlet}- and {@code Portlet}-based {@link
-	 * org.springframework.core.env.PropertySource.StubPropertySource stub property
-	 * sources} with actual instances populated with the given {@code servletContext},
-	 * {@code portletContext} and {@code portletConfig} objects.
-	 * <p>This method is idempotent with respect to the fact it may be called any number
-	 * of times but will perform replacement of stub property sources with their
-	 * corresponding actual property sources once and only once.
-	 * @param propertySources the {@link MutablePropertySources} to initialize (must not be {@code null})
-	 * @param servletContext the current {@link ServletContext} (ignored if {@code null}
-	 * or if the {@link org.springframework.web.context.support.StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME
-	 * servlet context property source} has already been initialized)
-	 * @param portletContext the current {@link PortletContext} (ignored if {@code null}
-	 * or if the {@link StandardPortletEnvironment#PORTLET_CONTEXT_PROPERTY_SOURCE_NAME
-	 * portlet context property source} has already been initialized)
-	 * @param portletConfig the current {@link PortletConfig} (ignored if {@code null}
-	 * or if the {@link StandardPortletEnvironment#PORTLET_CONFIG_PROPERTY_SOURCE_NAME
-	 * portlet config property source} has already been initialized)
-	 * @see org.springframework.core.env.PropertySource.StubPropertySource
-	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources(MutablePropertySources, ServletContext)
-	 * @see org.springframework.core.env.ConfigurableEnvironment#getPropertySources()
+	 * 将基于{@code Servlet}和基于{@code Portlet}的
+	 * {@link org.springframework.core.env.PropertySource.StubPropertySource 存根属性源}
+	 * 替换为使用给定的{@code servletContext}, {@code portletContext}和{@code portletConfig}对象填充的实际实例.
+	 * <p>这个方法是幂等的, 因为它可以被调用任意次, 但是会用它们相应的实际属性源替换存根属性源一次且只能执行一次.
+	 * 
+	 * @param propertySources 要初始化的{@link MutablePropertySources} (不能是{@code null})
+	 * @param servletContext 当前的{@link ServletContext}
+	 * (忽略, 如果为{@code null}或者
+	 * {@link org.springframework.web.context.support.StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME servlet上下文属性源}已经初始化)
+	 * @param portletContext 当前的{@link PortletContext}
+	 * (忽略, 如果为{@code null}或者
+	 * {@link StandardPortletEnvironment#PORTLET_CONTEXT_PROPERTY_SOURCE_NAME portlet上下文属性源}已经初始化)
+	 * @param portletConfig 当前的{@link PortletConfig}
+	 * (忽略, 如果为{@code null}或者
+	 * {@link StandardPortletEnvironment#PORTLET_CONFIG_PROPERTY_SOURCE_NAME portlet配置属性源}已经初始化)
 	 */
 	public static void initPortletPropertySources(MutablePropertySources propertySources, ServletContext servletContext,
 			PortletContext portletContext, PortletConfig portletConfig) {
@@ -199,8 +192,7 @@ public abstract class PortletApplicationContextUtils {
 	}
 
 	/**
-	 * Return the current RequestAttributes instance as PortletRequestAttributes.
-	 * @see RequestContextHolder#currentRequestAttributes()
+	 * 返回当前的RequestAttributes实例.
 	 */
 	private static PortletRequestAttributes currentRequestAttributes() {
 		RequestAttributes requestAttr = RequestContextHolder.currentRequestAttributes();
@@ -212,7 +204,7 @@ public abstract class PortletApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current request object on demand.
+	 * 按需公开当前请求对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class RequestObjectFactory implements ObjectFactory<PortletRequest>, Serializable {
@@ -230,7 +222,7 @@ public abstract class PortletApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current response object on demand.
+	 * 按需公开当前响应对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class ResponseObjectFactory implements ObjectFactory<PortletResponse>, Serializable {
@@ -252,7 +244,7 @@ public abstract class PortletApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current session object on demand.
+	 * 按需公开当前会话对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class SessionObjectFactory implements ObjectFactory<PortletSession>, Serializable {
@@ -270,7 +262,7 @@ public abstract class PortletApplicationContextUtils {
 
 
 	/**
-	 * Factory that exposes the current WebRequest object on demand.
+	 * 按需公开当前WebRequest对象的工厂.
 	 */
 	@SuppressWarnings("serial")
 	private static class WebRequestObjectFactory implements ObjectFactory<WebRequest>, Serializable {
@@ -286,5 +278,4 @@ public abstract class PortletApplicationContextUtils {
 			return "Current PortletWebRequest";
 		}
 	}
-
 }

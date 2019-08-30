@@ -14,43 +14,36 @@ import org.springframework.jndi.JndiPropertySource;
 import org.springframework.web.context.support.StandardServletEnvironment;
 
 /**
- * {@link Environment} implementation to be used by {@code Servlet}-based web
- * applications. All Portlet-related {@code ApplicationContext} classes
- * initialize an instance by default.
+ * 基于{@code Servlet}的Web应用程序使用的{@link Environment}实现.
+ * 所有与Portlet相关的{@code ApplicationContext}类都默认初始化一个实例.
  *
- * <p>Contributes {@code ServletContext}, {@code PortletContext},
- * {@code PortletConfig} and JNDI-based {@link PropertySource} instances.
- * See the {@link #customizePropertySources} method for details.
+ * <p>贡献{@code ServletContext}, {@code PortletContext}, {@code PortletConfig}和基于JNDI的{@link PropertySource}实例.
+ * 有关详细信息, 请参阅{@link #customizePropertySources}方法.
  */
 public class StandardPortletEnvironment extends StandardEnvironment {
 
-	/** Portlet context init parameters property source name: {@value} */
+	/** Portlet上下文init参数属性源名称: {@value} */
 	public static final String PORTLET_CONTEXT_PROPERTY_SOURCE_NAME = "portletContextInitParams";
 
-	/** Portlet config init parameters property source name: {@value} */
+	/** Portlet配置init参数属性源名称: {@value} */
 	public static final String PORTLET_CONFIG_PROPERTY_SOURCE_NAME = "portletConfigInitParams";
 
 
 	/**
-	 * Customize the set of property sources with those contributed by superclasses as
-	 * well as those appropriate for standard portlet-based environments:
+	 * 使用超类提供的属性源以及适用于基于标准portlet的环境的属性源自定义属性源集:
 	 * <ul>
 	 * <li>{@value #PORTLET_CONFIG_PROPERTY_SOURCE_NAME}
 	 * <li>{@value #PORTLET_CONTEXT_PROPERTY_SOURCE_NAME}
 	 * <li>{@linkplain StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME "servletContextInitParams"}
 	 * <li>{@linkplain StandardServletEnvironment#JNDI_PROPERTY_SOURCE_NAME "jndiProperties"}
 	 * </ul>
-	 * <p>Properties present in {@value #PORTLET_CONFIG_PROPERTY_SOURCE_NAME} will
-	 * take precedence over those in {@value #PORTLET_CONTEXT_PROPERTY_SOURCE_NAME},
-	 * which takes precedence over those in {@linkplain
-	 * StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME "servletContextInitParams"}
-	 * and so on.
-	 * <p>Properties in any of the above will take precedence over system properties and
-	 * environment variables contributed by the {@link StandardEnvironment} superclass.
-	 * <p>The property sources are added as stubs for now, and will be
-	 * {@linkplain PortletApplicationContextUtils#initPortletPropertySources fully
-	 * initialized} once the actual {@link PortletConfig}, {@link PortletContext}, and
-	 * {@link ServletContext} objects are available.
+	 * <p>{@value #PORTLET_CONFIG_PROPERTY_SOURCE_NAME}中的属性将优先于{@value #PORTLET_CONTEXT_PROPERTY_SOURCE_NAME}中的属性,
+	 * 该属性优先于
+	 * {@linkplain StandardServletEnvironment#SERVLET_CONTEXT_PROPERTY_SOURCE_NAME "servletContextInitParams"}中的属性,
+	 * 依此类推.
+	 * <p>上述任何属性都将优先于{@link StandardEnvironment}超类提供的系统属性和环境变量.
+	 * <p>属性源暂时添加为存根, 一旦实际的{@link PortletConfig}, {@link PortletContext}, 和{@link ServletContext}对象可用,
+	 * 将{@linkplain PortletApplicationContextUtils#initPortletPropertySources 完全初始化}.
 	 */
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
@@ -64,13 +57,12 @@ public class StandardPortletEnvironment extends StandardEnvironment {
 	}
 
 	/**
-	 * Replace any {@linkplain
-	 * org.springframework.core.env.PropertySource.StubPropertySource stub property source}
-	 * instances acting as placeholders with real portlet context/config property sources
-	 * using the given parameters.
-	 * @param servletContext the {@link ServletContext} (may be {@code null})
-	 * @param portletContext the {@link PortletContext} (may not be {@code null})
-	 * @param portletConfig the {@link PortletConfig} ({@code null} if not available)
+	 * 使用给定参数替换任何充当真实portlet上下文/配置属性源的占位符的
+	 * {@linkplain org.springframework.core.env.PropertySource.StubPropertySource 存根属性源}实例.
+	 * 
+	 * @param servletContext  {@link ServletContext} (may be {@code null})
+	 * @param portletContext  {@link PortletContext} (may not be {@code null})
+	 * @param portletConfig  {@link PortletConfig} ({@code null} if not available)
 	 */
 	public void initPropertySources(ServletContext servletContext, PortletContext portletContext, PortletConfig portletConfig) {
 		PortletApplicationContextUtils.initPortletPropertySources(getPropertySources(), servletContext, portletContext, portletConfig);

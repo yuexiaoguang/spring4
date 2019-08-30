@@ -9,14 +9,12 @@ import javax.portlet.RenderResponse;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * <p>Trivial controller that transforms the PortletMode to a view name.
- * The advantage here is that the client is not exposed to
- * the concrete view technology but rather just to the controller URL;
- * the concrete view will be determined by the ViewResolver.</p>
+ * <p>将PortletMode转换为视图名称的简单控制器.
+ * 这里的优点是客户端不会暴露于具体的视图技术, 而只是暴露给控制器URL; 具体视图将由ViewResolver确定.</p>
  *
  * <p>Example: PortletMode.VIEW -> "view"</p>
  *
- * <p>This controller does not handle action requests.</p>
+ * <p>此控制器不处理操作请求.</p>
  */
 public class PortletModeNameViewController implements Controller {
 

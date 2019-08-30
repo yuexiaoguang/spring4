@@ -5,7 +5,7 @@ import javax.portlet.PortletMode;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Internal class used as lookup key, combining PortletMode and parameter value.
+ * 用作查找键的内部类, 结合PortletMode和参数值.
  */
 class PortletModeParameterLookupKey {
 
@@ -42,5 +42,4 @@ class PortletModeParameterLookupKey {
 	public String toString() {
 		return "Portlet mode '" + this.mode + "', parameter '" + this.parameter + "'";
 	}
-
 }

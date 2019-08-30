@@ -7,7 +7,7 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link PropertySource} that reads init parameters from a {@link PortletContext} object.
+ * 从{@link PortletContext}对象读取init参数的{@link PropertySource}.
  */
 public class PortletContextPropertySource extends EnumerablePropertySource<PortletContext> {
 

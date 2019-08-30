@@ -1,7 +1,7 @@
 package org.springframework.web.portlet.bind;
 
 /**
- * {@link PortletRequestBindingException} subclass that indicates a missing parameter.
+ * {@link PortletRequestBindingException}子类, 表示缺少参数.
  */
 @SuppressWarnings("serial")
 public class MissingPortletRequestParameterException extends PortletRequestBindingException {
@@ -12,9 +12,8 @@ public class MissingPortletRequestParameterException extends PortletRequestBindi
 
 
 	/**
-	 * Constructor for MissingPortletRequestParameterException.
-	 * @param parameterName the name of the missing parameter
-	 * @param parameterType the expected type of the missing parameter
+	 * @param parameterName 缺少的参数的名称
+	 * @param parameterType 缺少的参数的预期类型
 	 */
 	public MissingPortletRequestParameterException(String parameterName, String parameterType) {
 		super("");
@@ -29,14 +28,14 @@ public class MissingPortletRequestParameterException extends PortletRequestBindi
 	}
 
 	/**
-	 * Return the name of the offending parameter.
+	 * 返回有问题的参数的名称.
 	 */
 	public final String getParameterName() {
 		return this.parameterName;
 	}
 
 	/**
-	 * Return the expected type of the offending parameter.
+	 * 返回有问题的参数的预期类型.
 	 */
 	public final String getParameterType() {
 		return this.parameterType;

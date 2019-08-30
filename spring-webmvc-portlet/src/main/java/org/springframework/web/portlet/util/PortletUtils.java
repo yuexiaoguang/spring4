@@ -26,16 +26,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Miscellaneous utilities for portlet applications.
- * Used by various framework classes.
+ * 用于portlet应用程序的其他工具.
+ * 由各种框架类使用.
  */
 public abstract class PortletUtils {
 
 	/**
-	 * Return the temporary directory for the current web application,
-	 * as provided by the portlet container.
-	 * @param portletContext the portlet context of the web application
-	 * @return the File representing the temporary directory
+	 * 返回当前Web应用程序的临时目录, 由portlet容器提供.
+	 * 
+	 * @param portletContext Web应用程序的portlet上下文
+	 * 
+	 * @return 表示临时目录的File
 	 */
 	public static File getTempDir(PortletContext portletContext) {
 		Assert.notNull(portletContext, "PortletContext must not be null");
@@ -43,22 +44,19 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Return the real path of the given path within the web application,
-	 * as provided by the portlet container.
-	 * <p>Prepends a slash if the path does not already start with a slash,
-	 * and throws a {@link java.io.FileNotFoundException} if the path cannot
-	 * be resolved to a resource (in contrast to
-	 * {@link javax.portlet.PortletContext#getRealPath PortletContext's {@code getRealPath}},
-	 * which simply returns {@code null}).
-	 * @param portletContext the portlet context of the web application
-	 * @param path the relative path within the web application
-	 * @return the corresponding real path
-	 * @throws FileNotFoundException if the path cannot be resolved to a resource
-	 * @see javax.portlet.PortletContext#getRealPath
+	 * 返回Web应用程序中给定路径的实际路径, 由portlet容器提供.
+	 * <p>如果路径尚未以斜杠开头, 则预先设置斜杠, 如果路径无法解析为资源, 则抛出{@link java.io.FileNotFoundException}
+	 * (与{@link javax.portlet.PortletContext#getRealPath PortletContext的 {@code getRealPath}}相反, 它只返回{@code null}).
+	 * 
+	 * @param portletContext Web应用程序的portlet上下文
+	 * @param path Web应用程序中的相对路径
+	 * 
+	 * @return 相应的真实路径
+	 * @throws FileNotFoundException 如果路径无法解析为资源
 	 */
 	public static String getRealPath(PortletContext portletContext, String path) throws FileNotFoundException {
 		Assert.notNull(portletContext, "PortletContext must not be null");
-		// Interpret location as relative to the web application root directory.
+		// 将位置解释为相对于Web应用程序根目录.
 		if (!path.startsWith("/")) {
 			path = "/" + path;
 		}
@@ -73,26 +71,29 @@ public abstract class PortletUtils {
 
 
 	/**
-	 * Check the given request for a session attribute of the given name under the
-	 * {@link javax.portlet.PortletSession#PORTLET_SCOPE}.
-	 * Returns {@code null} if there is no session or if the session has no such attribute in that scope.
-	 * Does not create a new session if none has existed before!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @return the value of the session attribute, or {@code null} if not found
+	 * 在{@link javax.portlet.PortletSession#PORTLET_SCOPE}下检查给定请求中是否有给定名称的会话属性.
+	 * 如果没有会话或者会话在该范围内没有此类属性, 则返回{@code null}.
+	 * 如果之前不存在, 则不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * 
+	 * @return 会话属性的值, 或{@code null}
 	 */
 	public static Object getSessionAttribute(PortletRequest request, String name) {
 		return getSessionAttribute(request, name, PortletSession.PORTLET_SCOPE);
 	}
 
 	/**
-	 * Check the given request for a session attribute of the given name in the given scope.
-	 * Returns {@code null} if there is no session or if the session has no such attribute in that scope.
-	 * Does not create a new session if none has existed before!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @param scope session scope of this attribute
-	 * @return the value of the session attribute, or {@code null} if not found
+	 * 检查给定范围内给定请求中给定名称的会话属性.
+	 * 如果没有会话或者会话在该范围内没有此类属性, 则返回{@code null}.
+	 * 如果之前不存在, 则不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * @param scope 此属性的会话范围
+	 * 
+	 * @return 会话属性的值, 或{@code null}
 	 */
 	public static Object getSessionAttribute(PortletRequest request, String name, int scope) {
 		Assert.notNull(request, "Request must not be null");
@@ -101,15 +102,15 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Check the given request for a session attribute of the given name
-	 * under the {@link javax.portlet.PortletSession#PORTLET_SCOPE}.
-	 * Throws an exception if there is no session or if the session has
-	 * no such attribute in that scope.
-	 * <p>Does not create a new session if none has existed before!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @return the value of the session attribute
-	 * @throws IllegalStateException if the session attribute could not be found
+	 * 在{@link javax.portlet.PortletSession#PORTLET_SCOPE}下检查给定请求中是否有给定名称的会话属性.
+	 * 如果没有会话或会话在该范围内没有此类属性, 则引发异常.
+	 * <p>如果之前不存在, 则不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * 
+	 * @return 会话属性的值
+	 * @throws IllegalStateException 如果找不到会话属性
 	 */
 	public static Object getRequiredSessionAttribute(PortletRequest request, String name)
 			throws IllegalStateException {
@@ -118,15 +119,16 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Check the given request for a session attribute of the given name in the given scope.
-	 * Throws an exception if there is no session or if the session has no such attribute
-	 * in that scope.
-	 * <p>Does not create a new session if none has existed before!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @param scope session scope of this attribute
-	 * @return the value of the session attribute
-	 * @throws IllegalStateException if the session attribute could not be found
+	 * 检查给定范围内给定请求中给定名称的会话属性.
+	 * 如果没有会话或会话在该范围内没有此类属性, 则引发异常.
+	 * <p>如果之前不存在, 则不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * @param scope 此属性的会话范围
+	 * 
+	 * @return 会话属性的值
+	 * @throws IllegalStateException 如果找不到会话属性
 	 */
 	public static Object getRequiredSessionAttribute(PortletRequest request, String name, int scope)
 			throws IllegalStateException {
@@ -138,25 +140,27 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Set the session attribute with the given name to the given value under the {@link javax.portlet.PortletSession#PORTLET_SCOPE}.
-	 * Removes the session attribute if value is {@code null}, if a session existed at all.
-	 * Does not create a new session if not necessary!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @param value the value of the session attribute
+	 * 在{@link javax.portlet.PortletSession#PORTLET_SCOPE}下将具有给定名称的session属性设置为给定值.
+	 * 如果值为{@code null}, 则会删除会话属性, 如果会话存在的话.
+	 * 如果没有必要, 不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * @param value session属性的值
 	 */
 	public static void setSessionAttribute(PortletRequest request, String name, Object value) {
 		setSessionAttribute(request, name, value, PortletSession.PORTLET_SCOPE);
 	}
 
 	/**
-	 * Set the session attribute with the given name to the given value in the given scope.
-	 * Removes the session attribute if value is {@code null}, if a session existed at all.
-	 * Does not create a new session if not necessary!
-	 * @param request current portlet request
-	 * @param name the name of the session attribute
-	 * @param value the value of the session attribute
-	 * @param scope session scope of this attribute
+	 * 在给定范围中将具有给定名称的session属性设置为给定的值.
+	 * 如果值为{@code null}, 则会删除会话属性, 如果会话存在的话.
+	 * 如果没有必要, 不会创建新会话!
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 会话属性的名称
+	 * @param value session属性的值
+	 * @param scope 此属性的会话范围
 	 */
 	public static void setSessionAttribute(PortletRequest request, String name, Object value, int scope) {
 		Assert.notNull(request, "Request must not be null");
@@ -172,15 +176,16 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Get the specified session attribute under the {@link javax.portlet.PortletSession#PORTLET_SCOPE},
-	 * creating and setting a new attribute if no existing found. The given class
-	 * needs to have a public no-arg constructor.
-	 * Useful for on-demand state objects in a web tier, like shopping carts.
-	 * @param session current portlet session
-	 * @param name the name of the session attribute
-	 * @param clazz the class to instantiate for a new attribute
-	 * @return the value of the session attribute, newly created if not found
-	 * @throws IllegalArgumentException if the session attribute could not be instantiated
+	 * 获取{@link javax.portlet.PortletSession#PORTLET_SCOPE}下的指定会话属性, 如果找不到现有属性, 则创建并设置新属性.
+	 * 给定的类需要有一个公共的无参构造函数.
+	 * 对于Web层中的按需状态对象(如购物车)非常有用.
+	 * 
+	 * @param session 当前的portlet会话
+	 * @param name 会话属性的名称
+	 * @param clazz 要为新属性实例化的类
+	 * 
+	 * @return 会话属性的值, 如果未找到则新创建
+	 * @throws IllegalArgumentException 如果无法实例化会话属性
 	 */
 	public static Object getOrCreateSessionAttribute(PortletSession session, String name, Class<?> clazz)
 			throws IllegalArgumentException {
@@ -189,16 +194,17 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Get the specified session attribute in the given scope,
-	 * creating and setting a new attribute if no existing found. The given class
-	 * needs to have a public no-arg constructor.
-	 * Useful for on-demand state objects in a web tier, like shopping carts.
-	 * @param session current portlet session
-	 * @param name the name of the session attribute
-	 * @param clazz the class to instantiate for a new attribute
-	 * @param scope the session scope of this attribute
-	 * @return the value of the session attribute, newly created if not found
-	 * @throws IllegalArgumentException if the session attribute could not be instantiated
+	 * 获取指定范围内的指定的会话属性, 如果找不到现有属性, 则创建并设置新属性.
+	 * 给定的类需要有一个公共的无参构造函数.
+	 * 对于Web层中的按需状态对象(如购物车)非常有用.
+	 * 
+	 * @param session 当前的portlet会话
+	 * @param name 会话属性的名称
+	 * @param clazz 要为新属性实例化的类
+	 * @param scope 此属性的会话范围
+	 * 
+	 * @return 会话属性的值, 如果未找到则新创建
+	 * @throws IllegalArgumentException 如果无法实例化会话属性
 	 */
 	public static Object getOrCreateSessionAttribute(PortletSession session, String name, Class<?> clazz, int scope)
 			throws IllegalArgumentException {
@@ -226,27 +232,18 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Return the best available mutex for the given session:
-	 * that is, an object to synchronize on for the given session.
-	 * <p>Returns the session mutex attribute if available; usually,
-	 * this means that the
-	 * {@link org.springframework.web.util.HttpSessionMutexListener}
-	 * needs to be defined in {@code web.xml}. Falls back to the
-	 * {@link javax.portlet.PortletSession} itself if no mutex attribute found.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@link org.springframework.web.util.WebUtils#SESSION_MUTEX_ATTRIBUTE}
-	 * constant. It serves as a safe reference to synchronize on for locking
-	 * on the current session.
-	 * <p>In many cases, the {@link javax.portlet.PortletSession} reference
-	 * itself is a safe mutex as well, since it will always be the same
-	 * object reference for the same active logical session. However, this is
-	 * not guaranteed across different servlet containers; the only 100% safe
-	 * way is a session mutex.
-	 * @param session the HttpSession to find a mutex for
-	 * @return the mutex object (never {@code null})
-	 * @see org.springframework.web.util.WebUtils#SESSION_MUTEX_ATTRIBUTE
-	 * @see org.springframework.web.util.HttpSessionMutexListener
+	 * 返回给定会话的最佳可用互斥锁: 即, 为给定会话同步的对象.
+	 * <p>返回会话互斥锁属性; 通常, 这意味着需要在{@code web.xml}中定义{@link org.springframework.web.util.HttpSessionMutexListener}.
+	 * 如果没有找到互斥锁属性, 则回退到{@link javax.portlet.PortletSession}本身.
+	 * <p>在会话的整个生命周期内, 会话互斥锁保证是同一个对象,
+	 * 可在{@link org.springframework.web.util.WebUtils#SESSION_MUTEX_ATTRIBUTE}常量定义的键下使用.
+	 * 它用作锁定当前会话的同步的安全引用.
+	 * <p>在许多情况下, {@link javax.portlet.PortletSession}引用本身也是一个安全的互斥锁, 因为它始终是同一个活动逻辑会话的相同对象引用.
+	 * 但是, 不能在不同的servlet容器中保证这一点; 唯一 100% 安全的方式是会话互斥锁.
+	 * 
+	 * @param session 要查找互斥锁的HttpSession
+	 * 
+	 * @return 互斥锁对象 (never {@code null})
 	 */
 	public static Object getSessionMutex(PortletSession session) {
 		Assert.notNull(session, "Session must not be null");
@@ -259,12 +256,12 @@ public abstract class PortletUtils {
 
 
 	/**
-	 * Return an appropriate request object of the specified type, if available,
-	 * unwrapping the given request as far as necessary.
-	 * @param request the portlet request to introspect
-	 * @param requiredType the desired type of request object
-	 * @return the matching request object, or {@code null} if none
-	 * of that type is available
+	 * 返回指定类型的适当请求对象, 根据需要解包给定请求.
+	 * 
+	 * @param request 要内省的portlet请求
+	 * @param requiredType 请求对象的所需类型
+	 * 
+	 * @return 匹配的请求对象, 或{@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getNativeRequest(PortletRequest request, Class<T> requiredType) {
@@ -280,12 +277,12 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Return an appropriate response object of the specified type, if available,
-	 * unwrapping the given response as far as necessary.
-	 * @param response the portlet response to introspect
-	 * @param requiredType the desired type of response object
-	 * @return the matching response object, or {@code null} if none
-	 * of that type is available
+	 * 返回指定类型的适当响应对象, 根据需要解包给定的响应.
+	 * 
+	 * @param response 要响应的portlet反应
+	 * @param requiredType 响应对象的所需类型
+	 * 
+	 * @return 匹配的响应对象, 或{@code null}
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getNativeResponse(PortletResponse response, Class<T> requiredType) {
@@ -301,10 +298,11 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Expose the given Map as request attributes, using the keys as attribute names
-	 * and the values as corresponding attribute values. Keys must be Strings.
-	 * @param request current portlet request
-	 * @param attributes the attributes Map
+	 * 将给定的Map公开为请求属性, 使用键作为属性名称, 将值作为相应的属性值.
+	 * 键必须是String.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param attributes 属性Map
 	 */
 	public static void exposeRequestAttributes(PortletRequest request, Map<String, ?> attributes) {
 		Assert.notNull(request, "Request must not be null");
@@ -315,11 +313,13 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Retrieve the first cookie with the given name. Note that multiple
-	 * cookies can have the same name but different paths or domains.
-	 * @param request current portlet request
-	 * @param name cookie name
-	 * @return the first cookie with the given name, or {@code null} if none is found
+	 * 检索具有给定名称的第一个cookie.
+	 * 请注意, 多个Cookie可以具有相同的名称, 但路径或域不同.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name cookie名称
+	 * 
+	 * @return 第一个具有给定名称的cookie, 或{@code null}
 	 */
 	public static Cookie getCookie(PortletRequest request, String name) {
 		Assert.notNull(request, "Request must not be null");
@@ -335,26 +335,24 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Check if a specific input type="submit" parameter was sent in the request,
-	 * either via a button (directly with name) or via an image (name + ".x" or
-	 * name + ".y").
-	 * @param request current portlet request
-	 * @param name name of the parameter
-	 * @return if the parameter was sent
-	 * @see org.springframework.web.util.WebUtils#SUBMIT_IMAGE_SUFFIXES
+	 * 检查请求中是否通过按钮(直接使用名称)或通过图像(名称 + ".x" 或名称 + ".y")发送了特定 input type="submit"参数.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return 如果参数已发送
 	 */
 	public static boolean hasSubmitParameter(PortletRequest request, String name) {
 		return getSubmitParameter(request, name) != null;
 	}
 
 	/**
-	 * Return the full name of a specific input type="submit" parameter
-	 * if it was sent in the request, either via a button (directly with name)
-	 * or via an image (name + ".x" or name + ".y").
-	 * @param request current portlet request
-	 * @param name name of the parameter
-	 * @return the actual parameter name with suffix if needed - null if not present
-	 * @see org.springframework.web.util.WebUtils#SUBMIT_IMAGE_SUFFIXES
+	 * 返回特定input type="submit"参数的全名, 如果在请求中发送了该参数, 通过按钮(直接使用名称)或通过图像(名称 + ".x" 或名称 + ".y").
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return 带有后缀的实际参数名称, 或null
 	 */
 	public static String getSubmitParameter(PortletRequest request, String name) {
 		Assert.notNull(request, "Request must not be null");
@@ -372,21 +370,15 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Return a map containing all parameters with the given prefix.
-	 * Maps single values to String and multiple values to String array.
-	 * <p>For example, with a prefix of "spring_", "spring_param1" and
-	 * "spring_param2" result in a Map with "param1" and "param2" as keys.
-	 * <p>Similar to portlet
-	 * {@link javax.portlet.PortletRequest#getParameterMap()},
-	 * but more flexible.
-	 * @param request portlet request in which to look for parameters
-	 * @param prefix the beginning of parameter names
-	 * (if this is {@code null} or the empty string, all parameters will match)
-	 * @return map containing request parameters <b>without the prefix</b>,
-	 * containing either a String or a String array as values
-	 * @see javax.portlet.PortletRequest#getParameterNames
-	 * @see javax.portlet.PortletRequest#getParameterValues
-	 * @see javax.portlet.PortletRequest#getParameterMap
+	 * 返回包含具有给定前缀的所有参数.
+	 * 将单个值作为String, 将多个值作为String数组.
+	 * <p>例如, 使用前缀"spring_", "spring_param1"和"spring_param2"会产生一个带有"param1"和"param2"作为键的Map.
+	 * <p>类似于portlet {@link javax.portlet.PortletRequest#getParameterMap()}, 但更灵活.
+	 * 
+	 * @param request 要查找参数的portlet请求
+	 * @param prefix 参数名称的开头 (如果这是{@code null}或空字符串, 则所有参数都匹配)
+	 * 
+	 * @return 包含请求参数<b>不带前缀</b>的Map, 包含String或String数组作为值
 	 */
 	public static Map<String, Object> getParametersStartingWith(PortletRequest request, String prefix) {
 		Assert.notNull(request, "Request must not be null");
@@ -415,13 +407,13 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Return the target page specified in the request.
-	 * @param request current portlet request
-	 * @param paramPrefix the parameter prefix to check for
-	 * (e.g. "_target" for parameters like "_target1" or "_target2")
-	 * @param currentPage the current page, to be returned as fallback
-	 * if no target page specified
-	 * @return the page specified in the request, or current page if not found
+	 * 返回请求中指定的目标页面.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param paramPrefix 要检查的参数前缀 (e.g. "_target"参数, 如"_target1" 或 "_target2")
+	 * @param currentPage 当前页面, 如果没有指定目标页面, 则作为后备返回
+	 * 
+	 * @return 请求中指定的页面, 如果未找到, 则为当前页面
 	 */
 	public static int getTargetPage(PortletRequest request, String paramPrefix, int currentPage) {
 		Enumeration<String> paramNames = request.getParameterNames();
@@ -442,12 +434,11 @@ public abstract class PortletUtils {
 
 
 	/**
-	 * Pass all the action request parameters to the render phase by putting them into
-	 * the action response object. This may not be called when the action will call
-	 * {@link javax.portlet.ActionResponse#sendRedirect sendRedirect}.
-	 * @param request the current action request
-	 * @param response the current action response
-	 * @see javax.portlet.ActionResponse#setRenderParameter
+	 * 通过将所有操作请求参数放入操作响应对象, 将其传递到渲染阶段.
+	 * 当操作调用{@link javax.portlet.ActionResponse#sendRedirect sendRedirect}时, 可能无法调用此方法.
+	 * 
+	 * @param request 当前的操作请求
+	 * @param response 当前的操作响应
 	 */
 	public static void passAllParametersToRenderPhase(ActionRequest request, ActionResponse response) {
 		try {
@@ -464,11 +455,10 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Clear all the render parameters from the {@link javax.portlet.ActionResponse}.
-	 * This may not be called when the action will call
-	 * {@link ActionResponse#sendRedirect sendRedirect}.
-	 * @param response the current action response
-	 * @see ActionResponse#setRenderParameters
+	 * 清除{@link javax.portlet.ActionResponse}中的所有渲染参数.
+	 * 当操作调用{@link ActionResponse#sendRedirect sendRedirect}时, 可能无法调用此方法.
+	 * 
+	 * @param response 当前的操作响应
 	 */
 	public static void clearAllRenderParameters(ActionResponse response) {
 		try {
@@ -480,14 +470,15 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Serve the resource as specified in the given request to the given response,
-	 * using the PortletContext's request dispatcher.
-	 * <p>This is roughly equivalent to Portlet 2.0 GenericPortlet.
-	 * @param request the current resource request
-	 * @param response the current resource response
-	 * @param context the current Portlet's PortletContext
-	 * @throws PortletException propagated from Portlet API's forward method
-	 * @throws IOException propagated from Portlet API's forward method
+	 * 使用PortletContext的请求调度器将给定请求中指定的资源提供给给定的响应.
+	 * <p>这大致相当于Portlet 2.0 GenericPortlet.
+	 * 
+	 * @param request 当前的资源请求
+	 * @param response 当前的资源响应
+	 * @param context 当前Portlet的PortletContext
+	 * 
+	 * @throws PortletException 从Portlet API的forward方法传播
+	 * @throws IOException 从Portlet API的forward方法传播
 	 */
 	public static void serveResource(ResourceRequest request, ResourceResponse response, PortletContext context)
 			throws PortletException, IOException {
@@ -506,9 +497,9 @@ public abstract class PortletUtils {
 	}
 
 	/**
-	 * Check whether the specified path indicates a resource in the protected
-	 * WEB-INF or META-INF directories.
-	 * @param path the path to check
+	 * 检查指定的路径是否指示受保护的WEB-INF或META-INF目录中的资源.
+	 * 
+	 * @param path 要检查的路径
 	 */
 	private static boolean isProtectedResource(String path) {
 		return (StringUtils.startsWithIgnoreCase(path, "/WEB-INF") ||

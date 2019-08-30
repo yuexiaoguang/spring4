@@ -30,17 +30,14 @@ import org.springframework.web.portlet.context.PortletContextResourceLoader;
 import org.springframework.web.portlet.context.StandardPortletEnvironment;
 
 /**
- * Simple extension of {@code javax.portlet.GenericPortlet} that treats
- * its config parameters as bean properties.
+ * {@code javax.portlet.GenericPortlet}的简单扩展, 将其配置参数视为bean属性.
  *
- * <p>A very handy superclass for any type of portlet. Type conversion is automatic.
- * It is also possible for subclasses to specify required properties.
+ * <p>适用于任何类型的portlet的非常方便的超类. 类型转换是自动的.
+ * 子类也可以指定必需的属性.
  *
- * <p>This portlet leaves request handling to subclasses, inheriting the default
- * behaviour of GenericPortlet ({@code doDispatch}, {@code processAction}, etc).
+ * <p>此portlet将请求处理留给子类, 继承GenericPortlet的默认行为 ({@code doDispatch}, {@code processAction}, etc).
  *
- * <p>This portlet superclass has no dependency on a Spring application context,
- * in contrast to the FrameworkPortlet class which loads its own context.
+ * <p>与加载其自身上下文的FrameworkPortlet类相比, 此portlet超类不依赖于Spring应用程序上下文.
  */
 public abstract class GenericPortletBean extends GenericPortlet
 		implements EnvironmentCapable, EnvironmentAware {
@@ -49,8 +46,7 @@ public abstract class GenericPortletBean extends GenericPortlet
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/**
-	 * Set of required properties (Strings) that must be supplied as
-	 * config parameters to this portlet.
+	 * 必需的属性 (Strings), 必须作为配置参数提供给此portlet.
 	 */
 	private final Set<String> requiredProperties = new HashSet<String>();
 
@@ -58,21 +54,19 @@ public abstract class GenericPortletBean extends GenericPortlet
 
 
 	/**
-	 * Subclasses can invoke this method to specify that this property
-	 * (which must match a JavaBean property they expose) is mandatory,
-	 * and must be supplied as a config parameter. This method would
-	 * normally be called from a subclass constructor.
-	 * @param property name of the required property
+	 * 子类可以调用此方法来指定此属性 (必须与它们公开的JavaBean属性匹配) 是必需的, 并且必须作为config参数提供.
+	 * 通常从子类构造函数调用此方法.
+	 * 
+	 * @param property 必需的属性的名称
 	 */
 	protected final void addRequiredProperty(String property) {
 		this.requiredProperties.add(property);
 	}
 
 	/**
-	 * Map config parameters onto bean properties of this portlet, and
-	 * invoke subclass initialization.
-	 * @throws PortletException if bean properties are invalid (or required
-	 * properties are missing), or if subclass initialization fails.
+	 * 将配置参数映射到此portlet的bean属性, 并调用子类初始化.
+	 * 
+	 * @throws PortletException 如果bean属性无效 (或缺少必需的属性), 或者子类初始化失败.
 	 */
 	@Override
 	public final void init() throws PortletException {
@@ -80,7 +74,7 @@ public abstract class GenericPortletBean extends GenericPortlet
 			logger.info("Initializing portlet '" + getPortletName() + "'");
 		}
 
-		// Set bean properties from init parameters.
+		// 从init参数设置bean属性.
 		try {
 			PropertyValues pvs = new PortletConfigPropertyValues(getPortletConfig(), this.requiredProperties);
 			BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
@@ -94,7 +88,7 @@ public abstract class GenericPortletBean extends GenericPortlet
 			throw ex;
 		}
 
-		// let subclasses do whatever initialization they like
+		// 让子类自定义初始化
 		initPortletBean();
 
 		if (logger.isInfoEnabled()) {
@@ -103,20 +97,18 @@ public abstract class GenericPortletBean extends GenericPortlet
 	}
 
 	/**
-	 * Initialize the BeanWrapper for this GenericPortletBean,
-	 * possibly with custom editors.
-	 * @param bw the BeanWrapper to initialize
-	 * @throws BeansException if thrown by BeanWrapper methods
-	 * @see org.springframework.beans.BeanWrapper#registerCustomEditor
+	 * 初始化此GenericPortletBean的BeanWrapper, 可能使用自定义编辑器.
+	 * 
+	 * @param bw 要初始化的BeanWrapper
+	 * 
+	 * @throws BeansException 如果由BeanWrapper方法抛出
 	 */
 	protected void initBeanWrapper(BeanWrapper bw) throws BeansException {
 	}
 
 
 	/**
-	 * Overridden method that simply returns {@code null} when no
-	 * PortletConfig set yet.
-	 * @see #getPortletConfig()
+	 * 当没有设置PortletConfig时, 重写的方法只返回{@code null}.
 	 */
 	@Override
 	public final String getPortletName() {
@@ -124,9 +116,7 @@ public abstract class GenericPortletBean extends GenericPortlet
 	}
 
 	/**
-	 * Overridden method that simply returns {@code null} when no
-	 * PortletConfig set yet.
-	 * @see #getPortletConfig()
+	 * 当没有设置PortletConfig时, 重写的方法只返回{@code null}.
 	 */
 	@Override
 	public final PortletContext getPortletContext() {
@@ -135,18 +125,17 @@ public abstract class GenericPortletBean extends GenericPortlet
 
 
 	/**
-	 * Subclasses may override this to perform custom initialization.
-	 * All bean properties of this portlet will have been set before this
-	 * method is invoked. This default implementation does nothing.
-	 * @throws PortletException if subclass initialization fails
+	 * 子类可以重写此操作以执行自定义初始化.
+	 * 在调用此方法之前, 将设置此portlet的所有bean属性. 默认实现不执行任何操作.
+	 * 
+	 * @throws PortletException 如果子类初始化失败
 	 */
 	protected void initPortletBean() throws PortletException {
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * @throws IllegalArgumentException if environment is not assignable to
-	 * {@code ConfigurableEnvironment}.
+	 * @throws IllegalArgumentException 如果环境不能分配给{@code ConfigurableEnvironment}.
 	 */
 	@Override
 	public void setEnvironment(Environment environment) {
@@ -156,8 +145,7 @@ public abstract class GenericPortletBean extends GenericPortlet
 
 	/**
 	 * {@inheritDoc}
-	 * <p>If {@code null}, a new environment will be initialized via
-	 * {@link #createEnvironment()}.
+	 * <p>如果为{@code null}, 将通过{@link #createEnvironment()}初始化新环境.
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
@@ -168,8 +156,8 @@ public abstract class GenericPortletBean extends GenericPortlet
 	}
 
 	/**
-	 * Create and return a new {@link StandardPortletEnvironment}. Subclasses may override
-	 * in order to configure the environment or specialize the environment type returned.
+	 * 创建并返回新的{@link StandardPortletEnvironment}.
+	 * 子类可以覆盖以配置环境或细化返回的环境类型.
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
 		return new StandardPortletEnvironment();
@@ -177,17 +165,16 @@ public abstract class GenericPortletBean extends GenericPortlet
 
 
 	/**
-	 * PropertyValues implementation created from PortletConfig init parameters.
+	 * 从PortletConfig init参数创建的PropertyValues实现.
 	 */
 	@SuppressWarnings("serial")
 	private static class PortletConfigPropertyValues extends MutablePropertyValues {
 
 		/**
-		 * Create new PortletConfigPropertyValues.
-		 * @param config PortletConfig we'll use to take PropertyValues from
-		 * @param requiredProperties set of property names we need, where
-		 * we can't accept default values
-		 * @throws PortletException if any required properties are missing
+		 * @param config 从中获取PropertyValues的PortletConfig
+		 * @param requiredProperties 需要的一组属性名称, 不能接受默认值
+		 * 
+		 * @throws PortletException 如果缺少任何必需的属性
 		 */
 		private PortletConfigPropertyValues(PortletConfig config, Set<String> requiredProperties)
 			throws PortletException {

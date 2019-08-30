@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.web.bind.annotation.Mapping;
 
 /**
- * Annotation for mapping Portlet event requests onto handler methods.
+ * 用于将Portlet事件请求映射到处理器方法的注解.
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.Mapping;
 public @interface EventMapping {
 
 	/**
-	 * The name of the event to be handled.
-	 * This name uniquely identifies an event within a portlet mode.
-	 * <p>Typically the local name of the event, but fully qualified names
-	 * with a "{...}" namespace part will be mapped correctly as well.
-	 * <p>If not specified, the handler method will be invoked for any
-	 * event request within its general mapping.
+	 * 要处理的事件的名称.
+	 * 此名称唯一标识portlet模式中的事件.
+	 * <p>通常, 事件的本地名称, 但具有"{...}"命名空间部分的完全限定名称也将正确映射.
+	 * <p>如果未指定, 将在其常规映射中为任何事件请求调用处理器方法.
 	 */
 	String value() default "";
 

@@ -5,12 +5,10 @@ import javax.portlet.ActionRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 /**
- * Interface which provides additional methods for dealing with multipart
- * content within a portlet request, allowing to access uploaded files.
- * Implementations also need to override the standard ActionRequest
- * methods for parameter access, making multipart parameters available.
+ * 提供了在portlet请求中处理multipart内容的其他方法, 允许访问上传的文件.
+ * 实现还需要覆盖参数访问的标准ActionRequest方法, 使multipart参数可用.
  *
- * <p>A concrete implementation is {@link DefaultMultipartActionRequest}.
+ * <p>具体的实现是{@link DefaultMultipartActionRequest}.
  */
 public interface MultipartActionRequest extends ActionRequest, MultipartRequest {
 

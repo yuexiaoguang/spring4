@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Helper class for annotation-based request mapping.
+ * 用于基于注解的请求映射的Helper类.
  */
 abstract class PortletAnnotationMappingUtils {
 
 	/**
-	 * Merge the given {@code String} arrays into one, with each element only included once.
-	 * <p>The order of elements in the original arrays is preserved (with the exception of
-	 * overlapping elements, which are only included on their first occurrence).
-	 * @param array1 the first array (can be {@code null})
-	 * @param array2 the second array (can be {@code null})
-	 * @return the new array ({@code null} if both given arrays were {@code null})
-	 * @since 4.3.15 (superseding {@link StringUtils#mergeStringArrays})
+	 * 将给定的{@code String}数组合并为一个, 每个元素只包含一个.
+	 * <p>保留原始数组中元素的顺序 (重叠元素除外, 它们仅在第一次出现时包含).
+	 * 
+	 * @param array1 第一个数组 (can be {@code null})
+	 * @param array2 第二个数组 (can be {@code null})
+	 * 
+	 * @return 新数组 ({@code null}, 如果给定的数组都是{@code null})
 	 */
 	public static String[] mergeStringArrays(String[] array1, String[] array2) {
 		if (ObjectUtils.isEmpty(array1)) {
@@ -43,9 +43,10 @@ abstract class PortletAnnotationMappingUtils {
 	}
 
 	/**
-	 * Check whether the given portlet modes matches the specified type-level modes.
-	 * @param modes the mapped portlet modes to check
-	 * @param typeLevelModes the type-level mode mappings to check against
+	 * 检查给定的portlet模式是否与指定的类型级别模式匹配.
+	 * 
+	 * @param modes 要检查的映射的portlet模式
+	 * @param typeLevelModes 要检查的类型级模式映射
 	 */
 	public static boolean validateModeMapping(String[] modes, String[] typeLevelModes) {
 		if (!ObjectUtils.isEmpty(modes) && !ObjectUtils.isEmpty(typeLevelModes)) {
@@ -65,9 +66,10 @@ abstract class PortletAnnotationMappingUtils {
 	}
 
 	/**
-	 * Check whether the given request matches the specified request methods.
-	 * @param methods the request methods to check against
-	 * @param request the current request to check
+	 * 检查给定的请求是否与指定的请求方法匹配.
+	 * 
+	 * @param methods 要检查的请求方法
+	 * @param request 当前要检查的请求
 	 */
 	public static boolean checkRequestMethod(RequestMethod[] methods, PortletRequest request) {
 		if (methods.length == 0) {
@@ -86,9 +88,10 @@ abstract class PortletAnnotationMappingUtils {
 	}
 
 	/**
-	 * Check whether the given request matches the specified request methods.
-	 * @param methods the request methods to check against
-	 * @param request the current request to check
+	 * 检查给定的请求是否与指定的请求方法匹配.
+	 * 
+	 * @param methods 要检查的请求方法
+	 * @param request 当前要检查的请求
 	 */
 	public static boolean checkRequestMethod(Set<String> methods, PortletRequest request) {
 		if (!methods.isEmpty()) {
@@ -104,10 +107,10 @@ abstract class PortletAnnotationMappingUtils {
 	}
 
 	/**
-	 * Check whether the given request matches the specified parameter conditions.
-	 * @param params the parameter conditions, following
-	 * {@link org.springframework.web.bind.annotation.RequestMapping#params()}
-	 * @param request the current request to check
+	 * 检查给定的请求是否与指定的参数条件匹配.
+	 * 
+	 * @param params 参数条件, {@link org.springframework.web.bind.annotation.RequestMapping#params()}之后
+	 * @param request 当前要检查的请求
 	 */
 	public static boolean checkParameters(String[] params, PortletRequest request) {
 		if (!ObjectUtils.isEmpty(params)) {
@@ -136,9 +139,10 @@ abstract class PortletAnnotationMappingUtils {
 	}
 
 	/**
-	 * Check whether the given request matches the specified header conditions.
-	 * @param headers the header conditions, following {@link RequestMapping#headers()}
-	 * @param request the current HTTP request to check
+	 * 检查给定的请求是否与指定的header条件匹配.
+	 * 
+	 * @param headers header条件, {@link RequestMapping#headers()}之后
+	 * @param request 要检查的当前HTTP请求
 	 */
 	public static boolean checkHeaders(String[] headers, PortletRequest request) {
 		if (!ObjectUtils.isEmpty(headers)) {

@@ -4,17 +4,18 @@ import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 
 /**
- * Extension of the Portlet {@link Controller} interface that allows
- * for handling Portlet 2.0 event requests as well. Can also be
- * implemented by {@link AbstractController} subclasses.
+ * Portlet {@link Controller}接口的扩展, 允许处理Portlet 2.0事件请求.
+ * 也可以由{@link AbstractController}子类实现.
  */
 public interface EventAwareController {
 
 	/**
-	 * Process the event request. There is nothing to return.
-	 * @param request current portlet event request
-	 * @param response current portlet event response
-	 * @throws Exception in case of errors
+	 * 处理事件请求.
+	 * 
+	 * @param request 当前的portlet事件请求
+	 * @param response 当前的portlet事件响应
+	 * 
+	 * @throws Exception
 	 */
 	void handleEventRequest(EventRequest request, EventResponse response) throws Exception;
 

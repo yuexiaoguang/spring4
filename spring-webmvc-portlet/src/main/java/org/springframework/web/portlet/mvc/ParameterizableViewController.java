@@ -6,24 +6,23 @@ import javax.portlet.RenderResponse;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * Trivial controller that always returns a named view. The view can be configured
- * using an exposed configuration property. This controller offers an alternative
- * to sending a request straight to a view such as a JSP. The advantage here is
- * that the client is not exposed to the concrete view technology but rather just
- * to the controller URL; the concrete view will be determined by the ViewResolver.
+ * 总是返回命名视图的普通控制器.
+ * 可以使用公开的配置属性配置视图.
+ * 该控制器提供了直接向JSP等视图发送请求的替代方法.
+ * 这里的优点是不会暴露给客户端具体的视图技术, 而只是暴露给控制器URL; 具体视图将由ViewResolver确定.
  *
  * <p><b><a name="workflow">Workflow
- * (<a href="AbstractController.html#workflow">and that defined by superclass</a>):</b>
+ * (<a href="AbstractController.html#workflow">和超类定义的那些</a>):</b>
  * <ol>
- * <li>Render request is received by the controller</li>
- * <li>call to {@link #handleRenderRequestInternal handleRenderRequestInternal} which
- * just returns the view, named by the configuration property {@code viewName}.</li>
+ * <li>控制器接收渲染请求</li>
+ * <li>调用{@link #handleRenderRequestInternal handleRenderRequestInternal},
+ * 它只返回视图, 由配置属性{@code viewName}命名.</li>
  * </ol>
  *
- * <p>This controller does not handle action requests.
+ * <p>此控制器不处理操作请求.
  *
- * <p><b><a name="config">Exposed configuration properties</a>
- * (<a href="AbstractController.html#config">and those defined by superclass</a>):</b>
+ * <p><b><a name="config">暴露的配置属性</a>
+ * (<a href="AbstractController.html#config">和超类定义的那些</a>):</b>
  * <table border="1">
  * <tr>
  * <td><b>name</b></td>
@@ -33,8 +32,7 @@ import org.springframework.web.portlet.ModelAndView;
  * <tr>
  * <td>viewName</td>
  * <td><i>null</i></td>
- * <td>the name of the view the viewResolver will use to forward to (if this property
- * is not set, an exception will be thrown during initialization)</td>
+ * <td>viewResolver将用于转发的视图的名称 (如果未设置此属性, 则在初始化期间将抛出异常)</td>
  * </tr>
  * </table>
  */
@@ -44,14 +42,14 @@ public class ParameterizableViewController extends AbstractController {
 
 
 	/**
-	 * Set the name of the view to delegate to.
+	 * 设置要委托的视图的名称.
 	 */
 	public void setViewName(String viewName) {
 		this.viewName = viewName;
 	}
 
 	/**
-	 * Return the name of the view to delegate to.
+	 * 返回要委托的视图的名称.
 	 */
 	public String getViewName() {
 		return this.viewName;
@@ -66,7 +64,7 @@ public class ParameterizableViewController extends AbstractController {
 
 
 	/**
-	 * Return a ModelAndView object with the specified view name.
+	 * 返回具有指定视图名称的ModelAndView对象.
 	 */
 	@Override
 	protected ModelAndView handleRenderRequestInternal(RenderRequest request, RenderResponse response)

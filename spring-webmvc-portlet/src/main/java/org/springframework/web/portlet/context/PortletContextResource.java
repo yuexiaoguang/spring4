@@ -17,13 +17,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * {@link org.springframework.core.io.Resource} implementation for
- * {@link javax.portlet.PortletContext} resources, interpreting
- * relative paths within the portlet application root directory.
+ * {@link javax.portlet.PortletContext}资源的{@link org.springframework.core.io.Resource}实现,
+ * 解释portlet应用程序根目录中的相对路径.
  *
- * <p>Always supports stream access and URL access, but only allows
- * {@code java.io.File} access when the portlet application archive
- * is expanded.
+ * <p>始终支持流访问和URL访问, 但仅在展开portlet应用程序归档时允许{@code java.io.File}访问.
  */
 public class PortletContextResource extends AbstractFileResolvingResource implements ContextResource {
 
@@ -33,13 +30,11 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 
 
 	/**
-	 * Create a new PortletContextResource.
-	 * <p>The Portlet spec requires that resource paths start with a slash,
-	 * even if many containers accept paths without leading slash too.
-	 * Consequently, the given path will be prepended with a slash if it
-	 * doesn't already start with one.
-	 * @param portletContext the PortletContext to load from
-	 * @param path the path of the resource
+	 * <p>Portlet规范要求资源路径以斜杠开头, 即使许多容器也接受没有前导斜杠的路径.
+	 * 因此, 如果给定路径尚未以斜杠开头, 则它将以斜杠为前缀.
+	 * 
+	 * @param portletContext 从中加载的PortletContext
+	 * @param path 资源的路径
 	 */
 	public PortletContextResource(PortletContext portletContext, String path) {
 		// check PortletContext
@@ -57,21 +52,21 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 
 
 	/**
-	 * Return the PortletContext for this resource.
+	 * 返回此资源的PortletContext.
 	 */
 	public final PortletContext getPortletContext() {
 		return this.portletContext;
 	}
 
 	/**
-	 * Return the path for this resource.
+	 * 返回此资源的路径.
 	 */
 	public final String getPath() {
 		return this.path;
 	}
 
 	/**
-	 * This implementation checks {@code PortletContext.getResource}.
+	 * 此实现检查{@code PortletContext.getResource}.
 	 */
 	@Override
 	public boolean exists() {
@@ -85,8 +80,7 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code PortletContext.getResourceAsStream},
-	 * which returns {@code null} in case of a non-readable resource (e.g. a directory).
+	 * 此实现委托给{@code PortletContext.getResourceAsStream}, 在不可读资源(例如目录)的情况下返回{@code null}.
 	 */
 	@Override
 	public boolean isReadable() {
@@ -106,8 +100,7 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code PortletContext.getResourceAsStream},
-	 * but throws a FileNotFoundException if not found.
+	 * 此实现委托给{@code PortletContext.getResourceAsStream}, 如果找不到则抛出FileNotFoundException.
 	 */
 	@Override
 	public InputStream getInputStream() throws IOException {
@@ -119,8 +112,7 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation delegates to {@code PortletContext.getResource},
-	 * but throws a FileNotFoundException if no resource found.
+	 * 此实现委托给{@code PortletContext.getResource}, 如果找不到则抛出FileNotFoundException.
 	 */
 	@Override
 	public URL getURL() throws IOException {
@@ -133,9 +125,7 @@ public class PortletContextResource extends AbstractFileResolvingResource implem
 	}
 
 	/**
-	 * This implementation resolves "file:" URLs or alternatively delegates to
-	 * {@code PortletContext.getRealPath}, throwing a FileNotFoundException
-	 * if not found or not resolvable.
+	 * 此实现解析"file:" URL或者委托给到{@code PortletContext.getRealPath}, 如果找不到或者无法解析则抛出FileNotFoundException.
 	 */
 	@Override
 	public File getFile() throws IOException {

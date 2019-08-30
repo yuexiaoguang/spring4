@@ -19,18 +19,15 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * {@link PortletMultipartResolver} implementation for
  * <a href="http://commons.apache.org/proper/commons-fileupload">Apache Commons FileUpload</a>
- * 1.2 or above.
+ * 1.2或更高版本的{@link PortletMultipartResolver}实现.
  *
- * <p>Provides "maxUploadSize", "maxInMemorySize" and "defaultEncoding" settings as
- * bean properties (inherited from {@link CommonsFileUploadSupport}). See corresponding
- * PortletFileUpload / DiskFileItemFactory properties ("sizeMax", "sizeThreshold",
- * "headerEncoding") for details in terms of defaults and accepted values.
+ * <p>提供"maxUploadSize", "maxInMemorySize" 和 "defaultEncoding"设置作为bean属性 (继承自{@link CommonsFileUploadSupport}).
+ * 有关默认值和可接受的值的详细信息, 请参阅相应的PortletFileUpload / DiskFileItemFactory属性
+ * ("sizeMax", "sizeThreshold", "headerEncoding").
  *
- * <p>Saves temporary files to the portlet container's temporary directory.
- * Needs to be initialized <i>either</i> by an application context <i>or</i>
- * via the constructor that takes a PortletContext (for standalone usage).
+ * <p>将临时文件保存到portlet容器的临时目录中.
+ * 需要由应用程序上下文<i>或</i>通过构造函数初始化, 该构造函数使用PortletContext(用于独立使用).
  */
 public class CommonsPortletMultipartResolver extends CommonsFileUploadSupport
 		implements PortletMultipartResolver, PortletContextAware {
@@ -39,18 +36,18 @@ public class CommonsPortletMultipartResolver extends CommonsFileUploadSupport
 
 
 	/**
-	 * Constructor for use as bean. Determines the portlet container's
-	 * temporary directory via the PortletContext passed in as through the
-	 * PortletContextAware interface (typically by an ApplicationContext).
+	 * 用作bean的构造函数.
+	 * 通过PortletContextAware接口 (通常是ApplicationContext)传入的PortletContext确定portlet容器的临时目录.
 	 */
 	public CommonsPortletMultipartResolver() {
 		super();
 	}
 
 	/**
-	 * Constructor for standalone usage. Determines the portlet container's
-	 * temporary directory via the given PortletContext.
-	 * @param portletContext the PortletContext to use
+	 * 独立使用的构造函数.
+	 * 通过给定的PortletContext确定portlet容器的临时目录.
+	 * 
+	 * @param portletContext 要使用的PortletContext
 	 */
 	public CommonsPortletMultipartResolver(PortletContext portletContext) {
 		this();
@@ -59,21 +56,19 @@ public class CommonsPortletMultipartResolver extends CommonsFileUploadSupport
 
 
 	/**
-	 * Set whether to resolve the multipart request lazily at the time of
-	 * file or parameter access.
-	 * <p>Default is "false", resolving the multipart elements immediately, throwing
-	 * corresponding exceptions at the time of the {@link #resolveMultipart} call.
-	 * Switch this to "true" for lazy multipart parsing, throwing parse exceptions
-	 * once the application attempts to obtain multipart files or parameters.
+	 * 设置是否在文件或参数访问时延迟地解析multipart请求.
+	 * <p>默认为"false", 立即解析multipart元素, 在{@link #resolveMultipart}调用时抛出相应的异常.
+	 * 对于延迟multipart解析, 将其切换为"true", 一旦应用程序尝试获取multipart文件或参数, 则抛出解析异常.
 	 */
 	public void setResolveLazily(boolean resolveLazily) {
 		this.resolveLazily = resolveLazily;
 	}
 
 	/**
-	 * Initialize the underlying {@code org.apache.commons.fileupload.portlet.PortletFileUpload}
-	 * instance. Can be overridden to use a custom subclass, e.g. for testing purposes.
-	 * @return the new PortletFileUpload instance
+	 * 初始化底层{@code org.apache.commons.fileupload.portlet.PortletFileUpload}实例.
+	 * 可以重写以使用自定义子类, e.g. 用于测试.
+	 * 
+	 * @return 新的PortletFileUpload实例
 	 */
 	@Override
 	protected FileUpload newFileUpload(FileItemFactory fileItemFactory) {
@@ -115,10 +110,12 @@ public class CommonsPortletMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Parse the given portlet request, resolving its multipart elements.
-	 * @param request the request to parse
-	 * @return the parsing result
-	 * @throws MultipartException if multipart resolution failed.
+	 * 解析给定的portlet请求, 解析其multipart元素.
+	 * 
+	 * @param request 要解析的请求
+	 * 
+	 * @return 解析后的结果
+	 * @throws MultipartException 如果multipart解析失败
 	 */
 	protected MultipartParsingResult parseRequest(ActionRequest request) throws MultipartException {
 		String encoding = determineEncoding(request);
@@ -139,14 +136,13 @@ public class CommonsPortletMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Determine the encoding for the given request.
-	 * Can be overridden in subclasses.
-	 * <p>The default implementation checks the request encoding,
-	 * falling back to the default encoding specified for this resolver.
-	 * @param request current portlet request
-	 * @return the encoding for the request (never {@code null})
-	 * @see javax.portlet.ActionRequest#getCharacterEncoding
-	 * @see #setDefaultEncoding
+	 * 确定给定请求的编码.
+	 * 可以在子类中重写.
+	 * <p>默认实现检查请求编码, 然后回退到为此解析器指定的默认编码.
+	 * 
+	 * @param request 当前的portlet请求
+	 * 
+	 * @return 请求的编码 (never {@code null})
 	 */
 	protected String determineEncoding(ActionRequest request) {
 		String encoding = request.getCharacterEncoding();

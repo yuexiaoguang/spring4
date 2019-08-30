@@ -46,149 +46,129 @@ import org.springframework.web.servlet.ViewRendererServlet;
 import org.springframework.web.servlet.ViewResolver;
 
 /**
- * Central dispatcher for use within the Portlet MVC framework, e.g. for web UI
- * controllers. Dispatches to registered handlers for processing a portlet request.
+ * 在Portlet MVC框架内使用的中央调度器, e.g. 用于Web UI控制器.
+ * 调度到已注册的处理器以处理portlet请求.
  *
- * <p>This portlet is very flexible: It can be used with just about any workflow,
- * with the installation of the appropriate adapter classes. It offers the following
- * functionality that distinguishes it from other request-driven Portlet MVC frameworks:
+ * <p>这个portlet非常灵活: 它可以与几乎任何工作流一起使用, 并安装适当的适配器类.
+ * 它提供以下功能, 使其与其他请求驱动的Portlet MVC框架区别开来:
  *
  * <ul>
- * <li>It is based around a JavaBeans configuration mechanism.
+ * <li>它基于JavaBeans配置机制.
  *
- * <li>It can use any {@link HandlerMapping} implementation - pre-built or provided
- * as part of an application - to control the routing of requests to handler objects.
- * Default is a {@link org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping}.
- * HandlerMapping objects can be defined as beans in the portlet's application context,
- * implementing the HandlerMapping interface, overriding the default HandlerMapping
- * if present. HandlerMappings can be given any bean name (they are tested by type).
+ * <li>它可以使用任何{@link HandlerMapping}实现 - 预构建或作为应用程序的一部分提供 - 来控制对处理器对象的请求路由.
+ * 默认是{@link org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping}.
+ * HandlerMapping对象可以在portlet的应用程序上下文中定义为bean, 实现HandlerMapping接口, 覆盖默认的HandlerMapping.
+ * HandlerMappings可以被赋予任何bean名称 (它们按类型测试).
  *
- * <li>It can use any {@link HandlerAdapter}; this allows for using any handler interface.
- * The default adapter is {@link org.springframework.web.portlet.mvc.SimpleControllerHandlerAdapter}
- * for Spring's {@link org.springframework.web.portlet.mvc.Controller} interface.
- * A default {@link org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter}
- * will be registered as well. HandlerAdapter objects can be added as beans in the
- * application context, overriding the default HandlerAdapter. Like HandlerMappings,
- * HandlerAdapters can be given any bean name (they are tested by type).
+ * <li>它可以使用任何{@link HandlerAdapter}; 这允许使用任何处理器接口.
+ * Spring的{@link org.springframework.web.portlet.mvc.Controller}接口的默认适配器是
+ * {@link org.springframework.web.portlet.mvc.SimpleControllerHandlerAdapter}.
+ * 还将注册默认的{@link org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter}.
+ * HandlerAdapter对象可以作为bean添加到应用程序上下文中, 覆盖默认的HandlerAdapter.
+ * 与HandlerMappings一样, HandlerAdapters可以被赋予任何bean名称 (它们按类型测试).
  *
- * <li>The dispatcher's exception resolution strategy can be specified via a
- * {@link HandlerExceptionResolver}, for example mapping certain exceptions to
- * error pages. Default is none. Additional HandlerExceptionResolvers can be added
- * through the application context. HandlerExceptionResolver can be given any
- * bean name (they are tested by type).
+ * <li>可以通过{@link HandlerExceptionResolver}指定调度器的异常解析策略, 例如将某些异常映射到错误页面.
+ * 默认无. 可以通过应用程序上下文添加其他HandlerExceptionResolver.
+ * HandlerExceptionResolver可以被赋予任何bean名称 (它们按类型测试).
  *
- * <li>Its view resolution strategy can be specified via a {@link ViewResolver}
- * implementation, resolving symbolic view names into View objects. Default is
- * {@link org.springframework.web.servlet.view.InternalResourceViewResolver}.
- * ViewResolver objects can be added as beans in the application context,
- * overriding the default ViewResolver. ViewResolvers can be given any bean name
- * (they are tested by type).
+ * <li>可以通过{@link ViewResolver}实现指定其视图解析策略, 将符号视图名称解析为View对象.
+ * 默认为{@link org.springframework.web.servlet.view.InternalResourceViewResolver}.
+ * ViewResolver对象可以作为bean添加到应用程序上下文中, 覆盖默认的ViewResolver.
+ * ViewResolvers可以被赋予任何bean名称 (它们按类型测试).
  *
- * <li>The dispatcher's strategy for resolving multipart requests is determined by a
- * {@link org.springframework.web.portlet.multipart.PortletMultipartResolver}
- * implementation. An implementations for Apache Commons FileUpload is included:
+ * <li>调度器解析multipart请求的策略由
+ * {@link org.springframework.web.portlet.multipart.PortletMultipartResolver}实现确定.
+ * 包括Apache Commons FileUpload的实现:
  * {@link org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver}.
- * The MultipartResolver bean name is "portletMultipartResolver"; default is none.
+ * MultipartResolver bean名称是"portletMultipartResolver"; 默认无.
  * </ul>
  *
- * <p><b>NOTE: The {@code @RequestMapping} annotation will only be processed if a
- * corresponding {@code HandlerMapping} (for type-level annotations) and/or
- * {@code HandlerAdapter} (for method-level annotations) is present in the dispatcher.</b>
- * This is the case by default. However, if you are defining custom {@code HandlerMappings}
- * or {@code HandlerAdapters}, then you need to make sure that a corresponding custom
- * {@code DefaultAnnotationHandlerMapping} and/or {@code AnnotationMethodHandlerAdapter}
- * is defined as well - provided that you intend to use {@code @RequestMapping}.
+ * <p><b>NOTE: 只有在调度程序中存在相应的{@code HandlerMapping} (用于类型级注解)和/或{@code HandlerAdapter} (用于方法级注解)时,
+ * 才会处理{@code @RequestMapping}注解.</b>
+ * 默认就是这种情况.
+ * 但是, 如果要定义自定义{@code HandlerMappings}或{@code HandlerAdapters},
+ * 则需要确保定义相应的自定义{@code DefaultAnnotationHandlerMapping}和/或{@code AnnotationMethodHandlerAdapter}
+ *  - 前提是打算使用{@code @RequestMapping}.
  *
- * <p><b>A web application can define any number of DispatcherPortlets.</b>
- * Each portlet will operate in its own namespace, loading its own application context
- * with mappings, handlers, etc. Only the root application context as loaded by
- * {@link org.springframework.web.context.ContextLoaderListener}, if any, will be shared.
+ * <p><b>Web应用程序可以定义任意数量的DispatcherPortlet.</b>
+ * 每个portlet将在其自己的命名空间中运行, 使用映射, 处理器等加载其自己的应用程序上下文.
+ * 只有{@link org.springframework.web.context.ContextLoaderListener}加载的根应用程序上下文将被共享.
  *
  * <p>Thanks to Rainer Schmitz, Nick Lothian and Eric Dalquist for their suggestions!
  */
 public class DispatcherPortlet extends FrameworkPortlet {
 
 	/**
-	 * Well-known name for the PortletMultipartResolver object in the bean factory for this namespace.
+	 * 此命名空间的Bean工厂中PortletMultipartResolver对象的已知名称.
 	 */
 	public static final String MULTIPART_RESOLVER_BEAN_NAME = "portletMultipartResolver";
 
 	/**
-	 * Well-known name for the HandlerMapping object in the bean factory for this namespace.
-	 * Only used when "detectAllHandlerMappings" is turned off.
+	 * 此命名空间的Bean工厂中HandlerMapping对象的已知名称.
+	 * 仅在"detectAllHandlerMappings"关闭时使用.
 	 */
 	public static final String HANDLER_MAPPING_BEAN_NAME = "handlerMapping";
 
 	/**
-	 * Well-known name for the HandlerAdapter object in the bean factory for this namespace.
-	 * Only used when "detectAllHandlerAdapters" is turned off.
+	 * 此命名空间的Bean工厂中HandlerAdapter对象的已知名称.
+	 * 仅在"detectAllHandlerAdapters"关闭时使用.
 	 */
 	public static final String HANDLER_ADAPTER_BEAN_NAME = "handlerAdapter";
 
 	/**
-	 * Well-known name for the HandlerExceptionResolver object in the bean factory for this
-	 * namespace. Only used when "detectAllHandlerExceptionResolvers" is turned off.
+	 * 此命名空间的Bean工厂中HandlerExceptionResolver对象的已知名称.
+	 * 仅在"detectAllHandlerExceptionResolvers"关闭时使用.
 	 */
 	public static final String HANDLER_EXCEPTION_RESOLVER_BEAN_NAME = "handlerExceptionResolver";
 
 	/**
-	 * Well-known name for the ViewResolver object in the bean factory for this namespace.
+	 * 此命名空间的Bean工厂中的ViewResolver对象的已知名称.
 	 */
 	public static final String VIEW_RESOLVER_BEAN_NAME = "viewResolver";
 
 	/**
-	 * Default URL to ViewRendererServlet. This bridge servlet is used to convert
-	 * portlet render requests to servlet requests in order to leverage the view support
-	 * in the {@code org.springframework.web.view} package.
+	 * ViewRendererServlet的默认URL.
+	 * 此桥接servlet用于将portlet渲染请求转换为servlet请求, 以便利用{@code org.springframework.web.view}包中的视图支持.
 	 */
 	public static final String DEFAULT_VIEW_RENDERER_URL = "/WEB-INF/servlet/view";
 
 	/**
-	 * Unlike the Servlet version of this class, we have to deal with the
-	 * two-phase nature of the portlet request. To do this, we need to pass
-	 * forward any exception that occurs during the action phase, so that
-	 * it can be displayed in the render phase. The only direct way to pass
-	 * things forward and preserve them for each render request is through
-	 * render parameters, but these are limited to String objects and we need
-	 * to pass the Exception itself. The only other way to do this is in the
-	 * session. The bad thing about using the session is that we have no way
-	 * of knowing when we are done re-rendering the request and so we don't
-	 * know when we can remove the objects from the session. So we will end
-	 * up polluting the session with an old exception when we finally leave
-	 * the render phase of one request and move on to something else.
+	 * 与此类的Servlet版本不同, 必须处理portlet请求的两阶段性质.
+	 * 为此, 需要传递在操作阶段发生的任何异常, 以便它可以在渲染阶段显示.
+	 * 向前传递事物并为每个渲染请求保留它们的唯一直接方法是通过渲染参数, 但这些只限于String对象, 需要传递Exception本身.
+	 * 唯一的另一种方法是在会话中.
+	 * 使用会话的坏处是无法知道何时完成重新渲染请求, 因此不知道何时可以从会话中删除对象.
+	 * 因此, 当最终离开一个请求的渲染阶段并继续进行其他操作时, 最终将使用旧的异常来污染会话.
 	 */
 	public static final String ACTION_EXCEPTION_SESSION_ATTRIBUTE =
 			DispatcherPortlet.class.getName() + ".ACTION_EXCEPTION";
 
 	/**
-	 * This render parameter is used to indicate forward to the render phase
-	 * that an exception occurred during the action phase.
+	 * 此渲染参数用于向渲染阶段指示在操作阶段期间发生异常.
 	 */
 	public static final String ACTION_EXCEPTION_RENDER_PARAMETER = "actionException";
 
 	/**
-	 * Log category to use when no mapped handler is found for a request.
+	 * 未找到请求的映射处理器时要使用的日志类别.
 	 */
 	public static final String PAGE_NOT_FOUND_LOG_CATEGORY = "org.springframework.web.portlet.PageNotFound";
 
 	/**
-	 * Name of the class path resource (relative to the DispatcherPortlet class)
-	 * that defines DispatcherPortet's default strategy names.
+	 * 定义DispatcherPortet的默认策略名称的类路径资源的名称 (相对于DispatcherPortlet类).
 	 */
 	private static final String DEFAULT_STRATEGIES_PATH = "DispatcherPortlet.properties";
 
 
 	/**
-	 * Additional logger to use when no mapped handler is found for a request.
+	 * 未找到请求的映射处理器时使用的其他记录器.
 	 */
 	protected static final Log pageNotFoundLogger = LogFactory.getLog(PAGE_NOT_FOUND_LOG_CATEGORY);
 
 	private static final Properties defaultStrategies;
 
 	static {
-		// Load default strategy implementations from properties file.
-		// This is currently strictly internal and not meant to be customized
-		// by application developers.
+		// 从属性文件加载默认策略实现.
+		// 这当前是严格内部的, 不应由应用程序开发人员自定义.
 		try {
 			ClassPathResource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherPortlet.class);
 			defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
@@ -199,113 +179,105 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 
-	/** Detect all HandlerMappings or just expect "handlerMapping" bean? */
+	/** 检测所有HandlerMappings或只是期望"handlerMapping" bean? */
 	private boolean detectAllHandlerMappings = true;
 
-	/** Detect all HandlerAdapters or just expect "handlerAdapter" bean? */
+	/** 检测所有HandlerAdapter或只是期望"handlerAdapter" bean? */
 	private boolean detectAllHandlerAdapters = true;
 
-	/** Detect all HandlerExceptionResolvers or just expect "handlerExceptionResolver" bean? */
+	/** 检测所有HandlerExceptionResolvers或只是期望"handlerExceptionResolver" bean? */
 	private boolean detectAllHandlerExceptionResolvers = true;
 
-	/** Detect all ViewResolvers or just expect "viewResolver" bean? */
+	/** 检测所有ViewResolvers或只是期望"viewResolver" bean? */
 	private boolean detectAllViewResolvers = true;
 
-	/** Whether exceptions thrown during doAction should be forwarded to doRender */
+	/** 是否应将doAction期间抛出的异常转发给doRender */
 	private boolean forwardActionException = true;
 
-	/** Whether exceptions thrown during doEvent should be forwarded to doRender */
+	/** 是否应将doEvent期间抛出的异常转发给doRender */
 	private boolean forwardEventException = false;
 
-	/** URL that points to the ViewRendererServlet */
+	/** 指向ViewRendererServlet的URL */
 	private String viewRendererUrl = DEFAULT_VIEW_RENDERER_URL;
 
 
-	/** MultipartResolver used by this portlet */
+	/** 此portlet使用的MultipartResolver */
 	private PortletMultipartResolver multipartResolver;
 
-	/** List of HandlerMappings used by this portlet */
+	/** 此portlet使用的HandlerMappings列表 */
 	private List<HandlerMapping> handlerMappings;
 
-	/** List of HandlerAdapters used by this portlet */
+	/** 此portlet使用的HandlerAdapter列表 */
 	private List<HandlerAdapter> handlerAdapters;
 
-	/** List of HandlerExceptionResolvers used by this portlet */
+	/** 此portlet使用的HandlerExceptionResolvers列表 */
 	private List<HandlerExceptionResolver> handlerExceptionResolvers;
 
-	/** List of ViewResolvers used by this portlet */
+	/** 此portlet使用的ViewResolvers列表 */
 	private List<ViewResolver> viewResolvers;
 
 
 	/**
-	 * Set whether to detect all HandlerMapping beans in this portlet's context.
-	 * Else, just a single bean with name "handlerMapping" will be expected.
-	 * <p>Default is true. Turn this off if you want this portlet to use a
-	 * single HandlerMapping, despite multiple HandlerMapping beans being
-	 * defined in the context.
+	 * 设置是否在此portlet的上下文中检测所有HandlerMapping bean.
+	 * 否则, 只需要一个名为"handlerMapping"的bean.
+	 * <p>默认为true.
+	 * 如果希望此portlet使用单个HandlerMapping, 请关闭此功能, 尽管在上下文中定义了多个HandlerMapping bean.
 	 */
 	public void setDetectAllHandlerMappings(boolean detectAllHandlerMappings) {
 		this.detectAllHandlerMappings = detectAllHandlerMappings;
 	}
 
 	/**
-	 * Set whether to detect all HandlerAdapter beans in this portlet's context.
-	 * Else, just a single bean with name "handlerAdapter" will be expected.
-	 * <p>Default is "true". Turn this off if you want this portlet to use a
-	 * single HandlerAdapter, despite multiple HandlerAdapter beans being
-	 * defined in the context.
+	 * 设置是否在此portlet的上下文中检测所有HandlerAdapter bean.
+	 * 否则, 只需要一个名为"handlerAdapter"的bean.
+	 * <p>默认为"true".
+	 * 如果希望此portlet使用单个HandlerAdapter, 请关闭此功能, 尽管在上下文中定义了多个HandlerAdapter bean.
 	 */
 	public void setDetectAllHandlerAdapters(boolean detectAllHandlerAdapters) {
 		this.detectAllHandlerAdapters = detectAllHandlerAdapters;
 	}
 
 	/**
-	 * Set whether to detect all HandlerExceptionResolver beans in this portlet's context.
-	 * Else, just a single bean with name "handlerExceptionResolver" will be expected.
-	 * <p>Default is true. Turn this off if you want this portlet to use a
-	 * single HandlerExceptionResolver, despite multiple HandlerExceptionResolver
-	 * beans being defined in the context.
+	 * 设置是否在此portlet的上下文中检测所有HandlerExceptionResolver bean.
+	 * 否则, 只需要一个名为"handlerExceptionResolver"的bean.
+	 * <p>默认为 true.
+	 * 如果希望此portlet使用单个HandlerExceptionResolver, 请关闭此项, 尽管在上下文中定义了多个HandlerExceptionResolver bean.
 	 */
 	public void setDetectAllHandlerExceptionResolvers(boolean detectAllHandlerExceptionResolvers) {
 		this.detectAllHandlerExceptionResolvers = detectAllHandlerExceptionResolvers;
 	}
 
 	/**
-	 * Set whether to detect all ViewResolver beans in this portlet's context.
-	 * Else, just a single bean with name "viewResolver" will be expected.
-	 * <p>Default is true. Turn this off if you want this portlet to use a
-	 * single ViewResolver, despite multiple ViewResolver beans being
-	 * defined in the context.
+	 * 设置是否在此portlet的上下文中检测所有ViewResolver bean.
+	 * 否则, 只需要一个名为"viewResolver"的bean.
+	 * <p>默认为 true.
+	 * 如果希望此portlet使用单个ViewResolver, 请关闭此功能, 尽管在上下文中定义了多个ViewResolver bean.
 	 */
 	public void setDetectAllViewResolvers(boolean detectAllViewResolvers) {
 		this.detectAllViewResolvers = detectAllViewResolvers;
 	}
 
 	/**
-	 * Set whether to forward exceptions thrown during the action phase
-	 * to the render phase via a session attribute.
-	 * <p>Default is true. Turn this off if you want the portlet container
-	 * to provide immediate exception handling for action requests.
-	 * @see #exposeActionException(javax.portlet.PortletRequest, javax.portlet.StateAwareResponse, Exception)
+	 * 设置是否通过会话属性将在操作阶段期间抛出的异常转发到渲染阶段.
+	 * <p>默认为 true. 如果希望portlet容器为操作请求提供即时异常处理, 请将其关闭.
 	 */
 	public void setForwardActionException(boolean forwardActionException) {
 		this.forwardActionException = forwardActionException;
 	}
 
 	/**
-	 * Set whether to forward exceptions thrown during the event phase
-	 * to the render phase via a session attribute.
-	 * <p>Default is false. Turn this on if you want the {@link DispatcherPortlet}
-	 * to forward the exception to the render phase, similar to what it does
-	 * for {@link #setForwardActionException action exceptions} by default.
+	 * 设置是否通过会话属性将在事件阶段期间抛出的异常转发到渲染阶段.
+	 * <p>默认为 false.
+	 * 如果希望{@link DispatcherPortlet}将异常转发到渲染阶段, 请启用此功能,
+	 * 类似于默认情况下{@link #setForwardActionException 操作异常}的操作.
 	 */
 	public void setForwardEventException(boolean forwardEventException) {
 		this.forwardEventException = forwardEventException;
 	}
 
 	/**
-	 * Set the URL to the ViewRendererServlet. That servlet is used to
-	 * ultimately render all views in the portlet application.
+	 * 设置ViewRendererServlet的URL.
+	 * 该servlet用于最终渲染portlet应用程序中的所有视图.
 	 */
 	public void setViewRendererUrl(String viewRendererUrl) {
 		this.viewRendererUrl = viewRendererUrl;
@@ -313,7 +285,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * This implementation calls {@link #initStrategies}.
+	 * 此实现调用{@link #initStrategies}.
 	 */
 	@Override
 	public void onRefresh(ApplicationContext context) {
@@ -321,9 +293,8 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Refresh the strategy objects that this portlet uses.
-	 * <p>May be overridden in subclasses in order to initialize
-	 * further strategy objects.
+	 * 刷新此portlet使用的策略对象.
+	 * <p>可以在子类中重写以初始化其他策略对象.
 	 */
 	protected void initStrategies(ApplicationContext context) {
 		initMultipartResolver(context);
@@ -334,9 +305,8 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Initialize the PortletMultipartResolver used by this class.
-	 * <p>If no valid bean is defined with the given name in the BeanFactory
-	 * for this namespace, no multipart handling is provided.
+	 * 初始化此类使用的PortletMultipartResolver.
+	 * <p>如果没有在BeanFactory中为此命名空间定义具有给定名称的有效bean, 则不提供multipart处理.
 	 */
 	private void initMultipartResolver(ApplicationContext context) {
 		try {
@@ -356,20 +326,19 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Initialize the HandlerMappings used by this class.
-	 * <p>If no HandlerMapping beans are defined in the BeanFactory
-	 * for this namespace, we default to PortletModeHandlerMapping.
+	 * 初始化此类使用的HandlerMappings.
+	 * <p>如果没有在此命名空间的BeanFactory中定义HandlerMapping bean, 默认为PortletModeHandlerMapping.
 	 */
 	private void initHandlerMappings(ApplicationContext context) {
 		this.handlerMappings = null;
 
 		if (this.detectAllHandlerMappings) {
-			// Find all HandlerMappings in the ApplicationContext, including ancestor contexts.
+			// 在ApplicationContext中查找所有HandlerMappings, 包括祖先上下文.
 			Map<String, HandlerMapping> matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
 					context, HandlerMapping.class, true, false);
 			if (!matchingBeans.isEmpty()) {
 				this.handlerMappings = new ArrayList<HandlerMapping>(matchingBeans.values());
-				// We keep HandlerMappings in sorted order.
+				// 按顺序排列HandlerMappings.
 				AnnotationAwareOrderComparator.sort(this.handlerMappings);
 			}
 		}
@@ -379,12 +348,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				this.handlerMappings = Collections.singletonList(hm);
 			}
 			catch (NoSuchBeanDefinitionException ex) {
-				// Ignore, we'll add a default HandlerMapping later.
+				// 忽略, 稍后会添加一个默认的HandlerMapping.
 			}
 		}
 
-		// Ensure we have at least one HandlerMapping, by registering
-		// a default HandlerMapping if no other mappings are found.
+		// 如果没有找到其他映射, 请确保至少有一个HandlerMapping, 通过注册默认的HandlerMapping.
 		if (this.handlerMappings == null) {
 			this.handlerMappings = getDefaultStrategies(context, HandlerMapping.class);
 			if (logger.isDebugEnabled()) {
@@ -394,20 +362,19 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Initialize the HandlerAdapters used by this class.
-	 * <p>If no HandlerAdapter beans are defined in the BeanFactory
-	 * for this namespace, we default to SimpleControllerHandlerAdapter.
+	 * 初始化此类使用的HandlerAdapter.
+	 * <p>如果没有在此命名空间的BeanFactory中定义HandlerAdapter bean, 默认为SimpleControllerHandlerAdapter.
 	 */
 	private void initHandlerAdapters(ApplicationContext context) {
 		this.handlerAdapters = null;
 
 		if (this.detectAllHandlerAdapters) {
-			// Find all HandlerAdapters in the ApplicationContext, including ancestor contexts.
+			// 在ApplicationContext中查找所有HandlerAdapter, 包括祖先上下文.
 			Map<String, HandlerAdapter> matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
 					context, HandlerAdapter.class, true, false);
 			if (!matchingBeans.isEmpty()) {
 				this.handlerAdapters = new ArrayList<HandlerAdapter>(matchingBeans.values());
-				// We keep HandlerAdapters in sorted order.
+				// 按顺序排列HandlerAdapters.
 				AnnotationAwareOrderComparator.sort(this.handlerAdapters);
 			}
 		}
@@ -417,12 +384,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				this.handlerAdapters = Collections.singletonList(ha);
 			}
 			catch (NoSuchBeanDefinitionException ex) {
-				// Ignore, we'll add a default HandlerAdapter later.
+				// 忽略, 稍后会添加一个默认的HandlerAdapter.
 			}
 		}
 
-		// Ensure we have at least some HandlerAdapters, by registering
-		// default HandlerAdapters if no other adapters are found.
+		// 如果没有找到其他适配器, 请通过注册默认的HandlerAdapter来确保至少有一些HandlerAdapter.
 		if (this.handlerAdapters == null) {
 			this.handlerAdapters = getDefaultStrategies(context, HandlerAdapter.class);
 			if (logger.isDebugEnabled()) {
@@ -432,20 +398,19 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Initialize the HandlerExceptionResolver used by this class.
-	 * <p>If no bean is defined with the given name in the BeanFactory
-	 * for this namespace, we default to no exception resolver.
+	 * 初始化此类使用的HandlerExceptionResolver.
+	 * <p>如果在此命名空间的BeanFactory中没有使用给定名称定义bean, 则默认没有异常解析器.
 	 */
 	private void initHandlerExceptionResolvers(ApplicationContext context) {
 		this.handlerExceptionResolvers = null;
 
 		if (this.detectAllHandlerExceptionResolvers) {
-			// Find all HandlerExceptionResolvers in the ApplicationContext, including ancestor contexts.
+			// 在ApplicationContext中查找所有HandlerExceptionResolvers, 包括祖先上下文.
 			Map<String, HandlerExceptionResolver> matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
 					context, HandlerExceptionResolver.class, true, false);
 			if (!matchingBeans.isEmpty()) {
 				this.handlerExceptionResolvers = new ArrayList<HandlerExceptionResolver>(matchingBeans.values());
-				// We keep HandlerExceptionResolvers in sorted order.
+				// 按排序顺序保留HandlerExceptionResolvers.
 				AnnotationAwareOrderComparator.sort(this.handlerExceptionResolvers);
 			}
 		}
@@ -460,8 +425,8 @@ public class DispatcherPortlet extends FrameworkPortlet {
 			}
 		}
 
-		// Just for consistency, check for default HandlerExceptionResolvers...
-		// There aren't any in usual scenarios.
+		// 为了保持一致性, 请检查默认的HandlerExceptionResolvers...
+		// 通常都没有.
 		if (this.handlerExceptionResolvers == null) {
 			this.handlerExceptionResolvers = getDefaultStrategies(context, HandlerExceptionResolver.class);
 			if (logger.isDebugEnabled()) {
@@ -471,20 +436,19 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Initialize the ViewResolvers used by this class.
-	 * <p>If no ViewResolver beans are defined in the BeanFactory
-	 * for this namespace, we default to InternalResourceViewResolver.
+	 * 初始化此类使用的ViewResolvers.
+	 * <p>如果没有在此命名空间的BeanFactory中定义ViewResolver bean, 默认为InternalResourceViewResolver.
 	 */
 	private void initViewResolvers(ApplicationContext context) {
 		this.viewResolvers = null;
 
 		if (this.detectAllViewResolvers) {
-			// Find all ViewResolvers in the ApplicationContext, including ancestor contexts.
+			// 在ApplicationContext中查找所有ViewResolvers, 包括祖先上下文.
 			Map<String, ViewResolver> matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
 					context, ViewResolver.class, true, false);
 			if (!matchingBeans.isEmpty()) {
 				this.viewResolvers = new ArrayList<ViewResolver>(matchingBeans.values());
-				// We keep ViewResolvers in sorted order.
+				// 按顺序保留ViewResolvers.
 				AnnotationAwareOrderComparator.sort(this.viewResolvers);
 			}
 		}
@@ -494,12 +458,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				this.viewResolvers = Collections.singletonList(vr);
 			}
 			catch (NoSuchBeanDefinitionException ex) {
-				// Ignore, we'll add a default ViewResolver later.
+				// 忽略, 稍后会添加一个默认的ViewResolver.
 			}
 		}
 
-		// Ensure we have at least one ViewResolver, by registering
-		// a default ViewResolver if no other resolvers are found.
+		// 如果没有找到其他解析器, 通过注册默认的ViewResolver来确保至少有一个ViewResolver.
 		if (this.viewResolvers == null) {
 			this.viewResolvers = getDefaultStrategies(context, ViewResolver.class);
 			if (logger.isDebugEnabled()) {
@@ -510,13 +473,13 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Return the default strategy object for the given strategy interface.
-	 * <p>The default implementation delegates to {@link #getDefaultStrategies},
-	 * expecting a single object in the list.
-	 * @param context the current Portlet ApplicationContext
-	 * @param strategyInterface the strategy interface
-	 * @return the corresponding strategy object
-	 * @see #getDefaultStrategies
+	 * 返回给定策略接口的默认策略对象.
+	 * <p>默认实现委托给{@link #getDefaultStrategies}, 期望列表中有一个对象.
+	 * 
+	 * @param context 当前的Portlet ApplicationContext
+	 * @param strategyInterface 策略接口
+	 * 
+	 * @return 相应的策略对象
 	 */
 	protected <T> T getDefaultStrategy(ApplicationContext context, Class<T> strategyInterface) {
 		List<T> strategies = getDefaultStrategies(context, strategyInterface);
@@ -528,14 +491,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Create a List of default strategy objects for the given strategy interface.
-	 * <p>The default implementation uses the "DispatcherPortlet.properties" file
-	 * (in the same package as the DispatcherPortlet class) to determine the class names.
-	 * It instantiates the strategy objects and satisifies ApplicationContextAware
-	 * if necessary.
-	 * @param context the current Portlet ApplicationContext
-	 * @param strategyInterface the strategy interface
-	 * @return the List of corresponding strategy objects
+	 * 返回给定策略接口的默认策略对象.
+	 * <p>默认实现使用"DispatcherPortlet.properties"文件 (与DispatcherPortlet类在同一个包中)来确定类名.
+	 * 它实例化策略对象, 并在必要时满足ApplicationContextAware.
+	 * 
+	 * @param context 当前的Portlet ApplicationContext
+	 * @param strategyInterface 策略接口
+	 * 
+	 * @return 相应的策略对象
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T> List<T> getDefaultStrategies(ApplicationContext context, Class<T> strategyInterface) {
@@ -569,13 +532,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Create a default strategy.
-	 * <p>The default implementation uses
+	 * 创建默认策略.
+	 * <p>默认实现使用
 	 * {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory#createBean}.
-	 * @param context the current Portlet ApplicationContext
-	 * @param clazz the strategy implementation class to instantiate
-	 * @return the fully configured strategy instance
-	 * @see org.springframework.context.ApplicationContext#getAutowireCapableBeanFactory()
+	 * 
+	 * @param context 当前的Portlet ApplicationContext
+	 * @param clazz 要实例化的策略实现类
+	 * 
+	 * @return 完全配置的策略实例
 	 */
 	protected Object createDefaultStrategy(ApplicationContext context, Class<?> clazz) {
 		return context.getAutowireCapableBeanFactory().createBean(clazz);
@@ -583,9 +547,9 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Obtain this portlet's PortletMultipartResolver, if any.
-	 * @return the PortletMultipartResolver used by this portlet, or {@code null}
-	 * if none (indicating that no multipart support is available)
+	 * 获取此portlet的PortletMultipartResolver.
+	 * 
+	 * @return 此portlet使用的PortletMultipartResolver, 或{@code null} (表示没有可用的multipart支持)
 	 */
 	public PortletMultipartResolver getMultipartResolver() {
 		return this.multipartResolver;
@@ -593,13 +557,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Processes the actual dispatching to the handler for action requests.
-	 * <p>The handler will be obtained by applying the portlet's HandlerMappings in order.
-	 * The HandlerAdapter will be obtained by querying the portlet's installed
-	 * HandlerAdapters to find the first that supports the handler class.
-	 * @param request current portlet action request
-	 * @param response current portlet Action response
-	 * @throws Exception in case of any kind of processing failure
+	 * 实际调度操作请求到处理器.
+	 * <p>将通过按顺序应用portlet的HandlerMappings来获取处理器.
+	 * 通过查询portlet安装的HandlerAdapter来获取HandlerAdapter, 以找到支持处理器类的第一个对象.
+	 * 
+	 * @param request 当前的portlet操作请求
+	 * @param response 当前的portlet操作响应
+	 * 
+	 * @throws Exception 处理失败
 	 */
 	@Override
 	protected void doActionService(ActionRequest request, ActionResponse response) throws Exception {
@@ -614,14 +579,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		try {
 			processedRequest = checkMultipart(request);
 
-			// Determine handler for the current request.
+			// 确定当前请求的处理器.
 			mappedHandler = getHandler(processedRequest);
 			if (mappedHandler == null || mappedHandler.getHandler() == null) {
 				noHandlerFound(processedRequest, response);
 				return;
 			}
 
-			// Apply preHandle methods of registered interceptors.
+			// 应用注册的拦截器的preHandle方法.
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
 				for (int i = 0; i < interceptors.length; i++) {
@@ -634,18 +599,18 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				}
 			}
 
-			// Actually invoke the handler.
+			// 实际调用处理器.
 			HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 			ha.handleAction(processedRequest, response, mappedHandler.getHandler());
 
-			// Trigger after-completion for successful outcome.
+			// 成功完成后触发完成后事件.
 			triggerAfterActionCompletion(mappedHandler, interceptorIndex, processedRequest, response, null);
 		}
 
 		catch (Exception ex) {
 			// Trigger after-completion for thrown exception.
 			triggerAfterActionCompletion(mappedHandler, interceptorIndex, processedRequest, response, ex);
-			// Forward the exception to the render phase to be displayed.
+			// 将异常转发到要显示的渲染阶段.
 			if (this.forwardActionException) {
 				try {
 					exposeActionException(request, response, ex);
@@ -677,13 +642,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Processes the actual dispatching to the handler for render requests.
-	 * <p>The handler will be obtained by applying the portlet's HandlerMappings in order.
-	 * The HandlerAdapter will be obtained by querying the portlet's installed
-	 * HandlerAdapters to find the first that supports the handler class.
-	 * @param request current portlet render request
-	 * @param response current portlet render response
-	 * @throws Exception in case of any kind of processing failure
+	 * 实际调度渲染请求到处理器.
+	 * <p>将通过按顺序应用portlet的HandlerMappings来获取处理器.
+	 * 将通过查询portlet安装的HandlerAdapter来获取HandlerAdapter, 以找到支持处理器类的第一个对象.
+	 * 
+	 * @param request 当前portlet渲染请求
+	 * @param response 当前portlet渲染响应
+	 * 
+	 * @throws Exception 处理失败
 	 */
 	@Override
 	protected void doRenderService(RenderRequest request, RenderResponse response) throws Exception {
@@ -697,14 +663,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		try {
 			ModelAndView mv;
 			try {
-				// Determine handler for the current request.
+				// 确定当前请求的处理器.
 				mappedHandler = getHandler(request);
 				if (mappedHandler == null || mappedHandler.getHandler() == null) {
 					noHandlerFound(request, response);
 					return;
 				}
 
-				// Apply preHandle methods of registered interceptors.
+				// 应用注册拦截器的preHandle方法.
 				HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 				if (interceptors != null) {
 					for (int i = 0; i < interceptors.length; i++) {
@@ -717,7 +683,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 					}
 				}
 
-				// Check for forwarded exception from the action phase
+				// 从操作阶段检查转发的异常
 				PortletSession session = request.getPortletSession(false);
 				if (session != null) {
 					if (request.getParameter(ACTION_EXCEPTION_RENDER_PARAMETER) != null) {
@@ -732,11 +698,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 					}
 				}
 
-				// Actually invoke the handler.
+				// 实际调用处理器.
 				HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 				mv = ha.handleRender(request, response, mappedHandler.getHandler());
 
-				// Apply postHandle methods of registered interceptors.
+				// 应用注册的拦截器的postHandle方法.
 				if (interceptors != null) {
 					for (int i = interceptors.length - 1; i >= 0; i--) {
 						HandlerInterceptor interceptor = interceptors[i];
@@ -753,7 +719,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				mv = processHandlerException(request, response, handler, ex);
 			}
 
-			// Did the handler return a view to render?
+			// 处理器是否返回要渲染的视图?
 			if (mv != null && !mv.isEmpty()) {
 				render(mv, request, response);
 			}
@@ -783,13 +749,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Processes the actual dispatching to the handler for resource requests.
-	 * <p>The handler will be obtained by applying the portlet's HandlerMappings in order.
-	 * The HandlerAdapter will be obtained by querying the portlet's installed
-	 * HandlerAdapters to find the first that supports the handler class.
-	 * @param request current portlet render request
-	 * @param response current portlet render response
-	 * @throws Exception in case of any kind of processing failure
+	 * 实际调度资源请求到处理器.
+	 * <p>将通过按顺序应用portlet的HandlerMappings来获取处理器.
+	 * 将通过查询portlet安装的HandlerAdapter来获取HandlerAdapter, 以找到支持处理器类的第一个对象.
+	 * 
+	 * @param request 当前portlet渲染请求
+	 * @param response 当前portlet渲染响应
+	 * 
+	 * @throws Exception 处理失败
 	 */
 	@Override
 	protected void doResourceService(ResourceRequest request, ResourceResponse response) throws Exception {
@@ -803,14 +770,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		try {
 			ModelAndView mv;
 			try {
-				// Determine handler for the current request.
+				// 确定当前请求的处理器.
 				mappedHandler = getHandler(request);
 				if (mappedHandler == null || mappedHandler.getHandler() == null) {
 					noHandlerFound(request, response);
 					return;
 				}
 
-				// Apply preHandle methods of registered interceptors.
+				// 应用注册的拦截器的preHandle方法.
 				HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 				if (interceptors != null) {
 					for (int i = 0; i < interceptors.length; i++) {
@@ -823,11 +790,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 					}
 				}
 
-				// Actually invoke the handler.
+				// 实际调用处理器.
 				HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 				mv = ha.handleResource(request, response, mappedHandler.getHandler());
 
-				// Apply postHandle methods of registered interceptors.
+				// 应用注册的拦截器的postHandle方法.
 				if (interceptors != null) {
 					for (int i = interceptors.length - 1; i >= 0; i--) {
 						HandlerInterceptor interceptor = interceptors[i];
@@ -874,13 +841,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Processes the actual dispatching to the handler for event requests.
-	 * <p>The handler will be obtained by applying the portlet's HandlerMappings in order.
-	 * The HandlerAdapter will be obtained by querying the portlet's installed
-	 * HandlerAdapters to find the first that supports the handler class.
-	 * @param request current portlet action request
-	 * @param response current portlet Action response
-	 * @throws Exception in case of any kind of processing failure
+	 * 实际调度事件请求到处理器.
+	 * <p>将通过按顺序应用portlet的HandlerMappings来获取处理器.
+	 * 将通过查询portlet安装的HandlerAdapter来获取HandlerAdapter, 以找到支持处理器类的第一个对象.
+	 * 
+	 * @param request 当前的portlet操作请求
+	 * @param response 当前portlet操作响应
+	 * 
+	 * @throws Exception 处理失败
 	 */
 	@Override
 	protected void doEventService(EventRequest request, EventResponse response) throws Exception {
@@ -892,14 +860,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		int interceptorIndex = -1;
 
 		try {
-			// Determine handler for the current request.
+			// 确定当前请求的处理器.
 			mappedHandler = getHandler(request);
 			if (mappedHandler == null || mappedHandler.getHandler() == null) {
 				noHandlerFound(request, response);
 				return;
 			}
 
-			// Apply preHandle methods of registered interceptors.
+			// 应用注册的拦截器的preHandle方法.
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
 				for (int i = 0; i < interceptors.length; i++) {
@@ -912,7 +880,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				}
 			}
 
-			// Actually invoke the handler.
+			// 实际调用处理器.
 			HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 			ha.handleEvent(request, response, mappedHandler.getHandler());
 
@@ -923,7 +891,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		catch (Exception ex) {
 			// Trigger after-completion for thrown exception.
 			triggerAfterEventCompletion(mappedHandler, interceptorIndex, request, response, ex);
-			// Forward the exception to the render phase to be displayed.
+			// 将异常转发到要显示的渲染阶段.
 			if (this.forwardEventException) {
 				try {
 					exposeActionException(request, response, ex);
@@ -949,10 +917,12 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Convert the request into a multipart request, and make multipart resolver available.
-	 * If no multipart resolver is set, simply use the existing request.
-	 * @param request current HTTP request
-	 * @return the processed request (multipart wrapper if necessary)
+	 * 将请求转换为multipart请求, 并使multipart解析器可用.
+	 * 如果未设置multipart解析器, 只需使用现有请求.
+	 * 
+	 * @param request 当前的HTTP请求
+	 * 
+	 * @return 已处理的请求 (必要时multipart包装器)
 	 */
 	protected ActionRequest checkMultipart(ActionRequest request) throws MultipartException {
 		if (this.multipartResolver != null && this.multipartResolver.isMultipart(request)) {
@@ -963,15 +933,17 @@ public class DispatcherPortlet extends FrameworkPortlet {
 				return this.multipartResolver.resolveMultipart(request);
 			}
 		}
-		// If not returned before: return original request.
+		// 返回原始请求.
 		return request;
 	}
 
 	/**
-	 * Return the HandlerExecutionChain for this request.
-	 * Try all handler mappings in order.
-	 * @param request current portlet request
-	 * @return the HandlerExecutionChain, or null if no handler could be found
+	 * 返回此请求的HandlerExecutionChain.
+	 * 按顺序尝试所有处理器映射.
+	 * 
+	 * @param request 当前的portlet请求
+	 * 
+	 * @return HandlerExecutionChain, 或null
 	 */
 	protected HandlerExecutionChain getHandler(PortletRequest request) throws Exception {
 		for (HandlerMapping hm : this.handlerMappings) {
@@ -988,10 +960,12 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * No handler found -> throw appropriate exception.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @throws Exception if preparing the response failed
+	 * 找不到处理器 -> 抛出适当的异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * 
+	 * @throws Exception 如果准备响应失败
 	 */
 	protected void noHandlerFound(PortletRequest request, PortletResponse response) throws Exception {
 		if (pageNotFoundLogger.isWarnEnabled()) {
@@ -1005,10 +979,11 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Return the HandlerAdapter for this handler object.
-	 * @param handler the handler object to find an adapter for
-	 * @throws PortletException if no HandlerAdapter can be found for the handler.
-	 * This is a fatal error.
+	 * 返回此处理器对象的HandlerAdapter.
+	 * 
+	 * @param handler 用于查找适配器的处理器对象
+	 * 
+	 * @throws PortletException 如果没有找到处理器的HandlerAdapter. 这是一个致命的错误.
 	 */
 	protected HandlerAdapter getHandlerAdapter(Object handler) throws PortletException {
 		for (HandlerAdapter ha : this.handlerAdapters) {
@@ -1024,13 +999,14 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Expose the given action exception to the given response.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @param ex the action exception (may also come from an event phase)
+	 * 将给定的操作异常暴露给给定的响应.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * @param ex 操作异常 (也可能来自事件阶段)
 	 */
 	protected void exposeActionException(PortletRequest request, StateAwareResponse response, Exception ex) {
-		// Copy all parameters unless overridden in the action handler.
+		// 复制所有参数, 除非在操作处理器中重写.
 		Enumeration<String> paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
@@ -1045,17 +1021,19 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Render the given ModelAndView. This is the last stage in handling a request.
-	 * It may involve resolving the view by name.
-	 * @param mv the ModelAndView to render
-	 * @param request current portlet render request
-	 * @param response current portlet render response
-	 * @throws Exception if there's a problem rendering the view
+	 * 渲染给定的ModelAndView. 这是处理请求的最后阶段.
+	 * 它可能涉及按名称解析视图.
+	 * 
+	 * @param mv 要渲染的ModelAndView
+	 * @param request 当前portlet渲染请求
+	 * @param response 当前portlet渲染响应
+	 * 
+	 * @throws Exception 如果渲染视图有问题
 	 */
 	protected void render(ModelAndView mv, PortletRequest request, MimeResponse response) throws Exception {
 		View view;
 		if (mv.isReference()) {
-			// We need to resolve the view name.
+			// 需要解析视图名称.
 			view = resolveViewName(mv.getViewName(), mv.getModelInternal(), request);
 			if (view == null) {
 				throw new PortletException("Could not resolve view with name '" + mv.getViewName() +
@@ -1063,7 +1041,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 			}
 		}
 		else {
-			// No need to lookup: the ModelAndView object contains the actual View object.
+			// 无需查找: ModelAndView对象包含实际的View对象.
 			Object viewObject = mv.getView();
 			if (viewObject == null) {
 				throw new PortletException("ModelAndView [" + mv + "] neither contains a view name nor a " +
@@ -1077,16 +1055,15 @@ public class DispatcherPortlet extends FrameworkPortlet {
 			view = (View) viewObject;
 		}
 
-		// Set the content type on the response if needed and if possible.
-		// The Portlet spec requires the content type to be set on the RenderResponse;
-		// it's not sufficient to let the View set it on the ServletResponse.
+		// 在响应上设置内容类型.
+		// Portlet规范要求在RenderResponse上设置内容类型; 让View在ServletResponse上设置它是不够的.
 		if (response.getContentType() != null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Portlet response content type already set to [" + response.getContentType() + "]");
 			}
 		}
 		else {
-			// No Portlet content type specified yet -> use the view-determined type.
+			// 尚未指定Portlet内容类型 -> 使用视图确定的类型.
 			String contentType = view.getContentType();
 			if (contentType != null) {
 				if (logger.isDebugEnabled()) {
@@ -1100,17 +1077,16 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Resolve the given view name into a View object (to be rendered).
-	 * <p>Default implementations asks all ViewResolvers of this dispatcher.
-	 * Can be overridden for custom resolution strategies, potentially based
-	 * on specific model attributes or request parameters.
-	 * @param viewName the name of the view to resolve
-	 * @param model the model to be passed to the view
-	 * @param request current portlet render request
-	 * @return the View object, or null if none found
-	 * @throws Exception if the view cannot be resolved
-	 * (typically in case of problems creating an actual View object)
-	 * @see ViewResolver#resolveViewName
+	 * 将给定的视图名称解析为View对象 (要渲染的).
+	 * <p>默认实现会询问此调度器的所有ViewResolvers.
+	 * 可以根据特定模型属性或请求参数覆盖自定义解析策略.
+	 * 
+	 * @param viewName 要解析的视图的名称
+	 * @param model 要传递给视图的模型
+	 * @param request 当前portlet渲染请求
+	 * 
+	 * @return View 对象, 或null
+	 * @throws Exception 如果视图无法解析 (通常在创建实际View对象时出现问题)
 	 */
 	protected View resolveViewName(String viewName, Map<String, ?> model, PortletRequest request) throws Exception {
 		for (ViewResolver viewResolver : this.viewResolvers) {
@@ -1123,42 +1099,44 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Actually render the given view.
-	 * <p>The default implementation delegates to
+	 * 实际渲染给定的视图.
+	 * <p>默认实现委托给
 	 * {@link org.springframework.web.servlet.ViewRendererServlet}.
-	 * @param view the View to render
-	 * @param model the associated model
-	 * @param request current portlet render/resource request
-	 * @param response current portlet render/resource response
-	 * @throws Exception if there's a problem rendering the view
+	 * 
+	 * @param view 要渲染的视图
+	 * @param model 关联的模型
+	 * @param request 当前portlet渲染/资源请求
+	 * @param response 当前portlet渲染/资源响应
+	 * 
+	 * @throws Exception 如果渲染视图有问题
 	 */
 	protected void doRender(View view, Map<String, ?> model, PortletRequest request, MimeResponse response) throws Exception {
-		// Expose Portlet ApplicationContext to view objects.
+		// 将Portlet ApplicationContext公开给视图对象.
 		request.setAttribute(ViewRendererServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE, getPortletApplicationContext());
 
-		// These attributes are required by the ViewRendererServlet.
+		// ViewRendererServlet需要这些属性.
 		request.setAttribute(ViewRendererServlet.VIEW_ATTRIBUTE, view);
 		request.setAttribute(ViewRendererServlet.MODEL_ATTRIBUTE, model);
 
-		// Include the content of the view in the render/resource response.
+		// 在渲染/资源响应中包含视图的内容.
 		doDispatch(getPortletContext().getRequestDispatcher(this.viewRendererUrl), request, response);
 	}
 
 	/**
-	 * Perform a dispatch on the given PortletRequestDispatcher.
-	 * <p>The default implementation uses a forward for resource requests
-	 * and an include for render requests.
-	 * @param dispatcher the PortletRequestDispatcher to use
-	 * @param request current portlet render/resource request
-	 * @param response current portlet render/resource response
-	 * @throws Exception if there's a problem performing the dispatch
+	 * 在给定的PortletRequestDispatcher上执行调度.
+	 * <p>默认实现使用转发资源请求和包含渲染请求.
+	 * 
+	 * @param dispatcher 要使用的PortletRequestDispatcher
+	 * @param request 当前portlet渲染/资源请求
+	 * @param response 当前portlet渲染/资源响应
+	 * 
+	 * @throws Exception 如果执行调度时出现问题
 	 */
 	protected void doDispatch(PortletRequestDispatcher dispatcher, PortletRequest request, MimeResponse response)
 			throws Exception {
 
-		// In general, we prefer a forward for resource responses, in order to have full Servlet API
-		// support in the target resource (e.g. on uPortal). However, on Liferay, a resource forward
-		// displays an empty page, so we have to resort to an include there...
+		// 通常, 更喜欢转发资源, 以便在目标资源中获得完整的Servlet API支持 (e.g. 在uPortal上).
+		// 但是, 在Liferay上, 资源转发显示一个空白页面, 因此不得不使用包含...
 		if (PortletRequest.RESOURCE_PHASE.equals(request.getAttribute(PortletRequest.LIFECYCLE_PHASE)) &&
 				!dispatcher.getClass().getName().startsWith("com.liferay")) {
 			dispatcher.forward(request, response);
@@ -1170,14 +1148,15 @@ public class DispatcherPortlet extends FrameworkPortlet {
 
 
 	/**
-	 * Determine an error ModelAndView via the registered HandlerExceptionResolvers.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @param handler the executed handler, or null if none chosen at the time of
-	 * the exception (for example, if multipart resolution failed)
-	 * @param ex the exception that got thrown during handler execution
-	 * @return a corresponding ModelAndView to forward to
-	 * @throws Exception if no error ModelAndView found
+	 * 通过注册的HandlerExceptionResolvers确定错误ModelAndView.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * @param handler 执行的处理器, 如果在异常时没有选择, 则返回null (例如, 如果multipart解析失败)
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 要转发到的相应的ModelAndView
+	 * @throws Exception 如果没有找到错误ModelAndView
 	 */
 	protected ModelAndView processHandlerException(
 			RenderRequest request, RenderResponse response, Object handler, Exception ex)
@@ -1201,14 +1180,15 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Determine an error ModelAndView via the registered HandlerExceptionResolvers.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @param handler the executed handler, or null if none chosen at the time of
-	 * the exception (for example, if multipart resolution failed)
-	 * @param ex the exception that got thrown during handler execution
-	 * @return a corresponding ModelAndView to forward to
-	 * @throws Exception if no error ModelAndView found
+	 * 通过注册的HandlerExceptionResolvers确定错误ModelAndView.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * @param handler 执行的处理器, 如果在异常时没有选择, 则返回null (例如, 如果multipart解析失败)
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 要转发到的相应的ModelAndView
+	 * @throws Exception 如果没有找到错误ModelAndView
 	 */
 	protected ModelAndView processHandlerException(
 			ResourceRequest request, ResourceResponse response, Object handler, Exception ex)
@@ -1232,19 +1212,18 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle
-	 * invocation has successfully completed and returned true.
-	 * @param mappedHandler the mapped HandlerExecutionChain
-	 * @param interceptorIndex index of last interceptor that successfully completed
-	 * @param ex Exception thrown on handler execution, or null if none
-	 * @see HandlerInterceptor#afterRenderCompletion
+	 * 在映射的HandlerInterceptors上触发afterCompletion回调.
+	 * 只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion.
+	 * 
+	 * @param mappedHandler 映射的HandlerExecutionChain
+	 * @param interceptorIndex 成功完成的最后一个拦截器的索引
+	 * @param ex 处理器执行时抛出异常, 或null
 	 */
 	private void triggerAfterActionCompletion(HandlerExecutionChain mappedHandler, int interceptorIndex,
 			ActionRequest request, ActionResponse response, Exception ex)
 			throws Exception {
 
-		// Apply afterCompletion methods of registered interceptors.
+		// 应用注册的拦截器的afterCompletion方法.
 		if (mappedHandler != null) {
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
@@ -1262,19 +1241,18 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle
-	 * invocation has successfully completed and returned true.
-	 * @param mappedHandler the mapped HandlerExecutionChain
-	 * @param interceptorIndex index of last interceptor that successfully completed
-	 * @param ex Exception thrown on handler execution, or null if none
-	 * @see HandlerInterceptor#afterRenderCompletion
+	 * 在映射的HandlerInterceptors上触发afterCompletion回调.
+	 * 只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion.
+	 * 
+	 * @param mappedHandler 映射的HandlerExecutionChain
+	 * @param interceptorIndex 成功完成的最后一个拦截器的索引
+	 * @param ex 处理器执行时抛出异常, 或null
 	 */
 	private void triggerAfterRenderCompletion(HandlerExecutionChain mappedHandler, int interceptorIndex,
 			RenderRequest request, RenderResponse response, Exception ex)
 			throws Exception {
 
-		// Apply afterCompletion methods of registered interceptors.
+		// 应用注册的拦截器的afterCompletion方法.
 		if (mappedHandler != null) {
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
@@ -1292,19 +1270,18 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle
-	 * invocation has successfully completed and returned true.
-	 * @param mappedHandler the mapped HandlerExecutionChain
-	 * @param interceptorIndex index of last interceptor that successfully completed
-	 * @param ex Exception thrown on handler execution, or null if none
-	 * @see HandlerInterceptor#afterRenderCompletion
+	 * 在映射的HandlerInterceptors上触发afterCompletion回调.
+	 * 只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion.
+	 * 
+	 * @param mappedHandler 映射的HandlerExecutionChain
+	 * @param interceptorIndex 成功完成的最后一个拦截器的索引
+	 * @param ex 处理器执行时抛出异常, 或null
 	 */
 	private void triggerAfterResourceCompletion(HandlerExecutionChain mappedHandler, int interceptorIndex,
 			ResourceRequest request, ResourceResponse response, Exception ex)
 			throws Exception {
 
-		// Apply afterCompletion methods of registered interceptors.
+		// 应用注册的拦截器的afterCompletion方法.
 		if (mappedHandler != null) {
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
@@ -1322,19 +1299,18 @@ public class DispatcherPortlet extends FrameworkPortlet {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle
-	 * invocation has successfully completed and returned true.
-	 * @param mappedHandler the mapped HandlerExecutionChain
-	 * @param interceptorIndex index of last interceptor that successfully completed
-	 * @param ex Exception thrown on handler execution, or null if none
-	 * @see HandlerInterceptor#afterRenderCompletion
+	 * 在映射的HandlerInterceptors上触发afterCompletion回调.
+	 * 只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion.
+	 * 
+	 * @param mappedHandler 映射的HandlerExecutionChain
+	 * @param interceptorIndex 成功完成的最后一个拦截器的索引
+	 * @param ex 处理器执行时抛出异常, 或null
 	 */
 	private void triggerAfterEventCompletion(HandlerExecutionChain mappedHandler, int interceptorIndex,
 			EventRequest request, EventResponse response, Exception ex)
 			throws Exception {
 
-		// Apply afterCompletion methods of registered interceptors.
+		// 应用注册的拦截器的afterCompletion方法.
 		if (mappedHandler != null) {
 			HandlerInterceptor[] interceptors = mappedHandler.getInterceptors();
 			if (interceptors != null) {
@@ -1350,5 +1326,4 @@ public class DispatcherPortlet extends FrameworkPortlet {
 			}
 		}
 	}
-
 }

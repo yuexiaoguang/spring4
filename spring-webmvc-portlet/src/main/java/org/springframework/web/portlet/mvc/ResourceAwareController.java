@@ -6,20 +6,20 @@ import javax.portlet.ResourceResponse;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * Extension of the Portlet {@link Controller} interface that allows
- * for handling Portlet 2.0 resource requests as well. Can also be
- * implemented by {@link AbstractController} subclasses.
+ * Portlet {@link Controller}接口的扩展, 允许处理Portlet 2.0资源请求.
+ * 也可以由{@link AbstractController}子类实现.
  */
 public interface ResourceAwareController {
 
 	/**
-	 * Process the resource request and return a ModelAndView object which the DispatcherPortlet
-	 * will render. A {@code null} return value is not an error: It indicates that this
-	 * object completed request processing itself, thus there is no ModelAndView to render.
-	 * @param request current portlet resource request
-	 * @param response current portlet resource response
-	 * @return a ModelAndView to render, or null if handled directly
-	 * @throws Exception in case of errors
+	 * 处理资源请求, 并返回DispatcherPortlet将渲染的ModelAndView对象.
+	 * {@code null}返回值不是错误: 它表示此对象已完成请求处理本身, 因此没有要渲染的ModelAndView.
+	 * 
+	 * @param request 当前portlet资源请求
+	 * @param response 当前的portlet资源响应
+	 * 
+	 * @return 要渲染的ModelAndView, 如果直接处理则为null
+	 * @throws Exception
 	 */
 	ModelAndView handleResourceRequest(ResourceRequest request, ResourceResponse response) throws Exception;
 

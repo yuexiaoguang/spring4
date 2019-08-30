@@ -16,47 +16,39 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.ServletContextAwareProcessor;
 
 /**
- * {@link org.springframework.context.support.AbstractRefreshableApplicationContext}
- * subclass which implements the {@link ConfigurablePortletApplicationContext}
- * interface for portlet environments. Provides a "configLocations" property,
- * to be populated through the ConfigurablePortletApplicationContext interface
- * on portlet application startup.
+ * {@link org.springframework.context.support.AbstractRefreshableApplicationContext}子类,
+ * 为portlet环境实现{@link ConfigurablePortletApplicationContext}接口.
+ * 提供"configLocations"属性, 通过Portlet应用程序启动时的ConfigurablePortletApplicationContext接口填充.
  *
- * <p>This class is as easy to subclass as AbstractRefreshableApplicationContext:
- * All you need to implements is the {@link #loadBeanDefinitions} method;
- * see the superclass javadoc for details. Note that implementations are supposed
- * to load bean definitions from the files specified by the locations returned
- * by the {@link #getConfigLocations} method.
+ * <p>此类与AbstractRefreshableApplicationContext一样易于子类化:
+ * 需要实现的只是{@link #loadBeanDefinitions}方法; 有关详细信息, 请参阅超类javadoc.
+ * 请注意, 实现应该从{@link #getConfigLocations}方法返回的位置指定的文件中加载bean定义.
  *
- * <p>Interprets resource paths as servlet context resources, i.e. as paths beneath
- * the web application root. Absolute paths, e.g. for files outside the web app root,
- * can be accessed via "file:" URLs, as implemented by
- * {@link org.springframework.core.io.DefaultResourceLoader}.
+ * <p>将资源路径解释为servlet上下文资源, i.e. 作为Web应用程序根目录下的路径.
+ * 绝对路径, e.g. 对于Web应用程序根目录之外的文件, 可以通过"file:" URL访问,
+ * 由{@link org.springframework.core.io.DefaultResourceLoader}实现.
  *
- * <p><b>This is the portlet context to be subclassed for a different bean definition format.</b>
- * Such a context implementation can be specified as "contextClass" init-param
- * for FrameworkPortlet, replacing the default {@link XmlPortletApplicationContext}.
- * It will then automatically receive the "contextConfigLocation" init-param.
+ * <p><b>这是要为不同的bean定义格式进行子类化的portlet上下文.</b>
+ * 这样的上下文实现可以指定为FrameworkPortlet的"contextClass" init-param, 替换默认的{@link XmlPortletApplicationContext}.
+ * 然后它将自动接收"contextConfigLocation" init-param.
  *
- * <p>Note that Portlet-based context implementations are generally supposed
- * to configure themselves based on the configuration received through the
- * {@link ConfigurablePortletApplicationContext} interface. In contrast, a standalone
- * application context might allow for configuration in custom startup code
- * (for example, {@link org.springframework.context.support.GenericApplicationContext}).
+ * <p>请注意, 基于Portlet的上下文实现通常应根据通过{@link ConfigurablePortletApplicationContext}接口接收的配置进行自我配置.
+ * 相反, 独立的应用程序上下文可能允许在自定义启动代码中进行配置
+ * (例如, {@link org.springframework.context.support.GenericApplicationContext}).
  */
 public abstract class AbstractRefreshablePortletApplicationContext extends AbstractRefreshableConfigApplicationContext
 		implements WebApplicationContext, ConfigurablePortletApplicationContext {
 
-	/** Servlet context that this context runs in */
+	/** 此上下文运行的Servlet上下文 */
 	private ServletContext servletContext;
 
-	/** Portlet context that this context runs in */
+	/** 此上下文运行的Portlet上下文 */
 	private PortletContext portletContext;
 
-	/** Portlet config that this context runs in */
+	/** 此上下文运行的Portlet配置 */
 	private PortletConfig portletConfig;
 
-	/** Namespace of this context, or null if root */
+	/** 此上下文的命名空间, 如果是root, 则为null */
 	private String namespace;
 
 
@@ -66,12 +58,9 @@ public abstract class AbstractRefreshablePortletApplicationContext extends Abstr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>The parent {@linkplain #getEnvironment() environment} is
-	 * delegated to this (child) context if the parent is a
-	 * {@link org.springframework.context.ConfigurableApplicationContext} implementation.
-	 * <p>The parent {@linkplain #getServletContext() servlet context} is
-	 * delegated to this (child) context if the parent is a {@link WebApplicationContext}
-	 * implementation.
+	 * <p>如果父级是{@link org.springframework.context.ConfigurableApplicationContext}实现,
+	 * 则父级{@linkplain #getEnvironment() environment}被委托给此(子级)上下文.
+	 * <p>如果父级是{@link WebApplicationContext}实现, 则父级{@linkplain #getServletContext() servlet上下文}被委托给此(子级)上下文.
 	 */
 	@Override
 	public void setParent(ApplicationContext parent) {
@@ -137,7 +126,7 @@ public abstract class AbstractRefreshablePortletApplicationContext extends Abstr
 	}
 
 	/**
-	 * Create and return a new {@link StandardPortletEnvironment}.
+	 * 创建并返回新的{@link StandardPortletEnvironment}.
 	 */
 	@Override
 	protected ConfigurableEnvironment createEnvironment() {
@@ -145,7 +134,7 @@ public abstract class AbstractRefreshablePortletApplicationContext extends Abstr
 	}
 
 	/**
-	 * Register request/session scopes, a {@link PortletContextAwareProcessor}, etc.
+	 * 注册请求/会话范围, {@link PortletContextAwareProcessor}, etc.
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -161,8 +150,7 @@ public abstract class AbstractRefreshablePortletApplicationContext extends Abstr
 	}
 
 	/**
-	 * This implementation supports file paths beneath the root of the PortletContext.
-	 * @see PortletContextResource
+	 * 此实现支持PortletContext根目录下的文件路径.
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {
@@ -170,8 +158,7 @@ public abstract class AbstractRefreshablePortletApplicationContext extends Abstr
 	}
 
 	/**
-	 * This implementation supports pattern matching in unexpanded WARs too.
-	 * @see PortletContextResourcePatternResolver
+	 * 此实现也支持未展开的WAR中的模式匹配.
 	 */
 	@Override
 	protected ResourcePatternResolver getResourcePatternResolver() {

@@ -14,18 +14,16 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.ServletContextAwareProcessor;
 
 /**
- * Static Portlet-based {@link org.springframework.context.ApplicationContext}
- * implementation for testing. Not intended for use in production applications.
+ * 基于静态Portlet的{@link org.springframework.context.ApplicationContext}实现, 用于测试.
+ * 不适用于生产应用.
  *
- * <p>Implements the
- * {@link org.springframework.web.portlet.context.ConfigurablePortletApplicationContext}
- * interface to allow for direct replacement of an {@link XmlPortletApplicationContext},
- * despite not actually supporting external configuration files.
+ * <p>实现
+ * {@link org.springframework.web.portlet.context.ConfigurablePortletApplicationContext}接口,
+ * 以允许直接替换{@link XmlPortletApplicationContext}, 尽管实际上不支持外部配置文件.
  *
- * <p>Interprets resource paths as portlet context resources, that is, as paths
- * beneath the portlet application root. Absolute paths, for example for files
- * outside the portlet app root, can be accessed via "file:" URLs, as implemented
- * by {@link org.springframework.core.io.DefaultResourceLoader}.
+ * <p>将资源路径解释为portlet上下文资源, 即作为portlet应用程序根目录下的路径.
+ * 绝对路径, 例如对于portlet应用程序根目录之外的文件, 可以通过"file:" URL访问,
+ * 由{@link org.springframework.core.io.DefaultResourceLoader}实现.
  */
 public class StaticPortletApplicationContext extends StaticApplicationContext
 		implements ConfigurablePortletApplicationContext {
@@ -45,7 +43,7 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 
 
 	/**
-	 * Return a new {@link StandardPortletEnvironment}
+	 * 返回新的{@link StandardPortletEnvironment}
 	 */
 	@Override
 	protected ConfigurableEnvironment createEnvironment() {
@@ -54,7 +52,7 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Replace {@code Portlet}- and {@code Servlet}-related property sources.
+	 * <p>替换{@code Portlet}和{@code Servlet}相关的属性源.
 	 */
 	@Override
 	protected void initPropertySources() {
@@ -64,12 +62,9 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 
 	/**
 	 * {@inheritDoc}
-	 * <p>The parent {@linkplain #getEnvironment() environment} is
-	 * delegated to this (child) context if the parent is a
-	 * {@link org.springframework.context.ConfigurableApplicationContext} implementation.
-	 * <p>The parent {@linkplain #getServletContext() servlet context} is
-	 * delegated to this (child) context if the parent is a {@link WebApplicationContext}
-	 * implementation.
+	 * <p>如果父级是{@link org.springframework.context.ConfigurableApplicationContext}实现,
+	 * 则父级{@linkplain #getEnvironment() 环境}被委托给此 (子级)上下文.
+	 * <p>如果父级是{@link WebApplicationContext}实现, 则父级{@linkplain #getServletContext() servlet 上下文}被委托给此 (子级)上下文.
 	 */
 	@Override
 	public void setParent(ApplicationContext parent) {
@@ -121,7 +116,8 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * The {@link StaticPortletApplicationContext} class does not support this method.
+	 * {@link StaticPortletApplicationContext}类不支持此方法.
+	 * 
 	 * @throws UnsupportedOperationException <b>always</b>
 	 */
 	@Override
@@ -132,7 +128,8 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * The {@link StaticPortletApplicationContext} class does not support this method.
+	 * {@link StaticPortletApplicationContext}类不支持此方法.
+	 * 
 	 * @throws UnsupportedOperationException <b>always</b>
 	 */
 	@Override
@@ -149,7 +146,7 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 
 
 	/**
-	 * Register request/session scopes, a {@link PortletContextAwareProcessor}, etc.
+	 * 注册请求/会话范围, {@link PortletContextAwareProcessor}, etc.
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -164,8 +161,7 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * This implementation supports file paths beneath the root of the PortletContext.
-	 * @see PortletContextResource
+	 * 此实现支持PortletContext根目录下的文件路径.
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {
@@ -173,8 +169,7 @@ public class StaticPortletApplicationContext extends StaticApplicationContext
 	}
 
 	/**
-	 * This implementation supports pattern matching in unexpanded WARs too.
-	 * @see PortletContextResourcePatternResolver
+	 * 此实现也支持未展开的WAR中的模式匹配.
 	 */
 	@Override
 	protected ResourcePatternResolver getResourcePatternResolver() {

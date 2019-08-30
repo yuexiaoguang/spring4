@@ -32,15 +32,13 @@ import org.springframework.web.portlet.handler.AbstractMapBasedHandlerMapping;
 import org.springframework.web.portlet.handler.PortletRequestMethodNotSupportedException;
 
 /**
- * Implementation of the {@link org.springframework.web.portlet.HandlerMapping}
- * interface that maps handlers based on portlet modes expressed through the
- * {@link RequestMapping} annotation at the type or method level.
+ * {@link org.springframework.web.portlet.HandlerMapping}接口的实现,
+ * 基于通过类型或方法级别的{@link RequestMapping}注解表示的portlet模式映射处理器.
  *
- * <p>Registered by default in {@link org.springframework.web.portlet.DispatcherPortlet}.
- * <b>NOTE:</b> If you define custom HandlerMapping beans in your DispatcherPortlet context,
- * you need to add a DefaultAnnotationHandlerMapping bean explicitly, since custom
- * HandlerMapping beans replace the default mapping strategies. Defining a
- * DefaultAnnotationHandlerMapping also allows for registering custom interceptors:
+ * <p>默认在{@link org.springframework.web.portlet.DispatcherPortlet}中注册.
+ * <b>NOTE:</b> 如果在DispatcherPortlet上下文中定义自定义HandlerMapping bean,
+ * 则需要显式添加 DefaultAnnotationHandlerMapping bean, 因为自定义HandlerMapping bean会替换默认映射策略.
+ * 定义DefaultAnnotationHandlerMapping还允许注册自定义拦截器:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping"&gt;
@@ -49,29 +47,23 @@ import org.springframework.web.portlet.handler.PortletRequestMethodNotSupportedE
  *   &lt;/property&gt;
  * &lt;/bean&gt;</pre>
  *
- * Annotated controllers are usually marked with the {@link Controller} stereotype
- * at the type level. This is not strictly necessary when {@link RequestMapping} is
- * applied at the type level (since such a handler usually implements the
- * {@link org.springframework.web.portlet.mvc.Controller} interface). However,
- * {@link Controller} is required for detecting {@link RequestMapping} annotations
- * at the method level.
+ * 带注解的控制器通常在类型级别用{@link Controller}构造型标记.
+ * 当在类型级别应用{@link RequestMapping}时, 这不是绝对必要的
+ * (因为这样的处理器通常实现了{@link org.springframework.web.portlet.mvc.Controller}接口).
+ * 但是, 在方法级别检测{@link RequestMapping}注解需要{@link Controller}.
  *
- * <p><b>NOTE:</b> Method-level mappings are only allowed to narrow the mapping
- * expressed at the class level (if any). A portlet mode in combination with specific
- * parameter conditions needs to uniquely map onto one specific handler bean,
- * not spread across multiple handler beans. It is strongly recommended to
- * co-locate related handler methods into the same bean.
+ * <p><b>NOTE:</b> 方法级映射仅允许缩小在类级别表示的映射.
+ * portlet模式与特定参数条件相结合需要唯一地映射到一个特定的处理器bean, 而不是分布在多个处理器bean中.
+ * 强烈建议将相关的处理器方法放在同一个bean中.
  *
- * <p>The {@link AnnotationMethodHandlerAdapter} is responsible for processing
- * annotated handler methods, as mapped by this HandlerMapping. For
- * {@link RequestMapping} at the type level, specific HandlerAdapters such as
- * {@link org.springframework.web.portlet.mvc.SimpleControllerHandlerAdapter} apply.
+ * <p>{@link AnnotationMethodHandlerAdapter}负责处理带注解的处理器方法, 由此HandlerMapping映射.
+ * 对于类型级别的{@link RequestMapping}, 特定的HandlerAdapters,
+ * 例如{@link org.springframework.web.portlet.mvc.SimpleControllerHandlerAdapter}适用.
  */
 public class DefaultAnnotationHandlerMapping extends AbstractMapBasedHandlerMapping<PortletMode> {
 
 	/**
-	 * Calls the {@code registerHandlers} method in addition
-	 * to the superclass's initialization.
+	 * 除了超类的初始化之外, 还调用{@code registerHandlers}方法.
 	 */
 	@Override
 	public void initApplicationContext() throws BeansException {
@@ -80,8 +72,9 @@ public class DefaultAnnotationHandlerMapping extends AbstractMapBasedHandlerMapp
 	}
 
 	/**
-	 * Register all handlers specified in the Portlet mode map for the corresponding modes.
-	 * @throws org.springframework.beans.BeansException if the handler couldn't be registered
+	 * 注册Portlet模式映射中为相应模式指定的所有处理器.
+	 * 
+	 * @throws org.springframework.beans.BeansException 如果处理器无法注册
 	 */
 	protected void detectHandlers() throws BeansException {
 		ApplicationContext context = getApplicationContext();
@@ -112,12 +105,13 @@ public class DefaultAnnotationHandlerMapping extends AbstractMapBasedHandlerMapp
 	}
 
 	/**
-	 * Derive portlet mode mappings from the handler's method-level mappings.
-	 * @param handlerType the handler type to introspect
-	 * @param beanName the name of the bean introspected
-	 * @param typeMapping the type level mapping (if any)
-	 * @return {@code true} if at least 1 handler method has been registered;
-	 * {@code false} otherwise
+	 * 从处理器的方法级映射派生portlet模式映射.
+	 * 
+	 * @param handlerType 要内省的处理器类型
+	 * @param beanName 要内省的bean的名称
+	 * @param typeMapping 类型级别映射
+	 * 
+	 * @return {@code true} 如果已注册至少1个处理器方法; 否则{@code false}
 	 */
 	protected boolean detectHandlerMethods(Class<?> handlerType, final String beanName, final RequestMapping typeMapping) {
 		final Set<Boolean> handlersRegistered = new HashSet<Boolean>(1);
@@ -188,7 +182,7 @@ public class DefaultAnnotationHandlerMapping extends AbstractMapBasedHandlerMapp
 	}
 
 	/**
-	 * Uses the current PortletMode as lookup key.
+	 * 使用当前的PortletMode作为查找键.
 	 */
 	@Override
 	protected PortletMode getLookupKey(PortletRequest request) throws Exception {

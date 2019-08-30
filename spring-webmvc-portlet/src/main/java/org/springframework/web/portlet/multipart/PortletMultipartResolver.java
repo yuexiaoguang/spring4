@@ -5,32 +5,26 @@ import javax.portlet.ActionRequest;
 import org.springframework.web.multipart.MultipartException;
 
 /**
- * Portlet version of Spring's multipart resolution strategy for file uploads
- * as defined in <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.
+ * Spring的multipart解析策略的Portlet版本,
+ * 用于<a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>中定义的文件上传.
  *
- * <p>Implementations are typically usable both within any application context
- * and standalone.
+ * <p>实现通常可在任何应用程序上下文中使用, 也可以单独使用.
  *
- * <p>There is one concrete implementation included in Spring:
+ * <p>Spring中包含一个具体的实现:
  * <ul>
- * <li>{@link org.springframework.web.multipart.commons.CommonsMultipartResolver}
- * for Apache Commons FileUpload
+ * <li>用于Apache Commons FileUpload的{@link org.springframework.web.multipart.commons.CommonsMultipartResolver}
  * </ul>
  *
- * <p>There is no default resolver implementation used for Spring
- * {@link org.springframework.web.portlet.DispatcherPortlet DispatcherPortlets},
- * as an application might choose to parse its multipart requests itself. To
- * define an implementation, create a bean with the id "portletMultipartResolver"
- * in a {@code DispatcherPortlet's} application context. Such a resolver
- * gets applied to all requests handled by that {@code DispatcherPortlet}.
+ * <p>没有用于Spring {@link org.springframework.web.portlet.DispatcherPortlet DispatcherPortlets}
+ * 的默认解析器实现, 因为应用程序可能会选择解析其multipart请求本身.
+ * 要定义实现, 请在{@code DispatcherPortlet}的应用程序上下文中创建一个id为"portletMultipartResolver"的bean.
+ * 这样的解析器应用于{@code DispatcherPortlet}处理的所有请求.
  *
- * <p>If a {@code DispatcherPortlet} detects a multipart request, it will
- * resolve it via the configured
+ * <p>如果{@code DispatcherPortlet}检测到multipart请求, 它将通过配置的
  * {@link org.springframework.web.portlet.multipart.PortletMultipartResolver}
- * and pass on a wrapped Portlet {@link ActionRequest}. Controllers can then
- * cast their given request to the {@link MultipartActionRequest} interface,
- * being able to access {@code MultipartFiles}. Note that this cast is only
- * supported in case of an actual multipart request.
+ * 解析它并传递一个包装好的Portlet {@link ActionRequest}.
+ * 然后, 控制器可以将其给定的请求转发到{@link MultipartActionRequest}接口, 以便能够访问{@code MultipartFiles}.
+ * 请注意, 仅在实际的multipart请求的情况下才支持此强制转换.
  *
  * <pre class="code"> public void handleActionRequest(ActionRequest request, ActionResponse response) {
  *   MultipartActionRequest multipartRequest = (MultipartActionRequest) request;
@@ -38,45 +32,42 @@ import org.springframework.web.multipart.MultipartException;
  *   ...
  * }</pre>
  *
- * Instead of direct access, command or form controllers can register a
+ * 而不是直接访问, 命令或表单控制器可以将
  * {@link org.springframework.web.multipart.support.ByteArrayMultipartFileEditor}
- * or {@link org.springframework.web.multipart.support.StringMultipartFileEditor}
- * with their data binder, to automatically apply multipart content to form
- * bean properties.
+ * 或{@link org.springframework.web.multipart.support.StringMultipartFileEditor}
+ * 与其数据绑定器一起注册, 以自动应用multipart内容到表单bean属性.
  *
- * <p>Note: There is hardly ever a need to access the {@code MultipartResolver}
- * itself from application code. It will simply do its work behind the scenes,
- * making {@code MultipartActionRequests} available to controllers.
+ * <p>Note: 几乎不需要从应用程序代码访问{@code MultipartResolver}本身.
+ * 它将在幕后完成其工作, 使{@code MultipartActionRequests}可供控制器使用.
  */
 public interface PortletMultipartResolver {
 
 	/**
-	 * Determine if the given request contains multipart content.
-	 * <p>Will typically check for content type
-	 * "{@code multipart/form-data}", but the actually accepted requests
-	 * might depend on the capabilities of the resolver implementation.
-	 * @param request the portlet request to be evaluated
-	 * @return whether the request contains multipart content
+	 * 确定给定的请求是否包含multipart内容.
+	 * <p>通常会检查内容类型"{@code multipart/form-data}", 但实际接受的请求可能取决于解析器实现的功能.
+	 * 
+	 * @param request 要评估的portlet请求
+	 * 
+	 * @return 请求是否包含multipart内容
 	 */
 	boolean isMultipart(ActionRequest request);
 
 	/**
-	 * Parse the given portlet request into multipart files and parameters,
-	 * and wrap the request inside a MultipartActionRequest object
-	 * that provides access to file descriptors and makes contained
-	 * parameters accessible via the standard PortletRequest methods.
-	 * @param request the portlet request to wrap (must be of a multipart content type)
-	 * @return the wrapped portlet request
-	 * @throws org.springframework.web.multipart.MultipartException if the portlet request
-	 * is not multipart, or if implementation-specific problems are encountered
-	 * (such as exceeding file size limits)
+	 * 将给定的portlet请求解析为multipart文件和参数, 并将请求包装在MultipartActionRequest对象中,
+	 * 该对象提供对文件描述符的访问, 并通过标准PortletRequest方法访问包含的参数.
+	 * 
+	 * @param request 要包装的portlet请求 (必须是multipart内容类型)
+	 * 
+	 * @return 包装的portlet请求
+	 * @throws org.springframework.web.multipart.MultipartException
+	 * 如果portlet请求不是multipart, 或者遇到特定于实现的问题 (例如超出文件大小限制)
 	 */
 	MultipartActionRequest resolveMultipart(ActionRequest request) throws MultipartException;
 
 	/**
-	 * Cleanup any resources used for the multipart handling,
-	 * such as storage for any uploaded file(s).
-	 * @param request the request to cleanup resources for
+	 * 清除用于multipart处理的所有资源, 例如任何上传文件的存储.
+	 * 
+	 * @param request 要清理资源的请求
 	 */
 	void cleanupMultipart(MultipartActionRequest request);
 

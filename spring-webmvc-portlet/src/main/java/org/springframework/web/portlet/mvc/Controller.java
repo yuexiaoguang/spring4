@@ -8,53 +8,48 @@ import javax.portlet.RenderResponse;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * Base portlet Controller interface, representing a component that receives
- * RenderRequest/RenderResponse and ActionRequest/ActionResponse like a
- * {@code Portlet} but is able to participate in an MVC workflow.
+ * 基本portlet控制器接口, 表示接收 RenderRequest/RenderResponse和ActionRequest/ActionResponse的组件,
+ * 如{@code Portlet}, 但能够参与MVC工作流程.
  *
- * <p>Any implementation of the portlet Controller interface should be a
- * <i>reusable, threadsafe</i> class, capable of handling multiple
- * portlet requests throughout the lifecycle of an application. To be able to
- * configure Controller(s) in an easy way, Controllers are usually JavaBeans.</p>
+ * <p>portlet Controller接口的任何实现都应该是<i>可重用的线程安全的</i>类,
+ * 能够在应用程序的整个生命周期中处理多个portlet请求.
+ * 为了能够以简单的方式配置Controller, 控制器通常是JavaBeans.</p>
  *
  * <p><b><a name="workflow">Workflow</a>:</b></p>
  *
- * <p>After the DispatcherPortlet has received a request and has done its work
- * to resolve locales, themes and suchlike, it tries to resolve a
- * Controller to handle that request, using a
- * {@link org.springframework.web.portlet.HandlerMapping HandlerMapping}.
+ * <p>在DispatcherPortlet收到请求, 并完成解析区域设置, 主题等之后, 它尝试使用
+ * {@link org.springframework.web.portlet.HandlerMapping HandlerMapping}解析Controller以处理该请求.
  * When a Controller has been found, the
  * {@link #handleRenderRequest handleRenderRequest} or {@link #handleActionRequest handleActionRequest}
- * method will be invoked, which is responsible for handling the actual
- * request and - if applicable - returning an appropriate ModelAndView.
- * So actually, these method are the main entrypoint for the
- * {@link org.springframework.web.portlet.DispatcherPortlet DispatcherPortlet}
- * which delegates requests to controllers.</p>
+ * 找到Controller后, 将调用handleRenderRequest方法, 该方法负责处理实际请求, 并且 - 如果适用 - 返回适当的ModelAndView.
+ * 实际上, 这些方法是{@link org.springframework.web.portlet.DispatcherPortlet DispatcherPortlet}的主要入口点,
+ * 它将请求委托给控制器.</p>
  *
- * <p>So basically any <i>direct</i> implementation of the Controller interface
- * just handles RenderRequests/ActionRequests and should return a ModelAndView, to be
- * further used by the DispatcherPortlet. Any additional functionality such as
- * optional validation, form handling, etc should be obtained through extending
- * one of the abstract controller classes mentioned above.</p>
+ * <p>所以基本上任何Controller接口的<i>直接</i>实现都只处理RenderRequests/ActionRequests,
+ * 并且应该返回一个ModelAndView, 以供DispatcherPortlet进一步使用.
+ * 任何其他功能, 如可选验证, 表单处理等, 都应该通过扩展上面提到的一个抽象控制器类来获得.</p>
  */
 public interface Controller {
 
 	/**
-	 * Process the action request. There is nothing to return.
-	 * @param request current portlet action request
-	 * @param response current portlet action response
-	 * @throws Exception in case of errors
+	 * 处理操作请求.
+	 * 
+	 * @param request 当前的portlet操作请求
+	 * @param response 当前的portlet操作响应
+	 * 
+	 * @throws Exception
 	 */
 	void handleActionRequest(ActionRequest request, ActionResponse response) throws Exception;
 
 	/**
-	 * Process the render request and return a ModelAndView object which the DispatcherPortlet
-	 * will render. A {@code null} return value is not an error: It indicates that this
-	 * object completed request processing itself, thus there is no ModelAndView to render.
-	 * @param request current portlet render request
-	 * @param response current portlet render response
-	 * @return a ModelAndView to render, or null if handled directly
-	 * @throws Exception in case of errors
+	 * 处理渲染请求, 并返回DispatcherPortlet将渲染的ModelAndView对象.
+	 * {@code null}返回值不是错误: 它表示此对象已完成请求处理本身, 因此没有要渲染的ModelAndView.
+	 * 
+	 * @param request 当前portlet渲染请求
+	 * @param response 当前portlet渲染响应
+	 * 
+	 * @return 要渲染的ModelAndView, 如果直接处理则为null
+	 * @throws Exception
 	 */
 	ModelAndView handleRenderRequest(RenderRequest request, RenderResponse response) throws Exception;
 

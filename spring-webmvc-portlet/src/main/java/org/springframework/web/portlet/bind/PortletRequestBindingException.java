@@ -3,25 +3,15 @@ package org.springframework.web.portlet.bind;
 import javax.portlet.PortletException;
 
 /**
- * Fatal binding exception, thrown when we want to
- * treat binding exceptions as unrecoverable.
+ * 当想要将绑定异常视为不可恢复时, 抛出的致命绑定异常.
  */
 @SuppressWarnings("serial")
 public class PortletRequestBindingException extends PortletException {
 
-	/**
-	 * Constructor for PortletRequestBindingException.
-	 * @param msg the detail message
-	 */
 	public PortletRequestBindingException(String msg) {
 		super(msg);
 	}
 
-	/**
-	 * Constructor for PortletRequestBindingException.
-	 * @param msg the detail message
-	 * @param cause the root cause
-	 */
 	public PortletRequestBindingException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

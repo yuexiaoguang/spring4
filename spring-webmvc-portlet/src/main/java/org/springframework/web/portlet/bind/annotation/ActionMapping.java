@@ -10,7 +10,7 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.Mapping;
 
 /**
- * Annotation for mapping Portlet action requests onto handler methods.
+ * 用于将Portlet操作请求映射到处理器方法的注解.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,26 +25,18 @@ public @interface ActionMapping {
 	String value() default "";
 
 	/**
-	 * The name of the action, according to the Portlet 2.0
-	 * {@code javax.portlet.action} parameter.
-	 * <p>If not specified, the annotated method will be used as a default
-	 * handler: i.e. for action requests where no specific action mapping
-	 * was found.
-	 * <p>Note that all such annotated action methods only apply within the
-	 * {@code @RequestMapping} constraints of the containing handler class.
-	 * @since 4.2
+	 * 操作的名称, 根据Portlet 2.0 {@code javax.portlet.action}参数.
+	 * <p>如果未指定, 则带注解的方法将用作默认处理器: i.e. 用于未找到特定操作映射的操作请求.
+	 * <p>请注意, 所有这些带注解的操作方法仅适用于包含处理器类的{@code @RequestMapping}约束.
 	 */
 	@AliasFor("value")
 	String name() default "";
 
 	/**
-	 * The parameters of the mapped request, narrowing the primary mapping.
-	 * <p>Same format for any environment: a sequence of {@code "myParam=myValue"}
-	 * style expressions, with a request only mapped if each such parameter is found
-	 * to have the given value. {@code "myParam"} style expressions are also supported,
-	 * with such parameters having to be present in the request (allowed to have
-	 * any value). Finally, {@code "!myParam"} style expressions indicate that the
-	 * specified parameter is <i>not</i> supposed to be present in the request.
+	 * 映射请求的参数, 缩小主映射.
+	 * <p>任何环境的格式相同: {@code "myParam=myValue"}样式表达式的序列, 只有在发现每个此类参数具有给定值时才会映射请求.
+	 * {@code "myParam"}样式表达式也受支持, 这些参数必须存在于请求中 (允许具有任何值).
+	 * 最后, {@code "!myParam"}样式表达式表明指定的参数<i>不应该</i>出现在请求中.
 	 */
 	String[] params() default {};
 

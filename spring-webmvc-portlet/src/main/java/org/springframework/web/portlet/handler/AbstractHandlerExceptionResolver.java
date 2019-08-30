@@ -17,10 +17,9 @@ import org.springframework.web.portlet.HandlerExceptionResolver;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * Abstract base class for {@link HandlerExceptionResolver} implementations.
+ * {@link HandlerExceptionResolver}实现的抽象基类.
  *
- * <p>Provides a set of mapped handlers that the resolver should map to,
- * and the {@link Ordered} implementation.
+ * <p>提供解析器应映射到的一组映射的处理器, 以及{@link Ordered}实现.
  */
 public abstract class AbstractHandlerExceptionResolver implements HandlerExceptionResolver, Ordered {
 
@@ -48,49 +47,38 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 	}
 
 	/**
-	 * Specify the set of handlers that this exception resolver should apply to.
-	 * <p>The exception mappings and the default error view will only apply to the specified handlers.
-	 * <p>If no handlers or handler classes are set, the exception mappings and the default error
-	 * view will apply to all handlers. This means that a specified default error view will be used
-	 * as a fallback for all exceptions; any further HandlerExceptionResolvers in the chain will be
-	 * ignored in this case.
+	 * 指定此异常解析器应应用于的处理器.
+	 * <p>异常映射和默认错误视图仅适用于指定的处理器.
+	 * <p>如果未设置处理器或处理器类, 则异常映射和默认错误视图将应用于所有处理器.
+	 * 这意味着指定的默认错误视图将用作所有异常的回退; 在这种情况下, 链中的任何其他HandlerExceptionResolvers都将被忽略.
 	 */
 	public void setMappedHandlers(Set<?> mappedHandlers) {
 		this.mappedHandlers = mappedHandlers;
 	}
 
 	/**
-	 * Specify the set of classes that this exception resolver should apply to.
-	 * <p>The exception mappings and the default error view will only apply to handlers of the
-	 * specified types; the specified types may be interfaces or superclasses of handlers as well.
-	 * <p>If no handlers or handler classes are set, the exception mappings and the default error
-	 * view will apply to all handlers. This means that a specified default error view will be used
-	 * as a fallback for all exceptions; any further HandlerExceptionResolvers in the chain will be
-	 * ignored in this case.
+	 * 指定此异常解析器应应用于的类.
+	 * <p>异常映射和默认错误视图仅适用于指定类型的处理器; 指定的类型也可以是处理器的接口或超类.
+	 * <p>如果未设置处理器或处理器类, 则异常映射和默认错误视图将应用于所有处理器.
+	 * 这意味着指定的默认错误视图将用作所有异常的回退; 在这种情况下, 链中的任何其他HandlerExceptionResolvers都将被忽略.
 	 */
 	public void setMappedHandlerClasses(Class<?>... mappedHandlerClasses) {
 		this.mappedHandlerClasses = mappedHandlerClasses;
 	}
 
 	/**
-	 * Set the log category for warn logging. The name will be passed to the underlying logger
-	 * implementation through Commons Logging, getting interpreted as a log category according
-	 * to the logger's configuration.
-	 * <p>Default is no warn logging. Specify this setting to activate warn logging into a specific
-	 * category. Alternatively, override the {@link #logException} method for custom logging.
-	 * @see org.apache.commons.logging.LogFactory#getLog(String)
-	 * @see org.apache.log4j.Logger#getLogger(String)
-	 * @see java.util.logging.Logger#getLogger(String)
+	 * 设置警告日志记录的日志类别.
+	 * 该名称将通过Commons Logging传递给底层记录器实现, 根据记录器的配置被解释为日志类别.
+	 * <p>默认没有警告日志记录. 指定此设置可激活警告日志记录到特定类别.
+	 * 或者, 覆盖{@link #logException}方法以进行自定义日志记录.
 	 */
 	public void setWarnLogCategory(String loggerName) {
 		this.warnLogger = LogFactory.getLog(loggerName);
 	}
 
 	/**
-	 * Set if the resolver should render a view when the portlet is in
-	 * a minimized window. The default is "false".
-	 * @see javax.portlet.RenderRequest#getWindowState()
-	 * @see javax.portlet.WindowState#MINIMIZED
+	 * 设置当portlet处于最小化窗口时解析器是否应渲染视图.
+	 * 默认为"false".
 	 */
 	public void setRenderWhenMinimized(boolean renderWhenMinimized) {
 		this.renderWhenMinimized = renderWhenMinimized;
@@ -98,9 +86,7 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 
 
 	/**
-	 * Checks whether this resolver is supposed to apply (i.e. the handler
-	 * matches in case of "mappedHandlers" having been specified), then
-	 * delegates to the {@link #doResolveException} template method.
+	 * 检查是否应该应用此解析器 (i.e. 在已指定"mappedHandlers"的情况下处理器匹配), 然后委托给{@link #doResolveException}模板方法.
 	 */
 	@Override
 	public ModelAndView resolveException(RenderRequest request, RenderResponse response, Object handler, Exception ex) {
@@ -123,20 +109,16 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 	}
 
 	/**
-	 * Check whether this resolver is supposed to apply to the given handler.
-	 * <p>The default implementation checks against the specified mapped handlers
-	 * and handler classes, if any, and also checks the window state (according
-	 * to the "renderWhenMinimize" property).
-	 * @param request current portlet request
-	 * @param handler the executed handler, or {@code null} if none chosen at the
-	 * time of the exception (for example, if multipart resolution failed)
-	 * @return whether this resolved should proceed with resolving the exception
-	 * for the given request and handler
-	 * @see #setMappedHandlers
-	 * @see #setMappedHandlerClasses
+	 * 检查此解析器是否应该应用于给定的处理器.
+	 * <p>默认实现检查指定的映射处理器和处理器类, 并检查窗口状态 (根据"renderWhenMinimize"属性).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param handler 执行的处理器, 如果在异常时没有选择, 则为{@code null} (例如, 如果multipart解析失败)
+	 * 
+	 * @return 此解析是否应继续解析给定请求和处理器的异常
 	 */
 	protected boolean shouldApplyTo(PortletRequest request, Object handler) {
-		// If the portlet is minimized and we don't want to render then return null.
+		// 如果portlet最小化, 我们不想渲染, 则返回null.
 		if (WindowState.MINIMIZED.equals(request.getWindowState()) && !this.renderWhenMinimized) {
 			return false;
 		}
@@ -153,19 +135,16 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 				}
 			}
 		}
-		// Else only apply if there are no explicit handler mappings.
+		// 否则仅在没有显式处理器映射时才适用.
 		return (this.mappedHandlers == null && this.mappedHandlerClasses == null);
 	}
 
 	/**
-	 * Log the given exception at warn level, provided that warn logging has been
-	 * activated through the {@link #setWarnLogCategory "warnLogCategory"} property.
-	 * <p>Calls {@link #buildLogMessage} in order to determine the concrete message to log.
-	 * @param ex the exception that got thrown during handler execution
-	 * @param request current portlet request (useful for obtaining metadata)
-	 * @see #setWarnLogCategory
-	 * @see #buildLogMessage
-	 * @see org.apache.commons.logging.Log#warn(Object, Throwable)
+	 * 如果已通过{@link #setWarnLogCategory "warnLogCategory"}属性激活警告日志记录, 则在警告级别记录给定的异常.
+	 * <p>调用{@link #buildLogMessage}以确定要记录的具体消息.
+	 * 
+	 * @param ex 在处理器执行期间抛出的异常
+	 * @param request 当前portlet请求 (对获取元数据很有用)
 	 */
 	protected void logException(Exception ex, PortletRequest request) {
 		if (this.warnLogger != null && this.warnLogger.isWarnEnabled()) {
@@ -174,10 +153,12 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 	}
 
 	/**
-	 * Build a log message for the given exception, occurred during processing the given request.
-	 * @param ex the exception that got thrown during handler execution
-	 * @param request current portlet request (useful for obtaining metadata)
-	 * @return the log message to use
+	 * 在处理给定请求期间构建给定异常的日志消息.
+	 * 
+	 * @param ex 在处理器执行期间抛出的异常
+	 * @param request 当前portlet请求 (对获取元数据很有用)
+	 * 
+	 * @return 要使用的日志消息
 	 */
 	protected String buildLogMessage(Exception ex, PortletRequest request) {
 		return "Handler execution resulted in exception: " + ex;
@@ -185,18 +166,17 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 
 
 	/**
-	 * Actually resolve the given exception that got thrown during on handler execution,
-	 * returning a ModelAndView that represents a specific error page if appropriate.
-	 * <p>Must be overridden in subclasses, in order to apply specific exception checks.
-	 * Note that this template method will be invoked <i>after</i> checking whether this
-	 * resolved applies ("mappedHandlers" etc), so an implementation may simply proceed
-	 * with its actual exception handling.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @param handler the executed handler, or null if none chosen at the time of
-	 * the exception (for example, if multipart resolution failed)
-	 * @param ex the exception that got thrown during handler execution
-	 * @return a corresponding ModelAndView to forward to, or null for default processing
+	 * 实际解析在处理器执行期间抛出的给定异常, 返回表示特定错误页面的ModelAndView.
+	 * <p>必须在子类中重写, 才能应用特定的异常检查.
+	 * 请注意, 在检查此解析是否适用<i>之后</i> ("mappedHandlers" etc), 将调用此模板方法,
+	 * 因此实现可能只是继续其实际的异常处理.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * @param handler 执行的处理器, 如果在异常时没有选择, 则返回null (例如, 如果multipart解析失败)
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 要转发的相应ModelAndView, 或null以默认处理
 	 */
 	protected abstract ModelAndView doResolveException(PortletRequest request, MimeResponse response,
 			Object handler, Exception ex);

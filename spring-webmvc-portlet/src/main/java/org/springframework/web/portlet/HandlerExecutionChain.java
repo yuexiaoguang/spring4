@@ -7,8 +7,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Handler execution chain, consisting of handler object and any handler interceptors.
- * Returned by HandlerMapping's {@link HandlerMapping#getHandler} method.
+ * 处理器执行链, 由处理器对象和任何处理器拦截器组成.
+ * 由HandlerMapping的{@link HandlerMapping#getHandler}方法返回.
  */
 public class HandlerExecutionChain {
 
@@ -20,18 +20,15 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Create a new HandlerExecutionChain.
-	 * @param handler the handler object to execute
+	 * @param handler 要执行的处理器对象
 	 */
 	public HandlerExecutionChain(Object handler) {
 		this(handler, (HandlerInterceptor[]) null);
 	}
 
 	/**
-	 * Create a new HandlerExecutionChain.
-	 * @param handler the handler object to execute
-	 * @param interceptors the array of interceptors to apply
-	 * (in the given order) before the handler itself executes
+	 * @param handler 要执行的处理器对象
+	 * @param interceptors 要在处理器本身执行之前应用(按给定顺序)的拦截器数组
 	 */
 	public HandlerExecutionChain(Object handler, HandlerInterceptor... interceptors) {
 		if (handler instanceof HandlerExecutionChain) {
@@ -49,8 +46,9 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Return the handler object to execute.
-	 * @return the handler object (may be {@code null})
+	 * 返回要执行的处理器对象.
+	 * 
+	 * @return 处理器对象 (可能是{@code null})
 	 */
 	public Object getHandler() {
 		return this.handler;
@@ -70,7 +68,7 @@ public class HandlerExecutionChain {
 		if (this.interceptorList == null) {
 			this.interceptorList = new ArrayList<HandlerInterceptor>();
 			if (this.interceptors != null) {
-				// An interceptor array specified through the constructor
+				// 通过构造函数指定的拦截器数组
 				CollectionUtils.mergeArrayIntoCollection(this.interceptors, this.interceptorList);
 			}
 		}
@@ -79,8 +77,9 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Return the array of interceptors to apply (in the given order).
-	 * @return the array of HandlerInterceptors instances (may be {@code null})
+	 * 返回要应用的拦截器数组 (按给定顺序).
+	 * 
+	 * @return HandlerInterceptor实例数组 (可能是{@code null})
 	 */
 	public HandlerInterceptor[] getInterceptors() {
 		if (this.interceptors == null && this.interceptorList != null) {
@@ -91,7 +90,7 @@ public class HandlerExecutionChain {
 
 
 	/**
-	 * Delegates to the handler's {@code toString()}.
+	 * 委托给处理器的{@code toString()}.
 	 */
 	@Override
 	public String toString() {

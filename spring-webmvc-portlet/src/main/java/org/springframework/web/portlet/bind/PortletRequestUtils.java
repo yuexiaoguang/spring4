@@ -3,11 +3,9 @@ package org.springframework.web.portlet.bind;
 import javax.portlet.PortletRequest;
 
 /**
- * Parameter extraction methods, for an approach distinct from data binding,
- * in which parameters of specific types are required.
+ * 参数提取方法, 用于与数据绑定不同的方法, 其中需要特定类型的参数.
  *
- * <p>This approach is very useful for simple submissions, where binding
- * request parameters to a command object would be overkill.
+ * <p>这种方法对于简单的提交非常有用, 其中绑定请求参数到命令对象是过度的.
  */
 public abstract class PortletRequestUtils {
 
@@ -25,13 +23,14 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get an Integer parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the Integer value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取Integer参数, 或{@code null}.
+	 * 如果参数值不是数字, 则引发异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return Integer值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static Integer getIntParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -43,11 +42,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an int parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value as default to enable checks of whether it was supplied.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取带有回退值的int参数. 永远不会抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static int getIntParameter(PortletRequest request, String name, int defaultVal) {
 		if (request.getParameter(name) == null) {
@@ -62,9 +61,10 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of int parameters, return an empty array if not found.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个int参数数组, 如果找不到则返回一个空数组.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static int[] getIntParameters(PortletRequest request, String name) {
 		try {
@@ -76,11 +76,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an int parameter, throwing an exception if it isn't found or isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个int参数, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static int getRequiredIntParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -89,11 +90,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of int parameters, throwing an exception if not found or one is not a number..
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个int参数数组, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static int[] getRequiredIntParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -103,13 +105,14 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get a Long parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the Long value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取Long参数, 或{@code null}.
+	 * 如果参数值不是数字, 则引发异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return Long值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static Long getLongParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -121,11 +124,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a long parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value as default to enable checks of whether it was supplied.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取一个带有后备值的long参数. 永远不会抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static long getLongParameter(PortletRequest request, String name, long defaultVal) {
 		if (request.getParameter(name) == null) {
@@ -140,9 +143,10 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of long parameters, return an empty array if not found.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个long参数数组, 如果找不到则返回一个空数组.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static long[] getLongParameters(PortletRequest request, String name) {
 		try {
@@ -154,11 +158,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a long parameter, throwing an exception if it isn't found or isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个long参数, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static long getRequiredLongParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -167,11 +172,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of long parameters, throwing an exception if not found or one is not a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个long参数数组, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static long[] getRequiredLongParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -181,13 +187,14 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get a Float parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the Float value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取Float参数, 或{@code null}.
+	 * 如果参数值不是数字, 则引发异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return Float值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static Float getFloatParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -199,11 +206,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a float parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value as default to enable checks of whether it was supplied.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取具有回退值的float参数. 永远不会抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static float getFloatParameter(PortletRequest request, String name, float defaultVal) {
 		if (request.getParameter(name) == null) {
@@ -218,9 +225,10 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of float parameters, return an empty array if not found.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个float参数数组, 如果找不到则返回一个空数组.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static float[] getFloatParameters(PortletRequest request, String name) {
 		try {
@@ -232,11 +240,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a float parameter, throwing an exception if it isn't found or isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个float参数, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static float getRequiredFloatParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -245,11 +254,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of float parameters, throwing an exception if not found or one is not a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个float参数数组, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static float[] getRequiredFloatParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -259,13 +269,14 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get a Double parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the Double value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取Double参数, 或{@code null}.
+	 * 如果参数值不是数字, 则引发异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return Double值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static Double getDoubleParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -277,11 +288,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a double parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value as default to enable checks of whether it was supplied.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取带有后备值的double参数. 永远不会抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static double getDoubleParameter(PortletRequest request, String name, double defaultVal) {
 		if (request.getParameter(name) == null) {
@@ -296,9 +307,10 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of double parameters, return an empty array if not found.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个double参数数组, 如果找不到则返回一个空数组.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static double[] getDoubleParameters(PortletRequest request, String name) {
 		try {
@@ -310,11 +322,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a double parameter, throwing an exception if it isn't found or isn't a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个double参数, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static double getRequiredDoubleParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -323,11 +336,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of double parameters, throwing an exception if not found or one is not a number.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个double参数数组, 如果找不到或者不是数字则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static double[] getRequiredDoubleParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -337,15 +351,15 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get a Boolean parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value isn't a boolean.
-	 * <p>Accepts "true", "on", "yes" (any case) and "1" as values for true;
-	 * treats every other non-empty value as false (i.e. parses leniently).
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the Boolean value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取Boolean参数, 或{@code null}.
+	 * 如果参数值不是boolean值, 则抛出异常.
+	 * <p>接受"true", "on", "yes" 和"1"作为true; 将每个其他非空值视为false (i.e. 宽松地解析).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return Boolean值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static Boolean getBooleanParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -357,13 +371,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a boolean parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value as default to enable checks of whether it was supplied.
-	 * <p>Accepts "true", "on", "yes" (any case) and "1" as values for true;
-	 * treats every other non-empty value as false (i.e. parses leniently).
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取带有回退值的boolean参数. 永远不会抛出异常.
+	 * <p>接受"true", "on", "yes" 和"1"作为true; 将每个其他非空值视为false (i.e. 宽松地解析).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static boolean getBooleanParameter(PortletRequest request, String name, boolean defaultVal) {
 		if (request.getParameter(name) == null) {
@@ -378,11 +391,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of boolean parameters, return an empty array if not found.
-	 * <p>Accepts "true", "on", "yes" (any case) and "1" as values for true;
-	 * treats every other non-empty value as false (i.e. parses leniently).
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个boolean参数数组, 如果找不到则返回一个空数组.
+	 * <p>接受"true", "on", "yes" 和"1"作为true; 将每个其他非空值视为false (i.e. 宽松地解析).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static boolean[] getBooleanParameters(PortletRequest request, String name) {
 		try {
@@ -394,14 +407,13 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a boolean parameter, throwing an exception if it isn't found
-	 * or isn't a boolean.
-	 * <p>Accepts "true", "on", "yes" (any case) and "1" as values for true;
-	 * treats every other non-empty value as false (i.e. parses leniently).
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取boolean参数, 如果找不到或者不是boolean值则抛出异常.
+	 * <p>接受"true", "on", "yes" 和"1"作为true; 将每个其他非空值视为false (i.e. 宽松地解析).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static boolean getRequiredBooleanParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -410,14 +422,13 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of boolean parameters, throwing an exception if not found
-	 * or one isn't a boolean.
-	 * <p>Accepts "true", "on", "yes" (any case) and "1" as values for true;
-	 * treats every other non-empty value as false (i.e. parses leniently).
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取boolean参数数组, 如果找不到或者不是boolean值则抛出异常.
+	 * <p>接受"true", "on", "yes" 和"1"作为true; 将每个其他非空值视为false (i.e. 宽松地解析).
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static boolean[] getRequiredBooleanParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -427,13 +438,14 @@ public abstract class PortletRequestUtils {
 
 
 	/**
-	 * Get a String parameter, or {@code null} if not present.
-	 * Throws an exception if it the parameter value is empty.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @return the String value, or {@code null} if not present
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取String参数, 或{@code null}.
+	 * 如果参数值为空, 则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @return String值, 或{@code null}
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static String getStringParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -445,11 +457,11 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a String parameter, with a fallback value. Never throws an exception.
-	 * Can pass a distinguished value to default to enable checks of whether it was supplied.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @param defaultVal the default value to use as fallback
+	 * 获取具有回退值的String参数. 永远不会抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * @param defaultVal 用作后备的默认值
 	 */
 	public static String getStringParameter(PortletRequest request, String name, String defaultVal) {
 		String val = request.getParameter(name);
@@ -457,9 +469,10 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of String parameters, return an empty array if not found.
-	 * @param request current portlet request
-	 * @param name the name of the parameter with multiple possible values
+	 * 获取一个String参数数组, 如果找不到则返回一个空数组.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 具有多个可能值的参数的名称
 	 */
 	public static String[] getStringParameters(PortletRequest request, String name) {
 		try {
@@ -471,11 +484,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get a String parameter, throwing an exception if it isn't found or is empty.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取String参数, 如果未找到或为空, 则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static String getRequiredStringParameter(PortletRequest request, String name)
 			throws PortletRequestBindingException {
@@ -484,11 +498,12 @@ public abstract class PortletRequestUtils {
 	}
 
 	/**
-	 * Get an array of String parameters, throwing an exception if not found or one is empty.
-	 * @param request current portlet request
-	 * @param name the name of the parameter
-	 * @throws PortletRequestBindingException a subclass of PortletException,
-	 * so it doesn't need to be caught
+	 * 获取一个String参数数组, 如果未找到或为空, 则抛出异常.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param name 参数的名称
+	 * 
+	 * @throws PortletRequestBindingException PortletException的子类, 因此不需要捕获它
 	 */
 	public static String[] getRequiredStringParameters(PortletRequest request, String name)
 			throws PortletRequestBindingException {

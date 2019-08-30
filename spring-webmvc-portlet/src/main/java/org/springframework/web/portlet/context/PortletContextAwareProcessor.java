@@ -7,12 +7,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor}
- * implementation that passes the PortletContext to beans that implement
- * the {@link PortletContextAware} interface.
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor}实现,
+ * 将PortletContext传递给实现了{@link PortletContextAware}接口的bean.
  *
- * <p>Portlet application contexts will automatically register this with their
- * underlying bean factory. Applications do not use this directly.
+ * <p>Portlet应用程序上下文将自动将其注册到其底层bean工厂. 应用程序不直接使用它.
  */
 public class PortletContextAwareProcessor implements BeanPostProcessor {
 
@@ -21,23 +19,14 @@ public class PortletContextAwareProcessor implements BeanPostProcessor {
 	private PortletConfig portletConfig;
 
 
-	/**
-	 * Create a new PortletContextAwareProcessor for the given context.
-	 */
 	public PortletContextAwareProcessor(PortletContext portletContext) {
 		this(portletContext, null);
 	}
 
-	/**
-	 * Create a new PortletContextAwareProcessor for the given config.
-	 */
 	public PortletContextAwareProcessor(PortletConfig portletConfig) {
 		this(null, portletConfig);
 	}
 
-	/**
-	 * Create a new PortletContextAwareProcessor for the given context and config.
-	 */
 	public PortletContextAwareProcessor(PortletContext portletContext, PortletConfig portletConfig) {
 		this.portletContext = portletContext;
 		this.portletConfig = portletConfig;

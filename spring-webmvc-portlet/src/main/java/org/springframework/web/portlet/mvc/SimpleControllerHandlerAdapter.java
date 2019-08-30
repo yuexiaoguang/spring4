@@ -16,9 +16,9 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Adapter to use the Controller workflow interface with the generic DispatcherPortlet.
+ * 将Controller工作流接口与通用DispatcherPortlet一起使用的适配器.
  *
- * <p>This is an SPI class, not used directly by application code.
+ * <p>这是一个SPI类, 不由应用程序代码直接使用.
   */
 public class SimpleControllerHandlerAdapter implements HandlerAdapter, PortletContextAware {
 
@@ -58,7 +58,7 @@ public class SimpleControllerHandlerAdapter implements HandlerAdapter, PortletCo
 			return ((ResourceAwareController) handler).handleResourceRequest(request, response);
 		}
 		else {
-			// equivalent to Portlet 2.0 GenericPortlet
+			// 等效于Portlet 2.0 GenericPortlet
 			PortletUtils.serveResource(request, response, this.portletContext);
 			return null;
 		}
@@ -70,7 +70,7 @@ public class SimpleControllerHandlerAdapter implements HandlerAdapter, PortletCo
 			((EventAwareController) handler).handleEventRequest(request, response);
 		}
 		else {
-			// if no event processing method was found just keep render params
+			// 如果没有找到事件处理方法, 则保持渲染参数
 			response.setRenderParameters(request);
 		}
 	}

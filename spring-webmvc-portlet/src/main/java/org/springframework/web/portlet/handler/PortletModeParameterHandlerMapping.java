@@ -10,26 +10,22 @@ import org.springframework.beans.BeansException;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of the {@link org.springframework.web.portlet.HandlerMapping}
- * interface to map from the current PortletMode and a request parameter to
- * request handler beans. The mapping consists of two levels: first the
- * PortletMode and then the parameter value. In order to be mapped,
- * both elements must match the mapping definition.
+ * {@link org.springframework.web.portlet.HandlerMapping}接口的实现,
+ * 从当前的PortletMode和请求参数映射到请求处理器bean.
+ * 映射由两个级别组成: 首先是PortletMode, 然后是参数值.
+ * 为了映射, 两个元素必须匹配映射定义.
  *
- * <p>This is a combination of the methods used in {@link PortletModeHandlerMapping PortletModeHandlerMapping}
- * and {@link ParameterHandlerMapping ParameterHandlerMapping}.  Unlike
- * those two classes, this mapping cannot be initialized with properties since it
- * requires a two-level map.
+ * <p>这是{@link PortletModeHandlerMapping PortletModeHandlerMapping}
+ * 和{@link ParameterHandlerMapping ParameterHandlerMapping}中使用的方法的组合.
+ * 与这两个类不同, 此映射无法使用属性进行初始化, 因为它需要两级映射.
  *
- * <p>The default name of the parameter is "action", but can be changed using
- * {@link #setParameterName setParameterName()}.
+ * <p>参数的默认名称是"action", 但可以使用{@link #setParameterName setParameterName()}进行更改.
  *
- * <p>By default, the same parameter value may not be used in two different portlet
- * modes.  This is so that if the portal itself changes the portlet mode, the request
- * will no longer be valid in the mapping.  This behavior can be changed with
- * {@link #setAllowDuplicateParameters setAllowDupParameters()}.
+ * <p>默认情况下, 相同的参数值不能用于两种不同的portlet模式.
+ * 这样, 如果portal本身更改了portlet模式, 则该请求将不再在映射中有效.
+ * 可以使用{@link #setAllowDuplicateParameters setAllowDupParameters()}更改此行为.
  *
- * <p>The bean configuration for this mapping will look somthing like this:
+ * <p>此映射的bean配置看起来像这样:
  *
  * <pre class="code">
  * &lt;bean id="portletModeParameterHandlerMapping" class="org.springframework.web.portlet.handler.PortletModeParameterHandlerMapping"&gt;
@@ -52,15 +48,15 @@ import org.springframework.util.Assert;
  *   &lt;/property&gt;
  * &lt;/bean&gt;</pre>
  *
- * <p>This mapping can be chained ahead of a {@link PortletModeHandlerMapping PortletModeHandlerMapping},
- * which can then provide defaults for each mode and an overall default as well.
+ * <p>这个映射可以在{@link PortletModeHandlerMapping PortletModeHandlerMapping}之前链接,
+ * 然后可以为每个模式提供默认值, 也可以提供整体默认值.
  *
  * <p>Thanks to Rainer Schmitz and Yujin Kim for suggesting this mapping strategy!
  */
 public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerMapping<PortletModeParameterLookupKey> {
 
 	/**
-	 * Default request parameter name to use for mapping to handlers: "action".
+	 * 用于映射到处理器的默认请求参数名称: "action".
 	 */
 	public final static String DEFAULT_PARAMETER_NAME = "action";
 
@@ -75,8 +71,8 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 
 
 	/**
-	 * Set the name of the parameter used for mapping to handlers.
-	 * <p>Default is "action".
+	 * 设置用于映射到处理器的参数的名称.
+	 * <p>默认为"action".
 	 */
 	public void setParameterName(String parameterName) {
 		Assert.hasText(parameterName, "'parameterName' must not be empty");
@@ -84,23 +80,21 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 	}
 
 	/**
-	 * Set a Map with portlet mode names as keys and another Map as values.
-	 * The sub-map has parameter names as keys and handler bean or bean names as values.
-	 * <p>Convenient for population with bean references.
-	 * @param portletModeParameterMap two-level map of portlet modes and parameters to handler beans
+	 * 设置Map, 将Portlet模式名称作为键, 将另一个Map作为值.
+	 * 子Map将参数名称作为键, 将处理器bean或bean名称作为值.
+	 * <p>方便填充bean引用.
+	 * 
+	 * @param portletModeParameterMap portlet模式和处理器bean参数的两级映射
 	 */
 	public void setPortletModeParameterMap(Map<String, Map<String, ?>> portletModeParameterMap) {
 		this.portletModeParameterMap = portletModeParameterMap;
 	}
 
 	/**
-	 * Set whether to allow duplicate parameter values across different portlet modes.
-	 * Default is "false".
-	 * <p>Doing this is dangerous because the portlet mode can be changed by the
-	 * portal itself and the only way to see that is a rerender of the portlet.
-	 * If the same parameter value is legal in multiple modes, then a change in
-	 * mode could result in a matched mapping that is not intended and the user
-	 * could end up in a strange place in the application.
+	 * 设置是否允许跨不同portlet模式的重复的参数值.
+	 * 默认为"false".
+	 * <p>这样做很危险, 因为portal本身可以更改portlet模式, 唯一可以看到这些变化的方法是portlet的重新渲染.
+	 * 如果在多种模式下相同的参数值是合法的, 那么模式的改变可能导致匹配的映射不是预期的.
 	 */
 	public void setAllowDuplicateParameters(boolean allowDuplicateParameters) {
 		this.allowDuplicateParameters = allowDuplicateParameters;
@@ -108,9 +102,7 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 
 
 	/**
-	 * Calls the {@code registerHandlers} method in addition
-	 * to the superclass's initialization.
-	 * @see #registerHandlers
+	 * 除了超类的初始化之外, 还调用{@code registerHandlers}方法.
 	 */
 	@Override
 	public void initApplicationContext() throws BeansException {
@@ -119,8 +111,9 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 	}
 
 	/**
-	 * Register all handlers specified in the Portlet mode map for the corresponding modes.
-	 * @param portletModeParameterMap Map with mode names as keys and parameter Maps as values
+	 * 注册Portlet模式映射中为相应模式指定的所有处理器.
+	 * 
+	 * @param portletModeParameterMap 将模式名称作为键, 将参数Map作为值
 	 */
 	protected void registerHandlersByModeAndParameter(Map<String, Map<String, ?>> portletModeParameterMap) {
 		Assert.notNull(portletModeParameterMap, "'portletModeParameterMap' must not be null");
@@ -131,8 +124,9 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 	}
 
 	/**
-	 * Register all handlers specified in the given parameter map.
-	 * @param parameterMap Map with parameter names as keys and handler beans or bean names as values
+	 * 注册给定参数Map中指定的所有处理器.
+	 * 
+	 * @param parameterMap 将参数名称作为键, 将处理器bean或bean名称作为值
 	 */
 	protected void registerHandler(PortletMode mode, Map<String, ?> parameterMap) {
 		for (Map.Entry<String, ?> entry : parameterMap.entrySet()) {
@@ -141,19 +135,19 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 	}
 
 	/**
-	 * Register the given handler instance for the given PortletMode and parameter value,
-	 * under an appropriate lookup key.
-	 * @param mode the PortletMode for which this mapping is valid
-	 * @param parameter the parameter value to which this handler is mapped
-	 * @param handler the handler instance bean
-	 * @throws BeansException if the handler couldn't be registered
-	 * @throws IllegalStateException if there is a conflicting handler registered
-	 * @see #registerHandler(Object, Object)
+	 * 在适当的查找键下, 为给定的PortletMode和参数值注册给定的处理器实例.
+	 * 
+	 * @param mode 此映射有效的PortletMode
+	 * @param parameter 此处理器映射到的参数值
+	 * @param handler 处理器实例bean
+	 * 
+	 * @throws BeansException 如果处理器无法注册
+	 * @throws IllegalStateException 如果注册的处理器存在冲突
 	 */
 	protected void registerHandler(PortletMode mode, String parameter, Object handler)
 			throws BeansException, IllegalStateException {
 
-		// Check for duplicate parameter values across all portlet modes.
+		// 检查所有portlet模式下的重复的参数值.
 		if (!this.allowDuplicateParameters && this.parametersUsed.contains(parameter)) {
 			throw new IllegalStateException(
 					"Duplicate entries for parameter [" + parameter + "] in different Portlet modes");
@@ -164,10 +158,7 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 	}
 
 	/**
-	 * Returns a lookup key that combines the current PortletMode and the current
-	 * value of the specified parameter.
-	 * @see javax.portlet.PortletRequest#getPortletMode()
-	 * @see #setParameterName
+	 * 返回组合当前PortletMode和指定参数的当前值的查找键.
 	 */
 	@Override
 	protected PortletModeParameterLookupKey getLookupKey(PortletRequest request) throws Exception {
@@ -175,5 +166,4 @@ public class PortletModeParameterHandlerMapping extends AbstractMapBasedHandlerM
 		String parameter = request.getParameter(this.parameterName);
 		return new PortletModeParameterLookupKey(mode, parameter);
 	}
-
 }

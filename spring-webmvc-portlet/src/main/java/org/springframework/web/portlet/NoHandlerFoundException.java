@@ -6,25 +6,21 @@ import javax.portlet.PortletRequest;
 import org.springframework.core.style.StylerUtils;
 
 /**
- * Exception to be thrown if DispatcherPortlet is unable to determine
- * a corresponding handler for an incoming portlet request.
+ * 如果DispatcherPortlet无法确定传入的portlet请求的相应处理器, 则抛出异常.
  */
 @SuppressWarnings("serial")
 public class NoHandlerFoundException extends PortletException {
 
 	/**
-	 * Constructor for NoHandlerFoundException.
-	 * @param msg the detail message
+	 * @param msg 详细信息
 	 */
 	public NoHandlerFoundException(String msg) {
 		super(msg);
 	}
 
 	/**
-	 * Constructor for NoHandlerFoundException.
-	 * @param msg the detail message
-	 * @param request the current portlet request,
-	 * for further context to be included in the exception message
+	 * @param msg 详细信息
+	 * @param request 当前的portlet请求, 以便将更多上下文包含在异常消息中
 	 */
 	public NoHandlerFoundException(String msg, PortletRequest request) {
 		super(msg + ": mode '" + request.getPortletMode() +

@@ -19,32 +19,23 @@ import org.springframework.web.portlet.context.PortletConfigAware;
 import org.springframework.web.portlet.context.PortletContextAware;
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor}
- * that applies initialization and destruction callbacks to beans that
- * implement the {@link javax.portlet.Portlet} interface.
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor},
+ * 将初始化和销毁​​回调应用于实现{@link javax.portlet.Portlet}接口的bean.
  *
- * <p>After initialization of the bean instance, the Portlet {@code init}
- * method will be called with a PortletConfig that contains the bean name
- * of the Portlet and the PortletContext that it is running in.
+ * <p>在初始化bean实例之后, 将使用PortletConfig调用Portlet {@code init}方法,
+ * 该PortletConfig包含Portlet的bean名称和运行它的PortletContext.
  *
- * <p>Before destruction of the bean instance, the Portlet {@code destroy}
- * will be called.
+ * <p>在销毁bean实例之前, 将调用Portlet {@code destroy}.
  *
- * <p><b>Note that this post-processor does not support Portlet initialization
- * parameters.</b> Bean instances that implement the Portlet interface are
- * supposed to be configured like any other Spring bean, that is, through
- * constructor arguments or bean properties.
+ * <p><b>请注意, 此后处理器不支持Portlet初始化参数.</b>
+ * 实现Portlet接口的Bean实例应该像任何其他Spring bean一样配置, 即通过构造函数参数或bean属性.
  *
- * <p>For reuse of a Portlet implementation in a plain Portlet container
- * and as a bean in a Spring context, consider deriving from Spring's
- * {@link org.springframework.web.portlet.GenericPortletBean} base class that
- * applies Portlet initialization parameters as bean properties, supporting
- * both the standard Portlet and the Spring bean initialization style.
+ * <p>要在普通的Portlet容器中重用Portlet实现, 并在Spring上下文中作为bean,
+ * 请考虑从Spring的{@link org.springframework.web.portlet.GenericPortletBean}基类派生,
+ * 该基类将Portlet初始化参数应用为bean属性, 支持标准Portlet和Spring bean初始化样式.
  *
- * <p><b>Alternatively, consider wrapping a Portlet with Spring's
- * {@link org.springframework.web.portlet.mvc.PortletWrappingController}.</b>
- * This is particularly appropriate for existing Portlet classes,
- * allowing to specify Portlet initialization parameters etc.
+ * <p><b>或者, 考虑使用Spring的{@link org.springframework.web.portlet.mvc.PortletWrappingController}包装Portlet.</b>
+ * 这特别适用于现有的Portlet类, 允许指定Portlet初始化参数等.
  */
 public class SimplePortletPostProcessor
 	implements DestructionAwareBeanPostProcessor, PortletContextAware, PortletConfigAware {
@@ -57,12 +48,9 @@ public class SimplePortletPostProcessor
 
 
 	/**
-	 * Set whether to use the shared PortletConfig object passed in
-	 * through {@code setPortletConfig}, if available.
-	 * <p>Default is "true". Turn this setting to "false" to pass in
-	 * a mock PortletConfig object with the bean name as portlet name,
-	 * holding the current PortletContext.
-	 * @see #setPortletConfig
+	 * 设置是否使用通过{@code setPortletConfig}传入的共享PortletConfig对象.
+	 * <p>默认为"true".
+	 * 将此设置设置为"false"以传入模拟PortletConfig对象, 其中bean名称为portlet名称, 并保存当前的PortletContext.
 	 */
 	public void setUseSharedPortletConfig(boolean useSharedPortletConfig) {
 		this.useSharedPortletConfig = useSharedPortletConfig;
@@ -115,8 +103,7 @@ public class SimplePortletPostProcessor
 
 
 	/**
-	 * Internal implementation of the PortletConfig interface, to be passed
-	 * to the wrapped servlet.
+	 * PortletConfig接口的内部实现, 传递给包装的servlet.
 	 */
 	private static class DelegatingPortletConfig implements PortletConfig {
 

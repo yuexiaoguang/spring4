@@ -10,87 +10,87 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 /**
- * Portlet MVC framework SPI interface, allowing parameterization of core MVC workflow.
+ * Portlet MVC框架SPI接口, 允许核心MVC工作流的参数化.
  *
- * <p>Interface that must be implemented for each handler type to handle a request.
- * This interface is used to allow the DispatcherPortlet to be indefinitely
- * extensible. The DispatcherPortlet accesses all installed handlers through this
- * interface, meaning that it does not contain code specific to any handler type.
+ * <p>必须为每个处理器类型实现的接口, 以处理请求.
+ * 此接口用于允许DispatcherPortlet无限扩展.
+ * DispatcherPortlet通过此接口访问所有已安装的处理器, 这意味着它不包含特定于任何处理器类型的代码.
  *
- * <p>Note that a handler can be of type Object. This is to enable handlers from
- * other frameworks to be integrated with this framework without custom coding.
+ * <p>请注意, 处理器可以是Object类型. 这是为了使其他框架的处理器能够与此框架集成, 而无需自定义编码.
  *
- * <p>This interface is not intended for application developers. It is available
- * to handlers who want to develop their own web workflow.
+ * <p>此接口不适用于应用程序开发人员. 它适用于想要开发自己的Web工作流程的处理器.
  *
- * <p>Note: Implementations can implement the Ordered interface to be able to
- * specify a sorting order and thus a priority for getting applied by
- * DispatcherPortlet. Non-Ordered instances get treated as lowest priority.
+ * <p>Note: 实现可以实现Ordered接口, 以便能够指定排序顺序, 从而获得DispatcherPortlet应用的优先级.
+ * 非有序实例被视为最低优先级.
  */
 public interface HandlerAdapter {
 
 	/**
-	 * Given a handler instance, return whether or not this HandlerAdapter can
-	 * support it. Typical HandlerAdapters will base the decision on the handler
-	 * type. HandlerAdapters will usually only support one handler type each.
-	 * <p>A typical implementation:
+	 * 给定一个处理器实例, 返回此HandlerAdapter是否可以支持它.
+	 * 典型的HandlerAdapters将根据处理器类型做出决定.
+	 * HandlerAdapters通常每个只支持一种处理器类型.
+	 * <p>典型的实现:
 	 * <p>{@code
 	 * return (handler instanceof MyHandler);
 	 * }
-	 * @param handler handler object to check
-	 * @return whether or not this object can use the given handler
+	 * 
+	 * @param handler 要检查的处理器对象
+	 * 
+	 * @return 此对象是否可以使用给定的处理器
 	 */
 	boolean supports(Object handler);
 
 	/**
-	 * Use the given handler to handle this action request.
-	 * The workflow that is required may vary widely.
-	 * @param request current action request
-	 * @param response current action response
-	 * @param handler handler to use. This object must have previously been passed
-	 * to the {@code supports} method of this interface, which must have
-	 * returned true.
-	 * @throws Exception in case of errors
+	 * 使用给定的处理器来处理此操作请求.
+	 * 所需的工作流程可能差异很大.
+	 * 
+	 * @param request 当前的操作请求
+	 * @param response 当前的操作响应
+	 * @param handler 要使用的处理器.
+	 * 此对象必须先前已传递到此接口的{@code supports}方法, 该方法必须返回true.
+	 * 
+	 * @throws Exception
 	 */
 	void handleAction(ActionRequest request, ActionResponse response, Object handler) throws Exception;
 
 	/**
-	 * Use the given handler to handle this render request.
-	 * The workflow that is required may vary widely.
-	 * @param request current render request
-	 * @param response current render response
-	 * @param handler handler to use. This object must have previously been passed
-	 * to the {@code supports} method of this interface, which must have
-	 * returned {@code true}.
-	 * @throws Exception in case of errors
-	 * @return ModelAndView object with the name of the view and the required
-	 * model data, or {@code null} if the request has been handled directly
+	 * 使用给定的处理器来处理此渲染请求.
+	 * 所需的工作流程可能差异很大.
+	 * 
+	 * @param request 当前的渲染请求
+	 * @param response 当前的渲染响应
+	 * @param handler 要使用的处理器.
+	 * 此对象必须先前已传递到此接口的{@code supports}方法, 该方法必须返回true.
+	 * 
+	 * @return 包含视图名称和所需的模型数据的 ModelAndView 对象, 或{@code null} 如果请求已直接处理
+	 * @throws Exception
 	 */
 	ModelAndView handleRender(RenderRequest request, RenderResponse response, Object handler) throws Exception;
 
 	/**
-	 * Use the given handler to handle this resource request.
-	 * The workflow that is required may vary widely.
-	 * @param request current render request
-	 * @param response current render response
-	 * @param handler handler to use. This object must have previously been passed
-	 * to the {@code supports} method of this interface, which must have
-	 * returned {@code true}.
-	 * @throws Exception in case of errors
-	 * @return ModelAndView object with the name of the view and the required
-	 * model data, or {@code null} if the request has been handled directly
+	 * 使用给定的处理器来处理此资源请求.
+	 * 所需的工作流程可能差异很大.
+	 * 
+	 * @param request 当前的渲染请求
+	 * @param response 当前的渲染响应
+	 * @param handler 要使用的处理器.
+	 * 此对象必须先前已传递到此接口的{@code supports}方法, 该方法必须返回true.
+	 * 
+	 * @return 包含视图名称和所需的模型数据的 ModelAndView 对象, 或{@code null} 如果请求已直接处理
+	 * @throws Exception
 	 */
 	ModelAndView handleResource(ResourceRequest request, ResourceResponse response, Object handler) throws Exception;
 
 	/**
-	 * Use the given handler to handle this event request.
-	 * The workflow that is required may vary widely.
-	 * @param request current action request
-	 * @param response current action response
-	 * @param handler handler to use. This object must have previously been passed
-	 * to the {@code supports} method of this interface, which must have
-	 * returned true.
-	 * @throws Exception in case of errors
+	 * 使用给定的处理器来处理此事件请求.
+	 * 所需的工作流程可能差异很大.
+	 * 
+	 * @param request 当前的操作请求
+	 * @param response 当前的操作响应
+	 * @param handler 要使用的处理器.
+	 * 此对象必须先前已传递到此接口的{@code supports}方法, 该方法必须返回true.
+	 * 
+	 * @throws Exception
 	 */
 	void handleEvent(EventRequest request, EventResponse response, Object handler) throws Exception;
 

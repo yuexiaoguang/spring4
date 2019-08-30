@@ -8,18 +8,15 @@ import javax.portlet.PortletRequest;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
- * {@link org.springframework.web.portlet.HandlerExceptionResolver} implementation
- * that allows for mapping exception class names to view names, either for a
- * set of given handlers or for all handlers in the DispatcherPortlet.
+ * {@link org.springframework.web.portlet.HandlerExceptionResolver}实现,
+ * 允许将异常类名称映射到视图名称, 用于一组给定的处理器或DispatcherPortlet中的所有处理器.
  *
- * <p>Error views are analogous to error page JSPs, but can be used with any
- * kind of exception including any checked one, with fine-granular mappings for
- * specific handlers.
+ * <p>错误视图类似于错误页面JSP, 但可以与任何类型的异常一起使用, 包括任何受检异常, 具有针对特定处理器的细粒度映射.
  */
 public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionResolver {
 
 	/**
-	 * The default name of the exception attribute: "exception".
+	 * 异常属性的默认名称: "exception".
 	 */
 	public static final String DEFAULT_EXCEPTION_ATTRIBUTE = "exception";
 
@@ -30,64 +27,59 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 	private String exceptionAttribute = DEFAULT_EXCEPTION_ATTRIBUTE;
 
 	/**
-	 * Set the mappings between exception class names and error view names.
-	 * The exception class name can be a substring, with no wildcard support
-	 * at present. A value of "PortletException" would match
-	 * {@code javax.portet.PortletException} and subclasses, for example.
-	 * <p><b>NB:</b> Consider carefully how specific the pattern is, and whether
-	 * to include package information (which isn't mandatory). For example,
-	 * "Exception" will match nearly anything, and will probably hide other rules.
-	 * "java.lang.Exception" would be correct if "Exception" was meant to define
-	 * a rule for all checked exceptions. With more unusual exception names such
-	 * as "BaseBusinessException" there's no need to use a FQN.
-	 * <p>Follows the same matching algorithm as RuleBasedTransactionAttribute
-	 * and RollbackRuleAttribute.
-	 * @param mappings exception patterns (can also be fully qualified class names)
-	 * as keys, and error view names as values
+	 * 设置异常类名称和错误视图名称之间的映射.
+	 * 异常类名称可以是子字符串, 目前没有通配符支持.
+	 * 例如, 值"PortletException"将匹配{@code javax.portet.PortletException}和子类.
+	 * <p><b>NB:</b> 仔细考虑模式的具体程度, 以及是否包含包信息 (这不是强制性的).
+	 * 例如, "Exception"几乎可以匹配任何内容, 并且可能会隐藏其他规则.
+	 * 如果"Exception"用于为所有受检异常定义规则, 则"java.lang.Exception"将是正确的.
+	 * 使用更多不寻常的异常名称, 例如"BaseBusinessException", 不需要使用FQN.
+	 * <p>遵循与 RuleBasedTransactionAttribute 和 RollbackRuleAttribute 相同的匹配算法.
+	 * 
+	 * @param mappings 异常模式 (也可以是完全限定的类名)作为键, 错误视图名称作为值
 	 */
 	public void setExceptionMappings(Properties mappings) {
 		this.exceptionMappings = mappings;
 	}
 
 	/**
-	 * Set the name of the default error view.
-	 * This view will be returned if no specific mapping was found.
-	 * <p>Default is none.
+	 * 设置默认错误视图的名称.
+	 * 如果未找到特定映射, 则将返回此视图.
+	 * <p>默认无.
 	 */
 	public void setDefaultErrorView(String defaultErrorView) {
 		this.defaultErrorView = defaultErrorView;
 	}
 
 	/**
-	 * Set the name of the model attribute as which the exception should
-	 * be exposed. Default is "exception".
-	 * @see #DEFAULT_EXCEPTION_ATTRIBUTE
+	 * 设置应该公开异常的model属性的名称.
+	 * 默认为"exception".
 	 */
 	public void setExceptionAttribute(String exceptionAttribute) {
 		this.exceptionAttribute = exceptionAttribute;
 	}
 
 	/**
-	 * Actually resolve the given exception that got thrown during on handler execution,
-	 * returning a ModelAndView that represents a specific error page if appropriate.
-	 * @param request current portlet request
-	 * @param response current portlet response
-	 * @param handler the executed handler, or null if none chosen at the time of
-	 * the exception (for example, if multipart resolution failed)
-	 * @param ex the exception that got thrown during handler execution
-	 * @return a corresponding ModelAndView to forward to, or null for default processing
+	 * 实际解析在处理器执行期间抛出的给定异常, 返回表示特定错误页面的ModelAndView.
+	 * 
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
+	 * @param handler 执行的处理器, 如果在异常时没有选择, 则返回null (例如, 如果multipart解析失败)
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 要转发的相应ModelAndView, 或null以默认处理
 	 */
 	@Override
 	protected ModelAndView doResolveException(
 			PortletRequest request, MimeResponse response, Object handler, Exception ex) {
 
-		// Log exception, both at debug log level and at warn level, if desired.
+		// 如果需要, 可以在调试日志级别和警告级别记录异常.
 		if (logger.isDebugEnabled()) {
 			logger.debug("Resolving exception from handler [" + handler + "]: " + ex);
 		}
 		logException(ex, request);
 
-		// Expose ModelAndView for chosen error view.
+		// 为所选的错误视图公开ModelAndView.
 		String viewName = determineViewName(ex, request);
 		if (viewName != null) {
 			return getModelAndView(viewName, ex, request);
@@ -98,20 +90,21 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 	}
 
 	/**
-	 * Determine the view name for the given exception, searching the
-	 * {@link #setExceptionMappings "exceptionMappings"}, using the
-	 * {@link #setDefaultErrorView "defaultErrorView"} as fallback.
-	 * @param ex the exception that got thrown during handler execution
-	 * @param request current portlet request (useful for obtaining metadata)
-	 * @return the resolved view name, or {@code null} if none found
+	 * 确定给定异常的视图名称, 搜索{@link #setExceptionMappings "exceptionMappings"},
+	 * 使用{@link #setDefaultErrorView "defaultErrorView"}作为后备.
+	 * 
+	 * @param ex 在处理器执行期间抛出的异常
+	 * @param request 当前portlet请求 (对获取元数据很有用)
+	 * 
+	 * @return 已解析的视图名称, 或{@code null}
 	 */
 	protected String determineViewName(Exception ex, PortletRequest request) {
 		String viewName = null;
-		// Check for specific exception mappings.
+		// 检查特定的异常映射.
 		if (this.exceptionMappings != null) {
 			viewName = findMatchingViewName(this.exceptionMappings, ex);
 		}
-		// Return default error view else, if defined.
+		// 如果已定义, 则返回默认错误视图.
 		if (viewName == null && this.defaultErrorView != null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Resolving to default view '" + this.defaultErrorView +
@@ -123,11 +116,12 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 	}
 
 	/**
-	 * Find a matching view name in the given exception mappings
-	 * @param exceptionMappings mappings between exception class names and error view names
-	 * @param ex the exception that got thrown during handler execution
-	 * @return the view name, or {@code null} if none found
-	 * @see #setExceptionMappings
+	 * 在给定的异常映射中查找匹配的视图名称
+	 * 
+	 * @param exceptionMappings 异常类名称和错误视图名称之间的映射
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return 视图名称, 或{@code null}
 	 */
 	protected String findMatchingViewName(Properties exceptionMappings, Exception ex) {
 		String viewName = null;
@@ -151,11 +145,10 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 	}
 
 	/**
-	 * Return the depth to the superclass matching.
-	 * <p>0 means ex matches exactly. Returns -1 if there's no match.
-	 * Otherwise, returns depth. Lowest depth wins.
-	 * <p>Follows the same algorithm as
-	 * {@link org.springframework.transaction.interceptor.RollbackRuleAttribute}.
+	 * 将深度返回到超类匹配.
+	 * <p>0 表示ex完全匹配. 如果没有匹配则返回-1.
+	 * 否则, 返回深度. 最低深度胜利.
+	 * <p>遵循与{@link org.springframework.transaction.interceptor.RollbackRuleAttribute}相同的算法.
 	 */
 	protected int getDepth(String exceptionMapping, Exception ex) {
 		return getDepth(exceptionMapping, ex.getClass(), 0);
@@ -175,26 +168,28 @@ public class SimpleMappingExceptionResolver extends AbstractHandlerExceptionReso
 
 
 	/**
-	 * Return a ModelAndView for the given request, view name and exception.
-	 * Default implementation delegates to {@code getModelAndView(viewName, ex)}.
-	 * @param viewName the name of the error view
-	 * @param ex the exception that got thrown during handler execution
-	 * @param request current portlet request (useful for obtaining metadata)
-	 * @return the ModelAndView instance
-	 * @see #getModelAndView(String, Exception)
+	 * 返回给定请求, 视图名称和异常的ModelAndView.
+	 * 默认实现委托给{@code getModelAndView(viewName, ex)}.
+	 * 
+	 * @param viewName 错误视图的名称
+	 * @param ex 在处理器执行期间抛出的异常
+	 * @param request 当前portlet请求 (对获取元数据很有用)
+	 * 
+	 * @return ModelAndView实例
 	 */
 	protected ModelAndView getModelAndView(String viewName, Exception ex, PortletRequest request) {
 		return getModelAndView(viewName, ex);
 	}
 
 	/**
-	 * Return a ModelAndView for the given view name and exception.
-	 * Default implementation adds the specified exception attribute.
-	 * Can be overridden in subclasses.
-	 * @param viewName the name of the error view
-	 * @param ex the exception that got thrown during handler execution
-	 * @return the ModelAndView instance
-	 * @see #setExceptionAttribute
+	 * 返回给定视图名称和异常的ModelAndView.
+	 * 默认实现添加指定的异常属性.
+	 * 可以在子类中重写.
+	 * 
+	 * @param viewName 错误视图的名称
+	 * @param ex 在处理器执行期间抛出的异常
+	 * 
+	 * @return ModelAndView实例
 	 */
 	protected ModelAndView getModelAndView(String viewName, Exception ex) {
 		ModelAndView mv = new ModelAndView(viewName);

@@ -5,18 +5,16 @@ import javax.portlet.PortletConfig;
 import org.springframework.beans.factory.Aware;
 
 /**
- * Interface to be implemented by any object that wishes to be notified
- * of the PortletConfig (typically determined by the PortletApplicationContext)
- * that it runs in.
+ * 希望获得在其中运行的PortletConfig通知的任何对象实现的接口 (通常由PortletApplicationContext确定).
  */
 public interface PortletConfigAware extends Aware {
 
 	/**
-	 * Set the PortletConfigthat this object runs in.
-	 * <p>Invoked after population of normal bean properties but before an init
-	 * callback like InitializingBean's afterPropertiesSet or a custom init-method.
-	 * Invoked after ApplicationContextAware's setApplicationContext.
-	 * @param portletConfig PortletConfig object to be used by this object
+	 * 设置此对象运行的PortletConfig.
+	 * <p>在普通bean属性的填充之后但在初始化回调之前调用, 例如InitializingBean的afterPropertiesSet或自定义init方法.
+	 * 在ApplicationContextAware的setApplicationContext之后调用.
+	 * 
+	 * @param portletConfig 此对象使用的PortletConfig对象
 	 */
 	void setPortletConfig(PortletConfig portletConfig);
 

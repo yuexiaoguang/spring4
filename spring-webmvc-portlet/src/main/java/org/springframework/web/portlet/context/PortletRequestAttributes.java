@@ -14,18 +14,15 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Portlet-based implementation of the
- * {@link org.springframework.web.context.request.RequestAttributes} interface.
+ * {@link org.springframework.web.context.request.RequestAttributes}接口基于Portlet的实现.
  *
- * <p>Accesses objects from portlet request and portlet session scope,
- * with a distinction between "session" (the PortletSession's "portlet scope")
- * and "global session" (the PortletSession's "application scope").
+ * <p>访问来自portlet请求和portlet会话范围的对象,
+ * 区分"session" (PortletSession的"portlet scope")和"global session" (PortletSession的"application scope").
  */
 public class PortletRequestAttributes extends AbstractRequestAttributes {
 
 	/**
-	 * Constant identifying the {@link String} prefixed to the name of a
-	 * destruction callback when it is stored in a {@link PortletSession}.
+	 * 当存储在{@link PortletSession}中时, 销毁回调名称的前缀.
 	 */
 	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX =
 			PortletRequestAttributes.class.getName() + ".DESTRUCTION_CALLBACK.";
@@ -43,8 +40,7 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Create a new PortletRequestAttributes instance for the given request.
-	 * @param request current portlet request
+	 * @param request 当前的portlet请求
 	 */
 	public PortletRequestAttributes(PortletRequest request) {
 		Assert.notNull(request, "Request must not be null");
@@ -52,9 +48,8 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 	}
 
 	/**
-	 * Create a new PortletRequestAttributes instance for the given request.
-	 * @param request current portlet request
-	 * @param response current portlet response (for optional exposure)
+	 * @param request 当前的portlet请求
+	 * @param response 当前portlet响应 (可选)
 	 */
 	public PortletRequestAttributes(PortletRequest request, PortletResponse response) {
 		this(request);
@@ -63,22 +58,23 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Exposes the native {@link PortletRequest} that we're wrapping.
+	 * 公开包装的原生{@link PortletRequest}.
 	 */
 	public final PortletRequest getRequest() {
 		return this.request;
 	}
 
 	/**
-	 * Exposes the native {@link PortletResponse} that we're wrapping (if any).
+	 * 公开包装的原生{@link PortletResponse}.
 	 */
 	public final PortletResponse getResponse() {
 		return this.response;
 	}
 
 	/**
-	 * Exposes the {@link PortletSession} that we're wrapping.
-	 * @param allowCreate whether to allow creation of a new session if none exists yet
+	 * 公开包装的{@link PortletSession}.
+	 * 
+	 * @param allowCreate 是否允许创建新会话
 	 */
 	protected final PortletSession getSession(boolean allowCreate) {
 		if (isRequestActive()) {
@@ -87,7 +83,7 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 			return session;
 		}
 		else {
-			// Access through stored session reference, if any...
+			// 通过存储的会话引用访问...
 			PortletSession session = this.session;
 			if (session == null) {
 				if (allowCreate) {
@@ -238,8 +234,7 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 
 
 	/**
-	 * Update all accessed session attributes through {@code session.setAttribute}
-	 * calls, explicitly indicating to the container that they might have been modified.
+	 * 通过{@code session.setAttribute}调用更新所有访问的会话属性, 向容器明确指示它们可能已被修改.
 	 */
 	@Override
 	protected void updateAccessedSessionAttributes() {
@@ -274,11 +269,11 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 	}
 
 	/**
-	 * Register the given callback as to be executed after session termination.
-	 * <p>Note: The callback object should be serializable in order to survive
-	 * web app restarts.
-	 * @param name the name of the attribute to register the callback for
-	 * @param callback the callback to be executed for destruction
+	 * 注册给定的回调, 以便在会话终止后执行.
+	 * <p>Note: 回调对象应该是可序列化的, 以便在Web应用程序重新启动后继续运行.
+	 * 
+	 * @param name 注册回调的属性的名称
+	 * @param callback 销毁时要执行的回调
 	 */
 	protected void registerSessionDestructionCallback(String name, Runnable callback) {
 		PortletSession session = getSession(true);
@@ -291,5 +286,4 @@ public class PortletRequestAttributes extends AbstractRequestAttributes {
 	public String toString() {
 		return this.request.toString();
 	}
-
 }

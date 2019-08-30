@@ -8,82 +8,70 @@ import org.springframework.beans.factory.xml.ResourceEntityResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 /**
- * Portlet-based {@link org.springframework.web.context.WebApplicationContext}
- * implementation which takes its configuration from XML documents, understood
- * by an {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
- * This is essentially the equivalent of
- * {@link org.springframework.context.support.AbstractXmlApplicationContext}
- * for a portlet environment.
+ * 基于Portlet的{@link org.springframework.web.context.WebApplicationContext}实现,
+ * 它从XML文档中获取其配置, 由{@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}理解.
+ * 对于portlet环境, 这基本上等同于{@link org.springframework.context.support.AbstractXmlApplicationContext}.
  *
- * <p>By default, the configuration will be taken from "/WEB-INF/applicationContext.xml"
- * for the root context, and "/WEB-INF/test-portlet.xml" for a context with the namespace
- * "test-portlet" (like for a DispatcherPortlet instance with the portlet-name "test").
+ * <p>默认情况下, 配置将从"/WEB-INF/applicationContext.xml"获取根上下文,
+ * 而从"/WEB-INF/test-portlet.xml"获取具有命名空间"test-portlet"的上下文 (如对于具有portlet-name "test"的DispatcherPortlet实例).
  *
- * <p>The config location defaults can be overridden via the "contextConfigLocation"
- * portlet init-param of {@link org.springframework.web.portlet.FrameworkPortlet}.
- * Config locations can either denote concrete files like "/WEB-INF/context.xml"
- * or Ant-style patterns like "/WEB-INF/*-context.xml" (see
- * {@link org.springframework.util.PathMatcher} javadoc for pattern details).
+ * <p>可以通过{@link org.springframework.web.portlet.FrameworkPortlet}的"contextConfigLocation" portlet init-param覆盖配置位置默认值.
+ * 配置位置可以表示"/WEB-INF/context.xml"等具体文件, 也可以表示"/WEB-INF/*-context.xml"等Ant样式模式
+ * (有关模式详细信息, 请参阅{@link org.springframework.util.PathMatcher} javadoc).
  *
- * <p>Note: In case of multiple config locations, later bean definitions will
- * override ones defined in earlier loaded files. This can be leveraged to
- * deliberately override certain bean definitions via an extra XML file.
+ * <p>Note: 如果有多个配置位置, 以后的bean定义将覆盖先前加载的文件中定义的那些.
+ * 这可以用来通过额外的XML文件故意覆盖某些bean定义.
  *
- * <p><b>For a Portlet-based context that reads in a different bean definition format,
- * create an analogous subclass of {@link AbstractRefreshablePortletApplicationContext}.</b>
- * Such a context implementation can be specified as "contextClass" init-param
- * for a FrameworkPortlet instance.
+ * <p><b>对于以不同bean定义格式读取的基于Portlet的上下文, 创建{@link AbstractRefreshablePortletApplicationContext}的类似子类.</b>
+ * 可以将这样的上下文实现指定为FrameworkPortlet实例的"contextClass" init-param.
  */
 public class XmlPortletApplicationContext extends AbstractRefreshablePortletApplicationContext {
 
-	/** Default config location for the root context */
+	/** 根上下文的默认配置位置 */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
 
-	/** Default prefix for building a config location for a namespace */
+	/** 用于构建命名空间的配置位置的默认前缀 */
 	public static final String DEFAULT_CONFIG_LOCATION_PREFIX = "/WEB-INF/";
 
-	/** Default suffix for building a config location for a namespace */
+	/** 用于构建命名空间的配置位置的默认后缀 */
 	public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 
 	/**
-	 * Loads the bean definitions via an XmlBeanDefinitionReader.
+	 * 通过XmlBeanDefinitionReader加载bean定义.
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
-		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
+		// 为给定的BeanFactory创建一个新的XmlBeanDefinitionReader.
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		// Configure the bean definition reader with this context's
-		// resource loading environment.
+		// 使用此上下文的资源加载环境配置bean定义读取器.
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
-		// Allow a subclass to provide custom initialization of the reader,
-		// then proceed with actually loading the bean definitions.
+		// 允许子类提供读取器的自定义初始化, 然后继续实际加载bean定义.
 		initBeanDefinitionReader(beanDefinitionReader);
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
 	/**
-	 * Initialize the bean definition reader used for loading the bean
-	 * definitions of this context. Default implementation is empty.
-	 * <p>Can be overridden in subclasses, e.g. for turning off XML validation
-	 * or using a different XmlBeanDefinitionParser implementation.
-	 * @param beanDefinitionReader the bean definition reader used by this context
+	 * 初始化用于加载此上下文的bean定义的bean定义读取器.
+	 * 默认实现为空.
+	 * <p>可以在子类中重写, e.g. 用于关闭XML验证或使用不同的XmlBeanDefinitionParser实现.
+	 * 
+	 * @param beanDefinitionReader 此上下文使用的bean定义读取器
 	 */
 	protected void initBeanDefinitionReader(XmlBeanDefinitionReader beanDefinitionReader) {
 	}
 
 	/**
-	 * Load the bean definitions with the given XmlBeanDefinitionReader.
-	 * <p>The lifecycle of the bean factory is handled by the refreshBeanFactory method;
-	 * therefore this method is just supposed to load and/or register bean definitions.
-	 * <p>Delegates to a ResourcePatternResolver for resolving location patterns
-	 * into Resource instances.
-	 * @throws org.springframework.beans.BeansException in case of bean registration errors
-	 * @throws java.io.IOException if the required XML document isn't found
+	 * 使用给定的XmlBeanDefinitionReader加载bean定义.
+	 * <p>bean工厂的生命周期由refreshBeanFactory方法处理; 因此, 这个方法只是加载和/或注册bean定义.
+	 * <p>委托ResourcePatternResolver将位置模式解析为Resource实例.
+	 * 
+	 * @throws org.springframework.beans.BeansException 在bean注册错误的情况下
+	 * @throws java.io.IOException 如果找不到所需的XML文档
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
 		String[] configLocations = getConfigLocations();
@@ -95,9 +83,8 @@ public class XmlPortletApplicationContext extends AbstractRefreshablePortletAppl
 	}
 
 	/**
-	 * The default location for the root context is "/WEB-INF/applicationContext.xml",
-	 * and "/WEB-INF/test-portlet.xml" for a context with the namespace "test-portlet"
-	 * (like for a DispatcherPortlet instance with the portlet-name "test").
+	 * 根上下文的默认位置是"/WEB-INF/applicationContext.xml", 以及"/WEB-INF/test-portlet.xml",
+	 * 用于具有命名空间"test-portlet"的上下文 (对于具有portlet-name "test"的DispatcherPortlet实例).
 	 */
 	@Override
 	protected String[] getDefaultConfigLocations() {

@@ -7,13 +7,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of the {@link org.springframework.web.portlet.HandlerMapping}
- * to map from a request parameter to request handler beans.
+ * {@link org.springframework.web.portlet.HandlerMapping}的实现, 从请求参数映射到请求处理器bean.
  *
- * <p>The default name of the parameter is "action", but can be changed using
- * {@link #setParameterName setParameterName()}.
+ * <p>参数的默认名称是"action", 但可以使用{@link #setParameterName setParameterName()}进行更改.
  *
- * <p>The bean configuration for this mapping will look somthing like this:
+ * <p>此映射的bean配置看起来像这样:
  *
  * <pre class="code">
  * &lt;bean id="parameterHandlerMapping" class="org.springframework.web.portlet.handler.ParameterHandlerMapping"&gt;
@@ -31,7 +29,7 @@ import org.springframework.util.Assert;
 public class ParameterHandlerMapping extends AbstractMapBasedHandlerMapping<String> {
 
 	/**
-	 * Default request parameter name to use for mapping to handlers: "action".
+	 * 用于映射到处理器的默认请求参数名称: "action".
 	 */
 	public final static String DEFAULT_PARAMETER_NAME = "action";
 
@@ -42,8 +40,8 @@ public class ParameterHandlerMapping extends AbstractMapBasedHandlerMapping<Stri
 
 
 	/**
-	 * Set the name of the parameter used for mapping to handlers.
-	 * <p>Default is "action".
+	 * 设置用于映射到处理器的参数的名称.
+	 * <p>默认为"action".
 	 */
 	public void setParameterName(String parameterName) {
 		Assert.hasText(parameterName, "'parameterName' must not be empty");
@@ -51,9 +49,10 @@ public class ParameterHandlerMapping extends AbstractMapBasedHandlerMapping<Stri
 	}
 
 	/**
-	 * Set a Map with parameters as keys and handler beans or bean names as values.
-	 * Convenient for population with bean references.
-	 * @param parameterMap map with parameters as keys and beans as values
+	 * 设置Map, 将参数作为键, 将处理器bean或bean名称作为值.
+	 * 方便填充bean引用.
+	 * 
+	 * @param parameterMap 将参数作为键, 将bean作为值
 	 */
 	public void setParameterMap(Map<String, ?> parameterMap) {
 		this.parameterMap = parameterMap;
@@ -61,9 +60,7 @@ public class ParameterHandlerMapping extends AbstractMapBasedHandlerMapping<Stri
 
 
 	/**
-	 * Calls the {@code registerHandlers} method in addition
-	 * to the superclass's initialization.
-	 * @see #registerHandlers
+	 * 除了超类的初始化之外, 还调用{@code registerHandlers}方法.
 	 */
 	@Override
 	public void initApplicationContext() throws BeansException {
@@ -72,12 +69,10 @@ public class ParameterHandlerMapping extends AbstractMapBasedHandlerMapping<Stri
 	}
 
 	/**
-	 * Uses the value of the specified parameter as lookup key.
-	 * @see #setParameterName
+	 * 使用指定参数的值作为查找键.
 	 */
 	@Override
 	protected String getLookupKey(PortletRequest request) throws Exception {
 		return request.getParameter(this.parameterName);
 	}
-
 }

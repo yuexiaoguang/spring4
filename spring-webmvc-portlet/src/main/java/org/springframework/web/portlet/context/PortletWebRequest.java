@@ -15,23 +15,21 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * {@link org.springframework.web.context.request.WebRequest} adapter
- * for a {@link javax.portlet.PortletRequest}.
+ * {@link javax.portlet.PortletRequest}的
+ * {@link org.springframework.web.context.request.WebRequest}适配器.
  */
 public class PortletWebRequest extends PortletRequestAttributes implements NativeWebRequest {
 
 	/**
-	 * Create a new PortletWebRequest instance for the given request.
-	 * @param request current portlet request
+	 * @param request 当前的portlet请求
 	 */
 	public PortletWebRequest(PortletRequest request) {
 		super(request);
 	}
 
 	/**
-	 * Create a new PortletWebRequest instance for the given request/response pair.
-	 * @param request current portlet request
-	 * @param response current portlet response
+	 * @param request 当前的portlet请求
+	 * @param response 当前的portlet响应
 	 */
 	public PortletWebRequest(PortletRequest request, PortletResponse response) {
 		super(request, response);
@@ -126,8 +124,7 @@ public class PortletWebRequest extends PortletRequestAttributes implements Nativ
 	}
 
 	/**
-	 * Last-modified handling not supported for portlet requests:
-	 * As a consequence, this method always returns {@code false}.
+	 * portlet请求不支持 Last-modified的处理: 因此, 此方法始终返回{@code false}.
 	 */
 	@Override
 	public boolean checkNotModified(long lastModifiedTimestamp) {
@@ -135,8 +132,7 @@ public class PortletWebRequest extends PortletRequestAttributes implements Nativ
 	}
 
 	/**
-	 * Last-modified handling not supported for portlet requests:
-	 * As a consequence, this method always returns {@code false}.
+	 * portlet请求不支持 Last-modified的处理: 因此, 此方法始终返回{@code false}.
 	 */
 	@Override
 	public boolean checkNotModified(String eTag) {
@@ -144,9 +140,7 @@ public class PortletWebRequest extends PortletRequestAttributes implements Nativ
 	}
 
 	/**
-	 * Last-modified handling not supported for portlet requests:
-	 * As a consequence, this method always returns {@code false}.
-	 * @since 4.2
+	 * portlet请求不支持 Last-modified的处理: 因此, 此方法始终返回{@code false}.
 	 */
 	@Override
 	public boolean checkNotModified(String etag, long lastModifiedTimestamp) {

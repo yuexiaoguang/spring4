@@ -19,22 +19,17 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * Adapter to use the Portlet interface with the generic DispatcherPortlet.
- * Calls the Portlet's {@code render} and {@code processAction}
- * methods to handle a request.
+ * 将Portlet接口与通用DispatcherPortlet一起使用的适配器.
+ * 调用Portlet的{@code render}和{@code processAction}方法来处理请求.
  *
- * <p>This adapter is not activated by default; it needs to be defined as a
- * bean in the DispatcherPortlet context. It will automatically apply to
- * mapped handler beans that implement the Portlet interface then.
+ * <p>默认不会激活此适配器; 它需要在DispatcherPortlet上下文中定义为bean.
+ * 它将自动应用于实现Portlet接口的映射的处理器bean.
  *
- * <p>Note that Portlet instances defined as bean will not receive initialization
- * and destruction callbacks, unless a special post-processor such as
- * SimplePortletPostProcessor is defined in the DispatcherPortlet context.
+ * <p>请注意, 定义为bean的Portlet实例不会接收初始化和销毁​​回调,
+ * 除非在DispatcherPortlet上下文中定义了一个特殊的后处理器, 如SimplePortletPostProcessor.
  *
- * <p><b>Alternatively, consider wrapping a Portlet with Spring's
- * PortletWrappingController.</b> This is particularly appropriate for
- * existing Portlet classes, allowing to specify Portlet initialization
- * parameters, etc.
+ * <p><b>或者, 考虑使用Spring的PortletWrappingController包装Portlet.</b>
+ * 这特别适用于现有的Portlet类, 允许指定Portlet初始化参数等.
  */
 public class SimplePortletHandlerAdapter implements HandlerAdapter, PortletContextAware {
 
@@ -75,7 +70,7 @@ public class SimplePortletHandlerAdapter implements HandlerAdapter, PortletConte
 			((ResourceServingPortlet) handler).serveResource(request, response);
 		}
 		else {
-			// roughly equivalent to Portlet 2.0 GenericPortlet
+			// 大致相当于Portlet 2.0 GenericPortlet
 			PortletUtils.serveResource(request, response, this.portletContext);
 		}
 		return null;
@@ -87,9 +82,8 @@ public class SimplePortletHandlerAdapter implements HandlerAdapter, PortletConte
 			((EventPortlet) handler).processEvent(request, response);
 		}
 		else {
-			// if no event processing method was found just keep render params
+			// 如果没有找到事件处理方法, 则保持渲染参数
 			response.setRenderParameters(request);
 		}
 	}
-
 }

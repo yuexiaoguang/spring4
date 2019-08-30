@@ -3,32 +3,29 @@ package org.springframework.web.portlet.context;
 import org.springframework.web.context.support.RequestHandledEvent;
 
 /**
- * Portlet-specific subclass of RequestHandledEvent,
- * adding portlet-specific context information.
+ * RequestHandledEvent的特定于Portlet的子类, 添加特定于Portlet的上下文信息.
  */
 @SuppressWarnings("serial")
 public class PortletRequestHandledEvent extends RequestHandledEvent {
 
-	/** Name of the portlet that handled the request */
+	/** 处理请求的portlet的名称 */
 	private final String portletName;
 
-	/** PortletMode of the request */
+	/** 请求的PortletMode */
 	private final String portletMode;
 
-	/** Type of Portlet Request */
+	/** Portlet请求的类型 */
 	private final String requestType;
 
 
 	/**
-	 * Create a new PortletRequestHandledEvent.
-	 * @param source the component that published the event
-	 * @param portletName the name of the portlet that handled the request
-	 * @param portletMode the PortletMode of the request (usually 'view', 'edit', or 'help')
-	 * @param requestType the type of Portlet request ('action' or 'render')
-	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
-	 * @param processingTimeMillis the processing time of the request in milliseconds
+	 * @param source 发布事件的组件
+	 * @param portletName 处理请求的portlet的名称
+	 * @param portletMode 请求的PortletMode (通常是'view', 'edit', 或'help')
+	 * @param requestType Portlet请求的类型 ('action'或'render')
+	 * @param sessionId HTTP会话的ID
+	 * @param userName 与请求关联的用户的名称 (通常是 UserPrincipal)
+	 * @param processingTimeMillis 请求的处理时间(以毫秒为单位)
 	 */
 	public PortletRequestHandledEvent(Object source, String portletName,
 			String portletMode, String requestType, String sessionId,
@@ -41,16 +38,14 @@ public class PortletRequestHandledEvent extends RequestHandledEvent {
 	}
 
 	/**
-	 * Create a new PortletRequestHandledEvent.
-	 * @param source the component that published the event
-	 * @param portletName the name of the portlet that handled the request
-	 * @param portletMode the PortletMode of the request (usually 'view', 'edit', or 'help')
-	 * @param requestType the type of Portlet request ('action' or 'render')
-	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
-	 * @param processingTimeMillis the processing time of the request in milliseconds
-	 * @param failureCause the cause of failure, if any
+	 * @param source 发布事件的组件
+	 * @param portletName 处理请求的portlet的名称
+	 * @param portletMode 请求的PortletMode (通常是'view', 'edit', 或'help')
+	 * @param requestType Portlet请求的类型 ('action'或'render')
+	 * @param sessionId HTTP会话的ID
+	 * @param userName 与请求关联的用户的名称 (通常是 UserPrincipal)
+	 * @param processingTimeMillis 请求的处理时间(以毫秒为单位)
+	 * @param failureCause 失败的原因
 	 */
 	public PortletRequestHandledEvent(Object source, String portletName,
 			String portletMode, String requestType, String sessionId,
@@ -64,21 +59,21 @@ public class PortletRequestHandledEvent extends RequestHandledEvent {
 
 
 	/**
-	 * Return the name of the portlet that handled the request.
+	 * 返回处理请求的portlet的名称.
 	 */
 	public String getPortletName() {
 		return this.portletName;
 	}
 
 	/**
-	 * Return the mode of the portlet request (usually 'view', 'edit', or 'help').
+	 * 返回portlet请求的模式 (通常是'view', 'edit', 或'help').
 	 */
 	public String getPortletMode() {
 		return this.portletMode;
 	}
 
 	/**
-	 * Return the type of Portlet Request ('action' or 'render').
+	 * 返回Portlet请求的类型 ('action'或'render').
 	 */
 	public String getRequestType() {
 		return this.requestType;

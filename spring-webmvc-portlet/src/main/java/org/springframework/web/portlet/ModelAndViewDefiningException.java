@@ -3,13 +3,10 @@ package org.springframework.web.portlet;
 import javax.portlet.PortletException;
 
 /**
- * Exception to be thrown on error conditions that should forward
- * to a specific view with a specific model.
+ * 应该转发到使用特定模型的特定视图的错误条件上抛出的异常.
  *
- * <p>Can be thrown at any time during handler processing.
- * This includes any template methods of pre-built controllers.
- * For example, a form controller might abort to a specific error page
- * if certain parameters do not allow to proceed with the normal workflow.
+ * <p>可以在处理器处理期间随时抛出. 这包括预构建控制器的任何模板方法.
+ * 例如, 如果某些参数不允许继续正常的工作流, 则表单控制器可能会中止到特定的错误页面.
  */
 @SuppressWarnings("serial")
 public class ModelAndViewDefiningException extends PortletException {
@@ -18,9 +15,7 @@ public class ModelAndViewDefiningException extends PortletException {
 
 
 	/**
-	 * Create new ModelAndViewDefiningException with the given ModelAndView,
-	 * typically representing a specific error page.
-	 * @param modelAndView ModelAndView with view to forward to and model to expose
+	 * @param modelAndView 具有要转发到的视图和要公开的模型的ModelAndView, 通常表示特定的错误页面.
 	 */
 	public ModelAndViewDefiningException(ModelAndView modelAndView) {
 		if (modelAndView == null) {
@@ -30,7 +25,7 @@ public class ModelAndViewDefiningException extends PortletException {
 	}
 
 	/**
-	 * Return the ModelAndView that this exception contains for forwarding to.
+	 * 返回此异常包含的要进行转发的ModelAndView.
 	 */
 	public ModelAndView getModelAndView() {
 		return modelAndView;

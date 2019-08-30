@@ -14,8 +14,8 @@ import org.springframework.web.portlet.HandlerInterceptor;
 import org.springframework.web.portlet.HandlerMapping;
 
 /**
- * Abstract base class for {@link org.springframework.web.portlet.HandlerMapping}
- * implementations. Supports ordering, a default handler, and handler interceptors.
+ * {@link org.springframework.web.portlet.HandlerMapping}实现的抽象基类.
+ * 支持排序, 默认处理器和处理器拦截器.
  */
 public abstract class AbstractHandlerMapping extends ApplicationObjectSupport implements HandlerMapping, Ordered {
 
@@ -31,8 +31,8 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 
 
 	/**
-	 * Specify the order value for this HandlerMapping bean.
-	 * <p>Default value is {@code Integer.MAX_VALUE}, meaning that it's non-ordered.
+	 * 指定此HandlerMapping bean的顺序值.
+	 * <p>默认值为{@code Integer.MAX_VALUE}, 表示它是非有序的.
 	 */
 	public final void setOrder(int order) {
 	  this.order = order;
@@ -44,50 +44,38 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	}
 
 	/**
-	 * Set the default handler for this handler mapping.
-	 * This handler will be returned if no specific mapping was found.
-	 * <p>Default is {@code null}, indicating no default handler.
+	 * 设置此处理器映射的默认处理器.
+	 * 如果未找到特定映射, 则将返回此处理器.
+	 * <p>默认为{@code null}, 表示没有默认处理器.
 	 */
 	public void setDefaultHandler(Object defaultHandler) {
 		this.defaultHandler = defaultHandler;
 	}
 
 	/**
-	 * Return the default handler for this handler mapping,
-	 * or {@code null} if none.
+	 * 返回此处理器映射的默认处理器, 或{@code null}.
 	 */
 	public Object getDefaultHandler() {
 		return this.defaultHandler;
 	}
 
 	/**
-	 * Set the interceptors to apply for all handlers mapped by this handler mapping.
-	 * <p>Supported interceptor types are HandlerInterceptor and WebRequestInterceptor.
-	 * Each given WebRequestInterceptor will be wrapped in a WebRequestHandlerInterceptorAdapter.
-	 * @param interceptors array of handler interceptors, or {@code null} if none
-	 * @see #adaptInterceptor
-	 * @see org.springframework.web.portlet.HandlerInterceptor
-	 * @see org.springframework.web.context.request.WebRequestInterceptor
+	 * 设置拦截器, 应用于此处理器映射映射的所有处理器.
+	 * <p>支持的拦截器类型是HandlerInterceptor和WebRequestInterceptor.
+	 * 每个给定的WebRequestInterceptor都将包装在WebRequestHandlerInterceptorAdapter中.
+	 * 
+	 * @param interceptors 处理器拦截器数组, 或{@code null}
 	 */
 	public void setInterceptors(Object[] interceptors) {
 		this.interceptors.addAll(Arrays.asList(interceptors));
 	}
 
 	/**
-	 * Specify whether to apply WebRequestInterceptors to the Portlet render phase
-	 * only ("true", or whether to apply them to the Portlet action phase as well
-	 * ("false").
-	 * <p>Default is "true", since WebRequestInterceptors are usually built for
-	 * MVC-style handler execution plus rendering process (which is, for example,
-	 * the primary target scenario for "Open Session in View" interceptors,
-	 * offering lazy loading of persistent objects during view rendering).
-	 * Set this to "false" to have WebRequestInterceptors apply to the action
-	 * phase as well (for example, in case of an "Open Session in View" interceptor,
-	 * to allow for lazy loading outside of a transaction during the action phase).
-	 * @see #setInterceptors
-	 * @see org.springframework.web.context.request.WebRequestInterceptor
-	 * @see WebRequestHandlerInterceptorAdapter#WebRequestHandlerInterceptorAdapter(WebRequestInterceptor, boolean)
-	 * @see org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor
+	 * 指定是否仅将WebRequestInterceptors应用于Portlet渲染阶段 ("true"), 或者是否也将它们应用于Portlet操作阶段 ("false").
+	 * <p>默认为"true", 因为WebRequestInterceptors通常是为MVC样式的处理器执行和渲染过程而构建的
+	 * (例如, "Open Session in View"拦截器的主要目标场景, 在视图渲染期间提供持久对象的延迟加载).
+	 * 将此设置为"false"以使WebRequestInterceptors也适用于操作阶段
+	 * (例如, 在"Open Session in View"拦截器的情况下, 允许在操作阶段期间在事务外部进行延迟加载).
 	 */
 	public void setApplyWebRequestInterceptorsToRenderPhaseOnly(boolean applyWebRequestInterceptorsToRenderPhaseOnly) {
 		this.applyWebRequestInterceptorsToRenderPhaseOnly = applyWebRequestInterceptorsToRenderPhaseOnly;
@@ -95,9 +83,7 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 
 
 	/**
-	 * Initializes the interceptors.
-	 * @see #extendInterceptors(java.util.List)
-	 * @see #initInterceptors()
+	 * 初始化拦截器.
 	 */
 	@Override
 	protected void initApplicationContext() throws BeansException {
@@ -106,22 +92,17 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	}
 
 	/**
-	 * Extension hook that subclasses can override to register additional interceptors,
-	 * given the configured interceptors (see {@link #setInterceptors}).
-	 * <p>Will be invoked before {@link #initInterceptors()} adapts the specified
-	 * interceptors into {@link HandlerInterceptor} instances.
-	 * <p>The default implementation is empty.
-	 * @param interceptors the configured interceptor List (never {@code null}),
-	 * allowing to add further interceptors before as well as after the existing
-	 * interceptors
+	 * 在给定配置的拦截器的情况下 (see {@link #setInterceptors}), 子类可以重写以扩展其他拦截器的扩展钩子.
+	 * <p>将在{@link #initInterceptors()}将指定的拦截器适配为{@link HandlerInterceptor}实例之前调用.
+	 * <p>默认实现为空.
+	 * 
+	 * @param interceptors 配置的拦截器 (never {@code null}), 允许在现有拦截器之前和之后添加更多拦截器
 	 */
 	protected void extendInterceptors(List<?> interceptors) {
 	}
 
 	/**
-	 * Initialize the specified interceptors, adapting them where necessary.
-	 * @see #setInterceptors
-	 * @see #adaptInterceptor
+	 * 初始化指定的拦截器, 在必要时适配它们.
 	 */
 	protected void initInterceptors() {
 		if (!this.interceptors.isEmpty()) {
@@ -137,16 +118,14 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	}
 
 	/**
-	 * Adapt the given interceptor object to the HandlerInterceptor interface.
-	 * <p>Supported interceptor types are HandlerInterceptor and WebRequestInterceptor.
-	 * Each given WebRequestInterceptor will be wrapped in a WebRequestHandlerInterceptorAdapter.
-	 * Can be overridden in subclasses.
-	 * @param interceptor the specified interceptor object
-	 * @return the interceptor wrapped as HandlerInterceptor
-	 * @see #setApplyWebRequestInterceptorsToRenderPhaseOnly
-	 * @see org.springframework.web.portlet.HandlerInterceptor
-	 * @see org.springframework.web.context.request.WebRequestInterceptor
-	 * @see WebRequestHandlerInterceptorAdapter
+	 * 将给定的拦截器对象适配为HandlerInterceptor接口.
+	 * <p>支持的拦截器类型是HandlerInterceptor和WebRequestInterceptor.
+	 * 每个给定的WebRequestInterceptor都将包装在WebRequestHandlerInterceptorAdapter中.
+	 * 可以在子类中重写.
+	 * 
+	 * @param interceptor 指定的拦截器对象
+	 * 
+	 * @return 包装为HandlerInterceptor的拦截器
 	 */
 	protected HandlerInterceptor adaptInterceptor(Object interceptor) {
 		if (interceptor instanceof HandlerInterceptor) {
@@ -162,8 +141,9 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	}
 
 	/**
-	 * Return the adapted interceptors as HandlerInterceptor array.
-	 * @return the array of HandlerInterceptors, or {@code null} if none
+	 * 返回适配的拦截器.
+	 * 
+	 * @return HandlerInterceptor数组, 或{@code null}
 	 */
 	protected final HandlerInterceptor[] getAdaptedInterceptors() {
 		return this.adaptedInterceptors;
@@ -171,11 +151,11 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 
 
 	/**
-	 * Look up a handler for the given request, falling back to the default
-	 * handler if no specific one is found.
-	 * @param request current portlet request
-	 * @return the corresponding handler instance, or the default handler
-	 * @see #getHandlerInternal
+	 * 查找给定请求的处理器, 如果找不到特定的请求, 则返回默认处理器.
+	 * 
+	 * @param request 当前的portlet请求
+	 * 
+	 * @return 相应的处理器实例或默认处理器
 	 */
 	@Override
 	public final HandlerExecutionChain getHandler(PortletRequest request) throws Exception {
@@ -195,33 +175,31 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport im
 	}
 
 	/**
-	 * Look up a handler for the given request, returning {@code null} if no
-	 * specific one is found. This method is called by {@link #getHandler};
-	 * a {@code null} return value will lead to the default handler, if one is set.
-	 * <p>Note: This method may also return a pre-built {@link HandlerExecutionChain},
-	 * combining a handler object with dynamically determined interceptors.
-	 * Statically specified interceptors will get merged into such an existing chain.
-	 * @param request current portlet request
-	 * @return the corresponding handler instance, or {@code null} if none found
-	 * @throws Exception if there is an internal error
-	 * @see #getHandler
+	 * 查找给定请求的处理器, 如果找不到特定的处理器, 则返回{@code null}.
+	 * 这个方法由{@link #getHandler}调用; {@code null}返回值将导致默认处理器.
+	 * <p>Note: 此方法还可以返回预构建的{@link HandlerExecutionChain}, 将处理器对象与动态确定的拦截器组合在一起.
+	 * 静态指定的拦截器将合并到这样的现有链中.
+	 * 
+	 * @param request 当前的portlet请求
+	 * 
+	 * @return 相应的处理器实例, 或{@code null}
+	 * @throws Exception 如果有内部错误
 	 */
 	protected abstract Object getHandlerInternal(PortletRequest request) throws Exception;
 
 	/**
-	 * Build a HandlerExecutionChain for the given handler, including applicable interceptors.
-	 * <p>The default implementation simply builds a standard HandlerExecutionChain with
-	 * the given handler and this handler mapping's common interceptors. Subclasses may
-	 * override this in order to extend/rearrange the list of interceptors.
-	 * <p><b>NOTE:</b> The passed-in handler object may be a raw handler or a pre-built
-	 * HandlerExecutionChain. This method should handle those two cases explicitly,
-	 * either building a new HandlerExecutionChain or extending the existing chain.
-	 * <p>For simply adding an interceptor, consider calling {@code super.getHandlerExecutionChain}
-	 * and invoking {@link HandlerExecutionChain#addInterceptor} on the returned chain object.
-	 * @param handler the resolved handler instance (never {@code null})
-	 * @param request current portlet request
+	 * 为给定的处理器构建HandlerExecutionChain, 包括适用的拦截器.
+	 * <p>默认实现只是使用给定的处理器和此处理器映射的常见拦截器构建标准的HandlerExecutionChain.
+	 * 子类可以覆盖它以扩展/重新排列拦截器列表.
+	 * <p><b>NOTE:</b> 传入的处理器对象可以是原始处理器或预构建的HandlerExecutionChain.
+	 * 此方法应明确处理这两种情况, 即构建新的HandlerExecutionChain或扩展现有链.
+	 * <p>要简单地添加拦截器, 请考虑调用{@code super.getHandlerExecutionChain},
+	 * 并在返回的链对象上调用{@link HandlerExecutionChain#addInterceptor}.
+	 * 
+	 * @param handler 已解析的处理器实例 (never {@code null})
+	 * @param request 当前的portlet请求
+	 * 
 	 * @return the HandlerExecutionChain (never {@code null})
-	 * @see #getAdaptedInterceptors()
 	 */
 	protected HandlerExecutionChain getHandlerExecutionChain(Object handler, PortletRequest request) {
 		if (handler instanceof HandlerExecutionChain) {

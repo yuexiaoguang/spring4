@@ -12,29 +12,23 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.StringUtils;
 
 /**
- * PortletContext-aware subclass of {@link PathMatchingResourcePatternResolver},
- * able to find matching resources below the web application root directory
- * via Portlet API's {@code PortletContext.getResourcePaths}.
- * Falls back to the superclass' file system checking for other resources.
+ * {@link PathMatchingResourcePatternResolver}的感知PortletContext的子类,
+ * 能够通过Portlet API的{@code PortletContext.getResourcePaths}在Web应用程序根目录下查找匹配的资源.
+ * 回退到超类的文件系统, 检查其他资源.
  *
- * <p>The advantage of using {@code PortletContext.getResourcePaths} to
- * find matching files is that it will work in a WAR file which has not been
- * expanded too.
+ * <p>使用{@code PortletContext.getResourcePaths}查找匹配文件的优点是它可以在一个尚未展开的WAR文件中工作.
  */
 public class PortletContextResourcePatternResolver extends PathMatchingResourcePatternResolver {
 
 	/**
-	 * Create a new PortletContextResourcePatternResolver.
-	 * @param portletContext the PortletContext to load resources with
+	 * @param portletContext 用于加载资源的PortletContext
 	 */
 	public PortletContextResourcePatternResolver(PortletContext portletContext) {
 		super(new PortletContextResourceLoader(portletContext));
 	}
 
 	/**
-	 * Create a new PortletContextResourcePatternResolver.
-	 * @param resourceLoader the ResourceLoader to load root directories and
-	 * actual resources with
+	 * @param resourceLoader 用于加载根目录和实际资源的ResourceLoader
 	 */
 	public PortletContextResourcePatternResolver(ResourceLoader resourceLoader) {
 		super(resourceLoader);
@@ -42,13 +36,9 @@ public class PortletContextResourcePatternResolver extends PathMatchingResourceP
 
 
 	/**
-	 * Overridden version which checks for PortletContextResource
-	 * and uses {@code PortletContext.getResourcePaths} to find
-	 * matching resources below the web application root directory.
-	 * In case of other resources, delegates to the superclass version.
-	 * @see #doRetrieveMatchingPortletContextResources
-	 * @see PortletContextResource
-	 * @see javax.portlet.PortletContext#getResourcePaths
+	 * 重写版本, 检查PortletContextResource,
+	 * 并使用{@code PortletContext.getResourcePaths}查找Web应用程序根目录下的匹配资源.
+	 * 在其他资源的情况下, 委托给超类版本.
 	 */
 	@Override
 	protected Set<Resource> doFindPathMatchingFileResources(Resource rootDirResource, String subPattern) throws IOException {
@@ -64,16 +54,14 @@ public class PortletContextResourcePatternResolver extends PathMatchingResourceP
 	}
 
 	/**
-	 * Recursively retrieve PortletContextResources that match the given pattern,
-	 * adding them to the given result set.
-	 * @param portletContext the PortletContext to work on
-	 * @param fullPattern the pattern to match against,
-	 * with preprended root directory path
-	 * @param dir the current directory
-	 * @param result the Set of matching Resources to add to
-	 * @throws IOException if directory contents could not be retrieved
-	 * @see org.springframework.web.portlet.context.PortletContextResource
-	 * @see javax.portlet.PortletContext#getResourcePaths
+	 * 递归检索与给定模式匹配的PortletContextResources, 将它们添加到给定的结果集.
+	 * 
+	 * @param portletContext 要处理的PortletContext
+	 * @param fullPattern 与预先渲染的根目录路径匹配的模式
+	 * @param dir 当前目录
+	 * @param result 要添加到的匹配的资源集
+	 * 
+	 * @throws IOException 如果无法检索目录内容
 	 */
 	protected void doRetrieveMatchingPortletContextResources(
 			PortletContext portletContext, String fullPattern, String dir, Set<Resource> result) throws IOException {

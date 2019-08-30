@@ -7,84 +7,77 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Interface to be implemented by configurable portlet application contexts.
- * Supported by {@link org.springframework.web.portlet.FrameworkPortlet}.
+ * 由可配置的portlet应用程序上下文实现的接口.
+ * 由{@link org.springframework.web.portlet.FrameworkPortlet}支持.
  *
- * <p>Note: The setters of this interface need to be called before an
- * invocation of the {@link #refresh} method inherited from
- * {@link org.springframework.context.ConfigurableApplicationContext}.
- * They do not cause an initialization of the context on their own.
+ * <p>Note: 在调用从{@link org.springframework.context.ConfigurableApplicationContext}
+ * 继承的{@link #refresh}方法之前, 需要调用此接口的setter.
+ * 它们不会导致自己初始化上下文.
  */
 public interface ConfigurablePortletApplicationContext
 		extends WebApplicationContext, ConfigurableApplicationContext {
 
 	/**
-	 * Prefix for ApplicationContext ids that refer to portlet name.
+	 * 引用portlet名称的ApplicationContext id的前缀.
 	 */
 	String APPLICATION_CONTEXT_ID_PREFIX = WebApplicationContext.class.getName() + ":";
 
 	/**
-	 * Name of the PortletContext environment bean in the factory.
+	 * 工厂中PortletContext环境bean的名称.
 	 */
 	String PORTLET_CONTEXT_BEAN_NAME = "portletContext";
 
 	/**
-	 * Name of the PortletConfig environment bean in the factory.
+	 * 工厂中PortletConfig环境bean的名称.
 	 */
 	String PORTLET_CONFIG_BEAN_NAME = "portletConfig";
 
 
 	/**
-	 * Set the PortletContext for this portlet application context.
-	 * <p>Does not cause an initialization of the context: refresh needs to be
-	 * called after the setting of all configuration properties.
+	 * 设置此portlet应用程序上下文的PortletContext.
+	 * <p>不会导致上下文初始化: 需要在设置所有配置属性后调用refresh.
 	 */
 	void setPortletContext(PortletContext portletContext);
 
 	/**
-	 * Return the standard Portlet API PortletContext for this application.
+	 * 返回此应用程序的标准Portlet API PortletContext.
 	 */
 	PortletContext getPortletContext();
 
 	/**
-	 * Set the PortletConfig for this portlet application context.
+	 * 设置此portlet应用程序上下文的PortletConfig.
 	 */
 	void setPortletConfig(PortletConfig portletConfig);
 
 	/**
-	 * Return the PortletConfig for this portlet application context, if any.
+	 * 返回此portlet应用程序上下文的PortletConfig.
 	 */
 	PortletConfig getPortletConfig();
 
 	/**
-	 * Set the namespace for this portlet application context,
-	 * to be used for building a default context config location.
+	 * 设置此portlet应用程序上下文的命名空间, 用于构建默认上下文配置位置.
 	 */
 	void setNamespace(String namespace);
 
 	/**
-	 * Return the namespace for this web application context, if any.
+	 * 返回此Web应用程序上下文的命名空间.
 	 */
 	String getNamespace();
 
 	/**
-	 * Set the config locations for this portlet application context in init-param style,
-	 * i.e. with distinct locations separated by commas, semicolons or whitespace.
-	 * <p>If not set, the implementation is supposed to use a default for the
-	 * given namespace.
+	 * 以init-param样式设置此portlet应用程序上下文的配置位置, i.e. 使用逗号, 分号, 或空格分隔的不同位置.
+	 * <p>如果未设置, 则实现应该使用给定命名空间的默认值.
 	 */
 	void setConfigLocation(String configLocation);
 
 	/**
-	 * Set the config locations for this portlet application context.
-	 * <p>If not set, the implementation is supposed to use a default for the
-	 * given namespace.
+	 * 设置此portlet应用程序上下文的配置位置.
+	 * <p>如果未设置, 则实现应该使用给定命名空间的默认值.
 	 */
 	void setConfigLocations(String... configLocations);
 
 	/**
-	 * Return the config locations for this web application context,
-	 * or {@code null} if none specified.
+	 * 返回此Web应用程序上下文的配置位置, 或{@code null}.
 	 */
 	String[] getConfigLocations();
 

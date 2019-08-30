@@ -33,14 +33,11 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import org.springframework.web.portlet.util.PortletUtils;
 
 /**
- * {@link Controller} implementation that wraps a portlet instance which it manages
- * internally. Such a wrapped portlet is not known outside of this controller;
- * its entire lifecycle is covered here.
+ * {@link Controller}实现, 它包装了一个内部管理的portlet实例.
+ * 这种包装的portlet在该控制器之外是未知的; 它的整个生命周期都在这里.
  *
- * <p>Useful to invoke an existing portlet via Spring's dispatching infrastructure,
- * for example to apply Spring
- * {@link org.springframework.web.portlet.HandlerInterceptor HandlerInterceptors}
- * to its requests.
+ * <p>用于通过Spring的调度基础结构调用现有portlet, 例如将 Spring
+ * {@link org.springframework.web.portlet.HandlerInterceptor HandlerInterceptors}应用于其请求.
  *
  * <p><b>Example:</b>
  *
@@ -80,12 +77,9 @@ public class PortletWrappingController extends AbstractController
 
 
 	/**
-	 * Set whether to use the shared PortletConfig object passed in
-	 * through {@code setPortletConfig}, if available.
-	 * <p>Default is "true". Turn this setting to "false" to pass in
-	 * a mock PortletConfig object with the bean name as portlet name,
-	 * holding the current PortletContext.
-	 * @see #setPortletConfig
+	 * 设置是否使用通过{@code setPortletConfig}传入的共享PortletConfig对象.
+	 * <p>默认为"true".
+	 * 将此设置设置为"false"以传入模拟PortletConfig对象, 其中bean名称为portlet名称, 并保存当前的PortletContext.
 	 */
 	public void setUseSharedPortletConfig(boolean useSharedPortletConfig) {
 		this.useSharedPortletConfig = useSharedPortletConfig;
@@ -102,25 +96,23 @@ public class PortletWrappingController extends AbstractController
 	}
 
 	/**
-	 * Set the class of the Portlet to wrap.
-	 * Needs to implement {@code javax.portlet.Portlet}.
-	 * @see javax.portlet.Portlet
+	 * 设置要包装的Portlet的类.
+	 * 需要实现{@code javax.portlet.Portlet}.
 	 */
 	public void setPortletClass(Class<?> portletClass) {
 		this.portletClass = portletClass;
 	}
 
 	/**
-	 * Set the name of the Portlet to wrap.
-	 * Default is the bean name of this controller.
+	 * 设置要包装的Portlet的名称.
+	 * 默认是此控制器的bean名称.
 	 */
 	public void setPortletName(String portletName) {
 		this.portletName = portletName;
 	}
 
 	/**
-	 * Specify init parameters for the portlet to wrap,
-	 * as name-value pairs.
+	 * 指定要包装的portlet的init参数, 作为name-value对.
 	 */
 	public void setInitParameters(Map<String, String> initParameters) {
 		this.initParameters = initParameters;
@@ -178,10 +170,10 @@ public class PortletWrappingController extends AbstractController
 		}
 		ResourceServingPortlet resourcePortlet = (ResourceServingPortlet) this.portletInstance;
 
-		// Delegate to PortletContentGenerator for checking and preparing.
+		// 委派给PortletContentGenerator进行检查和准备.
 		checkAndPrepare(request, response);
 
-		// Execute in synchronized block if required.
+		// 如果需要, 在synchronized块中执行.
 		if (isSynchronizeOnSession()) {
 			PortletSession session = request.getPortletSession(false);
 			if (session != null) {
@@ -207,10 +199,10 @@ public class PortletWrappingController extends AbstractController
 		}
 		EventPortlet eventPortlet = (EventPortlet) this.portletInstance;
 
-		// Delegate to PortletContentGenerator for checking and preparing.
+		// 委派给PortletContentGenerator进行检查和准备.
 		check(request, response);
 
-		// Execute in synchronized block if required.
+		// 如果需要, 在synchronized块中执行.
 		if (isSynchronizeOnSession()) {
 			PortletSession session = request.getPortletSession(false);
 			if (session != null) {
@@ -233,10 +225,8 @@ public class PortletWrappingController extends AbstractController
 
 
 	/**
-	 * Internal implementation of the PortletConfig interface, to be passed
-	 * to the wrapped portlet.
-	 * <p>Delegates to {@link PortletWrappingController} fields
-	 * and methods to provide init parameters and other environment info.
+	 * PortletConfig接口的内部实现, 将传递给包装的portlet.
+	 * <p>委托{@link PortletWrappingController}字段和方法提供init参数和其他环境信息.
 	 */
 	private class DelegatingPortletConfig implements PortletConfig {
 

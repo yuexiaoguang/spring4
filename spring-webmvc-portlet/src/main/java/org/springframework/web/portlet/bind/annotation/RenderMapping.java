@@ -10,7 +10,7 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.Mapping;
 
 /**
- * Annotation for mapping Portlet render requests onto handler methods.
+ * 用于将Portlet渲染请求映射到处理器方法的注解.
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,25 +25,19 @@ public @interface RenderMapping {
 	String value() default "";
 
 	/**
-	 * The window state that the annotated render method applies for.
-	 * <p>If not specified, the render method will be invoked for any
-	 * window state within its general mapping.
-	 * <p>Standard Portlet specification values are supported: {@code "NORMAL"},
-	 * {@code "MAXIMIZED"}, {@code "MINIMIZED"}.
-	 * <p>Custom window states can be used as well, as supported by the portal.
-	 * @since 4.2
+	 * 带注解的render方法适用的窗口状态.
+	 * <p>如果未指定, 将为其常规映射中的任何窗口状态调用render方法.
+	 * <p>支持标准Portlet规范值: {@code "NORMAL"}, {@code "MAXIMIZED"}, {@code "MINIMIZED"}.
+	 * <p>也可以使用自定义窗口状态.
 	 */
 	@AliasFor("value")
 	String windowState() default "";
 
 	/**
-	 * The parameters of the mapped request, narrowing the primary mapping.
-	 * <p>Same format for any environment: a sequence of {@code "myParam=myValue"}
-	 * style expressions, with a request only mapped if each such parameter is found
-	 * to have the given value. {@code "myParam"} style expressions are also supported,
-	 * with such parameters having to be present in the request (allowed to have
-	 * any value). Finally, {@code "!myParam"} style expressions indicate that the
-	 * specified parameter is <i>not</i> supposed to be present in the request.
+	 * 映射请求的参数, 缩小主映射.
+	 * <p>任何环境的格式相同: {@code "myParam=myValue"}样式表达式的序列, 只有在发现每个此类参数具有给定值时才会映射请求.
+	 * {@code "myParam"}样式表达式也受支持, 这些参数必须存在于请求中 (允许具有任何值).
+	 * 最后, {@code "!myParam"}样式表达式表明指定的参数<i>不应该</i>出现在请求中.
 	 */
 	String[] params() default {};
 
