@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: spring-aop
-Implementation-Version: 4.3.19.BUILD-SNAPSHOT
-Created-By: 1.8.0_171 (Oracle Corporation)
-
